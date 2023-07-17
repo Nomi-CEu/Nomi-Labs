@@ -24,7 +24,6 @@ public class NomiCEuCore {
     @EventHandler
     // preInit "Run before anything else. Read your config, create blocks, items, etc. (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
-        // register to the event bus so that we can listen to events
         MinecraftForge.EVENT_BUS.register(this);
     }
 

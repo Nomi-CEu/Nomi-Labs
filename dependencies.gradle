@@ -22,5 +22,7 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-
+    // GT and GCYM, pretty much the 'core' of this coremod
+    implementation rfg.deobf("curse.maven:gregtech-ce-unofficial-557242:4644635")
+    implementation rfg.deobf("curse.maven:gregicality-multiblocks-564858:4638270")
 }
