@@ -1,1 +1,1 @@
-# NomiCEu-Core
+# NomiLabs

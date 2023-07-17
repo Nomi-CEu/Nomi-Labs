@@ -1,4 +1,4 @@
-package com.nomiceu.nomiceucore;
+package com.nomiceu.nomilabs;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -15,10 +15,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = NomiCEuCore.MODID, version = Tags.VERSION, name = NomiCEuCore.MODNAME, acceptedMinecraftVersions = "[1.12.2]")
-public class NomiCEuCore {
-    public static final String MODID = "nomiceucore";
-    public static final String MODNAME = "NomiCEuCore";
+@Mod(modid = NomiLabs.MODID, version = Tags.VERSION, name = NomiLabs.MODNAME, acceptedMinecraftVersions = "[1.12.2]")
+public class NomiLabs {
+    public static final String MODID = "nomilabs";
+    public static final String MODNAME = "NomiLabs";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
     @EventHandler
