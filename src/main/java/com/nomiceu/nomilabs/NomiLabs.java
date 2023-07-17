@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = NomiLabs.MODID, version = Tags.VERSION, name = NomiLabs.MODNAME, acceptedMinecraftVersions = "[1.12.2]")
 public class NomiLabs {
     public static final String MODID = "nomilabs";
-    public static final String MODNAME = "NomiLabs";
+    public static final String MODNAME = "Nomi Labs";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
     @EventHandler
