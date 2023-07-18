@@ -1,7 +1,6 @@
 package com.nomiceu.nomilabs;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -16,8 +15,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = NomiLabs.MODID, version = Tags.VERSION, name = NomiLabs.MODNAME, acceptedMinecraftVersions = "[1.12.2]")
+@SuppressWarnings("unused")
 public class NomiLabs {
-    public static final String MODID = "nomilabs";
+    public static final String MODID = LabsValues.LABS_MODID;
     public static final String MODNAME = "Nomi Labs";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
@@ -25,17 +25,12 @@ public class NomiLabs {
     // preInit "Run before anything else. Read your config, create blocks, items, etc. (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
+        CommonProxy.preInit();
     }
 
     @SubscribeEvent
     // Register recipes here (Remove if not needed)
     public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-
-    }
-
-    @SubscribeEvent
-    // Register items here (Remove if not needed)
-    public void registerItems(RegistryEvent.Register<Item> event) {
 
     }
 

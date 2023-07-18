@@ -22,7 +22,15 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
+    // CCL, dep for GT
+    runtimeOnly "curse.maven:codechicken-lib-1-8-242818:2779848"
+
     // GT and GCYM, pretty much the 'core' of this coremod
     implementation rfg.deobf("curse.maven:gregtech-ce-unofficial-557242:4644635")
     implementation rfg.deobf("curse.maven:gregicality-multiblocks-564858:4638270")
+
+    // Chameleon, Storage Drawers and Framed Compacting Drawers
+    implementation rfg.deobf("curse.maven:chameleon-230497:2450900")
+    implementation rfg.deobf("curse.maven:storage-drawers-223852:2952606")
+    implementation rfg.deobf("curse.maven:framed-compacting-drawers-376351:3015136")
 }
