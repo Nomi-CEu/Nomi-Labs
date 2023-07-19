@@ -8,13 +8,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class BlockDust extends BlockFalling {
 
-	public BlockDust(ResourceLocation rl, CreativeTabs tab) {
-		super(Material.SAND);
-		setSoundType(SoundType.SAND);
+    public BlockDust(ResourceLocation rl, CreativeTabs tab) {
+        super(Material.SAND);
+        setSoundType(SoundType.SAND);
         setCreativeTab(tab);
         setHardness(0.4F);
         setResistance(0.4F);
         setHarvestLevel("shovel", 0);
         setRegistryName(rl);
-	}
+    }
 }
