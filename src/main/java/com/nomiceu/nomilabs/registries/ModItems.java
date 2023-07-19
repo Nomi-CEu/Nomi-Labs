@@ -10,12 +10,19 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
 
 @SuppressWarnings("DuplicatedCode")
 public class ModItems {
     private static final String nullTranslationKey = "item.null";
+
+    private static final List<Item> ITEMS = new ArrayList<>();
 
     /* Deprecated Items */
     public static BaseItem BLAZE_POWDER;
@@ -135,9 +142,6 @@ public class ModItems {
     public static BaseItem ULTIMATE_GEM;
 
     /* Misc Items */
-    public static ItemHandFramingTool HAND_FRAMING_TOOL;
-    public static ItemSmore[] SMORES;
-
     public static BaseItem GRAINS_OF_INNOCENCE;
 
     public static BaseItem RADIUM_SALT;
@@ -162,118 +166,189 @@ public class ModItems {
 
     public static BaseItem MAGNETRON;
 
+    /* Custom Behaviour Items (aka items not extending BaseItem) */
+    public static ItemHandFramingTool HAND_FRAMING_TOOL;
+    public static ItemSmore[] SMORES;
+
     public static void preInit() {
         /* Deprecated Items */
-        BLAZE_POWDER = new BaseItem(makeCTName("blazepowder"), ModCreativeTabs.NOMI_CORE);
-        DARK_RED_COAL = new BaseItem(makeCTName("dark_red_coal"), ModCreativeTabs.NOMI_CORE);
+        BLAZE_POWDER = createItem(new BaseItem(makeCTName("blazepowder"), LabsCreativeTabs.TAB_NOMI_LABS));
+        DARK_RED_COAL = createItem(new BaseItem(makeCTName("dark_red_coal"), LabsCreativeTabs.TAB_NOMI_LABS));
 
         /* Coins */
-        NOMICOIN_1 = new BaseItem(makeCTName("omnicoin"), ModCreativeTabs.NOMI_CORE);
-        NOMICOIN_5 = new BaseItem(makeCTName("omnicoin5"), ModCreativeTabs.NOMI_CORE, EnumRarity.UNCOMMON);
-        NOMICOIN_25 = new BaseItem(makeCTName("omnicoin25"), ModCreativeTabs.NOMI_CORE, EnumRarity.RARE);
-        NOMICOIN_100 = new BaseItem(makeCTName("omnicoin100"), ModCreativeTabs.NOMI_CORE, EnumRarity.EPIC);
+        NOMICOIN_1 = createItem(new BaseItem(makeCTName("omnicoin"), LabsCreativeTabs.TAB_NOMI_LABS));
+        NOMICOIN_5 = createItem(new BaseItem(makeCTName("omnicoin5"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON));
+        NOMICOIN_25 = createItem(new BaseItem(makeCTName("omnicoin25"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        NOMICOIN_100 = createItem(new BaseItem(makeCTName("omnicoin100"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
 
         /* Widgets */
-        WOOD_WIDGET = new BaseItem(makeCTName("woodenwidget"), ModCreativeTabs.NOMI_CORE);
-        WOOD_WIDGET_LEFT = new BaseItem(makeCTName("woodwidgetleft"), ModCreativeTabs.NOMI_CORE);
-        WOOD_WIDGET_RIGHT = new BaseItem(makeCTName("woodwidgetright"), ModCreativeTabs.NOMI_CORE);
-        STONE_WIDGET = new BaseItem(makeCTName("stonewidget"), ModCreativeTabs.NOMI_CORE);
-        STONE_WIDGET_UP = new BaseItem(makeCTName("stonewidgetup"), ModCreativeTabs.NOMI_CORE);
-        STONE_WIDGET_DOWN = new BaseItem(makeCTName("stonewidgetdown"), ModCreativeTabs.NOMI_CORE);
-        ALLOY_WIDGET = new BaseItem(makeCTName("alloywidget"), ModCreativeTabs.NOMI_CORE);
-        ENDER_WIDGET = new BaseItem(makeCTName("enderwidget"), ModCreativeTabs.NOMI_CORE);
+        WOOD_WIDGET = createItem(new BaseItem(makeCTName("woodenwidget"), LabsCreativeTabs.TAB_NOMI_LABS));
+        WOOD_WIDGET_LEFT = createItem(new BaseItem(makeCTName("woodwidgetleft"), LabsCreativeTabs.TAB_NOMI_LABS));
+        WOOD_WIDGET_RIGHT = createItem(new BaseItem(makeCTName("woodwidgetright"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STONE_WIDGET = createItem(new BaseItem(makeCTName("stonewidget"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STONE_WIDGET_UP = createItem(new BaseItem(makeCTName("stonewidgetup"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STONE_WIDGET_DOWN = createItem(new BaseItem(makeCTName("stonewidgetdown"), LabsCreativeTabs.TAB_NOMI_LABS));
+        ALLOY_WIDGET = createItem(new BaseItem(makeCTName("alloywidget"), LabsCreativeTabs.TAB_NOMI_LABS));
+        ENDER_WIDGET = createItem(new BaseItem(makeCTName("enderwidget"), LabsCreativeTabs.TAB_NOMI_LABS));
 
         /* Space Items */
-        RADIATION_LAYER = new BaseItem(makeCTName("radiationlayer"), ModCreativeTabs.NOMI_CORE);
-        PRESSURE_LAYER = new BaseItem(makeCTName("pressurelayer"), ModCreativeTabs.NOMI_CORE);
-        CLOTH = new BaseItem(makeCTName("cloth"), ModCreativeTabs.NOMI_CORE);
-        THERMAL_CLOTH = new BaseItem(makeCTName("thermalcloth"), ModCreativeTabs.NOMI_CORE);
-        UNPREPARED_SPACE_HELMET = new BaseItem(makeCTName("unpreparedspacehelmet"), ModCreativeTabs.NOMI_CORE);
-        UNPREPARED_SPACE_CHESTPIECE = new BaseItem(makeCTName("unpreparedspacechestpiece"), ModCreativeTabs.NOMI_CORE);
-        UNPREPARED_SPACE_LEGGINGS = new BaseItem(makeCTName("unpreparedspaceleggings"), ModCreativeTabs.NOMI_CORE);
-        UNPREPARED_SPACE_BOOTS = new BaseItem(makeCTName("unpreparedspaceboots"), ModCreativeTabs.NOMI_CORE);
+        RADIATION_LAYER = createItem(new BaseItem(makeCTName("radiationlayer"), LabsCreativeTabs.TAB_NOMI_LABS));
+        PRESSURE_LAYER = createItem(new BaseItem(makeCTName("pressurelayer"), LabsCreativeTabs.TAB_NOMI_LABS));
+        CLOTH = createItem(new BaseItem(makeCTName("cloth"), LabsCreativeTabs.TAB_NOMI_LABS));
+        THERMAL_CLOTH = createItem(new BaseItem(makeCTName("thermalcloth"), LabsCreativeTabs.TAB_NOMI_LABS));
+        UNPREPARED_SPACE_HELMET = createItem(new BaseItem(makeCTName("unpreparedspacehelmet"), LabsCreativeTabs.TAB_NOMI_LABS));
+        UNPREPARED_SPACE_CHESTPIECE = createItem(new BaseItem(makeCTName("unpreparedspacechestpiece"), LabsCreativeTabs.TAB_NOMI_LABS));
+        UNPREPARED_SPACE_LEGGINGS = createItem(new BaseItem(makeCTName("unpreparedspaceleggings"), LabsCreativeTabs.TAB_NOMI_LABS));
+        UNPREPARED_SPACE_BOOTS = createItem(new BaseItem(makeCTName("unpreparedspaceboots"), LabsCreativeTabs.TAB_NOMI_LABS));
 
-        HAND_FRAMING_TOOL = new ItemHandFramingTool(makeCTName("hand_framing_tool"), ModCreativeTabs.NOMI_CORE);
+        /* Micro Miner Items */
+        QUANTUM_FLUX = createItem(new BaseItem(makeCTName("quantumflux"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        GEM_SENSOR = createItem(new BaseItem(makeCTName("gemsensor"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        WARP_ENGINE = createItem(new BaseItem(makeCTName("warpengine"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        UNIVERSAL_NAVIGATOR = createItem(new BaseItem(makeCTName("universalnavigator"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        QUANTUM_FLUXED_ETERNIUM_PLATING = createItem(new BaseItem(makeCTName("quantumfluxedeterniumplating"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        T1_GUIDANCE = createItem(new BaseItem(makeCTName("t1guidance"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON));
+        T2_GUIDANCE = createItem(new BaseItem(makeCTName("t2guidance"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        T1_LASER = createItem(new BaseItem(makeCTName("t1laser"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON));
+        T2_LASER = createItem(new BaseItem(makeCTName("t2laser"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        T3_LASER = createItem(new BaseItem(makeCTName("t3laser"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+
+        /* Micro Miners */
+        T1_SHIP = createItem(new BaseItem(makeCTName("tieroneship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16));
+        T2_SHIP = createItem(new BaseItem(makeCTName("tiertwoship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16));
+        T3_SHIP = createItem(new BaseItem(makeCTName("tierthreeship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16));
+        T4_SHIP = createItem(new BaseItem(makeCTName("tierfourship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16));
+        T4_HALF_SHIP = createItem(new BaseItem(makeCTName("tierfourandhalfship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16));
+        T5_SHIP = createItem(new BaseItem(makeCTName("tierfiveship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE, 16));
+        T6_SHIP = createItem(new BaseItem(makeCTName("tiersixship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE, 16));
+        T7_SHIP = createItem(new BaseItem(makeCTName("tiersevenship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE, 16));
+        T8_SHIP = createItem(new BaseItem(makeCTName("tiereightship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T8_HALF_SHIP = createItem(new BaseItem(makeCTName("tiereightandhalfship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T9_SHIP = createItem(new BaseItem(makeCTName("tiernineship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T10_SHIP = createItem(new BaseItem(makeCTName("tiertenship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+
+        /* Stabilized Micro Miners */
+        T1_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tieroneship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T2_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tiertwoship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T3_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tierthreeship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T4_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tierfourship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T4_HALF_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tierfourandhalfship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T5_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tierfiveship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T6_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tiersixship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T7_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tiersevenship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T8_STABILIZED_SHIP = createItem(new BaseItem(makeCTName("tiereightship_stabilized"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+
+        /* Stabilized Matter */
+        T1_STABILIZED_MATTER= createItem(new BaseItem(makeCTName("tieroneship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T2_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tiertwoship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T3_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tierthreeship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T4_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tierfourship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T4_HALF_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tierfourandhalfship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T5_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tierfiveship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T6_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tiersixship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T7_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tiersevenship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+        T8_STABILIZED_MATTER = createItem(new BaseItem(makeCTName("tiereightship_stabilized_matter"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16));
+
+        /* Data */
+        DRAGON_DATA = createItem(new BaseItem(makeCTName("dragonlairdata"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        WITHER_DATA = createItem(new BaseItem(makeCTName("witherrealmdata"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        IMPOSSIBLE_DATA = createItem(new BaseItem(makeCTName("impossiblerealmdata"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        UNIVERSE_DATA = createItem(new BaseItem(makeCTName("universecreationdata"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+        STELLAR_DATA = createItem(new BaseItem(makeCTName("stellarcreationdata"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        CHAOS_DRAGON_DATA = createItem(new BaseItem(makeCTName("lairofthechaosguardiandata"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+
+        /* Solidified Items */
+        SOLIDIFIED_ARGON = createItem(new BaseItem(makeCTName("solidifiedargon"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_CHLORINE = createItem(new BaseItem(makeCTName("solidifiedchlorine"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_FLUORINE = createItem(new BaseItem(makeCTName("solidifiedfluorine"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_HELIUM = createItem(new BaseItem(makeCTName("solidifiedhelium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_HYDROGEN = createItem(new BaseItem(makeCTName("solidifiedhydrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_KRYPTON = createItem(new BaseItem(makeCTName("solidifiedkrypton"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_MERCURY = createItem(new BaseItem(makeCTName("solidifiedmercury"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_NEON = createItem(new BaseItem(makeCTName("solidifiedneon"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_NITROGEN = createItem(new BaseItem(makeCTName("solidifiednitrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_OXYGEN = createItem(new BaseItem(makeCTName("solidifiedoxygen"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_RADON = createItem(new BaseItem(makeCTName("solidifiedradon"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_XENON = createItem(new BaseItem(makeCTName("solidifiedxenon"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        /* Stabilized Items */
+        STABILIZED_EINSTEINIUM = createItem(new BaseItem(makeCTName("stabilizedeinsteinium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STABILIZED_BERKELIUM = createItem(new BaseItem(makeCTName("stabilizedberkelium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STABILIZED_NEPTUNIUM = createItem(new BaseItem(makeCTName("stabilizedneptunium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STABILIZED_PLUTONIUM = createItem(new BaseItem(makeCTName("stabilizedplutonium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STABILIZED_URANIUM = createItem(new BaseItem(makeCTName("stabilizeduranium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STABILIZED_CURIUM = createItem(new BaseItem(makeCTName("stabilizedcurium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STABILIZED_CALIFORNIUM = createItem(new BaseItem(makeCTName("stabilizedcalifornium"), LabsCreativeTabs.TAB_NOMI_LABS));
+        STABILIZED_AMERICIUM = createItem(new BaseItem(makeCTName("stabilizedamericium"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        /* Endgame Items */
+        HEART_OF_THE_UNIVERSE = createItem(new BaseItem(makeCTName("heartofauniverse"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+        CREATIVE_TANK_MOLD = createItem(new BaseItem(makeCTName("creativeportabletankmold"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+        EXOTIC_MATERIALS_CATALYST = createItem(new BaseItem(makeCTName("exoticmaterialscatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        ETERNAL_CATALYST = createItem(new BaseItem(makeCTName("eternalcatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        ULTIMATE_GEM = createItem(new BaseItem(makeCTName("ultimate_gem"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+
+        /* Misc Items */
+        GRAINS_OF_INNOCENCE = createItem(new BaseItem(makeCTName("grainsofinnocence"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        RADIUM_SALT = createItem(new BaseItem(makeCTName("radiumsalt"), LabsCreativeTabs.TAB_NOMI_LABS));
+        MOON_DUST = createItem(new BaseItem(makeCTName("moondust"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        REDSTONE_ARMOR_PLATE = createItem(new BaseItem(makeCTName("redstonearmorplate"), LabsCreativeTabs.TAB_NOMI_LABS));
+        CARBON_ARMOR_PLATE = createItem(new BaseItem(makeCTName("carbonarmorplate"), LabsCreativeTabs.TAB_NOMI_LABS));
+        LAPIS_ARMOR_PLATE = createItem(new BaseItem(makeCTName("lapisarmorplate"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        COMPRESSED_OCTADIC_CAPACITOR = createItem(new BaseItem(makeCTName("compressedoctadiccapacitor"), LabsCreativeTabs.TAB_NOMI_LABS));
+        DOUBLE_COMPRESSED_OCTADIC_CAPACITOR = createItem(new BaseItem(makeCTName("doublecompressedoctadiccapacitor"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        // Core and North are part of the Crafting Nether Star mod.
+        NETHER_STAR_SOUTH = createItem(new BaseItem(makeCTName("netherstarsouth"), LabsCreativeTabs.TAB_NOMI_LABS));
+        NETHER_STAR_EAST = createItem(new BaseItem(makeCTName("netherstareast"), LabsCreativeTabs.TAB_NOMI_LABS));
+        NETHER_STAR_WEST = createItem(new BaseItem(makeCTName("netherstarwest"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        // Hydrogen is part of Solidified Items section.
+        DENSE_HYDROGEN = createItem(new BaseItem(makeCTName("densehydrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
+        ULTRA_DENSE_HYDROGEN = createItem(new BaseItem(makeCTName("ultradensehydrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        MAGNETRON = createItem(new BaseItem(makeCTName("magnetron"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        /* Custom Behaviour Items */
+        HAND_FRAMING_TOOL = createItem(new ItemHandFramingTool(makeCTName("hand_framing_tool"), LabsCreativeTabs.TAB_NOMI_LABS));
         SMORES = new ItemSmore[4];
-        makeSmores();
+        createSmores();
     }
 
     public static void register(IForgeRegistry<Item> registry) {
-        /* Deprecated Items */
-        registerItem(BLAZE_POWDER, registry);
-        registerItem(DARK_RED_COAL, registry);
+        /* Register All Items in ITEMS */
+        for (Item item : ITEMS) {
+            registerItem(item, registry);
+        }
 
-        /* Coins */
-        registerItem(NOMICOIN_1, registry);
-        registerItem(NOMICOIN_5, registry);
-        registerItem(NOMICOIN_25, registry);
-        registerItem(NOMICOIN_100, registry);
-
-        /* Widgets */
-        registerItem(WOOD_WIDGET, registry);
-        registerItem(WOOD_WIDGET_LEFT, registry);
-        registerItem(WOOD_WIDGET_RIGHT, registry);
-        registerItem(STONE_WIDGET, registry);
-        registerItem(STONE_WIDGET_UP, registry);
-        registerItem(STONE_WIDGET_DOWN, registry);
-        registerItem(ALLOY_WIDGET, registry);
-        registerItem(ENDER_WIDGET, registry);
-
-        /* Space */
-        registerItem(RADIATION_LAYER, registry);
-        registerItem(PRESSURE_LAYER, registry);
-        registerItem(CLOTH, registry);
-        registerItem(THERMAL_CLOTH, registry);
-        registerItem(UNPREPARED_SPACE_HELMET, registry);
-        registerItem(UNPREPARED_SPACE_CHESTPIECE, registry);
-        registerItem(UNPREPARED_SPACE_LEGGINGS, registry);
-        registerItem(UNPREPARED_SPACE_BOOTS, registry);
-
-        registerItem(HAND_FRAMING_TOOL, registry);
-
+        /* Register Smores */
         for (ItemSmore smore : SMORES) {
             registerItem(smore, registry);
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public static void registerModels() {
-        /* Deprecated Items */
-        registerModel(BLAZE_POWDER);
-        registerModel(DARK_RED_COAL);
+        /* Register Models of All Items in ITEMS */
+        for (Item item : ITEMS) {
+            registerModel(item);
+        }
 
-        /* Coins */
-        registerModel(NOMICOIN_1);
-        registerModel(NOMICOIN_5);
-        registerModel(NOMICOIN_25);
-        registerModel(NOMICOIN_100);
-
-        /* Widgets */
-        registerModel(WOOD_WIDGET);
-        registerModel(WOOD_WIDGET_LEFT);
-        registerModel(WOOD_WIDGET_RIGHT);
-        registerModel(STONE_WIDGET);
-        registerModel(STONE_WIDGET_UP);
-        registerModel(STONE_WIDGET_DOWN);
-        registerModel(ALLOY_WIDGET);
-        registerModel(ENDER_WIDGET);
-
-        /* Space */
-        registerModel(RADIATION_LAYER);
-        registerModel(PRESSURE_LAYER);
-        registerModel(CLOTH);
-        registerModel(THERMAL_CLOTH);
-        registerModel(UNPREPARED_SPACE_HELMET);
-        registerModel(UNPREPARED_SPACE_CHESTPIECE);
-        registerModel(UNPREPARED_SPACE_LEGGINGS);
-        registerModel(UNPREPARED_SPACE_BOOTS);
-
-        registerModel(HAND_FRAMING_TOOL);
-
+        /* Register Models of Smores */
         for (ItemSmore smore : SMORES) {
             registerModel(smore);
         }
     }
 
+    public static <T extends Item> T createItem(T item) {
+        ITEMS.add(item);
+        return item;
+    }
+
+    @SideOnly(Side.CLIENT)
     private static void registerModel(Item item) {
         ResourceLocation rl = item.getRegistryName();
         assert rl != null;
@@ -291,7 +366,7 @@ public class ModItems {
         }
     }
 
-    private static void makeSmores() {
+    private static void createSmores() {
         String [] smores = new String[]{
             "eightsmore",
             "sixteensmore",
@@ -301,10 +376,12 @@ public class ModItems {
         Potion[] potions = new Potion[]{
             MobEffects.ABSORPTION,
             MobEffects.SPEED,
+            MobEffects.JUMP_BOOST,
             MobEffects.HASTE,
             MobEffects.SATURATION,
             MobEffects.HEALTH_BOOST,
-            MobEffects.REGENERATION
+            MobEffects.REGENERATION,
+            MobEffects.STRENGTH
         };
         EnumRarity[] rarities = EnumRarity.values();
 
@@ -325,7 +402,7 @@ public class ModItems {
 
             potionDuration *= 2;
 
-            smore = new ItemSmore(heal, saturation, makeCTName(smoreName), ModCreativeTabs.NOMI_CORE)
+            smore = new ItemSmore(heal, saturation, makeCTName(smoreName), LabsCreativeTabs.TAB_NOMI_LABS)
                     .setRarity(rarities[index]);
 
             for (Potion potion : potions)

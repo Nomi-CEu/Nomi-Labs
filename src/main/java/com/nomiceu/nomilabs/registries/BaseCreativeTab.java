@@ -5,11 +5,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Supplier;
+
 public class BaseCreativeTab extends CreativeTabs {
     private final boolean hasSearchBar;
-    private final Item icon;
+    private final Supplier<Item> icon;
 
-    public BaseCreativeTab(String name, Item icon, boolean hasSearchBar) {
+    public BaseCreativeTab(String name, Supplier<Item> icon, boolean hasSearchBar) {
         super(name);
         this.icon = icon;
         this.hasSearchBar = hasSearchBar;
@@ -21,7 +23,7 @@ public class BaseCreativeTab extends CreativeTabs {
 
     @Override
     public @NotNull ItemStack createIcon() {
-        return new ItemStack(icon);
+        return new ItemStack(icon.get());
     }
 
     @Override

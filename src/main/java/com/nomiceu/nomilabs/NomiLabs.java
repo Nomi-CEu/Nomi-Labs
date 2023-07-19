@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs;
 
+import com.nomiceu.nomilabs.event.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,12 +15,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = NomiLabs.MODID, version = Tags.VERSION, name = NomiLabs.MODNAME, acceptedMinecraftVersions = "[1.12.2]")
+@Mod(modid = LabsValues.LABS_MODID, version = LabsValues.LABS_VERSION, name = LabsValues.LABS_MODNAME, acceptedMinecraftVersions = "[1.12.2]")
 @SuppressWarnings("unused")
 public class NomiLabs {
-    public static final String MODID = LabsValues.LABS_MODID;
-    public static final String MODNAME = "Nomi Labs";
-    public static final Logger LOGGER = LogManager.getLogger(MODID);
+    public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);
 
     @EventHandler
     // preInit "Run before anything else. Read your config, create blocks, items, etc. (Remove if not needed)

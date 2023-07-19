@@ -23,6 +23,7 @@ public class ItemSmore extends ItemFood {
         setAlwaysEdible();
         setCreativeTab(creativeTab);
         setRegistryName(rl);
+        setMaxStackSize(64);
         potionEffects = new ArrayList<>();
     }
 

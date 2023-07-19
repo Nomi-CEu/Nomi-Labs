@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -12,22 +13,24 @@ public class BaseItem extends Item {
     public BaseItem(ResourceLocation rl, CreativeTabs tab) {
         setRegistryName(rl);
         setCreativeTab(tab);
+        setRarity(EnumRarity.COMMON);
+        setMaxStackSize(64);
     }
-    public BaseItem(ResourceLocation rl, CreativeTabs tab, IRarity rarity) {
+    public BaseItem(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity) {
         setRegistryName(rl);
         setCreativeTab(tab);
-        this.rarity = rarity;
+        setRarity(rarity);
+        setMaxStackSize(64);
     }
-    public BaseItem(ResourceLocation rl, CreativeTabs tab, IRarity rarity, int stackSize) {
+    public BaseItem(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize) {
         setRegistryName(rl);
         setCreativeTab(tab);
-        this.rarity = rarity;
+        setRarity(rarity);
         setMaxStackSize(stackSize);
     }
 
-    public BaseItem setRarity(IRarity rarity) {
+    public void setRarity(@NotNull IRarity rarity) {
         this.rarity = rarity;
-        return this;
     }
 
     @Override
