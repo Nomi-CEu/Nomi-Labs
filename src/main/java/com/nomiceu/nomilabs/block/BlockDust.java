@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 
 public class BlockDust extends BlockFalling {
+
 	public BlockDust(ResourceLocation rl, CreativeTabs tab) {
 		super(Material.SAND);
 		setSoundType(SoundType.SAND);

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"PointlessArithmeticExpression", "deprecation"})
 public class BlockExcitationCoil extends BlockDirectional {
+
     private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0 / 16.0, 4.0 / 16.0,
                                                                      4.0 / 16.0, 9.0 / 16.0,
                                                                      12.0 / 16.0, 12.0 / 16.0);
