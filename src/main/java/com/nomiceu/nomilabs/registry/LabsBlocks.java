@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.registries;
+package com.nomiceu.nomilabs.registry;
 
 import com.nomiceu.nomilabs.block.BaseBlock;
 import com.nomiceu.nomilabs.block.BaseItemBlock;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
 
-public class ModBlocks {
+public class LabsBlocks {
     private static final String nullTranslationKey = "tile.null";
     private static final List<Block> BLOCKS = new ArrayList<>();
 
@@ -70,7 +70,7 @@ public class ModBlocks {
 
     public static <T extends Block> T createBlock(T block, @NotNull IRarity rarity, int stackSize) {
         BLOCKS.add(block);
-        ModItems.createItem(new BaseItemBlock(block, rarity, stackSize));
+        LabsItems.createItem(new BaseItemBlock(block, rarity, stackSize));
         return block;
     }
 

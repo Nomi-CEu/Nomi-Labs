@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.registries;
+package com.nomiceu.nomilabs.registry;
 
 import com.nomiceu.nomilabs.item.*;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
 
-public class ModItems {
+public class LabsItems {
     private static final String nullTranslationKey = "item.null";
 
     private static final List<Item> ITEMS = new ArrayList<>();

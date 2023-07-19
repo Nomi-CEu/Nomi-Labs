@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.registries;
+package com.nomiceu.nomilabs.registry;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;

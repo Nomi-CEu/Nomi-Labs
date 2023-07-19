@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs;
 
+import com.nomiceu.nomilabs.event.ClientProxy;
 import com.nomiceu.nomilabs.event.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.crafting.IRecipe;
@@ -21,10 +22,15 @@ public class NomiLabs {
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);
 
     @EventHandler
-    // preInit "Run before anything else. Read your config, create blocks, items, etc. (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
+        ClientProxy.preInit();
         CommonProxy.preInit();
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        CommonProxy.postInit();
     }
 
     @SubscribeEvent
@@ -42,11 +48,6 @@ public class NomiLabs {
     @EventHandler
     // load "Do your mod setup. Build whatever data structures you care about." (Remove if not needed)
     public void init(FMLInitializationEvent event) {
-    }
-
-    @EventHandler
-    // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
-    public void postInit(FMLPostInitializationEvent event) {
     }
 
     @EventHandler

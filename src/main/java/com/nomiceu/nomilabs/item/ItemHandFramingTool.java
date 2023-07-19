@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class ItemHandFramingTool extends Item {
+public class ItemHandFramingTool extends Item { // TODO have this implement IFrameable when SD releases
 
     public ItemHandFramingTool(ResourceLocation rl, CreativeTabs tab) {
         setMaxStackSize(1);
