@@ -18,7 +18,6 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
 
-@SuppressWarnings("DuplicatedCode")
 public class ModItems {
     private static final String nullTranslationKey = "item.null";
 
@@ -348,15 +347,6 @@ public class ModItems {
         return item;
     }
 
-    @SideOnly(Side.CLIENT)
-    private static void registerModel(Item item) {
-        ResourceLocation rl = item.getRegistryName();
-        assert rl != null;
-        ModelBakery.registerItemVariants(item, rl);
-        ModelResourceLocation mrl = new ModelResourceLocation(rl, "inventory");
-        ModelLoader.setCustomModelResourceLocation(item, 0, mrl);
-    }
-
     private static void registerItem(Item item, IForgeRegistry<Item> registry) {
         registry.register(item);
         if (item.getTranslationKey().equals(nullTranslationKey)) {
@@ -364,6 +354,15 @@ public class ModItems {
             assert rl != null;
             item.setTranslationKey(rl.getNamespace() + "." + rl.getPath());
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    private static void registerModel(Item item) {
+        ResourceLocation rl = item.getRegistryName();
+        assert rl != null;
+        ModelBakery.registerItemVariants(item, rl);
+        ModelResourceLocation mrl = new ModelResourceLocation(rl, "inventory");
+        ModelLoader.setCustomModelResourceLocation(item, 0, mrl);
     }
 
     private static void createSmores() {
