@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.registry.LabsItems;
+import com.nomiceu.nomilabs.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.registry.LabsTextures;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,5 +22,6 @@ public class ClientProxy {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         LabsItems.registerModels();
+        LabsMetaBlocks.registerModels();
     }
 }

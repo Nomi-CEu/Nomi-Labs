@@ -1,9 +1,7 @@
 package com.nomiceu.nomilabs.registry;
 
-import com.nomiceu.nomilabs.block.BaseBlock;
-import com.nomiceu.nomilabs.block.BaseItemBlock;
-import com.nomiceu.nomilabs.block.BlockDust;
-import com.nomiceu.nomilabs.block.BlockExcitationCoil;
+import com.nomiceu.nomilabs.block.*;
+import com.nomiceu.nomilabs.item.ItemBlockBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -23,15 +21,15 @@ public class LabsBlocks {
     private static final List<Block> BLOCKS = new ArrayList<>();
 
     /* Dense Blocks */
-    public static BaseBlock DENSE_MAGMA;
-    public static BaseBlock DENSE_OIL_SHALE;
+    public static BlockBase DENSE_MAGMA;
+    public static BlockBase DENSE_OIL_SHALE;
 
     /* Ultimate Blocks */
-    public static BaseBlock ULTIMATE_POWER_STORAGE;
-    public static BaseBlock ULTIMATE_GENERATOR;
+    public static BlockBase ULTIMATE_POWER_STORAGE;
+    public static BlockBase ULTIMATE_GENERATOR;
 
     /* Misc Blocks */
-    public static BaseBlock MICROVERSE_CASING;
+    public static BlockBase MICROVERSE_CASING;
 
     /* Custom Behaviour Blocks */
     public static BlockExcitationCoil EXCITATION_COIL;
@@ -39,19 +37,19 @@ public class LabsBlocks {
 
     public static void preInit() {
         /* Dense Blocks */
-        DENSE_MAGMA = createBlock(new BaseBlock(makeCTName("densemagma"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
+        DENSE_MAGMA = createBlock(new BlockBase(makeCTName("densemagma"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
                 EnumRarity.COMMON, 64);
-        DENSE_OIL_SHALE = createBlock(new BaseBlock(makeCTName("denseoilshale"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
+        DENSE_OIL_SHALE = createBlock(new BlockBase(makeCTName("denseoilshale"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
                 EnumRarity.COMMON, 64);
 
         /* Ultimate Blocks */
-        ULTIMATE_POWER_STORAGE = createBlock(new BaseBlock(makeCTName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL),
+        ULTIMATE_POWER_STORAGE = createBlock(new BlockBase(makeCTName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL),
                 EnumRarity.EPIC, 1);
-        ULTIMATE_GENERATOR = createBlock(new BaseBlock(makeCTName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL),
+        ULTIMATE_GENERATOR = createBlock(new BlockBase(makeCTName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL),
                 EnumRarity.EPIC, 1);
 
         /* Misc Blocks */
-        MICROVERSE_CASING = createBlock(new BaseBlock(makeCTName("microverse_casing"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
+        MICROVERSE_CASING = createBlock(new BlockBase(makeCTName("microverse_casing"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
                 EnumRarity.COMMON, 64);
 
         /* Custom Behaviour Blocks */
@@ -70,7 +68,7 @@ public class LabsBlocks {
 
     public static <T extends Block> T createBlock(T block, @NotNull IRarity rarity, int stackSize) {
         BLOCKS.add(block);
-        LabsItems.createItem(new BaseItemBlock(block, rarity, stackSize));
+        LabsItems.createItem(new ItemBlockBase(block, rarity, stackSize));
         return block;
     }
 

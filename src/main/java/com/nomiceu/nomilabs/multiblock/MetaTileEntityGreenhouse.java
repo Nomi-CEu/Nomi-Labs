@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs.multiblock;
 
+import com.nomiceu.nomilabs.block.BlockUniqueCasing;
+import com.nomiceu.nomilabs.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.registry.LabsRecipeMaps;
 import com.nomiceu.nomilabs.registry.LabsTextures;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -15,7 +17,6 @@ import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import org.jetbrains.annotations.NotNull;
@@ -68,11 +69,16 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
     protected IBlockState[] getCasingStateDirt() {
         assert Blocks.DIRT != null;
         assert Blocks.GRASS != null;
-        return new IBlockState[] {Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState()}; // Allow dirt or grass
+        assert Blocks.FARMLAND != null;
+        return new IBlockState[] {Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState(), Blocks.FARMLAND.getDefaultState()}; // Allow dirt or grass
     }
 
     protected IBlockState getCasingStateLamp() {
-        return MetaBlocks.LAMPS.get(EnumDyeColor.PURPLE).getDefaultState();
+        return LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.GROWTH_LIGHT);
+    }
+
+    protected IBlockState getCasingStateVent() {
+        return LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.AIR_VENT);
     }
 
     protected IBlockState getCasingStatePipe() {

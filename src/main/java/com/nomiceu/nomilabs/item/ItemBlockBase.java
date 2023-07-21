@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.block;
+package com.nomiceu.nomilabs.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -8,10 +8,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class BaseItemBlock extends ItemBlock {
+public class ItemBlockBase extends ItemBlock {
     private IRarity rarity;
 
-    public BaseItemBlock(Block block, @NotNull IRarity rarity, int stackSize) {
+    public ItemBlockBase(Block block, @NotNull IRarity rarity, int stackSize) {
         super(block);
         setRegistryName(Objects.requireNonNull(block.getRegistryName()));
         setCreativeTab(block.getCreativeTab());

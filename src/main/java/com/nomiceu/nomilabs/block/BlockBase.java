@@ -7,8 +7,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 
-public class BaseBlock extends Block {
-    public BaseBlock(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound) {
+public class BlockBase extends Block {
+    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound) {
         super(material);
         setRegistryName(rl);
         setHardness(2.0F);

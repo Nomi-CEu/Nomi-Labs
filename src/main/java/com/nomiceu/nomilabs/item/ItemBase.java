@@ -8,21 +8,21 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.IRarity;
 import org.jetbrains.annotations.NotNull;
 
-public class BaseItem extends Item {
+public class ItemBase extends Item {
     private IRarity rarity;
-    public BaseItem(ResourceLocation rl, CreativeTabs tab) {
+    public ItemBase(ResourceLocation rl, CreativeTabs tab) {
         setRegistryName(rl);
         setCreativeTab(tab);
         setRarity(EnumRarity.COMMON);
         setMaxStackSize(64);
     }
-    public BaseItem(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity) {
+    public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity) {
         setRegistryName(rl);
         setCreativeTab(tab);
         setRarity(rarity);
         setMaxStackSize(64);
     }
-    public BaseItem(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize) {
+    public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize) {
         setRegistryName(rl);
         setCreativeTab(tab);
         setRarity(rarity);

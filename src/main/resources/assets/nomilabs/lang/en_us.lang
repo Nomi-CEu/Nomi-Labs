@@ -1,1 +1,4 @@
 nomilabs.machine.greenhouse.name=Greenhouse
+recipemap.greenhouse.name=Growing
+
+tile.unique_casing.growth_light.name=Growth Light

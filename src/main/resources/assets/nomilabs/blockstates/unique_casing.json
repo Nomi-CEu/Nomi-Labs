@@ -1,0 +1,24 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "active=false,variant=growth_light": {
+      "model": "minecraft:cube_bottom_top",
+      "textures": {
+        "bottom": "nomilabs:blocks/casings/unique_casing/growth_light_bottom",
+        "side": "gregtech:blocks/casings/solid/machine_casing_solid_steel",
+        "top": "#side"
+      }
+    },
+    "active=true,variant=growth_light": {
+      "model": "gregtech:cube_2_layer_bottom_top",
+      "textures": {
+        "bot_bottom": "nomilabs:blocks/casings/unique_casing/growth_light_bottom",
+        "bot_side": "gregtech:blocks/casings/solid/machine_casing_solid_steel",
+        "bot_top": "#bot_side",
+        "top_bottom": "nomilabs:blocks/casings/unique_casing/growth_light_bottom_emissive",
+        "top_side": "nomilabs:blocks/casings/unique_casing/no_emissive",
+        "top_top": "#top_side"
+      }
+    }
+  }
+}

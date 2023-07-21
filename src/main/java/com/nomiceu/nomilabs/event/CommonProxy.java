@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.recipe.GreenhouseTestRecipes;
 import com.nomiceu.nomilabs.registry.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -17,22 +18,26 @@ public class CommonProxy {
         LabsCreativeTabs.preInit();
         LabsItems.preInit();
         LabsBlocks.preInit();
+        LabsMetaBlocks.preInit();
         LabsRecipeMaps.preInit();
     }
 
     public static void postInit() {
         LabsMultiblocks.postInit();
+        GreenhouseTestRecipes.postInit();
     }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
         LabsItems.register(registry);
+        LabsMetaBlocks.registerItems(registry);
     }
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
         LabsBlocks.register(registry);
+        LabsMetaBlocks.registerBlocks(registry);
     }
 }
