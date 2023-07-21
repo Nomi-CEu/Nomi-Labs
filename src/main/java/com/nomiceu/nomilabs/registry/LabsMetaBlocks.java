@@ -2,12 +2,17 @@ package com.nomiceu.nomilabs.registry;
 
 import com.nomiceu.nomilabs.block.BlockUniqueCasing;
 import com.nomiceu.nomilabs.item.ItemBlockBase;
+import gregtech.api.block.VariantItemBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import java.util.function.Function;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
 
@@ -18,7 +23,7 @@ public class LabsMetaBlocks {
     }
 
     public static void registerItems(IForgeRegistry<Item> registry) {
-        registry.register(new ItemBlockBase(UNIQUE_CASING, EnumRarity.COMMON, 64));
+        registry.register(createItemBlock(UNIQUE_CASING, VariantItemBlock::new));
     }
 
     public static void registerBlocks(IForgeRegistry<Block> registry) {
@@ -28,5 +33,16 @@ public class LabsMetaBlocks {
     @SideOnly(Side.CLIENT)
     public static void registerModels() {
         UNIQUE_CASING.onModelRegister();
+    }
+
+    private static <T extends Block> ItemBlock createItemBlock(T block, Function<T, ItemBlock> producer) {
+        ItemBlock itemBlock = producer.apply(block);
+        ResourceLocation registryName = block.getRegistryName();
+        if (registryName == null) {
+            throw new IllegalArgumentException("Block " + block.getTranslationKey() + " has no registry name.");
+        } else {
+            itemBlock.setRegistryName(registryName);
+            return itemBlock;
+        }
     }
 }
