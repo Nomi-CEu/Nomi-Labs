@@ -35,17 +35,18 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
     @Override
     protected @NotNull BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
-                .aisle("CCCCCCC", "BGGGGGB", "BGGGGGB", "#BGGGB#", "##BLB##")
+                .aisle("CCCCCCC", "BGGGGGB", "BGGGGGB", "#BGGGB#", "##VLV##")
                 .aisle("CDDPDDC", "GAAAAAG", "GAAAAAG", "#GAAAG#", "##GGG##").setRepeatable(3)
-                .aisle("CDDPDDC", "BAAAAAB", "BAAAAAB", "#BAAAB#", "##BLB##")
+                .aisle("CDDPDDC", "BAAAAAB", "BAAAAAB", "#BAAAB#", "##VLV##")
                 .aisle("CDDPDDC", "GAAAAAG", "GAAAAAG", "#GAAAG#", "##GGG##").setRepeatable(3)
-                .aisle("CCCSCCC", "BGGGGGB", "BGGGGGB", "#BGGGB#", "##BLB##")
+                .aisle("CCCSCCC", "BGGGGGB", "BGGGGGB", "#BGGGB#", "##VLV##")
                 .where('S', selfPredicate())
                 .where('C', states(getCasingState1()).setMinGlobalLimited(20).or(autoAbilities()))
                 .where('B', states(getCasingState1())) // Like C, but only accepts solid steel
                 .where('G', states(getCasingState2()))
                 .where('D', states(getCasingStateDirt()))
-                .where('L', states(getCasingStateLamp())) // Custom lamp later, with fan texture on top, steel on sides, and lamp bottom, where the multi only activates if block above lamps is clear? Also, make light turn on when multi on
+                .where('L', states(getCasingStateLamp()))
+                .where('V', states(getCasingStateVent()))
                 .where('P', states(getCasingStatePipe()))
                 .where('A', air())
                 .where('#', any())

@@ -1,10 +1,8 @@
 package com.nomiceu.nomilabs.registry;
 
 import com.nomiceu.nomilabs.block.BlockUniqueCasing;
-import com.nomiceu.nomilabs.item.ItemBlockBase;
 import gregtech.api.block.VariantItemBlock;
 import net.minecraft.block.Block;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -37,12 +35,9 @@ public class LabsMetaBlocks {
 
     private static <T extends Block> ItemBlock createItemBlock(T block, Function<T, ItemBlock> producer) {
         ItemBlock itemBlock = producer.apply(block);
-        ResourceLocation registryName = block.getRegistryName();
-        if (registryName == null) {
-            throw new IllegalArgumentException("Block " + block.getTranslationKey() + " has no registry name.");
-        } else {
-            itemBlock.setRegistryName(registryName);
-            return itemBlock;
-        }
+        ResourceLocation rl = block.getRegistryName();
+        assert rl != null;
+        itemBlock.setRegistryName(rl);
+        return itemBlock;
     }
 }

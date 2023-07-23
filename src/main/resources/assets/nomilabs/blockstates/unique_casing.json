@@ -4,20 +4,36 @@
     "active=false,variant=growth_light": {
       "model": "minecraft:cube_bottom_top",
       "textures": {
-        "bottom": "nomilabs:blocks/casings/unique_casing/growth_light_bottom",
-        "side": "gregtech:blocks/casings/solid/machine_casing_solid_steel",
-        "top": "#side"
+        "bottom": "nomilabs:blocks/casings/unique_casing/growth_light",
+        "side": "gregtech:blocks/casings/signs/machine_casing_highvoltagehazard",
+        "top": "nomilabs:blocks/casings/unique_casing/steel_fan"
       }
     },
     "active=true,variant=growth_light": {
       "model": "gregtech:cube_2_layer_bottom_top",
       "textures": {
-        "bot_bottom": "nomilabs:blocks/casings/unique_casing/growth_light_bottom",
-        "bot_side": "gregtech:blocks/casings/solid/machine_casing_solid_steel",
-        "bot_top": "#bot_side",
-        "top_bottom": "nomilabs:blocks/casings/unique_casing/growth_light_bottom_emissive",
+        "bot_bottom": "nomilabs:blocks/casings/unique_casing/growth_light",
+        "bot_side": "gregtech:blocks/casings/signs/machine_casing_highvoltagehazard",
+        "bot_top": "nomilabs:blocks/casings/unique_casing/steel_fan_active",
+        "top_bottom": "nomilabs:blocks/casings/unique_casing/growth_light_emissive",
         "top_side": "nomilabs:blocks/casings/unique_casing/no_emissive",
         "top_top": "#top_side"
+      }
+    },
+    "active=false,variant=air_vent": {
+      "model": "minecraft:cube_bottom_top",
+      "textures": {
+        "bottom": "nomilabs:blocks/casings/unique_casing/steel_fan",
+        "side": "gregtech:blocks/casings/solid/machine_casing_solid_steel",
+        "top": "nomilabs:blocks/casings/unique_casing/air_vent"
+      }
+    },
+    "active=true,variant=air_vent": {
+      "model": "minecraft:cube_bottom_top",
+      "textures": {
+        "bottom": "nomilabs:blocks/casings/unique_casing/steel_fan_active",
+        "side": "gregtech:blocks/casings/solid/machine_casing_solid_steel",
+        "top": "nomilabs:blocks/casings/unique_casing/air_vent"
       }
     }
   }
