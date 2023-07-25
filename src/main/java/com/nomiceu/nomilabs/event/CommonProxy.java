@@ -1,12 +1,15 @@
 package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.item.unification.LabsMaterials;
 import com.nomiceu.nomilabs.recipe.GreenhouseTestRecipes;
 import com.nomiceu.nomilabs.registry.*;
+import gregtech.api.unification.material.event.MaterialEvent;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -40,4 +43,10 @@ public class CommonProxy {
         LabsBlocks.register(registry);
         LabsMetaBlocks.registerBlocks(registry);
     }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void registerMaterials(MaterialEvent event) {
+        LabsMaterials.init();
+    }
+
 }
