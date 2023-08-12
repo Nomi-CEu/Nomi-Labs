@@ -1,11 +1,13 @@
 package com.nomiceu.nomilabs.item;
 
 import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable;
 import com.jaquadro.minecraft.storagedrawers.block.*;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
 import com.jaquadro.minecraft.storagedrawers.block.tile.tiledata.MaterialData;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.registry.LabsItems;
 import eutros.framedcompactdrawers.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -23,10 +25,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class ItemHandFramingTool extends Item { // TODO have this implement IFrameable when SD releases
+public class ItemHandFramingTool extends Item implements IFrameable {
+    public static final String MAT_SIDE_TAG = "MatS";
+    public static final String MAT_TRIM_TAG = "MatT";
+    public static final String MAT_FRONT_TAG = "MatF";
 
     public ItemHandFramingTool(ResourceLocation rl, CreativeTabs tab) {
         setMaxStackSize(1);
@@ -75,12 +81,12 @@ public class ItemHandFramingTool extends Item { // TODO have this implement IFra
         // Get Decorate Info
         ItemStack matS, matF, matT;
 
-        matS = getItemStackFromKey(tagCompound, "MatS");
+        matS = getItemStackFromKey(tagCompound, MAT_SIDE_TAG);
         if (matS.isEmpty())
             return actionResult;
 
-        matT= getItemStackFromKey(tagCompound, "MatT");
-        matF = getItemStackFromKey(tagCompound, "MatF");
+        matT= getItemStackFromKey(tagCompound, MAT_TRIM_TAG);
+        matF = getItemStackFromKey(tagCompound, MAT_FRONT_TAG);
 
         // Decorate
         MaterialData materialData = getMaterialData(world, pos);
@@ -174,5 +180,24 @@ public class ItemHandFramingTool extends Item { // TODO have this implement IFra
         else {
             return new ItemStack(tagCompound.getCompoundTag(key));
         }
+    }
+
+    @Override
+    public ItemStack decorate(ItemStack itemStack, ItemStack matSide, ItemStack matTrim, ItemStack matFront) {
+        ItemStack stack = new ItemStack(LabsItems.HAND_FRAMING_TOOL, 1);
+        NBTTagCompound compound = new NBTTagCompound();
+
+        compound.setTag(MAT_SIDE_TAG, getMaterialTag(matSide));
+        compound.setTag(MAT_TRIM_TAG, getMaterialTag(matTrim));
+        compound.setTag(MAT_FRONT_TAG, getMaterialTag(matFront));
+
+        stack.setTagCompound(compound);
+        return stack;
+    }
+
+    private static NBTTagCompound getMaterialTag(@Nonnull ItemStack stack) {
+        NBTTagCompound tag = new NBTTagCompound();
+        stack.writeToNBT(tag);
+        return tag;
     }
 }
