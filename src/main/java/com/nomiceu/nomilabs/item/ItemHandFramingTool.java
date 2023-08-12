@@ -11,6 +11,8 @@ import com.nomiceu.nomilabs.registry.LabsItems;
 import eutros.framedcompactdrawers.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,10 +25,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 
 public class ItemHandFramingTool extends Item implements IFrameable {
@@ -38,6 +43,28 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         setMaxStackSize(1);
         setCreativeTab(tab);
         setRegistryName(rl);
+    }
+
+    @Override
+    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
+        NBTTagCompound tagCompound = stack.getTagCompound();
+
+        if (tagCompound == null || getItemStackFromKey(tagCompound, MAT_SIDE_TAG).isEmpty()){
+            tooltip.add(I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.not_set"));
+            return;
+        }
+
+        addTooltipItem(tooltip, I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.side"),
+                getItemStackFromKey(tagCompound, MAT_SIDE_TAG));
+        addTooltipItem(tooltip, I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.trim"),
+                getItemStackFromKey(tagCompound, MAT_TRIM_TAG));
+        addTooltipItem(tooltip, I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.front"),
+                getItemStackFromKey(tagCompound, MAT_FRONT_TAG));
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void addTooltipItem(@NotNull List<String> tooltip, String displayName, ItemStack stack) {
+        tooltip.add(displayName + ": " + (stack.isEmpty() ? "-" : stack.getDisplayName()));
     }
 
     @Override
@@ -69,14 +96,11 @@ public class ItemHandFramingTool extends Item implements IFrameable {
             // This should be success, if we framed but not decorated
             actionResult = EnumActionResult.SUCCESS;
         }
-        
-        if (!tool.hasTagCompound())
-            return actionResult;
 
         NBTTagCompound tagCompound = tool.getTagCompound();
 
-        // hasTagCompound returns false if compound is null
-        assert tagCompound != null;
+        if (tagCompound == null)
+            return actionResult;
 
         // Get Decorate Info
         ItemStack matS, matF, matT;
@@ -187,9 +211,14 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         ItemStack stack = new ItemStack(LabsItems.HAND_FRAMING_TOOL, 1);
         NBTTagCompound compound = new NBTTagCompound();
 
-        compound.setTag(MAT_SIDE_TAG, getMaterialTag(matSide));
-        compound.setTag(MAT_TRIM_TAG, getMaterialTag(matTrim));
-        compound.setTag(MAT_FRONT_TAG, getMaterialTag(matFront));
+        if (!matSide.isEmpty())
+            compound.setTag(MAT_SIDE_TAG, getMaterialTag(matSide));
+
+        if (!matTrim.isEmpty())
+            compound.setTag(MAT_TRIM_TAG, getMaterialTag(matTrim));
+
+        if (!matFront.isEmpty())
+            compound.setTag(MAT_FRONT_TAG, getMaterialTag(matFront));
 
         stack.setTagCompound(compound);
         return stack;
