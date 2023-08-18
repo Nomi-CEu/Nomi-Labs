@@ -1,7 +1,7 @@
 package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.item.unification.LabsMaterials;
+import com.nomiceu.nomilabs.material.LabsMaterials;
 import com.nomiceu.nomilabs.recipe.GreenhouseTestRecipes;
 import com.nomiceu.nomilabs.registry.*;
 import gregtech.api.unification.material.event.MaterialEvent;
