@@ -3,8 +3,7 @@ package com.nomiceu.nomilabs.material;
 import gregtech.api.fluids.fluidType.FluidTypes;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconSet;
-import gregtech.api.unification.material.properties.BlastProperty;
-import gregtech.api.unification.material.properties.ToolProperty;
+import gregtech.api.unification.material.properties.*;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
@@ -21,8 +20,8 @@ public class LabsMaterials {
 
 
     /**
-    * Naq Line Materials
-    */
+     * Naq Line Materials
+     */
     public static Material NaquadahOxide; // 32057; HM only
     public static Material Pyromorphite; // 32058; HM only
     public static Material NaquadahHydroxide; // 32059; HM only
@@ -34,8 +33,8 @@ public class LabsMaterials {
 
 
     /**
-    * Endgame Materials
-    */
+     * Endgame Materials
+     */
     public static Material CrystalMatrix; // 32023
     public static Material Infinity; // 32026
     public static Material DraconicSuperconductor; // 32028
@@ -43,8 +42,8 @@ public class LabsMaterials {
 
 
     /**
-    * Taranium Line Materials
-    */
+     * Taranium Line Materials
+     */
     public static Material HexafluorosilicicAcid; // 32094
     public static Material DirtyHexafluorosilicicAcid; // 32095
     public static Material StoneResidue; // 32096; HM only
@@ -63,8 +62,8 @@ public class LabsMaterials {
 
 
     /**
-    * Platinum Line Materials
-    */
+     * Platinum Line Materials
+     */
     public static Material PlatinumMetallic; // 32067; HM only
     public static Material PalladiumMetallic; // 32068; HM only
     public static Material AmmoniumHexachloroplatinate; // 32069; HM only
@@ -95,8 +94,8 @@ public class LabsMaterials {
 
 
     /**
-    * Thermal Materials
-    */
+     * Thermal Materials
+     */
     public static Material Ardite; // 32006
     public static Material Mana; // 32007
     public static Material Manyullyn; // 32008
@@ -108,8 +107,8 @@ public class LabsMaterials {
 
 
     /**
-    * EIO Materials
-    */
+     * EIO Materials
+     */
     public static Material DarkSteel; // 32003
     public static Material ConductiveIron; // 32011
     public static Material EnergeticAlloy; // 32012
@@ -121,8 +120,8 @@ public class LabsMaterials {
 
 
     /**
-    * Chemical Line Materials
-    */
+     * Chemical Line Materials
+     */
     public static Material TungstenTrioxide; // 32032; HM only
     public static Material BerylliumOxide; // 32033; HM only
     public static Material NiobiumPentoxide; // 32034; HM only
@@ -154,8 +153,8 @@ public class LabsMaterials {
 
 
     /**
-    * Microverse Materials
-    */
+     * Microverse Materials
+     */
     public static Material Microversium; // 32027
     public static Material Osmiridium8020; // 32029
     public static Material Iridosmine8020; // 32030
@@ -168,14 +167,13 @@ public class LabsMaterials {
 
     public static void init() {
         LabsElements.init();
+        initChemLine();
         initNaqLine();
-        initEndgame();
-        initElement();
         initTaraniumLine();
+        initEndgame();
         initPlatLine();
         initThermal();
         initEIO();
-        initChemLine();
         initMicroverse();
     }
 
@@ -686,7 +684,7 @@ public class LabsMaterials {
                 .color(0xd6d980).iconSet(MaterialIconSet.METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .toolStats(new ToolProperty(4.0f, 3.5f, 1024, 3))
-                .cableProperties(2048,1,0,true)
+                .cableProperties(2048, 1, 0, true)
                 .build();
     }
 
@@ -945,5 +943,58 @@ public class LabsMaterials {
                 .components(Duranium, 1, Chlorine, 3)
                 .addOreByproducts(Sphalerite, Duranium, Europium)
                 .build();
+    }
+
+    public static void materialChanges() {
+        //RhodiumSulfate.setProperty(PropertyKey.DUST, new DustProperty(0, 0));
+
+        Lutetium.setProperty(PropertyKey.INGOT, new IngotProperty());
+        Neptunium.setProperty(PropertyKey.INGOT, new IngotProperty());
+        Curium.setProperty(PropertyKey.INGOT, new IngotProperty());
+        Berkelium.setProperty(PropertyKey.INGOT, new IngotProperty());
+        Californium.setProperty(PropertyKey.INGOT, new IngotProperty());
+        Einsteinium.setProperty(PropertyKey.INGOT, new IngotProperty());
+        Graphite.setProperty(PropertyKey.INGOT, new IngotProperty());
+
+        Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty());
+        Curium.setProperty(PropertyKey.FLUID, new FluidProperty());
+        Berkelium.setProperty(PropertyKey.FLUID, new FluidProperty());
+        Californium.setProperty(PropertyKey.FLUID, new FluidProperty());
+        Einsteinium.setProperty(PropertyKey.FLUID, new FluidProperty());
+        NetherStar.setProperty(PropertyKey.FLUID, new FluidProperty());
+
+        Topaz.addFlags(GENERATE_LENS);
+        BlueTopaz.addFlags(GENERATE_LENS);
+        EnderPearl.addFlags(GENERATE_LENS);
+        Electrum.addFlags(GENERATE_GEAR);
+        Neutronium.addFlags(GENERATE_ROUND);
+        Titanium.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
+        StainlessSteel.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
+        NaquadahEnriched.addFlags(GENERATE_BOLT_SCREW);
+        Naquadria.addFlags(GENERATE_BOLT_SCREW);
+        Redstone.addFlags(GENERATE_DENSE);
+        Trinium.addFlags(GENERATE_DENSE);
+        Iridium.addFlags(GENERATE_DENSE);
+        Lapis.addFlags(GENERATE_DENSE);
+        Graphene.addFlags(GENERATE_FOIL);
+        Berkelium.addFlags(GENERATE_FRAME);
+        BlueSteel.addFlags(GENERATE_FRAME);
+        Ultimet.addFlags(GENERATE_FRAME);
+
+        // Prevent TE Gears from showing up
+        Tin.addFlags(GENERATE_GEAR);
+        Copper.addFlags(GENERATE_GEAR);
+        Gold.addFlags(GENERATE_GEAR);
+        Lead.addFlags(GENERATE_GEAR);
+        Nickel.addFlags(GENERATE_GEAR);
+        Platinum.addFlags(GENERATE_GEAR);
+        Silver.addFlags(GENERATE_GEAR);
+        Emerald.addFlags(GENERATE_GEAR);
+
+        RhodiumSulfate.setMaterialIconSet(MaterialIconSet.ROUGH);
+
+        BlackSteel.setFormula("(AuAgCu3)2Fe3?4", true);
+        //idk why the lang for this isnt working
+        RhodiumPlatedPalladium.setFormula("((SnFe)4(CuAg4)2)2Pd3Rh", true);
     }
 }

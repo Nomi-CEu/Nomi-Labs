@@ -48,6 +48,6 @@ public class LabsElements {
                 .blastTemp(10800)
                 .build();
 
-        Taranium.setFormula(\"Tn\")
+        Taranium.setFormula("Tn");
     }
 }

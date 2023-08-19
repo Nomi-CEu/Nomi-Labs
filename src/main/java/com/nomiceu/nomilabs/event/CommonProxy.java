@@ -47,6 +47,7 @@ public class CommonProxy {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void registerMaterials(MaterialEvent event) {
         LabsMaterials.init();
+        LabsMaterials.materialChanges();
     }
 
 }
