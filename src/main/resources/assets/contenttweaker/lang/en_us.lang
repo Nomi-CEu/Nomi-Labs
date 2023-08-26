@@ -379,6 +379,12 @@ item.contenttweaker.dark_red_coal.name=Dark Red Coal
 
 item.contenttweaker.hand_framing_tool.name=Hand Framing Tool
 
+item.contenttweaker.hand_framing_tool.tooltip.material.not_set=Put this tool in a Framing Table to set its Framing Data!
+
+item.contenttweaker.hand_framing_tool.tooltip.material.side=Side
+item.contenttweaker.hand_framing_tool.tooltip.material.trim=Trim
+item.contenttweaker.hand_framing_tool.tooltip.material.front=Front
+
 item.contenttweaker.hand_framing_tool.desc1=Frame your tools by hand!
 item.contenttweaker.hand_framing_tool.desc2=The Hand Framing Tool lets you frame drawers already placed in the world.
 item.contenttweaker.hand_framing_tool.desc3=To do this, the tool itself needs to be framed in a crafting table. See the item's crafting table recipes in JEI.
