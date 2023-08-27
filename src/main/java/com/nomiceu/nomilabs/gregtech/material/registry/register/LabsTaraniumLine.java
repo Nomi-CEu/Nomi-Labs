@@ -2,12 +2,11 @@ package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
 import gregtech.api.fluids.fluidType.FluidTypes;
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.info.MaterialIconSet;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
-import static gregtech.api.unification.material.Materials.Fluorine;
-import static gregtech.api.unification.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
+import static gregtech.api.unification.material.info.MaterialFlags.*;
+import static gregtech.api.unification.material.info.MaterialIconSet.*;
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 
 public class LabsTaraniumLine {
@@ -27,31 +26,31 @@ public class LabsTaraniumLine {
 
         StoneResidue = new Material.Builder(32096, makeLabsName("stone_residue")) // Hardmode Material
                 .dust()
-                .color(0x4d4d4d).iconSet(MaterialIconSet.ROUGH)
+                .color(0x4d4d4d).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)
                 .build();
 
         UncommonResidue = new Material.Builder(32097, makeLabsName("uncommon_residue")) // Hardmode Material
                 .dust()
-                .color(0x4d4ded).iconSet(MaterialIconSet.FINE)
+                .color(0x4d4ded).iconSet(FINE)
                 .flags(DISABLE_DECOMPOSITION)
                 .build();
 
         OxidisedResidue = new Material.Builder(32098, makeLabsName("oxidised_residue")) // Hardmode Material
                 .dust()
-                .color(0xad4d4d).iconSet(MaterialIconSet.FINE)
+                .color(0xad4d4d).iconSet(FINE)
                 .flags(DISABLE_DECOMPOSITION)
                 .build();
 
         RefinedResidue = new Material.Builder(32099, makeLabsName("refined_residue")) // Hardmode Material
                 .dust()
-                .color(0x2a8a21).iconSet(MaterialIconSet.SHINY)
+                .color(0x2a8a21).iconSet(SHINY)
                 .flags(DISABLE_DECOMPOSITION)
                 .build();
 
         CleanInertResidue = new Material.Builder(32100, makeLabsName("clean_inert_residue")) // Hardmode Material
                 .dust()
-                .color(0x3bbd2f).iconSet(MaterialIconSet.SHINY)
+                .color(0x3bbd2f).iconSet(SHINY)
                 .flags(DISABLE_DECOMPOSITION)
                 .build();
 

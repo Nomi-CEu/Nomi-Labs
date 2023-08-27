@@ -1,91 +1,90 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.info.MaterialIconSet;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
-import static gregtech.api.unification.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
+import static gregtech.api.unification.material.info.MaterialIconSet.*;
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 
 public class LabsChemicals {
     public static void initChemicals() {
         TungstenTrioxide = new Material.Builder(32032, makeLabsName("tungsten_trioxide")) // Hardmode Material
                 .dust()
-                .color(0xC7D300).iconSet(MaterialIconSet.DULL)
+                .color(0xC7D300).iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Tungsten, 1, Oxygen, 3)
                 .build();
 
         BerylliumOxide = new Material.Builder(32033, makeLabsName("beryllium_oxide")) // Hardmode Material
                 .ingot()
-                .color(0x54C757).iconSet(MaterialIconSet.DULL)
+                .color(0x54C757).iconSet(DULL)
                 .flags(GENERATE_ROD, GENERATE_RING)
                 .components(Beryllium, 1, Oxygen, 1)
                 .build();
 
         NiobiumPentoxide = new Material.Builder(32034, makeLabsName("niobium_pentoxide")) // Hardmode Material
                 .dust()
-                .color(0xBAB0C3).iconSet(MaterialIconSet.ROUGH)
+                .color(0xBAB0C3).iconSet(ROUGH)
                 .components(Niobium, 2, Oxygen, 5)
                 .build();
 
         TantalumPentoxide = new Material.Builder(32035, makeLabsName("tantalum_pentoxide")) // Hardmode Material
                 .dust()
-                .color(0x72728A).iconSet(MaterialIconSet.ROUGH)
+                .color(0x72728A).iconSet(ROUGH)
                 .components(Tantalum, 2, Oxygen, 5)
                 .build();
 
         ManganeseDifluoride = new Material.Builder(32037, makeLabsName("manganese_difluoride")) // Hardmode Material
                 .dust()
-                .color(0xEF4B3D).iconSet(MaterialIconSet.ROUGH)
+                .color(0xEF4B3D).iconSet(ROUGH)
                 .components(Manganese, 1, Fluorine, 2)
                 .build();
 
         MolybdenumTrioxide = new Material.Builder(32038, makeLabsName("molybdenum_trioxide")) // Hardmode Material
                 .dust()
-                .color(0xCBCFDA).iconSet(MaterialIconSet.ROUGH)
+                .color(0xCBCFDA).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Molybdenum, 1, Oxygen, 3)
                 .build();
 
         LeadChloride = new Material.Builder(32039, makeLabsName("lead_chloride")) // Hardmode Material
                 .dust()
-                .color(0xF3F3F3).iconSet(MaterialIconSet.ROUGH)
+                .color(0xF3F3F3).iconSet(ROUGH)
                 .components(Lead, 1, Chlorine, 2)
                 .build();
 
         Wollastonite = new Material.Builder(32040, makeLabsName("wollastonite")) // Hardmode Material
                 .dust()
-                .color(0xF7F7E7).iconSet(MaterialIconSet.BRIGHT)
+                .color(0xF7F7E7).iconSet(BRIGHT)
                 .components(Calcium, 1, Silicon, 1, Oxygen, 3)
                 .build();
 
         SodiumMetavanadate = new Material.Builder(32041, makeLabsName("sodium_metavanadate")) // Hardmode Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
-                .color(0xe6bb22).iconSet(MaterialIconSet.DULL)
+                .color(0xe6bb22).iconSet(DULL)
                 .components(Sodium, 1, Vanadium, 1, Oxygen, 3)
                 .build();
 
         VanadiumPentoxide = new Material.Builder(32042, makeLabsName("vanadium_pentoxide")) // Hardmode Material
                 .dust()
-                .color(0xffcf33).iconSet(MaterialIconSet.ROUGH)
+                .color(0xffcf33).iconSet(ROUGH)
                 .components(Vanadium, 2, Oxygen, 5)
                 .build();
 
         AmmoniumMetavanadate = new Material.Builder(32043, makeLabsName("ammonium_metavanadate")) // Hardmode Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
-                .color(0xf7e37e).iconSet(MaterialIconSet.DULL)
+                .color(0xf7e37e).iconSet(DULL)
                 .components(Nitrogen, 1, Hydrogen, 4, Vanadium, 1, Oxygen, 3)
                 .build();
 
         PhthalicAnhydride = new Material.Builder(32044, makeLabsName("phthalic_anhydride")) // Hardmode Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
-                .color(0xeeaaee).iconSet(MaterialIconSet.DULL)
+                .color(0xeeaaee).iconSet(DULL)
                 .components(Carbon, 8, Hydrogen, 4, Oxygen, 3)
                 .build();
 
@@ -123,14 +122,14 @@ public class LabsChemicals {
         GrapheneOxide = new Material.Builder(32049, makeLabsName("graphene_oxide")) // Hardmode Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
-                .color(0x777777).iconSet(MaterialIconSet.ROUGH)
+                .color(0x777777).iconSet(ROUGH)
                 .components(Graphene, 1, Oxygen, 1)
                 .build();
 
         Durene = new Material.Builder(32051, makeLabsName("durene")) // Hardmode Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
-                .color(0x336040).iconSet(MaterialIconSet.FINE)
+                .color(0x336040).iconSet(FINE)
                 .components(Carbon, 10, Hydrogen, 14)
                 .build();
 
@@ -139,7 +138,7 @@ public class LabsChemicals {
         PyromelliticDianhydride = new Material.Builder(32052, makeLabsName("pyromellitic_dianhydride")) // Hardmode Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
-                .color(0xf0ead6).iconSet(MaterialIconSet.ROUGH)
+                .color(0xf0ead6).iconSet(ROUGH)
                 .components(Carbon, 10, Hydrogen, 2, Oxygen, 6)
                 .build();
 
@@ -161,7 +160,7 @@ public class LabsChemicals {
         Oxydianiline = new Material.Builder(32055, makeLabsName("oxydianiline")) // Hardmode Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
-                .color(0xf0e130).iconSet(MaterialIconSet.DULL)
+                .color(0xf0e130).iconSet(DULL)
                 .components(Carbon, 12, Hydrogen, 12, Nitrogen, 2, Oxygen, 1)
                 .build();
 
@@ -176,7 +175,7 @@ public class LabsChemicals {
 
         LeadMetasilicate = new Material.Builder(32066, makeLabsName("lead_metasilicate")) // Hardmode Material
                 .dust()
-                .color(0xF7F7E7).iconSet(MaterialIconSet.DULL)
+                .color(0xF7F7E7).iconSet(DULL)
                 .components(Lead, 1, Silicon, 1, Oxygen, 3)
                 .build();
 

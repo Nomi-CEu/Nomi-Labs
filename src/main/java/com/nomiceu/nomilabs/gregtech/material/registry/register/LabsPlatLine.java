@@ -1,32 +1,32 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.info.MaterialIconSet;
 
 import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
-import static gregtech.api.unification.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
+import static gregtech.api.unification.material.info.MaterialFlags.*;
+import static gregtech.api.unification.material.info.MaterialIconSet.*;
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 
 public class LabsPlatLine {
     public static void initPlatLine() {
         PlatinumMetallic = new Material.Builder(32067, makeLabsName("platinum_metallic")) // Hardmode Material
                 .dust()
-                .color(0xfffbc5).iconSet(MaterialIconSet.METALLIC)
+                .color(0xfffbc5).iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Platinum, 1, RareEarth, 1)
                 .build();
 
         PalladiumMetallic = new Material.Builder(32068, makeLabsName("palladium_metallic")) // Hardmode Material
                 .dust()
-                .color(0x808080).iconSet(MaterialIconSet.METALLIC)
+                .color(0x808080).iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Palladium, 1, RareEarth, 1)
                 .build();
 
         AmmoniumHexachloroplatinate = new Material.Builder(32069, makeLabsName("ammonium_hexachloroplatinate")) // Hardmode Material
                 .dust()
-                .color(0xfef0c2).iconSet(MaterialIconSet.METALLIC)
+                .color(0xfef0c2).iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Nitrogen, 2, Hydrogen, 8, Platinum, 1, Chlorine, 6)
                 .build();
@@ -54,25 +54,25 @@ public class LabsPlatLine {
 
         PotassiumSulfate = new Material.Builder(32073, makeLabsName("potassium_sulfate")) // Hardmode Material
                 .dust()
-                .color(0xf0b064).iconSet(MaterialIconSet.METALLIC)
+                .color(0xf0b064).iconSet(METALLIC)
                 .components(Potassium, 2, Sulfur, 1, Oxygen, 4)
                 .build();
 
         ZincSulfate = new Material.Builder(32074, makeLabsName("zinc_sulfate")) // Hardmode Material
                 .dust()
-                .color(0x846649).iconSet(MaterialIconSet.FINE)
+                .color(0x846649).iconSet(FINE)
                 .components(Zinc, 1, Sulfur, 1, Oxygen, 4)
                 .build();
 
         SodiumNitrate = new Material.Builder(32075, makeLabsName("sodium_nitrate")) // Hardmode Material
                 .dust()
-                .color(0x846684).iconSet(MaterialIconSet.ROUGH)
+                .color(0x846684).iconSet(ROUGH)
                 .components(Sodium, 1, Nitrogen, 1, Oxygen, 3)
                 .build();
 
         RhodiumNitrate = new Material.Builder(32076, makeLabsName("rhodium_nitrate")) // Hardmode Material
                 .dust()
-                .color(0x776649).iconSet(MaterialIconSet.FINE)
+                .color(0x776649).iconSet(FINE)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Rhodium, 1, Nitrogen, 3, Oxygen, 9)
                 .build();
@@ -81,27 +81,27 @@ public class LabsPlatLine {
 
         SodiumRuthenate = new Material.Builder(32077, makeLabsName("sodium_ruthenate")) // Hardmode Material
                 .dust()
-                .color(0x3a40cb).iconSet(MaterialIconSet.SHINY)
+                .color(0x3a40cb).iconSet(SHINY)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Sodium, 2, Ruthenium, 1, Oxygen, 4)
                 .build();
 
         SodiumPeroxide = new Material.Builder(32078, makeLabsName("sodium_peroxide")) // Hardmode Material
                 .dust()
-                .color(0xecff80).iconSet(MaterialIconSet.ROUGH)
+                .color(0xecff80).iconSet(ROUGH)
                 .components(Sodium, 2, Oxygen, 2)
                 .build();
 
         IridiumDioxideResidue = new Material.Builder(32079, makeLabsName("iridium_dioxide_residue")) // Hardmode Material
                 .dust()
-                .color(0x17182e).iconSet(MaterialIconSet.ROUGH)
+                .color(0x17182e).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Iridium, 1, Oxygen, 2, RareEarth, 1)
                 .build();
 
         AmmoniumHexachloroiridiate = new Material.Builder(32080, makeLabsName("ammonium_hexachloroiridiate")) // Hardmode Material
                 .dust()
-                .color(0x644629).iconSet(MaterialIconSet.ROUGH)
+                .color(0x644629).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Nitrogen, 2, Hydrogen, 8, Iridium, 1, Chlorine, 6)
                 .build();
@@ -110,7 +110,7 @@ public class LabsPlatLine {
 
         PlatinumGroupResidue = new Material.Builder(32081, makeLabsName("platinum_group_residue")) // Hardmode Material
                 .dust()
-                .color(0x64632e).iconSet(MaterialIconSet.ROUGH)
+                .color(0x64632e).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Iridium, 1, Osmium, 1, Rhodium, 1, Ruthenium, 1, RareEarth, 1)
                 .build();
@@ -124,21 +124,21 @@ public class LabsPlatLine {
 
         CrudePlatinumResidue = new Material.Builder(32083, makeLabsName("crude_platinum_residue")) // Hardmode Material
                 .dust()
-                .color(0xfffbc5).iconSet(MaterialIconSet.DULL)
+                .color(0xfffbc5).iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(PlatinumRaw, 1)
                 .build();
 
         CrudePalladiumResidue = new Material.Builder(32084, makeLabsName("crude_palladium_residue")) // Hardmode Material
                 .dust()
-                .color(0x909090).iconSet(MaterialIconSet.DULL)
+                .color(0x909090).iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(PalladiumRaw, 1)
                 .build();
 
         IridiumGroupSludge = new Material.Builder(32085, makeLabsName("iridium_group_sludge")) // Hardmode Material
                 .dust()
-                .color(0x644629).iconSet(MaterialIconSet.DULL)
+                .color(0x644629).iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Iridium, 1, Osmium, 1, Ruthenium, 1, RareEarth, 1)
                 .build();
@@ -152,14 +152,14 @@ public class LabsPlatLine {
 
         CrudeRhodiumResidue = new Material.Builder(32087, makeLabsName("crude_rhodium_residue")) // Hardmode Material
                 .dust()
-                .color(0x666666).iconSet(MaterialIconSet.DULL)
+                .color(0x666666).iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Rhodium, 2, Water, 1)
                 .build();
 
         RhodiumSalt = new Material.Builder(32088, makeLabsName("rhodium_salt")) // Hardmode Material
                 .dust()
-                .color(0x848484).iconSet(MaterialIconSet.SHINY)
+                .color(0x848484).iconSet(SHINY)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Salt, 2, Rhodium, 2, Chlorine, 6)
                 .build();
@@ -200,7 +200,7 @@ public class LabsPlatLine {
 
         SodiumMethoxide = new Material.Builder(32093, makeLabsName("sodium_methoxide")) // Hardmode Material
                 .dust()
-                .color(0xd0d0f0).iconSet(MaterialIconSet.DULL)
+                .color(0xd0d0f0).iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Carbon, 1, Hydrogen, 3, Oxygen, 1, Sodium, 1)
                 .build();
