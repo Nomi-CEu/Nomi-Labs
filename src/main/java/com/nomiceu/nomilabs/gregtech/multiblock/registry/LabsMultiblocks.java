@@ -1,6 +1,6 @@
-package com.nomiceu.nomilabs.registry;
+package com.nomiceu.nomilabs.gregtech.multiblock.registry;
 
-import com.nomiceu.nomilabs.multiblock.MetaTileEntityGreenhouse;
+import com.nomiceu.nomilabs.gregtech.multiblock.MetaTileEntityGreenhouse;
 import com.nomiceu.nomilabs.util.RegistryNames;
 import gregtech.common.metatileentities.MetaTileEntities;
 

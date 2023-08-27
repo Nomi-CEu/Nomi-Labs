@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.registry;
+package com.nomiceu.nomilabs.gregtech;
 
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.recipes.RecipeMap;

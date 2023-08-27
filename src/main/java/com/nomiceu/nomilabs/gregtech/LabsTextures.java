@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.registry;
+package com.nomiceu.nomilabs.gregtech;
 
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import net.minecraftforge.fml.relauncher.Side;

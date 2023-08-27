@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.registry;
+package com.nomiceu.nomilabs.block.registry;
 
 import com.nomiceu.nomilabs.block.BlockUniqueCasing;
 import gregtech.api.block.VariantItemBlock;

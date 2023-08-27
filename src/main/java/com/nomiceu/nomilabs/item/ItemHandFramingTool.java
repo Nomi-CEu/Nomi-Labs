@@ -7,7 +7,7 @@ import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
 import com.jaquadro.minecraft.storagedrawers.block.tile.tiledata.MaterialData;
 import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.registry.LabsItems;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
 import eutros.framedcompactdrawers.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

@@ -1,6 +1,6 @@
 package com.nomiceu.nomilabs.recipe;
 
-import com.nomiceu.nomilabs.registry.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import net.minecraft.init.Blocks;
 
 public class GreenhouseTestRecipes {

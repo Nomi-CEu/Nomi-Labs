@@ -1,6 +1,8 @@
-package com.nomiceu.nomilabs.registry;
+package com.nomiceu.nomilabs.creativetab.registry;
 
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.creativetab.BaseCreativeTab;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
 import net.minecraft.creativetab.CreativeTabs;
 
 public class LabsCreativeTabs {

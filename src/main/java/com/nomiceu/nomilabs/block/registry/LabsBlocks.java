@@ -1,7 +1,9 @@
-package com.nomiceu.nomilabs.registry;
+package com.nomiceu.nomilabs.block.registry;
 
 import com.nomiceu.nomilabs.block.*;
 import com.nomiceu.nomilabs.item.ItemBlockBase;
+import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
