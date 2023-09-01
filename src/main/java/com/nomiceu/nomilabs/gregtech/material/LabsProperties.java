@@ -39,11 +39,8 @@ public class LabsProperties {
         StainlessSteel.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
         NaquadahEnriched.addFlags(GENERATE_BOLT_SCREW);
         Naquadria.addFlags(GENERATE_BOLT_SCREW);
-        Redstone.addFlags(GENERATE_DENSE);
         Trinium.addFlags(GENERATE_DENSE);
         Iridium.addFlags(GENERATE_DENSE);
-        Lapis.addFlags(GENERATE_DENSE);
-        Graphene.addFlags(GENERATE_FOIL);
         Berkelium.addFlags(GENERATE_FRAME);
         BlueSteel.addFlags(GENERATE_FRAME);
         Ultimet.addFlags(GENERATE_FRAME);
