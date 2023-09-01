@@ -1,14 +1,15 @@
 package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
-import com.nomiceu.nomilabs.recipe.GreenhouseTestRecipes;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
-import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.block.registry.LabsMetaBlocks;
-import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
+import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
+import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
+import com.nomiceu.nomilabs.recipe.GreenhouseTestRecipes;
 import gregtech.api.unification.material.event.MaterialEvent;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -28,6 +29,7 @@ public class CommonProxy {
         LabsBlocks.preInit();
         LabsMetaBlocks.preInit();
         LabsRecipeMaps.preInit();
+        LabsFluids.preInit();
     }
 
     public static void postInit() {
@@ -41,6 +43,14 @@ public class CommonProxy {
         LabsItems.register(registry);
         LabsMetaBlocks.registerItems(registry);
     }
+
+    /*
+    @SubscribeEvent
+    public static void textureSomething(TextureStitchEvent.Pre event) {
+        LabsFluids.register();
+    }
+
+     */
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {

@@ -74,6 +74,10 @@ public class LabsBlocks {
         return block;
     }
 
+    public static <T extends Block> void createBlockWithoutItem(T block) {
+        BLOCKS.add(block);
+    }
+
     private static void registerBlock(Block block, IForgeRegistry<Block> registry) {
         registry.register(block);
         if (block.getTranslationKey().equals(nullTranslationKey)) {
