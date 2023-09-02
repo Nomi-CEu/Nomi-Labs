@@ -1,12 +1,19 @@
 package com.nomiceu.nomilabs.fluid.registry;
 
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.fluid.FluidBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
@@ -14,6 +21,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +32,46 @@ public class LabsFluids {
 
     private static final List<Fluid> FLUIDS = new ArrayList<>();
 
+    /**
+     * Radioactive Fluids
+     */
+    public static Fluid URANIUM_233;
+    public static Fluid PLUTONIUM_2;
+
+    /**
+     * Molten Empowered Fluids
+     */
+    public static Fluid MOLTEN_EMPOWERED_RESTONIA;
+    public static Fluid MOLTEN_EMPOWERED_PALIS;
+    public static Fluid MOLTEN_EMPOWERED_ENORI;
+    public static Fluid MOLTEN_EMPOWERED_DIAMATINE;
+    public static Fluid MOLTEN_EMPOWERED_EMERADIC;
+    public static Fluid MOLTEN_EMPOWERED_VOID;
+
+    /**
+     * Miscellaneous Fluids
+     */
     public static Fluid ELEMENTAL_REDUCTION;
+    public static Fluid TOUGH_ALLOY;
+    public static Fluid MOLTEN_DARK_SOULARIUM;
 
     public static void preInit() {
-        ELEMENTAL_REDUCTION = createFluid(new FluidBase("elementalreduction", 0x588c5a, 2000, 0));
+        /* Radioactive Fluids */
+        URANIUM_233 = createFluid(new FluidBase("uranium233", 0xff187a30, 1024, 0));
+        PLUTONIUM_2 = createFluid(new FluidBase("plutonium2", 0xfff73663, 1024, 0));
+
+        /* Molten Empowered Fluids */
+        MOLTEN_EMPOWERED_RESTONIA = createFluid(new FluidBase("moltenempoweredrestonia", 0xffff0000, 10000, 15));
+        MOLTEN_EMPOWERED_PALIS = createFluid(new FluidBase("moltenempoweredpalis", 0xff0026ff, 10000, 15));
+        MOLTEN_EMPOWERED_ENORI = createFluid(new FluidBase("moltenempoweredenori", 0xffe6e6e6, 10000, 15));
+        MOLTEN_EMPOWERED_DIAMATINE = createFluid(new FluidBase("moltenempowereddiamatine", 0xff00fbff, 10000, 15));
+        MOLTEN_EMPOWERED_EMERADIC = createFluid(new FluidBase("moltenempoweredemeradic", 0xff00ff00, 10000, 15));
+        MOLTEN_EMPOWERED_VOID = createFluid(new FluidBase("moltenempoweredvoid", 0xff0e0e0e, 10000, 15));
+
+        /* Miscellaneous Fluids */
+        ELEMENTAL_REDUCTION = createFluid(new FluidBase("elementalreduction", 0xff588c5a, 2000, 7));
+        TOUGH_ALLOY = createFluid(new FluidBase("tough_alloy", 0xff10041c, 1024, 0));
+        MOLTEN_DARK_SOULARIUM = createFluid(new FluidBase("moltendarksoularium", 0xff422805, 1000, 0));
         register();
     }
 
@@ -61,16 +105,23 @@ public class LabsFluids {
     @SideOnly(Side.CLIENT)
     public static void registerFluidBlockModels() {
         FLUIDS.forEach(LabsFluids::registerCustomFluidBlockRenderer);
-        /* invis fluids
-        BakedModelHandler modelHandler = new BakedModelHandler();
-        MinecraftForge.EVENT_BUS.register(modelHandler);
-        FLUID_BLOCKS.forEach(modelHandler::addFluidBlock);
-         */
     }
 
+    @SideOnly(Side.CLIENT)
+    public static void registerFluidModels(TextureStitchEvent.Pre event) {
+        TextureMap map = event.getMap();
+        for (Fluid fluid : FLUIDS) {
+            map.registerSprite(fluid.getStill());
+            map.registerSprite(fluid.getFlowing());
+        }
+    }
+
+
     /**
-     * (Excerpted from Tinkers' Construct with permission, thanks guys!)
+     * All of the below is Excerpted from Actually Additions.
+     * They excerpted it from Tinkers' Construct with permission.
      */
+    @SideOnly(Side.CLIENT)
     private static void registerCustomFluidBlockRenderer(Fluid fluid) {
         Block block = fluid.getBlock();
         Item item = Item.getItemFromBlock(block);
@@ -80,13 +131,26 @@ public class LabsFluids {
         ModelLoader.setCustomStateMapper(block, mapper);
     }
 
-
     @SideOnly(Side.CLIENT)
-    public static void registerFluidModels(TextureStitchEvent.Pre event) {
-        TextureMap map = event.getMap();
-        for (Fluid fluid : FLUIDS) {
-            map.registerSprite(fluid.getStill());
-            map.registerSprite(fluid.getFlowing());
+    public static class FluidStateMapper extends StateMapperBase implements ItemMeshDefinition {
+
+        public final Fluid fluid;
+        public final ModelResourceLocation location;
+
+        public FluidStateMapper(Fluid fluid) {
+            this.fluid = fluid;
+
+            this.location = new ModelResourceLocation(new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "fluids"), fluid.getName());
+        }
+
+        @Override
+        protected @NotNull ModelResourceLocation getModelResourceLocation(@NotNull IBlockState state) {
+            return this.location;
+        }
+
+        @Override
+        public @NotNull ModelResourceLocation getModelLocation(@NotNull ItemStack stack) {
+            return this.location;
         }
     }
 }

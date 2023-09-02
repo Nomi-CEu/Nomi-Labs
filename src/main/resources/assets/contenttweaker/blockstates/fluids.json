@@ -4,9 +4,59 @@
     "model": "forge:fluid"
   },
   "variants": {
+    "uranium233": [{
+      "custom": {
+        "fluid": "uranium233"
+      }
+    }],
+    "plutonium2": [{
+      "custom": {
+        "fluid": "plutonium2"
+      }
+    }],
+    "moltenempoweredrestonia": [{
+      "custom": {
+        "fluid": "moltenempoweredrestonia"
+      }
+    }],
+    "moltenempoweredpalis": [{
+      "custom": {
+        "fluid": "moltenempoweredpalis"
+      }
+    }],
+    "moltenempoweredenori": [{
+      "custom": {
+        "fluid": "moltenempoweredenori"
+      }
+    }],
+    "moltenempowereddiamatine": [{
+      "custom": {
+        "fluid": "moltenempowereddiamatine"
+      }
+    }],
+    "moltenempoweredemeradic": [{
+      "custom": {
+        "fluid": "moltenempoweredemeradic"
+      }
+    }],
+    "moltenempoweredvoid": [{
+      "custom": {
+        "fluid": "moltenempoweredvoid"
+      }
+    }],
     "elementalreduction": [{
       "custom": {
         "fluid": "elementalreduction"
+      }
+    }],
+    "tough_alloy": [{
+      "custom": {
+        "fluid": "tough_alloy"
+      }
+    }],
+    "moltendarksoularium": [{
+      "custom": {
+        "fluid": "moltendarksoularium"
       }
     }]
   }

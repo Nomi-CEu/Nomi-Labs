@@ -44,14 +44,6 @@ public class CommonProxy {
         LabsMetaBlocks.registerItems(registry);
     }
 
-    /*
-    @SubscribeEvent
-    public static void textureSomething(TextureStitchEvent.Pre event) {
-        LabsFluids.register();
-    }
-
-     */
-
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
