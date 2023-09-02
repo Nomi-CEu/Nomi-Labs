@@ -2,12 +2,18 @@ package com.nomiceu.nomilabs.fluid.registry;
 
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.fluid.FluidBase;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +58,31 @@ public class LabsFluids {
         LabsBlocks.createBlockWithoutItem(blockFluid);
     }
 
-    public static void registerModels(TextureStitchEvent.Pre event) {
+    @SideOnly(Side.CLIENT)
+    public static void registerFluidBlockModels() {
+        FLUIDS.forEach(LabsFluids::registerCustomFluidBlockRenderer);
+        /* invis fluids
+        BakedModelHandler modelHandler = new BakedModelHandler();
+        MinecraftForge.EVENT_BUS.register(modelHandler);
+        FLUID_BLOCKS.forEach(modelHandler::addFluidBlock);
+         */
+    }
+
+    /**
+     * (Excerpted from Tinkers' Construct with permission, thanks guys!)
+     */
+    private static void registerCustomFluidBlockRenderer(Fluid fluid) {
+        Block block = fluid.getBlock();
+        Item item = Item.getItemFromBlock(block);
+        FluidStateMapper mapper = new FluidStateMapper(fluid);
+        ModelBakery.registerItemVariants(item);
+        ModelLoader.setCustomMeshDefinition(item, mapper);
+        ModelLoader.setCustomStateMapper(block, mapper);
+    }
+
+
+    @SideOnly(Side.CLIENT)
+    public static void registerFluidModels(TextureStitchEvent.Pre event) {
         TextureMap map = event.getMap();
         for (Fluid fluid : FLUIDS) {
             map.registerSprite(fluid.getStill());

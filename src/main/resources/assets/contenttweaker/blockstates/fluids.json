@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "forge:fluid"
+  },
+  "variants": {
+    "elementalreduction": [{
+      "custom": {
+        "fluid": "elementalreduction"
+      }
+    }]
+  }
+}

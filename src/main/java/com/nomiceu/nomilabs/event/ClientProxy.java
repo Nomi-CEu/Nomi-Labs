@@ -25,10 +25,11 @@ public class ClientProxy {
     public static void registerModels(ModelRegistryEvent event) {
         LabsItems.registerModels();
         LabsMetaBlocks.registerModels();
+        LabsFluids.registerFluidBlockModels();
     }
 
     @SubscribeEvent
     public static void registerFluidModels(TextureStitchEvent.Pre event) {
-        LabsFluids.registerModels(event);
+        LabsFluids.registerFluidModels(event);
     }
 }
