@@ -23,7 +23,7 @@ import java.util.Set;
 
 /**
  * Thanks to Exaxxion, in the repo <a href="https://github.com/Exaxxion/NuclearCraft/tree/2.18y-ceu">Exaxxion/NuclearCraft/tree/2.18y-ceu</a>, for the original fixes!
- * This contains slightly modified code, only for circuits.
+ * This contains cleaned up and modified code, that uses new GT apis, and makes use of native GT recipe checks.
  * All the util methods are private, thus we must add them.
  */
 public class GTCEuRecipes {
@@ -111,7 +111,6 @@ public class GTCEuRecipes {
             case "rock_crusher" -> {
                 recipeMap = RecipeMaps.MACERATOR_RECIPES;
                 builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 12);
-                return;
             }
         }
 
@@ -194,20 +193,34 @@ public class GTCEuRecipes {
         }
 
         for (IItemIngredient output : recipe.itemProducts()) {
-            if (output instanceof ChanceItemIngredient) return;
-            List<ItemStack> outputStackList = output.getOutputStackList();
-            if (outputStackList.isEmpty()) continue;
-            for (RecipeBuilder<?> builderVariant : builders) {
-                builderVariant = builderVariant.outputs(outputStackList.get(0));
+            if (output instanceof ChanceItemIngredient) {
+                List<ItemStack> outputStackList = output.getOutputStackList();
+                if (outputStackList.isEmpty()) continue;
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant = builderVariant.chancedOutput(outputStackList.get(0), (int)(((ChanceItemIngredient) output).meanStackSize * 10000.0D), 0);
+                }
+            } else {
+                List<ItemStack> outputStackList = output.getOutputStackList();
+                if (outputStackList.isEmpty()) continue;
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant.outputs(outputStackList.get(0));
+                }
             }
         }
 
         for (IFluidIngredient output : recipe.fluidProducts()) {
-            if (output instanceof ChanceFluidIngredient) return;
-            List<FluidStack> outputStackList = output.getOutputStackList();
-            if (outputStackList.isEmpty()) continue;
-            for (RecipeBuilder<?> builderVariant : builders) {
-                builderVariant.fluidOutputs(outputStackList.get(0));
+            if (output instanceof ChanceFluidIngredient) {
+                /* TODO: Eventually when GTCEu implements chanced fluid outputs
+                List<FluidStack> outputStackList = output.getOutputStackList();
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant.chancedFluidOutputs(outputStackList.get(0), (int)(((ChanceFluidIngredient) output).meanStackSize * 10000.0D), 0);
+                }*/
+            } else {
+                List<FluidStack> outputStackList = output.getOutputStackList();
+                if (outputStackList.isEmpty()) continue;
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant.fluidOutputs(outputStackList.get(0));
+                }
             }
         }
 

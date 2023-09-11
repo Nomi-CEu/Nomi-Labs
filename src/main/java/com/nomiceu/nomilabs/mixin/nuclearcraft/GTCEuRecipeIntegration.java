@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(GTCERecipeHelper.class)
+@Mixin(value = GTCERecipeHelper.class, remap = false)
 public class GTCEuRecipeIntegration {
     /**
      * Override existing method to fix NuclearCraft Incompatibility with GTCEu.
