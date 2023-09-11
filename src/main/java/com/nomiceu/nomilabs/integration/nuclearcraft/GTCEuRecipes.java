@@ -31,10 +31,13 @@ public class GTCEuRecipes {
         RecipeMap<?> recipeMap = null;
         RecipeBuilder<?> builder = null;
 
+
+
         switch (recipeName) {
             case "manufactory" -> {
                 recipeMap = RecipeMaps.MACERATOR_RECIPES;
                 builder = addStats(recipeMap.recipeBuilder(), recipe, 12, 8);
+
             }
             case "isotope_separator" -> {
                 recipeMap = RecipeMaps.THERMAL_CENTRIFUGE_RECIPES;
@@ -111,7 +114,7 @@ public class GTCEuRecipes {
             case "rock_crusher" -> {
                 recipeMap = RecipeMaps.MACERATOR_RECIPES;
                 builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 12);
-                return;
+
             }
         }
 
@@ -194,20 +197,34 @@ public class GTCEuRecipes {
         }
 
         for (IItemIngredient output : recipe.itemProducts()) {
-            if (output instanceof ChanceItemIngredient) return;
-            List<ItemStack> outputStackList = output.getOutputStackList();
-            if (outputStackList.isEmpty()) continue;
-            for (RecipeBuilder<?> builderVariant : builders) {
-                builderVariant = builderVariant.outputs(outputStackList.get(0));
+            if (output instanceof ChanceItemIngredient) {
+                List<ItemStack> outputStackList = output.getOutputStackList();
+                if (outputStackList.isEmpty()) continue;
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant = builderVariant.chancedOutput(outputStackList.get(0), (int)(((ChanceItemIngredient) output).meanStackSize * 10000.0D), 0);
+                }
+            } else {
+                List<ItemStack> outputStackList = output.getOutputStackList();
+                if (outputStackList.isEmpty()) continue;
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant.outputs(outputStackList.get(0));
+                }
             }
         }
 
         for (IFluidIngredient output : recipe.fluidProducts()) {
-            if (output instanceof ChanceFluidIngredient) return;
-            List<FluidStack> outputStackList = output.getOutputStackList();
-            if (outputStackList.isEmpty()) continue;
-            for (RecipeBuilder<?> builderVariant : builders) {
-                builderVariant.fluidOutputs(outputStackList.get(0));
+            if (output instanceof ChanceFluidIngredient) {
+                /* TODO(Onion): EVENTUALLY WHEN CHANCED FLUID HAPPEN
+                List<FluidStack> outputStackList = output.getOutputStackList();
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant.chancedFluidOutputs(outputStackList.get(0), (int)(((ChanceFluidIngredient) output).meanStackSize * 10000.0D), 0);
+                }*/
+            } else {
+                List<FluidStack> outputStackList = output.getOutputStackList();
+                if (outputStackList.isEmpty()) continue;
+                for (RecipeBuilder<?> builderVariant : builders) {
+                    builderVariant.fluidOutputs(outputStackList.get(0));
+                }
             }
         }
 
