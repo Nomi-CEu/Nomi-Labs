@@ -23,7 +23,7 @@ import java.util.Set;
 
 /**
  * Thanks to Exaxxion, in the repo <a href="https://github.com/Exaxxion/NuclearCraft/tree/2.18y-ceu">Exaxxion/NuclearCraft/tree/2.18y-ceu</a>, for the original fixes!
- * This contains slightly modified code, only for circuits.
+ * This contains cleaned up and modified code, that uses new GT apis, and makes use of native GT recipe checks.
  * All the util methods are private, thus we must add them.
  */
 public class GTCEuRecipes {
@@ -214,7 +214,7 @@ public class GTCEuRecipes {
 
         for (IFluidIngredient output : recipe.fluidProducts()) {
             if (output instanceof ChanceFluidIngredient) {
-                /* TODO(Onion): EVENTUALLY WHEN CHANCED FLUID HAPPEN
+                /* TODO: EVENTUALLY WHEN CHANCED FLUID HAPPEN
                 List<FluidStack> outputStackList = output.getOutputStackList();
                 for (RecipeBuilder<?> builderVariant : builders) {
                     builderVariant.chancedFluidOutputs(outputStackList.get(0), (int)(((ChanceFluidIngredient) output).meanStackSize * 10000.0D), 0);
