@@ -31,13 +31,10 @@ public class GTCEuRecipes {
         RecipeMap<?> recipeMap = null;
         RecipeBuilder<?> builder = null;
 
-
-
         switch (recipeName) {
             case "manufactory" -> {
                 recipeMap = RecipeMaps.MACERATOR_RECIPES;
                 builder = addStats(recipeMap.recipeBuilder(), recipe, 12, 8);
-
             }
             case "isotope_separator" -> {
                 recipeMap = RecipeMaps.THERMAL_CENTRIFUGE_RECIPES;
@@ -114,7 +111,6 @@ public class GTCEuRecipes {
             case "rock_crusher" -> {
                 recipeMap = RecipeMaps.MACERATOR_RECIPES;
                 builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 12);
-
             }
         }
 
@@ -214,7 +210,7 @@ public class GTCEuRecipes {
 
         for (IFluidIngredient output : recipe.fluidProducts()) {
             if (output instanceof ChanceFluidIngredient) {
-                /* TODO: EVENTUALLY WHEN CHANCED FLUID HAPPEN
+                /* TODO: Eventually when GTCEu implements chanced fluid outputs
                 List<FluidStack> outputStackList = output.getOutputStackList();
                 for (RecipeBuilder<?> builderVariant : builders) {
                     builderVariant.chancedFluidOutputs(outputStackList.get(0), (int)(((ChanceFluidIngredient) output).meanStackSize * 10000.0D), 0);
