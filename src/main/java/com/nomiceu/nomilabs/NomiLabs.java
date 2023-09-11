@@ -17,7 +17,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = LabsValues.LABS_MODID, version = LabsValues.LABS_VERSION, name = LabsValues.LABS_MODNAME, acceptedMinecraftVersions = "[1.12.2]")
+@Mod(modid = LabsValues.LABS_MODID,
+        version = LabsValues.LABS_VERSION,
+        name = LabsValues.LABS_MODNAME,
+        acceptedMinecraftVersions = "[1.12.2]",
+        dependencies = "required:forge@[14.23.5.2847,);"
+                        + "required-after:gregtech;")
 @SuppressWarnings("unused")
 public class NomiLabs {
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);

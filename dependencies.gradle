@@ -33,4 +33,12 @@ dependencies {
     implementation rfg.deobf("curse.maven:chameleon-230497:2450900") // Version 4.1.3
     implementation rfg.deobf("curse.maven:storage-drawers-223852:4655859") // Version 5.5.0
     implementation rfg.deobf("curse.maven:framed-compacting-drawers-376351:3015136") // Version 1.2.7
+
+    // Draconic Evolution and NuclearCraft, the two mixin patched mods (from CurseForge)
+    implementation rfg.deobf("curse.maven:draconic-evolution-223565:3431261") // Version 2.3.28
+    implementation rfg.deobf("curse.maven:nuclearcraft-mod-226254:3074246") // Version 2.18y (Newer versions have unneeded balancing changes and break stuff)
+
+    // Draconic Evolution Runtime Deps, Brandon Core, Redstone Flux (from CurseForge)
+    runtimeOnly "curse.maven:brandons-core-231382:3408276" // Version 2.4.20
+    runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
 }
