@@ -6,7 +6,7 @@ import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.properties.BlastProperty;
 
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
-import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 

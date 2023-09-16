@@ -8,7 +8,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.potion.Potion;
 
-import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
 import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
 
 public class LabsMisc {

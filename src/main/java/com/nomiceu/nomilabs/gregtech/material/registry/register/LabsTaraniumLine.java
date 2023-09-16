@@ -3,7 +3,7 @@ package com.nomiceu.nomilabs.gregtech.material.registry.register;
 import gregtech.api.fluids.fluidType.FluidTypes;
 import gregtech.api.unification.material.Material;
 
-import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;

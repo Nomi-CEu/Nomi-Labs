@@ -12,7 +12,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.function.Function;
 
-import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 
 public class LabsMetaBlocks {
     public static BlockUniqueCasing UNIQUE_CASING;

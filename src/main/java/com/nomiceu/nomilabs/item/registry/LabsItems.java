@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
 
 public class LabsItems {
     private static final String nullTranslationKey = "item.null";

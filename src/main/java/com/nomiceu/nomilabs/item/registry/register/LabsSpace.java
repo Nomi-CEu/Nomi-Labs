@@ -3,7 +3,7 @@ package com.nomiceu.nomilabs.item.registry.register;
 import com.nomiceu.nomilabs.item.ItemBase;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 
-import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
 import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
 
 public class LabsSpace {

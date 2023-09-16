@@ -5,7 +5,7 @@ import com.nomiceu.nomilabs.gregtech.material.registry.register.*;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconSet;
 
-import static com.nomiceu.nomilabs.util.RegistryNames.makeLabsName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.Neutronium;
 import static gregtech.api.unification.material.info.MaterialFlags.GENERATE_PLATE;
 

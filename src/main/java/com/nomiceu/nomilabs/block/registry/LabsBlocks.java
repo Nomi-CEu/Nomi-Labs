@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.nomiceu.nomilabs.util.RegistryNames.makeCTName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
 
 public class LabsBlocks {
     private static final String nullTranslationKey = "tile.null";
