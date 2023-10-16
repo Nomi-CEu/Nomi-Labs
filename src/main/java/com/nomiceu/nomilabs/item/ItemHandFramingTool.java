@@ -9,6 +9,7 @@ import com.jaquadro.minecraft.storagedrawers.block.tile.tiledata.MaterialData;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import eutros.framedcompactdrawers.block.tile.TileControllerCustom;
+import eutros.framedcompactdrawers.block.tile.TileSlaveCustom;
 import eutros.framedcompactdrawers.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -187,6 +188,11 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         // Framed Controller
         if (tile instanceof TileControllerCustom controller) {
             return controller.material();
+        }
+
+        // Framed Slave
+        if (tile instanceof TileSlaveCustom slave) {
+            return slave.material();
         }
 
         // Framed Comp Drawers & Drawers
