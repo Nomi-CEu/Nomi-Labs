@@ -2,7 +2,10 @@ package com.nomiceu.nomilabs;
 
 import com.nomiceu.nomilabs.event.ClientProxy;
 import com.nomiceu.nomilabs.event.CommonProxy;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
+import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -40,11 +43,10 @@ public class NomiLabs {
     }
 
     @SubscribeEvent
-    // Register recipes here (Remove if not needed)
     public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-
+        event.getRegistry().register(new HandFramingRecipe(Item.getByNameOrId("contenttweaker:hand_framing_tool").getDefaultInstance())
+            .setRegistryName(LabsItems.HAND_FRAMING_TOOL.getRegistryName() + "_recipe"));
     }
-
     @SubscribeEvent
     // Register blocks here (Remove if not needed)
     public void registerBlocks(RegistryEvent.Register<Block> event) {
