@@ -285,7 +285,7 @@ item.contenttweaker.blazepowder.name=Blaze Powder
 item.contenttweaker.grainsofinnocence.name=Grains Of Innocence
 
 item.contenttweaker.hotdraconiumingot.name=Hot Draconium Ingot
-item.contenttweaker.exoticnomilabs.materialscatalyst.name=Exotic Materials Catalyst
+item.contenttweaker.exoticmaterialscatalyst.name=Exotic Materials Catalyst
 item.contenttweaker.eternalcatalyst.name=Eternal Catalyst
 item.contenttweaker.draconicstemcells.name=Draconic Stem Cells
 item.contenttweaker.gemsensor.name=Gemstone Sensor
@@ -379,7 +379,7 @@ item.contenttweaker.dark_red_coal.name=Dark Red Coal
 
 item.contenttweaker.hand_framing_tool.name=Hand Framing Tool
 
-item.contenttweaker.hand_framing_tool.tooltip.material.not_set=Put this tool in a Framing Table to set its Framing Data!
+item.contenttweaker.hand_framing_tool.tooltip.material.not_set=Put this tool in a Framing Table or a Crafting Table to set its Framing Data!
 
 item.contenttweaker.hand_framing_tool.tooltip.material.side=Side
 item.contenttweaker.hand_framing_tool.tooltip.material.trim=Trim
@@ -387,16 +387,19 @@ item.contenttweaker.hand_framing_tool.tooltip.material.front=Front
 
 item.contenttweaker.hand_framing_tool.desc1=Frame your tools by hand!
 item.contenttweaker.hand_framing_tool.desc2=The Hand Framing Tool lets you frame drawers already placed in the world.
-item.contenttweaker.hand_framing_tool.desc3=To do this, the tool itself needs to be framed in a crafting table. See the item's crafting table recipes in JEI.
+item.contenttweaker.hand_framing_tool.desc3=To do this, the tool itself needs to be framed in a crafting table or a framing table. See the item's crafting table recipes in JEI.
 item.contenttweaker.hand_framing_tool.desc4=Then, once the tool is framed, right clicking any drawers in-world will frame them.
-item.contenttweaker.hand_framing_tool.desc5=Optionally, the tool can be filled with sticks using the crafting table recipe. Up to a stack of sticks will be consumed from each slot.
-item.contenttweaker.hand_framing_tool.desc6=The tool can then be used to convert existing unframed drawers into framed drawers, consuming 8 sticks to do so.
+item.contenttweaker.hand_framing_tool.desc5=When right clicking any wood-type drawers in world, they will be turned into framed drawers. 
+item.contenttweaker.hand_framing_tool.desc6=The frames/decorations will also be applied to them.
 
 item.contenttweaker.pulsatingdust.name=Pulsating Dust
 item.contenttweaker.pulsatingmesh.name=Pulsating Mesh
 
 tile.contenttweaker.simulation_casing.name=Naquadah-Plated Dark Steel Machine Casing
 tile.contenttweaker.simulation_casing_2.name=Naquadah Machine Casing
+
+gui.contenttweaker.naquadah_reactor.overclock=Does not overclock!
+tooltip.contenttweaker.naquadah_reactor.produces=Produces exactly %s amps of %s.
 
 multiblocktweaker.machine.microverse_projector_basic.name=Basic Microverse Projector
 multiblocktweaker.machine.microverse_projector_advanced.name=Advanced Microverse Projector

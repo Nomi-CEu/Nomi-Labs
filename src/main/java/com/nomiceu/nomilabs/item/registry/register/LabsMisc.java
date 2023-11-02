@@ -35,6 +35,9 @@ public class LabsMisc {
         ULTRA_DENSE_HYDROGEN = createItem(new ItemBase(makeCTName("ultradensehydrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
 
         MAGNETRON = createItem(new ItemBase(makeCTName("magnetron"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        PULSATING_DUST = createItem(new ItemBase(makeCTName("pulsatingdust"), LabsCreativeTabs.TAB_NOMI_LABS));
+        PULSATING_MESH = createItem(new ItemBase(makeCTName("pulsatingmesh"), LabsCreativeTabs.TAB_NOMI_LABS));
     }
 
     public static void initCustomBehavior() {

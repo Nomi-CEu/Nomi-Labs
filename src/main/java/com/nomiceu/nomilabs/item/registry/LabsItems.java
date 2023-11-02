@@ -197,6 +197,9 @@ public class LabsItems {
 
     public static ItemBase MAGNETRON;
 
+    public static ItemBase PULSATING_DUST;
+    public static ItemBase PULSATING_MESH;
+
     /**
      *  Custom Behavior Items
      *  These are Items not extending BaseItem

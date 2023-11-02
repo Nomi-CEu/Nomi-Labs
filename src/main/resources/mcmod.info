@@ -1,7 +1,7 @@
 [{
     "modid": "${modid}",
     "name": "${modname}",
-    "description": "An example mod for Minecraft 1.12.2 with Forge",
+    "description": "The Core Mod for Nomi-CEu, providing Custom Content and Groovy Utility Methods!",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "logoFile": "",

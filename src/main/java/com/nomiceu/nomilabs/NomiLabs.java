@@ -25,7 +25,12 @@ import org.apache.logging.log4j.Logger;
         name = LabsValues.LABS_MODNAME,
         acceptedMinecraftVersions = "[1.12.2]",
         dependencies = "required:forge@[14.23.5.2847,);"
-                        + "required-after:gregtech;")
+                + "required-after:codechickenlib@[3.2.3,);"
+                + "required-after:groovyscript@[0.6.0,);"
+                + "required-after:gregtech;"
+                + "after:appliedenergistics2;"
+                + "after:jei@[4.15.0,);"
+                + "after:theoneprobe;")
 @SuppressWarnings("unused")
 public class NomiLabs {
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);
@@ -40,17 +45,6 @@ public class NomiLabs {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         CommonProxy.postInit();
-    }
-
-    @SubscribeEvent
-    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        event.getRegistry().register(new HandFramingRecipe(Item.getByNameOrId("contenttweaker:hand_framing_tool").getDefaultInstance())
-            .setRegistryName(LabsItems.HAND_FRAMING_TOOL.getRegistryName() + "_recipe"));
-    }
-    @SubscribeEvent
-    // Register blocks here (Remove if not needed)
-    public void registerBlocks(RegistryEvent.Register<Block> event) {
-
     }
 
     @EventHandler
