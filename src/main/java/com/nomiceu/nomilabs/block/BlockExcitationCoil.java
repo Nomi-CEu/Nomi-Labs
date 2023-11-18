@@ -1,8 +1,7 @@
 package com.nomiceu.nomilabs.block;
 
-import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Mirror;
@@ -21,41 +20,40 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings({"PointlessArithmeticExpression", "deprecation"})
 public class BlockExcitationCoil extends BlockDirectional {
 
-    private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0 / 16.0, 4.0 / 16.0,
+    private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.0 / 16.0, 4.0 / 16.0,
                                                                      4.0 / 16.0, 9.0 / 16.0,
                                                                      12.0 / 16.0, 12.0 / 16.0);
 
-    private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(7.0 / 16.0, 4.0 / 16.0,
+    private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(7.0 / 16.0, 4.0 / 16.0,
                                                                      4.0 / 16.0, 16.0 / 16.0,
                                                                      12.0 / 16.0, 12.0 / 16.0);
 
-    private static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(4.0 / 16.0, 4.0 / 16.0,
+    private static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(4.0 / 16.0, 4.0 / 16.0,
                                                                       0.0 / 16.0, 12.0 / 16.0,
                                                                       12.0 / 16.0, 9.0 / 16.0);
 
-    private static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(4.0 / 16.0, 4.0 / 16.0,
+    private static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(4.0 / 16.0, 4.0 / 16.0,
                                                                       7.0 / 16.0, 12.0 / 16.0,
                                                                       12.0 / 16.0, 16.0 / 16.0);
 
-    private static final AxisAlignedBB UP_AABB = new AxisAlignedBB(4.0 / 16.0, 0.0 / 16.0,
+    private static final AxisAlignedBB DOWN_AABB = new AxisAlignedBB(4.0 / 16.0, 0.0 / 16.0,
                                                                    4.0 / 16.0, 12.0 / 16.0,
                                                                    9.0 / 16.0, 12.0 / 16.0);
 
-    private static final AxisAlignedBB DOWN_AABB = new AxisAlignedBB(4.0 / 16.0, 7.0 / 16.0,
+    private static final AxisAlignedBB UP_AABB = new AxisAlignedBB(4.0 / 16.0, 7.0 / 16.0,
                                                                      4.0 / 16.0, 12.0 / 16.0,
                                                                      16.0 / 16.0, 12.0 / 16.0);
 
 	public BlockExcitationCoil(ResourceLocation rl, CreativeTabs tab) {
 		super(Material.IRON);
         fullBlock = false;
-		setSoundType(SoundType.METAL);
-        setCreativeTab(tab);
-		setRegistryName(rl);
-        setHardness(5.0F);
-        setResistance(5.0F);
-        setLightLevel(1.0F);
-        setHarvestLevel("pickaxe", 2);
-
+		this.setSoundType(SoundType.METAL);
+        this.setCreativeTab(tab);
+		this.setRegistryName(rl);
+        this.setHardness(5.0F);
+        this.setResistance(5.0F);
+        this.setLightLevel(1.0F);
+        this.setHarvestLevel("pickaxe", 2);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
 	}
 
@@ -107,9 +105,9 @@ public class BlockExcitationCoil extends BlockDirectional {
     }
 
     @Override
-    public @NotNull BlockFaceShape getBlockFaceShape(@NotNull IBlockAccess worldIn, @NotNull IBlockState state, @NotNull BlockPos pos, EnumFacing face) {
+    public @NotNull BlockFaceShape getBlockFaceShape(@NotNull IBlockAccess worldIn, @NotNull IBlockState state, @NotNull BlockPos pos, @NotNull EnumFacing face) {
         state = this.getActualState(state, worldIn, pos);
-        return state.getValue(FACING) == face.getOpposite() ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+        return state.getValue(FACING) == face ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
 
     @Override
@@ -120,15 +118,13 @@ public class BlockExcitationCoil extends BlockDirectional {
     @Override
     public @NotNull IBlockState getStateForPlacement(@NotNull World worldIn, @NotNull BlockPos pos, @NotNull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @NotNull EntityLivingBase placer)
     {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer).getOpposite());
     }
 
     @Override
     public @NotNull IBlockState getStateFromMeta(int meta)
     {
-        IBlockState blockState = this.getDefaultState();
-        blockState = blockState.withProperty(FACING, EnumFacing.byIndex(meta));
-        return blockState;
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byIndex(meta));
     }
 
     @Override

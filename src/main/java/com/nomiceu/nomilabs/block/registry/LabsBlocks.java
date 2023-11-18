@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.block.registry;
 import com.nomiceu.nomilabs.block.*;
 import com.nomiceu.nomilabs.item.ItemBlockBase;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -55,8 +56,9 @@ public class LabsBlocks {
                 EnumRarity.COMMON, 64);
 
         /* Custom Behaviour Blocks */
-        EXCITATION_COIL = createBlock(new BlockExcitationCoil(makeCTName("excitationcoil"), LabsCreativeTabs.TAB_NOMI_LABS),
-                EnumRarity.UNCOMMON, 64);
+        // Register Item separately to allow putting excitation coil on head
+        EXCITATION_COIL = createBlockWithoutItem(new BlockExcitationCoil(makeCTName("excitationcoil"), LabsCreativeTabs.TAB_NOMI_LABS));
+        LabsItems.createItem(new ItemExcitationCoil(EXCITATION_COIL));
         DUST = createBlock(new BlockDust(makeCTName("block_dust"), LabsCreativeTabs.TAB_NOMI_LABS),
                 EnumRarity.COMMON, 64);
     }
@@ -74,8 +76,9 @@ public class LabsBlocks {
         return block;
     }
 
-    public static <T extends Block> void createBlockWithoutItem(T block) {
+    public static <T extends Block> T createBlockWithoutItem(T block) {
         BLOCKS.add(block);
+        return block;
     }
 
     private static void registerBlock(Block block, IForgeRegistry<Block> registry) {
