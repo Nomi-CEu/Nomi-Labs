@@ -7,6 +7,7 @@ import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
 import com.jaquadro.minecraft.storagedrawers.block.tile.tiledata.MaterialData;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import eutros.framedcompactdrawers.block.tile.TileControllerCustom;
 import eutros.framedcompactdrawers.block.tile.TileSlaveCustom;
@@ -45,6 +46,9 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         setMaxStackSize(1);
         setCreativeTab(tab);
         setRegistryName(rl);
+
+        // Add Description
+        addDescription();
     }
 
     @Override
@@ -240,5 +244,16 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         NBTTagCompound tag = new NBTTagCompound();
         stack.writeToNBT(tag);
         return tag;
+    }
+
+    public void addDescription() {
+        JEIPlugin.addDescription(new ItemStack(this),
+                "item.contenttweaker.hand_framing_tool.desc1",
+                "item.contenttweaker.hand_framing_tool.desc2",
+                "item.contenttweaker.hand_framing_tool.desc3",
+                "item.contenttweaker.hand_framing_tool.desc4",
+                "item.contenttweaker.hand_framing_tool.desc5",
+                "item.contenttweaker.hand_framing_tool.desc6",
+                "item.contenttweaker.hand_framing_tool.desc7");
     }
 }

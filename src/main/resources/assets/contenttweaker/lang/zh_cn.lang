@@ -380,10 +380,11 @@ item.contenttweaker.hand_framing_tool.name=手持镶框工具
 
 item.contenttweaker.hand_framing_tool.desc1=手工给抽屉镶框！
 item.contenttweaker.hand_framing_tool.desc2=通过手持镶框工具，可以为已经放置在世界上的抽屉设置框架。
-item.contenttweaker.hand_framing_tool.desc3=要做到这一点，该工具本身需要在合成台安装框架。在JEI中查看该物品的合成表。
-item.contenttweaker.hand_framing_tool.desc4=被镶框的工具右键单击世界上的任何抽屉都会为它镶框。
-item.contenttweaker.hand_framing_tool.desc5=当使用它右击世界上任意一种木质抽屉时，它们将变成镶框抽屉。
-item.contenttweaker.hand_framing_tool.desc6=框架/装饰也将应用于它们。
+item.contenttweaker.hand_framing_tool.desc3=使用前，工具本身需要在工作台中镶框。
+item.contenttweaker.hand_framing_tool.desc4=如果你希望对工具本身镶框，请查询JEI中的合成表。
+item.contenttweaker.hand_framing_tool.desc5=被镶框的工具右键单击世界上的任何抽屉都会为它镶框。
+item.contenttweaker.hand_framing_tool.desc6=当使用它右击世界上任意一种木质抽屉时，它们将变成镶框抽屉。
+item.contenttweaker.hand_framing_tool.desc7=框架/装饰也将应用于它们。
 
 item.contenttweaker.pulsatingdust.name=脉动之尘
 item.contenttweaker.pulsatingmesh.name=脉动网格
