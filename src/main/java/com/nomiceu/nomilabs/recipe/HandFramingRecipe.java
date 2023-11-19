@@ -1,25 +1,27 @@
 package com.nomiceu.nomilabs.recipe;
 
-import com.nomiceu.nomilabs.item.ItemHandFramingTool;
-import net.minecraft.init.Blocks;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
+import com.nomiceu.nomilabs.NomiLabs;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import org.jetbrains.annotations.NotNull;
 
-public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
+/**
+ * This is the actual hand framing recipe, whilst the one in GroovyScript is the example one.
+ */
+public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe, IShapedRecipe {
 
-    private final ItemStack output;
-
-    public HandFramingRecipe(ItemStack output) {
-        this.output = output;
+    public HandFramingRecipe() {
     }
 
     @Override
-    public boolean matches(InventoryCrafting inv, World worldIn) {
+    public boolean matches(InventoryCrafting inv, @NotNull World worldIn) {
+        NomiLabs.LOGGER.info("sui");
         // Validate 2x2 grid
         if (inv.getWidth() == 2 && inv.getHeight() == 2) {
             return check2x2Grid(inv, 0, 0);
@@ -43,10 +45,10 @@ public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     }
 
     private boolean check2x2Grid(InventoryCrafting inv, int offsetX, int offsetY) {
-        ItemStack topLeft = inv.getStackInRowAndColumn(offsetX, offsetY);
-        ItemStack bottomRight = inv.getStackInRowAndColumn(offsetX + 1, offsetY + 1);
+        ItemStack topLeft = inv.getStackInRowAndColumn(offsetX, offsetY); // Side
+        ItemStack bottomRight = inv.getStackInRowAndColumn(offsetX + 1, offsetY + 1); // Frameable
 
-        return !bottomRight.isEmpty() && bottomRight.getItem() == output.getItem() && !topLeft.isEmpty();
+        return isValidCraftingSet(topLeft, bottomRight);
     }
 
     private boolean checkRemainingEmpty(InventoryCrafting inv, int offsetX, int offsetY) {
@@ -65,7 +67,7 @@ public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     }
 
     @Override
-    public ItemStack getCraftingResult(InventoryCrafting inv) {
+    public @NotNull ItemStack getCraftingResult(@NotNull InventoryCrafting inv) {
         for (int i = 0; i <= 1; i++) {
             for (int j = 0; j <= 1; j++) {
                 ItemStack resultStack = tryCraftingAt(inv, i, j);
@@ -77,48 +79,54 @@ public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
         return ItemStack.EMPTY;
     }
 
+    @Override
+    public boolean canFit(int width, int height) {
+        return width >= 2 && height >= 2;
+    }
+
     private ItemStack tryCraftingAt(InventoryCrafting inv, int i, int j) {
-        ItemStack topLeft = inv.getStackInRowAndColumn(i, j); // Side
-        ItemStack topRight = inv.getStackInRowAndColumn(i + 1, j); // Trim
-        ItemStack bottomLeft = inv.getStackInRowAndColumn(i, j + 1); // Front
-        ItemStack bottomRight = inv.getStackInRowAndColumn(i + 1, j + 1);  // Tool
+        ItemStack topLeft = inv.getStackInRowAndColumn(i, j).copy(); // Side
+        ItemStack topRight = inv.getStackInRowAndColumn(i + 1, j).copy(); // Trim
+        ItemStack bottomLeft = inv.getStackInRowAndColumn(i, j + 1).copy(); // Front
+        ItemStack bottomRight = inv.getStackInRowAndColumn(i + 1, j + 1).copy();  // Tool
 
         // Validate the tool is in the bottomRight slot and the side material is provided
         if (isValidCraftingSet(topLeft, bottomRight)) {
-            NBTTagCompound tag = new NBTTagCompound();
-            ItemStack resultStack = output.copy();
-
-            tag.setTag(ItemHandFramingTool.MAT_SIDE_TAG, topLeft.serializeNBT());
-
-            addTagIfValidBlock(ItemHandFramingTool.MAT_FRONT_TAG, bottomLeft, tag); // Add front material if provided
-            addTagIfValidBlock(ItemHandFramingTool.MAT_TRIM_TAG, topRight, tag); // Add trim material if provided
-
-            resultStack.setTagCompound(tag);
-            return resultStack;
+            return ((IFrameable) bottomRight.getItem()).decorate(bottomRight, topLeft, getValidStackOrEmpty(topRight), getValidStackOrEmpty(bottomLeft));
         }
 
         return ItemStack.EMPTY;
     }
 
-    private boolean isValidCraftingSet(ItemStack topLeft, ItemStack bottomRight) {
-        return !bottomRight.isEmpty() && bottomRight.getItem() == output.getItem() &&
-                !topLeft.isEmpty() && topLeft.getItem() instanceof ItemBlock &&
-                ((ItemBlock) topLeft.getItem()).getBlock() != Blocks.AIR;
+    private boolean isValidCraftingSet(ItemStack side, ItemStack frameable) {
+        return TileEntityFramingTable.isItemValidDrawer(frameable) &&
+                TileEntityFramingTable.isItemValidMaterial(side);
     }
 
-    private void addTagIfValidBlock(String tagName, ItemStack stack, NBTTagCompound tag) {
-        if (stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock() != Blocks.AIR) {
-            tag.setTag(tagName, stack.serializeNBT());
-        }
-    }
-
-    @Override
-    public boolean canFit(int width, int height) {
-        return (width == 2 && height == 2) || (width == 3 && height == 3);
+    private ItemStack getValidStackOrEmpty(ItemStack stack) {
+        if (TileEntityFramingTable.isItemValidMaterial(stack))
+            return stack;
+        return ItemStack.EMPTY;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
-        return this.output;
+    public @NotNull ItemStack getRecipeOutput() {
+        // Dynamic Recipe
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
+    @Override
+    public int getRecipeWidth() {
+        return 2;
+    }
+
+    @Override
+    public int getRecipeHeight() {
+        return 2;
     }
 }

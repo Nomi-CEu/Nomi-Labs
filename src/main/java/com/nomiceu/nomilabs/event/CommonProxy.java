@@ -22,8 +22,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.Objects;
-
 @Mod.EventBusSubscriber(modid = LabsValues.LABS_MODID)
 @SuppressWarnings("unused")
 public class CommonProxy {
@@ -74,9 +72,9 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+    public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         if (LabsConfig.enableCustomContent) {
-            event.getRegistry().register(new HandFramingRecipe(Objects.requireNonNull(Item.getByNameOrId("contenttweaker:hand_framing_tool")).getDefaultInstance())
+            event.getRegistry().register(new HandFramingRecipe()
                 .setRegistryName(LabsNames.makeLabsName(LabsItems.HAND_FRAMING_TOOL.getRegistryName() + "_recipe")));
         }
     }
