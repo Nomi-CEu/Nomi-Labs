@@ -21,7 +21,6 @@ public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
 
     @Override
     public boolean matches(InventoryCrafting inv, @NotNull World worldIn) {
-        NomiLabs.LOGGER.info("sui");
         // Validate 2x2 grid
         if (inv.getWidth() == 2 && inv.getHeight() == 2) {
             return check2x2Grid(inv, 0, 0);
