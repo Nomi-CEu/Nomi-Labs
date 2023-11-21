@@ -42,6 +42,7 @@ dependencies {
     implementation rfg.deobf("curse.maven:nuclearcraft-mod-226254:3074246") // Version 2.18y (Newer versions have unneeded balancing changes and break stuff)
 
     // Draconic Evolution Runtime Deps, Brandon Core, Redstone Flux (from CurseForge)
-    runtimeOnly "curse.maven:brandons-core-231382:3408276" // Version 2.4.20
+    // Brandon Core is deobfed, as it is down the dependency tree for some draconic evolution stuff
+    implementation rfg.deobf("curse.maven:brandons-core-231382:3408276") // Version 2.4.20
     runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
 }
