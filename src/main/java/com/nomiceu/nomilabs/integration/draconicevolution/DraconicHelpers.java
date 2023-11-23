@@ -10,7 +10,12 @@ import gregtech.api.unification.material.Material;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.common.blocks.MetaBlocks;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -114,5 +119,35 @@ public class DraconicHelpers {
         materialList.add(OreDictUnifier.get(OrePrefix.ingot, material, COUNT));
         materialList.add(OreDictUnifier.get(OrePrefix.nugget, material, COUNT));
         return materialList;
+    }
+
+    public static boolean insertItem(ItemStack toInsert, EntityPlayer player) {
+        IItemHandler handler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        if (handler == null) return false;
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack inSlot = handler.getStackInSlot(i);
+            if (inSlot.isEmpty() || (inSlot.getItem().equals(toInsert.getItem()) && inSlot.getMetadata() == toInsert.getMetadata() && inSlot.getCount() < toInsert.getMaxStackSize())) {
+                ItemStack inserted = handler.insertItem(i, toInsert, false);
+                if (inserted.isEmpty() || inserted.getItem().equals(Items.AIR))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean validState(BlockStates allowedStates, IBlockState state, boolean wildCardAir) {
+        if (allowedStates.isWildcard()) {
+            if (wildCardAir)
+                return state.getBlock().equals(Blocks.AIR);
+            return true;
+        }
+
+        if (allowedStates.getDefault().equals(state)) return true;
+        if (!allowedStates.hasSubstitutes()) return false;
+
+        for (var substitute : allowedStates.getSubstitutes()) {
+            if (substitute.equals(state)) return true;
+        }
+        return false;
     }
 }

@@ -5,9 +5,17 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "EnergyCoreBuilderMixin",
+    "EnergyCoreStructureMixin",
+    "InvisECoreBlockMixin",
     "ReactorIntegration",
-    "ReactorSlotIntegration"
+    "ReactorSlotIntegration",
+    "TileEnergyCoreStabilizerMixin",
+    "TileEnergyStorageCoreMixin",
+    "TileInvisECoreBlockMixin"
   ],
-  "client": [],
+  "client": [
+    "GuiEnergyCoreMixin"
+  ],
   "server": []
 }

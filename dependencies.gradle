@@ -23,7 +23,8 @@
  */
 dependencies {
     // CCL, dep for GT (from CurseForge)
-    runtimeOnly "curse.maven:codechicken-lib-1-8-242818:2779848" // Version 3.2.3.358
+    // Included to allow compiling of certain Draconic Evolution Mixin Classes
+    implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848") // Version 3.2.3.358
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
     implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:GJvzHTTh") // Version 2.7.4
