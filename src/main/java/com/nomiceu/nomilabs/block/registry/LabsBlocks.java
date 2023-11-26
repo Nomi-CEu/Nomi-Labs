@@ -9,19 +9,24 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.IRarity;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
 
 public class LabsBlocks {
     private static final String nullTranslationKey = "tile.null";
     private static final List<Block> BLOCKS = new ArrayList<>();
+
+    public static final Map<Block, Item> ITEMS = new HashMap<>();
 
     /* Dense Blocks */
     public static BlockBase DENSE_MAGMA;
@@ -58,7 +63,7 @@ public class LabsBlocks {
         /* Custom Behaviour Blocks */
         // Register Item separately to allow putting excitation coil on head
         EXCITATION_COIL = createBlockWithoutItem(new BlockExcitationCoil(makeCTName("excitationcoil"), LabsCreativeTabs.TAB_NOMI_LABS));
-        LabsItems.createItem(new ItemExcitationCoil(EXCITATION_COIL));
+        ITEMS.put(EXCITATION_COIL, LabsItems.createItem(new ItemExcitationCoil(EXCITATION_COIL)));
         DUST = createBlock(new BlockDust(makeCTName("block_dust"), LabsCreativeTabs.TAB_NOMI_LABS),
                 EnumRarity.COMMON, 64);
     }
@@ -72,7 +77,7 @@ public class LabsBlocks {
 
     public static <T extends Block> T createBlock(T block, @NotNull IRarity rarity, int stackSize) {
         BLOCKS.add(block);
-        LabsItems.createItem(new ItemBlockBase(block, rarity, stackSize));
+        ITEMS.put(block, LabsItems.createItem(new ItemBlockBase(block, rarity, stackSize)));
         return block;
     }
 
