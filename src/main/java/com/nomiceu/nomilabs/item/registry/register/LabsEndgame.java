@@ -1,8 +1,10 @@
 package com.nomiceu.nomilabs.item.registry.register;
 
+import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.item.ItemBase;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.util.text.TextFormatting;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
 import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
@@ -13,6 +15,7 @@ public class LabsEndgame {
         CREATIVE_TANK_MOLD = createItem(new ItemBase(makeCTName("creativeportabletankmold"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
         EXOTIC_MATERIALS_CATALYST = createItem(new ItemBase(makeCTName("exoticmaterialscatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
         ETERNAL_CATALYST = createItem(new ItemBase(makeCTName("eternalcatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
-        ULTIMATE_GEM = createItem(new ItemBase(makeCTName("ultimate_gem"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+        ULTIMATE_GEM = createItem(new ItemBase(makeCTName("ultimate_gem"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1,
+                ImmutableMap.of("item.contenttweaker.ultimate_gem.tooltip", TextFormatting.GRAY.toString())));
     }
 }

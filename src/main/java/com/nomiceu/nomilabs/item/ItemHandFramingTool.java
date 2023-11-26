@@ -52,6 +52,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
         NBTTagCompound tagCompound = stack.getTagCompound();
 

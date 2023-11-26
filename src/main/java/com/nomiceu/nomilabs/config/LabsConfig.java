@@ -48,22 +48,22 @@ public class LabsConfig {
             @Config.Comment({"Whether to enable Draconic Evolution Integration, which adds many features, such as:",
                     "Allowing GregTech Draconium and Awakened Draconium in the reactor and energy core.",
                     "Modifying Energy Core Structure with improvements, such as allowing blocks surrounding the structure.",
-                    "Adding a destruct core button to the energy core.",
-                    "Allow making the builder instant.",
+                    "Adding a destructor to the energy core.",
+                    "Allow changing the speed of the builder.",
                     "If this option is disabled, then energy cores made whilst this was enabled may break!",
                     "[default: true]"})
             @Config.LangKey("config.nomilabs.mod_integration.draconicevolution.enable")
             @Config.RequiresMcRestart
             public boolean enableDraconicEvolutionIntegration = true;
 
-            @Config.Comment({"The speed of the Builder.",
+            @Config.Comment({"The speed of the Builder, in blocks per tick.",
                     "Set this to 0 to have the builder be instant.",
                     "[default: 1]"})
             @Config.LangKey("config.nomilabs.mod_integration.draconicevolution.auto_builder_speed")
             @Config.RangeInt(min = 0)
             public int autoBuilderSpeed = 1;
 
-            @Config.Comment({"The speed of the Destructor.",
+            @Config.Comment({"The speed of the Destructor, in blocks per tick.",
                     "Set this to 0 to have the destructor be instant.",
                     "[default: 1]"})
             @Config.LangKey("config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed")

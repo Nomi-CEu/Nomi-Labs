@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.block.registry;
 
+import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.block.*;
 import com.nomiceu.nomilabs.item.ItemBlockBase;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
@@ -11,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.IRarity;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -51,9 +53,12 @@ public class LabsBlocks {
                 EnumRarity.COMMON, 64);
 
         /* Ultimate Blocks */
-        ULTIMATE_POWER_STORAGE = createBlock(new BlockBase(makeCTName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL),
+        ULTIMATE_POWER_STORAGE = createBlock(new BlockBase(makeCTName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
+                        ImmutableMap.of("item.contenttweaker.ultimate_power_storage.tooltip", TextFormatting.GRAY.toString())
+                        ),
                 EnumRarity.EPIC, 1);
-        ULTIMATE_GENERATOR = createBlock(new BlockBase(makeCTName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL),
+        ULTIMATE_GENERATOR = createBlock(new BlockBase(makeCTName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
+                        ImmutableMap.of("item.contenttweaker.ultimate_generator.tooltip", TextFormatting.GRAY.toString())),
                 EnumRarity.EPIC, 1);
 
         /* Misc Blocks */
