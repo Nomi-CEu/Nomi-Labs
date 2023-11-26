@@ -1,8 +1,13 @@
 package com.nomiceu.nomilabs.mixin.draconicevolution;
 
 import codechicken.lib.data.MCDataInput;
+import com.brandon3055.brandonscore.blocks.TileBCBase;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
-import com.nomiceu.nomilabs.integration.draconicevolution.DestructibleTileEnergyCore;
+import com.brandon3055.draconicevolution.lib.EnergyCoreBuilder;
+import com.nomiceu.nomilabs.integration.draconicevolution.EnergyCoreDestructor;
+import com.nomiceu.nomilabs.integration.draconicevolution.ImprovedTileEnergyCore;
+import com.nomiceu.nomilabs.integration.draconicevolution.StoppableProcess;
 import com.nomiceu.nomilabs.integration.draconicevolution.TileEnergyStorageCoreLogic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,7 +20,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = TileEnergyStorageCore.class, remap = false)
-public abstract class TileEnergyStorageCoreMixin implements DestructibleTileEnergyCore {
+public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements ImprovedTileEnergyCore {
+
+    @Unique
+    private static final String ACTIVE_BUILDER = "activeBuilder";
+    @Unique
+    private static final String ACTIVE_DESTRUCTOR = "activeDestructor";
+
     @Shadow
     protected abstract long getCapacity();
 
@@ -23,7 +34,22 @@ public abstract class TileEnergyStorageCoreMixin implements DestructibleTileEner
     protected abstract void updateStabilizers(boolean coreActive);
 
     @Shadow
-    protected abstract void startBuilder(EntityPlayer client);
+    private EnergyCoreBuilder activeBuilder;
+
+    @Unique
+    private EnergyCoreDestructor activeDestructor;
+
+    @Unique
+    public ManagedBool hasActiveBuilder;
+
+    @Unique
+    public ManagedBool hasActiveDestructor;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void initFields(CallbackInfo ci) {
+        hasActiveBuilder = register(ACTIVE_BUILDER, new ManagedBool(false)).syncViaTile().saveToTile().trigerUpdate().finish();
+        hasActiveDestructor = register(ACTIVE_DESTRUCTOR, new ManagedBool(false)).syncViaTile().saveToTile().trigerUpdate().finish();
+    }
 
     @Inject(method = "activateCore", at = @At("HEAD"), cancellable = true)
     public void activateCore(CallbackInfo ci) {
@@ -89,22 +115,71 @@ public abstract class TileEnergyStorageCoreMixin implements DestructibleTileEner
 
             case 4:
                 if (!tile.active.value && !tile.coreValid.value) {
-                    startBuilder(client);
+                    startOrStopBuilder(client);
                 }
                 break;
 
             case 7:
                 if (tile.coreValid.value && !tile.active.value){
-                    destructCore(client);
+                    startOrStopDestructor(client);
                 }
                 break;
         }
         ci.cancel();
     }
 
+    @Inject(method = "update", at = @At("HEAD"))
+    public void update(CallbackInfo ci) {
+        var tile = (TileEnergyStorageCore) (Object) this;
+        if (!tile.getWorld().isRemote) {
+            if (activeDestructor != null) {
+                if (activeDestructor.isDead()) {
+                    activeDestructor = null;
+                    hasActiveDestructor.value = false;
+                } else
+                    activeDestructor.updateDestructProcess();
+            }
+            if (activeBuilder != null) {
+                if (activeBuilder.isDead())
+                    hasActiveBuilder.value = false;
+                // Don't update process or set active builder to null, thats done in the original update function
+            }
+        }
+    }
+
     @Unique
+    private void startOrStopBuilder(EntityPlayer player) {
+        if (hasActiveBuilder.value) {
+            ((StoppableProcess) activeBuilder).stop();
+            activeBuilder = null;
+            hasActiveBuilder.value = false;
+            return;
+        }
+        activeBuilder = new EnergyCoreBuilder((TileEnergyStorageCore) (Object) this, player);
+        hasActiveBuilder.value = true;
+    }
+
+    @Unique
+    private void startOrStopDestructor(EntityPlayer player) {
+        if (hasActiveDestructor.value) {
+            ((StoppableProcess) activeDestructor).stop();
+            activeDestructor = null;
+            hasActiveDestructor.value = false;
+            return;
+        }
+        activeDestructor = new EnergyCoreDestructor((TileEnergyStorageCore) (Object) this, player);
+        hasActiveDestructor.value = true;
+    }
+
     @Override
-    public void destructCore(EntityPlayer player) {
-        TileEnergyStorageCoreLogic.destructCore((TileEnergyStorageCore) (Object) this, player);
+    @Unique
+    public boolean hasActiveBuilder() {
+        return hasActiveBuilder.value;
+    }
+
+    @Override
+    @Unique
+    public boolean hasActiveDestructor() {
+        return hasActiveDestructor.value;
     }
 }

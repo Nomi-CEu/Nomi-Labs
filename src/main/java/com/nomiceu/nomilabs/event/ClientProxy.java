@@ -19,23 +19,23 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientProxy {
 
     public static void preInit() {
-        if (LabsConfig.enableCustomContent)
+        if (LabsConfig.customContent.enableCustomContent)
             LabsTextures.preInit();
     }
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        if (LabsConfig.enableCustomContent) {
+        if (LabsConfig.customContent.enableCustomContent) {
             LabsItems.registerModels();
             LabsFluids.registerFluidBlockModels();
         }
-        if (LabsConfig.enableGTCustomContent)
+        if (LabsConfig.customContent.enableGTCustomContent)
             LabsMetaBlocks.registerModels();
     }
 
     @SubscribeEvent
     public static void registerFluidModels(TextureStitchEvent.Pre event) {
-        if (LabsConfig.enableCustomContent)
+        if (LabsConfig.customContent.enableCustomContent)
             LabsFluids.registerFluidModels(event);
     }
 }

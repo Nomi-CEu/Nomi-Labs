@@ -1,5 +1,19 @@
+# Greenhouse
 nomilabs.machine.greenhouse.name=Greenhouse
 recipemap.greenhouse.name=Growing
 
 tile.unique_casing.growth_light.name=Growth Light
 tile.unique_casing.air_vent.name=Air Vent
+
+# Config
+config.nomilabs.custom_content=Custom Content Settings
+config.nomilabs.custom_content.enable_custom_content=Enable Custom Content
+config.nomilabs.custom_content.enable_gt_custom_content=Enable Custom GregTech CEu Content
+
+config.nomilabs.mod_integration=Mod Integration Settings
+config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration
+
+config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
+config.nomilabs.mod_integration.draconicevolution.enable=Enable Draconic Evolution Integration
+config.nomilabs.mod_integration.draconicevolution.auto_builder_speed=Auto Builder Speed
+config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=Auto Destructor Speed

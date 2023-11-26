@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
 import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
@@ -14,13 +15,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DraconicHelpers {
@@ -37,6 +41,11 @@ public class DraconicHelpers {
      * ItemStack count to return
      */
     private static final int COUNT = 1;
+
+    /**
+     * Vqlue that the speed of the auto destructor/builder should be set to for it to be instant/
+     */
+    private static final int INSTANT_SPEED = 0;
 
     /**
      * Returns list with [0] = block, [1] = ingot, [2] = nugget
@@ -104,7 +113,7 @@ public class DraconicHelpers {
     private static List<ItemStack> getListFromMaterial(@Nullable Material nomiLabsDeclaration, @NotNull String materialName) {
         Material material;
         List<ItemStack> materialList = new ArrayList<>();
-        if (LabsConfig.enableGTCustomContent && nomiLabsDeclaration != null)
+        if (LabsConfig.customContent.enableGTCustomContent && nomiLabsDeclaration != null)
             material = nomiLabsDeclaration;
         else {
             material = GregTechAPI.materialManager.getMaterial(materialName);
@@ -119,6 +128,29 @@ public class DraconicHelpers {
         materialList.add(OreDictUnifier.get(OrePrefix.ingot, material, COUNT));
         materialList.add(OreDictUnifier.get(OrePrefix.nugget, material, COUNT));
         return materialList;
+    }
+
+    public static boolean extractItem(ItemStack toExtract, EntityPlayer player) {
+        IItemHandler handler = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        if (handler == null) return false;
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack inSlot = handler.getStackInSlot(i);
+            if (!inSlot.isEmpty() && inSlot.getItem().equals(toExtract.getItem()) && inSlot.getMetadata() == toExtract.getMetadata()) {
+                ItemStack extracted = handler.extractItem(i, 1, false);
+                if (!extracted.isEmpty() && extracted.getItem().equals(toExtract.getItem()) && extracted.getMetadata() == toExtract.getMetadata()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean extractItemOfBlockStates(BlockStates toExtract, EntityPlayer player) {
+        var extract = toExtract.transformToStack();
+        for (var stack : extract) {
+            if (extractItem(stack, player)) return true;
+        }
+        return false;
     }
 
     public static boolean insertItem(ItemStack toInsert, EntityPlayer player) {
@@ -149,5 +181,23 @@ public class DraconicHelpers {
             if (substitute.equals(state)) return true;
         }
         return false;
+    }
+
+    @NotNull
+    public static Map<BlockPos, BlockStates> getStructureBlocks(TileEnergyStorageCore core) {
+        BlockStateEnergyCoreStructure structure = (BlockStateEnergyCoreStructure) core.coreStructure;
+        BlockStateMultiblockStorage storage = structure.getStorageForTier(core.tier.value);
+        BlockPos start = core.getPos().add(structure.getCoreOffset(core.tier.value));
+        Map<BlockPos, BlockStates> structureBlocks = new HashMap<>();
+        storage.forEachBlockStates(start, structureBlocks::put);
+        return structureBlocks;
+    }
+
+    public static boolean instantBuilder() {
+        return LabsConfig.modIntegration.draconicEvolutionIntegration.autoBuilderSpeed == INSTANT_SPEED;
+    }
+
+    public static boolean instantDestructor() {
+        return LabsConfig.modIntegration.draconicEvolutionIntegration.autoDestructorSpeed == INSTANT_SPEED;
     }
 }

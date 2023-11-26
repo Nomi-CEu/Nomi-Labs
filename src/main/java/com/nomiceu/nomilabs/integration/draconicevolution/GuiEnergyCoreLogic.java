@@ -17,7 +17,7 @@ import java.util.List;
 public class GuiEnergyCoreLogic {
     public static GuiButton addDestructButtonToList(GuiContainer gui, List<GuiButton> buttonList) {
         GuiButton destructCore = new GuiButtonAHeight(7, gui.guiLeft + 9, gui.guiTop + 73 + 10, 162, 12,
-                I18n.format("button.de.destructCore.txt"));
+                I18n.format("button.de.destructCore.instant.txt"));
         buttonList.add(destructCore);
         return destructCore;
     }

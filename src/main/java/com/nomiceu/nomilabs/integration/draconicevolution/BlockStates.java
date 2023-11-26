@@ -69,6 +69,23 @@ public class BlockStates {
         return block.getBlock().getStateFromMeta(stack.getMetadata());
     }
 
+    /**
+     * Returns an itemstack list, with the first item being the default, and then the substitutes.
+     * Returns empty list if wildcard.
+     */
+    public ItemStack[] transformToStack() {
+        if (wildcard) return new ItemStack[0];
+        var stacks = new ItemStack[substitutes.length + 1]; // Substitues amount + default
+        stacks[0] = transformStateToStack(defaultBlockState);
+        for (int i = 0; i < substitutes.length; i++)
+            stacks[i + 1] = transformStateToStack(substitutes[i]);
+        return stacks;
+    }
+
+    public ItemStack transformStateToStack(IBlockState state) {
+        return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof BlockStates states))
