@@ -72,7 +72,9 @@ public class EnergyCoreDestructor implements StoppableProcess {
         var pos = workOrder.poll();
         var states = workList.get(pos);
 
-        if (pos == null || states == null || states.isWildcard() || states.equals(((BlockStateEnergyCoreStructure) core.coreStructure).X))
+        if (pos == null || states == null)
+            return;
+        if (states.isWildcard() || states.equals(((BlockStateEnergyCoreStructure) core.coreStructure).X) || world.isAirBlock(pos))
             return;
 
         if (!player.capabilities.isCreativeMode){
