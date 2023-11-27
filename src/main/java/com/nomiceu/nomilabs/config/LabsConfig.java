@@ -26,10 +26,36 @@ public class LabsConfig {
         @Config.Comment({"Whether to enable GT Custom Content.", "Includes Custom Multiblocks, Materials, Material Changes and Meta Blocks.",
                 "They will not have recipes, but multiblocks will have recipeMaps.",
                 "In Beta.",
+                "THIS IS CURRENTLY NOT USED/IMPLEMENTED, DUE TO GT CUSTOM CONTENT BEING HALF COMPLETE.",
+                "Use configs in Custom GT Content Category instead.",
                 "[default: false]"})
         @Config.LangKey("config.nomilabs.custom_content.enable_gt_custom_content")
         @Config.RequiresMcRestart
+        @SuppressWarnings("unused")
         public boolean enableGTCustomContent = false;
+
+        @Config.Comment("GregTech Custom Content Settings. Will be removed once gt custom content is complete.")
+        @Config.LangKey("config.nomilabs.gtContent")
+        @Config.Name("gt content")
+        public GTCustomContent gtCustomContent = new GTCustomContent();
+
+        public static class GTCustomContent {
+            @Config.Comment({
+                    "Enable Custom Materials.",
+                    "[default: true]"
+            })
+            @Config.LangKey("config.nomilabs.gtContent.materials")
+            @Config.RequiresMcRestart
+            public boolean enableMaterials = true;
+
+            @Config.Comment({
+                    "Enable Alpha and Half Complete Custom Content.",
+                    "[default: false]"
+            })
+            @Config.LangKey("config.nomilabs.gtContent.half")
+            @Config.RequiresMcRestart
+            public boolean betaContent = false;
+        }
     }
 
     public static class ModIntegration {

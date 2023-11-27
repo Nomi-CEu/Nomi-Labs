@@ -113,7 +113,8 @@ public class DraconicHelpers {
     private static List<ItemStack> getListFromMaterial(@Nullable Material nomiLabsDeclaration, @NotNull String materialName) {
         Material material;
         List<ItemStack> materialList = new ArrayList<>();
-        if (LabsConfig.customContent.enableGTCustomContent && nomiLabsDeclaration != null)
+        //if (LabsConfig.customContent.enableGTCustomContent && nomiLabsDeclaration != null)
+        if (LabsConfig.customContent.gtCustomContent.enableMaterials && nomiLabsDeclaration != null)
             material = nomiLabsDeclaration;
         else {
             material = GregTechAPI.materialManager.getMaterial(materialName);

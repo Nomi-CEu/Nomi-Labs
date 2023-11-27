@@ -29,7 +29,8 @@ public class ClientProxy {
             LabsItems.registerModels();
             LabsFluids.registerFluidBlockModels();
         }
-        if (LabsConfig.customContent.enableGTCustomContent)
+        // if (LabsConfig.customContent.enableGTCustomContent)
+        if (LabsConfig.customContent.gtCustomContent.betaContent)
             LabsMetaBlocks.registerModels();
     }
 

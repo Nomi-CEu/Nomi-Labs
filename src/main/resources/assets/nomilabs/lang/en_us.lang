@@ -10,6 +10,10 @@ config.nomilabs.custom_content=Custom Content Settings
 config.nomilabs.custom_content.enable_custom_content=Enable Custom Content
 config.nomilabs.custom_content.enable_gt_custom_content=Enable Custom GregTech CEu Content
 
+config.nomilabs.gtContent=Custom GT Content Settings
+config.nomilabs.gtContent.materials=Enable Custom GT Materials
+config.nomilabs.gtContent.half=Enable Alpha/Half Complete GT Content
+
 config.nomilabs.mod_integration=Mod Integration Settings
 config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration
 

@@ -25,6 +25,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import java.util.Objects;
+
 @Mod.EventBusSubscriber(modid = LabsValues.LABS_MODID)
 @SuppressWarnings("unused")
 public class CommonProxy {
@@ -36,14 +38,16 @@ public class CommonProxy {
             LabsBlocks.preInit();
             LabsFluids.preInit();
         }
-        if (LabsConfig.customContent.enableGTCustomContent) {
+        //if (LabsConfig.customContent.enableGTCustomContent) {
+        if (LabsConfig.customContent.gtCustomContent.betaContent) {
             LabsMetaBlocks.preInit();
             LabsRecipeMaps.preInit();
         }
     }
 
     public static void postInit() {
-        if (LabsConfig.customContent.enableGTCustomContent)
+       //if (LabsConfig.customContent.enableGTCustomContent)
+        if (LabsConfig.customContent.gtCustomContent.betaContent)
             LabsMultiblocks.postInit();
         // GreenhouseTestRecipes.postInit();
     }
@@ -53,7 +57,8 @@ public class CommonProxy {
         IForgeRegistry<Item> registry = event.getRegistry();
         if (LabsConfig.customContent.enableCustomContent)
             LabsItems.register(registry);
-        if (LabsConfig.customContent.enableGTCustomContent)
+        //if (LabsConfig.customContent.enableGTCustomContent)
+        if (LabsConfig.customContent.gtCustomContent.betaContent)
             LabsMetaBlocks.registerItems(registry);
     }
 
@@ -62,13 +67,15 @@ public class CommonProxy {
         IForgeRegistry<Block> registry = event.getRegistry();
         if (LabsConfig.customContent.enableCustomContent)
             LabsBlocks.register(registry);
-        if (LabsConfig.customContent.enableGTCustomContent)
+        //if (LabsConfig.customContent.enableGTCustomContent)
+        if (LabsConfig.customContent.gtCustomContent.betaContent)
             LabsMetaBlocks.registerBlocks(registry);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void registerMaterials(MaterialEvent event) {
-        if (LabsConfig.customContent.enableGTCustomContent) {
+        //if (LabsConfig.customContent.enableGTCustomContent) {
+        if (LabsConfig.customContent.gtCustomContent.enableMaterials) {
             LabsMaterials.init();
             LabsMaterials.materialChanges();
         }
