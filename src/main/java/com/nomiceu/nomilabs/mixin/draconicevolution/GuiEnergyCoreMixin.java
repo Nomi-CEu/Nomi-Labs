@@ -64,11 +64,11 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
     @Inject(method = "updateButtonStates", at = @At("TAIL"))
     private void updateButtonStates(CallbackInfo ci) {
         var guiCore = (GuiEnergyCore) (Object) this;
-        tierUp.visible = tierDown.visible = !guiCore.tile.active.value;
-        toggleGuide.visible = !guiCore.tile.active.value && !guiCore.tile.coreValid.value;
-        destructCore.visible = guiCore.tile.coreValid.value && !guiCore.tile.active.value;
-
         var improvedTile = (ImprovedTileEnergyCore) guiCore.tile;
+        tierUp.visible = tierDown.visible = !guiCore.tile.active.value;
+        toggleGuide.visible =  !guiCore.tile.coreValid.value && !improvedTile.hasActiveDestructor() && !guiCore.tile.active.value;
+        destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.hasActiveDestructor()) && !guiCore.tile.active.value;
+
         if (DraconicHelpers.instantBuilder())
             assembleCore.displayString = I18n.format("button.de.assembleCore.instant.txt");
         else {
