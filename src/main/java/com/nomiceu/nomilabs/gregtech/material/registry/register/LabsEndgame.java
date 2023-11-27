@@ -11,7 +11,7 @@ import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 public class LabsEndgame {
     public static void initEndgame() {
         CrystalMatrix = new Material.Builder(32023, makeLabsName("crystal_matrix"))
-                .ingot().fluid()
+                .ingot().liquid()
                 .color(0x70ecff).iconSet(SHINY)
                 .flags(GENERATE_PLATE)
                 .build();
@@ -23,7 +23,7 @@ public class LabsEndgame {
                 .build();
 
         KaptonK = new Material.Builder(32050, makeLabsName("kapton_k")) // Hardmode Material
-                .ingot().fluid()
+                .ingot().liquid()
                 .color(0xffce52).iconSet(DULL)
                 .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION)
                 .components(Carbon, 22, Hydrogen, 10, Nitrogen, 2, Oxygen, 5)

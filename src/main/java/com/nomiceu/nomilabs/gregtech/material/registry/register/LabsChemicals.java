@@ -100,19 +100,19 @@ public class LabsChemicals {
         Ethylanthraquinone.setFormula("C6H4(CO)2C6H3(CH2CH3)", true);
 
         HydrogenPeroxide = new Material.Builder(32046, makeLabsName("hydrogen_peroxide")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .color(0xd2ffff)
                 .components(Hydrogen, 2, Oxygen, 2)
                 .build();
 
         Hydrazine = new Material.Builder(32047, makeLabsName("hydrazine")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .color(0xb50707)
                 .components(Nitrogen, 2, Hydrogen, 4)
                 .build();
 
         AcetoneAzine = new Material.Builder(32048, makeLabsName("acetone_azine")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .color(0xa1e1e1)
                 .components(Carbon, 6, Hydrogen, 12, Nitrogen, 2)
                 .build();
@@ -145,13 +145,13 @@ public class LabsChemicals {
         PyromelliticDianhydride.setFormula("C6H2(C2O3)2", true);
 
         Dimethylformamide = new Material.Builder(32053, makeLabsName("dimethylformamide")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .color(0x42bdff)
                 .components(Carbon, 3, Hydrogen, 7, Nitrogen, 1, Oxygen, 1)
                 .build();
 
         Aminophenol = new Material.Builder(32054, makeLabsName("aminophenol")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0xff7f50)
                 .components(Carbon, 6, Hydrogen, 7, Nitrogen, 1, Oxygen, 1)
@@ -167,7 +167,7 @@ public class LabsChemicals {
         Oxydianiline.setFormula("O(C6H4NH2)2", true);
 
         AntimonyPentafluoride = new Material.Builder(32056, makeLabsName("antimony_pentafluoride")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0xe3f1f1)
                 .components(Antimony, 1, Fluorine, 5)
@@ -180,7 +180,7 @@ public class LabsChemicals {
                 .build();
 
         Butanol = new Material.Builder(32112, makeLabsName("butanol"))
-                .fluid()
+                .liquid()
                 .color(0xc7af2e)
                 .components(Carbon, 4, Hydrogen, 10, Oxygen, 1)
                 .build();
@@ -188,19 +188,19 @@ public class LabsChemicals {
         Butanol.setFormula("C4H9OH", true);
 
         PhosphorusTrichloride = new Material.Builder(32113, makeLabsName("phosphorus_trichloride"))
-                .fluid()
+                .liquid()
                 .color(0xe8c474)
                 .components(Phosphorus, 1, Chlorine, 3)
                 .build();
 
         PhosphorylChloride = new Material.Builder(32114, makeLabsName("phosphoryl_chloride"))
-                .fluid()
+                .liquid()
                 .color(0xe8bb5b)
                 .components(Phosphorus, 1, Oxygen, 1, Chlorine, 3)
                 .build();
 
         TributylPhosphate = new Material.Builder(32115, makeLabsName("tributyl_phosphate"))
-                .fluid()
+                .liquid()
                 .color(0xe8c4a0)
                 .components(Carbon, 12, Hydrogen, 27, Oxygen, 4, Phosphorus, 1)
                 .build();

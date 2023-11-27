@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
+import gregtech.api.fluids.FluidBuilder;
 import gregtech.api.unification.material.Material;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
@@ -40,29 +41,28 @@ public class LabsNaqLine {
                 .build();
 
         Neocryolite = new Material.Builder(32062, makeLabsName("neocryolite")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x3fd1aa)
                 .components(Caesium, 3, Naquadah, 1, Fluorine, 6)
                 .build();
 
         NaquadahOxidePetroSolution = new Material.Builder(32063, makeLabsName("naquadah_oxide_petro_solution")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x595c70)
                 .build();
 
         NaquadahOxideAeroSolution = new Material.Builder(32064, makeLabsName("naquadah_oxide_aero_solution")) // Hardmode Material
-                .fluid()
+                .liquid()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x6f7059)
                 .build();
 
         HotNaquadahOxideNeocryoliteSolution = new Material.Builder(32065, makeLabsName("hot_naquadah_oxide_neocryolite_solution")) // Hardmode Material
-                .fluid()
+                .liquid(new FluidBuilder().temperature(4700))
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x658280)
-                .fluidTemp(4700)
                 .build();
     }
 }

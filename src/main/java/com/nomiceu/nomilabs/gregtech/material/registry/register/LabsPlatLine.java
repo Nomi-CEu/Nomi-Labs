@@ -34,7 +34,7 @@ public class LabsPlatLine {
         AmmoniumHexachloroplatinate.setFormula("(NH4)2PtCl6", true);
 
         ChloroplatinicAcid = new Material.Builder(32070, makeLabsName("chloroplatinic_acid"))
-                .fluid()
+                .liquid()
                 .color(0xfef0c2)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Hydrogen, 2, Platinum, 1, Chlorine, 6)
@@ -116,7 +116,7 @@ public class LabsPlatLine {
                 .build();
 
         PalladiumRichAmmonia = new Material.Builder(32082, makeLabsName("palladium_rich_ammonia"))
-                .fluid()
+                .liquid()
                 .color(0x808080)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Ammonia, 2, Palladium, 1, Chlorine, 1)
@@ -144,7 +144,7 @@ public class LabsPlatLine {
                 .build();
 
         RhodiumSulfateSolution = new Material.Builder(32086, makeLabsName("rhodium_sulfate_solution"))
-                .fluid()
+                .liquid()
                 .color(0xffbb66)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(RhodiumSulfate, 1, Water, 1)
@@ -167,21 +167,21 @@ public class LabsPlatLine {
         RhodiumSalt.setFormula("(NaCl)2(RhCl3)2", true);
 
         AcidicIridiumDioxideSolution = new Material.Builder(32089, makeLabsName("acidic_iridium_dioxide_solution"))
-                .fluid()
+                .liquid()
                 .color(0x27284e)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(IridiumDioxideResidue, 1, HydrochloricAcid, 4)
                 .build();
 
         PlatinumPalladiumLeachate = new Material.Builder(32090, makeLabsName("platinum_palladium_leachate"))
-                .fluid()
+                .liquid()
                 .color(0xffffc5)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Platinum, 1, Palladium, 1, AquaRegia, 1)
                 .build();
 
         MethylFormate = new Material.Builder(32091, makeLabsName("methyl_formate"))
-                .fluid()
+                .liquid()
                 .color(0xffaaaa)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Carbon, 2, Hydrogen, 4, Oxygen, 2)
@@ -190,7 +190,7 @@ public class LabsPlatLine {
         MethylFormate.setFormula("HCOOCH3", true);
 
         FormicAcid = new Material.Builder(32092, makeLabsName("formic_acid"))
-                .fluid()
+                .liquid()
                 .color(0xffffc5)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Carbon, 1, Hydrogen, 2, Oxygen, 2)

@@ -18,23 +18,23 @@ public class LabsElements {
 
     public static void init() {
         Draconium = new Material.Builder(32001, makeLabsName("draconium"))
-                .ingot().fluid().ore()
+                .ingot().liquid().ore()
                 .element(Dc)
                 .color(0xbe49ed).iconSet(METALLIC)
-                .blastTemp(6800, BlastProperty.GasTier.HIGHER)
+                .blast(6800, BlastProperty.GasTier.HIGHER)
                 .cableProperties(524288, 1, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
 
         AwakenedDraconium = new Material.Builder(32002, makeLabsName("awakened_draconium"))
-                .ingot().fluid()
+                .ingot().liquid()
                 .element(ADc)
                 .color(0xf58742).iconSet(METALLIC)
                 .flags(NO_SMELTING, GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR)
                 .build();
 
         Omnium = new Material.Builder(32004, makeLabsName("omnium"))
-                .ingot().fluid()
+                .ingot().liquid()
                 .element(Nm)
                 .color(0x84053e).iconSet(SHINY)
                 .cableProperties(2147483647, 64, 0, true)
@@ -42,10 +42,10 @@ public class LabsElements {
 
         Taranium = new Material.Builder(32109, makeLabsName("taranium")) // Hardmode Material
                 .element(Tn)
-                .ingot().fluid()
+                .ingot().liquid()
                 .color(0xff00ff).iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_DENSE)
-                .blastTemp(10800)
+                .blast(10800)
                 .build();
     }
 }

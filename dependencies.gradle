@@ -27,8 +27,8 @@ dependencies {
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848") // Version 3.2.3.358
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
-    implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:GJvzHTTh") // Version 2.7.4
-    implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:EBaj6aJx") // Version 1.2.5
+    implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:CHDZ7rtu") // Version 2.8
+    implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:Blf2cTSS") // Version 1.2.6
 
     // GroovyScript
     implementation rfg.deobf("curse.maven:groovyscript-687577:4749823") // Version 0.6.4
