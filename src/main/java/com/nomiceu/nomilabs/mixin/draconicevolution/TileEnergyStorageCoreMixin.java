@@ -108,19 +108,19 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
                 break;
 
             case 3:
-                if (!tile.active.value && !tile.coreValid.value) {
+                if (!tile.active.value && !tile.coreValid.value && tile.tier.value != 1) {
                     tile.buildGuide.value = !tile.buildGuide.value;
                 }
                 break;
 
             case 4:
-                if (!tile.active.value && !tile.coreValid.value) {
+                if (!tile.active.value && !tile.coreValid.value && !hasActiveDestructor.value) {
                     startOrStopBuilder(client);
                 }
                 break;
 
             case 7:
-                if (tile.coreValid.value && !tile.active.value){
+                if (tile.coreValid.value && !tile.active.value && !hasActiveBuilder.value && tile.tier.value != 1){
                     startOrStopDestructor(client);
                 }
                 break;

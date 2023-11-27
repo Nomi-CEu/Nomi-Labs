@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+// TODO maybe one day improve the GUI, so you can destruct button at any time, and it isn't as crowded with buttons disappearing
+// Perhaps inspire by GT's?
 /**
  * Adds destruct core to the list of buttons. Some methods here are directly implemented instead of calling logic, which
  * may be changed in the future, but is just easier because of all the variable setting and protected methods.
@@ -66,9 +68,12 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
         var guiCore = (GuiEnergyCore) (Object) this;
         var improvedTile = (ImprovedTileEnergyCore) guiCore.tile;
         tierUp.visible = tierDown.visible = !guiCore.tile.active.value;
-        toggleGuide.visible =  !guiCore.tile.coreValid.value && !improvedTile.hasActiveDestructor() && !guiCore.tile.active.value;
-        destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.hasActiveDestructor()) && !guiCore.tile.active.value;
+        // Have toggle guide be visible but disabled when tier is 1
+        toggleGuide.visible =  ((!guiCore.tile.coreValid.value && !improvedTile.hasActiveDestructor()) || guiCore.tile.tier.value == 1) && !guiCore.tile.active.value;
+        destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.hasActiveDestructor()) && !guiCore.tile.active.value && guiCore.tile.tier.value != 1;
+        toggleGuide.enabled = guiCore.tile.tier.value != 1;
 
+        assembleCore.enabled = !improvedTile.hasActiveDestructor();
         if (DraconicHelpers.instantBuilder())
             assembleCore.displayString = I18n.format("button.de.assembleCore.instant.txt");
         else {
@@ -78,6 +83,7 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
                 assembleCore.displayString = I18n.format("button.de.assembleCore.start.txt");
         }
 
+        destructCore.enabled = !improvedTile.hasActiveBuilder();
         if (DraconicHelpers.instantDestructor())
             destructCore.displayString = I18n.format("button.de.destructCore.instant.txt");
         else {
