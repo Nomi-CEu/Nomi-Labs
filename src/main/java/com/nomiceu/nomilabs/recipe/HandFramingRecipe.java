@@ -2,10 +2,10 @@ package com.nomiceu.nomilabs.recipe;
 
 import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
-import com.nomiceu.nomilabs.NomiLabs;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -16,7 +16,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe, IShapedRecipe {
 
-    public HandFramingRecipe() {
+    public HandFramingRecipe(ResourceLocation rl) {
+        setRegistryName(rl);
     }
 
     @Override

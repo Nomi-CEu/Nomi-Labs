@@ -77,8 +77,8 @@ public class CommonProxy {
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         if (LabsConfig.customContent.enableCustomContent) {
-            event.getRegistry().register(new HandFramingRecipe()
-                .setRegistryName(LabsNames.makeLabsName(LabsItems.HAND_FRAMING_TOOL.getRegistryName() + "_recipe")));
+            event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName(
+                    Objects.requireNonNull(LabsItems.HAND_FRAMING_TOOL.getRegistryName()).getPath() + "_recipe")));
         }
     }
 
