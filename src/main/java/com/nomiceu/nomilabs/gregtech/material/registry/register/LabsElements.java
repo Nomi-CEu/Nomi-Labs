@@ -7,6 +7,7 @@ import gregtech.api.unification.material.properties.BlastProperty;
 
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
@@ -22,7 +23,7 @@ public class LabsElements {
                 .element(Dc)
                 .color(0xbe49ed).iconSet(METALLIC)
                 .blast(6800, BlastProperty.GasTier.HIGHER)
-                .cableProperties(524288, 1, 0, true)
+                .cableProperties(V[UV], 1, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
 
@@ -37,7 +38,7 @@ public class LabsElements {
                 .ingot().liquid()
                 .element(Nm)
                 .color(0x84053e).iconSet(SHINY)
-                .cableProperties(2147483647, 64, 0, true)
+                .cableProperties(V[MAX], 64, 0, true)
                 .build();
 
         Taranium = new Material.Builder(32109, makeLabsName("taranium")) // Hardmode Material

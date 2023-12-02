@@ -1,9 +1,10 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.properties.BlastProperty;
+import gregtech.api.unification.material.properties.BlastProperty.GasTier;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
@@ -35,10 +36,13 @@ public class LabsThermal {
                 .ingot()
                 .liquid()
                 .color(0xff7f0f).iconSet(SHINY)
-                .blast(builder -> builder.temp(4000, BlastProperty.GasTier.MID).blastStats(120, 12800))
+                .blast(builder -> builder
+                        .temp(4000, GasTier.MID)
+                        .blastStats(VA[IV], 1400)
+                        .vacuumStats(VA[HV], 500))
                 .flags(GENERATE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_GEAR)
                 .components(AnnealedCopper, 4, Ardite, 2, RedAlloy, 2)
-                .cableProperties(32768, 1, 0, true)
+                .cableProperties(V[LuV], 1, 0, true)
                 .build();
 
         Lumium = new Material.Builder(32017, makeLabsName("lumium"))
@@ -46,9 +50,12 @@ public class LabsThermal {
                 .liquid()
                 .color(0xf6ff99).iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
-                .blast(builder -> builder.temp(4500, BlastProperty.GasTier.MID).blastStats(120, 14400))
+                .blast(builder -> builder
+                        .temp(4500, GasTier.MID)
+                        .blastStats(VA[IV], 1600)
+                        .vacuumStats(VA[HV], 600))
                 .components(TinAlloy, 4, SterlingSilver, 2)
-                .cableProperties(8192, 1, 0, true)
+                .cableProperties(V[IV], 1, 0, true)
                 .build();
 
         Enderium = new Material.Builder(32018, makeLabsName("enderium"))
@@ -56,9 +63,12 @@ public class LabsThermal {
                 .liquid()
                 .color(0x1f6b62).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
-                .blast(builder -> builder.temp(6400, BlastProperty.GasTier.HIGHEST).blastStats(120, 20800))
+                .blast(builder -> builder
+                        .temp(6400, GasTier.HIGHEST)
+                        .blastStats(VA[LuV], 1200)
+                        .vacuumStats(VA[EV], 400))
                 .components(Lead, 4, Platinum, 2, BlueSteel, 1, Osmium, 1)
-                .cableProperties(131072, 1, 0, true)
+                .cableProperties(V[ZPM], 1, 0, true)
                 .build();
 
         ElectrumFlux = new Material.Builder(32019, makeLabsName("electrum_flux"))

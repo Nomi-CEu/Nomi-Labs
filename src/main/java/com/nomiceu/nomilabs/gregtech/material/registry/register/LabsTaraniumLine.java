@@ -64,9 +64,7 @@ public class LabsTaraniumLine {
                 .liquid()
                 .color(0xa567db)
                 .components(Xenon, 1, Water, 1, Oxygen, 5, HydrogenPeroxide, 1)
-                .build();
-
-        XenicAcid.setFormula("H2XeO4", true);
+                .build().setFormula("H2XeO4", true);
 
         DustyHelium = new Material.Builder(32103, makeLabsName("dusty_helium"))
                 .gas()

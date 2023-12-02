@@ -1,10 +1,11 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.properties.BlastProperty;
+import gregtech.api.unification.material.properties.BlastProperty.GasTier;
 import gregtech.api.unification.material.properties.ToolProperty;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
@@ -26,7 +27,7 @@ public class LabsEIO {
                 .color(0xf7b29b).iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .components(Iron, 1, Redstone, 1)
-                .cableProperties(32, 1, 0, true)
+                .cableProperties(V[LV], 1, 0, true)
                 .build();
 
         EnergeticAlloy = new Material.Builder(32012, makeLabsName("energetic_alloy"))
@@ -34,9 +35,11 @@ public class LabsEIO {
                 .liquid()
                 .color(0xffb545).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
-                .blast(builder -> builder.temp(1250, BlastProperty.GasTier.LOW).blastStats(120, 400))
+                .blast(builder -> builder
+                        .temp(1250, GasTier.LOW)
+                        .blastStats(VA[MV], 400))
                 .components(Gold, 2, Redstone, 1, Glowstone, 1)
-                .cableProperties(128, 1, 0, true)
+                .cableProperties(V[MV], 1, 0, true)
                 .build();
 
         VibrantAlloy = new Material.Builder(32013, makeLabsName("vibrant_alloy"))
@@ -44,9 +47,11 @@ public class LabsEIO {
                 .liquid()
                 .color(0xa4ff70).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_GEAR, GENERATE_ROD, GENERATE_BOLT_SCREW)
-                .blast(builder -> builder.temp(1350, BlastProperty.GasTier.LOW).blastStats(120, 600))
+                .blast(builder -> builder
+                        .temp(1350, GasTier.LOW)
+                        .blastStats(VA[HV], 400))
                 .components(EnergeticAlloy, 1, EnderPearl, 1)
-                .cableProperties(512, 1, 0, true)
+                .cableProperties(V[HV], 1, 0, true)
                 .build();
 
         PulsatingIron = new Material.Builder(32014, makeLabsName("pulsating_iron"))
@@ -55,7 +60,7 @@ public class LabsEIO {
                 .color(0x6ae26e).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .components(Iron, 1)
-                .cableProperties(8, 1, 0, true)
+                .cableProperties(V[ULV], 1, 0, true)
                 .build();
 
         ElectricalSteel = new Material.Builder(32015, makeLabsName("electrical_steel"))
@@ -79,8 +84,8 @@ public class LabsEIO {
                 .liquid()
                 .color(0xd6d980).iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
-                .toolStats(new ToolProperty(4.0f, 3.5f, 1024, 3))
-                .cableProperties(2048, 1, 0, true)
+                .toolStats(ToolProperty.Builder.of(4.0f, 3.5f, 1024, 3).build())
+                .cableProperties(V[EV], 1, 0, true)
                 .build();
     }
 }

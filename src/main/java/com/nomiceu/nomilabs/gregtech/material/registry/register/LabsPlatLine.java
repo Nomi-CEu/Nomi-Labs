@@ -29,9 +29,7 @@ public class LabsPlatLine {
                 .color(0xfef0c2).iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Nitrogen, 2, Hydrogen, 8, Platinum, 1, Chlorine, 6)
-                .build();
-
-        AmmoniumHexachloroplatinate.setFormula("(NH4)2PtCl6", true);
+                .build().setFormula("(NH4)2PtCl6", true);
 
         ChloroplatinicAcid = new Material.Builder(32070, makeLabsName("chloroplatinic_acid"))
                 .liquid()
@@ -75,9 +73,7 @@ public class LabsPlatLine {
                 .color(0x776649).iconSet(FINE)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Rhodium, 1, Nitrogen, 3, Oxygen, 9)
-                .build();
-
-        RhodiumNitrate.setFormula("Rh(NO3)3", true);
+                .build().setFormula("Rh(NO3)3", true);
 
         SodiumRuthenate = new Material.Builder(32077, makeLabsName("sodium_ruthenate")) // Hardmode Material
                 .dust()
@@ -104,9 +100,7 @@ public class LabsPlatLine {
                 .color(0x644629).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Nitrogen, 2, Hydrogen, 8, Iridium, 1, Chlorine, 6)
-                .build();
-
-        AmmoniumHexachloroiridiate.setFormula("(NH4)2IrCl6", true);
+                .build().setFormula("(NH4)2IrCl6", true);
 
         PlatinumGroupResidue = new Material.Builder(32081, makeLabsName("platinum_group_residue")) // Hardmode Material
                 .dust()
@@ -162,9 +156,7 @@ public class LabsPlatLine {
                 .color(0x848484).iconSet(SHINY)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Salt, 2, Rhodium, 2, Chlorine, 6)
-                .build();
-
-        RhodiumSalt.setFormula("(NaCl)2(RhCl3)2", true);
+                .build().setFormula("(NaCl)2(RhCl3)2", true);
 
         AcidicIridiumDioxideSolution = new Material.Builder(32089, makeLabsName("acidic_iridium_dioxide_solution"))
                 .liquid()
@@ -185,18 +177,14 @@ public class LabsPlatLine {
                 .color(0xffaaaa)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Carbon, 2, Hydrogen, 4, Oxygen, 2)
-                .build();
-
-        MethylFormate.setFormula("HCOOCH3", true);
+                .build().setFormula("HCOOCH3", true);
 
         FormicAcid = new Material.Builder(32092, makeLabsName("formic_acid"))
                 .liquid()
                 .color(0xffffc5)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Carbon, 1, Hydrogen, 2, Oxygen, 2)
-                .build();
-
-        FormicAcid.setFormula("HCOOH", true);
+                .build().setFormula("HCOOH", true);
 
         SodiumMethoxide = new Material.Builder(32093, makeLabsName("sodium_methoxide")) // Hardmode Material
                 .dust()
