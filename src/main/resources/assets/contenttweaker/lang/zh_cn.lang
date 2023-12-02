@@ -1,3 +1,5 @@
+itemGroup.nomilabs.main=Nomi 实验室
+
 item.material.oreprefix.gemPerfect=完美%s
 
 nomilabs.material.conductive_iron=导电铁
@@ -258,6 +260,11 @@ item.contenttweaker.heartofauniverse.name=宇宙之心
 item.contenttweaker.radiationlayer.name=防辐射层
 item.contenttweaker.pressurelayer.name=耐高压层
 tile.contenttweaker.excitationcoil.name=励磁线圈
+item.contenttweaker.excitationcoil.tooltip.craftingcomponent=仅用于制作元件……以及：
+item.contenttweaker.excitationcoil.tooltip.moreinfo=按住[Shift]查看更多用法。
+item.contenttweaker.excitationcoil.tooltip.placeable=可放置！
+item.contenttweaker.excitationcoil.tooltip.wearable=可以戴在你的头上！
+item.contenttweaker.excitationcoil.tooltip.nightvision=戴上时有夜视效果！
 item.contenttweaker.unpreparedspacehelmet.name=粗制太空头盔
 item.contenttweaker.unpreparedspacechestpiece.name=粗制太空胸甲
 item.contenttweaker.unpreparedspaceleggings.name=粗制太空护腿
@@ -349,9 +356,13 @@ item.contenttweaker.compressedoctadiccapacitor.name=压缩八层电容
 item.contenttweaker.doublecompressedoctadiccapacitor.name=双倍压缩八层电容
 item.contenttweaker.ultimate_circuit.name=终极电路板
 tile.contenttweaker.ultimate_power_storage.name=终极蓄电池
+item.contenttweaker.ultimate_power_storage.tooltip=只用于制作元件。
 tile.contenttweaker.ultimate_generator.name=终极发电机
+item.contenttweaker.ultimate_generator.tooltip=只用于制作元件
 item.contenttweaker.ultimate_crafting_table.name=终极合成台
+item.contenttweaker.ultimate_crafting_table.tooltip=只用于制作元件。
 item.contenttweaker.ultimate_gem.name=终极宝石
+item.contenttweaker.ultimate_gem.tooltip=只用于制作元件。
 
 item.contenttweaker.dragonlairdata.name=飞龙巢穴数据
 item.contenttweaker.witherrealmdata.name=凋灵领域数据
@@ -377,6 +388,12 @@ item.contenttweaker.dark_red_coal.name=暗红煤
 
 item.contenttweaker.hand_framing_tool.name=手持镶框工具
 
+item.contenttweaker.hand_framing_tool.tooltip.material.not_set=把这个工具放在成型台或合成台里来设置镶框数据！
+
+item.contenttweaker.hand_framing_tool.tooltip.material.side=侧边
+item.contenttweaker.hand_framing_tool.tooltip.material.trim=镶边
+item.contenttweaker.hand_framing_tool.tooltip.material.front=前面
+
 item.contenttweaker.hand_framing_tool.desc1=手工给抽屉镶框！
 item.contenttweaker.hand_framing_tool.desc2=通过手持镶框工具，可以为已经放置在世界上的抽屉设置框架。
 item.contenttweaker.hand_framing_tool.desc3=使用前，工具本身需要在工作台中镶框。
@@ -390,6 +407,8 @@ item.contenttweaker.pulsatingmesh.name=脉动网格
 
 tile.contenttweaker.simulation_casing.name=硅岩镀层的玄钢机器外壳
 tile.contenttweaker.simulation_casing_2.name=硅岩机器外壳
+gui.contenttweaker.naquadah_reactor.overclock=不要超频！
+tooltip.contenttweaker.naquadah_reactor.produces=正好产生 %s 安培的 %s。
 
 multiblocktweaker.machine.microverse_projector_basic.name=小型微型宇宙投影仪
 multiblocktweaker.machine.microverse_projector_advanced.name=中型微型宇宙投影仪

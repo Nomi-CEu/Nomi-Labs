@@ -1,0 +1,23 @@
+# Greenhouse
+nomilabs.machine.greenhouse.name=温室
+recipemap.greenhouse.name=生长
+
+tile.unique_casing.growth_light.name=生长灯
+tile.unique_casing.air_vent.name=通风口
+
+# Config
+config.nomilabs.custom_content=自定义内容设置
+config.nomilabs.custom_content.enable_custom_content=启用自定义内容
+config.nomilabs.custom_content.enable_gt_custom_content=启用自定义 GregTech CEu 内容
+
+config.nomilabs.gtContent=自定义 GT 内容设置
+config.nomilabs.gtContent.materials=启用自定义 GT 材料
+config.nomilabs.gtContent.half=启用阿尔法/半完成的 GT 内容
+
+config.nomilabs.mod_integration=Mod 联动设置
+config.nomilabs.mod_integration.nuclearcraft=启用 NuclearCraft 联动
+
+config.nomilabs.mod_integration.draconicevolution=Draconic Evolution 联动设置
+config.nomilabs.mod_integration.draconicevolution.enable=启用 Draconic Evolution 联动
+config.nomilabs.mod_integration.draconicevolution.auto_builder_speed=自动建造速度
+config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=自动解构速度
