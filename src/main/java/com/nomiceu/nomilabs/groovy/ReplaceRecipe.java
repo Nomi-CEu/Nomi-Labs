@@ -123,10 +123,10 @@ public class ReplaceRecipe {
     @SuppressWarnings("ConstantValue")
     private static GTRecipeInput ofGroovyIngredient(IIngredient ingredient) {
         if (ingredient instanceof OreDictIngredient oreDictIngredient) {
-            return GTRecipeOreInput.getOrCreate(oreDictIngredient.getOreDict(), ingredient.getAmount());
+            return new GTRecipeOreInput(oreDictIngredient.getOreDict(), ingredient.getAmount());
         }
         if ((Object) ingredient instanceof ItemStack stack) {
-            return GTRecipeItemInput.getOrCreate(stack);
+            return new GTRecipeItemInput(stack);
         }
         throw new IllegalArgumentException("Could not add groovy ingredient " + ingredient + " to recipe!");
     }

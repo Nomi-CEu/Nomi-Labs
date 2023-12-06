@@ -27,11 +27,11 @@ dependencies {
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848") // Version 3.2.3.358
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
-    implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:CHDZ7rtu") // Version 2.8
-    implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:Blf2cTSS") // Version 1.2.6
+    implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:xt1yp0Bb") // Version 2.8.2
+    implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:4BnBEiBw") // Version 1.2.7
 
     // GroovyScript
-    implementation rfg.deobf("curse.maven:groovyscript-687577:4749823") // Version 0.6.4
+    implementation rfg.deobf("curse.maven:groovyscript-687577:4905039") // Version 0.7.0
 
     // Chameleon, Storage Drawers and Framed Compacting Drawers (from CurseForge)
     implementation rfg.deobf("curse.maven:chameleon-230497:2450900") // Version 4.1.3
