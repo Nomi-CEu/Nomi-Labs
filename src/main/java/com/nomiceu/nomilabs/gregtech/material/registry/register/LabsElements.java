@@ -3,10 +3,11 @@ package com.nomiceu.nomilabs.gregtech.material.registry.register;
 import gregtech.api.unification.Element;
 import gregtech.api.unification.Elements;
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.properties.BlastProperty;
+import gregtech.api.unification.material.properties.BlastProperty.GasTier;
 
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
@@ -21,8 +22,8 @@ public class LabsElements {
                 .ingot().liquid().ore()
                 .element(Dc)
                 .color(0xbe49ed).iconSet(METALLIC)
-                .blast(6800, BlastProperty.GasTier.HIGHER)
-                .cableProperties(524288, 1, 0, true)
+                .blast(6800, GasTier.HIGHER)
+                .cableProperties(V[UV], 1, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
 
@@ -37,7 +38,7 @@ public class LabsElements {
                 .ingot().liquid()
                 .element(Nm)
                 .color(0x84053e).iconSet(SHINY)
-                .cableProperties(2147483647, 64, 0, true)
+                .cableProperties(V[MAX], 64, 0, true)
                 .build();
 
         Taranium = new Material.Builder(32109, makeLabsName("taranium")) // Hardmode Material
@@ -45,7 +46,10 @@ public class LabsElements {
                 .ingot().liquid()
                 .color(0xff00ff).iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_DENSE)
-                .blast(10800)
+                .blast(builder -> builder
+                        .temp(10800, GasTier.HIGHEST)
+                        .blastStats(VA[ZPM], 1800)
+                        .vacuumStats(VA[LuV], 600))
                 .build();
     }
 }
