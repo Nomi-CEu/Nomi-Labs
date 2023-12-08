@@ -51,7 +51,7 @@ public class LabsEIO {
                         .temp(1350, GasTier.LOW)
                         .blastStats(VA[HV], 400))
                 .components(EnergeticAlloy, 1, EnderPearl, 1)
-                .cableProperties(V[HV], 1, 0, true)
+                .cableProperties(V[MV], 1, 0, true)
                 .build();
 
         PulsatingIron = new Material.Builder(32014, makeLabsName("pulsating_iron"))
