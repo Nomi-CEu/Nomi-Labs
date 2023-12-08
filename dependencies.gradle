@@ -22,9 +22,10 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    // CCL, dep for GT (from CurseForge)
-    // Included to allow compiling of certain Draconic Evolution Mixin Classes
+    // CCL, CT dep for GT (from CurseForge)
+    // Included to allow compiling of certain Draconic Evolution Mixin Classes, and as transitive deps
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848") // Version 3.2.3.358
+    compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.684" // Version 4.1.20.684
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
     implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:xt1yp0Bb") // Version 2.8.2
