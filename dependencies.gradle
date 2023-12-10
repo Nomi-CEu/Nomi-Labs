@@ -32,7 +32,7 @@ dependencies {
     implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:4BnBEiBw") // Version 1.2.7
 
     // GroovyScript
-    iimplementation rfg.deobf('com.cleanroommc:groovyscript:0.7.1') // Version 0.7.1
+    implementation rfg.deobf('com.cleanroommc:groovyscript:0.7.1') // Version 0.7.1
 
     // Chameleon, Storage Drawers and Framed Compacting Drawers (from CurseForge)
     implementation rfg.deobf("curse.maven:chameleon-230497:2450900") // Version 4.1.3
