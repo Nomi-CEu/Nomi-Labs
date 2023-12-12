@@ -24,13 +24,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.nomiceu.nomilabs.LabsValues.CONTENTTWEAKER_MODID;
 
 public class LabsFluids {
 
     private static final List<Fluid> FLUIDS = new ArrayList<>();
+
+    public static final Map<Fluid, Block> BLOCKS = new HashMap<>();
 
     /**
      * Radioactive Fluids
@@ -91,15 +95,8 @@ public class LabsFluids {
         FluidRegistry.registerFluid(fluid);
         FluidRegistry.addBucketForFluid(fluid);
 
-        createBlockForFluid(fluid);
-    }
-
-    private static void createBlockForFluid(Fluid fluid) {
-        BlockFluidClassic blockFluid = new BlockFluidClassic(fluid, Material.WATER);
-
-        blockFluid.setRegistryName(CONTENTTWEAKER_MODID, fluid.getName());
-
-        LabsBlocks.createBlockWithoutItem(blockFluid);
+        BLOCKS.put(fluid, LabsBlocks.createBlockWithoutItem(new BlockFluidClassic(fluid, Material.WATER)
+                .setRegistryName(CONTENTTWEAKER_MODID, fluid.getName())));
     }
 
     @SideOnly(Side.CLIENT)

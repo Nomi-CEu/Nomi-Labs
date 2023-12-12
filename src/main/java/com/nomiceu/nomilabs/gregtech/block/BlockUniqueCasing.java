@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.block;
+package com.nomiceu.nomilabs.gregtech.block;
 
 import gregtech.api.block.VariantActiveBlock;
 import gregtech.common.ConfigHolder;

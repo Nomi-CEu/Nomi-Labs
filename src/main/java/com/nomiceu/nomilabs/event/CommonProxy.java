@@ -2,7 +2,7 @@ package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.block.registry.LabsMetaBlocks;
+import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
@@ -59,21 +59,13 @@ public class CommonProxy {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
-        if (LabsConfig.customContent.enableCustomContent)
-            LabsItems.register(registry);
-        //if (LabsConfig.customContent.enableGTCustomContent)
-        if (LabsConfig.customContent.gtCustomContent.betaContent)
-            LabsMetaBlocks.registerItems(registry);
+        LabsItems.register(registry);
     }
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
-        if (LabsConfig.customContent.enableCustomContent)
-            LabsBlocks.register(registry);
-        //if (LabsConfig.customContent.enableGTCustomContent)
-        if (LabsConfig.customContent.gtCustomContent.betaContent)
-            LabsMetaBlocks.registerBlocks(registry);
+        LabsBlocks.register(registry);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

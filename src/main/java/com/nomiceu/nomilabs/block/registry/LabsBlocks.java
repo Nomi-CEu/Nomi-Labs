@@ -11,6 +11,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.IRarity;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
 
@@ -66,9 +68,8 @@ public class LabsBlocks {
                 EnumRarity.COMMON, 64);
 
         /* Custom Behaviour Blocks */
-        // Register Item separately to allow putting excitation coil on head
-        EXCITATION_COIL = createBlockWithoutItem(new BlockExcitationCoil(makeCTName("excitationcoil"), LabsCreativeTabs.TAB_NOMI_LABS));
-        ITEMS.put(EXCITATION_COIL, LabsItems.createItem(new ItemExcitationCoil(EXCITATION_COIL)));
+        EXCITATION_COIL = createBlockWithItem(new BlockExcitationCoil(makeCTName("excitationcoil"), LabsCreativeTabs.TAB_NOMI_LABS),
+                ItemExcitationCoil::new);
         DUST = createBlock(new BlockDust(makeCTName("block_dust"), LabsCreativeTabs.TAB_NOMI_LABS),
                 EnumRarity.COMMON, 64);
     }
@@ -81,8 +82,12 @@ public class LabsBlocks {
     }
 
     public static <T extends Block> T createBlock(T block, @NotNull IRarity rarity, int stackSize) {
+        return createBlockWithItem(block, registeredBlock -> new ItemBlockBase(registeredBlock, rarity, stackSize));
+    }
+
+    public static <T extends Block> T createBlockWithItem(T block, Function<T, ItemBlock> itemBlockSupplier) {
         BLOCKS.add(block);
-        ITEMS.put(block, LabsItems.createItem(new ItemBlockBase(block, rarity, stackSize)));
+        ITEMS.put(block, LabsItems.createItem(itemBlockSupplier.apply(block)));
         return block;
     }
 
