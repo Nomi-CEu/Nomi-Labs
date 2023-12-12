@@ -89,6 +89,7 @@ public class LabsMisc {
                 smore.addPotionEffect(potion, potionDuration, potionAmplifier);
 
             SMORES[index] = smore;
+            createItem(smore);
 
             potionAmplifier++;
             index++;

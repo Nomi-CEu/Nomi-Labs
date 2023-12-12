@@ -5,14 +5,13 @@ import gregtech.api.unification.material.properties.FluidProperty;
 import gregtech.api.unification.material.properties.IngotProperty;
 import gregtech.api.unification.material.properties.PropertyKey;
 
-import static com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags.GENERATE_PERFECT_GEM;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialFlags.GENERATE_GEAR;
 
 public class LabsProperties {
     public static void propertyChanges() {
-        //RhodiumSulfate.setProperty(PropertyKey.DUST, new DustProperty(0, 0)); // GT added maybe?
+        //RhodiumSulfate.setProperty(PropertyKey.DUST, new DustProperty()); // GT added maybe?
 
         Lutetium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Neptunium.setProperty(PropertyKey.INGOT, new IngotProperty());
@@ -55,12 +54,6 @@ public class LabsProperties {
         Platinum.addFlags(GENERATE_GEAR);
         Silver.addFlags(GENERATE_GEAR);
         Emerald.addFlags(GENERATE_GEAR);
-
-        // Add Perfect Gems
-        Diamond.addFlags(GENERATE_PERFECT_GEM);
-        Emerald.addFlags(GENERATE_PERFECT_GEM);
-        Ruby.addFlags(GENERATE_PERFECT_GEM);
-        Topaz.addFlags(GENERATE_PERFECT_GEM);
     }
 
     public static void miscChanges() {

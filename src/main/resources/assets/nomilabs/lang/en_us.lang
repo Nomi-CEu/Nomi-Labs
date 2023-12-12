@@ -6,13 +6,19 @@ tile.unique_casing.growth_light.name=Growth Light
 tile.unique_casing.air_vent.name=Air Vent
 
 # Config
-config.nomilabs.custom_content=Custom Content Settings
-config.nomilabs.custom_content.enable_custom_content=Enable Custom Content
-config.nomilabs.custom_content.enable_gt_custom_content=Enable Custom GregTech CEu Content
+config.nomilabs.content=Content Settings
 
-config.nomilabs.gtContent=Custom GT Content Settings
-config.nomilabs.gtContent.materials=Enable Custom GT Materials
-config.nomilabs.gtContent.half=Enable Alpha/Half Complete GT Content
+config.nomilabs.content.custom_content=Custom Content Settings
+config.nomilabs.content.custom_content.items=Enable Custom Items
+config.nomilabs.content.custom_content.blocks=Enable Custom Blocks
+config.nomilabs.content.custom_content.fluids=Enable Custom Fluids
+config.nomilabs.content.custom_content.complex_recipes=Enable Complex Recipes
+
+config.nomilabs.content.gt_content=Custom GT Content Settings
+config.nomilabs.content.gt_content.materials=Enable Custom GT Materials
+config.nomilabs.content.gt_content.perfect_gems=Enable Perfect Gems
+config.nomilabs.content.gt_content.blocks=Enable Custom GT Blocks
+config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 
 config.nomilabs.mod_integration=Mod Integration Settings
 config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration

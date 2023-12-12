@@ -2,7 +2,6 @@ package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
-import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
@@ -13,30 +12,28 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/*
+ * Every texture is registered, in case something in that registry, not in that config, is enabled.
+ * Nothing happens if each classes registries are empty.
+ */
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = LabsValues.LABS_MODID)
 @SideOnly(Side.CLIENT)
 @SuppressWarnings("unused")
 public class ClientProxy {
 
     public static void preInit() {
-        if (LabsConfig.customContent.enableCustomContent)
-            LabsTextures.preInit();
+        LabsTextures.preInit();
     }
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        if (LabsConfig.customContent.enableCustomContent) {
-            LabsItems.registerModels();
-            LabsFluids.registerFluidBlockModels();
-        }
-        // if (LabsConfig.customContent.enableGTCustomContent)
-        if (LabsConfig.customContent.gtCustomContent.betaContent)
-            LabsMetaBlocks.registerModels();
+        LabsItems.registerModels();
+        LabsFluids.registerFluidBlockModels();
+        LabsMetaBlocks.registerModels();
     }
 
     @SubscribeEvent
     public static void registerFluidModels(TextureStitchEvent.Pre event) {
-        if (LabsConfig.customContent.enableCustomContent)
-            LabsFluids.registerFluidModels(event);
+        LabsFluids.registerFluidModels(event);
     }
 }

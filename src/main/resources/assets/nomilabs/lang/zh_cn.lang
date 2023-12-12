@@ -6,13 +6,19 @@ tile.unique_casing.growth_light.name=生长灯
 tile.unique_casing.air_vent.name=通风口
 
 # Config
-config.nomilabs.custom_content=自定义内容设置
-config.nomilabs.custom_content.enable_custom_content=启用自定义内容
-config.nomilabs.custom_content.enable_gt_custom_content=启用自定义 GregTech CEu 内容
+config.nomilabs.content=内容设置
 
-config.nomilabs.gtContent=自定义 GT 内容设置
-config.nomilabs.gtContent.materials=启用自定义 GT 材料
-config.nomilabs.gtContent.half=启用阿尔法/半完成的 GT 内容
+config.nomilabs.content.custom_content=自定义内容设置
+config.nomilabs.content.custom_content.items=Enable Custom Items
+config.nomilabs.content.custom_content.blocks=Enable Custom Blocks
+config.nomilabs.content.custom_content.fluids=Enable Custom Fluids
+config.nomilabs.content.custom_content.complex_recipes=Enable Complex Recipes
+
+config.nomilabs.content.gt_content=自定义 GT 内容设置
+config.nomilabs.content.gt_content.materials=Enable Custom GT Materials
+config.nomilabs.content.gt_content.perfect_gems=Enable Perfect Gems
+config.nomilabs.content.gt_content.blocks=Enable Custom GT Blocks
+config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 
 config.nomilabs.mod_integration=Mod 联动设置
 config.nomilabs.mod_integration.nuclearcraft=启用 NuclearCraft 联动

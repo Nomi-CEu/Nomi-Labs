@@ -2,8 +2,6 @@ package com.nomiceu.nomilabs.gregtech.material.registry;
 
 import com.nomiceu.nomilabs.gregtech.material.LabsProperties;
 import com.nomiceu.nomilabs.gregtech.material.registry.register.*;
-import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
-import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconSet;
 
@@ -199,10 +197,6 @@ public class LabsMaterials {
 
         /* Endgame Materials */
         LabsEndgame.initEndgame();
-
-        /* Initialize Custom OrePrefixes & Material Flags */
-        LabsOrePrefix.init();
-        LabsMaterialFlags.init();
     }
 
     public static void materialChanges() {

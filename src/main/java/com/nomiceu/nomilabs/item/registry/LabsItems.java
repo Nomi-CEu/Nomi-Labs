@@ -254,27 +254,15 @@ public class LabsItems {
 
     /* HELPER FUNCTIONS */
     public static void register(IForgeRegistry<Item> registry) {
-        /* Register All Items in ITEMS */
         for (Item item : ITEMS) {
             registerItem(item, registry);
-        }
-
-        /* Register Smores */
-        for (ItemSmore smore : SMORES) {
-            registerItem(smore, registry);
         }
     }
 
     @SideOnly(Side.CLIENT)
     public static void registerModels() {
-        /* Register Models of All Items in ITEMS */
         for (Item item : ITEMS) {
             registerModel(item);
-        }
-
-        /* Register Models of Smores */
-        for (ItemSmore smore : SMORES) {
-            registerModel(smore);
         }
     }
 

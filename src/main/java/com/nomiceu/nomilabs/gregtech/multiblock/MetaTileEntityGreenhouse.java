@@ -75,11 +75,13 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
     }
 
     protected IBlockState getCasingStateLamp() {
-        return LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.GROWTH_LIGHT);
+        assert Blocks.AIR != null;
+        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() : LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.GROWTH_LIGHT);
     }
 
     protected IBlockState getCasingStateVent() {
-        return LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.AIR_VENT);
+        assert Blocks.AIR != null;
+        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() : LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.AIR_VENT);
     }
 
     protected IBlockState getCasingStatePipe() {

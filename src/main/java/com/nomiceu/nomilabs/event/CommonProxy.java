@@ -9,6 +9,8 @@ import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
+import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
+import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.util.LabsNames;
@@ -36,23 +38,24 @@ import java.util.Objects;
 public class CommonProxy {
 
     public static void preInit() {
-        if (LabsConfig.customContent.enableCustomContent) {
-            LabsCreativeTabs.preInit();
+        LabsCreativeTabs.preInit();
+
+        if (LabsConfig.content.customContent.enableItems)
             LabsItems.preInit();
+        if (LabsConfig.content.customContent.enableBlocks)
             LabsBlocks.preInit();
+        if (LabsConfig.content.customContent.enableFluids)
             LabsFluids.preInit();
-        }
-        //if (LabsConfig.customContent.enableGTCustomContent) {
-        if (LabsConfig.customContent.gtCustomContent.betaContent) {
+
+        if (LabsConfig.content.gtCustomContent.enableBlocks)
             LabsMetaBlocks.preInit();
-            LabsRecipeMaps.preInit();
-        }
+
+        LabsRecipeMaps.preInit();
     }
 
     public static void postInit() {
-       //if (LabsConfig.customContent.enableGTCustomContent)
-        if (LabsConfig.customContent.gtCustomContent.betaContent)
-            LabsMultiblocks.postInit();
+        if (LabsConfig.content.gtCustomContent.newMultiblocks)
+            LabsMultiblocks.postInit(); // TODO Refactor into New and Old Multis
         // GreenhouseTestRecipes.postInit();
     }
 
@@ -70,8 +73,12 @@ public class CommonProxy {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void registerMaterials(MaterialEvent event) {
-        //if (LabsConfig.customContent.enableGTCustomContent) {
-        if (LabsConfig.customContent.gtCustomContent.enableMaterials) {
+        if (LabsConfig.content.gtCustomContent.enablePerfectGems) {
+            /* Initialize Custom OrePrefixes & Material Flags */
+            LabsOrePrefix.init();
+            LabsMaterialFlags.init();
+        }
+        if (LabsConfig.content.gtCustomContent.enableMaterials) {
             LabsMaterials.init();
             LabsMaterials.materialChanges();
         }
@@ -79,29 +86,34 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        if (LabsConfig.customContent.enableCustomContent) {
+        if (LabsConfig.content.customContent.enableComplexRecipes)
             event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName(
                     Objects.requireNonNull(LabsItems.HAND_FRAMING_TOOL.getRegistryName()).getPath() + "_recipe")));
-        }
     }
 
     @SubscribeEvent
     public static void syncConfigValues(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(LabsValues.LABS_MODID)) {
+        if (event.getModID().equals(LabsValues.LABS_MODID))
             ConfigManager.sync(LabsValues.LABS_MODID, Config.Type.INSTANCE);
-        }
     }
 
     @SubscribeEvent
     public static void missingMappings(MissingMappings<Item> event) {
         for (MissingMappings.Mapping<Item> entry : event.getAllMappings()) {
-            // Remap old DevTech perfect gem to new perfect gem.
-            // DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
-            // Mod ID, so we need to map the DevTech metaitem to the GT metaitem in missing mappings.
-            if (entry.key.toString().equals("devtech:meta_gem_perfect")) {
-                ResourceLocation newMapping = new ResourceLocation(GTValues.MODID, "meta_gem_perfect");
-                entry.remap(ForgeRegistries.ITEMS.getValue(newMapping));
-            }
+            if (LabsConfig.content.gtCustomContent.enablePerfectGems)
+                checkPerfectGems(entry);
+        }
+    }
+
+    /**
+     * Remap old DevTech perfect gem to new perfect gem.
+     * DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
+     * Mod ID, so we need to map the DevTech metaitem to the GT metaitem in missing mappings.
+     */
+    private static void checkPerfectGems(MissingMappings.Mapping<Item> entry) {
+        if (entry.key.toString().equals("devtech:meta_gem_perfect")) {
+            ResourceLocation newMapping = new ResourceLocation(GTValues.MODID, "meta_gem_perfect");
+            entry.remap(ForgeRegistries.ITEMS.getValue(newMapping));
         }
     }
 }
