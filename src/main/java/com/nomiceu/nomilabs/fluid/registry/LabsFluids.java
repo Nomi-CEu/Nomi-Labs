@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.fluid.registry;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.fluid.FluidBase;
+import com.nomiceu.nomilabs.util.LabsNames;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -137,7 +138,7 @@ public class LabsFluids {
         public FluidStateMapper(Fluid fluid) {
             this.fluid = fluid;
 
-            this.location = new ModelResourceLocation(new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "fluids"), fluid.getName());
+            this.location = new ModelResourceLocation(LabsNames.makeLabsName("fluids"), fluid.getName());
         }
 
         @Override

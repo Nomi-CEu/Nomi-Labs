@@ -13,6 +13,7 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
+import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.GTValues;
 import gregtech.api.unification.material.event.MaterialEvent;
@@ -51,6 +52,7 @@ public class CommonProxy {
             LabsMetaBlocks.preInit();
 
         LabsRecipeMaps.preInit();
+        LabsRemappers.preInit();
     }
 
     public static void postInit() {
@@ -98,22 +100,42 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public static void missingMappings(MissingMappings<Item> event) {
-        for (MissingMappings.Mapping<Item> entry : event.getAllMappings()) {
-            if (LabsConfig.content.gtCustomContent.enablePerfectGems)
-                checkPerfectGems(entry);
-        }
+    public static void missingItemMappings(MissingMappings<Item> event) {
+        LabsRemappers.remapItems(event);
     }
 
-    /**
-     * Remap old DevTech perfect gem to new perfect gem.
-     * DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
-     * Mod ID, so we need to map the DevTech metaitem to the GT metaitem in missing mappings.
-     */
-    private static void checkPerfectGems(MissingMappings.Mapping<Item> entry) {
+    @SubscribeEvent
+    public static void missingBlockMappings(MissingMappings<Block> event) {
+        LabsRemappers.remapBlocks(event);
+    }
+
+    /*
+    private static boolean remapContentTweakerItem(MissingMappings.Mapping<Item> entry) {
+        if (entry.key.getNamespace().equals("nomilabs")) {
+            ResourceLocation newMapping = LabsNames.makeLabsName(entry.key.getPath());
+            entry.remap(ForgeRegistries.ITEMS.getValue(newMapping));
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean remapContentTweakerBlock(MissingMappings.Mapping<Block> entry) {
+        if (entry.key.getNamespace().equals("nomilabs")) {
+            ResourceLocation newMapping = LabsNames.makeLabsName(entry.key.getPath());
+            entry.remap(ForgeRegistries.BLOCKS.getValue(newMapping));
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean remapPerfectGem(MissingMappings.Mapping<Item> entry) {
         if (entry.key.toString().equals("devtech:meta_gem_perfect")) {
             ResourceLocation newMapping = new ResourceLocation(GTValues.MODID, "meta_gem_perfect");
             entry.remap(ForgeRegistries.ITEMS.getValue(newMapping));
+            return true;
         }
+        return false;
     }
+
+     */
 }

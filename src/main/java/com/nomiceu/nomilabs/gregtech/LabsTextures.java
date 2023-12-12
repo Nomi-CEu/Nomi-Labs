@@ -20,7 +20,7 @@ public class LabsTextures {
 
     public static void preInit() {
         GREENHOUSE_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/greenhouse");
-        MICROVERSE_CASING = new SimpleOverlayRenderer("contenttweaker:microverse_casing");
+        MICROVERSE_CASING = new SimpleOverlayRenderer("nomilabs:microverse_casing");
         PROGRESS_BAR_MICROVERSE = labsFullImage("textures/gui/progress_bar/progress_bar_microverse.png");
     }
 

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "nomilabs:blocks/denseoilshaleup",
+    "down":  "nomilabs:blocks/denseoilshaleup",
+    "up":    "nomilabs:blocks/denseoilshaleup",
+    "north": "nomilabs:blocks/denseoilshalenorth",
+    "south": "nomilabs:blocks/denseoilshalenorth",
+    "west":  "nomilabs:blocks/denseoilshaleeast",
+    "east":  "nomilabs:blocks/denseoilshaleeast"
+  }
+}

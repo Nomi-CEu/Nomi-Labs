@@ -55,12 +55,12 @@ public class ItemExcitationCoil extends ItemBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
-        tooltip.add(TextFormatting.GRAY + I18n.format("item.contenttweaker.excitationcoil.tooltip.craftingcomponent"));
+        tooltip.add(TextFormatting.GRAY + I18n.format("item.nomilabs.excitationcoil.tooltip.craftingcomponent"));
         if (LabsTooltipHelper.isShiftDown()) {
-            tooltip.add(TextFormatting.GRAY+ I18n.format("item.contenttweaker.excitationcoil.tooltip.placeable"));
-            tooltip.add(TextFormatting.GRAY + I18n.format("item.contenttweaker.excitationcoil.tooltip.wearable"));
-            tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("item.contenttweaker.excitationcoil.tooltip.nightvision"));
+            tooltip.add(TextFormatting.GRAY+ I18n.format("item.nomilabs.excitationcoil.tooltip.placeable"));
+            tooltip.add(TextFormatting.GRAY + I18n.format("item.nomilabs.excitationcoil.tooltip.wearable"));
+            tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("item.nomilabs.excitationcoil.tooltip.nightvision"));
         } else
-            tooltip.add(TooltipHelper.BLINKING_ORANGE + I18n.format("item.contenttweaker.excitationcoil.tooltip.moreinfo"));
+            tooltip.add(TooltipHelper.BLINKING_ORANGE + I18n.format("item.nomilabs.excitationcoil.tooltip.moreinfo"));
     }
 }

@@ -57,15 +57,15 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         NBTTagCompound tagCompound = stack.getTagCompound();
 
         if (tagCompound == null || getItemStackFromKey(tagCompound, MAT_SIDE_TAG).isEmpty()){
-            tooltip.add(I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.not_set"));
+            tooltip.add(I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.not_set"));
             return;
         }
 
-        addTooltipItem(tooltip, I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.side"),
+        addTooltipItem(tooltip, I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.side"),
                 getItemStackFromKey(tagCompound, MAT_SIDE_TAG));
-        addTooltipItem(tooltip, I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.trim"),
+        addTooltipItem(tooltip, I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.trim"),
                 getItemStackFromKey(tagCompound, MAT_TRIM_TAG));
-        addTooltipItem(tooltip, I18n.format("item.contenttweaker.hand_framing_tool.tooltip.material.front"),
+        addTooltipItem(tooltip, I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.front"),
                 getItemStackFromKey(tagCompound, MAT_FRONT_TAG));
     }
 
@@ -249,12 +249,12 @@ public class ItemHandFramingTool extends Item implements IFrameable {
 
     public void addDescription() {
         JEIPlugin.addDescription(new ItemStack(this),
-                "item.contenttweaker.hand_framing_tool.desc1",
-                "item.contenttweaker.hand_framing_tool.desc2",
-                "item.contenttweaker.hand_framing_tool.desc3",
-                "item.contenttweaker.hand_framing_tool.desc4",
-                "item.contenttweaker.hand_framing_tool.desc5",
-                "item.contenttweaker.hand_framing_tool.desc6",
-                "item.contenttweaker.hand_framing_tool.desc7");
+                "item.nomilabs.hand_framing_tool.desc1",
+                "item.nomilabs.hand_framing_tool.desc2",
+                "item.nomilabs.hand_framing_tool.desc3",
+                "item.nomilabs.hand_framing_tool.desc4",
+                "item.nomilabs.hand_framing_tool.desc5",
+                "item.nomilabs.hand_framing_tool.desc6",
+                "item.nomilabs.hand_framing_tool.desc7");
     }
 }

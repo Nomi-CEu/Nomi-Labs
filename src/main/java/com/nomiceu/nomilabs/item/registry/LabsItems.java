@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 
 public class LabsItems {
     private static final String nullTranslationKey = "item.null";
@@ -209,8 +209,8 @@ public class LabsItems {
 
     public static void preInit() {
         /* Deprecated Items */
-        BLAZE_POWDER = createItem(new ItemBase(makeCTName("blazepowder"), LabsCreativeTabs.TAB_NOMI_LABS));
-        DARK_RED_COAL = createItem(new ItemBase(makeCTName("dark_red_coal"), LabsCreativeTabs.TAB_NOMI_LABS));
+        BLAZE_POWDER = createItem(new ItemBase(makeLabsName("blazepowder"), LabsCreativeTabs.TAB_NOMI_LABS));
+        DARK_RED_COAL = createItem(new ItemBase(makeLabsName("dark_red_coal"), LabsCreativeTabs.TAB_NOMI_LABS));
 
         /* Coins */
         LabsCoinsWidgets.initCoins();
