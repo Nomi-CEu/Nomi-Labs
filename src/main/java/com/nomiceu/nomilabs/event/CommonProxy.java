@@ -13,22 +13,23 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
+import com.nomiceu.nomilabs.remap.LabsRemappers;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsNames;
-import gregtech.api.GTValues;
 import gregtech.api.unification.material.event.MaterialEvent;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Objects;
@@ -36,7 +37,6 @@ import java.util.Objects;
 @Mod.EventBusSubscriber(modid = LabsValues.LABS_MODID)
 @SuppressWarnings("unused")
 public class CommonProxy {
-
     public static void preInit() {
         LabsCreativeTabs.preInit();
 
@@ -51,6 +51,7 @@ public class CommonProxy {
             LabsMetaBlocks.preInit();
 
         LabsRecipeMaps.preInit();
+        LabsRemappers.preInit();
     }
 
     public static void postInit() {
@@ -98,22 +99,22 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public static void missingMappings(MissingMappings<Item> event) {
-        for (MissingMappings.Mapping<Item> entry : event.getAllMappings()) {
-            if (LabsConfig.content.gtCustomContent.enablePerfectGems)
-                checkPerfectGems(entry);
-        }
+    public static void missingItemMappings(MissingMappings<Item> event) {
+        LabsRemappers.remapItems(event);
     }
 
-    /**
-     * Remap old DevTech perfect gem to new perfect gem.
-     * DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
-     * Mod ID, so we need to map the DevTech metaitem to the GT metaitem in missing mappings.
-     */
-    private static void checkPerfectGems(MissingMappings.Mapping<Item> entry) {
-        if (entry.key.toString().equals("devtech:meta_gem_perfect")) {
-            ResourceLocation newMapping = new ResourceLocation(GTValues.MODID, "meta_gem_perfect");
-            entry.remap(ForgeRegistries.ITEMS.getValue(newMapping));
-        }
+    @SubscribeEvent
+    public static void missingBlockMappings(MissingMappings<Block> event) {
+        LabsRemappers.remapBlocks(event);
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(WorldEvent.Load event) {
+        DataFixerHandler.onWorldLoad(event);
+    }
+
+    @SubscribeEvent
+    public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        DataFixerHandler.playerLoggedIn(event);
     }
 }

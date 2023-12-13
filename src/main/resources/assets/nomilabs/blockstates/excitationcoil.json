@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=up": { "model": "nomilabs:excitationcoil" },
+    "facing=down": { "model": "nomilabs:excitationcoil", "x": 180 },
+    "facing=north": { "model": "nomilabs:excitationcoil", "x": 90},
+    "facing=south": { "model": "nomilabs:excitationcoil", "y": 180, "x": 90 },
+    "facing=west": { "model": "nomilabs:excitationcoil", "y": 270, "x": 90 },
+    "facing=east": { "model": "nomilabs:excitationcoil", "y": 90, "x": 90 }
+  }
+}

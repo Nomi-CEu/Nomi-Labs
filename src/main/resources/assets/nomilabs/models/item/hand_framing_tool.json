@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "nomilabs:items/hand_framing_tool"
+  }
+}

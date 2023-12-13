@@ -1,8 +1,8 @@
 package com.nomiceu.nomilabs.fluid.registry;
 
-import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.fluid.FluidBase;
+import com.nomiceu.nomilabs.util.LabsNames;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidClassic;
@@ -27,8 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.nomiceu.nomilabs.LabsValues.CONTENTTWEAKER_MODID;
 
 public class LabsFluids {
 
@@ -96,7 +93,7 @@ public class LabsFluids {
         FluidRegistry.addBucketForFluid(fluid);
 
         BLOCKS.put(fluid, LabsBlocks.createBlockWithoutItem(new BlockFluidClassic(fluid, Material.WATER)
-                .setRegistryName(CONTENTTWEAKER_MODID, fluid.getName())));
+                .setRegistryName(LabsNames.makeLabsName(fluid.getName()))));
     }
 
     @SideOnly(Side.CLIENT)
@@ -137,7 +134,7 @@ public class LabsFluids {
         public FluidStateMapper(Fluid fluid) {
             this.fluid = fluid;
 
-            this.location = new ModelResourceLocation(new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "fluids"), fluid.getName());
+            this.location = new ModelResourceLocation(LabsNames.makeLabsName("fluids"), fluid.getName());
         }
 
         @Override

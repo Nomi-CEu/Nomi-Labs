@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.nomiceu.nomilabs.util.LabsNames.makeCTName;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 
 public class LabsBlocks {
     private static final String nullTranslationKey = "tile.null";
@@ -49,28 +49,28 @@ public class LabsBlocks {
 
     public static void preInit() {
         /* Dense Blocks */
-        DENSE_MAGMA = createBlock(new BlockBase(makeCTName("densemagma"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
+        DENSE_MAGMA = createBlock(new BlockBase(makeLabsName("densemagma"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
                 EnumRarity.COMMON, 64);
-        DENSE_OIL_SHALE = createBlock(new BlockBase(makeCTName("denseoilshale"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
+        DENSE_OIL_SHALE = createBlock(new BlockBase(makeLabsName("denseoilshale"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
                 EnumRarity.COMMON, 64);
 
         /* Ultimate Blocks */
-        ULTIMATE_POWER_STORAGE = createBlock(new BlockBase(makeCTName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
-                        ImmutableMap.of("item.contenttweaker.ultimate_power_storage.tooltip", TextFormatting.GRAY.toString())
+        ULTIMATE_POWER_STORAGE = createBlock(new BlockBase(makeLabsName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
+                        ImmutableMap.of("item.nomilabs.ultimate_power_storage.tooltip", TextFormatting.GRAY.toString())
                         ),
                 EnumRarity.EPIC, 1);
-        ULTIMATE_GENERATOR = createBlock(new BlockBase(makeCTName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
-                        ImmutableMap.of("item.contenttweaker.ultimate_generator.tooltip", TextFormatting.GRAY.toString())),
+        ULTIMATE_GENERATOR = createBlock(new BlockBase(makeLabsName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
+                        ImmutableMap.of("item.nomilabs.ultimate_generator.tooltip", TextFormatting.GRAY.toString())),
                 EnumRarity.EPIC, 1);
 
         /* Misc Blocks */
-        MICROVERSE_CASING = createBlock(new BlockBase(makeCTName("microverse_casing"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
+        MICROVERSE_CASING = createBlock(new BlockBase(makeLabsName("microverse_casing"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
                 EnumRarity.COMMON, 64);
 
         /* Custom Behaviour Blocks */
-        EXCITATION_COIL = createBlockWithItem(new BlockExcitationCoil(makeCTName("excitationcoil"), LabsCreativeTabs.TAB_NOMI_LABS),
+        EXCITATION_COIL = createBlockWithItem(new BlockExcitationCoil(makeLabsName("excitationcoil"), LabsCreativeTabs.TAB_NOMI_LABS),
                 ItemExcitationCoil::new);
-        DUST = createBlock(new BlockDust(makeCTName("block_dust"), LabsCreativeTabs.TAB_NOMI_LABS),
+        DUST = createBlock(new BlockDust(makeLabsName("block_dust"), LabsCreativeTabs.TAB_NOMI_LABS),
                 EnumRarity.COMMON, 64);
     }
 
