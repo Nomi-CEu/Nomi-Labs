@@ -1,7 +1,6 @@
 package com.nomiceu.nomilabs.item.registry;
 
 import com.nomiceu.nomilabs.item.*;
-import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.item.registry.register.*;
 import gregtech.common.blocks.MetaBlocks;
 import net.minecraft.block.Block;
@@ -22,18 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
-
 public class LabsItems {
     private static final String nullTranslationKey = "item.null";
 
     private static final List<Item> ITEMS = new ArrayList<>();
-
-    /**
-     *  Deprecated Items
-     */
-    public static ItemBase BLAZE_POWDER;
-    public static ItemBase DARK_RED_COAL;
 
     /**
      *  Coins
@@ -208,10 +199,6 @@ public class LabsItems {
     public static ItemSmore[] SMORES;
 
     public static void preInit() {
-        /* Deprecated Items */
-        BLAZE_POWDER = createItem(new ItemBase(makeLabsName("blazepowder"), LabsCreativeTabs.TAB_NOMI_LABS));
-        DARK_RED_COAL = createItem(new ItemBase(makeLabsName("dark_red_coal"), LabsCreativeTabs.TAB_NOMI_LABS));
-
         /* Coins */
         LabsCoinsWidgets.initCoins();
 

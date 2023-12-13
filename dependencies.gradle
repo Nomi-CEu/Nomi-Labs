@@ -49,4 +49,7 @@ dependencies {
     // Brandon Core is deobfed, as it is down the dependency tree for some draconic evolution stuff
     implementation rfg.deobf("curse.maven:brandons-core-231382:3408276") // Version 2.4.20
     runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
+
+    // Extra Utilities 2
+    implementation rfg.deobf("curse.maven:extra-utilities-225561:2678374") // Version 1.9.9
 }

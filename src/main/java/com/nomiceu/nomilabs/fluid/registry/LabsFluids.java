@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.nomiceu.nomilabs.LabsValues.CONTENTTWEAKER_MODID;
-
 public class LabsFluids {
 
     private static final List<Fluid> FLUIDS = new ArrayList<>();
@@ -95,7 +93,7 @@ public class LabsFluids {
         FluidRegistry.addBucketForFluid(fluid);
 
         BLOCKS.put(fluid, LabsBlocks.createBlockWithoutItem(new BlockFluidClassic(fluid, Material.WATER)
-                .setRegistryName(CONTENTTWEAKER_MODID, fluid.getName())));
+                .setRegistryName(LabsNames.makeLabsName(fluid.getName()))));
     }
 
     @SideOnly(Side.CLIENT)

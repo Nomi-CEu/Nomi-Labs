@@ -128,6 +128,12 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableNuclearCraftIntegration = true;
 
+        @Config.Comment({"Whether to enable Extra Utilities 2 Integration, which removes frequencies.",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.mod_integration.xu2")
+        @Config.RequiresMcRestart
+        public boolean enableExtraUtils2Integration = true;
+
         @Config.Comment("Draconic Evolution Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.draconicevolution")
         @Config.Name("draconic evolution integration")
