@@ -20,6 +20,7 @@ config.nomilabs.content.gt_content.materials=Enable Custom GT Materials
 config.nomilabs.content.gt_content.perfect_gems=Enable Perfect Gems
 config.nomilabs.content.gt_content.remap_perfect_gems=Remap Old Perfect Gems
 config.nomilabs.content.gt_content.blocks=Enable Custom GT Blocks
+config.nomilabs.content.gt_content.old_multiblocks=Enable Old Multiblocks
 config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 
 config.nomilabs.mod_integration=Mod Integration Settings
@@ -32,7 +33,6 @@ config.nomilabs.mod_integration.draconicevolution.auto_builder_speed=Auto Builde
 config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=Auto Destructor Speed
 
 # Old Content Tweaker Stuff (Refactor Needed)
-
 itemGroup.nomilabs.main=Nomi Labs
 
 item.material.oreprefix.gemPerfect=Perfect %s

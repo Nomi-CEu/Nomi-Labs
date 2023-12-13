@@ -1,6 +1,40 @@
-# TODO Add Translations of Nomi Labs Stuff
+# Greenhouse
+nomilabs.machine.greenhouse.name=Greenhouse
+recipemap.greenhouse.name=Growing
+
+tile.unique_casing.growth_light.name=Growth Light
+tile.unique_casing.air_vent.name=Air Vent
+
+# Config
+config.nomilabs.content=Content Settings
+
+config.nomilabs.content.custom_content=Custom Content Settings
+config.nomilabs.content.custom_content.items=Enable Custom Items
+config.nomilabs.content.custom_content.blocks=Enable Custom Blocks
+config.nomilabs.content.custom_content.fluids=Enable Custom Fluids
+config.nomilabs.content.custom_content.complex_recipes=Enable Complex Recipes
+config.nomilabs.content.custom_content.remap=Remap Old Content Tweaker Content
+
+config.nomilabs.content.gt_content=Custom GT Content Settings
+config.nomilabs.content.gt_content.materials=Enable Custom GT Materials
+config.nomilabs.content.gt_content.perfect_gems=Enable Perfect Gems
+config.nomilabs.content.gt_content.remap_perfect_gems=Remap Old Perfect Gems
+config.nomilabs.content.gt_content.blocks=Enable Custom GT Blocks
+config.nomilabs.content.gt_content.old_multiblocks=Enable Old Multiblocks
+config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
+
+config.nomilabs.mod_integration=Mod Integration Settings
+config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration
+config.nomilabs.mod_integration.xu2=Enable Extra Utilities 2 Integration
+
+config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
+config.nomilabs.mod_integration.draconicevolution.enable=Enable Draconic Evolution Integration
+config.nomilabs.mod_integration.draconicevolution.auto_builder_speed=Auto Builder Speed
+config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=Auto Destructor Speed
 
 # Old Content Tweaker Stuff (Refactor Needed)
+itemGroup.nomilabs.main=Nomi Labs
+
 item.material.oreprefix.gemPerfect=Perfect %s
 
 nomilabs.material.conductive_iron=Проводящее железо

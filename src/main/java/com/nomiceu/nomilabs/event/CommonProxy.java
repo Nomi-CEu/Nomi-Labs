@@ -55,8 +55,10 @@ public class CommonProxy {
     }
 
     public static void postInit() {
-        if (LabsConfig.content.gtCustomContent.newMultiblocks)
-            LabsMultiblocks.postInit(); // TODO Refactor into New and Old Multis
+        if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
+            LabsMultiblocks.initOld();
+        if (LabsConfig.content.gtCustomContent.enableNewMultiblocks)
+            LabsMultiblocks.initNew();
         // GreenhouseTestRecipes.postInit();
     }
 

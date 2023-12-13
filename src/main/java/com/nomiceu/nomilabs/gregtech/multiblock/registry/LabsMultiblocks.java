@@ -4,9 +4,12 @@ import com.nomiceu.nomilabs.gregtech.multiblock.MetaTileEntityGreenhouse;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.common.metatileentities.MetaTileEntities;
 
-// TODO Refactor into New and Old Multis
 public class LabsMultiblocks {
-    public static void postInit() {
-        MetaTileEntities.registerMetaTileEntity(32000, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse"))); // Get a set id later, use 32000 for now
+    public static MetaTileEntityGreenhouse GREENHOUSE;
+    public static void initOld() {
+
+    }
+    public static void initNew() {
+        GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32000, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse"))); // Get a set id later, use 32000 for now
     }
 }
