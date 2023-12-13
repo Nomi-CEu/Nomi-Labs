@@ -20,6 +20,7 @@ public abstract class ItemIngredientsMixin {
 
     /**
      * Removes information for red coal and redstone coil items. (No more freq)
+     * No Remap + Method Reference here, this is forge added
      */
     @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true)
     public void removeInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced, CallbackInfo ci) {
@@ -29,9 +30,12 @@ public abstract class ItemIngredientsMixin {
 
     /**
      * Removes Frequency from Redstone Coil (its added every tick in onUpdate)
+     * Must be method reference + remap as this is originally mc function
      */
-    @Inject(method = "onUpdate", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onUpdate(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;IZ)V", at = @At("HEAD"), cancellable = true, remap = true)
     public void stopFreq(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected, CallbackInfo ci) {
-        if (getType(stack).equals(ItemIngredients.Type.REDSTONE_COIL)) ci.cancel();
+        if (getType(stack).equals(ItemIngredients.Type.REDSTONE_COIL)) {
+            ci.cancel();
+        }
     }
 }
