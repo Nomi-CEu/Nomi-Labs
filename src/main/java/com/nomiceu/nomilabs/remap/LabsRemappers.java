@@ -88,7 +88,7 @@ public class LabsRemappers {
 
             if (LabsConfig.content.customContent.remap || LabsConfig.modIntegration.enableExtraUtils2Integration) {
                 List<String> remove = new ArrayList<>();
-                warn.append(TextFormatting.BOLD).append("This also might activate Data Fixers.\n").append(TextFormatting.RESET);
+                warn.append(TextFormatting.BOLD).append("Data Fixers will be Activated.\n").append(TextFormatting.RESET);
                 if (LabsConfig.content.customContent.remap) {
                     remove.add("Dark Red Coal");
                     warn.append("This properly transforms old Dark Red Coal.\n");
