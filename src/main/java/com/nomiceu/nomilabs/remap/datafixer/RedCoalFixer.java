@@ -22,32 +22,34 @@ public class RedCoalFixer implements IFixableData {
 
     public static final String ID_KEY = "id";
     public static final String DAMAGE_KEY = "Damage";
+    public static final String TAG_KEY = "tag";
 
     public static Map<Function<NBTTagCompound, Boolean>, Consumer<NBTTagCompound>> fixes;
 
     public RedCoalFixer() {
         fixes = new HashMap<>();
         fixes.put(
-                (tag) -> tag.getString("id").equals(
+                (tag) -> tag.getString(ID_KEY).equals(
                         new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "dark_red_coal").toString()),
                 (tag) -> {
-                    tag.setString(ID_KEY, "extrautils2:ingredients");
+                    tag.setString(ID_KEY, new ResourceLocation(LabsValues.XU2_MODID, "ingredients").toString());
                     tag.setShort(DAMAGE_KEY, (short) 4);
                 }
         );
         if (LabsConfig.modIntegration.enableExtraUtils2Integration)
             fixes.put(
                     // Remove frequency from ALL XU2 Ingredients
-                    (tag) -> tag.getString("id").equals("extrautils2:ingredients") &&
-                            tag.hasKey("tag", COMPOUND_ID) &&
-                            tag.getCompoundTag("tag").hasKey("Freq"),
+                    (tag) -> tag.getString(ID_KEY).equals(
+                            new ResourceLocation(LabsValues.XU2_MODID, "ingredients").toString()) &&
+                            tag.hasKey(TAG_KEY, COMPOUND_ID) &&
+                            tag.getCompoundTag(TAG_KEY).hasKey("Freq"),
                     (tag) -> {
                         var stackTag = tag.getCompoundTag("tag");
                         stackTag.removeTag("Freq");
                         if (stackTag.isEmpty()) {
-                            tag.removeTag("tag");
+                            tag.removeTag(TAG_KEY);
                         } else {
-                            tag.setTag("tag", stackTag);
+                            tag.setTag(TAG_KEY, stackTag);
                         }
                     }
             );

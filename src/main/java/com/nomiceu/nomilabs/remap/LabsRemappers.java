@@ -101,7 +101,7 @@ public class LabsRemappers {
                 }
                 warn.append(TextFormatting.YELLOW).append("Please Remove:\n")
                         .append(String.join(",\n", remove.subList(0, remove.size() - 1)))
-                        .append("and ").append(remove.get(remove.size() - 1)).append(",\n")
+                        .append(",\nand ").append(remove.get(remove.size() - 1)).append(",\n")
                         .append("from all Ender Storage Ender Chests, in an older instance.\n")
                         .append(TextFormatting.GREEN).append("(Nomi-CEu ").append(NEWEST_PRE_NOMI_VERSION)
                         .append("-, Nomi Labs ").append(NEWEST_PRE_LABS_VERSION)

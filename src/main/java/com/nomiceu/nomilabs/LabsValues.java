@@ -7,6 +7,7 @@ public class LabsValues {
 
     /* Compat */
     public static final String CONTENTTWEAKER_MODID = "contenttweaker";
+    public static final String XU2_MODID = "extrautils2";
     public static final String DEVTECH_MODID = "devtech";
     public static final String PERFECT_GEM_META = "meta_gem_perfect";
 }
