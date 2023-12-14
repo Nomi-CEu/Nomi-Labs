@@ -116,7 +116,7 @@ public class LabsConfig {
             })
             @Config.LangKey("config.nomilabs.content.gt_content.old_multiblocks")
             @Config.RequiresMcRestart
-            public boolean enableOldMultiblocks = false;
+            public boolean enableOldMultiblocks = true;
 
             @Config.Comment({
                     "Enable New Multiblocks.",

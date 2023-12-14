@@ -1,8 +1,11 @@
-package com.nomiceu.nomilabs.remap.datafixer;
+package com.nomiceu.nomilabs.remap.datafixer.fixes;
 
+/*
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +17,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class RedCoalFixer implements IFixableData {
+public class DataFixerOld implements IFixableData {
     public static final int SHORT_ID = 2;
     public static final int STRING_ID = 8;
     public static final int COMPOUND_LIST_ID = 9;
@@ -24,11 +27,11 @@ public class RedCoalFixer implements IFixableData {
     public static final String DAMAGE_KEY = "Damage";
     public static final String TAG_KEY = "tag";
 
-    public static Map<Function<NBTTagCompound, Boolean>, Consumer<NBTTagCompound>> fixes;
+    public static Map<Function<NBTTagCompound, Boolean>, Consumer<NBTTagCompound>> lowImpactFixes;
 
-    public RedCoalFixer() {
-        fixes = new HashMap<>();
-        fixes.put(
+    public DataFixerOld() {
+        lowImpactFixes = new HashMap<>();
+        lowImpactFixes.put(
                 (tag) -> tag.getString(ID_KEY).equals(
                         new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "dark_red_coal").toString()),
                 (tag) -> {
@@ -37,7 +40,7 @@ public class RedCoalFixer implements IFixableData {
                 }
         );
         if (LabsConfig.modIntegration.enableExtraUtils2Integration)
-            fixes.put(
+            lowImpactFixes.put(
                     // Remove frequency from ALL XU2 Ingredients
                     (tag) -> tag.getString(ID_KEY).equals(
                             new ResourceLocation(LabsValues.XU2_MODID, "ingredients").toString()) &&
@@ -57,7 +60,7 @@ public class RedCoalFixer implements IFixableData {
 
     @Override
     public int getFixVersion() {
-        return 12;
+        return LabsFixes.FIX_VERSION;
     }
 
     @Override
@@ -67,7 +70,10 @@ public class RedCoalFixer implements IFixableData {
     }
 
     // Recursively travel through the entire NBT tree
-    public void fixItemsInCompound(NBTTagCompound compound) {
+    private void fixItemsInCompound(NBTTagCompound compound) {
+        // If data fixing is disabled for the current world, skip
+        if (DataFixerHandler.worldSavedData != null && !DataFixerHandler.worldSavedData.dataFixes) return;
+
         // If tag has both id of type string and Damage of type short
         // This is the safest and fastest but some rare mods might use a different name for id and/or Damage
         // if they do not use or extend the vanilla ItemStack class for writing NBT data,
@@ -76,11 +82,11 @@ public class RedCoalFixer implements IFixableData {
         if (compound.hasKey(ID_KEY, STRING_ID) && compound.hasKey(DAMAGE_KEY, SHORT_ID)) {
             var oldCompound = compound.copy();
             // Make replacements
-            for (var fixDef : fixes.keySet()) {
+            for (var fixDef : lowImpactFixes.keySet()) {
                 if (fixDef.apply(compound)) {
-                    var fix = fixes.get(fixDef);
+                    var fix = lowImpactFixes.get(fixDef);
                     fix.accept(compound);
-                    NomiLabs.LOGGER.info("[RED COAL FIXER] Replaced {} with: {}", oldCompound, compound);
+                    NomiLabs.LOGGER.info("[Data Fixer] Replaced {} with: {}", oldCompound, compound);
                     break;
                 }
             }
@@ -106,3 +112,5 @@ public class RedCoalFixer implements IFixableData {
         }
     }
 }
+
+ */

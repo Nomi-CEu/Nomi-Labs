@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
@@ -111,12 +112,13 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public void onWorldLoad(WorldEvent.Load event) {
-        DataFixerHandler.onWorldLoad(event);
+    public static void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        NomiLabs.LOGGER.info("player logged in");
+        //DataFixerHandler.playerLoggedIn(event); TODO NEEDED?
     }
 
     @SubscribeEvent
-    public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        DataFixerHandler.playerLoggedIn(event);
+    public static void worldLoadEvent(WorldEvent.Load event) {
+        NomiLabs.LOGGER.info("world load event");
     }
 }
