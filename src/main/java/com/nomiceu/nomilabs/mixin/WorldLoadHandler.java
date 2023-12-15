@@ -31,10 +31,12 @@ public class WorldLoadHandler {
             // Init World Data Fixer
             DataFixerHandler.onWorldLoad(save);
 
-            if (FMLCommonHandler.instance().getEffectiveSide() != Side.SERVER) {
+            if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
                 return;
             }
+
             NomiLabs.LOGGER.info("Processing Ender Storage Info");
+
             // Ender Storage Fixes
             // Ender Storage Stores Data in data1.dat and data2.dat. Sometimes its only data1.dat.
             // lock.dat stores a byte, which has weird bitwise stuff done to it, to determine which file (data1.dat or data2.dat) to read.

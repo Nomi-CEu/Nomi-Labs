@@ -41,6 +41,12 @@ dependencies {
     implementation rfg.deobf("curse.maven:storage-drawers-223852:4655859") // Version 5.5.0
     implementation rfg.deobf("curse.maven:framed-compacting-drawers-376351:3015136") // Version 1.2.7
 
+    // Chisel, used in Microverse Projectors (Runtime Dep Only, block is specified via Resource Location + Meta)
+    runtimeOnly "curse.maven:chisel-235279:2915375" // Version 1.0.2.45
+
+    // CTM, runtime dep for Chisel
+    runtimeOnly "curse.maven:ctm-267602:2915363" // Version 1.0.2.31
+
     // Draconic Evolution, NuclearCraft, and Extra Utilities 2, the mixin patched mods (from CurseForge)
     implementation rfg.deobf("curse.maven:draconic-evolution-223565:3431261") // Version 2.3.28
     implementation rfg.deobf("curse.maven:nuclearcraft-mod-226254:3074246") // Version 2.18y (Newer versions have unneeded balancing changes and break stuff)
@@ -52,5 +58,5 @@ dependencies {
     runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
 
     // Optional Deps / Integrated
-    runtimeOnly rfg.deobf("curse.maven:ender-storage-245174:2755787") // Version 2.4.6.137
+    runtimeOnly "curse.maven:ender-storage-245174:2755787" // Version 2.4.6.137
 }

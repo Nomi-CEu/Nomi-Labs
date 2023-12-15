@@ -16,12 +16,16 @@ public class LabsTextures {
     public static SimpleOverlayRenderer MICROVERSE_CASING;
 
     /* Recipe Map Textures */
-    public static TextureArea PROGRESS_BAR_MICROVERSE;
+    public static TextureArea PROGRESS_BAR_ROCKET;
+    public static TextureArea MICROMINER_OVERLAY;
+    public static TextureArea ORE_OVERLAY;
 
     public static void preInit() {
         GREENHOUSE_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/greenhouse");
         MICROVERSE_CASING = new SimpleOverlayRenderer("nomilabs:microverse_casing");
-        PROGRESS_BAR_MICROVERSE = labsFullImage("textures/gui/progress_bar/progress_bar_microverse.png");
+        PROGRESS_BAR_ROCKET = labsFullImage("textures/gui/progress_bar/progress_bar_rocket.png");
+        MICROMINER_OVERLAY = labsFullImage("textures/gui/overlay/microminer_overlay.png");
+        ORE_OVERLAY = labsFullImage("textures/gui/overlay/ore_overlay.png");
     }
 
     /**

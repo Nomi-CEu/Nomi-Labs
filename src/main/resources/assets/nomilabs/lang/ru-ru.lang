@@ -428,25 +428,16 @@ item.nomilabs.pulsatingmesh.name=Пульсирующая сеть
 tile.nomilabs.simulation_casing.name=Naquadah-Plated Dark Steel Machine Casing Обшитая наквадой
 tile.nomilabs.simulation_casing_2.name=Naquadah Machine Casing
 
-multiblocktweaker.machine.microverse_projector_basic.name=Обычный проектор микровселенной
-multiblocktweaker.machine.microverse_projector_advanced.name=Улучшенный проектор микровселенной
-multiblocktweaker.machine.microverse_projector_advanced_ii.name=Улучшенный проектор микровселенной II
-multiblocktweaker.machine.creative_tank_provider.name=Создатель творческих резервуаров
-multiblocktweaker.machine.naquadah_reactor_1.name=Наквада-реактор 1
-multiblocktweaker.machine.naquadah_reactor_2.name=Наквада-реактор 2
-multiblocktweaker.machine.large_lapidary_dynamo.name=Large Lapidary Dynamo
-multiblocktweaker.machine.lunar_mining_station.name=Lunar Mining Station
-multiblocktweaker.machine.actualization_chamber.name=Актуализационная камера
-multiblocktweaker.machine.universal_crystallizer.name=Вселенский кристаллизатор
-
-mbt.machine.microverse_projector_basic.name=Обычный проектор микровселенной
-mbt.machine.microverse_projector_advanced.name=Улучшенный проектор микровселенной
-mbt.machine.microverse_projector_advanced_ii.name=Улучшенный проектор микровселенной II
-mbt.machine.creative_tank_provider.name=Создатель творческих резервуаров
-mbt.machine.naquadah_reactor_1.name=Наквада-реактор 1
-mbt.machine.naquadah_reactor_2.name=Наквада-реактор 2
-mbt.machine.large_lapidary_dynamo.name=Large Lapidary Dynamo
-mbt.machine.lunar_mining_station.name=Lunar Mining Station
+nomilabs.machine.microverse_projector_basic.name=Обычный проектор микровселенной
+nomilabs.machine.microverse_projector_advanced.name=Улучшенный проектор микровселенной
+nomilabs.machine.microverse_projector_advanced_ii.name=Улучшенный проектор микровселенной II
+nomilabs.machine.creative_tank_provider.name=Создатель творческих резервуаров
+nomilabs.machine.naquadah_reactor_1.name=Наквада-реактор 1
+nomilabs.machine.naquadah_reactor_2.name=Наквада-реактор 2
+nomilabs.machine.large_lapidary_dynamo.name=Large Lapidary Dynamo
+nomilabs.machine.lunar_mining_station.name=Lunar Mining Station
+nomilabs.machine.actualization_chamber.name=Актуализационная камера
+nomilabs.machine.universal_crystallizer.name=Вселенский кристаллизатор
 
 recipemap.microverse_projector_basic.name=Обычная микровселенная
 recipemap.microverse_projector_advanced.name=Улучшенная микровселенная

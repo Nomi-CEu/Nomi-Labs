@@ -10,4 +10,5 @@ public class LabsValues {
     public static final String XU2_MODID = "extrautils2";
     public static final String DEVTECH_MODID = "devtech";
     public static final String PERFECT_GEM_META = "meta_gem_perfect";
+    public static final String CHISEL_MODID = "chisel";
 }

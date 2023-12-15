@@ -14,6 +14,7 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
+import com.nomiceu.nomilabs.recipe.LabsTestRecipes;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsNames;
@@ -60,7 +61,7 @@ public class CommonProxy {
             LabsMultiblocks.initOld();
         if (LabsConfig.content.gtCustomContent.enableNewMultiblocks)
             LabsMultiblocks.initNew();
-        // GreenhouseTestRecipes.postInit();
+        LabsTestRecipes.postInit();
     }
 
     @SubscribeEvent

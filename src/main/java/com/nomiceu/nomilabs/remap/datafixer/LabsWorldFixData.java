@@ -3,7 +3,6 @@ package com.nomiceu.nomilabs.remap.datafixer;
 import com.nomiceu.nomilabs.NomiLabs;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -14,17 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class LabsWorldFixData extends WorldSavedData {
-    // Whether the world has been loaded yet. Not saved. Used to make sure we don't do this repetitively
-    // (in case of multiple calls to onWorldLoad)
-    // TODO Needed?
-    public boolean worldLoaded = false;
-
-    // Whether we should fix the host player's inventory. Not saved. Used to make sure we don't do this repetitively
-    // (in case of multiple PlayerLoggedIn)
-    // TODO NEEDED?
-    public boolean fixHostPlayerInventory = true;
-
-    // Fix Version stored in this world. Saved
+    // Fix Version stored in this world.
     public int savedVersion = LabsFixes.DEFAULT_VERSION;
 
     // Base Data Key
@@ -48,7 +37,7 @@ public class LabsWorldFixData extends WorldSavedData {
 
     @Override
     public @NotNull NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setInteger(VERSION_KEY, LabsFixes.FIX_VERSION);
+        compound.setInteger(VERSION_KEY, LabsFixes.FIX_VERSION); // Save the current fix version, not the saved version
         return compound;
     }
 

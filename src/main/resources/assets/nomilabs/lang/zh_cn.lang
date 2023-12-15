@@ -445,25 +445,16 @@ tile.nomilabs.simulation_casing_2.name=硅岩机器外壳
 gui.nomilabs.naquadah_reactor.overclock=不要超频！
 tooltip.nomilabs.naquadah_reactor.produces=正好产生 %s 安培的 %s。
 
-multiblocktweaker.machine.microverse_projector_basic.name=小型微型宇宙投影仪
-multiblocktweaker.machine.microverse_projector_advanced.name=中型微型宇宙投影仪
-multiblocktweaker.machine.microverse_projector_advanced_ii.name=大型微型宇宙投影仪
-multiblocktweaker.machine.creative_tank_provider.name=创造储罐提供器
-multiblocktweaker.machine.naquadah_reactor_1.name=一类硅岩反应堆
-multiblocktweaker.machine.naquadah_reactor_2.name=二类硅岩反应堆
-multiblocktweaker.machine.large_lapidary_dynamo.name=大型宝石发电机
-multiblocktweaker.machine.lunar_mining_station.name=月面采掘站
-multiblocktweaker.machine.actualization_chamber.name=实体化仓
-multiblocktweaker.machine.universal_crystallizer.name=万能结晶器
-
-mbt.machine.microverse_projector_basic.name=小型微型宇宙投影仪
-mbt.machine.microverse_projector_advanced.name=中型微型宇宙投影仪
-mbt.machine.microverse_projector_advanced_ii.name=大型微型宇宙投影仪
-mbt.machine.creative_tank_provider.name=创造储罐提供器
-mbt.machine.naquadah_reactor_1.name=一类硅岩反应堆
-mbt.machine.naquadah_reactor_2.name=二类硅岩反应堆
-mbt.machine.large_lapidary_dynamo.name=大型宝石发电机
-mbt.machine.lunar_mining_station.name=月面采掘站
+nomilabs.machine.microverse_projector_basic.name=小型微型宇宙投影仪
+nomilabs.machine.microverse_projector_advanced.name=中型微型宇宙投影仪
+nomilabs.machine.microverse_projector_advanced_ii.name=大型微型宇宙投影仪
+nomilabs.machine.creative_tank_provider.name=创造储罐提供器
+nomilabs.machine.naquadah_reactor_1.name=一类硅岩反应堆
+nomilabs.machine.naquadah_reactor_2.name=二类硅岩反应堆
+nomilabs.machine.large_lapidary_dynamo.name=大型宝石发电机
+nomilabs.machine.lunar_mining_station.name=月面采掘站
+nomilabs.machine.actualization_chamber.name=实体化仓
+nomilabs.machine.universal_crystallizer.name=万能结晶器
 
 recipemap.microverse_projector_basic.name=小型微型宇宙
 recipemap.microverse_projector_advanced.name=中型微型宇宙

@@ -20,7 +20,7 @@ config.nomilabs.content.gt_content.materials=Enable Custom GT Materials
 config.nomilabs.content.gt_content.perfect_gems=Enable Perfect Gems
 config.nomilabs.content.gt_content.remap_perfect_gems=Remap Old Perfect Gems
 config.nomilabs.content.gt_content.blocks=Enable Custom GT Blocks
-config.nomilabs.content.gt_content.old_multiblocks=Enable Old Multiblocks
+config.nomilabs.content.gt_content.old_r=Enable Old Multiblocks
 config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 
 config.nomilabs.mod_integration=Mod Integration Settings
@@ -446,25 +446,16 @@ tile.nomilabs.simulation_casing_2.name=Naquadah Machine Casing
 gui.nomilabs.naquadah_reactor.overclock=Does not overclock!
 tooltip.nomilabs.naquadah_reactor.produces=Produces exactly %s amps of %s.
 
-multiblocktweaker.machine.microverse_projector_basic.name=Basic Microverse Projector
-multiblocktweaker.machine.microverse_projector_advanced.name=Advanced Microverse Projector
-multiblocktweaker.machine.microverse_projector_advanced_ii.name=Advanced Microverse Projector II
-multiblocktweaker.machine.creative_tank_provider.name=Creative Tank Provider
-multiblocktweaker.machine.naquadah_reactor_1.name=Naquadah Reactor 1
-multiblocktweaker.machine.naquadah_reactor_2.name=Naquadah Reactor 2
-multiblocktweaker.machine.large_lapidary_dynamo.name=Large Lapidary Dynamo
-multiblocktweaker.machine.lunar_mining_station.name=Lunar Mining Station
-multiblocktweaker.machine.actualization_chamber.name=Actualization Chamber
-multiblocktweaker.machine.universal_crystallizer.name=Universal Crystallizer
-
-mbt.machine.microverse_projector_basic.name=Basic Microverse Projector
-mbt.machine.microverse_projector_advanced.name=Advanced Microverse Projector
-mbt.machine.microverse_projector_advanced_ii.name=Advanced Microverse Projector II
-mbt.machine.creative_tank_provider.name=Creative Tank Provider
-mbt.machine.naquadah_reactor_1.name=Naquadah Reactor 1
-mbt.machine.naquadah_reactor_2.name=Naquadah Reactor 2
-mbt.machine.large_lapidary_dynamo.name=Large Lapidary Dynamo
-mbt.machine.lunar_mining_station.name=Lunar Mining Station
+nomilabs.machine.microverse_projector_basic.name=Basic Microverse Projector
+nomilabs.machine.microverse_projector_advanced.name=Advanced Microverse Projector
+nomilabs.machine.microverse_projector_advanced_ii.name=Advanced Microverse Projector II
+nomilabs.machine.creative_tank_provider.name=Creative Tank Provider
+nomilabs.machine.naquadah_reactor_1.name=Naquadah Reactor 1
+nomilabs.machine.naquadah_reactor_2.name=Naquadah Reactor 2
+nomilabs.machine.large_lapidary_dynamo.name=Large Lapidary Dynamo
+nomilabs.machine.lunar_mining_station.name=Lunar Mining Station
+nomilabs.machine.actualization_chamber.name=Actualization Chamber
+nomilabs.machine.universal_crystallizer.name=Universal Crystallizer
 
 recipemap.microverse_projector_basic.name=Basic Microverse
 recipemap.microverse_projector_advanced.name=Advanced Microverse

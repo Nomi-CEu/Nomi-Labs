@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.remap.datafixer;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.remap.datafixer.storage.BlockLike;
 import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.util.ResourceLocation;
@@ -40,7 +41,7 @@ public class LabsFixes {
 
     // TODO Min Version Needed
     public static Map<Function<ItemStackLike, Boolean>, Consumer<ItemStackLike>> itemFixes;
-    //public static Map<Function<NBTTagCompound, Boolean>, Consumer<NBTTagCompound>> blockFixes; TODO
+    public static Map<Function<BlockLike, Boolean>, Consumer<BlockLike>> blockFixes;
 
     public static void init() {
         itemFixes = new Object2ObjectLinkedOpenHashMap<>();
@@ -59,5 +60,7 @@ public class LabsFixes {
                         stack.setTag(tag.isEmpty() ? null : tag);
                     }
             );
+
+        blockFixes = new Object2ObjectLinkedOpenHashMap<>();
     }
 }
