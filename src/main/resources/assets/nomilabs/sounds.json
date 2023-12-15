@@ -1,0 +1,12 @@
+{
+  "tick.microverse": {
+    "subtitle" : "nomilabs.subtitle.tick.microverse",
+    "category": "block",
+    "sounds": [
+      {
+        "name": "nomilabs:microverse",
+        "stream": false
+      }
+    ]
+  }
+}

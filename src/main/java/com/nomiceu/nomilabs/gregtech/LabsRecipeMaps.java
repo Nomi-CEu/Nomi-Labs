@@ -27,9 +27,8 @@ public class LabsRecipeMaps {
     }
 
     private static RecipeMap<SimpleRecipeBuilder> createMicroverseRecipeMap(int tier) {
-        return new RecipeMap<>("microverse" + tier, tier == 3 ? 9 : 4, 16, tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), false)
-                .setProgressBar(LabsTextures.PROGRESS_BAR_ROCKET, ProgressWidget.MoveType.HORIZONTAL).setSound(GTSoundEvents.PORTAL_OPENING)
-                .setSlotOverlay(false, false, LabsTextures.MICROMINER_OVERLAY).setSlotOverlay(false, true, GuiTextures.BEAKER_OVERLAY_1)
-                .setSlotOverlay(true, false, LabsTextures.ORE_OVERLAY);
+        return new RecipeMap<>("microverse_projector_" + tier, tier == 3 ? 9 : 4, 16, tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), false)
+                .setProgressBar(LabsTextures.PROGRESS_BAR_ROCKET, ProgressWidget.MoveType.HORIZONTAL).setSound(LabsSounds.MICROVERSE)
+                .setSlotOverlay(false, false, GuiTextures.IMPLOSION_OVERLAY_1);
     }
 }

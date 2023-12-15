@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.event;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
+import com.nomiceu.nomilabs.gregtech.LabsSounds;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
@@ -52,6 +53,7 @@ public class CommonProxy {
         if (LabsConfig.content.gtCustomContent.enableBlocks)
             LabsMetaBlocks.preInit();
 
+        LabsSounds.register();
         LabsRecipeMaps.preInit();
         LabsRemappers.preInit();
     }
