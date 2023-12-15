@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.recipe;
 
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
+import gregtech.common.metatileentities.MetaTileEntities;
 import net.minecraft.init.Blocks;
 
 public class LabsTestRecipes {
@@ -19,5 +20,10 @@ public class LabsTestRecipes {
                 .output(Blocks.REDSTONE_ORE, 64)
                 .buildAndRegister();
         }
+
+        LabsRecipeMaps.CREATIVE_TANK_RECIPES.recipeBuilder().duration(1200).EUt(40)
+                .input(Blocks.SAPLING)
+                .output(Blocks.LOG)
+                .buildAndRegister();
     }
 }

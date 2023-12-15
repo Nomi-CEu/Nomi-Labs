@@ -11,6 +11,7 @@ import java.util.List;
 
 public class LabsRecipeMaps {
     public static List<RecipeMap<SimpleRecipeBuilder>> MICROVERSE_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> CREATIVE_TANK_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GREENHOUSE_RECIPES;
 
     public static void preInit() {
@@ -19,6 +20,10 @@ public class LabsRecipeMaps {
         for (int i = 0; i < 3; i++) {
             MICROVERSE_RECIPES.add(i, createMicroverseRecipeMap(i + 1));
         }
+
+        CREATIVE_TANK_RECIPES = new RecipeMap<>("creative_tank_provider", 2, 2, 0, 0, new SimpleRecipeBuilder(), false)
+                .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1).setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, ProgressWidget.MoveType.HORIZONTAL).setSound(GTSoundEvents.REPLICATOR);
 
         GREENHOUSE_RECIPES = new RecipeMap<>("greenhouse", 4, 9, 1, 0, new SimpleRecipeBuilder(), false)
                 .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY).setSlotOverlay(false, true, GuiTextures.SCANNER_OVERLAY)
