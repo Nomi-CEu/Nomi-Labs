@@ -30,9 +30,12 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
+import team.chisel.Features;
+import team.chisel.common.carving.Carving;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockController {
     protected final int tier;
@@ -51,7 +54,8 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
     }
 
     protected IBlockState getCasingStateDiamond() {
-        return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(LabsValues.CHISEL_MODID, "diamond")).getStateFromMeta(3);
+        return Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations()
+                .get(4).getBlockState(); // This cursed line returns the Space Diamond Chisel Block
     }
 
     protected IBlockState getCasingStateGrate() {

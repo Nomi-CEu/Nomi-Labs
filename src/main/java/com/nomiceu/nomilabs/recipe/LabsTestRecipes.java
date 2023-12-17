@@ -2,20 +2,23 @@ package com.nomiceu.nomilabs.recipe;
 
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
-import gregtech.common.metatileentities.MetaTileEntities;
+import gregtech.api.GTValues;
+import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.unification.material.Materials;
+import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.init.Blocks;
 
 public class LabsTestRecipes {
     public static void postInit() {
         assert Blocks.SAPLING != null;
         assert Blocks.LOG != null;
-        LabsRecipeMaps.GREENHOUSE_RECIPES.recipeBuilder().duration(1200).EUt(40)
+        LabsRecipeMaps.GREENHOUSE_RECIPES.recipeBuilder().duration(1200).EUt(GTValues.VHA[GTValues.MV])
                 .input(Blocks.SAPLING)
                 .output(Blocks.LOG)
                 .buildAndRegister();
 
         for (var recipeBuilder : LabsRecipeMaps.MICROVERSE_RECIPES) {
-            recipeBuilder.recipeBuilder().duration(1200).EUt(40)
+            recipeBuilder.recipeBuilder().duration(1200).EUt(GTValues.VHA[GTValues.MV])
                 .input(LabsItems.T1_SHIP)
                 .output(Blocks.REDSTONE_ORE, 64)
                 .buildAndRegister();
@@ -25,5 +28,14 @@ public class LabsTestRecipes {
                 .input(Blocks.SAPLING)
                 .output(Blocks.LOG)
                 .buildAndRegister();
+
+        for (var recipeBuilder : LabsRecipeMaps.NAQUADAH_REACTOR_RECIPES) {
+            recipeBuilder.recipeBuilder()
+                    .duration(938)
+                    .EUt((int) (GTValues.V[GTValues.ZPM] * 3))
+                    .inputs(OreDictUnifier.get(OrePrefix.bolt, Materials.NaquadahEnriched))
+                    .outputs(OreDictUnifier.get(OrePrefix.bolt, Materials.NaquadahEnriched))
+                    .buildAndRegister();
+        }
     }
 }

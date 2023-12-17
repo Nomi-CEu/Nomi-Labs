@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.gregtech;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.widgets.ProgressWidget;
 import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.builders.FuelRecipeBuilder;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.core.sound.GTSoundEvents;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class LabsRecipeMaps {
     public static List<RecipeMap<SimpleRecipeBuilder>> MICROVERSE_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> CREATIVE_TANK_RECIPES;
+    public static List<RecipeMap<FuelRecipeBuilder>> NAQUADAH_REACTOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GREENHOUSE_RECIPES;
 
     public static void preInit() {
@@ -25,6 +27,12 @@ public class LabsRecipeMaps {
                 .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1).setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_2)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, ProgressWidget.MoveType.HORIZONTAL).setSound(GTSoundEvents.REPLICATOR);
 
+        NAQUADAH_REACTOR_RECIPES = new ArrayList<>();
+
+        for (int i = 0; i < 2; i++) {
+            NAQUADAH_REACTOR_RECIPES.add(i, createNaqRecipeMap(i + 1));
+        }
+
         GREENHOUSE_RECIPES = new RecipeMap<>("greenhouse", 4, 9, 1, 0, new SimpleRecipeBuilder(), false)
                 .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY).setSlotOverlay(false, true, GuiTextures.SCANNER_OVERLAY)
                 .setSlotOverlay(true, false, GuiTextures.SCANNER_OVERLAY).setSlotOverlay(true, true, GuiTextures.SCANNER_OVERLAY)
@@ -35,5 +43,12 @@ public class LabsRecipeMaps {
         return new RecipeMap<>("microverse_projector_" + tier, tier == 3 ? 9 : 4, 16, tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), false)
                 .setProgressBar(LabsTextures.PROGRESS_BAR_ROCKET, ProgressWidget.MoveType.HORIZONTAL).setSound(LabsSounds.MICROVERSE)
                 .setSlotOverlay(false, false, GuiTextures.IMPLOSION_OVERLAY_1);
+    }
+
+    private static RecipeMap<FuelRecipeBuilder> createNaqRecipeMap(int tier) {
+        return new RecipeMap<>("naquadah_reactor_" + tier, 1, 1, 0, 0, new FuelRecipeBuilder(), false)
+                .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1).setSlotOverlay(false, true, GuiTextures.ATOMIC_OVERLAY_1)
+                .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSlotOverlay(true, true, GuiTextures.ATOMIC_OVERLAY_1)
+                .setSound(GTSoundEvents.TURBINE);
     }
 }
