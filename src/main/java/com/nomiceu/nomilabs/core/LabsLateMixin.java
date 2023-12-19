@@ -18,7 +18,8 @@ public class LabsLateMixin implements ILateMixinLoader {
     public static final Map<String, Boolean> modMixinsConfig = ImmutableMap.of(
             "draconicevolution", LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration,
             "nuclearcraft", LabsConfig.modIntegration.enableNuclearCraftIntegration,
-            "extrautils2", LabsConfig.modIntegration.enableExtraUtils2Integration
+            "extrautils2", LabsConfig.modIntegration.enableExtraUtils2Integration,
+            "gregtech", true
     );
 
     @Override

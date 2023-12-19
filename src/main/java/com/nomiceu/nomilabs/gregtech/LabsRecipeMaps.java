@@ -14,6 +14,7 @@ public class LabsRecipeMaps {
     public static List<RecipeMap<SimpleRecipeBuilder>> MICROVERSE_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> CREATIVE_TANK_RECIPES;
     public static List<RecipeMap<FuelRecipeBuilder>> NAQUADAH_REACTOR_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> ACTUALIZATION_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GREENHOUSE_RECIPES;
 
     public static void preInit() {
@@ -32,6 +33,10 @@ public class LabsRecipeMaps {
         for (int i = 0; i < 2; i++) {
             NAQUADAH_REACTOR_RECIPES.add(i, createNaqRecipeMap(i + 1));
         }
+
+        ACTUALIZATION_CHAMBER_RECIPES = new RecipeMap<>("actualization_chamber", 2, 16, 0, 0, new SimpleRecipeBuilder(), false)
+                .setSlotOverlay(false, false, GuiTextures.MOLECULAR_OVERLAY_1).setSlotOverlay(true, false, GuiTextures.MOLECULAR_OVERLAY_2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL).setSound(GTSoundEvents.REPLICATOR);
 
         GREENHOUSE_RECIPES = new RecipeMap<>("greenhouse", 4, 9, 1, 0, new SimpleRecipeBuilder(), false)
                 .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY).setSlotOverlay(false, true, GuiTextures.SCANNER_OVERLAY)

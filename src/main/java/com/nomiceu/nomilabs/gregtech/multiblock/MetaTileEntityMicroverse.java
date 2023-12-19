@@ -26,6 +26,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -54,8 +55,8 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
     }
 
     protected IBlockState getCasingStateDiamond() {
-        return Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations()
-                .get(4).getBlockState(); // This cursed line returns the Space Diamond Chisel Block
+        return Loader.isModLoaded("chisel") ? Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations()
+                .get(4).getBlockState() : Blocks.AIR.getDefaultState(); // This cursed line returns the Space Diamond Chisel Block
     }
 
     protected IBlockState getCasingStateGrate() {

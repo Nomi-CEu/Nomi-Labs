@@ -5,11 +5,9 @@ import com.blakebr0.extendedcrafting.block.BlockTrimmed;
 import com.blakebr0.extendedcrafting.block.ModBlocks;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
-import com.nomiceu.nomilabs.gregtech.multiblock.MetaTileEntityCreativeTankProvider;
-import com.nomiceu.nomilabs.gregtech.multiblock.MetaTileEntityGreenhouse;
-import com.nomiceu.nomilabs.gregtech.multiblock.MetaTileEntityMicroverse;
-import com.nomiceu.nomilabs.gregtech.multiblock.MetaTileEntityNaquadahReactor;
+import com.nomiceu.nomilabs.gregtech.multiblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.GTValues;
 import gregtech.api.unification.material.Material;
@@ -36,6 +34,8 @@ public class LabsMultiblocks {
     public static MetaTileEntityNaquadahReactor NAQ_REACTOR_1;
     public static MetaTileEntityNaquadahReactor NAQ_REACTOR_2;
 
+    public static MetaTileEntityActualizationChamber ACTUALIZATION_CHAMBER;
+
     public static void initOld() {
         MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32000, new MetaTileEntityMicroverse.MetaTileEntityMicroverse1(LabsNames.makeLabsName("microverse_projector_basic")));
         MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32001, new MetaTileEntityMicroverse.MetaTileEntityMicroverse2(LabsNames.makeLabsName("microverse_projector_advanced")));
@@ -53,6 +53,8 @@ public class LabsMultiblocks {
 
         NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32005, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_2"), 2, GTValues.UV, 3,
                 MetaBlocks.COMPRESSED.get(material).getBlock(material), ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())));
+
+        ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32006, new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
     }
     public static void initNew() {
         GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32050, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse"))); // Get a set id later, use 32050 for now
