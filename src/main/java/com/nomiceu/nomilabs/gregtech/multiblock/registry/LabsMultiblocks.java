@@ -4,24 +4,15 @@ import com.blakebr0.extendedcrafting.block.BlockStorage;
 import com.blakebr0.extendedcrafting.block.BlockTrimmed;
 import com.blakebr0.extendedcrafting.block.ModBlocks;
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
-import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.multiblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.GTValues;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.Materials;
-import gregtech.common.blocks.BlockCompressed;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 import io.sommers.packmode.PMConfig;
-import io.sommers.packmode.PackMode;
-import io.sommers.packmode.compat.crafttweaker.PackModeInfo;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
-
-import java.util.List;
 
 public class LabsMultiblocks {
     public static MetaTileEntityGreenhouse GREENHOUSE;
@@ -35,6 +26,7 @@ public class LabsMultiblocks {
     public static MetaTileEntityNaquadahReactor NAQ_REACTOR_2;
 
     public static MetaTileEntityActualizationChamber ACTUALIZATION_CHAMBER;
+    public static MetaTileEntityUniversalCrystalizer UNIVERSAL_CRYSTALIZER;
 
     public static void initOld() {
         MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32000, new MetaTileEntityMicroverse.MetaTileEntityMicroverse1(LabsNames.makeLabsName("microverse_projector_basic")));
@@ -55,6 +47,8 @@ public class LabsMultiblocks {
                 MetaBlocks.COMPRESSED.get(material).getBlock(material), ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())));
 
         ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32006, new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
+
+        UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32007, new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
     }
     public static void initNew() {
         GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32050, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse"))); // Get a set id later, use 32050 for now

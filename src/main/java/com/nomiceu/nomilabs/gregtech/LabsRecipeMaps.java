@@ -15,6 +15,7 @@ public class LabsRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> CREATIVE_TANK_RECIPES;
     public static List<RecipeMap<FuelRecipeBuilder>> NAQUADAH_REACTOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> ACTUALIZATION_CHAMBER_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> UNIVERSAL_CRYSTALIZER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GREENHOUSE_RECIPES;
 
     public static void preInit() {
@@ -35,8 +36,12 @@ public class LabsRecipeMaps {
         }
 
         ACTUALIZATION_CHAMBER_RECIPES = new RecipeMap<>("actualization_chamber", 2, 16, 0, 0, new SimpleRecipeBuilder(), false)
-                .setSlotOverlay(false, false, GuiTextures.MOLECULAR_OVERLAY_1).setSlotOverlay(true, false, GuiTextures.MOLECULAR_OVERLAY_2)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL).setSound(GTSoundEvents.REPLICATOR);
+                .setSlotOverlay(false, false, GuiTextures.MOLECULAR_OVERLAY_1).setSound(GTSoundEvents.MINER)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
+
+        UNIVERSAL_CRYSTALIZER_RECIPES = new RecipeMap<>("universal_crystallizer", 9, 1, 1, 0, new SimpleRecipeBuilder(), false)
+                .setSlotOverlay(true, false, GuiTextures.CRYSTAL_OVERLAY).setSound(GTSoundEvents.COMPUTATION)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
 
         GREENHOUSE_RECIPES = new RecipeMap<>("greenhouse", 4, 9, 1, 0, new SimpleRecipeBuilder(), false)
                 .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY).setSlotOverlay(false, true, GuiTextures.SCANNER_OVERLAY)
