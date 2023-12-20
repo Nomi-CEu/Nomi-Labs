@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
-import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
@@ -27,11 +26,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
-import team.chisel.Features;
 import team.chisel.common.carving.Carving;
 
 import java.util.ArrayList;
@@ -128,7 +125,7 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateGrate())
                     .where('D', getCasingStateDiamond())
-                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.ULV], EnumFacing.UP) // ULV = LV, Muffler Hatches start at LV
+                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.UP) // ULV = LV, Muffler Hatches start at LV
                     .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('O', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('F', MetaTileEntities.FLUID_IMPORT_HATCH[GTValues.LV], EnumFacing.WEST)
@@ -183,7 +180,7 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateGrate())
                     .where('D', getCasingStateDiamond())
-                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.ULV], EnumFacing.UP) // ULV = LV, Muffler Hatches start at LV
+                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.UP) // ULV = LV, Muffler Hatches start at LV
                     .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('O', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.EV], EnumFacing.NORTH)
@@ -244,7 +241,7 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateEngine())
                     .where('D', getCasingStateDiamond())
-                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.ULV], EnumFacing.NORTH) // ULV = LV, Muffler Hatches start at LV
+                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.NORTH) // ULV = LV, Muffler Hatches start at LV
                     .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('O', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.IV], EnumFacing.NORTH)
