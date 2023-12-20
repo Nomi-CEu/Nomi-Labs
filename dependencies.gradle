@@ -28,7 +28,6 @@ dependencies {
     compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.684" // Version 4.1.20.684
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
-    // THIS MOD HAS MIXINS! CHECK MIXINS FOR COMPAT AFTER UPDATING!
     implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:Kff6K1WR") // Version 2.8.5
     implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:4BnBEiBw") // Version 1.2.7
 
