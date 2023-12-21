@@ -62,8 +62,7 @@ public class LabsRecipeMaps {
 
     private static RecipeMap<FuelRecipeBuilder> createNaqRecipeMap(int tier) {
         return new RecipeMap<>("naquadah_reactor_" + tier, 1, 1, 0, 0, new FuelRecipeBuilder(), false)
-                .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1).setSlotOverlay(false, true, GuiTextures.ATOMIC_OVERLAY_1)
-                .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSlotOverlay(true, true, GuiTextures.ATOMIC_OVERLAY_1)
+                .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1).setSlotOverlay(true, true, GuiTextures.ATOMIC_OVERLAY_1)
                 .setSound(GTSoundEvents.TURBINE);
     }
 }
