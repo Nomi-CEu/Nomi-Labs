@@ -25,8 +25,6 @@ public class LabsRemapHelper {
     public static void rewriteCompoundTags(NBTTagCompound tag, CompoundRewriter rewriter) {
         for (String key : tag.getKeySet()) {
             NBTBase childTag = tag.getTag(key);
-            var i = childTag.getId();
-            i = i;
             switch (childTag.getId()) {
                 case Constants.NBT.TAG_LIST -> rewriteCompoundTags((NBTTagList) childTag, rewriter);
                 case Constants.NBT.TAG_COMPOUND -> {
@@ -44,8 +42,6 @@ public class LabsRemapHelper {
     public static void rewriteCompoundTags(NBTTagList tag, CompoundRewriter rewriter) {
         for (int i = 0; i < tag.tagCount(); i++) {
             NBTBase childTag = tag.get(i);
-            var j = childTag.getId();
-            j = j;
             switch (childTag.getId()) {
                 case Constants.NBT.TAG_LIST -> rewriteCompoundTags((NBTTagList) childTag, rewriter);
                 case Constants.NBT.TAG_COMPOUND -> {
