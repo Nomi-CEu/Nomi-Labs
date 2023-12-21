@@ -7,6 +7,7 @@ import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 
 public class LabsTestRecipes {
     public static void postInit() {
@@ -46,6 +47,11 @@ public class LabsTestRecipes {
         LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES.recipeBuilder().duration(1200).EUt(40)
                 .input(Blocks.SAPLING).circuitMeta(1)
                 .output(Blocks.LOG, 128)
+                .buildAndRegister();
+
+        LabsRecipeMaps.DME_SIM_CHAMBER_RECIPES.recipeBuilder().duration(1200).EUt(40)
+                .inputs(new ItemStack(Blocks.SAPLING), new ItemStack(LabsItems.PULSATING_DUST))
+                .output(Blocks.LOG, 64).output(Blocks.LOG, 64)
                 .buildAndRegister();
     }
 }

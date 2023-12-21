@@ -34,7 +34,7 @@ public class MetaTileEntityUniversalCrystalizer extends RecipeMapMultiblockContr
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityUniversalCrystalizer(this.metaTileEntityId);
+        return new MetaTileEntityUniversalCrystalizer(metaTileEntityId);
     }
 
     @Override
@@ -49,18 +49,6 @@ public class MetaTileEntityUniversalCrystalizer extends RecipeMapMultiblockContr
                 .aisle("XXXXXXX", "G#CCC#G", "F#C#C#F", "FTC#CTF", "F#C#C#F", "G#CCC#G", "XGGGGGX")
                 .aisle("XXXXXXX", "G#####G", "G#####G", "F#####F", "G#####G", "G#####G", "XGGGGGX")
                 .aisle("XXXSXXX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XXXXXXX")
-
-
-                /*
-                .aisle("XXXXXXX", "XGGFGGX", "XGFFFGX", "XFFFFFX", "XGFFFGX", "XGGFGGX", "XXXXXXX")
-                .aisle("XXXXXXX", "G#####G", "G##T##G", "G#TTT#G", "G##T##G", "G#####G", "XGGGGGX")
-                .aisle("XXXXXXX", "G#CCC#G", "G#C#C#G", "G#CBC#G", "G#C#C#G", "G#CCC#G", "XGGGGGX")
-                .aisle("SXXXXXX", "G#CCC#G", "G#####G", "G##R##G", "G#####G", "G#CCC#G", "XGGGGGX")
-                .aisle("XXXXXXX", "G#CCC#G", "G#C#C#G", "G#CBC#G", "G#C#C#G", "G#CCC#G", "XGGGGGX")
-                .aisle("XXXXXXX", "G#####G", "G##T##G", "G#TTT#G", "G##T##G", "G#####G", "XGGGGGX")
-                .aisle("XXXXXXX", "XGGFGGX", "XGFFFGX", "XFFFFFX", "XGFFFGX", "XGGFGGX", "XXXXXXX")
-
-                 */
                 .where('S', selfPredicate())
                 .where('X', states(getCasingStateMain()).setMinGlobalLimited(80).or(autoAbilities()))
                 .where('#', states(getCasingStateAir()))

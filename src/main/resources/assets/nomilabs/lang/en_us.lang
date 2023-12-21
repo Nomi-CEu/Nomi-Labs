@@ -23,7 +23,7 @@ config.nomilabs.content.gt_content.materials=Enable Custom GT Materials
 config.nomilabs.content.gt_content.perfect_gems=Enable Perfect Gems
 config.nomilabs.content.gt_content.remap_perfect_gems=Remap Old Perfect Gems
 config.nomilabs.content.gt_content.blocks=Enable Custom GT Blocks
-config.nomilabs.content.gt_content.old_r=Enable Old Multiblocks
+config.nomilabs.content.gt_content.old_multiblocks=Enable Old Multiblocks
 config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 
 config.nomilabs.mod_integration=Mod Integration Settings
@@ -183,10 +183,10 @@ nomilabs.material.phosphorus_trichloride=Phosphorus Trichloride
 nomilabs.material.phosphoryl_chloride=Phosphoryl Chloride
 nomilabs.material.tributyl_phosphate=Tributyl Phosphate
 
-item.nomilabs.omnicoin.name=Nomipenny [1]
-item.nomilabs.omnicoin5.name=Nominickel [5]
-item.nomilabs.omnicoin25.name=Nomiquarter [25]
-item.nomilabs.omnicoin100.name=Nomidollar [100]
+item.nomilabs.nomicoin.name=Nomipenny [1]
+item.nomilabs.nomicoin5.name=Nominickel [5]
+item.nomilabs.nomicoin25.name=Nomiquarter [25]
+item.nomilabs.nomicoin100.name=Nomidollar [100]
 
 item.nomilabs.woodenwidget.name=Wooden Widget
 item.nomilabs.stonewidget.name=Stone Widget
@@ -443,30 +443,42 @@ item.nomilabs.hand_framing_tool.desc7=The frames/decorations will also be applie
 item.nomilabs.pulsatingdust.name=Pulsating Dust
 item.nomilabs.pulsatingmesh.name=Pulsating Mesh
 
-tile.nomilabs.simulation_casing.name=Naquadah-Plated Dark Steel Machine Casing
-tile.nomilabs.simulation_casing_2.name=Naquadah Machine Casing
 
-gui.nomilabs.naquadah_reactor.overclock=Does not overclock!
-tooltip.nomilabs.naquadah_reactor.produces=Produces exactly %s amps of %s.
+#----------------Multiblocks----------------#
 
-nomilabs.machine.microverse_projector_basic.name=Basic Microverse Projector
-nomilabs.machine.microverse_projector_advanced.name=Advanced Microverse Projector
-nomilabs.machine.microverse_projector_advanced_ii.name=Advanced Microverse Projector II
+# Names
+nomilabs.machine.microverse_projector_1.name=Microverse Projector I
+nomilabs.machine.microverse_projector_2.name=Microverse Projector II
+nomilabs.machine.microverse_projector_3.name=Microverse Projector III
 nomilabs.machine.creative_tank_provider.name=Creative Tank Provider
-nomilabs.machine.naquadah_reactor_1.name=Naquadah Reactor 1
-nomilabs.machine.naquadah_reactor_2.name=Naquadah Reactor 2
-nomilabs.machine.large_lapidary_dynamo.name=Large Lapidary Dynamo
-nomilabs.machine.lunar_mining_station.name=Lunar Mining Station
+nomilabs.machine.naquadah_reactor_1.name=Naquadah Reactor I
+nomilabs.machine.naquadah_reactor_2.name=Naquadah Reactor II
 nomilabs.machine.actualization_chamber.name=Actualization Chamber
 nomilabs.machine.universal_crystallizer.name=Universal Crystallizer
+nomilabs.machine.dme_sim_chamber.name=Simulation Supercomputer
 
-recipemap.microverse_projector_1.name=Basic Microverse
-recipemap.microverse_projector_2.name=Advanced Microverse
-recipemap.microverse_projector_3.name=Advanced Microverse II
-recipemap.creative_tank_provider.name=Creative Tank Provider
-recipemap.naquadah_reactor_1.name=Naquadah Reactor 1
-recipemap.naquadah_reactor_2.name=Naquadah Reactor 2
-recipemap.large_lapidary_dynamo.name=Large Lapidary Dynamo
-recipemap.lunar_mining_station=Lunar Mining
+# Recipe Maps
+recipemap.microverse_projector_1.name=Microverse Mission (MK I)
+recipemap.microverse_projector_2.name=Microverse Mission (MK II)
+recipemap.microverse_projector_3.name=Microverse Mission (MK III)
+recipemap.creative_tank_provider.name=Creative Tank Making
+recipemap.naquadah_reactor_1.name=Naquadah Decay (Mk I)
+recipemap.naquadah_reactor_2.name=Naquadah Decay (Mk II)
 recipemap.actualization_chamber.name=Actualization
-recipemap.universal_crystallizer.name=Universal Crystallizer
+recipemap.universal_crystallizer.name=Crystallization
+recipemap.dme_sim_chamber.name=Simulation
+
+# Tooltips
+tooltip.nomilabs.microverse_projector_1.description=A machine capable of stabilizing projection into microverses for basic Micro Miner missions.
+tooltip.nomilabs.microverse_projector_2.description=An advanced machine capable of stabilizing projection into microverses for complex missions into the deepest parts of space.
+tooltip.nomilabs.microverse_projector_3.description=An elite machine capable of stabilizing projection into microverses for exotic missions, including collapsing the microverse whole.
+tooltip.nomilabs.creative_tank_provider.description=A complex machine capable of turning buckets and molds into infinite resovoirs beyond human comprehension.
+tooltip.nomilabs.naquadah_reactor_1.description=An advanced reactor that produces energy from the decay of Enriched Naquadah and Naquadria bolts.
+tooltip.nomilabs.naquadah_reactor_2.description=An elite reactor capable of capturing more energy from the decay of Enriched Naquadah and Naquadria bolts.
+tooltip.nomilabs.naquadah_reactor.produces=Produces exactly %s amps of %s.
+tooltip.nomilabs.actualization_chamber.description=A powerful machine that harnesses the most complex of matters and turns it into raw materials.
+tooltip.nomilabs.universal_crystallizer.description=An immense device, capable of turning raw materials into complex matters.
+tooltip.nomilabs.dme_sim_chamber.description=A high powered simulation device, capable of performing more complex simulations faster than ever.
+
+# GUI
+gui.nomilabs.naquadah_reactor.overclock=Does not overclock!

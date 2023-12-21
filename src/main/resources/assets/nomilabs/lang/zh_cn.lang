@@ -5,6 +5,9 @@ recipemap.greenhouse.name=生长
 tile.unique_casing.growth_light.name=生长灯
 tile.unique_casing.air_vent.name=通风口
 
+# Sounds
+nomilabs.subtitle.tick.microverse=Projecting Microverse
+
 # Config
 config.nomilabs.content=内容设置
 
@@ -180,10 +183,10 @@ nomilabs.material.phosphorus_trichloride=三氯化磷
 nomilabs.material.phosphoryl_chloride=磷酰氯
 nomilabs.material.tributyl_phosphate=磷酸三丁酯
 
-item.nomilabs.omnicoin.name=万象币[1]
-item.nomilabs.omnicoin5.name=万象币[5]
-item.nomilabs.omnicoin25.name=万象币[25]
-item.nomilabs.omnicoin100.name=万象币[100]
+item.nomilabs.nomicoin.name=万象币[1]
+item.nomilabs.nomicoin5.name=万象币[5]
+item.nomilabs.nomicoin25.name=万象币[25]
+item.nomilabs.nomicoin100.name=万象币[100]
 
 item.nomilabs.woodenwidget.name=木制装置
 item.nomilabs.stonewidget.name=石制装置
@@ -440,29 +443,42 @@ item.nomilabs.hand_framing_tool.desc7=框架/装饰也将应用于它们。
 item.nomilabs.pulsatingdust.name=脉动之尘
 item.nomilabs.pulsatingmesh.name=脉动网格
 
-tile.nomilabs.simulation_casing.name=硅岩镀层的玄钢机器外壳
-tile.nomilabs.simulation_casing_2.name=硅岩机器外壳
-gui.nomilabs.naquadah_reactor.overclock=不要超频！
-tooltip.nomilabs.naquadah_reactor.produces=正好产生 %s 安培的 %s。
 
-nomilabs.machine.microverse_projector_basic.name=小型微型宇宙投影仪
-nomilabs.machine.microverse_projector_advanced.name=中型微型宇宙投影仪
-nomilabs.machine.microverse_projector_advanced_ii.name=大型微型宇宙投影仪
+#----------------Multiblocks----------------#
+
+# Names
+nomilabs.machine.microverse_projector_1.name=一类微型宇宙投影仪
+nomilabs.machine.microverse_projector_2.name=二类微型宇宙投影仪
+nomilabs.machine.microverse_projector_3.name=三类微型宇宙投影仪
 nomilabs.machine.creative_tank_provider.name=创造储罐提供器
 nomilabs.machine.naquadah_reactor_1.name=一类硅岩反应堆
 nomilabs.machine.naquadah_reactor_2.name=二类硅岩反应堆
-nomilabs.machine.large_lapidary_dynamo.name=大型宝石发电机
-nomilabs.machine.lunar_mining_station.name=月面采掘站
 nomilabs.machine.actualization_chamber.name=实体化仓
 nomilabs.machine.universal_crystallizer.name=万能结晶器
+nomilabs.machine.dme_sim_chamber.name=超级模拟计算机
 
-recipemap.microverse_projector_basic.name=小型微型宇宙
-recipemap.microverse_projector_advanced.name=中型微型宇宙
-recipemap.microverse_projector_advanced_ii.name=大型微型宇宙
+# Recipe Maps
+recipemap.microverse_projector_1.name=一类微型宇宙
+recipemap.microverse_projector_2.name=二类微型宇宙
+recipemap.microverse_projector_3.name=三类微型宇宙
 recipemap.creative_tank_provider.name=创造储罐提供器
 recipemap.naquadah_reactor_1.name=一类硅岩反应堆
 recipemap.naquadah_reactor_2.name=二类硅岩反应堆
-recipemap.large_lapidary_dynamo.name=大型宝石发电
-recipemap.lunar_mining_station=月面采掘
 recipemap.actualization_chamber.name=实体化
 recipemap.universal_crystallizer.name=万能结晶器
+recipemap.dme_sim_chamber.name=模拟
+
+# Tooltips
+tooltip.nomilabs.microverse_projector_1.description=一种能够稳定投影进入微型宇宙中的机器，用于基本的微型采矿任务。
+tooltip.nomilabs.microverse_projector_2.description=一种能够稳定投影进入微型宇宙中的高级机器，用于基本的复杂采矿任务。
+tooltip.nomilabs.microverse_projector_3.description=一种能够稳定投影进入微型宇宙中的杰出机器，用于基本的奇特采矿任务。
+tooltip.nomilabs.creative_tank_provider.description=A complex machine capable of turning buckets and molds into infinite resovoirs beyond human comprehension.
+tooltip.nomilabs.naquadah_reactor_1.description=一种高级的反应堆，通过利用富集硅岩和超能硅岩的衰变产生能量。
+tooltip.nomilabs.naquadah_reactor_2.description=一种杰出的反应堆，可从富集硅岩和超能硅岩的衰变中获取更多能量。
+tooltip.nomilabs.naquadah_reactor.produces=正好产生 %s 安培的 %s。
+tooltip.nomilabs.actualization_chamber.description=A powerful machine that harnesses the most complex of matters and turns it into raw materials.
+tooltip.nomilabs.universal_crystallizer.description=An immense device, capable of turning raw materials into complex matters.
+tooltip.nomilabs.dme_sim_chamber.description=A high powered simulation device, capable of performing more complex simulations faster than ever.
+
+# GUI
+gui.nomilabs.naquadah_reactor.overclock=不要超频!

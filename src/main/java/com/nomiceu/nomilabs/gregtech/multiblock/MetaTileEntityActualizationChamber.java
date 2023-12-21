@@ -27,7 +27,7 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityActualizationChamber(this.metaTileEntityId);
+        return new MetaTileEntityActualizationChamber(metaTileEntityId);
     }
 
     @Override
@@ -42,7 +42,6 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
                 .where('G', states(getCasingStateGlass()))
                 .where('O', states(getCasingStateCoil()))
                 .build();
-
     }
 
     @Override

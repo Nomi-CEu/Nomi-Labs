@@ -33,7 +33,7 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityGreenhouse(this.metaTileEntityId);
+        return new MetaTileEntityGreenhouse(metaTileEntityId);
     }
 
     @Override

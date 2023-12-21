@@ -30,7 +30,7 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityCreativeTankProvider(this.metaTileEntityId);
+        return new MetaTileEntityCreativeTankProvider(metaTileEntityId);
     }
 
     @Override

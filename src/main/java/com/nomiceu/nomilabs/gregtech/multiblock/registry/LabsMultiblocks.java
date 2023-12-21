@@ -27,11 +27,12 @@ public class LabsMultiblocks {
 
     public static MetaTileEntityActualizationChamber ACTUALIZATION_CHAMBER;
     public static MetaTileEntityUniversalCrystalizer UNIVERSAL_CRYSTALIZER;
+    public static MetaTileEntityDMESimChamber DME_SIM_CHAMBER;
 
     public static void initOld() {
-        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32000, new MetaTileEntityMicroverse.MetaTileEntityMicroverse1(LabsNames.makeLabsName("microverse_projector_basic")));
-        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32001, new MetaTileEntityMicroverse.MetaTileEntityMicroverse2(LabsNames.makeLabsName("microverse_projector_advanced")));
-        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32002, new MetaTileEntityMicroverse.MetaTileEntityMicroverse3(LabsNames.makeLabsName("microverse_projector_advanced_ii")));
+        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32000, new MetaTileEntityMicroverse.MetaTileEntityMicroverse1(LabsNames.makeLabsName("microverse_projector_1")));
+        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32001, new MetaTileEntityMicroverse.MetaTileEntityMicroverse2(LabsNames.makeLabsName("microverse_projector_2")));
+        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32002, new MetaTileEntityMicroverse.MetaTileEntityMicroverse3(LabsNames.makeLabsName("microverse_projector_3")));
         CREATIVE_TANK_PROVIDER = MetaTileEntities.registerMetaTileEntity(32003, new MetaTileEntityCreativeTankProvider(LabsNames.makeLabsName("creative_tank_provider")));
 
         NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32004, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_1"), 1, GTValues.ZPM, 3,
@@ -49,8 +50,10 @@ public class LabsMultiblocks {
         ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32006, new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
 
         UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32007, new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
+
+        DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32008, new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
     }
     public static void initNew() {
-        GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32050, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse"))); // Get a set id later, use 32050 for now
+        GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32009, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse")));
     }
 }

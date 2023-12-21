@@ -9,10 +9,10 @@ import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
 
 public class LabsCoinsWidgets {
     public static void initCoins() {
-        NOMICOIN_1 = createItem(new ItemBase(makeLabsName("omnicoin"), LabsCreativeTabs.TAB_NOMI_LABS));
-        NOMICOIN_5 = createItem(new ItemBase(makeLabsName("omnicoin5"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON));
-        NOMICOIN_25 = createItem(new ItemBase(makeLabsName("omnicoin25"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
-        NOMICOIN_100 = createItem(new ItemBase(makeLabsName("omnicoin100"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        NOMICOIN_1 = createItem(new ItemBase(makeLabsName("nomicoin"), LabsCreativeTabs.TAB_NOMI_LABS));
+        NOMICOIN_5 = createItem(new ItemBase(makeLabsName("nomicoin5"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON));
+        NOMICOIN_25 = createItem(new ItemBase(makeLabsName("nomicoin25"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        NOMICOIN_100 = createItem(new ItemBase(makeLabsName("nomicoin100"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
     }
 
     public static void initWidgets() {
