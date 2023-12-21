@@ -3,10 +3,9 @@ package com.nomiceu.nomilabs.remap.datafixer;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
-import com.nomiceu.nomilabs.remap.datafixer.fixes.BlockFixer;
+import com.nomiceu.nomilabs.remap.datafixer.fixes.MultiblockFixer;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.ItemFixer;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
-import com.nomiceu.nomilabs.remap.datafixer.walker.ChunkWalker;
 import com.nomiceu.nomilabs.remap.datafixer.walker.ItemStackWalker;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.IDataWalker;
@@ -35,13 +34,10 @@ public class DataFixerHandler {
         fmlFixer.registerVanillaWalker(FixTypes.PLAYER, itemStackWalker);
         fmlFixer.registerVanillaWalker(LabsFixTypes.WalkerTypes.ENDER_STORAGE, itemStackWalker);
 
-        // Chunk Walker
-        fmlFixer.registerVanillaWalker(FixTypes.CHUNK, new ChunkWalker());
-
-        // Fixer
+        // Fixers
         ModFixs fixs = fmlFixer.init(LabsValues.LABS_MODID, LabsFixes.FIX_VERSION);
         fixs.registerFix(LabsFixTypes.FixerTypes.ITEM, new ItemFixer());
-        fixs.registerFix(LabsFixTypes.FixerTypes.BLOCK, new BlockFixer());
+        fixs.registerFix(FixTypes.BLOCK_ENTITY, new MultiblockFixer());
     }
 
     public static boolean fixAvailable() {
