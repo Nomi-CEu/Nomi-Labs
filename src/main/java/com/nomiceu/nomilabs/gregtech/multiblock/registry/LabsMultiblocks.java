@@ -14,6 +14,9 @@ import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 import io.sommers.packmode.PMConfig;
 
+/**
+ * Multiblocks all start at 31000, as colliding metas with old multiblocks usually causes problems.
+ */
 public class LabsMultiblocks {
     public static MetaTileEntityGreenhouse GREENHOUSE;
     public static MetaTileEntityMicroverse.MetaTileEntityMicroverse1 MICROVERSE_1;
