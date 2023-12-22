@@ -71,5 +71,5 @@ dependencies {
     runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
 
     // Optional Deps / Integrated
-    runtimeOnly "curse.maven:ender-storage-245174:2755787" // Ender Storage, Version 2.4.6.137
+    implementation rfg.deobf("curse.maven:ender-storage-245174:2755787") // Ender Storage, Version 2.4.6.137
 }

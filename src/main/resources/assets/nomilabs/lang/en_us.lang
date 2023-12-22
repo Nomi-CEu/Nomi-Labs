@@ -458,9 +458,9 @@ nomilabs.machine.universal_crystallizer.name=Universal Crystallizer
 nomilabs.machine.dme_sim_chamber.name=Simulation Supercomputer
 
 # Recipe Maps
-recipemap.microverse_projector_1.name=Microverse Mission (MK I)
-recipemap.microverse_projector_2.name=Microverse Mission (MK II)
-recipemap.microverse_projector_3.name=Microverse Mission (MK III)
+recipemap.microverse_projector_1.name=Mission (MK I)
+recipemap.microverse_projector_2.name=Mission (MK II)
+recipemap.microverse_projector_3.name=Mission (MK III)
 recipemap.creative_tank_provider.name=Creative Tank Making
 recipemap.naquadah_reactor_1.name=Naquadah Decay (Mk I)
 recipemap.naquadah_reactor_2.name=Naquadah Decay (Mk II)

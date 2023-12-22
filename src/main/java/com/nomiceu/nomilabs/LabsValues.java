@@ -13,4 +13,8 @@ public class LabsValues {
     public static final String XU2_MODID = "extrautils2";
     public static final String DEVTECH_MODID = "devtech";
     public static final String PERFECT_GEM_META = "meta_gem_perfect";
+    public static final String MBT_MODID = "mbt";
+    public static final String MULTIBLOCK_TWEAKER_MODID = "multiblocktweaker";
+    public static final String GREGTECH_MODID = "gregtech";
+    public static final String GT_MACHINE_PATH = "machine";
 }

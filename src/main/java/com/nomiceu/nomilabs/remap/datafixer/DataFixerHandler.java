@@ -7,13 +7,14 @@ import com.nomiceu.nomilabs.remap.datafixer.fixes.MultiblockFixer;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.ItemFixer;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.remap.datafixer.walker.ItemStackWalker;
+import io.sommers.packmode.PMConfig;
 import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.util.datafix.IDataWalker;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.common.util.CompoundDataFixer;
 import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.StartupQuery;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The main handler for all Data Fixes.
@@ -28,11 +29,11 @@ public class DataFixerHandler {
         CompoundDataFixer fmlFixer = FMLCommonHandler.instance().getDataFixer();
 
         // Item Stack Walker
-        IDataWalker itemStackWalker = new ItemStackWalker();
-        fmlFixer.registerVanillaWalker(FixTypes.BLOCK_ENTITY, itemStackWalker);
-        fmlFixer.registerVanillaWalker(FixTypes.ENTITY, itemStackWalker);
-        fmlFixer.registerVanillaWalker(FixTypes.PLAYER, itemStackWalker);
-        fmlFixer.registerVanillaWalker(LabsFixTypes.WalkerTypes.ENDER_STORAGE, itemStackWalker);
+        // itemStackWalker = new ItemStackWalker();
+        fmlFixer.registerVanillaWalker(FixTypes.BLOCK_ENTITY, new ItemStackWalker(FixTypes.BLOCK_ENTITY.name()));//itemStackWalker);
+        fmlFixer.registerVanillaWalker(FixTypes.ENTITY, new ItemStackWalker(FixTypes.ENTITY.name()));//itemStackWalker);
+        fmlFixer.registerVanillaWalker(FixTypes.PLAYER, new ItemStackWalker(FixTypes.PLAYER.name()));//itemStackWalker);
+        fmlFixer.registerVanillaWalker(LabsFixTypes.WalkerTypes.ENDER_STORAGE, new ItemStackWalker(LabsFixTypes.WalkerTypes.ENDER_STORAGE.name()));//itemStackWalker);
 
         // Fixers
         ModFixs fixs = fmlFixer.init(LabsValues.LABS_MODID, LabsFixes.FIX_VERSION);
@@ -74,8 +75,15 @@ public class DataFixerHandler {
         }
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient() || FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer()) {
-            boolean confirmed = StartupQuery.confirm("TEST HI?");  // TODO Warn
-            if (!confirmed) LabsRemapHelper.abort();
+            boolean confirmed = StartupQuery.confirm("TEST HI?\nAre you sure your previous pack mode with this world was " + StringUtils.capitalize(PMConfig.getPackMode()) + "?");  // TODO Warn & Mode Needed
+            NomiLabs.LOGGER.info(confirmed);
+            // Separate into two messages
+            // One asking for confirmation
+            // Other asking if mode is correct, only asking if needed
+            if (!confirmed) {
+                StartupQuery.abort();
+                LabsRemapHelper.abort();
+            }
             LabsRemapHelper.createWorldBackup();
         }
         if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {

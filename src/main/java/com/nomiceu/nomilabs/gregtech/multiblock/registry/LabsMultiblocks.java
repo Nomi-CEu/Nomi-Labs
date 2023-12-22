@@ -30,12 +30,12 @@ public class LabsMultiblocks {
     public static MetaTileEntityDMESimChamber DME_SIM_CHAMBER;
 
     public static void initOld() {
-        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32000, new MetaTileEntityMicroverse.MetaTileEntityMicroverse1(LabsNames.makeLabsName("microverse_projector_1")));
-        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32001, new MetaTileEntityMicroverse.MetaTileEntityMicroverse2(LabsNames.makeLabsName("microverse_projector_2")));
-        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32002, new MetaTileEntityMicroverse.MetaTileEntityMicroverse3(LabsNames.makeLabsName("microverse_projector_3")));
-        CREATIVE_TANK_PROVIDER = MetaTileEntities.registerMetaTileEntity(32003, new MetaTileEntityCreativeTankProvider(LabsNames.makeLabsName("creative_tank_provider")));
+        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32100, new MetaTileEntityMicroverse.MetaTileEntityMicroverse1(LabsNames.makeLabsName("microverse_projector_1")));
+        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32101, new MetaTileEntityMicroverse.MetaTileEntityMicroverse2(LabsNames.makeLabsName("microverse_projector_2")));
+        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32102, new MetaTileEntityMicroverse.MetaTileEntityMicroverse3(LabsNames.makeLabsName("microverse_projector_3")));
+        CREATIVE_TANK_PROVIDER = MetaTileEntities.registerMetaTileEntity(32103, new MetaTileEntityCreativeTankProvider(LabsNames.makeLabsName("creative_tank_provider")));
 
-        NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32004, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_1"), 1, GTValues.ZPM, 3,
+        NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32104, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_1"), 1, GTValues.ZPM, 3,
                 MetaBlocks.COMPRESSED.get(Materials.Duranium).getBlock(Materials.Duranium), ModBlocks.blockTrimmed.getStateFromMeta(BlockTrimmed.Type.ULTIMATE_TRIMMED.getMetadata())));
 
         Material material;
@@ -44,16 +44,16 @@ public class LabsMultiblocks {
         else
             material = LabsMaterials.Taranium;
 
-        NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32005, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_2"), 2, GTValues.UV, 3,
+        NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32105, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_2"), 2, GTValues.UV, 3,
                 MetaBlocks.COMPRESSED.get(material).getBlock(material), ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())));
 
-        ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32006, new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
+        ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32106, new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
 
-        UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32007, new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
+        UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32107, new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
 
-        DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32008, new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
+        DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108, new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
     }
     public static void initNew() {
-        GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32009, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse")));
+        GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32109, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse")));
     }
 }

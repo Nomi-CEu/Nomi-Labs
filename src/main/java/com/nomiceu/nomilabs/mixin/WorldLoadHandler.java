@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.mixin;
 
+import codechicken.enderstorage.manager.EnderStorageManager;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
@@ -32,7 +33,7 @@ public class WorldLoadHandler {
             DataFixerHandler.onWorldLoad(save);
 
             if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-                return;
+                EnderStorageManager.reloadManager(true);
             }
 
             NomiLabs.LOGGER.info("Processing Ender Storage Info");
@@ -50,10 +51,12 @@ public class WorldLoadHandler {
 
                 try (FileOutputStream fileOut = new FileOutputStream(processFile)) {
                     CompressedStreamTools.writeCompressed(newNbt, fileOut);
+                    NomiLabs.LOGGER.info("Successfully wrote {} Ender Storage Save Data!", toProcess);
                 } catch (IOException e) {
                     throw new IllegalStateException("Failed to write Ender Storage save data!", e);
                 }
             }
+            EnderStorageManager.reloadManager(false);
         }
         catch (Exception ignored) {}
     }
