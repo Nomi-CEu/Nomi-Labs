@@ -33,11 +33,10 @@ public class WorldLoadHandler {
     // No need for remap, forge method
     @Inject(method = "loadAndFix(Ljava/io/File;Lnet/minecraft/util/datafix/DataFixer;Lnet/minecraft/world/storage/SaveHandler;)Lnet/minecraft/world/storage/WorldInfo;", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/CompressedStreamTools;readCompressed(Ljava/io/InputStream;)Lnet/minecraft/nbt/NBTTagCompound;"), remap = false)
     private static void loadDataFixers(File file, DataFixer fixer, SaveHandler save, CallbackInfoReturnable<WorldInfo> cir) {
-        NomiLabs.LOGGER.info("mixin world load");
-        NomiLabs.LOGGER.info(FMLCommonHandler.instance().getEffectiveSide());
-
         if (FMLCommonHandler.instance().getEffectiveSide() != Side.SERVER)
             return;
+
+        NomiLabs.LOGGER.info("Checking Data Fixers...");
 
         var mapFile = save.getMapFileFromName(LabsFixes.DATA_NAME);
 
@@ -47,8 +46,10 @@ public class WorldLoadHandler {
             // Shortcut: If saved version == Current Version, Exit
             if (DataFixerHandler.worldSavedData.savedVersion == LabsFixes.FIX_VERSION) {
                 DataFixerHandler.worldSavedData = null;
+                NomiLabs.LOGGER.info("This world's data version is up to date.");
                 return;
             }
+            NomiLabs.LOGGER.info("This world's data version needs updating.");
         } else {
             DataFixerHandler.worldSavedData = new LabsWorldFixData();
             NomiLabs.LOGGER.info("This world was saved without a data version.");
@@ -57,9 +58,14 @@ public class WorldLoadHandler {
         // Separate into two messages
         // One asking for confirmation
         // Other asking if mode is correct, only asking if needed
-        var message = "TEST HI?";
+        var message = new StringBuilder("This world must be remapped.\n\n")
+                .append(TextFormatting.BOLD).append("A Backup will be made.\n")
+                .append("Pressing 'No' will cancel world loading.\n\n")
+                .append(TextFormatting.RED)
+                .append("Note that after the world is loaded with this, you CANNOT undo this!\n")
+                .append("You WILL have to load from the backup in order to load in a previous version!");
 
-        if (!StartupQuery.confirm(message)) {
+        if (!StartupQuery.confirm(message.toString())) {
             LabsRemapHelper.abort();
         }
 
@@ -68,7 +74,7 @@ public class WorldLoadHandler {
                 .append(TextFormatting.RED).append("Launching with the wrong mode ")
                 .append(TextFormatting.UNDERLINE).append("WILL").append(TextFormatting.RESET)
                 .append(" void items and/or blocks!\n\n")
-                .append("Press 'No' to cancel world loading.");
+                .append("Press 'No' if you are not sure! (It will cancel world loading)");
 
         if (!StartupQuery.confirm(modeMessage.toString())) {
             LabsRemapHelper.abort();

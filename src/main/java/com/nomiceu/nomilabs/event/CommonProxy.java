@@ -1,7 +1,6 @@
 package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.gregtech.LabsSounds;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
@@ -17,7 +16,6 @@ import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.recipe.LabsTestRecipes;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
-import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.unification.material.event.MaterialEvent;
 import net.minecraft.block.Block;
@@ -27,12 +25,10 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Objects;
@@ -112,16 +108,5 @@ public class CommonProxy {
     @SubscribeEvent
     public static void missingBlockMappings(MissingMappings<Block> event) {
         LabsRemappers.remapBlocks(event);
-    }
-
-    @SubscribeEvent
-    public static void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        NomiLabs.LOGGER.info("player logged in");
-        //DataFixerHandler.playerLoggedIn(event); TODO NEEDED?
-    }
-
-    @SubscribeEvent
-    public static void worldLoadEvent(WorldEvent.Load event) {
-        NomiLabs.LOGGER.info("world load event");
     }
 }
