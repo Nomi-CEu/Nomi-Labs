@@ -35,9 +35,9 @@ dependencies {
     implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
 
     // GroovyScript
-    implementation ("com.cleanroommc:groovyscript:0.7.1") {
+    implementation ("com.cleanroommc:groovyscript:0.7.2") {
         transitive = false
-    } // Version 0.7.1, transitive false is needed otherwise groovy pulls in extra JEI
+    } // Version 0.7.2, transitive false is needed otherwise groovy pulls in extra JEI
 
     // Chameleon, Storage Drawers and Framed Compacting Drawers (from CurseForge)
     implementation rfg.deobf("curse.maven:chameleon-230497:2450900") // Version 4.1.3

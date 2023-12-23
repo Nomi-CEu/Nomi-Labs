@@ -36,7 +36,7 @@ public class LabsFixes {
      * The current data format version. Increment this when breaking changes are made and the
      * data mixer must be applied.
      */
-    public static final int FIX_VERSION = 2;
+    public static final int FIX_VERSION = 3;
 
     /**
      * Default version, used if save doesn't have a fix version, or if something goes wrong

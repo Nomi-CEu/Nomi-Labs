@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.remap.datafixer.fixes;
 
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +18,8 @@ public class MultiblockFixer implements IFixableData {
     @Override
     @NotNull
     public NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
+        if (DataFixerHandler.fixNotAvailable()) return compound;
+
         NomiLabs.LOGGER.debug("Block Entity: {}", compound);
         if (compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) && compound.getString("id").equals("gregtech:machine")) {
             var metaId = new ResourceLocation(compound.getString("MetaId"));
@@ -24,7 +27,7 @@ public class MultiblockFixer implements IFixableData {
                 if (!shouldFix.apply(metaId)) continue;
                 var newMetaId = LabsFixes.multiblockFixes.get(shouldFix).get().toString();
                 compound.setString("MetaId", newMetaId);
-                NomiLabs.LOGGER.info("Changed Block Entity MetaId: {} to {}", metaId, newMetaId);
+                NomiLabs.LOGGER.info("[Data Fixer] Changed Block Entity MetaId: {} to {}", metaId, newMetaId);
                 return compound;
             }
             return compound;
