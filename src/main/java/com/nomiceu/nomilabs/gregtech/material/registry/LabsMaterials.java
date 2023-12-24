@@ -9,6 +9,7 @@ import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.Neutronium;
 import static gregtech.api.unification.material.info.MaterialFlags.GENERATE_PLATE;
 
+@SuppressWarnings("unused")
 public class LabsMaterials {
     /**
      * Deprecated Materials

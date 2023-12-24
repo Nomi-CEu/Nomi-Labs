@@ -57,7 +57,7 @@ public class LabsMicroverse {
                 .colorAverage().iconSet(DULL)
                 .components(Darmstadtium, 2, Sulfur, 3)
                 .addOreByproducts(RareEarth, RhodiumSulfate, Darmstadtium)
-                .build();
+                .build(); // This also adds dust property to rhodium sulfate
 
         Dulysite = new Material.Builder(32111, makeLabsName("dulysite"))
                 .gem().ore(2, 1)

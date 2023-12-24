@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.remap.datafixer.fixes;
 
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
@@ -21,7 +22,8 @@ public class MultiblockFixer implements IFixableData {
         if (DataFixerHandler.fixNotAvailable()) return compound;
 
         NomiLabs.LOGGER.debug("Block Entity: {}", compound);
-        if (compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) && compound.getString("id").equals("gregtech:machine")) {
+        if (compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) &&
+                compound.getString("id").equals(new ResourceLocation(LabsValues.GREGTECH_MODID, LabsValues.GT_MACHINE_PATH).toString())) {
             var metaId = new ResourceLocation(compound.getString("MetaId"));
             for (var shouldFix : LabsFixes.multiblockFixes.keySet()) {
                 if (!shouldFix.apply(metaId)) continue;

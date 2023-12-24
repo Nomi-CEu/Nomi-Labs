@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 @Mixin(value = EnergyCoreBuilder.class, remap = false)
 public class EnergyCoreBuilderMixin implements StoppableProcess {
     @Shadow

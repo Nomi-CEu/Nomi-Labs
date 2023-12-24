@@ -56,7 +56,7 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
     @Inject(method = "drawGuiContainerBackgroundLayer", at = @At("HEAD"), cancellable = true)
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY, CallbackInfo ci) {
         var guiCore = (GuiEnergyCore) (Object) this;
-        // We only need to change the background layer of non-active cores (changing wrap text dimensions for non valid)
+        // We only need to change the background layer of non-active cores (changing wrap text dimensions for non-valid)
         if (guiCore.tile.active.value)
             return;
         GuiEnergyCoreLogic.drawBackground(guiCore, fontRenderer);

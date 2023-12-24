@@ -36,11 +36,9 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockController {
-    protected final int tier;
 
     public MetaTileEntityMicroverse(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, LabsRecipeMaps.MICROVERSE_RECIPES.get(tier - 1));
-        this.tier = tier;
     }
 
     protected IBlockState getCasingStateMain() {

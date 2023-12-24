@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class LabsFluids {
 
     private static final List<Fluid> FLUIDS = new ArrayList<>();
@@ -112,7 +113,7 @@ public class LabsFluids {
 
 
     /**
-     * All of the below is Excerpted from Actually Additions.
+     * All the below is Excerpted from Actually Additions.
      * They excerpted it from Tinkers' Construct with permission.
      */
     @SideOnly(Side.CLIENT)
@@ -127,13 +128,9 @@ public class LabsFluids {
 
     @SideOnly(Side.CLIENT)
     public static class FluidStateMapper extends StateMapperBase implements ItemMeshDefinition {
-
-        public final Fluid fluid;
         public final ModelResourceLocation location;
 
         public FluidStateMapper(Fluid fluid) {
-            this.fluid = fluid;
-
             this.location = new ModelResourceLocation(LabsNames.makeLabsName("fluids"), fluid.getName());
         }
 

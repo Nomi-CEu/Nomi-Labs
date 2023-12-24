@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemSmore extends ItemFood {
-    List<PotionEffect> potionEffects;
+    private final List<PotionEffect> potionEffects;
     private IRarity rarity = null;
 
     public ItemSmore(int healAmount, float saturation, ResourceLocation rl, CreativeTabs creativeTab) {

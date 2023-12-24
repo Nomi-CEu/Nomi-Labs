@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.Constants;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemStackWalker implements IDataWalker {
-    String type;
+    private final String type;
     public ItemStackWalker(String type) {
         this.type = type;
     }

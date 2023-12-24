@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = EnergyCoreStructure.class, remap = false)
 public class EnergyCoreStructureMixin {
     /**
-     * Overrides the initialize function so we can return our own.
+     * Overrides the initialize function, so we can return our own.
      */
     @Inject(method = "initialize", at = @At("HEAD"), cancellable = true)
     public void initialize(TileEnergyStorageCore core, CallbackInfoReturnable<EnergyCoreStructure> cir) {

@@ -142,7 +142,7 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
             if (activeBuilder != null) {
                 if (activeBuilder.isDead())
                     hasActiveBuilder.value = false;
-                // Don't update process or set active builder to null, thats done in the original update function
+                // Don't update process or set active builder to null, that is done in the original update function
             }
         }
     }

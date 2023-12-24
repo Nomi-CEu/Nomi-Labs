@@ -1,7 +1,6 @@
 package com.nomiceu.nomilabs.core;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraftforge.common.util.CompoundDataFixer;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.jetbrains.annotations.Nullable;
 import zone.rong.mixinbooter.IEarlyMixinLoader;

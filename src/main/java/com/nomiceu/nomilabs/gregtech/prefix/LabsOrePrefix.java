@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import static gregtech.api.GTValues.M;
 import static gregtech.api.unification.ore.OrePrefix.Flags.ENABLE_UNIFICATION;
 
+@SuppressWarnings("unused")
 public class LabsOrePrefix extends OrePrefix {
 
     public static OrePrefix GEM_PERFECT;

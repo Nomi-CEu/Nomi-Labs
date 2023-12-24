@@ -16,7 +16,7 @@ public class DeprecatedItemRemapper extends ItemRemapper {
     private static final Map<ResourceLocation, Supplier<Item>> DEPRECATION_REMAP = new HashMap<>();
 
     public DeprecatedItemRemapper() {
-        /* This is a method reference, so it is fine to add the keys afterwards */
+        /* This is a method reference, so it is fine to add the keys afterward */
         super(DEPRECATION_REMAP::containsKey, rl -> rl);
 
         /* It is too big to use ImmutableMap.of(). Add each manually. */

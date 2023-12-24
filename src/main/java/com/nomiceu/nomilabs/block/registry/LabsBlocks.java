@@ -26,6 +26,7 @@ import java.util.function.Function;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 
+@SuppressWarnings("unused")
 public class LabsBlocks {
     private static final String nullTranslationKey = "tile.null";
     private static final List<Block> BLOCKS = new ArrayList<>();

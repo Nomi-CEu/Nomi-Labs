@@ -7,11 +7,10 @@ import gregtech.api.unification.material.properties.PropertyKey;
 
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
-import static gregtech.api.unification.material.info.MaterialFlags.GENERATE_GEAR;
 
 public class LabsProperties {
     public static void propertyChanges() {
-        //RhodiumSulfate.setProperty(PropertyKey.DUST, new DustProperty()); // GT added maybe?
+        // Rhodium Sulfate gets Dust Property from adding it as an ore byproduct of Darmstadtite in LabsMicroverse
 
         Lutetium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Neptunium.setProperty(PropertyKey.INGOT, new IngotProperty());

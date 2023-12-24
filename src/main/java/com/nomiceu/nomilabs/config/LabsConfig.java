@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.config;
 import com.nomiceu.nomilabs.LabsValues;
 import net.minecraftforge.common.config.Config;
 
+@SuppressWarnings({"CanBeFinal", "unused"})
 @Config(modid = LabsValues.LABS_MODID, category = "")
 public class LabsConfig {
     @Config.Comment("Content Settings")

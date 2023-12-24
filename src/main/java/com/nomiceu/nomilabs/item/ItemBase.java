@@ -31,7 +31,7 @@ public class ItemBase extends Item {
         initialise(rl, tab, rarity, stackSize, ImmutableMap.of());
     }
     /**
-     * Make a item.
+     * Makes an item.
      * @param rl Resource Location
      * @param tab Creative Tab
      * @param rarity Rarity

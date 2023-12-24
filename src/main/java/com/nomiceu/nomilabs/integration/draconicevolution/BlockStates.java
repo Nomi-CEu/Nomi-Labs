@@ -20,23 +20,29 @@ public class BlockStates {
         this.wildcard = wildcard;
     }
 
+    @SuppressWarnings("unused")
     public static BlockStates of(IBlockState defaultBlockState) {
         return new BlockStates(defaultBlockState, new IBlockState[0], false);
     }
+    @SuppressWarnings("unused")
     public static BlockStates of(IBlockState defaultBlockState, IBlockState... substitutes) {
         return new BlockStates(defaultBlockState, substitutes, false);
     }
+    @SuppressWarnings("unused")
     public static BlockStates of(ItemStack defaultBlockState) {
         return new BlockStates(transformStackToState(defaultBlockState), new IBlockState[0], false);
     }
+    @SuppressWarnings("unused")
     public static BlockStates of(ItemStack defaultBlockState, ItemStack... substitutes) {
         return new BlockStates(transformStackToState(defaultBlockState),
                 Arrays.stream(substitutes).map(BlockStates::transformStackToState).toArray(IBlockState[]::new),
                 false);
     }
+    @SuppressWarnings("unused")
     public static BlockStates of(Block defaultBlock) {
         return new BlockStates(defaultBlock.getDefaultState(), new IBlockState[0], false);
     }
+    @SuppressWarnings("unused")
     public static BlockStates of(Block defaultBlock, Block... substitutes) {
         return new BlockStates(defaultBlock.getDefaultState(),
                 Arrays.stream(substitutes).map(Block::getDefaultState).toArray(IBlockState[]::new),
