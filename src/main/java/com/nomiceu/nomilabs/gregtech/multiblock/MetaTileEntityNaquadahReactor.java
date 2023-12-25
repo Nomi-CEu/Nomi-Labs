@@ -200,7 +200,7 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
 
     public static class NaquadahReactor2 extends MetaTileEntityNaquadahReactor {
         public NaquadahReactor2(ResourceLocation metaTileEntityId) {
-            super(metaTileEntityId, 1, GTValues.ZPM, 3);
+            super(metaTileEntityId, 2, GTValues.UV, 4);
         }
 
         @Override
