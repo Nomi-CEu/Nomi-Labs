@@ -191,10 +191,10 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
         @Override
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, World player, @NotNull List<String> tooltip, boolean advanced) {
-            super.addInformation(stack, player, tooltip, advanced);
-
             tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.naquadah_reactor_1.description") + TextFormatting.RESET);
             addSharedInfo(tooltip);
+
+            super.addInformation(stack, player, tooltip, advanced);
         }
     }
 

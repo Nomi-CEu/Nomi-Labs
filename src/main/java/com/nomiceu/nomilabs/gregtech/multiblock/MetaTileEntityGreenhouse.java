@@ -121,7 +121,7 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
-        super.addInformation(stack, world, tooltip, advanced);
         tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.greenhouse.description") + TextFormatting.RESET);
+        super.addInformation(stack, world, tooltip, advanced);
     }
 }

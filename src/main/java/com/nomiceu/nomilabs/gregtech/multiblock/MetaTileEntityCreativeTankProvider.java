@@ -88,7 +88,7 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
-        super.addInformation(stack, world, tooltip, advanced);
         tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.creative_tank_provider.description") + TextFormatting.RESET);
+        super.addInformation(stack, world, tooltip, advanced);
     }
 }
