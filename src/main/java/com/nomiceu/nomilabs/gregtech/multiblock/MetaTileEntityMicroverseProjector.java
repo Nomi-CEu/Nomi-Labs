@@ -148,7 +148,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
             super.addInformation(stack, world, tooltip, advanced);
-            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.microverse_projector_1.description") + TextFormatting.RESET);
+            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.microverse_projector_1.description") + TextFormatting.RESET);
         }
     }
 
@@ -210,7 +210,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
             super.addInformation(stack, world, tooltip, advanced);
-            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.microverse_projector_2.description"));
+            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.microverse_projector_2.description"));
         }
     }
 
@@ -278,7 +278,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
             super.addInformation(stack, world, tooltip, advanced);
-            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.microverse_projector_3.description"));
+            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.microverse_projector_3.description"));
         }
     }
 }
