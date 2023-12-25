@@ -4,29 +4,29 @@ import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.datafixer.DataFix;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
-import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.datafix.IFixableData;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemFixer implements IFixableData {
+public class TileEntityFixer implements IFixableData {
     @Override
     public int getFixVersion() {
         return LabsFixes.FIX_VERSION;
     }
 
     @Override
-    public @NotNull NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
+    @NotNull
+    public NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
         if (DataFixerHandler.fixNotAvailable()) return compound;
 
-        var stack = new ItemStackLike(compound);
-        for (var fix : DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.ITEM)) {
-            if (!(fix instanceof DataFix.ItemFix itemFix)) continue;
-            if (!itemFix.validEntry.apply(stack)) continue;
-            itemFix.transform.accept(stack);
+        NomiLabs.LOGGER.debug("Block Entity: {}", compound);
+        for (var fix : DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.TILE_ENTITY)) {
+            if (!(fix instanceof DataFix.TileEntityFix teFix)) continue;
+            if (!teFix.validEntry.apply(compound)) continue;
             var oldCompound = compound.copy();
-            NomiLabs.LOGGER.info("[Data Fixer] Changed Stack: {} to {}", oldCompound, stack.changeCompound(compound));
+            teFix.transform.accept(compound);
+            NomiLabs.LOGGER.info("[Data Fixer] Changed Block Entity Tag {} to {}", oldCompound, compound);
             return compound;
         }
         return compound;

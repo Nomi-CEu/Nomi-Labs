@@ -11,6 +11,11 @@ public class LabsFixTypes {
         ITEM,
 
         /**
+         * A compound tag belonging to a Tile Entity.
+         */
+        TILE_ENTITY,
+
+        /**
          * A vertical section of a chunk containing block state data.
          */
         BLOCK

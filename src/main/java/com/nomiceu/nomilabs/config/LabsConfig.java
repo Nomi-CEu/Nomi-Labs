@@ -70,14 +70,6 @@ public class LabsConfig {
             @Config.LangKey("config.nomilabs.content.custom_content.complex_recipes")
             @Config.RequiresMcRestart
             public boolean enableComplexRecipes = true;
-
-            @Config.Comment({
-                    "Whether to Remap Old Content Tweaker Items, Blocks and Fluids to new Nomi Labs ones.",
-                    "[default: true]"
-            })
-            @Config.LangKey("config.nomilabs.content.custom_content.remap")
-            @Config.RequiresWorldRestart
-            public boolean remap = true;
         }
 
         public static class GTCustomContent {
@@ -96,14 +88,6 @@ public class LabsConfig {
             @Config.LangKey("config.nomilabs.content.gt_content.perfect_gems")
             @Config.RequiresMcRestart
             public boolean enablePerfectGems = true;
-
-            @Config.Comment({
-                    "Whether to Remap old DevTech Perfect Gems to the New Ones.",
-                    "[default: true]"
-            })
-            @Config.LangKey("config.nomilabs.content.gt_content.remap_perfect_gems")
-            @Config.RequiresMcRestart
-            public boolean remapPerfectGems = true;
 
             @Config.Comment({
                     "Enable Custom GT Blocks.",

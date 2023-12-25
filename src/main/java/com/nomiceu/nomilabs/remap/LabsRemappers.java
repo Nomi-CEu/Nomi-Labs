@@ -1,14 +1,16 @@
 package com.nomiceu.nomilabs.remap;
 
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.remapper.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.util.GTUtility;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.StartupQuery;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.spongepowered.include.com.google.common.collect.ImmutableList;
 
@@ -28,7 +30,7 @@ public class LabsRemappers {
                 new DeprecatedItemRemapper(),
 
                 // Remap Content Tweaker Items
-                new ItemRemapper(rl -> (LabsConfig.content.customContent.remap && rl.getNamespace().equals(CONTENTTWEAKER_MODID)),
+                new ItemRemapper(rl -> (rl.getNamespace().equals(CONTENTTWEAKER_MODID)),
                         rl -> LabsNames.makeLabsName(rl.getPath())),
 
                 /*
@@ -36,13 +38,12 @@ public class LabsRemappers {
                  * DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
                  * Mod ID, so we need to map the DevTech metaitem to the GT metaitem in missing mappings.
                  */
-                new ItemRemapper(rl -> (LabsConfig.content.gtCustomContent.remapPerfectGems &&
-                        rl.getNamespace().equals(DEVTECH_MODID) && rl.getPath().equals(PERFECT_GEM_META)),
+                new ItemRemapper(rl -> (rl.getNamespace().equals(DEVTECH_MODID) && rl.getPath().equals(PERFECT_GEM_META)),
                         rl -> GTUtility.gregtechId(PERFECT_GEM_META))
         );
         BLOCK_REMAPPERS = ImmutableList.of(
                 // Remap Content Tweaker Blocks
-                new BlockRemapper(rl -> (LabsConfig.content.customContent.remap && rl.getNamespace().equals(LabsValues.CONTENTTWEAKER_MODID)),
+                new BlockRemapper(rl -> (rl.getNamespace().equals(LabsValues.CONTENTTWEAKER_MODID)),
                         rl -> LabsNames.makeLabsName(rl.getPath()))
         );
     }
@@ -56,7 +57,7 @@ public class LabsRemappers {
     }
 
     private static <T extends IForgeRegistryEntry<T>> void remapEntries(RegistryEvent.MissingMappings<T> event, List<? extends Remapper<T>> remappers) {
-        if (!checked && (LabsConfig.content.customContent.remap || LabsConfig.content.gtCustomContent.remapPerfectGems)) {
+        if (!checked && !DataFixerHandler.checked) {
             var needsRemap = false;
             for (var entry : event.getAllMappings()) {
                 for (var remapper : remappers) {
@@ -66,7 +67,18 @@ public class LabsRemappers {
             }
             if (!needsRemap) return; // Don't set checked to true, other remappers might detect needed remaps
 
-            if (!LabsConfig.content.customContent.remap && !LabsConfig.content.gtCustomContent.remapPerfectGems) return;
+            var message = new StringBuilder("This world must be remapped.\n\n")
+                    .append(TextFormatting.BOLD).append("A Backup will be made.\n")
+                    .append("Pressing 'No' will cancel world loading.\n\n")
+                    .append(TextFormatting.RED)
+                    .append("Note that after the world is loaded with this, you CANNOT undo this!\n")
+                    .append("You WILL have to load from the backup in order to load in a previous version!");
+
+            if (!StartupQuery.confirm(message.toString())) {
+                LabsRemapHelper.abort();
+            }
+
+            LabsRemapHelper.createWorldBackup();
 
             checked = true;
         }
