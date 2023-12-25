@@ -15,7 +15,6 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
-import com.nomiceu.nomilabs.recipe.LabsTestRecipes;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
@@ -72,7 +71,7 @@ public class CommonProxy {
         if (LabsConfig.modIntegration.enableTOPIntegration && Loader.isModLoaded(LabsValues.TOP_MODID))
             TOPTooltipManager.registerProviders();
 
-        LabsTestRecipes.postInit();
+        //com.nomiceu.nomilabs.recipe.LabsTestRecipes.postInit();
     }
 
     @SubscribeEvent
