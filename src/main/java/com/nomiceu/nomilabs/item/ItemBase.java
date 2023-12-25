@@ -1,7 +1,7 @@
 package com.nomiceu.nomilabs.item;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.client.resources.I18n;
+import com.google.common.collect.ImmutableList;
+import com.nomiceu.nomilabs.util.LabsTooltipHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
@@ -16,19 +16,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 
 public class ItemBase extends Item {
     private IRarity rarity;
-    Map<String, String> description;
+    private List<LabsTooltipHelper.Tooltip> description;
     public ItemBase(ResourceLocation rl, CreativeTabs tab) {
-        initialise(rl, tab, EnumRarity.COMMON, 64, ImmutableMap.of());
+        initialise(rl, tab, EnumRarity.COMMON, 64, ImmutableList.of());
     }
     public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity) {
-        initialise(rl, tab, rarity, 64, ImmutableMap.of());
+        initialise(rl, tab, rarity, 64, ImmutableList.of());
     }
     public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize) {
-        initialise(rl, tab, rarity, stackSize, ImmutableMap.of());
+        initialise(rl, tab, rarity, stackSize, ImmutableList.of());
     }
     /**
      * Makes an item.
@@ -38,11 +37,11 @@ public class ItemBase extends Item {
      * @param stackSize Max Stack Size
      * @param description Description. Map of translation keys to formatting keys. Is of string to string so we can use GTFormatCodes
      */
-    public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize, Map<String, String> description) {
+    public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize, List<LabsTooltipHelper.Tooltip> description) {
         initialise(rl, tab, rarity, stackSize, description);
     }
 
-    private void initialise(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize, Map<String, String> description) {
+    private void initialise(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize, List<LabsTooltipHelper.Tooltip> description) {
         setRegistryName(rl);
         setCreativeTab(tab);
         setRarity(rarity);
@@ -65,7 +64,7 @@ public class ItemBase extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
-        for (var translationKey : description.keySet())
-            tooltip.add(description.get(translationKey) + I18n.format(translationKey));
+        for (var text : description)
+            tooltip.add(text.getFormattedString());
     }
 }

@@ -1,14 +1,21 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
 import appeng.core.Api;
+import com.blakebr0.extendedcrafting.block.BlockStorage;
+import com.blakebr0.extendedcrafting.block.BlockTrimmed;
+import com.blakebr0.extendedcrafting.block.ModBlocks;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.recipelogic.NaqRecipeLogic;
+import com.nomiceu.nomilabs.util.LabsModeHelper;
 import gregtech.api.metatileentity.multiblock.FuelMultiblockController;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.Materials;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.common.blocks.MetaBlocks;
 import net.minecraft.block.state.IBlockState;
@@ -38,28 +45,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
+public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
     public final int numSpatial;
-    public final IBlockState bottomFiller;
-    public final IBlockState topFiller;
     public final int tier;
     public final int voltageTier;
 
     public static final int AMP = 3;
 
-    public MetaTileEntityNaquadahReactor(ResourceLocation metaTileEntityId, int tier, int voltageTier, int numSpatial, IBlockState bottomFiller, IBlockState topFiller) {
+    public MetaTileEntityNaquadahReactor(ResourceLocation metaTileEntityId, int tier, int voltageTier, int numSpatial) {
         super(metaTileEntityId, LabsRecipeMaps.NAQUADAH_REACTOR_RECIPES.get(tier - 1), voltageTier);
         this.voltageTier = voltageTier;
         this.tier = tier;
         this.numSpatial = numSpatial;
-        this.bottomFiller = bottomFiller;
-        this.topFiller = topFiller;
         this.recipeMapWorkable = new NaqRecipeLogic(this);
-    }
-
-    @Override
-    public MetaTileEntity createMetaTileEntity(IGregTechTileEntity tileEntity) {
-        return new MetaTileEntityNaquadahReactor(metaTileEntityId, tier, voltageTier, numSpatial, bottomFiller, topFiller);
     }
 
     @Override
@@ -96,8 +94,8 @@ public class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
                 .where('S', selfPredicate())
             .where('G', states(getCasingStateGlass()))
             .where('P', states(getCasingStateSpatial()))
-            .where('T', states(this.topFiller))
-            .where('B', states(this.bottomFiller))
+            .where('T', states(getCasingStateBottom()))
+            .where('B', states(getCasingStateTop()))
             .where('C', states(getCasingStateMain()).setMinGlobalLimited(10)
                 .or(abilities(MultiblockAbility.OUTPUT_ENERGY).setExactLimit(1))
                 .or(autoAbilities(false, true, true, true, false, false, false)))
@@ -125,6 +123,10 @@ public class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
     }
 
+    protected abstract IBlockState getCasingStateBottom();
+
+    protected abstract IBlockState getCasingStateTop();
+
     protected IBlockState getCasingStateSpatial() {
         if (Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().isPresent()) {
             return Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().get().getDefaultState();
@@ -132,6 +134,11 @@ public class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
             assert Blocks.AIR != null;
             return Blocks.AIR.getDefaultState();
         }
+    }
+
+    public void addSharedInfo(@NotNull List<String> tooltip) {
+        tooltip.add(TextFormatting.WHITE + I18n.format("tooltip.nomilabs.naquadah_reactor.produces", AMP, GTValues.VNF[voltageTier] + TextFormatting.RESET));
+        tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("tooltip.nomilabs.naquadah_reactor.overclock"));
     }
 
     @Override
@@ -161,12 +168,68 @@ public class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
         }
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, World player, @NotNull List<String> tooltip, boolean advanced) {
-        super.addInformation(stack, player, tooltip, advanced);
+    public static class NaquadahReactor1 extends MetaTileEntityNaquadahReactor {
+        public NaquadahReactor1(ResourceLocation metaTileEntityId) {
+            super(metaTileEntityId, 1, GTValues.ZPM, 3);
+        }
 
-        tooltip.add(I18n.format("tooltip.nomilabs.naquadah_reactor.produces", AMP, GTValues.VNF[voltageTier] + TextFormatting.RESET));
-        tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("gui.nomilabs.naquadah_reactor.overclock"));
+        @Override
+        public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
+            return new MetaTileEntityNaquadahReactor.NaquadahReactor1(metaTileEntityId);
+        }
+
+        @Override
+        protected IBlockState getCasingStateBottom() {
+            return MetaBlocks.COMPRESSED.get(Materials.Duranium).getBlock(Materials.Duranium);
+        }
+
+        @Override
+        protected IBlockState getCasingStateTop() {
+            return ModBlocks.blockTrimmed.getStateFromMeta(BlockTrimmed.Type.ULTIMATE_TRIMMED.getMetadata());
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, World player, @NotNull List<String> tooltip, boolean advanced) {
+            super.addInformation(stack, player, tooltip, advanced);
+
+            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.naquadah_reactor_1.description") + TextFormatting.RESET);
+            addSharedInfo(tooltip);
+        }
+    }
+
+    public static class NaquadahReactor2 extends MetaTileEntityNaquadahReactor {
+        public NaquadahReactor2(ResourceLocation metaTileEntityId) {
+            super(metaTileEntityId, 1, GTValues.ZPM, 3);
+        }
+
+        @Override
+        public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
+            return new MetaTileEntityNaquadahReactor.NaquadahReactor2(metaTileEntityId);
+        }
+
+        @Override
+        protected IBlockState getCasingStateBottom() {
+            Material material;
+            if (LabsModeHelper.isNormal())
+                material = Materials.RutheniumTriniumAmericiumNeutronate;
+            else
+                material = LabsMaterials.Taranium;
+            return MetaBlocks.COMPRESSED.get(material).getBlock(material);
+        }
+
+        @Override
+        protected IBlockState getCasingStateTop() {
+            return ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata());
+        }
+
+        @Override
+        @SideOnly(value = Side.CLIENT)
+        public void addInformation(ItemStack stack, World player, @NotNull List<String> tooltip, boolean advanced) {
+            super.addInformation(stack, player, tooltip, advanced);
+
+            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.naquadah_reactor_2.description") + TextFormatting.RESET);
+            addSharedInfo(tooltip);
+        }
     }
 }

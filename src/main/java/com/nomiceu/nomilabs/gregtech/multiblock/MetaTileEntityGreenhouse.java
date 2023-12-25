@@ -17,13 +17,20 @@ import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController {
 
@@ -109,5 +116,12 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
     @Override
     public boolean canBeDistinct() {
         return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+        super.addInformation(stack, world, tooltip, advanced);
+        tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.greenhouse.description") + TextFormatting.RESET);
     }
 }

@@ -29,11 +29,15 @@ config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 config.nomilabs.mod_integration=Mod 联动设置
 config.nomilabs.mod_integration.nuclearcraft=启用 NuclearCraft 联动
 config.nomilabs.mod_integration.xu2=启用 Extra Utilities 2 联动
+config.nomilabs.mod_integration.top=Enable TOP Integration
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution 联动设置
 config.nomilabs.mod_integration.draconicevolution.enable=启用 Draconic Evolution 联动
 config.nomilabs.mod_integration.draconicevolution.auto_builder_speed=自动建造速度
 config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=自动解构速度
+
+config.nomilabs.advanced=Advanced Settings
+config.nomilabs.advanced.allow_other_modes=Allow Other Modes
 
 # Old Content Tweaker Stuff (Refactor Needed)
 itemGroup.nomilabs.main=Nomi 实验室
@@ -298,11 +302,6 @@ item.nomilabs.heartofauniverse.name=宇宙之心
 item.nomilabs.radiationlayer.name=防辐射层
 item.nomilabs.pressurelayer.name=耐高压层
 tile.nomilabs.excitationcoil.name=励磁线圈
-item.nomilabs.excitationcoil.tooltip.craftingcomponent=仅用于制作元件……以及：
-item.nomilabs.excitationcoil.tooltip.moreinfo=按住[Shift]查看更多用法。
-item.nomilabs.excitationcoil.tooltip.placeable=可放置！
-item.nomilabs.excitationcoil.tooltip.wearable=可以戴在你的头上！
-item.nomilabs.excitationcoil.tooltip.nightvision=戴上时有夜视效果！
 item.nomilabs.unpreparedspacehelmet.name=粗制太空头盔
 item.nomilabs.unpreparedspacechestpiece.name=粗制太空胸甲
 item.nomilabs.unpreparedspaceleggings.name=粗制太空护腿
@@ -394,13 +393,10 @@ item.nomilabs.compressedoctadiccapacitor.name=压缩八层电容
 item.nomilabs.doublecompressedoctadiccapacitor.name=双倍压缩八层电容
 item.nomilabs.ultimate_circuit.name=终极电路板
 tile.nomilabs.ultimate_power_storage.name=终极蓄电池
-item.nomilabs.ultimate_power_storage.tooltip=只用于制作元件。
+
 tile.nomilabs.ultimate_generator.name=终极发电机
-item.nomilabs.ultimate_generator.tooltip=只用于制作元件
 item.nomilabs.ultimate_crafting_table.name=终极合成台
-item.nomilabs.ultimate_crafting_table.tooltip=只用于制作元件。
 item.nomilabs.ultimate_gem.name=终极宝石
-item.nomilabs.ultimate_gem.tooltip=只用于制作元件。
 
 item.nomilabs.dragonlairdata.name=飞龙巢穴数据
 item.nomilabs.witherrealmdata.name=凋灵领域数据
@@ -425,12 +421,6 @@ item.nomilabs.sixtyfoursmore.name=六十四重饼干夹烤棉花糖
 item.nomilabs.dark_red_coal.name=暗红煤
 
 item.nomilabs.hand_framing_tool.name=手持镶框工具
-
-item.nomilabs.hand_framing_tool.tooltip.material.not_set=把这个工具放在成型台或合成台里来设置镶框数据！
-
-item.nomilabs.hand_framing_tool.tooltip.material.side=侧边
-item.nomilabs.hand_framing_tool.tooltip.material.trim=镶边
-item.nomilabs.hand_framing_tool.tooltip.material.front=前面
 
 item.nomilabs.hand_framing_tool.desc1=手工给抽屉镶框！
 item.nomilabs.hand_framing_tool.desc2=通过手持镶框工具，可以为已经放置在世界上的抽屉设置框架。
@@ -468,7 +458,27 @@ recipemap.actualization_chamber.name=实体化
 recipemap.universal_crystallizer.name=万能结晶器
 recipemap.dme_sim_chamber.name=模拟
 
+
+#----------------Tooltips----------------#
+
+# General
+tooltip.nomilabs.general.press_shift_for_usages=按住[Shift]查看更多用法。
+tooltip.nomilabs.general.press_ctrl_for_usages=按住[Ctrl]查看更多用法。
+
 # Tooltips
+tooltip.nomilabs.excitationcoil.description_block=只用于制作元件。
+tooltip.nomilabs.excitationcoil.description_item=仅用于制作元件……以及：
+tooltip.nomilabs.excitationcoil.placeable=可放置！
+tooltip.nomilabs.excitationcoil.wearable=可以戴在你的头上！
+tooltip.nomilabs.excitationcoil.night_vision=戴上时有夜视效果！
+
+tooltip.nomilabs.hand_framing_tool.not_set=把这个工具放在成型台或合成台里来设置镶框数据！
+tooltip.nomilabs.hand_framing_tool.side=侧边
+tooltip.nomilabs.hand_framing_tool.trim=镶边
+tooltip.nomilabs.hand_framing_tool.front=前面
+
+tooltip.nomilabs.ultimate_items.description=只用于制作元件。
+
 tooltip.nomilabs.microverse_projector_1.description=一种能够稳定投影进入微型宇宙中的机器，用于基本的微型采矿任务。
 tooltip.nomilabs.microverse_projector_2.description=一种能够稳定投影进入微型宇宙中的高级机器，用于基本的复杂采矿任务。
 tooltip.nomilabs.microverse_projector_3.description=一种能够稳定投影进入微型宇宙中的杰出机器，用于基本的奇特采矿任务。
@@ -476,9 +486,8 @@ tooltip.nomilabs.creative_tank_provider.description=A complex machine capable of
 tooltip.nomilabs.naquadah_reactor_1.description=一种高级的反应堆，通过利用富集硅岩和超能硅岩的衰变产生能量。
 tooltip.nomilabs.naquadah_reactor_2.description=一种杰出的反应堆，可从富集硅岩和超能硅岩的衰变中获取更多能量。
 tooltip.nomilabs.naquadah_reactor.produces=正好产生 %s 安培的 %s。
+tooltip.nomilabs.naquadah_reactor.overclock=不要超频!
 tooltip.nomilabs.actualization_chamber.description=A powerful machine that harnesses the most complex of matters and turns it into raw materials.
 tooltip.nomilabs.universal_crystallizer.description=An immense device, capable of turning raw materials into complex matters.
 tooltip.nomilabs.dme_sim_chamber.description=A high powered simulation device, capable of performing more complex simulations faster than ever.
-
-# GUI
-gui.nomilabs.naquadah_reactor.overclock=不要超频!
+tooltip.nomilabs.greenhouse.description=A high powered growing chamber, capable of mass-growing even the most incomprehensible plants.

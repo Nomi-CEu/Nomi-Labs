@@ -12,10 +12,12 @@ import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
+import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.recipe.LabsTestRecipes;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
+import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.unification.material.event.MaterialEvent;
 import net.minecraft.block.Block;
@@ -26,6 +28,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -55,10 +58,16 @@ public class CommonProxy {
     }
 
     public static void postInit() {
+        LabsModeHelper.check();
+
         if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
             LabsMultiblocks.initOld();
         if (LabsConfig.content.gtCustomContent.enableNewMultiblocks)
             LabsMultiblocks.initNew();
+
+        if (LabsConfig.modIntegration.enableTOPIntegration && Loader.isModLoaded(LabsValues.TOP_MODID))
+            TOPTooltipManager.registerProviders();
+
         LabsTestRecipes.postInit();
     }
 

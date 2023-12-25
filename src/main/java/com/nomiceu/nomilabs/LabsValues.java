@@ -8,7 +8,7 @@ public class LabsValues {
     public static final String NORMAL_MODE = "normal";
     public static final String EXPERT_MODE = "expert";
 
-    /* Compat */
+    /* Other Mods' ModIDs, used for compat and/or integration */
     public static final String CONTENTTWEAKER_MODID = "contenttweaker";
     public static final String XU2_MODID = "extrautils2";
     public static final String DEVTECH_MODID = "devtech";
@@ -17,4 +17,5 @@ public class LabsValues {
     public static final String MULTIBLOCK_TWEAKER_MODID = "multiblocktweaker";
     public static final String GREGTECH_MODID = "gregtech";
     public static final String GT_MACHINE_PATH = "machine";
+    public static final String TOP_MODID = "theoneprobe";
 }

@@ -1,8 +1,11 @@
 package com.nomiceu.nomilabs.block;
 
+import com.google.common.collect.ImmutableList;
+import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -11,14 +14,19 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 @SuppressWarnings({"PointlessArithmeticExpression", "deprecation"})
-public class BlockExcitationCoil extends BlockDirectional {
+public class BlockExcitationCoil extends BlockDirectional implements TOPInfoProvider {
 
     private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.0 / 16.0, 4.0 / 16.0,
                                                                      4.0 / 16.0, 9.0 / 16.0,
@@ -137,5 +145,11 @@ public class BlockExcitationCoil extends BlockDirectional {
     public @NotNull BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, FACING);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public List<String> getTOPMessage(IBlockState state) {
+        return ImmutableList.of(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.excitationcoil.description_block"));
     }
 }

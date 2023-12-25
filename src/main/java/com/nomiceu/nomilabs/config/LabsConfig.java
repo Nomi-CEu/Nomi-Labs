@@ -16,6 +16,11 @@ public class LabsConfig {
     @Config.Name("mod integration")
     public static ModIntegration modIntegration = new ModIntegration();
 
+    @Config.Comment("Advanced Settings")
+    @Config.LangKey("config.nomilabs.advanced")
+    @Config.Name("advanced")
+    public static Advanced advanced = new Advanced();
+
     public static class Content {
         @Config.Comment("Custom Content Settings")
         @Config.LangKey("config.nomilabs.content.custom_content")
@@ -145,6 +150,12 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableExtraUtils2Integration = true;
 
+        @Config.Comment({"Whether to enable TOP Integration, which adds some messages to the TOP panel when hovering over certain blocks.",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.mod_integration.top")
+        @Config.RequiresMcRestart
+        public boolean enableTOPIntegration = true;
+
         @Config.Comment("Draconic Evolution Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.draconicevolution")
         @Config.Name("draconic evolution integration")
@@ -176,5 +187,15 @@ public class LabsConfig {
             @Config.RangeInt(min = 0)
             public int autoDestructorSpeed = 1;
         }
+    }
+
+    public static class Advanced {
+        @Config.Comment({"Whether to allow other pack modes, other than 'normal' and 'expert'.",
+                "If this is set to false, the game will crash if other modes are found.",
+                "Only set this to false if you are sure of what you are doing.",
+                "Beware: many mode specific behaviours will break if other pack modes are used!",
+                "[default: false]"})
+        @Config.LangKey("config.nomilabs.advanced.allow_other_modes")
+        public boolean allowOtherPackModes = false;
     }
 }

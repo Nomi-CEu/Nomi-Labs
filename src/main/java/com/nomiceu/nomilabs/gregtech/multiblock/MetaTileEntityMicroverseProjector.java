@@ -21,23 +21,28 @@ import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 import gregtech.core.sound.GTSoundEvents;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import team.chisel.common.carving.Carving;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockController {
+public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultiblockController {
 
-    public MetaTileEntityMicroverse(ResourceLocation metaTileEntityId, int tier) {
+    public MetaTileEntityMicroverseProjector(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, LabsRecipeMaps.MICROVERSE_RECIPES.get(tier - 1));
     }
 
@@ -90,8 +95,8 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
         return GTSoundEvents.BREAKDOWN_ELECTRICAL;
     }
 
-    public static class MetaTileEntityMicroverse1 extends MetaTileEntityMicroverse {
-        public MetaTileEntityMicroverse1(ResourceLocation metaTileEntityId) {
+    public static class Microverse1 extends MetaTileEntityMicroverseProjector {
+        public Microverse1(ResourceLocation metaTileEntityId) {
             super(metaTileEntityId,1);
         }
 
@@ -136,12 +141,19 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
 
         @Override
         public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-            return new MetaTileEntityMicroverse1(metaTileEntityId);
+            return new Microverse1(metaTileEntityId);
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+            super.addInformation(stack, world, tooltip, advanced);
+            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.microverse_projector_1.description") + TextFormatting.RESET);
         }
     }
 
-    public static class MetaTileEntityMicroverse2 extends MetaTileEntityMicroverse {
-        public MetaTileEntityMicroverse2(ResourceLocation metaTileEntityId) {
+    public static class Microverse2 extends MetaTileEntityMicroverseProjector {
+        public Microverse2(ResourceLocation metaTileEntityId) {
             super(metaTileEntityId,2);
         }
 
@@ -191,12 +203,19 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
 
         @Override
         public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-            return new MetaTileEntityMicroverse2(metaTileEntityId);
+            return new Microverse2(metaTileEntityId);
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+            super.addInformation(stack, world, tooltip, advanced);
+            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.microverse_projector_2.description"));
         }
     }
 
-    public static class MetaTileEntityMicroverse3 extends MetaTileEntityMicroverse {
-        public MetaTileEntityMicroverse3(ResourceLocation metaTileEntityId) {
+    public static class Microverse3 extends MetaTileEntityMicroverseProjector {
+        public Microverse3(ResourceLocation metaTileEntityId) {
             super(metaTileEntityId,3);
         }
 
@@ -252,7 +271,14 @@ public abstract class MetaTileEntityMicroverse extends RecipeMapMultiblockContro
 
         @Override
         public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-            return new MetaTileEntityMicroverse3(metaTileEntityId);
+            return new Microverse3(metaTileEntityId);
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+            super.addInformation(stack, world, tooltip, advanced);
+            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.microverse_projector_3.description"));
         }
     }
 }

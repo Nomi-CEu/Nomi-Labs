@@ -57,21 +57,21 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         NBTTagCompound tagCompound = stack.getTagCompound();
 
         if (tagCompound == null || getItemStackFromKey(tagCompound, MAT_SIDE_TAG).isEmpty()){
-            tooltip.add(I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.not_set"));
+            tooltip.add(I18n.format("tooltip.nomilabs.hand_framing_tool.not_set"));
             return;
         }
 
-        addTooltipItem(tooltip, I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.side"),
+        addTooltipItem(tooltip, "tooltip.nomilabs.hand_framing_tool.side",
                 getItemStackFromKey(tagCompound, MAT_SIDE_TAG));
-        addTooltipItem(tooltip, I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.trim"),
+        addTooltipItem(tooltip, "tooltip.nomilabs.hand_framing_tool.trim",
                 getItemStackFromKey(tagCompound, MAT_TRIM_TAG));
-        addTooltipItem(tooltip, I18n.format("item.nomilabs.hand_framing_tool.tooltip.material.front"),
+        addTooltipItem(tooltip, "tooltip.nomilabs.hand_framing_tool.front",
                 getItemStackFromKey(tagCompound, MAT_FRONT_TAG));
     }
 
     @SideOnly(Side.CLIENT)
-    private void addTooltipItem(@NotNull List<String> tooltip, String displayName, ItemStack stack) {
-        tooltip.add(displayName + ": " + (stack.isEmpty() ? "-" : stack.getDisplayName()));
+    private void addTooltipItem(@NotNull List<String> tooltip, String translationKey, ItemStack stack) {
+        tooltip.add(I18n.format(translationKey, stack.isEmpty() ? "-" : stack.getDisplayName()));
     }
 
     @Override

@@ -29,11 +29,15 @@ config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 config.nomilabs.mod_integration=Mod Integration Settings
 config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration
 config.nomilabs.mod_integration.xu2=Enable Extra Utilities 2 Integration
+config.nomilabs.mod_integration.top=Enable TOP Integration
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
 config.nomilabs.mod_integration.draconicevolution.enable=Enable Draconic Evolution Integration
 config.nomilabs.mod_integration.draconicevolution.auto_builder_speed=Auto Builder Speed
 config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=Auto Destructor Speed
+
+config.nomilabs.advanced=Advanced Settings
+config.nomilabs.advanced.allow_other_modes=Allow Other Modes
 
 # Old Content Tweaker Stuff (Refactor Needed)
 itemGroup.nomilabs.main=Nomi Labs
@@ -298,11 +302,6 @@ item.nomilabs.heartofauniverse.name=Heart Of A Universe
 item.nomilabs.radiationlayer.name=Radiation Layer
 item.nomilabs.pressurelayer.name=Pressure Layer
 tile.nomilabs.excitationcoil.name=Excitation Coil
-item.nomilabs.excitationcoil.tooltip.craftingcomponent=Crafting Component Only... Except:
-item.nomilabs.excitationcoil.tooltip.moreinfo=Press [Shift] for More Usages.
-item.nomilabs.excitationcoil.tooltip.placeable=Placeable!
-item.nomilabs.excitationcoil.tooltip.wearable=Wearable on your head!
-item.nomilabs.excitationcoil.tooltip.nightvision=Gives Night Vision when worn!
 item.nomilabs.unpreparedspacehelmet.name=Unprepared Space Helmet
 item.nomilabs.unpreparedspacechestpiece.name=Unprepared Space Chestpiece
 item.nomilabs.unpreparedspaceleggings.name=Unprepared Space Leggings
@@ -394,13 +393,10 @@ item.nomilabs.compressedoctadiccapacitor.name=Compressed Octadic Capacitor
 item.nomilabs.doublecompressedoctadiccapacitor.name=Double Compressed Octadic Capacitor
 item.nomilabs.ultimate_circuit.name=Ultimate Circuit
 tile.nomilabs.ultimate_power_storage.name=Ultimate Power Storage
-item.nomilabs.ultimate_power_storage.tooltip=Crafting Component Only.
+
 tile.nomilabs.ultimate_generator.name=Ultimate Generator
-item.nomilabs.ultimate_generator.tooltip=Crafting Component Only.
 item.nomilabs.ultimate_crafting_table.name=Ultimate Crafting Table
-item.nomilabs.ultimate_crafting_table.tooltip=Crafting Component Only.
 item.nomilabs.ultimate_gem.name=Ultimate Gem
-item.nomilabs.ultimate_gem.tooltip=Crafting Component Only.
 
 item.nomilabs.dragonlairdata.name=Dragon Lair Data
 item.nomilabs.witherrealmdata.name=Wither Realm Data
@@ -425,12 +421,6 @@ item.nomilabs.sixtyfoursmore.name=Stack-o'-S'more HexecontatessaraS'mingot
 item.nomilabs.dark_red_coal.name=Dark Red Coal
 
 item.nomilabs.hand_framing_tool.name=Hand Framing Tool
-
-item.nomilabs.hand_framing_tool.tooltip.material.not_set=Put this tool in a Framing Table or a Crafting Table to set its Framing Data!
-
-item.nomilabs.hand_framing_tool.tooltip.material.side=Side
-item.nomilabs.hand_framing_tool.tooltip.material.trim=Trim
-item.nomilabs.hand_framing_tool.tooltip.material.front=Front
 
 item.nomilabs.hand_framing_tool.desc1=Frame your tools by hand!
 item.nomilabs.hand_framing_tool.desc2=The Hand Framing Tool lets you frame drawers already placed in the world.
@@ -468,17 +458,37 @@ recipemap.actualization_chamber.name=Actualization
 recipemap.universal_crystallizer.name=Crystallization
 recipemap.dme_sim_chamber.name=Simulation
 
-# Tooltips
-tooltip.nomilabs.microverse_projector_1.description=A machine capable of stabilizing projection into microverses for basic Micro Miner missions.
+
+#----------------Tooltips----------------#
+
+# General
+tooltip.nomilabs.general.press_shift_for_usages=Press [Shift] for More Usages.
+tooltip.nomilabs.general.press_ctrl_for_usages=Press [Ctrl] for More Usages.
+
+# Items
+tooltip.nomilabs.excitationcoil.description_block=Crafting Component Only.
+tooltip.nomilabs.excitationcoil.description_item=Crafting Component Only... Except:
+tooltip.nomilabs.excitationcoil.placeable=Placeable!
+tooltip.nomilabs.excitationcoil.wearable=Wearable on your head!
+tooltip.nomilabs.excitationcoil.night_vision=Gives Night Vision when worn!
+
+tooltip.nomilabs.hand_framing_tool.not_set=Put this tool in a Framing Table or a Crafting Table to set its Framing Data!
+tooltip.nomilabs.hand_framing_tool.side=Side: %s
+tooltip.nomilabs.hand_framing_tool.trim=Trim: %s
+tooltip.nomilabs.hand_framing_tool.front=Front: %s
+
+tooltip.nomilabs.ultimate_items.description=Crafting Component Only.
+
+# Multiblocks
+tooltip.nomilabs.microverse_projector_1.description=A machine capable of stabilizing projection into microverses for basic micro miner missions.
 tooltip.nomilabs.microverse_projector_2.description=An advanced machine capable of stabilizing projection into microverses for complex missions into the deepest parts of space.
 tooltip.nomilabs.microverse_projector_3.description=An elite machine capable of stabilizing projection into microverses for exotic missions, including collapsing the microverse whole.
 tooltip.nomilabs.creative_tank_provider.description=A complex machine capable of turning buckets and molds into infinite resovoirs beyond human comprehension.
 tooltip.nomilabs.naquadah_reactor_1.description=An advanced reactor that produces energy from the decay of Enriched Naquadah and Naquadria bolts.
 tooltip.nomilabs.naquadah_reactor_2.description=An elite reactor capable of capturing more energy from the decay of Enriched Naquadah and Naquadria bolts.
 tooltip.nomilabs.naquadah_reactor.produces=Produces exactly %s amps of %s.
+tooltip.nomilabs.naquadah_reactor.overclock=Does not overclock!
 tooltip.nomilabs.actualization_chamber.description=A powerful machine that harnesses the most complex of matters and turns it into raw materials.
 tooltip.nomilabs.universal_crystallizer.description=An immense device, capable of turning raw materials into complex matters.
 tooltip.nomilabs.dme_sim_chamber.description=A high powered simulation device, capable of performing more complex simulations faster than ever.
-
-# GUI
-gui.nomilabs.naquadah_reactor.overclock=Does not overclock!
+tooltip.nomilabs.greenhouse.description=A high powered growing chamber, capable of mass-growing even the most incomprehensible plants.

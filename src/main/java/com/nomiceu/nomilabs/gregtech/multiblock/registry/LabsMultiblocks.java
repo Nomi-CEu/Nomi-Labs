@@ -1,18 +1,8 @@
 package com.nomiceu.nomilabs.gregtech.multiblock.registry;
 
-import com.blakebr0.extendedcrafting.block.BlockStorage;
-import com.blakebr0.extendedcrafting.block.BlockTrimmed;
-import com.blakebr0.extendedcrafting.block.ModBlocks;
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.multiblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
-import gregtech.api.GTValues;
-import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.Materials;
-import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
-import io.sommers.packmode.PMConfig;
 
 /**
  * Multiblocks all start at 31000, as colliding metas with old multiblocks usually causes problems.
@@ -20,9 +10,9 @@ import io.sommers.packmode.PMConfig;
 @SuppressWarnings("unused")
 public class LabsMultiblocks {
     public static MetaTileEntityGreenhouse GREENHOUSE;
-    public static MetaTileEntityMicroverse.MetaTileEntityMicroverse1 MICROVERSE_1;
-    public static MetaTileEntityMicroverse.MetaTileEntityMicroverse2 MICROVERSE_2;
-    public static MetaTileEntityMicroverse.MetaTileEntityMicroverse3 MICROVERSE_3;
+    public static MetaTileEntityMicroverseProjector.Microverse1 MICROVERSE_1;
+    public static MetaTileEntityMicroverseProjector.Microverse2 MICROVERSE_2;
+    public static MetaTileEntityMicroverseProjector.Microverse3 MICROVERSE_3;
 
     public static MetaTileEntityCreativeTankProvider CREATIVE_TANK_PROVIDER;
 
@@ -34,22 +24,14 @@ public class LabsMultiblocks {
     public static MetaTileEntityDMESimChamber DME_SIM_CHAMBER;
 
     public static void initOld() {
-        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32100, new MetaTileEntityMicroverse.MetaTileEntityMicroverse1(LabsNames.makeLabsName("microverse_projector_1")));
-        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32101, new MetaTileEntityMicroverse.MetaTileEntityMicroverse2(LabsNames.makeLabsName("microverse_projector_2")));
-        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32102, new MetaTileEntityMicroverse.MetaTileEntityMicroverse3(LabsNames.makeLabsName("microverse_projector_3")));
+        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32100, new MetaTileEntityMicroverseProjector.Microverse1(LabsNames.makeLabsName("microverse_projector_1")));
+        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32101, new MetaTileEntityMicroverseProjector.Microverse2(LabsNames.makeLabsName("microverse_projector_2")));
+        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32102, new MetaTileEntityMicroverseProjector.Microverse3(LabsNames.makeLabsName("microverse_projector_3")));
+
         CREATIVE_TANK_PROVIDER = MetaTileEntities.registerMetaTileEntity(32103, new MetaTileEntityCreativeTankProvider(LabsNames.makeLabsName("creative_tank_provider")));
 
-        NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32104, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_1"), 1, GTValues.ZPM, 3,
-                MetaBlocks.COMPRESSED.get(Materials.Duranium).getBlock(Materials.Duranium), ModBlocks.blockTrimmed.getStateFromMeta(BlockTrimmed.Type.ULTIMATE_TRIMMED.getMetadata())));
-
-        Material material;
-        if (PMConfig.getPackMode().equals(LabsValues.NORMAL_MODE))
-            material = Materials.RutheniumTriniumAmericiumNeutronate;
-        else
-            material = LabsMaterials.Taranium;
-
-        NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32105, new MetaTileEntityNaquadahReactor(LabsNames.makeLabsName("naquadah_reactor_2"), 2, GTValues.UV, 3,
-                MetaBlocks.COMPRESSED.get(material).getBlock(material), ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())));
+        NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32104, new MetaTileEntityNaquadahReactor.NaquadahReactor1(LabsNames.makeLabsName("naquadah_reactor_1")));
+        NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32105, new MetaTileEntityNaquadahReactor.NaquadahReactor2(LabsNames.makeLabsName("naquadah_reactor_2")));
 
         ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32106, new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
 

@@ -1,6 +1,6 @@
 package com.nomiceu.nomilabs.item.registry.register;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.item.ItemBase;
 import net.minecraft.item.EnumRarity;
@@ -8,6 +8,7 @@ import net.minecraft.util.text.TextFormatting;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
+import static com.nomiceu.nomilabs.util.LabsTooltipHelper.Tooltip;
 
 public class LabsEndgame {
     public static void initEndgame() {
@@ -16,6 +17,6 @@ public class LabsEndgame {
         EXOTIC_MATERIALS_CATALYST = createItem(new ItemBase(makeLabsName("exoticmaterialscatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
         ETERNAL_CATALYST = createItem(new ItemBase(makeLabsName("eternalcatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
         ULTIMATE_GEM = createItem(new ItemBase(makeLabsName("ultimate_gem"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1,
-                ImmutableMap.of("item.nomilabs.ultimate_gem.tooltip", TextFormatting.GRAY.toString())));
+                ImmutableList.of(Tooltip.of("tooltip.nomilabs.ultimate_items.description").withFormat(TextFormatting.GRAY))));
     }
 }

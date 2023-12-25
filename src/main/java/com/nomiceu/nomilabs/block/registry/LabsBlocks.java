@@ -1,6 +1,6 @@
 package com.nomiceu.nomilabs.block.registry;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.block.*;
 import com.nomiceu.nomilabs.item.ItemBlockBase;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+import static com.nomiceu.nomilabs.util.LabsTooltipHelper.Tooltip;
 
 @SuppressWarnings("unused")
 public class LabsBlocks {
@@ -55,13 +56,14 @@ public class LabsBlocks {
         DENSE_OIL_SHALE = createBlock(new BlockBase(makeLabsName("denseoilshale"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK, SoundType.STONE),
                 EnumRarity.COMMON, 64);
 
+
+
         /* Ultimate Blocks */
         ULTIMATE_POWER_STORAGE = createBlock(new BlockBase(makeLabsName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
-                        ImmutableMap.of("item.nomilabs.ultimate_power_storage.tooltip", TextFormatting.GRAY.toString())
-                        ),
+                        ImmutableList.of(Tooltip.of("tooltip.nomilabs.ultimate_items.description").withFormat(TextFormatting.GRAY))),
                 EnumRarity.EPIC, 1);
         ULTIMATE_GENERATOR = createBlock(new BlockBase(makeLabsName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
-                        ImmutableMap.of("item.nomilabs.ultimate_generator.tooltip", TextFormatting.GRAY.toString())),
+                        ImmutableList.of(Tooltip.of("tooltip.nomilabs.ultimate_items.description").withFormat(TextFormatting.GRAY))),
                 EnumRarity.EPIC, 1);
 
         /* Misc Blocks */

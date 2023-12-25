@@ -1,11 +1,12 @@
 package com.nomiceu.nomilabs.block;
 
-
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
+import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
+import com.nomiceu.nomilabs.util.LabsTooltipHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -16,14 +17,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class BlockBase extends Block {
-    Map<String, String> description;
+public class BlockBase extends Block implements TOPInfoProvider {
+    private List<LabsTooltipHelper.Tooltip> description;
     public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound) {
         super(material);
-        initialize(rl, tab, sound, ImmutableMap.of());
+        initialize(rl, tab, sound, ImmutableList.of());
     }
 
     /**
@@ -34,17 +35,17 @@ public class BlockBase extends Block {
      * @param sound Sound
      * @param description Description. Map of translation keys to formatting keys. Is of string to string so we can use GTFormatCodes
      */
-    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, Map<String, String> description) {
+    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, List<LabsTooltipHelper.Tooltip> description) {
         super(material);
         initialize(rl, tab, sound, description);
     }
 
-    private void initialize(ResourceLocation rl, CreativeTabs tab, SoundType sound, Map<String, String> description) {
-        setRegistryName(rl);
-        setHardness(2.0F);
-        setResistance(10.0F);
-        setSoundType(sound);
-        setCreativeTab(tab);
+    private void initialize(ResourceLocation rl, CreativeTabs tab, SoundType sound, List<LabsTooltipHelper.Tooltip> description) {
+        this.setRegistryName(rl);
+        this.setHardness(2.0F);
+        this.setResistance(10.0F);
+        this.setSoundType(sound);
+        this.setCreativeTab(tab);
         this.description = description;
     }
 
@@ -54,7 +55,18 @@ public class BlockBase extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
-        for (var translationKey : description.keySet())
-            tooltip.add(description.get(translationKey) + I18n.format(translationKey));
+        for (var text : description)
+            tooltip.add(text.getFormattedString());
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public List<String> getTOPMessage(IBlockState state) {
+        List<String> tooltip = new ArrayList<>();
+        for (var text : description) {
+            var string = text.getTOPFormattedString();
+            if (string != null) tooltip.add(string);
+        }
+        return tooltip;
     }
 }
