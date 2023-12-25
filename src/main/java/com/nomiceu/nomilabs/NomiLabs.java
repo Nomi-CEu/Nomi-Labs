@@ -42,7 +42,7 @@ public class NomiLabs {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        DataFixerHandler.init();
+        CommonProxy.init();
     }
 
     @EventHandler

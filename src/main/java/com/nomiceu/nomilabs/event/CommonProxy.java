@@ -17,6 +17,7 @@ import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.recipe.LabsTestRecipes;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.unification.material.event.MaterialEvent;
@@ -53,13 +54,16 @@ public class CommonProxy {
             LabsMetaBlocks.preInit();
 
         LabsSounds.register();
-        LabsRecipeMaps.preInit();
         LabsRemappers.preInit();
     }
 
-    public static void postInit() {
+    public static void init() {
         LabsModeHelper.check();
+        LabsRecipeMaps.init();
+        DataFixerHandler.init();
+    }
 
+    public static void postInit() {
         if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
             LabsMultiblocks.initOld();
         if (LabsConfig.content.gtCustomContent.enableNewMultiblocks)
