@@ -479,6 +479,30 @@ tooltip.nomilabs.hand_framing_tool.front=Front: %s
 
 tooltip.nomilabs.ultimate_items.description=Crafting Component Only.
 
+tooltip.nomilabs.universalnavigator.description=See you later, navigator!
+
+tooltip.nomilabs.eternalcatalyst.description=Gaze into the Abyss...
+
+tooltip.nomilabs.tieroneship.description=Harvests Titanium and other light metals from asteroids in the microverse.
+tooltip.nomilabs.tiertwoship.description=Harvests Tungsten and other heavy metals from asteroids in the microverse.
+tooltip.nomilabs.tierthreeship.description=Harvests ultra hot metals and gems from Nether microverses.
+tooltip.nomilabs.tierfourship.description=Harvests ultra cold materials from the deepest parts of empty space.
+tooltip.nomilabs.tierfourandhalfship.description=Kills mobs in dangerous microverses and collects their highly prized skeletons and parts.
+tooltip.nomilabs.tierfiveship.description=Harvests strange materials from End microverses.
+tooltip.nomilabs.tiersixship.description=Harvests extremely rare materials from every concievable reality.
+tooltip.nomilabs.tiersevenship.description=Hunts Wyrms and End Dragons from the microverse and returns with parts from their carapaces.
+tooltip.nomilabs.tiereightship.description=Hunts inconcievable monstrosities from beyond the End and returns with bizzare trinkets.
+tooltip.nomilabs.tiereightandhalfship.description=Harvests exclusive Gems and Metals from unexplored corners, from beyond the microverse.
+tooltip.nomilabs.tiernineship.description=Collapses microversian stars and harvests their delicious neutronium cores.
+tooltip.nomilabs.tiertenship.description1=Collapses an entire microverse and harvests it whole.
+tooltip.nomilabs.tiertenship.description2=Try to aim for uninhabited ones.
+
+tooltip.stabilized_miners.description1=A stabilized version, injected with a Heart of a Universe.
+tooltip.stabilized_miners.description2=Lasts indefinitely. Reusable. Totally not overpowered.
+tooltip.stabilized_miners.description3=It looks oddly familiar.
+
+tooltip.stabilized_matters.description=An infinite and incomprehensible abyss of materials.
+
 # Multiblocks
 tooltip.nomilabs.microverse_projector_1.description=A machine capable of stabilizing projection into microverses for basic micro miner missions.
 tooltip.nomilabs.microverse_projector_2.description=An advanced machine capable of stabilizing projection into microverses for complex missions into the deepest parts of space.

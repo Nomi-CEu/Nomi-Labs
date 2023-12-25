@@ -465,7 +465,7 @@ recipemap.dme_sim_chamber.name=模拟
 tooltip.nomilabs.general.press_shift_for_usages=按住[Shift]查看更多用法。
 tooltip.nomilabs.general.press_ctrl_for_usages=按住[Ctrl]查看更多用法。
 
-# Tooltips
+# Items
 tooltip.nomilabs.excitationcoil.description_block=只用于制作元件。
 tooltip.nomilabs.excitationcoil.description_item=仅用于制作元件……以及：
 tooltip.nomilabs.excitationcoil.placeable=可放置！
@@ -473,12 +473,37 @@ tooltip.nomilabs.excitationcoil.wearable=可以戴在你的头上！
 tooltip.nomilabs.excitationcoil.night_vision=戴上时有夜视效果！
 
 tooltip.nomilabs.hand_framing_tool.not_set=把这个工具放在成型台或合成台里来设置镶框数据！
-tooltip.nomilabs.hand_framing_tool.side=侧边
-tooltip.nomilabs.hand_framing_tool.trim=镶边
-tooltip.nomilabs.hand_framing_tool.front=前面
+tooltip.nomilabs.hand_framing_tool.side=侧边: %s
+tooltip.nomilabs.hand_framing_tool.trim=镶边: %s
+tooltip.nomilabs.hand_framing_tool.front=前面: %s
 
 tooltip.nomilabs.ultimate_items.description=只用于制作元件。
 
+tooltip.nomilabs.universalnavigator.description=See you later, navigator!
+
+tooltip.nomilabs.eternalcatalyst.description=Gaze into the Abyss...
+
+tooltip.nomilabs.tieroneship.description=Harvests Titanium and other light metals from asteroids in the microverse.
+tooltip.nomilabs.tiertwoship.description=Harvests Tungsten and other heavy metals from asteroids in the microverse.
+tooltip.nomilabs.tierthreeship.description=Harvests ultra hot metals and gems from Nether microverses.
+tooltip.nomilabs.tierfourship.description=Harvests ultra cold materials from the deepest parts of empty space.
+tooltip.nomilabs.tierfourandhalfship.description=Kills mobs in dangerous microverses and collects their highly prized skeletons and parts.
+tooltip.nomilabs.tierfiveship.description=Harvests strange materials from End microverses.
+tooltip.nomilabs.tiersixship.description=Harvests extremely rare materials from every concievable reality.
+tooltip.nomilabs.tiersevenship.description=Hunts Wyrms and End Dragons from the microverse and returns with parts from their carapaces.
+tooltip.nomilabs.tiereightship.description=Hunts inconcievable monstrosities from beyond the End and returns with bizzare trinkets.
+tooltip.nomilabs.tiereightandhalfship.description=Harvests exclusive Gems and Metals from unexplored corners, from beyond the microverse.
+tooltip.nomilabs.tiernineship.description=Collapses microversian stars and harvests their delicious neutronium cores.
+tooltip.nomilabs.tiertenship.description1=Collapses an entire microverse and harvests it whole.
+tooltip.nomilabs.tiertenship.description2=Try to aim for uninhabited ones.
+
+tooltip.stabilized_miners.description1=A stabilized version, injected with a Heart of a Universe.
+tooltip.stabilized_miners.description2=Lasts indefinitely. Reusable. Totally not overpowered.
+tooltip.stabilized_miners.description3=It looks oddly familiar.
+
+tooltip.stabilized_matters.description=An infinite and incomprehensible abyss of materials.
+
+# Multiblocks
 tooltip.nomilabs.microverse_projector_1.description=一种能够稳定投影进入微型宇宙中的机器，用于基本的微型采矿任务。
 tooltip.nomilabs.microverse_projector_2.description=一种能够稳定投影进入微型宇宙中的高级机器，用于基本的复杂采矿任务。
 tooltip.nomilabs.microverse_projector_3.description=一种能够稳定投影进入微型宇宙中的杰出机器，用于基本的奇特采矿任务。
