@@ -16,7 +16,7 @@ public class BlockRemapper extends Remapper<Block> {
     @Override
     public void remapEntry(RegistryEvent.MissingMappings.Mapping<Block> entry) {
         var newRL = remapRl(entry.key);
-        NomiLabs.LOGGER.info("Remapping Block Resource Location: '{}' to '{}'", entry.key.toString(), newRL.toString());
+        NomiLabs.LOGGER.debug("Remapping Block Resource Location: '{}' to '{}'", entry.key.toString(), newRL.toString());
         entry.remap(ForgeRegistries.BLOCKS.getValue(newRL));
     }
 }

@@ -18,15 +18,12 @@ public class TileEntityFixer implements IFixableData {
     @Override
     @NotNull
     public NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
-        if (DataFixerHandler.fixNotAvailable()) return compound;
-
-        NomiLabs.LOGGER.debug("Block Entity: {}", compound);
         for (var fix : DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.TILE_ENTITY)) {
             if (!(fix instanceof DataFix.TileEntityFix teFix)) continue;
             if (!teFix.validEntry.apply(compound)) continue;
             var oldCompound = compound.copy();
             teFix.transform.accept(compound);
-            NomiLabs.LOGGER.info("[Data Fixer] Changed Block Entity Tag {} to {}", oldCompound, compound);
+            NomiLabs.LOGGER.debug("[Data Fixer] Changed Block Entity Tag from {} to {}", oldCompound, compound);
             return compound;
         }
         return compound;

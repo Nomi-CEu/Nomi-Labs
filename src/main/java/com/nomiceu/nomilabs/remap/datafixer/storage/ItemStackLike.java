@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
  * <p>
  * Currently just contains rl, meta and tag.
  */
+@SuppressWarnings("UnusedReturnValue")
 public class ItemStackLike {
     public ResourceLocation rl;
     public short meta;

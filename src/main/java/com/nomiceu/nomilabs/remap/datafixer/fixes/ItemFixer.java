@@ -18,15 +18,13 @@ public class ItemFixer implements IFixableData {
 
     @Override
     public @NotNull NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
-        if (DataFixerHandler.fixNotAvailable()) return compound;
-
         var stack = new ItemStackLike(compound);
         for (var fix : DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.ITEM)) {
             if (!(fix instanceof DataFix.ItemFix itemFix)) continue;
             if (!itemFix.validEntry.apply(stack)) continue;
             itemFix.transform.accept(stack);
             var oldCompound = compound.copy();
-            NomiLabs.LOGGER.info("[Data Fixer] Changed Stack: {} to {}", oldCompound, stack.changeCompound(compound));
+            NomiLabs.LOGGER.debug("[Data Fixer] Changed Stack: {} to {}", oldCompound, stack.changeCompound(compound));
             return compound;
         }
         return compound;

@@ -1,7 +1,9 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
+import com.nomiceu.nomilabs.remap.datafixer.storage.BlockStateLike;
 import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -29,6 +31,14 @@ public class DataFix<T> {
     public static class ItemFix extends DataFix<ItemStackLike> {
         public ItemFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion, Function<Map<String, String>, Boolean> validModList, Function<ItemStackLike, Boolean> validEntry, Consumer<ItemStackLike> transform) {
             super(name, description, needsMode, validVersion, validModList, validEntry, transform);
+        }
+    }
+
+    public static class BlockFix extends DataFix<BlockStateLike> {
+        public final ResourceLocation[] neededLocations;
+        public BlockFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion, Function<Map<String, String>, Boolean> validModList, Function<BlockStateLike, Boolean> validEntry, Consumer<BlockStateLike> transform, ResourceLocation... neededLocations) {
+            super(name, description, needsMode, validVersion, validModList, validEntry, transform);
+            this.neededLocations = neededLocations;
         }
     }
 

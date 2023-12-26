@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.shorts.Short2ShortLinkedOpenHashMap;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.datafix.IFixType;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class LabsFixes {
      * The current data format version. Increment this when breaking changes are made and the
      * data mixer must be applied. If this is not incremented, nothing will be applied.
      */
-    public static final int FIX_VERSION = 3;
+    public static final int FIX_VERSION = 1;
 
     /**
      * Default version, used if save doesn't have a fix version, or if something goes wrong
@@ -48,9 +49,11 @@ public class LabsFixes {
 
     public static List<DataFix.ItemFix> itemFixes;
 
+    public static List<DataFix.BlockFix> blockFixes;
+
     public static List<DataFix.TileEntityFix> tileEntityFixes;
 
-    public static Map<LabsFixTypes.FixerTypes, List<? extends DataFix<?>>> fixes;
+    public static Map<IFixType, List<? extends DataFix<?>>> fixes;
 
     public static Map<ResourceLocation, ResourceLocation> multiblockMetaIdRemap;
     public static Map<Short, Short> multiblockMetaRemap;
@@ -58,6 +61,39 @@ public class LabsFixes {
     public static void init() {
         helperMapsInit();
 
+        /*
+         * Item Fixes.
+         * Note that this is not applied on any new items.
+         * This fix is applied:
+         * - On Player Inventories
+         * - On Entity Inventories
+         * - On Tile Entity Inventories
+         * - Inside Ender Storage Ender Chests
+         *
+         * Example of an input:
+         * ItemStackLike:
+         *  rl: "minecraft:skull" // Type: Resource Location. Not Null.
+         *  meta: 3 // Type: Short
+         *  tag: {owner: "adsf", i: {k: 1, l: 4}, ...} // Type: NBT Tag Compound. Nullable.
+         *
+         * Example:
+         * itemFixes.add(
+         *      new DataFix.ItemFix("Example", // Name
+         *
+         *              "Example Item Fix. Turns Apples into Creeper Heads.", // Description
+         *
+         *              false, // Whether the correct mode is required for the change to work right
+         *
+         *              (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
+         *                                                       // Note that this is not applied if the previous version is equal to the current overall fix version.
+         *
+         *              (modList) -> true, // Inputs the modlist (map of modid to modversion), return whether it is valid.
+         *                                 // Note that the fix is only applied if the version AND the modlist is valid.
+         *
+         *              (stack) -> stack.rl.equals(new ResourceLocation("minecraft:apple")), // Input ItemStackLike, return a boolean (true to fix, false to skip)
+         *
+         *              (stack) -> stack.setRl(new ResourceLocation("minecraft:skull")).setMeta((short) 4))); // Change the given ItemStackLike (Changes to Creeper Head in this case)
+         */
         itemFixes = new ObjectArrayList<>();
 
         itemFixes.add(
@@ -65,9 +101,9 @@ public class LabsFixes {
                         "Correctly remaps Content Tweaker Dark Red Coal to XU2 Red Coal.",
                         false,
                         (version) -> version <= DEFAULT_VERSION,
-                        (compound) -> true,
+                        (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation(CONTENTTWEAKER_MODID, "dark_red_coal")),
-                        (stack) -> stack.setRl(new ResourceLocation(XU2_MODID, "ingredients")).setMeta((short) 4))
+                        (stack) -> stack.setRl(new ResourceLocation(XU2_MODID, "ingredients")).setMeta((short) 4)) // Red Coal
         );
 
         if (LabsConfig.modIntegration.enableExtraUtils2Integration)
@@ -76,7 +112,7 @@ public class LabsFixes {
                             "Removes Frequency from XU2 Ingredients.",
                             false,
                             (version) -> version <= DEFAULT_VERSION,
-                            (compound) -> true,
+                            (modList) -> true,
                             (stack) -> stack.rl.equals(new ResourceLocation(XU2_MODID, "ingredients"))
                                     && stack.tag != null && stack.tag.hasKey("Freq"),
                             (stack) -> {
@@ -91,18 +127,100 @@ public class LabsFixes {
                         "Remaps old Multiblock Metadata to the new format.",
                         true,
                         (version) -> version <= DEFAULT_VERSION,
-                        (compound) -> true,
+                        (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation("gregtech:machine")) && multiblockMetaRemap.containsKey(stack.meta),
                         (stack) -> stack.meta = multiblockMetaRemap.get(stack.meta))
         );
 
+        /*
+         * Block Fixes.
+         * Note that this is not applied on any new blocks, placed or generated.
+         * This fix is applied:
+         * - On Placed Blocks
+         *
+         * Example of an input:
+         * BlockStateLike:
+         *  rl: "minecraft:concrete" // Type: Resource Location. Not Null.
+         *  meta: 1 // Type: Short
+         *
+         * Example:
+         * blockFixes.add(
+         *      new DataFix.BlockFix("Example", // Name
+         *
+         *              "Example Block Fix. Turns Oak Logs into Brown Concrete.", // Description
+         *
+         *              false, // Whether the correct mode is required for the change to work right
+         *
+         *              (version) -> version <= DEFAULT_VERSION,// Whether the previous version in the save means that this fix must be applied.
+         *                                                      // Note that this is not applied if the previous version is equal to the current overall fix version.
+         *
+         *              (modList) -> true, // Inputs the modlist (map of modid to modversion), return whether it is valid.
+         *                                 // Note that the fix is only applied if the version AND the modlist is valid.
+         *
+         *              (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0, // Input BlockStateLike, return a boolean (true to fix, false to skip)
+         *
+         *              (state) -> state.setRl(new ResourceLocation("minecraft:concrete")).setMeta((short) 12), // Change the given BlockStateLike (Changes to Brown Concrete in this case)
+         *
+         *              // Needed Resource Locations
+         *              // These are all Resource Locations that are accepted as input in this fix.
+         *              // THIS IS VERY IMPORTANT! IF THIS IS NOT INCLUDED, THE INPUTS WILL NOT WORK!
+         *              new ResourceLocation("minecraft:log")));
+         */
+        blockFixes = new ObjectArrayList<>();
+
+        /*
+         * Tile Entity Fixes.
+         * Note that this is not applied on any new tile entities.
+         * This fix is applied:
+         * - On Existing Tile Entities' Tag Compounds.
+         *
+         * Example of an input:
+         * {x:279,y:73,z:199,Items:[{Slot:0b,id:"minecraft:apple",Count:1,Damage:0s}],id:"minecraft:chest",Lock:"", ...} // Type: NBT Tag Compound. Not Null.
+         *
+         * Notes:
+         * - Item Fixes are called each item in this tile before this fix is applied.
+         * - Do `/blockdata ~ ~-1 ~ {}` to get the Tile Entity Compound of the block you are standing on (in game)
+         *
+         * Example:
+         * tileEntityFixes.add(
+         *      new DataFix.TileEntityFix("Example", // Name
+         *
+         *                    "Example Tile Entity Fix. Changes the amount of the all items in chests to be 64.", // Description
+         *
+         *                    false, // Whether the correct mode is required for the change to work right
+         *
+         *                    (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
+         *                                                             // Note that this is not applied if the previous version is equal to the current overall fix version.
+         *
+         *                    (modList) -> true, // Inputs the modlist (map of modid to modversion), return whether it is valid.
+         *                                       // Note that the fix is only applied if the version AND the modlist is valid.
+         *
+         *                    // Input NBT Tag Compound, return a boolean (true to fix, false to skip)
+         *                    (compound) -> compound.hasKey("id", Constants.NBT.TAG_STRING) &&
+         *                     compound.getString("id").equals(new ResourceLocation("minecraft:chest").toString()) &&
+         *                     compound.hasKey("Items", Constants.NBT.TAG_LIST) && !compound.getTagList("Items", Constants.NBT.TAG_COMPOUND).isEmpty(),
+         *
+         *                    // Input NBT Tag Compound, transform it
+         *                    (compound -> {
+         *                        // Get Item List
+         *                        NBTTagList itemList = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
+         *                        // Iterate through, changing count to 64
+         *                       for (int i = 0; i < itemList.tagList.size(); i++) {
+         *                            if (!(itemList.get(i) instanceof NBTTagCompound item)) continue;
+         *                            item.setInteger("Count", 64);
+         *                            itemList.set(i, item);
+         *                        }
+         *                        // Item List is modified directly, no need to set it back
+         *                    })));
+         */
         tileEntityFixes = new ObjectArrayList<>();
+
         tileEntityFixes.add(
                 new DataFix.TileEntityFix("Multiblock Tile Entity MetaId Remap",
                         "Remaps old Multiblock Tile Entity Names to the new format.",
                         false,
                         (version) -> version <= DEFAULT_VERSION,
-                        (compound) -> true,
+                        (modList) -> true,
                         (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) &&
                                 compound.getString("id").equals(new ResourceLocation(LabsValues.GREGTECH_MODID, LabsValues.GT_MACHINE_PATH).toString()) &&
                                 multiblockMetaIdRemap.containsKey(new ResourceLocation(compound.getString("MetaId"))),
@@ -111,6 +229,7 @@ public class LabsFixes {
 
         fixes = new Object2ObjectOpenHashMap<>();
         fixes.put(LabsFixTypes.FixerTypes.ITEM, itemFixes);
+        fixes.put(LabsFixTypes.FixerTypes.BLOCK, blockFixes);
         fixes.put(LabsFixTypes.FixerTypes.TILE_ENTITY, tileEntityFixes);
     }
 

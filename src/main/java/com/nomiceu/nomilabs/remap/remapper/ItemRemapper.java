@@ -17,7 +17,7 @@ public class ItemRemapper extends Remapper<Item> {
     @Override
     public void remapEntry(RegistryEvent.MissingMappings.Mapping<Item> entry) {
         var newRL = remapRl(entry.key);
-        NomiLabs.LOGGER.info("Remapping Item Resource Location: '{}' to '{}'", entry.key.toString(), newRL.toString());
+        NomiLabs.LOGGER.debug("Remapping Item Resource Location: '{}' to '{}'", entry.key.toString(), newRL.toString());
         entry.remap(ForgeRegistries.ITEMS.getValue(newRL));
     }
 }
