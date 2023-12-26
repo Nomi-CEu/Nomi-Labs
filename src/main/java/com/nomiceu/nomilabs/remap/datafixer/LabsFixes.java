@@ -87,7 +87,7 @@ public class LabsFixes {
          *              (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
          *                                                       // Note that this is not applied if the previous version is equal to the current overall fix version.
          *
-         *              (modList) -> true, // Inputs the modlist (map of modid to modversion), return whether it is valid.
+         *              (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
          *                                 // Note that the fix is only applied if the version AND the modlist is valid.
          *
          *              (stack) -> stack.rl.equals(new ResourceLocation("minecraft:apple")), // Input ItemStackLike, return a boolean (true to fix, false to skip)
@@ -154,7 +154,7 @@ public class LabsFixes {
          *              (version) -> version <= DEFAULT_VERSION,// Whether the previous version in the save means that this fix must be applied.
          *                                                      // Note that this is not applied if the previous version is equal to the current overall fix version.
          *
-         *              (modList) -> true, // Inputs the modlist (map of modid to modversion), return whether it is valid.
+         *              (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
          *                                 // Note that the fix is only applied if the version AND the modlist is valid.
          *
          *              (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0, // Input BlockStateLike, return a boolean (true to fix, false to skip)
@@ -192,7 +192,7 @@ public class LabsFixes {
          *                    (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
          *                                                             // Note that this is not applied if the previous version is equal to the current overall fix version.
          *
-         *                    (modList) -> true, // Inputs the modlist (map of modid to modversion), return whether it is valid.
+         *                    (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
          *                                       // Note that the fix is only applied if the version AND the modlist is valid.
          *
          *                    // Input NBT Tag Compound, return a boolean (true to fix, false to skip)
