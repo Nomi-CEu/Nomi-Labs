@@ -254,7 +254,7 @@ public class LabsFixes {
 
         multiblockMetaIdRemap = new Object2ObjectLinkedOpenHashMap<>();
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MBT_MODID, "microverse_projector_basic"), makeLabsName("microverse_projector_2")
+                new ResourceLocation(MBT_MODID, "microverse_projector_basic"), makeLabsName("microverse_projector_1")
         );
         multiblockMetaIdRemap.put(
                 new ResourceLocation(MBT_MODID, "microverse_projector_advanced"), makeLabsName("microverse_projector_2")
