@@ -30,7 +30,7 @@ public class LabsFixes {
     public static final String DATA_NAME = LABS_MODID + ".fix_data";
 
     /**
-     * In which nbt key the data is stored.Do not change this, although changing it will FORCE all fixes to be applied.
+     * In which nbt key the data is stored. Do not change this, although changing it will FORCE all fixes to be applied.
      * Do this via another way. (This is better than changing the data name)
      */
     public static final String DATA_KEY = "LabsFixer";
