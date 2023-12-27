@@ -1,7 +1,7 @@
 package com.nomiceu.nomilabs.item;
 
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.util.LabsTooltipHelper;
+import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;

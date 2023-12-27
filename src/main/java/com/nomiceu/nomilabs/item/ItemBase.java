@@ -1,7 +1,7 @@
 package com.nomiceu.nomilabs.item;
 
 import com.google.common.collect.ImmutableList;
-import com.nomiceu.nomilabs.util.LabsTooltipHelper;
+import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;

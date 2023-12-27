@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.item.registry.register;
 
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.item.ItemBase;
+import com.nomiceu.nomilabs.item.ItemCapacitor;
 import com.nomiceu.nomilabs.item.ItemHandFramingTool;
 import com.nomiceu.nomilabs.item.ItemSmore;
 import net.minecraft.init.MobEffects;
@@ -22,9 +23,6 @@ public class LabsMisc {
         CARBON_ARMOR_PLATE = createItem(new ItemBase(makeLabsName("carbonarmorplate"), LabsCreativeTabs.TAB_NOMI_LABS));
         LAPIS_ARMOR_PLATE = createItem(new ItemBase(makeLabsName("lapisarmorplate"), LabsCreativeTabs.TAB_NOMI_LABS));
 
-        COMPRESSED_OCTADIC_CAPACITOR = createItem(new ItemBase(makeLabsName("compressedoctadiccapacitor"), LabsCreativeTabs.TAB_NOMI_LABS));
-        DOUBLE_COMPRESSED_OCTADIC_CAPACITOR = createItem(new ItemBase(makeLabsName("doublecompressedoctadiccapacitor"), LabsCreativeTabs.TAB_NOMI_LABS));
-
         // Core and North are part of the Crafting Nether Star mod.
         NETHER_STAR_SOUTH = createItem(new ItemBase(makeLabsName("netherstarsouth"), LabsCreativeTabs.TAB_NOMI_LABS));
         NETHER_STAR_EAST = createItem(new ItemBase(makeLabsName("netherstareast"), LabsCreativeTabs.TAB_NOMI_LABS));
@@ -41,6 +39,8 @@ public class LabsMisc {
     }
 
     public static void initCustomBehavior() {
+        COMPRESSED_OCTADIC_CAPACITOR = createItem(new ItemCapacitor(makeLabsName("compressedoctadiccapacitor"), LabsCreativeTabs.TAB_NOMI_LABS, ItemCapacitor.LabsCapacitorData.COMPRESSED));
+        DOUBLE_COMPRESSED_OCTADIC_CAPACITOR = createItem(new ItemCapacitor(makeLabsName("doublecompressedoctadiccapacitor"), LabsCreativeTabs.TAB_NOMI_LABS, ItemCapacitor.LabsCapacitorData.DOUBLE_COMPRESSED));
         HAND_FRAMING_TOOL = createItem(new ItemHandFramingTool(makeLabsName("hand_framing_tool"), LabsCreativeTabs.TAB_NOMI_LABS));
         SMORES = new ItemSmore[4];
         createSmores();

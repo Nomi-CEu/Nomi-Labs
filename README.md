@@ -36,4 +36,5 @@ This mod requires [GregTech CEu](https://github.com/GregTechCEu/GregTech). Other
 - [Content Tweaker](https://github.com/CraftTweaker/ContentTweaker) for base textures of custom fluids
 - [Nomifactory](https://github.com/Nomifactory/Nomifactory) for textures of items, blocks, base code, and the original pack
 - [GregTech CEu](https://github.com/GregTechCEu/GregTech) for some textures
-- [Data Fixer Example](https://github.com/gabor7d2/DataFixerExampleMod) for sample & base code in Data Fixes
+- [GregTech CE](https://github.com/GregTechCE/GregTech) & [Data Fixer Example](https://github.com/gabor7d2/DataFixerExampleMod) for sample & base code in Data Fixes
+- [GT-Expert-Core](https://github.com/GTModpackTeam/GTExpert-Core/tree/master) for development environment runtime fix for EnderCore

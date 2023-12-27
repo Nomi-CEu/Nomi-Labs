@@ -31,10 +31,10 @@ dependencies {
     implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:Kff6K1WR") // Version 2.8.5
     implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:4BnBEiBw") // Version 1.2.7
 
-    // Pack Mode
+    // Pack Mode (from CurseForge)
     implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
 
-    // GroovyScript
+    // GroovyScript (from Cleanroom Maven)
     implementation ("com.cleanroommc:groovyscript:0.7.2") {
         transitive = false
     } // Version 0.7.2, transitive false is needed otherwise groovy pulls in extra JEI
@@ -44,19 +44,31 @@ dependencies {
     implementation rfg.deobf("curse.maven:storage-drawers-223852:4655859") // Version 5.5.0
     implementation rfg.deobf("curse.maven:framed-compacting-drawers-376351:3015136") // Version 1.2.7
 
-    // Chisel, used in Microverse Projectors
+    // Ender IO (from CurseForge)
+    implementation rfg.deobf("curse.maven:ender-io-64578:4674244") // Version 5.3.72
+
+    // Ender Core, Dep of Ender IO, also used in-code (from CurseForge)
+    implementation "curse.maven:endercore-231868:4671384" // Version 0.5.78
+
+    // Ender Core Runtime Fix (Jar Files and Deps courtesy of GT-Expert-Core (https://github.com/GTModpackTeam/GTExpert-Core/tree/master))
+    // From Local Files and AutoSave/Config Lib
+    runtimeOnly files("libs/EnderCore-1.12.2-0.5.78-core.jar") // Version 0.5.78, just includes the 'core' part
+    runtimeOnly "info.loenwind.autoconfig:AutoConfig:1.12.2-1.0.2" // Version 1.0.2
+    runtimeOnly "info.loenwind.autosave:AutoSave:1.12.2-1.0.11" // Version 1.0.11
+
+    // Chisel, used in Microverse Projectors (from CurseForge)
     implementation rfg.deobf("curse.maven:chisel-235279:2915375") // Version 1.0.2.45
 
-    // AE2, Used in Naquadah Reactors (PAE2 used)
+    // AE2, Used in Naquadah Reactors (AE2 Unofficial Extended Life used) (from CurseForge)
     implementation rfg.deobf("curse.maven:ae2-extended-life-570458:4851091") // Version 0.55.27
 
-    // Extended Crafting, Used in Naquadah Reactors (Nomifactory Fork Used)
+    // Extended Crafting, Used in Naquadah Reactors (Nomifactory Fork Used) (from CurseForge)
     implementation rfg.deobf("curse.maven:extended-crafting-nomifactory-edition-398267:4592627") // Version 1.7.0.6
 
-    // CTM, runtime dep for Chisel
+    // CTM, runtime dep for Chisel (from CurseForge)
     runtimeOnly "curse.maven:ctm-267602:2915363" // Version 1.0.2.31
 
-    // Cucumber Lib, runtime and compile dep for Extended Crafting (No need for deobf, just dep)
+    // Cucumber Lib, runtime and compile dep for Extended Crafting (No need for deobf, just dep) (from CurseForge)
     implementation "curse.maven:cucumber-272335:2645867" // Version 1.1.3
 
     // Draconic Evolution, NuclearCraft, and Extra Utilities 2, the mixin patched mods (from CurseForge)
@@ -70,6 +82,6 @@ dependencies {
     implementation rfg.deobf("curse.maven:brandons-core-231382:3408276") // Version 2.4.20
     runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
 
-    // Optional Deps / Integrated
+    // Optional Deps / Integrated (from CurseForge)
     implementation rfg.deobf("curse.maven:ender-storage-245174:2755787") // Ender Storage, Version 2.4.6.137
 }

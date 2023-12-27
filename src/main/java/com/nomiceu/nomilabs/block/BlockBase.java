@@ -2,7 +2,7 @@ package com.nomiceu.nomilabs.block;
 
 import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
-import com.nomiceu.nomilabs.util.LabsTooltipHelper;
+import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;

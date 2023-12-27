@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
-import static com.nomiceu.nomilabs.util.LabsTooltipHelper.Tooltip;
+import static com.nomiceu.nomilabs.tooltip.LabsTooltipHelper.Tooltip;
 
 @SuppressWarnings("unused")
 public class LabsBlocks {

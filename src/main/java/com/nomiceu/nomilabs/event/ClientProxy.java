@@ -5,8 +5,10 @@ import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
+import com.nomiceu.nomilabs.tooltip.TooltipAdder;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,5 +37,10 @@ public class ClientProxy {
     @SubscribeEvent
     public static void registerFluidModels(TextureStitchEvent.Pre event) {
         LabsFluids.registerFluidModels(event);
+    }
+
+    @SubscribeEvent
+    public static void addTooltipNormal(ItemTooltipEvent event) {
+        TooltipAdder.addTooltipNormal(event.getToolTip(), event.getItemStack());
     }
 }

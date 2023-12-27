@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.util;
+package com.nomiceu.nomilabs.tooltip;
 
 import mcjty.theoneprobe.api.IProbeInfo;
 import net.minecraft.client.resources.I18n;

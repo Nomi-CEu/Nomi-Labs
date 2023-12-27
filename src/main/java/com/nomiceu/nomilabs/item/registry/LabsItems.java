@@ -174,10 +174,6 @@ public class LabsItems {
     public static ItemBase CARBON_ARMOR_PLATE;
     public static ItemBase LAPIS_ARMOR_PLATE;
 
-
-    public static ItemBase COMPRESSED_OCTADIC_CAPACITOR;
-    public static ItemBase DOUBLE_COMPRESSED_OCTADIC_CAPACITOR;
-
     // Core and North are part of the Crafting Nether Star mod.
     public static ItemBase NETHER_STAR_SOUTH;
     public static ItemBase NETHER_STAR_EAST;
@@ -196,6 +192,8 @@ public class LabsItems {
      *  Custom Behavior Items
      *  These are Items not extending BaseItem
      */
+    public static ItemCapacitor COMPRESSED_OCTADIC_CAPACITOR;
+    public static ItemCapacitor DOUBLE_COMPRESSED_OCTADIC_CAPACITOR;
     public static ItemHandFramingTool HAND_FRAMING_TOOL;
     public static ItemSmore[] SMORES;
 

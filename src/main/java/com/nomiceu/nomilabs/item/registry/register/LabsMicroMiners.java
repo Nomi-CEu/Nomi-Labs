@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
-import static com.nomiceu.nomilabs.util.LabsTooltipHelper.Tooltip;
+import static com.nomiceu.nomilabs.tooltip.LabsTooltipHelper.Tooltip;
 
 public class LabsMicroMiners {
     public static void initMicroMinerItems() {
