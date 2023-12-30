@@ -140,14 +140,6 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableTOPIntegration = true;
 
-        @Config.Comment({"Whether to enable Simply Jetpacks Integration.",
-                "This fixes a bug where some needed Thermal Expansion Items will not be registered if Redstone Arsenal Integration is enabled.",
-                "This also maps old Simply Jetpacks Items, aka pre 2.2.16, to their new metadata, aka post 2.2.16, if needed (aka if the world was previously loaded with that old version)",
-                "[default: true]"})
-        @Config.LangKey("config.nomilabs.mod_integration.simplyjetpacks")
-        @Config.RequiresMcRestart
-        public boolean enableSimplyJetpacksIntegration = true;
-
         @Config.Comment("Draconic Evolution Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.draconicevolution")
         @Config.Name("draconic evolution integration")
