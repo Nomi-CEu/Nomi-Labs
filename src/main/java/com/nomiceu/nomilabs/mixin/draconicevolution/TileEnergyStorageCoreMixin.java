@@ -131,26 +131,29 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     @Inject(method = "update", at = @At("HEAD"))
     public void update(CallbackInfo ci) {
         var tile = (TileEnergyStorageCore) (Object) this;
-        if (!tile.getWorld().isRemote) {
-            if (activeDestructor != null) {
-                if (activeDestructor.isDead()) {
-                    activeDestructor = null;
-                    hasActiveDestructor.value = false;
-                } else
-                    activeDestructor.updateDestructProcess();
-            }
-            if (activeBuilder != null) {
-                if (activeBuilder.isDead())
-                    hasActiveBuilder.value = false;
-                // Don't update process or set active builder to null, that is done in the original update function
-            }
+        if (tile.getWorld().isRemote) return;
+        if (activeBuilder == null) hasActiveBuilder.value = false; // Just in case
+        else {
+            if (activeBuilder.isDead())
+                hasActiveBuilder.value = false;
+            // Don't update process or set active builder to null, that is done in the original update function
+        }
+
+        if (activeDestructor == null) hasActiveDestructor.value = false; // Just in case
+        else {
+            if (activeDestructor.isDead()) {
+                activeDestructor = null;
+                hasActiveDestructor.value = false;
+            } else
+                activeDestructor.updateDestructProcess();
         }
     }
 
     @Unique
     private void startOrStopBuilder(EntityPlayer player) {
         if (hasActiveBuilder.value) {
-            ((StoppableProcess) activeBuilder).stop();
+            if (activeBuilder != null) // Just in case
+                ((StoppableProcess) activeBuilder).stop();
             activeBuilder = null;
             hasActiveBuilder.value = false;
             return;
@@ -166,7 +169,8 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     @Unique
     private void startOrStopDestructor(EntityPlayer player) {
         if (hasActiveDestructor.value) {
-            ((StoppableProcess) activeDestructor).stop();
+            if (activeDestructor != null) // Just in case
+                ((StoppableProcess) activeDestructor).stop();
             activeDestructor = null;
             hasActiveDestructor.value = false;
             return;
@@ -189,5 +193,13 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     @Unique
     public boolean hasActiveDestructor() {
         return hasActiveDestructor.value;
+    }
+
+    @Override
+    @Unique
+    public void onLoad() {
+        super.onLoad();
+        hasActiveBuilder.value = activeBuilder != null;
+        hasActiveDestructor.value = activeDestructor != null;
     }
 }
