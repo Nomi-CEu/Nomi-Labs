@@ -22,10 +22,11 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
+    /* -------------------------------- Hard Deps -------------------------------- */
+
     // CCL, CT dep for GT (from CurseForge)
     // Included to allow compiling of certain Draconic Evolution Mixin Classes, and as transitive deps
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848") // Version 3.2.3.358
-    compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.684" // Version 4.1.20.684
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
     implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:Kff6K1WR") // Version 2.8.5
@@ -39,49 +40,118 @@ dependencies {
         transitive = false
     } // Version 0.7.2, transitive false is needed otherwise groovy pulls in extra JEI
 
-    // Chameleon, Storage Drawers and Framed Compacting Drawers (from CurseForge)
-    implementation rfg.deobf("curse.maven:chameleon-230497:2450900") // Version 4.1.3
-    implementation rfg.deobf("curse.maven:storage-drawers-223852:4655859") // Version 5.5.0
-    implementation rfg.deobf("curse.maven:framed-compacting-drawers-376351:3015136") // Version 1.2.7
 
-    // Ender IO (from CurseForge)
-    implementation rfg.deobf("curse.maven:ender-io-64578:4674244") // Version 5.3.72
+    /* -------------------------------- Compile Time Only Deps -------------------------------- */
 
-    // Ender Core, Dep of Ender IO, also used in-code (from CurseForge)
-    implementation "curse.maven:endercore-231868:4671384" // Version 0.5.78
+    // Craft Tweaker, GT Compile dep
+    compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.684" // Version 4.1.20.684
 
-    // Ender Core Runtime Fix (Jar Files and Deps courtesy of GT-Expert-Core (https://github.com/GTModpackTeam/GTExpert-Core/tree/master))
-    // From Local Files and AutoSave/Config Lib
-    runtimeOnly files("libs/EnderCore-1.12.2-0.5.78-core.jar") // Version 0.5.78, just includes the 'core' part
-    runtimeOnly "info.loenwind.autoconfig:AutoConfig:1.12.2-1.0.2" // Version 1.0.2
-    runtimeOnly "info.loenwind.autosave:AutoSave:1.12.2-1.0.11" // Version 1.0.11
+
+    /* -------------------------------- Soft Deps, Compile Time Declaration -------------------------------- */
+
+    // Storage Drawers and Framed Compacting Drawers, used in Hand Framing Tool (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:storage-drawers-223852:4655859") // Version 5.5.0
+    compileOnly rfg.deobf("curse.maven:framed-compacting-drawers-376351:3015136") // Version 1.2.7
+
+    // Chameleon, Runtime and Compile Dep of Storage Drawers (deobf not needed) (from CurseForge)
+    compileOnly "curse.maven:chameleon-230497:2450900" // Version 4.1.3
+
+    // Ender IO, Used in Custom Capacitors (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:ender-io-64578:4674244") // Version 5.3.72
+
+    // Ender Core, Dep of Ender IO, also used in-code (deobf not needed) (from CurseForge)
+    compileOnly "curse.maven:endercore-231868:4671384" // Version 0.5.78
 
     // Chisel, used in Microverse Projectors (from CurseForge)
-    implementation rfg.deobf("curse.maven:chisel-235279:2915375") // Version 1.0.2.45
+    compileOnly rfg.deobf("curse.maven:chisel-235279:2915375") // Version 1.0.2.45
 
     // AE2, Used in Naquadah Reactors (AE2 Unofficial Extended Life used) (from CurseForge)
-    implementation rfg.deobf("curse.maven:ae2-extended-life-570458:4851091") // Version 0.55.27
+    compileOnly rfg.deobf("curse.maven:ae2-extended-life-570458:4851091") // Version 0.55.27
 
     // Extended Crafting, Used in Naquadah Reactors (Nomifactory Fork Used) (from CurseForge)
-    implementation rfg.deobf("curse.maven:extended-crafting-nomifactory-edition-398267:4592627") // Version 1.7.0.6
+    compileOnly rfg.deobf("curse.maven:extended-crafting-nomifactory-edition-398267:4592627") // Version 1.7.0.6
 
-    // CTM, runtime dep for Chisel (from CurseForge)
-    runtimeOnly "curse.maven:ctm-267602:2915363" // Version 1.0.2.31
-
-    // Cucumber Lib, runtime and compile dep for Extended Crafting (No need for deobf, just dep) (from CurseForge)
-    implementation "curse.maven:cucumber-272335:2645867" // Version 1.1.3
+    // Cucumber Lib, runtime and compile dep for Extended Crafting (deobf not needed) (from CurseForge)
+    compileOnly "curse.maven:cucumber-272335:2645867" // Version 1.1.3
 
     // Draconic Evolution, NuclearCraft, and Extra Utilities 2, the mixin patched mods (from CurseForge)
+    // Draconic Evolution is also used in the Universal Crystallizer.
     // THESE MODS HAVE MIXINS! CHECK MIXINS FOR COMPAT AFTER UPDATING!
-    implementation rfg.deobf("curse.maven:draconic-evolution-223565:3431261") // Version 2.3.28
-    implementation rfg.deobf("curse.maven:nuclearcraft-mod-226254:3074246") // Version 2.18y (Newer versions have unneeded balancing changes and break stuff)
-    implementation rfg.deobf("curse.maven:extra-utilities-225561:2678374") // Version 1.9.9
+    compileOnly rfg.deobf("curse.maven:draconic-evolution-223565:3431261") // Version 2.3.28
+    compileOnly rfg.deobf("curse.maven:nuclearcraft-mod-226254:3074246") // Version 2.18y (Newer versions have unneeded balancing changes and break stuff)
+    compileOnly rfg.deobf("curse.maven:extra-utilities-225561:2678374") // Version 1.9.9, also has remapping to remove frequency
 
-    // Draconic Evolution Runtime Deps, Brandon Core, Redstone Flux (from CurseForge)
-    // Brandon Core is deobfed, as it is down the dependency tree for some draconic evolution stuff
-    implementation rfg.deobf("curse.maven:brandons-core-231382:3408276") // Version 2.4.20
-    runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
+    // Brandon Core, Runtime and Compile Dep of Draconic Evolution (deobf not needed) (from CurseForge)
+    compileOnly "curse.maven:brandons-core-231382:3408276" // Version 2.4.20
 
-    // Optional Deps / Integrated (from CurseForge)
-    implementation rfg.deobf("curse.maven:ender-storage-245174:2755787") // Ender Storage, Version 2.4.6.137
+    /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
+    if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
+        // Redstone Flux, runtime only dep for Draconic Evolution (from CurseForge)
+        runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
+    }
+
+    /* -------------------------------- Soft Deps, Runtime Time Declaration -------------------------------- */
+
+    if (project.enable_storage_drawers.toBoolean()) {
+        runtimeOnly "curse.maven:storage-drawers-223852:4655859" // Version 5.5.0
+        runtimeOnly "curse.maven:chameleon-230497:2450900" // Version 4.1.3
+    }
+
+    if (project.enable_framed_compact.toBoolean()) {
+        runtimeOnly "curse.maven:framed-compacting-drawers-376351:3015136" // Version 1.2.7
+    }
+
+    if (project.enable_ender_io.toBoolean()) {
+        runtimeOnly "curse.maven:ender-io-64578:4674244" // Version 5.3.72
+        runtimeOnly "curse.maven:endercore-231868:4671384" // Version 0.5.78
+
+        // Ender Core Runtime Only Fix (Jar Files and Deps courtesy of GT-Expert-Core (https://github.com/GTModpackTeam/GTExpert-Core/tree/master))
+        // From Local Files and AutoSave/Config Maven
+        runtimeOnly files("libs/EnderCore-1.12.2-0.5.78-core.jar") // Version 0.5.78, just includes the 'core' part
+        runtimeOnly "info.loenwind.autoconfig:AutoConfig:1.12.2-1.0.2" // Version 1.0.2
+        runtimeOnly "info.loenwind.autosave:AutoSave:1.12.2-1.0.11" // Version 1.0.11
+    }
+
+    if (project.enable_chisel.toBoolean()) {
+        runtimeOnly "curse.maven:chisel-235279:2915375" // Version 1.0.2.45
+
+        // CTM, runtime only dep for Chisel (from CurseForge)
+        runtimeOnly "curse.maven:ctm-267602:2915363" // Version 1.0.2.31
+    }
+
+    if (project.enable_ae2.toBoolean()) {
+        runtimeOnly "curse.maven:ae2-extended-life-570458:4851091" // Version 0.55.27
+    }
+
+    if (project.enable_extended_crafting.toBoolean()) {
+        runtimeOnly "curse.maven:extended-crafting-nomifactory-edition-398267:4592627" // Version 1.7.0.6
+        runtimeOnly "curse.maven:cucumber-272335:2645867" // Version 1.1.3
+    }
+
+    if (project.enable_draconic.toBoolean()) {
+        runtimeOnly "curse.maven:draconic-evolution-223565:3431261" // Version 2.3.28
+        runtimeOnly "curse.maven:brandons-core-231382:3408276" // Version 2.4.20
+    }
+
+    if (project.enable_nuclear.toBoolean()) {
+        runtimeOnly "curse.maven:nuclearcraft-mod-226254:3074246" // Version 2.18y
+    }
+
+    if (project.enable_xu2.toBoolean()) {
+        runtimeOnly "curse.maven:extra-utilities-225561:2678374" // Version 1.9.9
+    }
+
+    if (project.enable_ender_storage.toBoolean()) {
+        // Ender Storage, runtime only, integrated in remappers (from CurseForge)
+        runtimeOnly "curse.maven:ender-storage-245174:2755787" // Version 2.4.6.137
+    }
+
+    if (project.enable_thermal.toBoolean()) {
+        // Thermal Expansion and Deps (Thermal Foundation, Redstone Arsenal, CoFH World, CoFH Core), runtime only, used in excitation coil texture (from CurseForge)
+        runtimeOnly "curse.maven:thermal-expansion-69163:2926431" // Version 5.5.7.1
+        runtimeOnly "curse.maven:thermal-foundation-222880:2926428" // Version 2.6.7.1
+        runtimeOnly "curse.maven:redstone-arsenal-70631:2939416" // Version 2.6.6.1
+        runtimeOnly "curse.maven:cofh-world-271384:2920434" // Version 1.4.0.1
+        runtimeOnly "curse.maven:cofh-core-69162:2920433" // Version 4.6.6.1
+    }
 }

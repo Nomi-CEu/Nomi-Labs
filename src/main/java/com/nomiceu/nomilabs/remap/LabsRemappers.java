@@ -38,8 +38,8 @@ public class LabsRemappers {
                  * DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
                  * Mod ID, so we need to map the DevTech metaitem to the GT metaitem in missing mappings.
                  */
-                new ItemRemapper(rl -> (rl.getNamespace().equals(DEVTECH_MODID) && rl.getPath().equals(PERFECT_GEM_META)),
-                        rl -> GTUtility.gregtechId(PERFECT_GEM_META))
+                new ItemRemapper(rl -> (rl.getNamespace().equals(DEVTECH_MODID) && rl.getPath().equals("meta_gem_perfect")),
+                        rl -> GTUtility.gregtechId("meta_gem_perfect"))
         );
         BLOCK_REMAPPERS = ImmutableList.of(
                 // Remap Content Tweaker Blocks

@@ -101,7 +101,7 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        if (LabsConfig.content.customContent.enableComplexRecipes)
+        if (LabsConfig.content.customContent.enableComplexRecipes && LabsItems.HAND_FRAMING_TOOL != null)
             event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName(
                     Objects.requireNonNull(LabsItems.HAND_FRAMING_TOOL.getRegistryName()).getPath() + "_recipe")));
     }

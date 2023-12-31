@@ -16,9 +16,9 @@ import static com.nomiceu.nomilabs.NomiLabs.LOGGER;
 @SuppressWarnings("unused")
 public class LabsLateMixin implements ILateMixinLoader {
     public static final Map<String, Boolean> modMixinsConfig = ImmutableMap.of(
-            "draconicevolution", LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration,
-            "nuclearcraft", LabsConfig.modIntegration.enableNuclearCraftIntegration,
-            "extrautils2", LabsConfig.modIntegration.enableExtraUtils2Integration
+            LabsValues.DRACONIC_MODID, LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration,
+            LabsValues.NUCLEARCRAFT_MODID, LabsConfig.modIntegration.enableNuclearCraftIntegration,
+            LabsValues.XU2_MODID, LabsConfig.modIntegration.enableExtraUtils2Integration
     );
 
     @Override

@@ -140,6 +140,13 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableTOPIntegration = true;
 
+        @Config.Comment({"Whether to enable Ender Storage Integration, which allows data fixes to remap Ender Storage Chests' Contents.",
+                "If this is in a Nomi-CEu Environment, make sure this stays at true, or your world may break, and items be lost!",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.mod_integration.ender_storage")
+        @Config.RequiresMcRestart
+        public boolean enableEnderStorageIntegration = true;
+
         @Config.Comment("Draconic Evolution Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.draconicevolution")
         @Config.Name("draconic evolution integration")
@@ -180,6 +187,17 @@ public class LabsConfig {
                 "Beware: many mode specific behaviours will break if other pack modes are used!",
                 "[default: false]"})
         @Config.LangKey("config.nomilabs.advanced.allow_other_modes")
+        @Config.RequiresMcRestart
         public boolean allowOtherPackModes = false;
+
+        @Config.Comment({"Whether to enable data fixes.",
+                "This is used for Nomi-CEu, for players coming from before core-mod.",
+                "If this mod is being used in other scenarios, leave this at false, as this may break worlds!",
+                "If this is in a Nomi-CEu environment, make sure it is true, and do not change it, or items/blocks may be lost!",
+                "This may be used in the future as well, and your world will not be fixed if it is up-to-date.",
+                "[default: false]"})
+        @Config.LangKey("config.nomilabs.advanced.enable_data_fixes")
+        @Config.RequiresWorldRestart
+        public boolean enableDataFixes = false;
     }
 }

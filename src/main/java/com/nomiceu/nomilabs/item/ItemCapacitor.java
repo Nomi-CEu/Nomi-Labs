@@ -17,14 +17,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fml.common.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class ItemCapacitor extends Item {
-    public final ICapacitorData data;
-    public ItemCapacitor(ResourceLocation rl, CreativeTabs tab, ICapacitorData data) {
+    public final LabsCapacitorData data;
+    public ItemCapacitor(ResourceLocation rl, CreativeTabs tab, LabsCapacitorData data) {
         setCreativeTab(tab);
         setRegistryName(rl);
         setMaxStackSize(64);
@@ -32,6 +33,7 @@ public class ItemCapacitor extends Item {
     }
 
     @Override
+    @Optional.Method(modid = LabsValues.ENDER_IO_MODID)
     public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         tooltip.add(I18n.format("tooltip.nomilabs.capacitors.description")); // Not using default here. This one adds `EnderIO`, making it clearer
@@ -44,6 +46,7 @@ public class ItemCapacitor extends Item {
 
     @Override
     @Nullable
+    @Optional.Method(modid = LabsValues.ENDER_IO_MODID)
     public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, @Nullable NBTTagCompound nbt) {
         return new CapacitorCapabilityProvider(data);
     }

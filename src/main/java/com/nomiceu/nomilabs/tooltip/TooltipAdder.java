@@ -1,11 +1,14 @@
 package com.nomiceu.nomilabs.tooltip;
 
 import com.enderio.core.client.handlers.SpecialTooltipHandler;
+import com.nomiceu.nomilabs.LabsValues;
 import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
 import crazypants.enderio.base.capacitor.CapacitorKey;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -18,6 +21,12 @@ import java.util.Objects;
 public class TooltipAdder {
     public static void addTooltipNormal(List<String> tooltip, ItemStack stack) {
         // Add Information of EIO Capacitors' Levels
+        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID))
+            addTooltipEIO(tooltip, stack);
+    }
+
+    @Optional.Method(modid = LabsValues.ENDER_IO_MODID)
+    private static void addTooltipEIO(List<String> tooltip, ItemStack stack) {
         if (stack.hasCapability(CapabilityCapacitorData.getCapNN(), null)) {
             if (!SpecialTooltipHandler.showAdvancedTooltips()) return;
 

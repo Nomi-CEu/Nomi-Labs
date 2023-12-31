@@ -84,7 +84,7 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
         assert Blocks.DIRT != null;
         assert Blocks.GRASS != null;
         assert Blocks.FARMLAND != null;
-        return new IBlockState[] {Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState(), Blocks.FARMLAND.getDefaultState()}; // Allow dirt or grass
+        return new IBlockState[] {Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState(), Blocks.FARMLAND.getDefaultState()}; // Allow dirt or grass or farmland
     }
 
     protected IBlockState getCasingStateLamp() {

@@ -4,6 +4,7 @@ import appeng.core.Api;
 import com.blakebr0.extendedcrafting.block.BlockStorage;
 import com.blakebr0.extendedcrafting.block.BlockTrimmed;
 import com.blakebr0.extendedcrafting.block.ModBlocks;
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.recipelogic.NaqRecipeLogic;
@@ -39,6 +40,7 @@ import gregtech.api.GTValues;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import gregtech.client.utils.TooltipHelper;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -94,8 +96,8 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
                 .where('S', selfPredicate())
             .where('G', states(getCasingStateGlass()))
             .where('P', states(getCasingStateSpatial()))
-            .where('T', states(getCasingStateBottom()))
-            .where('B', states(getCasingStateTop()))
+            .where('T', states(getCasingStateTop()))
+            .where('B', states(getCasingStateBottom()))
             .where('C', states(getCasingStateMain()).setMinGlobalLimited(10)
                 .or(abilities(MultiblockAbility.OUTPUT_ENERGY).setExactLimit(1))
                 .or(autoAbilities(false, true, true, true, false, false, false)))
@@ -128,12 +130,11 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
     protected abstract IBlockState getCasingStateTop();
 
     protected IBlockState getCasingStateSpatial() {
-        if (Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().isPresent()) {
-            return Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().get().getDefaultState();
-        } else {
-            assert Blocks.AIR != null;
-            return Blocks.AIR.getDefaultState();
-        }
+        assert Blocks.AIR != null;
+
+        return Loader.isModLoaded(LabsValues.AE2_MODID) && Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().isPresent()
+                ? Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().get().getDefaultState()
+                : Blocks.AIR.getDefaultState();
     }
 
     public void addSharedInfo(@NotNull List<String> tooltip) {
@@ -185,7 +186,11 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
 
         @Override
         protected IBlockState getCasingStateTop() {
-            return ModBlocks.blockTrimmed.getStateFromMeta(BlockTrimmed.Type.ULTIMATE_TRIMMED.getMetadata());
+            assert Blocks.AIR != null;
+
+            return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID)
+                    ? ModBlocks.blockTrimmed.getStateFromMeta(BlockTrimmed.Type.ULTIMATE_TRIMMED.getMetadata())
+                    : Blocks.AIR.getDefaultState();
         }
 
         @Override
@@ -220,7 +225,11 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
 
         @Override
         protected IBlockState getCasingStateTop() {
-            return ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata());
+            assert Blocks.AIR != null;
+
+            return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID)
+                    ? ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())
+                    : Blocks.AIR.getDefaultState();
         }
 
         @Override

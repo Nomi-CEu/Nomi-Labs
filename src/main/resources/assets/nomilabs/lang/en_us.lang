@@ -30,6 +30,7 @@ config.nomilabs.mod_integration=Mod Integration Settings
 config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration
 config.nomilabs.mod_integration.xu2=Enable Extra Utilities 2 Integration
 config.nomilabs.mod_integration.top=Enable TOP Integration
+config.nomilabs.mod_integration.ender_storage=Enable Ender Storage Integration
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
 config.nomilabs.mod_integration.draconicevolution.enable=Enable Draconic Evolution Integration
@@ -38,6 +39,7 @@ config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=Auto Des
 
 config.nomilabs.advanced=Advanced Settings
 config.nomilabs.advanced.allow_other_modes=Allow Other Modes
+config.nomilabs.advanced.enable_data_fixes=Enable Data Fixes
 
 # Old Content Tweaker Stuff (Refactor Needed)
 itemGroup.nomilabs.main=Nomi Labs

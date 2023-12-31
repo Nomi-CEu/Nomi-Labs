@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
 import com.brandon3055.draconicevolution.DEFeatures;
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import gregicality.multiblocks.api.render.GCYMTextures;
@@ -27,6 +28,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -101,11 +103,19 @@ public class MetaTileEntityUniversalCrystalizer extends RecipeMapMultiblockContr
     }
 
     protected IBlockState getCasingStateComponent() {
-        return DEFeatures.reactorComponent.getDefaultState();
+        assert Blocks.AIR != null;
+
+        return Loader.isModLoaded(LabsValues.DRACONIC_MODID)
+                ? DEFeatures.reactorComponent.getDefaultState()
+                : Blocks.AIR.getDefaultState();
     }
 
     protected IBlockState getCasingStateCore() {
-        return DEFeatures.reactorCore.getDefaultState();
+        assert Blocks.AIR != null;
+
+        return Loader.isModLoaded(LabsValues.DRACONIC_MODID)
+                ? DEFeatures.reactorCore.getDefaultState()
+                : Blocks.AIR.getDefaultState();
     }
 
     @Override

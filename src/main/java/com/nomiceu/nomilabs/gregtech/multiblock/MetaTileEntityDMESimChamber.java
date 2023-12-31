@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.gregtech.multiblock;
 import appeng.core.Api;
 import com.blakebr0.extendedcrafting.block.BlockStorage;
 import com.blakebr0.extendedcrafting.block.ModBlocks;
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import gregicality.multiblocks.api.render.GCYMTextures;
@@ -26,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -86,16 +88,18 @@ public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController {
     }
 
     protected IBlockState getCasingStateGlass() {
-        if (Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().isPresent()) {
-            return Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().get().getDefaultState();
-        } else {
-            assert Blocks.AIR != null;
-            return Blocks.AIR.getDefaultState();
-        }
+        assert Blocks.AIR != null;
+
+        return Loader.isModLoaded(LabsValues.AE2_MODID) && Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().isPresent()
+                ? Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().get().getDefaultState()
+                : Blocks.AIR.getDefaultState();
     }
 
     protected IBlockState getCasingStateOmnium() {
-        return ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata());
+        assert Blocks.AIR != null;
+
+        return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID) ? ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())
+                : Blocks.AIR.getDefaultState();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.remap.datafixer;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.BlockFixer;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.TileEntityFixer;
@@ -72,6 +73,13 @@ public class DataFixerHandler {
     }
 
     public static void onWorldLoad(SaveHandler save) {
+        if (!LabsConfig.advanced.enableDataFixes) {
+            checked = true;
+            modeNeeded = false;
+            worldSavedData = null;
+            NomiLabs.LOGGER.info("Skipping Data Fixers, due to config...");
+            return;
+        }
         checked = false;
         modeNeeded = false;
         NomiLabs.LOGGER.info("Checking Data Fixers...");

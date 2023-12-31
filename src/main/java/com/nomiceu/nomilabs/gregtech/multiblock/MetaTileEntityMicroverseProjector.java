@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
@@ -55,8 +56,11 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
     }
 
     protected IBlockState getCasingStateDiamond() {
-        return Loader.isModLoaded("chisel") ? Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations()
-                .get(4).getBlockState() : Blocks.AIR.getDefaultState(); // This cursed line returns the Space Diamond Chisel Block
+        assert Blocks.AIR != null;
+
+        return Loader.isModLoaded(LabsValues.CHISEL_MODID)
+                ? Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations().get(4).getBlockState() // This cursed line returns the Space Diamond Chisel Block
+                : Blocks.AIR.getDefaultState();
     }
 
     protected IBlockState getCasingStateGrate() {

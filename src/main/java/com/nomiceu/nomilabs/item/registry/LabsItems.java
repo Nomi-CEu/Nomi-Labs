@@ -192,10 +192,16 @@ public class LabsItems {
      *  Custom Behavior Items
      *  These are Items not extending BaseItem
      */
+    public static ItemSmore[] SMORES;
+
+    /**
+     *  Mod Specific Items
+     *  These are items that are only loaded if a certain mod is loaded.
+     */
     public static ItemCapacitor COMPRESSED_OCTADIC_CAPACITOR;
     public static ItemCapacitor DOUBLE_COMPRESSED_OCTADIC_CAPACITOR;
     public static ItemHandFramingTool HAND_FRAMING_TOOL;
-    public static ItemSmore[] SMORES;
+
 
     public static void preInit() {
         /* Coins */
@@ -236,6 +242,9 @@ public class LabsItems {
 
         /* Custom Behavior Items */
         LabsMisc.initCustomBehavior();
+
+        /* Mod Specific Items */
+        LabsModSpecific.initModSpecific();
     }
 
     /* HELPER FUNCTIONS */

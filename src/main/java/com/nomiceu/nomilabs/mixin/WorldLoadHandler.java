@@ -1,11 +1,14 @@
 package com.nomiceu.nomilabs.mixin;
 
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,6 +29,7 @@ public class WorldLoadHandler {
 
         if (DataFixerHandler.fixNotAvailable()) return;
 
-        DataFixerHandler.processEnderStorageInfo(fixer, save);
+        if (Loader.isModLoaded(LabsValues.ENDER_STORAGE_MODID) && LabsConfig.modIntegration.enableEnderStorageIntegration)
+            DataFixerHandler.processEnderStorageInfo(fixer, save);
     }
 }

@@ -222,7 +222,7 @@ public class LabsFixes {
                         (version) -> version <= DEFAULT_VERSION,
                         (modList) -> true,
                         (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) &&
-                                compound.getString("id").equals(new ResourceLocation(LabsValues.GREGTECH_MODID, LabsValues.GT_MACHINE_PATH).toString()) &&
+                                compound.getString("id").equals(new ResourceLocation(LabsValues.GREGTECH_MODID, "machine").toString()) &&
                                 multiblockMetaIdRemap.containsKey(new ResourceLocation(compound.getString("MetaId"))),
                         (compound -> compound.setString("MetaId", multiblockMetaIdRemap.get(new ResourceLocation(compound.getString("MetaId"))).toString())))
         );
