@@ -156,7 +156,11 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
             return;
         }
         activeBuilder = new EnergyCoreBuilder((TileEnergyStorageCore) (Object) this, player);
-        hasActiveBuilder.value = true;
+        if (activeBuilder.isDead()) {
+            hasActiveBuilder.value = false;
+            activeBuilder = null;
+        } else
+            hasActiveBuilder.value = true;
     }
 
     @Unique
@@ -168,7 +172,11 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
             return;
         }
         activeDestructor = new EnergyCoreDestructor((TileEnergyStorageCore) (Object) this, player);
-        hasActiveDestructor.value = true;
+        if (activeDestructor.isDead()) {
+            hasActiveDestructor.value = false;
+            activeDestructor = null;
+        } else
+            hasActiveDestructor.value = true;
     }
 
     @Override
