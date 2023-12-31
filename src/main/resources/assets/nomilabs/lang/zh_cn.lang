@@ -29,7 +29,8 @@ config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 config.nomilabs.mod_integration=Mod 联动设置
 config.nomilabs.mod_integration.nuclearcraft=启用 NuclearCraft 联动
 config.nomilabs.mod_integration.xu2=启用 Extra Utilities 2 联动
-config.nomilabs.mod_integration.top=Enable TOP Integration
+config.nomilabs.mod_integration.top=启用 The One Probe 联动
+config.nomilabs.mod_integration.ender_storage=启用 Ender Storage 联动
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution 联动设置
 config.nomilabs.mod_integration.draconicevolution.enable=启用 Draconic Evolution 联动
@@ -38,6 +39,7 @@ config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=自动�
 
 config.nomilabs.advanced=Advanced Settings
 config.nomilabs.advanced.allow_other_modes=Allow Other Modes
+config.nomilabs.advanced.enable_data_fixes=Enable Data Fixes
 
 # Old Content Tweaker Stuff (Refactor Needed)
 itemGroup.nomilabs.main=Nomi 实验室
@@ -464,6 +466,8 @@ recipemap.dme_sim_chamber.name=模拟
 # General
 tooltip.nomilabs.general.press_shift_for_usages=按住[Shift]查看更多用法。
 tooltip.nomilabs.general.press_ctrl_for_usages=按住[Ctrl]查看更多用法。
+tooltip.nomilabs.general.press_shift_for_info=Press [Shift] for More Info.
+tooltip.nomilabs.general.press_ctrl_for_info=Press [Ctrl] for More Info.
 
 # Items
 tooltip.nomilabs.excitationcoil.description_block=只用于制作元件。
@@ -502,6 +506,9 @@ tooltip.stabilized_miners.description2=Lasts indefinitely. Reusable. Totally not
 tooltip.stabilized_miners.description3=It looks oddly familiar.
 
 tooltip.stabilized_matters.description=An infinite and incomprehensible abyss of materials.
+
+tooltip.nomilabs.capacitors.description=EnderIO Machine Upgrade
+tooltip.nomilabs.capacitors.level=Level: %s
 
 # Multiblocks
 tooltip.nomilabs.microverse_projector_1.description=一种能够稳定投影进入微型宇宙中的机器，用于基本的微型采矿任务。

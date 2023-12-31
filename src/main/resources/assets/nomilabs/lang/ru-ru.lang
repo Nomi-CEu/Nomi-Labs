@@ -29,7 +29,8 @@ config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
 config.nomilabs.mod_integration=Mod Integration Settings
 config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration
 config.nomilabs.mod_integration.xu2=Enable Extra Utilities 2 Integration
-config.nomilabs.mod_integration.top=Enable TOP Integration
+config.nomilabs.mod_integration.top=Enable The One Probe Integration
+config.nomilabs.mod_integration.ender_storage=Enable Ender Storage Integration
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
 config.nomilabs.mod_integration.draconicevolution.enable=Enable Draconic Evolution Integration
@@ -38,6 +39,7 @@ config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=Auto Des
 
 config.nomilabs.advanced=Advanced Settings
 config.nomilabs.advanced.allow_other_modes=Allow Other Modes
+config.nomilabs.advanced.enable_data_fixes=Enable Data Fixes
 
 # Old Content Tweaker Stuff (Refactor Needed)
 itemGroup.nomilabs.main=Nomi Labs
@@ -464,6 +466,8 @@ recipemap.dme_sim_chamber.name=Simulation
 # General
 tooltip.nomilabs.general.press_shift_for_usages=Press [Shift] for More Usages.
 tooltip.nomilabs.general.press_ctrl_for_usages=Press [Ctrl] for More Usages.
+tooltip.nomilabs.general.press_shift_for_info=Press [Shift] for More Info.
+tooltip.nomilabs.general.press_ctrl_for_info=Press [Ctrl] for More Info.
 
 # Items
 tooltip.nomilabs.excitationcoil.description_block=Crafting Component Only.
@@ -502,6 +506,9 @@ tooltip.stabilized_miners.description2=Lasts indefinitely. Reusable. Totally not
 tooltip.stabilized_miners.description3=It looks oddly familiar.
 
 tooltip.stabilized_matters.description=An infinite and incomprehensible abyss of materials.
+
+tooltip.nomilabs.capacitors.description=EnderIO Machine Upgrade
+tooltip.nomilabs.capacitors.level=Level: %s
 
 # Multiblocks
 tooltip.nomilabs.microverse_projector_1.description=A machine capable of stabilizing projection into microverses for basic micro miner missions.
