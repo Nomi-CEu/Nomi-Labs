@@ -134,7 +134,7 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableExtraUtils2Integration = true;
 
-        @Config.Comment({"Whether to enable TOP Integration, which adds some messages to the TOP panel when hovering over certain blocks.",
+        @Config.Comment({"Whether to enable The One Probe Integration, which adds some messages to the TOP panel when hovering over certain blocks.",
                 "[default: true]"})
         @Config.LangKey("config.nomilabs.mod_integration.top")
         @Config.RequiresMcRestart
@@ -146,6 +146,13 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.ender_storage")
         @Config.RequiresMcRestart
         public boolean enableEnderStorageIntegration = true;
+
+        @Config.Comment({"Whether to enable Ender IO Integration, which adds a tooltip beneath capacitors displaying their level.",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.mod_integration.ender_io")
+        @Config.RequiresMcRestart
+        public boolean enableEnderIOIntegration = true;
+
 
         @Config.Comment("Draconic Evolution Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.draconicevolution")

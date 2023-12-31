@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.tooltip;
 
 import com.enderio.core.client.handlers.SpecialTooltipHandler;
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.config.LabsConfig;
 import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
 import crazypants.enderio.base.capacitor.CapacitorKey;
 import net.minecraft.client.resources.I18n;
@@ -21,7 +22,7 @@ import java.util.Objects;
 public class TooltipAdder {
     public static void addTooltipNormal(List<String> tooltip, ItemStack stack) {
         // Add Information of EIO Capacitors' Levels
-        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID))
+        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID) && LabsConfig.modIntegration.enableEnderIOIntegration)
             addTooltipEIO(tooltip, stack);
     }
 

@@ -31,6 +31,7 @@ config.nomilabs.mod_integration.nuclearcraft=Enable NuclearCraft Integration
 config.nomilabs.mod_integration.xu2=Enable Extra Utilities 2 Integration
 config.nomilabs.mod_integration.top=Enable The One Probe Integration
 config.nomilabs.mod_integration.ender_storage=Enable Ender Storage Integration
+config.nomilabs.mod_integration.ender_io=Enable Ender IO Integration
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
 config.nomilabs.mod_integration.draconicevolution.enable=Enable Draconic Evolution Integration
@@ -507,7 +508,7 @@ tooltip.stabilized_miners.description3=It looks oddly familiar.
 
 tooltip.stabilized_matters.description=An infinite and incomprehensible abyss of materials.
 
-tooltip.nomilabs.capacitors.description=EnderIO Machine Upgrade
+tooltip.nomilabs.capacitors.description=Ender IO Machine Upgrade
 tooltip.nomilabs.capacitors.level=Level: %s
 
 # Multiblocks

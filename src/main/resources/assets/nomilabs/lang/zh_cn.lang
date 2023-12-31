@@ -31,6 +31,7 @@ config.nomilabs.mod_integration.nuclearcraft=启用 NuclearCraft 联动
 config.nomilabs.mod_integration.xu2=启用 Extra Utilities 2 联动
 config.nomilabs.mod_integration.top=启用 The One Probe 联动
 config.nomilabs.mod_integration.ender_storage=启用 Ender Storage 联动
+config.nomilabs.mod_integration.ender_io=启用 Ender IO 联动
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution 联动设置
 config.nomilabs.mod_integration.draconicevolution.enable=启用 Draconic Evolution 联动
@@ -507,7 +508,7 @@ tooltip.stabilized_miners.description3=It looks oddly familiar.
 
 tooltip.stabilized_matters.description=An infinite and incomprehensible abyss of materials.
 
-tooltip.nomilabs.capacitors.description=EnderIO Machine Upgrade
+tooltip.nomilabs.capacitors.description=Ender IO Machine Upgrade
 tooltip.nomilabs.capacitors.level=Level: %s
 
 # Multiblocks
