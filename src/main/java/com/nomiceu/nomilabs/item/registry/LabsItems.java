@@ -17,15 +17,15 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class LabsItems {
     private static final String nullTranslationKey = "item.null";
 
     private static final List<Item> ITEMS = new ArrayList<>();
+
+    private static final Set<Item> NO_MODEL_HANDLING_ITEMS = new HashSet<>();
 
     /**
      *  Coins
@@ -257,6 +257,7 @@ public class LabsItems {
     @SideOnly(Side.CLIENT)
     public static void registerModels() {
         for (Item item : ITEMS) {
+            if (NO_MODEL_HANDLING_ITEMS.contains(item)) continue; // Skip Model Handling for these items
             registerModel(item);
         }
     }
@@ -264,6 +265,11 @@ public class LabsItems {
     public static <T extends Item> T createItem(T item) {
         ITEMS.add(item);
         return item;
+    }
+
+    public static <T extends Item> T createItemWithoutModelHandling(T item) {
+        NO_MODEL_HANDLING_ITEMS.add(item);
+        return createItem(item);
     }
 
     private static void registerItem(Item item, IForgeRegistry<Item> registry) {

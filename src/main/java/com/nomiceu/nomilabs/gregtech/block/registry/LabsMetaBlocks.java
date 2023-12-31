@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.gregtech.block.registry;
 
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.gregtech.block.BlockUniqueCasing;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
 import gregtech.api.block.VariantActiveBlock;
 import gregtech.api.block.VariantItemBlock;
 import net.minecraft.util.IStringSerializable;
@@ -24,10 +25,10 @@ public class LabsMetaBlocks extends LabsBlocks {
     public static <T extends VariantActiveBlock<V>, V extends Enum<V> & IStringSerializable> T createMetaBlock(T block) {
         META_BLOCKS.add(block);
 
-        return createBlockWithItem(block, registeredBlock -> {
+        return createBlockWithRegisteredItem(block, registeredBlock -> {
             var item = new VariantItemBlock<>(block);
             item.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
-            return item;
+            return LabsItems.createItemWithoutModelHandling(item);
         });
     }
 

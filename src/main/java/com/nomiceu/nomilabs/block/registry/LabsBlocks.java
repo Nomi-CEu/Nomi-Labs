@@ -89,8 +89,12 @@ public class LabsBlocks {
     }
 
     public static <T extends Block> T createBlockWithItem(T block, Function<T, ItemBlock> itemBlockSupplier) {
+        return createBlockWithRegisteredItem(block, (registeredBlock) -> LabsItems.createItem(itemBlockSupplier.apply(block)));
+    }
+
+    public static <T extends Block> T createBlockWithRegisteredItem(T block, Function<T, ItemBlock> itemBlockSupplier) {
         BLOCKS.add(block);
-        ITEMS.put(block, LabsItems.createItem(itemBlockSupplier.apply(block)));
+        ITEMS.put(block, itemBlockSupplier.apply(block));
         return block;
     }
 
