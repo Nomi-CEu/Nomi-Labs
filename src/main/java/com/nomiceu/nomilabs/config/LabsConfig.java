@@ -197,6 +197,11 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean allowOtherPackModes = false;
 
+        @Config.Comment({"Whether to disable Anvil XP Scaling.",
+                "[default: false]"})
+        @Config.LangKey("config.nomilabs.advanced.disable_xp_scaling")
+        public boolean disableXpScaling = false;
+
         @Config.Comment({"Whether to enable data fixes.",
                 "This is used for Nomi-CEu, for players coming from before core-mod.",
                 "If this mod is being used in other scenarios, leave this at false, as this may break worlds!",
