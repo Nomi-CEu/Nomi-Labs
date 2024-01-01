@@ -206,5 +206,49 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.enable_data_fixes")
         @Config.RequiresWorldRestart
         public boolean enableDataFixes = false;
+
+        @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
+                "Do not change unless you know what you are doing!",
+                "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
+                "This is an OR, so if an item matches ANY of the patterns, it is ignored.",
+                "An item is only ignored if its ENTIRE Resource Location matches the pattern.",
+                "Example: `minecraft:.*` (Ignores all Minecraft Items)",
+                "[default: ]"})
+        @Config.LangKey("config.nomilabs.advanced.ignore_items")
+        @Config.RequiresMcRestart
+        public String[] ignoreItems = new String[0];
+
+        @Config.Comment({"List of Regex Patterns to ignore if they are included in the BLOCK missing registry list.",
+                "Do not change unless you know what you are doing!",
+                "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
+                "This is an OR, so if a block matches ANY of the patterns, it is ignored.",
+                "A block is only ignored if its ENTIRE Resource Location matches the pattern.",
+                "Example: `minecraft:.*` (Ignores all Minecraft Blocks)",
+                "[default: ]"})
+        @Config.LangKey("config.nomilabs.advanced.ignore_blocks")
+        @Config.RequiresMcRestart
+        public String[] ignoreBlocks = new String[0];
+
+        @Config.Comment({"List of Regex Patterns to ignore if they are included in the ENTITY missing registry list.",
+                "Do not change unless you know what you are doing!",
+                "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
+                "This is an OR, so if an entity matches ANY of the patterns, it is ignored.",
+                "An entity is only ignored if its ENTIRE Resource Location matches the pattern.",
+                "Example: `minecraft:.*` (Ignores all Minecraft Entities)",
+                "[default: ]"})
+        @Config.LangKey("config.nomilabs.advanced.ignore_entities")
+        @Config.RequiresMcRestart
+        public String[] ignoreEntities = new String[0];
+
+        @Config.Comment({"List of Regex Patterns to ignore if they are included in the BIOME missing registry list.",
+                "Do not change unless you know what you are doing!",
+                "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
+                "This is an OR, so if a biome matches ANY of the patterns, it is ignored.",
+                "A biome is only ignored if its ENTIRE Resource Location matches the pattern.",
+                "Example: `minecraft:.*` (Ignores all Minecraft Biomes)",
+                "[default: ]"})
+        @Config.LangKey("config.nomilabs.advanced.ignore_biomes")
+        @Config.RequiresMcRestart
+        public String[] ignoreBiomes = new String[0];
     }
 }

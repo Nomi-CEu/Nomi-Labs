@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.remap.remapper;
+package com.nomiceu.nomilabs.remap;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -6,7 +6,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.function.Function;
 
-public abstract class Remapper<T extends IForgeRegistryEntry<T>> {
+public class Remapper {
     private final Function<ResourceLocation, Boolean> shouldRemap;
     private final Function<ResourceLocation, ResourceLocation> remapRl;
 
@@ -23,5 +23,16 @@ public abstract class Remapper<T extends IForgeRegistryEntry<T>> {
         return remapRl.apply(rl);
     }
 
-    public abstract void remapEntry(RegistryEvent.MissingMappings.Mapping<T> entry);
+    public <T extends IForgeRegistryEntry<T>> ResourceLocation remapEntry(RegistryEvent.MissingMappings.Mapping<T> entry) {
+        var rl = remapRl(entry.key);
+        entry.remap(entry.registry.getValue(rl));
+        return rl;
+    }
+
+    public enum RemapTypes {
+        ITEM,
+        BLOCK,
+        ENTITY,
+        BIOME
+    }
 }

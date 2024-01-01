@@ -9,6 +9,7 @@ public class LabsValues {
     public static final String EXPERT_MODE = "expert";
 
     /* Other Mods' ModIDs, used for compat and/or integration */
+    public static final String MC_MODID = "minecraft";
     public static final String CONTENTTWEAKER_MODID = "contenttweaker";
     public static final String XU2_MODID = "extrautils2";
     public static final String DEVTECH_MODID = "devtech";

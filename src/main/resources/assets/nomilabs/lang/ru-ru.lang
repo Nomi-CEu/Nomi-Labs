@@ -41,6 +41,10 @@ config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed=Auto Des
 config.nomilabs.advanced=Advanced Settings
 config.nomilabs.advanced.allow_other_modes=Allow Other Modes
 config.nomilabs.advanced.enable_data_fixes=Enable Data Fixes
+config.nomilabs.advanced.ignore_items=ITEM Missing Registry Ignore List
+config.nomilabs.advanced.ignore_blocks=BLOCK Missing Registry Ignore List
+config.nomilabs.advanced.ignore_entities=ENTITY Missing Registry Ignore List
+config.nomilabs.advanced.ignore_biomes=BIOME Missing Registry Ignore List
 
 # Old Content Tweaker Stuff (Refactor Needed)
 itemGroup.nomilabs.main=Nomi Labs
