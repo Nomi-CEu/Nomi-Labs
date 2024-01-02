@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
                 + "required-after:codechickenlib@[3.2.3,);"
                 + "required-after:groovyscript@[0.6.0,);"
                 + "required-after:gregtech;"
+                + "required-after:packmode;"
                 + "after:appliedenergistics2;"
                 + "after:jei@[4.15.0,);"
                 + "after:theoneprobe;")
