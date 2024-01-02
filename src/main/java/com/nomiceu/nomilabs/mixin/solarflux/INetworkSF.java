@@ -9,11 +9,8 @@ import tk.zeitheron.solarflux.net.NetworkSF;
 
 @SuppressWarnings("unused")
 @Mixin(value = NetworkSF.class, remap = false)
-public class INetworkSF {
-    @Shadow
-    @Mutable
-    @Final
-    public static NetworkSF INSTANCE;
+public interface INetworkSF {
+
 
     @Accessor
     public static void setINSTANCE(NetworkSF instance) {}
