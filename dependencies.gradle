@@ -81,8 +81,8 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:nuclearcraft-mod-226254:3074246") // Version 2.18y (Newer versions have unneeded balancing changes and break stuff)
     compileOnly rfg.deobf("curse.maven:extra-utilities-225561:2678374") // Version 1.9.9, also has remapping to remove frequency
 
-    // Solar Flux Reborn, need to be patched for Cleanroom compatibility (deobf not needed) (from CurseForge)
-    compileOnly "curse.maven:solar-flux-reborn-246974:3050838-deobf-3050839" // Version 
+    // Solar Flux Reborn, need to be patched for Cleanroom compatibility (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:solar-flux-reborn-246974:3050838") // Version 12.4.11
 
     // Brandon Core, Runtime and Compile Dep of Draconic Evolution (from CurseForge)
     compileOnly rfg.deobf("curse.maven:brandons-core-231382:3408276") // Version 2.4.20
@@ -142,6 +142,10 @@ dependencies {
 
     if (project.enable_xu2.toBoolean()) {
         runtimeOnly "curse.maven:extra-utilities-225561:2678374" // Version 1.9.9
+    }
+
+    if (project.enable_solar.toBoolean()) {
+        runtimeOnly "curse.maven:solar-flux-reborn-246974:3050838" // Version 12.4.11
     }
 
     if (project.enable_ender_storage.toBoolean()) {

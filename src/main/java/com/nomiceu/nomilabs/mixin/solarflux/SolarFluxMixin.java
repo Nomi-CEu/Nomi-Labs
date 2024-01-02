@@ -18,13 +18,13 @@ public class SolarFluxMixin {
     @Final
     public static File CONFIG_DIR;
     @Redirect(method = "preInit", at = @At(value = "INVOKE", target = "Ltk/zeitheron/solarflux/SolarFlux$FinalFieldHelper;setStaticFinalField(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Object;)Z"))
-    static boolean setStaticFinalField1(Class<?> cls, String var, Object val) {
+    private boolean setStaticFinalFieldConfig(Class<?> cls, String var, Object val) {
         CONFIG_DIR = (File) val;
         return true;
     }
     
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Ltk/zeitheron/solarflux/SolarFlux$FinalFieldHelper;setStaticFinalField(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Object;)Z"))
-    static boolean setStaticFinalField2(Class<?> cls, String var, Object val) {
+    private boolean setStaticFinalFieldInstance(Class<?> cls, String var, Object val) {
         INetworkSF.setINSTANCE((NetworkSF) val);
         return true;
     }

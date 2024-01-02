@@ -7,13 +7,14 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import tk.zeitheron.solarflux.net.NetworkSF;
 
+@SuppressWarnings("unused")
 @Mixin(value = NetworkSF.class, remap = false)
 public class INetworkSF {
     @Shadow
     @Mutable
     @Final
     public static NetworkSF INSTANCE;
-    
+
     @Accessor
     public static void setINSTANCE(NetworkSF instance) {}
 }
