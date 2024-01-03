@@ -16,13 +16,18 @@
   - Hand Framing Tool able to be framed/decorated in the Framing Table
   - Excitation Coil Improvements: now can be placed in any direction, and on your head
   - More placeable blocks!
-- Compat Mixin allowing NuclearCraft to be used with GregTech CEu, without having to resort to unstable Banoukou patches
+- Compat Mixin allowing NuclearCraft to be used with GregTech CEu, without having to resort to unstable Bansoukou patches
 - GroovyScript Helpers:
   - Allow replacing of GregTech CEu crafting recipes, with the recycling recipes and OreDictUnifier Data updating automatically
   - Allow refreshing of GregTech CEu recycling recipes at any time, allowing for these to be changed with GroovyScript's reload feature
   - More planned!
 - Configs, allowing for disabling of different features, allowing for a wider range of usage
 - More to come, such as custom GT content, improved custom multiblocks, new multiblocks (a greenhouse, which alllows for better automation of plant-related materials over EIO Farmers, is already available), and more custom textures!
+
+## Translations
+Translations are offered for Nomi Labs, in a separate 'language pack'. This is available to download [here](https://nightly.link/Nomi-CEu/Nomi-CEu-Translations/workflows/pushbuildpack/main?preview) (download the 'nomi-labs' zip for Nomi Labs).
+
+For more information, including supported languages and their status, see [the GitHub Page](https://github.com/Nomi-CEu/Nomi-CEu-Translations/).
   
 ## Why a core mod?
 We have chosen to implement most custom features into a coremod for Nomi-CEu, and the rest will be refactored into GroovyScript. This allows much more extensibility over the current CraftTweaker setup, and allows for a much needed code cleanup. We have chosen not to use GroovyScript for custom content as it is very fiddly, especially with client only features, such as custom overlays, and we believe that these will be useful for the community (especially the GroovyScript helpers).
