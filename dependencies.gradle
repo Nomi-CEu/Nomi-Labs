@@ -36,9 +36,9 @@ dependencies {
     implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
 
     // GroovyScript (from Cleanroom Maven)
-    implementation ("com.cleanroommc:groovyscript:0.7.2") {
+    implementation ("com.cleanroommc:groovyscript:0.7.3") {
         transitive = false
-    } // Version 0.7.2, transitive false is needed otherwise groovy pulls in extra JEI
+    } // Version 0.7.3, transitive false is needed otherwise groovy pulls in extra JEI
 
 
     /* -------------------------------- Compile Time Only Deps -------------------------------- */
