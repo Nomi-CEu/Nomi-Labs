@@ -83,6 +83,7 @@ public class LabsConfig {
 
             @Config.Comment({
                     "Enable Perfect Gems.",
+                    "They will have cutter recipes turning them into 2 Exquisite Gems.",
                     "[default: true]"
             })
             @Config.LangKey("config.nomilabs.content.gt_content.perfect_gems")

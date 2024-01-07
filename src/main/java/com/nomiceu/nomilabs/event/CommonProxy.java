@@ -12,6 +12,7 @@ import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
+import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
@@ -102,6 +103,8 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+        if (LabsConfig.content.gtCustomContent.enablePerfectGems && LabsOrePrefix.GEM_PERFECT != null)
+            PerfectGemsCutterRecipes.initRecipes();
         if (LabsConfig.content.customContent.enableComplexRecipes && LabsItems.HAND_FRAMING_TOOL != null)
             event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName("hand_framing_recipe")));
     }
