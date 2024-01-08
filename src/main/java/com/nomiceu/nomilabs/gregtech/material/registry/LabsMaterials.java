@@ -163,7 +163,7 @@ public class LabsMaterials {
 
     public static void init() {
         /* Deprecated Materials */
-        Infinity = new Material.Builder(32026, makeLabsName("infinity"))
+        Infinity = new Material.Builder(26, makeLabsName("infinity"))
                 .ingot()
                 .color(0x000000).iconSet(MaterialIconSet.SHINY)
                 .flags(GENERATE_PLATE)
