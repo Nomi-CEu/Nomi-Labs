@@ -13,7 +13,7 @@ import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 
 public class LabsEIO {
     public static void initEIO() {
-        DarkSteel = new Material.Builder(32003, makeLabsName("dark_steel"))
+        DarkSteel = new Material.Builder(3, makeLabsName("dark_steel"))
                 .ingot()
                 .liquid()
                 .color(0x414751).iconSet(DULL)
@@ -21,49 +21,49 @@ public class LabsEIO {
                 .components(Iron, 1)
                 .build();
 
-        ConductiveIron = new Material.Builder(32011, makeLabsName("conductive_iron"))
+        ConductiveIron = new Material.Builder(11, makeLabsName("conductive_iron"))
                 .ingot()
                 .liquid()
                 .color(0xf7b29b).iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .components(Iron, 1, Redstone, 1)
-                .cableProperties(V[LV], 1, 0, true)
+                .cableProperties(V[1], 1, 0, true)
                 .build();
 
-        EnergeticAlloy = new Material.Builder(32012, makeLabsName("energetic_alloy"))
+        EnergeticAlloy = new Material.Builder(12, makeLabsName("energetic_alloy"))
                 .ingot()
                 .liquid()
                 .color(0xffb545).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR)
                 .blast(builder -> builder
                         .temp(1250, GasTier.LOW)
-                        .blastStats(VA[MV], 400))
+                        .blastStats(VA[2], 400))
                 .components(Gold, 2, Redstone, 1, Glowstone, 1)
-                .cableProperties(V[MV], 1, 0, true)
+                .cableProperties(V[2], 1, 0, true)
                 .build();
 
-        VibrantAlloy = new Material.Builder(32013, makeLabsName("vibrant_alloy"))
+        VibrantAlloy = new Material.Builder(13, makeLabsName("vibrant_alloy"))
                 .ingot()
                 .liquid()
                 .color(0xa4ff70).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_ROD, GENERATE_BOLT_SCREW)
                 .blast(builder -> builder
                         .temp(1350, GasTier.LOW)
-                        .blastStats(VA[HV], 400))
+                        .blastStats(VA[3], 400))
                 .components(EnergeticAlloy, 1, EnderPearl, 1)
-                .cableProperties(V[MV], 1, 0, true)
+                .cableProperties(V[2], 1, 0, true)
                 .build();
 
-        PulsatingIron = new Material.Builder(32014, makeLabsName("pulsating_iron"))
+        PulsatingIron = new Material.Builder(14, makeLabsName("pulsating_iron"))
                 .ingot()
                 .liquid()
                 .color(0x6ae26e).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .components(Iron, 1)
-                .cableProperties(V[ULV], 1, 0, true)
+                .cableProperties(V[0], 1, 0, true)
                 .build();
 
-        ElectricalSteel = new Material.Builder(32015, makeLabsName("electrical_steel"))
+        ElectricalSteel = new Material.Builder(15, makeLabsName("electrical_steel"))
                 .ingot()
                 .liquid()
                 .color(0xb2c0c1).iconSet(METALLIC)
@@ -71,7 +71,7 @@ public class LabsEIO {
                 .components(Steel, 1, Silicon, 1)
                 .build();
 
-        Soularium = new Material.Builder(32024, makeLabsName("soularium"))
+        Soularium = new Material.Builder(24, makeLabsName("soularium"))
                 .ingot()
                 .liquid()
                 .color(0x7c674d).iconSet(METALLIC)
@@ -79,13 +79,13 @@ public class LabsEIO {
                 .components(Gold, 1)
                 .build();
 
-        EndSteel = new Material.Builder(32025, makeLabsName("end_steel"))
+        EndSteel = new Material.Builder(25, makeLabsName("end_steel"))
                 .ingot()
                 .liquid()
                 .color(0xd6d980).iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .toolStats(ToolProperty.Builder.of(4.0f, 3.5f, 1024, 3).build())
-                .cableProperties(V[EV], 1, 0, true)
+                .cableProperties(V[4], 1, 0, true)
                 .build();
     }
 }

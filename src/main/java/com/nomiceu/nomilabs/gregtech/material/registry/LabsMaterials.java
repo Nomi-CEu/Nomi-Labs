@@ -14,152 +14,152 @@ public class LabsMaterials {
     /**
      * Deprecated Materials
      */
-    public static Material Infinity; // 32026
+    public static Material Infinity; // ID: 26
 
     /**
      * Elemental materials
      */
-    public static Material Draconium; // 32001
-    public static Material AwakenedDraconium; // 32002
-    public static Material Omnium; // 32004
-    public static Material Taranium; // 32109; HM only
+    public static Material Draconium; // ID: 1
+    public static Material AwakenedDraconium; // ID: 2
+    public static Material Omnium; // ID: 4
+    public static Material Taranium; // ID: 109; HM only
 
     /**
      * Chemical Materials
      */
-    public static Material TungstenTrioxide; // 32032; HM only
-    public static Material BerylliumOxide; // 32033; HM only
-    public static Material NiobiumPentoxide; // 32034; HM only
-    public static Material TantalumPentoxide; // 32035; HM only
-    public static Material ManganeseDifluoride; // 32037; HM only
-    public static Material MolybdenumTrioxide; // 32038; HM only
-    public static Material LeadChloride; // 32039; HM only
-    public static Material Wollastonite; // 32040; HM only
-    public static Material SodiumMetavanadate; // 32041; HM only
-    public static Material VanadiumPentoxide; // 32042; HM only
-    public static Material AmmoniumMetavanadate; // 32043; HM only
-    public static Material PhthalicAnhydride; // 32044; HM only
-    public static Material Ethylanthraquinone; // 32045; HM only
-    public static Material HydrogenPeroxide; // 32046; HM only
-    public static Material Hydrazine; // 32047; HM only
-    public static Material AcetoneAzine; // 32048; HM only
-    public static Material GrapheneOxide; // 32049; HM only
-    public static Material Durene; // 32051; HM only
-    public static Material PyromelliticDianhydride; // 32052; HM only
-    public static Material Dimethylformamide; // 32053; HM only
-    public static Material Aminophenol; // 32054; HM only
-    public static Material Oxydianiline; // 32055; HM only
-    public static Material AntimonyPentafluoride; // 32056; HM only
-    public static Material LeadMetasilicate; // 32066; HM only
-    public static Material Butanol; // 32112
-    public static Material PhosphorusTrichloride; // 32113
-    public static Material PhosphorylChloride; // 32114
-    public static Material TributylPhosphate; // 32115
+    public static Material TungstenTrioxide; // ID: 32; HM only
+    public static Material BerylliumOxide; // ID: 33; HM only
+    public static Material NiobiumPentoxide; // ID: 34; HM only
+    public static Material TantalumPentoxide; // ID: 35; HM only
+    public static Material ManganeseDifluoride; // ID: 37; HM only
+    public static Material MolybdenumTrioxide; // ID: 38; HM only
+    public static Material LeadChloride; // ID: 39; HM only
+    public static Material Wollastonite; // ID: 40; HM only
+    public static Material SodiumMetavanadate; // ID: 41; HM only
+    public static Material VanadiumPentoxide; // ID: 42; HM only
+    public static Material AmmoniumMetavanadate; // ID: 43; HM only
+    public static Material PhthalicAnhydride; // ID: 44; HM only
+    public static Material Ethylanthraquinone; // ID: 45; HM only
+    public static Material HydrogenPeroxide; // ID: 46; HM only
+    public static Material Hydrazine; // ID: 47; HM only
+    public static Material AcetoneAzine; // ID: 48; HM only
+    public static Material GrapheneOxide; // ID: 49; HM only
+    public static Material Durene; // ID: 51; HM only
+    public static Material PyromelliticDianhydride; // ID: 52; HM only
+    public static Material Dimethylformamide; // ID: 53; HM only
+    public static Material Aminophenol; // ID: 54; HM only
+    public static Material Oxydianiline; // ID: 55; HM only
+    public static Material AntimonyPentafluoride; // ID: 56; HM only
+    public static Material LeadMetasilicate; // ID: 66; HM only
+    public static Material Butanol; // ID: 112
+    public static Material PhosphorusTrichloride; // ID: 113
+    public static Material PhosphorylChloride; // ID: 114
+    public static Material TributylPhosphate; // ID: 115
 
     /**
      * Naquadah Line Materials
      */
-    public static Material NaquadahOxide; // 32057; HM only
-    public static Material Pyromorphite; // 32058; HM only
-    public static Material NaquadahHydroxide; // 32059; HM only
-    public static Material CaesiumHydroxide; // 32061; HM only
-    public static Material Neocryolite; // 32062; HM only
-    public static Material NaquadahOxidePetroSolution; // 32063; HM only
-    public static Material NaquadahOxideAeroSolution; // 32064; HM only
-    public static Material HotNaquadahOxideNeocryoliteSolution; // 32065; HM only
+    public static Material NaquadahOxide; // ID: 57; HM only
+    public static Material Pyromorphite; // ID: 58; HM only
+    public static Material NaquadahHydroxide; // ID: 59; HM only
+    public static Material CaesiumHydroxide; // ID: 61; HM only
+    public static Material Neocryolite; // ID: 62; HM only
+    public static Material NaquadahOxidePetroSolution; // ID: 63; HM only
+    public static Material NaquadahOxideAeroSolution; // ID: 64; HM only
+    public static Material HotNaquadahOxideNeocryoliteSolution; // ID: 65; HM only
 
     /**
      * Taranium Line Materials
      */
-    public static Material HexafluorosilicicAcid; // 32094
-    public static Material DirtyHexafluorosilicicAcid; // 32095
-    public static Material StoneResidue; // 32096; HM only
-    public static Material UncommonResidue; // 32097; HM only
-    public static Material OxidisedResidue; // 32098; HM only
-    public static Material RefinedResidue; // 32099; HM only
-    public static Material CleanInertResidue; // 32100; HM only
-    public static Material UltraacidicResidue; // 32101
-    public static Material XenicAcid; // 32102
-    public static Material DustyHelium; // 32103
-    public static Material TaraniumEnrichedHelium; // 32104
-    public static Material TaraniumDepletedHelium; // 32105
-    public static Material TritiumHydride; // 32106
-    public static Material HeliumHydride; // 32107
-    public static Material DioxygenDifluoride; // 32108
+    public static Material HexafluorosilicicAcid; // ID: 94
+    public static Material DirtyHexafluorosilicicAcid; // ID: 95
+    public static Material StoneResidue; // ID: 96; HM only
+    public static Material UncommonResidue; // ID: 97; HM only
+    public static Material OxidisedResidue; // ID: 98; HM only
+    public static Material RefinedResidue; // ID: 99; HM only
+    public static Material CleanInertResidue; // ID: 100; HM only
+    public static Material UltraacidicResidue; // ID: 101
+    public static Material XenicAcid; // ID: 102
+    public static Material DustyHelium; // ID: 103
+    public static Material TaraniumEnrichedHelium; // ID: 104
+    public static Material TaraniumDepletedHelium; // ID: 105
+    public static Material TritiumHydride; // ID: 106
+    public static Material HeliumHydride; // ID: 107
+    public static Material DioxygenDifluoride; // ID: 108
 
     /**
      * Platinum Line Materials
      */
-    public static Material PlatinumMetallic; // 32067; HM only
-    public static Material PalladiumMetallic; // 32068; HM only
-    public static Material AmmoniumHexachloroplatinate; // 32069; HM only
-    public static Material ChloroplatinicAcid; // 32070
-    public static Material PotassiumBisulfate; // 32071; HM only
-    public static Material PotassiumPyrosulfate; // 32072; HM only
-    public static Material PotassiumSulfate; // 32073; HM only
-    public static Material ZincSulfate; // 32074; HM only
-    public static Material SodiumNitrate; // 32075; HM only
-    public static Material RhodiumNitrate; // 32076; HM only
-    public static Material SodiumRuthenate; // 32077; HM only
-    public static Material SodiumPeroxide; // 32078; HM only
-    public static Material IridiumDioxideResidue; // 32079; HM only
-    public static Material AmmoniumHexachloroiridiate; // 32080; HM only
-    public static Material PlatinumGroupResidue; // 32081; HM only
-    public static Material PalladiumRichAmmonia; // 32082
-    public static Material CrudePlatinumResidue; // 32083; HM only
-    public static Material CrudePalladiumResidue; // 32084; HM only
-    public static Material IridiumGroupSludge; // 32085; HM only
-    public static Material RhodiumSulfateSolution; // 32086
-    public static Material CrudeRhodiumResidue; // 32087; HM only
-    public static Material RhodiumSalt; // 32088; HM only
-    public static Material AcidicIridiumDioxideSolution; // 32089
-    public static Material PlatinumPalladiumLeachate; // 32090
-    public static Material MethylFormate; // 32091
-    public static Material FormicAcid; // 32092
-    public static Material SodiumMethoxide; // 32093; HM only
+    public static Material PlatinumMetallic; // ID: 67; HM only
+    public static Material PalladiumMetallic; // ID: 68; HM only
+    public static Material AmmoniumHexachloroplatinate; // ID: 69; HM only
+    public static Material ChloroplatinicAcid; // ID: 70
+    public static Material PotassiumBisulfate; // ID: 71; HM only
+    public static Material PotassiumPyrosulfate; // ID: 72; HM only
+    public static Material PotassiumSulfate; // ID: 73; HM only
+    public static Material ZincSulfate; // ID: 74; HM only
+    public static Material SodiumNitrate; // ID: 75; HM only
+    public static Material RhodiumNitrate; // ID: 76; HM only
+    public static Material SodiumRuthenate; // ID: 77; HM only
+    public static Material SodiumPeroxide; // ID: 78; HM only
+    public static Material IridiumDioxideResidue; // ID: 79; HM only
+    public static Material AmmoniumHexachloroiridiate; // ID: 80; HM only
+    public static Material PlatinumGroupResidue; // ID: 81; HM only
+    public static Material PalladiumRichAmmonia; // ID: 82
+    public static Material CrudePlatinumResidue; // ID: 83; HM only
+    public static Material CrudePalladiumResidue; // ID: 84; HM only
+    public static Material IridiumGroupSludge; // ID: 85; HM only
+    public static Material RhodiumSulfateSolution; // ID: 86
+    public static Material CrudeRhodiumResidue; // ID: 87; HM only
+    public static Material RhodiumSalt; // ID: 88; HM only
+    public static Material AcidicIridiumDioxideSolution; // ID: 89
+    public static Material PlatinumPalladiumLeachate; // ID: 90
+    public static Material MethylFormate; // ID: 91
+    public static Material FormicAcid; // ID: 92
+    public static Material SodiumMethoxide; // ID: 93; HM only
 
     /**
      * Microverse Materials
      */
-    public static Material Microversium; // 32027
-    public static Material Osmiridium8020; // 32029
-    public static Material Iridosmine8020; // 32030
-    public static Material Kaemanite; // 32031
-    public static Material Fluorite; // 32036
-    public static Material Snowchestite; // 32060; HM only
-    public static Material Darmstadtite; // 32110
-    public static Material Dulysite; // 32111
+    public static Material Microversium; // ID: 27
+    public static Material Osmiridium8020; // ID: 29
+    public static Material Iridosmine8020; // ID: 30
+    public static Material Kaemanite; // ID: 31
+    public static Material Fluorite; // ID: 36
+    public static Material Snowchestite; // ID: 60; HM only
+    public static Material Darmstadtite; // ID: 110
+    public static Material Dulysite; // ID: 111
 
     /**
      * Thermal Materials
      */
-    public static Material Ardite; // 32006
-    public static Material Mana; // 32007
-    public static Material Manyullyn; // 32008
-    public static Material Signalum; // 32010
-    public static Material Lumium; // 32017
-    public static Material Enderium; // 32018
-    public static Material ElectrumFlux; // 32019
-    public static Material Mithril; // 32021
+    public static Material Ardite; // ID: 6
+    public static Material Mana; // ID: 7
+    public static Material Manyullyn; // ID: 8
+    public static Material Signalum; // ID: 10
+    public static Material Lumium; // ID: 17
+    public static Material Enderium; // ID: 18
+    public static Material ElectrumFlux; // ID: 19
+    public static Material Mithril; // ID: 21
 
     /**
      * EnderIO Materials
      */
-    public static Material DarkSteel; // 32003
-    public static Material ConductiveIron; // 32011
-    public static Material EnergeticAlloy; // 32012
-    public static Material VibrantAlloy; // 32013
-    public static Material PulsatingIron; // 32014
-    public static Material ElectricalSteel; // 32015
-    public static Material Soularium; // 32024
-    public static Material EndSteel; // 32025
+    public static Material DarkSteel; // ID: 3
+    public static Material ConductiveIron; // ID: 11
+    public static Material EnergeticAlloy; // ID: 12
+    public static Material VibrantAlloy; // ID: 13
+    public static Material PulsatingIron; // ID: 14
+    public static Material ElectricalSteel; // ID: 15
+    public static Material Soularium; // ID: 24
+    public static Material EndSteel; // ID: 25
 
     /**
      * Endgame Materials
      */
-    public static Material CrystalMatrix; // 32023
-    public static Material DraconicSuperconductor; // 32028
-    public static Material KaptonK; // 32050; HM only
+    public static Material CrystalMatrix; // ID: 23
+    public static Material DraconicSuperconductor; // ID: 28
+    public static Material KaptonK; // ID: 50; HM only
 
     public static void init() {
         /* Deprecated Materials */

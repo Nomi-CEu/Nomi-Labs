@@ -21,7 +21,9 @@ import com.nomiceu.nomilabs.remap.Remapper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
+import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.event.MaterialEvent;
+import gregtech.api.unification.material.event.MaterialRegistryEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -95,6 +97,11 @@ public class CommonProxy {
     public static void materialChanges(PostMaterialEvent event) {
         if (LabsConfig.content.gtCustomContent.enableMaterials)
             LabsMaterials.materialChanges();
+    }
+
+    @SubscribeEvent
+    public static void createMaterialRegistry(MaterialRegistryEvent event) {
+        GregTechAPI.materialManager.createRegistry(LabsValues.LABS_MODID);
     }
 
     @SubscribeEvent
