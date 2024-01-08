@@ -42,6 +42,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 @SuppressWarnings("unused")
 public class CommonProxy {
     public static void preInit() {
+        LabsModeHelper.check();
+        
         LabsCreativeTabs.preInit();
 
         if (LabsConfig.content.customContent.enableItems)
@@ -56,24 +58,13 @@ public class CommonProxy {
 
         LabsSounds.register();
         LabsRemappers.preInit();
-    }
-
-    public static void init() {
-        LabsModeHelper.check();
-        LabsRecipeMaps.init();
-        DataFixerHandler.init();
-    }
-
-    public static void postInit() {
-        if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
-            LabsMultiblocks.initOld();
-        if (LabsConfig.content.gtCustomContent.enableNewMultiblocks)
-            LabsMultiblocks.initNew();
+        LabsRecipeMaps.preInit();
+        LabsMultiblocks.preInit();
 
         if (LabsConfig.modIntegration.enableTOPIntegration && Loader.isModLoaded(LabsValues.TOP_MODID))
             TOPTooltipManager.registerProviders();
 
-        //com.nomiceu.nomilabs.recipe.LabsTestRecipes.postInit();
+        DataFixerHandler.preInit();
     }
 
     @SubscribeEvent
@@ -107,6 +98,8 @@ public class CommonProxy {
             PerfectGemsCutterRecipes.initRecipes();
         if (LabsConfig.content.customContent.enableComplexRecipes && LabsItems.HAND_FRAMING_TOOL != null)
             event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName("hand_framing_recipe")));
+
+        //com.nomiceu.nomilabs.recipe.LabsTestRecipes.postInit();
     }
 
     @SubscribeEvent

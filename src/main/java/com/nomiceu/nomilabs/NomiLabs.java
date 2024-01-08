@@ -19,8 +19,9 @@ import org.apache.logging.log4j.Logger;
         dependencies = "required:forge@[14.23.5.2847,);"
                 + "required-after:codechickenlib@[3.2.3,);"
                 + "required-after:groovyscript@[0.6.0,);"
-                + "required-after:gregtech;"
+                + "required-after:gregtech@[2.8,);"
                 + "required-after:packmode;"
+                + "after:crafttweaker@[4.1.20,);"
                 + "after:appliedenergistics2;"
                 + "after:jei@[4.15.0,);"
                 + "after:theoneprobe;")
@@ -34,16 +35,6 @@ public class NomiLabs {
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
             ClientProxy.preInit();
         CommonProxy.preInit();
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        CommonProxy.postInit();
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        CommonProxy.init();
     }
 
     @EventHandler

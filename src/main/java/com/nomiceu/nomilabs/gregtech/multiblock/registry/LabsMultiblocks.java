@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.gregtech.multiblock.registry;
 
+import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.multiblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.common.metatileentities.MetaTileEntities;
@@ -23,7 +24,14 @@ public class LabsMultiblocks {
     public static MetaTileEntityUniversalCrystalizer UNIVERSAL_CRYSTALIZER;
     public static MetaTileEntityDMESimChamber DME_SIM_CHAMBER;
 
-    public static void initOld() {
+    public static void preInit() {
+        if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
+            initOld();
+        if (LabsConfig.content.gtCustomContent.enableNewMultiblocks)
+            initNew();
+    }
+
+    private static void initOld() {
         MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32100, new MetaTileEntityMicroverseProjector.Microverse1(LabsNames.makeLabsName("microverse_projector_1")));
         MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32101, new MetaTileEntityMicroverseProjector.Microverse2(LabsNames.makeLabsName("microverse_projector_2")));
         MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32102, new MetaTileEntityMicroverseProjector.Microverse3(LabsNames.makeLabsName("microverse_projector_3")));
@@ -39,7 +47,7 @@ public class LabsMultiblocks {
 
         DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108, new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
     }
-    public static void initNew() {
+    private static void initNew() {
         GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32109, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse")));
     }
 }

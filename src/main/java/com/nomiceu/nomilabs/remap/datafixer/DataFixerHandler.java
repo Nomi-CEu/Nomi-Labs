@@ -52,7 +52,7 @@ public class DataFixerHandler {
 
     public static Map<Integer, ResourceLocation> blockIdToRlMap;
 
-    public static void init() {
+    public static void preInit() {
         LabsFixes.init();
         CompoundDataFixer fmlFixer = FMLCommonHandler.instance().getDataFixer();
 

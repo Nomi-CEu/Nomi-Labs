@@ -21,7 +21,7 @@ public class LabsRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> DME_SIM_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GREENHOUSE_RECIPES;
 
-    public static void init() {
+    public static void preInit() {
         MICROVERSE_RECIPES = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
