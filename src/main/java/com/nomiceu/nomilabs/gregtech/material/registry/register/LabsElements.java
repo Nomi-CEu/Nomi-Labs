@@ -24,14 +24,14 @@ public class LabsElements {
                 .color(0xbe49ed).iconSet(METALLIC)
                 .blast(6800, GasTier.HIGHER)
                 .cableProperties(V[UV], 1, 0, true)
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
+                .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
 
         AwakenedDraconium = new Material.Builder(32002, makeLabsName("awakened_draconium"))
                 .ingot().liquid()
                 .element(ADc)
                 .color(0xf58742).iconSet(METALLIC)
-                .flags(NO_SMELTING, GENERATE_PLATE, GENERATE_ROD, GENERATE_GEAR)
+                .flags(NO_SMELTING, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR)
                 .build();
 
         Omnium = new Material.Builder(32004, makeLabsName("omnium"))

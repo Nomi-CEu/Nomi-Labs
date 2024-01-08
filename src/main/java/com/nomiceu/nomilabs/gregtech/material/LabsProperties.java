@@ -7,6 +7,7 @@ import gregtech.api.unification.material.properties.PropertyKey;
 
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
+import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
 
 public class LabsProperties {
     public static void propertyChanges() {
@@ -29,6 +30,16 @@ public class LabsProperties {
     }
 
     public static void flagChanges() {
+        /* GT 2.8 made Double Plates a separate flag, so some materials lost it. Add it back to needed materials. */
+
+        // GT Materials
+        Trinium.addFlags(GENERATE_DOUBLE_PLATE);
+
+        // GCYM Materials
+        WatertightSteel.addFlags(GENERATE_DOUBLE_PLATE);
+        IncoloyMA956.addFlags(GENERATE_DOUBLE_PLATE);
+
+        /* Other Flag Additions */
         Topaz.addFlags(GENERATE_LENS);
         BlueTopaz.addFlags(GENERATE_LENS);
         EnderPearl.addFlags(GENERATE_LENS);

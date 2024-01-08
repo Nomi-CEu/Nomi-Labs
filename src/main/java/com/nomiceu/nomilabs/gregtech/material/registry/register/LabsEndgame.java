@@ -14,7 +14,7 @@ public class LabsEndgame {
         CrystalMatrix = new Material.Builder(32023, makeLabsName("crystal_matrix"))
                 .ingot().liquid()
                 .color(0x70ecff).iconSet(SHINY)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE)
                 .build();
 
         DraconicSuperconductor = new Material.Builder(32028, makeLabsName("draconic_superconductor"))

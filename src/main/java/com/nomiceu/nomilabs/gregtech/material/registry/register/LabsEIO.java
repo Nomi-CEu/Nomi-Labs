@@ -34,7 +34,7 @@ public class LabsEIO {
                 .ingot()
                 .liquid()
                 .color(0xffb545).iconSet(SHINY)
-                .flags(GENERATE_PLATE, GENERATE_GEAR)
+                .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR)
                 .blast(builder -> builder
                         .temp(1250, GasTier.LOW)
                         .blastStats(VA[MV], 400))
@@ -46,7 +46,7 @@ public class LabsEIO {
                 .ingot()
                 .liquid()
                 .color(0xa4ff70).iconSet(SHINY)
-                .flags(GENERATE_PLATE, GENERATE_GEAR, GENERATE_ROD, GENERATE_BOLT_SCREW)
+                .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_ROD, GENERATE_BOLT_SCREW)
                 .blast(builder -> builder
                         .temp(1350, GasTier.LOW)
                         .blastStats(VA[HV], 400))
