@@ -16,7 +16,11 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 
+import java.util.regex.Pattern;
+
 public class LabsRemapHelper {
+    public static final Pattern META_BLOCK_MATCHER = Pattern.compile("meta_block_.+_\\d+");
+
     public static void createWorldBackup() {
         try {
             NomiLabs.LOGGER.info("Creating world backup...");
