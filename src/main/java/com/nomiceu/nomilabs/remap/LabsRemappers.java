@@ -30,7 +30,6 @@ public class LabsRemappers {
     public static Map<RemapTypes, List<Pattern>> ignorePtns;
 
     private static Map<ResourceLocation, ResourceLocation> deprecationRemap;
-    private static int minMetaBlockBaseID;
     private static Remapper metaBlockRemapper;
 
     public static boolean checked = false;
@@ -142,12 +141,11 @@ public class LabsRemappers {
                 new ResourceLocation(XU2_MODID, "ingredients")
         );
 
-        minMetaBlockBaseID = 2000;
         metaBlockRemapper = new Remapper(
-                (rl) -> getMetaBlockID(rl) >= minMetaBlockBaseID,
+                (rl) -> getMetaBlockID(rl) >= LabsRemapHelper.MIN_META_BLOCK_BASE_ID,
                 (rl) -> {
                     var split = rl.getPath().split("_");
-                    split[split.length - 1] = String.valueOf(getMetaBlockID(rl) - minMetaBlockBaseID);
+                    split[split.length - 1] = String.valueOf(getMetaBlockID(rl) - LabsRemapHelper.MIN_META_BLOCK_BASE_ID);
                     return LabsNames.makeLabsName(String.join("_", split));
                 }
         );

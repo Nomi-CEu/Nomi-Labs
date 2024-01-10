@@ -19,7 +19,10 @@ import net.minecraftforge.registries.ForgeRegistry;
 import java.util.regex.Pattern;
 
 public class LabsRemapHelper {
+    public static final Pattern META_ITEM_MATCHER = Pattern.compile("meta_.+");
     public static final Pattern META_BLOCK_MATCHER = Pattern.compile("meta_block_.+_\\d+");
+    public static final int MIN_META_ITEM_BASE_ID = 32000; // The Base ID where the Old Meta Items/Materials started from
+    public static final int MIN_META_BLOCK_BASE_ID = 2000; // The Base ID where the Old Meta Blocks started from
 
     public static void createWorldBackup() {
         try {
