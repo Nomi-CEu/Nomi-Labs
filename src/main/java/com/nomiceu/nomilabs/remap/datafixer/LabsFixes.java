@@ -2,8 +2,10 @@ package com.nomiceu.nomilabs.remap.datafixer;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
+import com.nomiceu.nomilabs.util.LabsNames;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -39,7 +41,17 @@ public class LabsFixes {
      * The current data format version. Increment this when breaking changes are made and the
      * data mixer must be applied. If this is not incremented, nothing will be applied.
      */
-    public static final int FIX_VERSION = 1;
+    public static final int FIX_VERSION = 2;
+
+    /**
+     * Version before Material Registry Rework.
+     * <p>
+     * Versions before this need to be remapped. Meta Blocks are remapped based on missing registry event, as they have 'baseID's
+     * (thus, any new GT Addons must be checked to make sure they do not have IDs in GregTech's Registry above 32000)
+     * <p>
+     * Meta Items are mapped below.
+     */
+    public static final int PRE_MATERIAL_REWORK_VERSION = 1;
 
     /**
      * Default version, used if save doesn't have a fix version, or if something goes wrong
@@ -103,7 +115,8 @@ public class LabsFixes {
                         (version) -> version <= DEFAULT_VERSION,
                         (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation(CONTENTTWEAKER_MODID, "dark_red_coal")),
-                        (stack) -> stack.setRl(new ResourceLocation(XU2_MODID, "ingredients")).setMeta((short) 4)) // Red Coal
+                        (stack) -> stack.setRl(new ResourceLocation(XU2_MODID, "ingredients"))
+                                .setMeta((short) 4)) // Red Coal
         );
 
         if (LabsConfig.modIntegration.enableExtraUtils2Integration)
@@ -128,8 +141,22 @@ public class LabsFixes {
                         true,
                         (version) -> version <= DEFAULT_VERSION,
                         (modList) -> true,
-                        (stack) -> stack.rl.equals(new ResourceLocation("gregtech:machine")) && multiblockMetaRemap.containsKey(stack.meta),
-                        (stack) -> stack.meta = multiblockMetaRemap.get(stack.meta))
+                        (stack) -> stack.rl.equals(new ResourceLocation(GREGTECH_MODID,"machine")) && multiblockMetaRemap.containsKey(stack.meta),
+                        (stack) -> stack.setMeta(multiblockMetaRemap.get(stack.meta)))
+        );
+
+        itemFixes.add(
+                new DataFix.ItemFix("Material Meta Item Remap",
+                        "Remaps old Meta Items, from Custom Materials, to the new format and registry.",
+                        false,
+                        (version) -> version <= PRE_MATERIAL_REWORK_VERSION,
+                        (modList) -> true,
+                        (stack) -> stack.rl.getNamespace().equals(GREGTECH_MODID) &&
+                                LabsRemapHelper.META_ITEM_MATCHER.matcher(stack.rl.getPath()).matches() &&
+                                !LabsRemapHelper.META_BLOCK_MATCHER.matcher(stack.rl.getPath()).matches() &&
+                                stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
+                        (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
+                                .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
         );
 
         /*

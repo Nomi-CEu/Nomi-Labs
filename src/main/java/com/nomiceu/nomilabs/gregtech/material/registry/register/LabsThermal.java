@@ -12,7 +12,7 @@ import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 
 public class LabsThermal {
     public static void initThermal() {
-        Ardite = new Material.Builder(32006, makeLabsName("ardite"))
+        Ardite = new Material.Builder(6, makeLabsName("ardite"))
                 .ingot()
                 .liquid()
                 .color(0xad2f05).iconSet(DULL)
@@ -20,11 +20,11 @@ public class LabsThermal {
                 .components(RedSteel, 3, Blaze, 1)
                 .build();
 
-        Mana = new Material.Builder(32007, makeLabsName("mana"))
+        Mana = new Material.Builder(7, makeLabsName("mana"))
                 .flags(DISABLE_DECOMPOSITION)
                 .build();
 
-        Manyullyn = new Material.Builder(32008, makeLabsName("manyullyn"))
+        Manyullyn = new Material.Builder(8, makeLabsName("manyullyn"))
                 .ingot()
                 .liquid()
                 .color(0x9949cc).iconSet(METALLIC)
@@ -32,46 +32,46 @@ public class LabsThermal {
                 .components(Ardite, 4, Cobalt, 4, Mana, 1)
                 .build();
 
-        Signalum = new Material.Builder(32010, makeLabsName("signalum"))
+        Signalum = new Material.Builder(10, makeLabsName("signalum"))
                 .ingot()
                 .liquid()
                 .color(0xff7f0f).iconSet(SHINY)
                 .blast(builder -> builder
                         .temp(4000, GasTier.MID)
-                        .blastStats(VA[IV], 1400)
-                        .vacuumStats(VA[HV], 500))
+                        .blastStats(VA[5], 1400)
+                        .vacuumStats(VA[3], 500))
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_GEAR)
                 .components(AnnealedCopper, 4, Ardite, 2, RedAlloy, 2)
-                .cableProperties(V[LuV], 1, 0, true)
+                .cableProperties(V[6], 1, 0, true)
                 .build();
 
-        Lumium = new Material.Builder(32017, makeLabsName("lumium"))
+        Lumium = new Material.Builder(17, makeLabsName("lumium"))
                 .ingot()
                 .liquid()
                 .color(0xf6ff99).iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
                 .blast(builder -> builder
                         .temp(4500, GasTier.MID)
-                        .blastStats(VA[IV], 1600)
-                        .vacuumStats(VA[HV], 600))
+                        .blastStats(VA[5], 1600)
+                        .vacuumStats(VA[3], 600))
                 .components(TinAlloy, 4, SterlingSilver, 2)
-                .cableProperties(V[IV], 1, 0, true)
+                .cableProperties(V[5], 1, 0, true)
                 .build();
 
-        Enderium = new Material.Builder(32018, makeLabsName("enderium"))
+        Enderium = new Material.Builder(18, makeLabsName("enderium"))
                 .ingot()
                 .liquid()
                 .color(0x1f6b62).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
                 .blast(builder -> builder
                         .temp(6400, GasTier.HIGHEST)
-                        .blastStats(VA[LuV], 1200)
-                        .vacuumStats(VA[EV], 400))
+                        .blastStats(VA[6], 1200)
+                        .vacuumStats(VA[4], 400))
                 .components(Lead, 4, Platinum, 2, BlueSteel, 1, Osmium, 1)
-                .cableProperties(V[ZPM], 1, 0, true)
+                .cableProperties(V[7], 1, 0, true)
                 .build();
 
-        ElectrumFlux = new Material.Builder(32019, makeLabsName("electrum_flux"))
+        ElectrumFlux = new Material.Builder(19, makeLabsName("electrum_flux"))
                 .ingot()
                 .liquid()
                 .color(0xf7be20).iconSet(BRIGHT)
@@ -80,7 +80,7 @@ public class LabsThermal {
                 .components(Electrum, 6, Lumium, 1, Signalum, 1)
                 .build();
 
-        Mithril = new Material.Builder(32021, makeLabsName("mithril"))
+        Mithril = new Material.Builder(21, makeLabsName("mithril"))
                 .ingot()
                 .color(0x428fdb).iconSet(DULL)
                 .flags(GENERATE_PLATE, GENERATE_GEAR, NO_UNIFICATION)

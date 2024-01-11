@@ -26,5 +26,4 @@ public class LabsValues {
     public static final String STORAGE_DRAWERS_MODID = "storagedrawers";
     public static final String FRAMED_COMPACT_MODID = "framedcompactdrawers";
     public static final String ENDER_IO_MODID = "enderio";
-    public static final String SOLAR_FLUX_MODID = "solarflux";
 }

@@ -154,12 +154,6 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableEnderIOIntegration = true;
 
-        @Config.Comment({"Whether to enable Solar Flux Reborn Integration, which fixes its crash with Cleanroom, and is no harm on regular Forge.",
-                "[default: true]"})
-        @Config.LangKey("config.nomilabs.mod_integration.solarflux")
-        @Config.RequiresMcRestart
-        public boolean enableSolarFluxRebornIntegration = true;
-
         @Config.Comment("Draconic Evolution Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.draconicevolution")
         @Config.Name("draconic evolution integration")
@@ -215,7 +209,7 @@ public class LabsConfig {
                 "This may be used in the future as well, and your world will not be fixed if it is up-to-date.",
                 "[default: false]"})
         @Config.LangKey("config.nomilabs.advanced.enable_data_fixes")
-        @Config.RequiresWorldRestart
+        @Config.RequiresMcRestart
         public boolean enableDataFixes = false;
 
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",

@@ -48,7 +48,7 @@ public class TileInvisECoreBlockMixin implements TileInvisECoreBlockState {
         ci.cancel();
     }
 
-    @Inject(method = "getUpdatePacket", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getUpdatePacket()Lnet/minecraft/network/play/server/SPacketUpdateTileEntity;", at = @At("HEAD"), cancellable = true, remap = true)
     public void getUpdatePacket(CallbackInfoReturnable<SPacketUpdateTileEntity> cir) {
         cir.setReturnValue(TileInvisECoreBlockLogic.getUpdatePacket((TileInvisECoreBlock) (Object) this));
     }

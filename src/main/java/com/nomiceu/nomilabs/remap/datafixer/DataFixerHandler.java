@@ -53,7 +53,8 @@ public class DataFixerHandler {
     public static Map<Integer, ResourceLocation> blockIdToRlMap;
 
     public static void preInit() {
-        LabsFixes.init();
+        if (!LabsConfig.advanced.enableDataFixes) return;
+
         CompoundDataFixer fmlFixer = FMLCommonHandler.instance().getDataFixer();
 
         var itemWalker = new ItemStackWalker();
@@ -95,12 +96,13 @@ public class DataFixerHandler {
                 NomiLabs.LOGGER.info("This world's data version is up to date.");
                 return;
             }
-            NomiLabs.LOGGER.info("This world's data version needs updating.");
+            NomiLabs.LOGGER.info("This world's data version needs updating. New Version: {}.", LabsFixes.FIX_VERSION);
         } else {
             DataFixerHandler.worldSavedData = new LabsWorldFixData();
-            NomiLabs.LOGGER.info("This world was saved without a data version.");
+            NomiLabs.LOGGER.info("This world was saved without a data version. New Version: {}.", LabsFixes.FIX_VERSION);
         }
 
+        LabsFixes.init();
         determineNeededFixesAndLog(save);
         if (neededFixes.isEmpty()) {
             NomiLabs.LOGGER.info("This world does not need any data fixers, but it has no saved version or it is old.");
