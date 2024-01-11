@@ -11,6 +11,7 @@ import com.nomiceu.nomilabs.integration.draconicevolution.StoppableProcess;
 import com.nomiceu.nomilabs.integration.draconicevolution.TileEnergyStorageCoreLogic;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ITickable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -128,8 +129,36 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
         ci.cancel();
     }
 
-    @Inject(method = "update", at = @At("HEAD"))
-    public void update(CallbackInfo ci) {
+    /**
+     * This allows the new features to actually be updated. This is split into two functions, one for Non Obfuscated Environments (Dev Env),
+     * and one is for Obfuscated Environments (normal instances)
+     * <p>
+     * This is because {@link TileBCBase} has an {@link TileBCBase#update()} function,
+     * but {@link TileEnergyStorageCore} also has an {@link TileEnergyStorageCore#update()} function.
+     * <p>
+     * Mixin fails to find the one in {@link TileEnergyStorageCore} if remap is true, but it can't find it in obfuscated environments
+     * in runtime, if remap is false, because {@link TileEnergyStorageCore#update()} is overriding {@link ITickable}'s {@link ITickable#update()} function,
+     * thus it is obfuscated.
+     * <p>
+     * The obfuscated name one does throw errors, but it works great in runtime, and doesn't crash in build time. This name will not change across forge versions,
+     * or when loading with Cleanroom Loader.
+     */
+    @Inject(method = "update()V", at = @At("HEAD"))
+    public void updateDevEnv(CallbackInfo ci) {
+        updateLogic();
+    }
+
+    @SuppressWarnings({"UnresolvedMixinReference", "MixinAnnotationTarget"}) // Removes Errors/Warnings in IDE Inspections (not build time though)
+    @Inject(method = "func_73660_a()V", at = @At("HEAD"))
+    public void updateObf(CallbackInfo ci) {
+        updateLogic();
+    }
+
+    /**
+     * Shared Function so we don't have dupe code.
+     */
+    @Unique
+    private void updateLogic() {
         var tile = (TileEnergyStorageCore) (Object) this;
         if (tile.getWorld().isRemote) return;
         if (activeBuilder == null) hasActiveBuilder.value = false; // Just in case

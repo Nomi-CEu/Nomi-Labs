@@ -16,7 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = InvisECoreBlock.class, remap = false)
 public class InvisECoreBlockMixin {
-    @Inject(method = "onBlockHarvested", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onBlockHarvested(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/entity/player/EntityPlayer;)V",
+            at = @At("HEAD"), cancellable = true, remap = true)
     public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player, CallbackInfo ci) {
         InvisECoreBlockLogic.onBlockHarvested(world, pos, player);
         ci.cancel();

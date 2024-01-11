@@ -20,7 +20,7 @@ public abstract class ReactorSlotIntegration {
     /**
      * Overrides Normal Draconic Reactor to allow usage of GT Awakened Draconium.
      */
-    @Inject(method = "getStack", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getStack()Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true, remap = true)
     public void getGTStack(CallbackInfoReturnable<ItemStack> cir) {
         int index = ((ContainerReactor.SlotReactor) (Object) this).getSlotIndex();
         if (index < 3)

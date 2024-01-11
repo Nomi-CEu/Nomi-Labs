@@ -20,7 +20,8 @@ import java.io.File;
 @Mixin(value = SaveFormatOld.class)
 public class WorldLoadHandler {
     // No need for remap, forge method
-    @Inject(method = "loadAndFix(Ljava/io/File;Lnet/minecraft/util/datafix/DataFixer;Lnet/minecraft/world/storage/SaveHandler;)Lnet/minecraft/world/storage/WorldInfo;", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/nbt/CompressedStreamTools;readCompressed(Ljava/io/InputStream;)Lnet/minecraft/nbt/NBTTagCompound;"), remap = false)
+    @Inject(method = "loadAndFix(Ljava/io/File;Lnet/minecraft/util/datafix/DataFixer;Lnet/minecraft/world/storage/SaveHandler;)Lnet/minecraft/world/storage/WorldInfo;",
+            at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/nbt/CompressedStreamTools;readCompressed(Ljava/io/InputStream;)Lnet/minecraft/nbt/NBTTagCompound;", remap = true), remap = false, require = 1)
     private static void loadDataFixers(File file, DataFixer fixer, SaveHandler save, CallbackInfoReturnable<WorldInfo> cir) {
         if (FMLCommonHandler.instance().getEffectiveSide() != Side.SERVER)
             return;
