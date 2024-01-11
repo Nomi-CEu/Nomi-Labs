@@ -154,12 +154,6 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableEnderIOIntegration = true;
 
-        @Config.Comment({"Whether to enable Solar Flux Reborn Integration, which fixes its crash with Cleanroom, and is no harm on regular Forge.",
-                "[default: true]"})
-        @Config.LangKey("config.nomilabs.mod_integration.solarflux")
-        @Config.RequiresMcRestart
-        public boolean enableSolarFluxRebornIntegration = true;
-
         @Config.Comment("Draconic Evolution Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.draconicevolution")
         @Config.Name("draconic evolution integration")

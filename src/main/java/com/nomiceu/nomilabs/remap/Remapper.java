@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import javax.annotation.Nullable;
 import java.util.function.Function;
 
 public class Remapper {
@@ -25,9 +26,12 @@ public class Remapper {
         return remapRl.apply(rl);
     }
 
+    @Nullable
     public <T extends IForgeRegistryEntry<T>> ResourceLocation remapEntry(RegistryEvent.MissingMappings.Mapping<T> entry, RemapTypes type) {
         var rl = remapRl(entry.key);
-        entry.remap(new RemapTypes.RegistryHelper<T>().getRegistryForType(type).getValue(rl));
+        var remap = new RemapTypes.RegistryHelper<T>().getRegistryForType(type).getValue(rl);
+        if (remap == null) return null;
+        entry.remap(remap);
         return rl;
     }
 

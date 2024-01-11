@@ -225,7 +225,10 @@ public class LabsRemappers {
                 var oldRl = entry.key;
                 NomiLabs.LOGGER.debug("Mapping Resource Location {}... (Type {})", oldRl, type);
                 var newRl = remapper.remapEntry(entry, type);
-                NomiLabs.LOGGER.debug("Mapped Resource Location {} to {}! (Type {})", oldRl, newRl, type);
+                if (newRl == null)
+                    NomiLabs.LOGGER.error("Failed to Map Resource Location {}! (Type {})", oldRl, type);
+                else
+                    NomiLabs.LOGGER.debug("Mapped Resource Location {} to {}! (Type {})", oldRl, newRl, type);
                 break;
             }
         }
