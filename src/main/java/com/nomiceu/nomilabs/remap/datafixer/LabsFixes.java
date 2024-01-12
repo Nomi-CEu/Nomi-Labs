@@ -54,10 +54,14 @@ public class LabsFixes {
     public static final int PRE_MATERIAL_REWORK_VERSION = 1;
 
     /**
-     * Default version, used if save doesn't have a fix version, or if something goes wrong
+     * Default version, used if save doesn't have a fix version, or if something goes wrong.
      */
     public static final int DEFAULT_VERSION = 0;
 
+    /**
+     * Default Nomi-CEu version, used if save doesn't have a fix version, or if something goes wrong, and Nomi-CEu Specific Data Fixes are enabled.
+     */
+    public static final int DEFAULT_NOMI_CEU_VERSION = -1;
 
     public static List<DataFix.ItemFix> itemFixes;
 
@@ -139,7 +143,7 @@ public class LabsFixes {
                 new DataFix.ItemFix("Old Multiblock Metadata Remap",
                         "Remaps old Multiblock Metadata to the new format.",
                         true,
-                        (version) -> version <= DEFAULT_VERSION,
+                        (version) -> version <= DEFAULT_NOMI_CEU_VERSION,
                         (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation(GREGTECH_MODID,"machine")) && multiblockMetaRemap.containsKey(stack.meta),
                         (stack) -> stack.setMeta(multiblockMetaRemap.get(stack.meta)))
@@ -246,7 +250,7 @@ public class LabsFixes {
                 new DataFix.TileEntityFix("Multiblock Tile Entity MetaId Remap",
                         "Remaps old Multiblock Tile Entity Names to the new format.",
                         false,
-                        (version) -> version <= DEFAULT_VERSION,
+                        (version) -> version <= DEFAULT_NOMI_CEU_VERSION,
                         (modList) -> true,
                         (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) &&
                                 compound.getString("id").equals(new ResourceLocation(LabsValues.GREGTECH_MODID, "machine").toString()) &&

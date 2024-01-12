@@ -202,15 +202,14 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.disable_xp_scaling")
         public boolean disableXpScaling = false;
 
-        @Config.Comment({"Whether to enable data fixes.",
+        @Config.Comment({"Whether to enable Nomi-CEu data fixes.",
                 "This is used for Nomi-CEu, for players coming from before core-mod.",
                 "If this mod is being used in other scenarios, leave this at false, as this may break worlds!",
                 "If this is in a Nomi-CEu environment, make sure it is true, and do not change it, or items/blocks may be lost!",
-                "This may be used in the future as well, and your world will not be fixed if it is up-to-date.",
                 "[default: false]"})
-        @Config.LangKey("config.nomilabs.advanced.enable_data_fixes")
+        @Config.LangKey("config.nomilabs.advanced.enable_nomi_ceu_data_fixes")
         @Config.RequiresMcRestart
-        public boolean enableDataFixes = false;
+        public boolean enableNomiCEuDataFixes = false;
 
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
                 "Do not change unless you know what you are doing!",

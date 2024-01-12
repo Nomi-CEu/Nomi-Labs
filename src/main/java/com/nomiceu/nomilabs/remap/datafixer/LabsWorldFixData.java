@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.storage.WorldSavedData;
@@ -14,7 +15,7 @@ import java.io.IOException;
 
 public class LabsWorldFixData extends WorldSavedData {
     // Fix Version stored in this world.
-    public int savedVersion = LabsFixes.DEFAULT_VERSION;
+    public int savedVersion;
 
     // Base Data Key
     public static final String BASE_DATA_KEY = "data";
@@ -24,6 +25,8 @@ public class LabsWorldFixData extends WorldSavedData {
 
     public LabsWorldFixData() {
         super(LabsFixes.DATA_NAME);
+        if (LabsConfig.advanced.enableNomiCEuDataFixes) savedVersion = LabsFixes.DEFAULT_NOMI_CEU_VERSION;
+        else savedVersion = LabsFixes.DEFAULT_VERSION;
     }
 
     @Override
