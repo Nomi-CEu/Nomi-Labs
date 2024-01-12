@@ -2,7 +2,11 @@ package com.nomiceu.nomilabs.mixin.draconicevolution;
 
 import codechicken.lib.data.MCDataInput;
 import com.brandon3055.brandonscore.blocks.TileBCBase;
+import com.brandon3055.brandonscore.lib.Vec3I;
 import com.brandon3055.brandonscore.lib.datamanager.ManagedBool;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedString;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedVec3D;
+import com.brandon3055.brandonscore.lib.datamanager.ManagedVec3I;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
 import com.brandon3055.draconicevolution.lib.EnergyCoreBuilder;
 import com.nomiceu.nomilabs.integration.draconicevolution.EnergyCoreDestructor;
@@ -12,6 +16,7 @@ import com.nomiceu.nomilabs.integration.draconicevolution.TileEnergyStorageCoreL
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,6 +32,11 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     private static final String ACTIVE_BUILDER = "activeBuilder";
     @Unique
     private static final String ACTIVE_DESTRUCTOR = "activeDestructor";
+
+    @Unique
+    private static final String EXPECTED_STRING = "expectedBlock";
+    @Unique
+    private static final String EXPECTED_POS = "expectedPos";
 
     @Shadow
     protected abstract long getCapacity();
@@ -46,10 +56,18 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     @Unique
     public ManagedBool hasActiveDestructor;
 
+    @Unique
+    public ManagedString expectedBlockString;
+
+    @Unique
+    public ManagedVec3I expectedBlockPos;
+
     @Inject(method = "<init>", at = @At("TAIL"))
     public void initFields(CallbackInfo ci) {
         hasActiveBuilder = register(ACTIVE_BUILDER, new ManagedBool(false)).syncViaTile().saveToTile().trigerUpdate().finish();
         hasActiveDestructor = register(ACTIVE_DESTRUCTOR, new ManagedBool(false)).syncViaTile().saveToTile().trigerUpdate().finish();
+        expectedBlockString = register(EXPECTED_STRING, new ManagedString("")).syncViaTile().saveToTile().trigerUpdate().finish();
+        expectedBlockPos = register(EXPECTED_POS, new ManagedVec3I(new Vec3I(0, 0, 0))).syncViaTile().saveToTile().trigerUpdate().finish();
     }
 
     @Inject(method = "activateCore", at = @At("HEAD"), cancellable = true)
@@ -230,5 +248,29 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
         super.onLoad();
         hasActiveBuilder.value = activeBuilder != null;
         hasActiveDestructor.value = activeDestructor != null;
+    }
+
+    @Override
+    @Unique
+    public void setExpectedBlockString(String string) {
+        expectedBlockString.value = string;
+    }
+
+    @Override
+    @Unique
+    public void setExpectedBlockPos(BlockPos pos) {
+        expectedBlockPos.vec = new Vec3I(pos);
+    }
+
+    @Override
+    @Unique
+    public String getExpectedBlockString() {
+        return expectedBlockString.value;
+    }
+
+    @Override
+    @Unique
+    public Vec3I getExpectedBlockPos() {
+        return expectedBlockPos.vec;
     }
 }

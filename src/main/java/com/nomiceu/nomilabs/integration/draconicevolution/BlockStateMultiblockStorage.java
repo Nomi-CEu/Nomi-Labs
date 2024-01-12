@@ -41,7 +41,7 @@ public class BlockStateMultiblockStorage extends MultiBlockStorage {
      */
     public void mirrorLayers(int minY, int maxY) {
         if (yPos < maxY) {
-            throw new IllegalArgumentException("[MultiBlockStorage] Cannot mirror from minY " + minY + "to maxY" + maxY + "as have not reached maxY yet!");
+            throw new IllegalArgumentException("[MultiBlockStorage] Cannot mirror from minY " + minY + " to maxY " + maxY + " as have not reached maxY yet!");
         }
         // Loop from last to first (mirror), excluding maxY, including minY
         for (int y = maxY - 1; y >= minY; y--) {
@@ -93,30 +93,12 @@ public class BlockStateMultiblockStorage extends MultiBlockStorage {
 
     @Override
     public void placeStructure(World world, BlockPos startPos) {
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                for (int z = 0; z < size; z++) {
-                    if (structure[x][y][z].isWildcard())
-                        continue;
-                    BlockPos pos = new BlockPos(x, y, z);
-                    energyCoreStructure.setBlock(structure[x][y][z], world, pos.add(startPos));
-                }
-            }
-        }
+        forEachBlockStates(startPos, (pos, states) -> energyCoreStructure.setBlock(states, world, pos));
     }
 
     @Override
     public void forEachInStructure(World world, BlockPos startPos, int flag) {
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                for (int z = 0; z < size; z++) {
-                    if (!structure[x][y][z].isWildcard()) {
-                        BlockPos pos = new BlockPos(x, y, z);
-                        energyCoreStructure.forBlock(structure[x][y][z], world, pos.add(startPos), startPos, flag);
-                    }
-                }
-            }
-        }
+        forEachBlockStates(startPos, (pos, states) -> energyCoreStructure.forBlock(states, world, pos, startPos, flag));
     }
 
     public void forEachBlockStates(BlockPos startPos, BiConsumer<BlockPos, BlockStates> consumer) {

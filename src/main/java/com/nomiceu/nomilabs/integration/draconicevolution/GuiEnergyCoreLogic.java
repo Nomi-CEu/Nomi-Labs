@@ -26,6 +26,7 @@ public class GuiEnergyCoreLogic {
      * Changes the wrap text parameters of the invalid message.
      */
     public static void drawBackground(GuiEnergyCore gui, FontRenderer fontRenderer) {
+        var improvedTile = (ImprovedTileEnergyCore) gui.tile;
         GuiHelper.drawGuiBaseBackground(gui, gui.guiLeft, gui.guiTop, gui.xSize, gui.ySize);
         GuiHelper.drawPlayerSlots(gui, gui.guiLeft + (gui.xSize / 2), gui.guiTop + 115 + 10, true);
         gui.drawCenteredString(fontRenderer, I18n.format("gui.de.energyStorageCore.name", gui.tile.tier.toString()),
@@ -41,7 +42,8 @@ public class GuiEnergyCoreLogic {
         String coreText = I18n.format("gui.de.core.txt") + ": " + (gui.tile.coreValid.value ? I18n.format("gui.de.valid.txt") : I18n.format("gui.de.invalid.txt"));
         GuiHelper.drawCenteredString(fontRenderer, coreText, gui.guiLeft + gui.xSize / 2, gui.guiTop + 36, coreColour, gui.tile.coreValid.value);
         if (!gui.tile.coreValid.value) {
-            GuiHelper.drawCenteredSplitString(fontRenderer, gui.tile.invalidMessage.value, gui.guiLeft + gui.xSize / 2, gui.guiTop + 46, 150, coreColour, false);
+            var pos = improvedTile.getExpectedBlockPos();
+            GuiHelper.drawCenteredSplitString(fontRenderer, I18n.format("ecore.gui.invalid_block.txt", pos.x, pos.y, pos.z, improvedTile.getExpectedBlockString()), gui.guiLeft + gui.xSize / 2, gui.guiTop + 46, 150, coreColour, false);
         }
     }
 }

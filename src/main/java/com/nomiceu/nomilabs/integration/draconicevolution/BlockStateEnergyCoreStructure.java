@@ -83,7 +83,7 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             return false;
         }
         if (tier > 8) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure#checkTeir] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
+            NomiLabs.LOGGER.error("[EnergyCoreStructure] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
             return false;
         }
 
@@ -99,7 +99,7 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             return;
         }
         if (tier > 8) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure#checkTeir] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
+            NomiLabs.LOGGER.error("[EnergyCoreStructure] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
             return;
         }
         structureTiers[tier - 1].placeStructure(core.getWorld(), core.getPos().add(offset));
@@ -165,10 +165,10 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             if (tile instanceof TileInvisECoreBlock invis) {
                 invis.blockName = Objects.requireNonNull(states.getDefault().getBlock().getRegistryName()).toString();
                 TileInvisECoreBlockState invisState = (TileInvisECoreBlockState) invis;
-                if (states.getDefault().equals(states.getDefault().getBlock().getDefaultState())){
+                if (BlockStates.statesEqual(states.getDefault(), states.getDefault().getBlock().getDefaultState())){
                     invisState.setIsDefault();
                 }
-                else{
+                else {
                     invisState.setMetadata(states.getDefault().getBlock().getMetaFromState(states.getDefault()));
                 }
                 invis.setController(core);
@@ -273,25 +273,14 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
         if (tile instanceof TileInvisECoreBlock invis){
             if (invis.blockName.equals(Objects.requireNonNull(states.getDefault().getBlock().getRegistryName()).toString())) {
                 TileInvisECoreBlockState invisState = (TileInvisECoreBlockState) invis;
-                if (invisState.getDefault()){
-                    if (states.getDefault().equals(states.getDefault().getBlock().getDefaultState()))
+                if (invisState.getDefault()) {
+                    if (BlockStates.statesEqual(states.getDefault(), states.getDefault().getBlock().getDefaultState()))
                         return true;
-
-                    return helper.checkBlock(states, world, pos);
-                }
-                else {
-                    if (states.getDefault().getBlock().getMetaFromState(states.getDefault()) == invisState.getMetadata())
+                } else if (states.getDefault().getBlock().getMetaFromState(states.getDefault()) == invisState.getMetadata())
                         return true;
-
-                    return helper.checkBlock(states, world, pos);
-                }
-            } else
-                return helper.checkBlock(states, world, pos);
-
+            }
         }
-        else {
-            return helper.checkBlock(states, world, pos);
-        }
+        return helper.checkBlock(states, world, pos);
     }
 
     public BlockPos getCoreOffset(int tier) {

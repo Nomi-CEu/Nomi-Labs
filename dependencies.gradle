@@ -84,12 +84,12 @@ dependencies {
     // Solar Flux Reborn, need to be patched for Cleanroom compatibility (from CurseForge)
     compileOnly rfg.deobf("curse.maven:solar-flux-reborn-246974:3050838") // Version 12.4.11
 
-    // Brandon Core, Runtime and Compile Dep of Draconic Evolution (from CurseForge)
+    // Brandon Core & Redstone Flux, Runtime and Compile Dep of Draconic Evolution (from CurseForge)
     compileOnly rfg.deobf("curse.maven:brandons-core-231382:3408276") // Version 2.4.20
+    compileOnly rfg.deobf("curse.maven:redstone-flux-270789:2920436") // Version 2.1.1.1
 
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
-        // Redstone Flux, runtime only dep for Draconic Evolution (from CurseForge)
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
     }
 

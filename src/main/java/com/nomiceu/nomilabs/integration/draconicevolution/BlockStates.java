@@ -6,6 +6,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Class allowing matching multiple block states.
@@ -68,13 +69,6 @@ public class BlockStates {
         return wildcard;
     }
 
-    @SuppressWarnings("deprecation")
-    public static IBlockState transformStackToState(ItemStack stack) {
-        if (!(stack.getItem() instanceof ItemBlock block))
-            throw new IllegalArgumentException("[LabsDraconicEvolution] Stack's Item must extend ItemBlock!");
-        return block.getBlock().getStateFromMeta(stack.getMetadata());
-    }
-
     /**
      * Returns an itemstack list, with the first item being the default, and then the substitutes.
      * Returns empty list if wildcard.
@@ -88,14 +82,26 @@ public class BlockStates {
         return stacks;
     }
 
-    public ItemStack transformStateToStack(IBlockState state) {
+    public static ItemStack transformStateToStack(IBlockState state) {
         return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+    }
+
+    @SuppressWarnings("deprecation")
+    public static IBlockState transformStackToState(ItemStack stack) {
+        if (!(stack.getItem() instanceof ItemBlock block))
+            throw new IllegalArgumentException("[LabsDraconicEvolution] Stack's Item must extend ItemBlock!");
+        return block.getBlock().getStateFromMeta(stack.getMetadata());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof BlockStates states))
             return false;
-        return (states.isWildcard() && this.isWildcard()) || (states.getDefault().equals(this.getDefault()));
+        return (states.isWildcard() && this.isWildcard()) || statesEqual(states.getDefault(), this.getDefault());
+    }
+
+    public static boolean statesEqual(IBlockState a, IBlockState b) {
+        return Objects.equals(a.getBlock().getRegistryName(), b.getBlock().getRegistryName())
+                && a.getBlock().getMetaFromState(a) == b.getBlock().getMetaFromState(b);
     }
 }

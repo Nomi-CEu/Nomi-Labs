@@ -36,6 +36,9 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
     @Shadow
     private GuiButton assembleCore;
 
+    @Shadow
+    private GuiButton activate;
+
     @Unique
     private GuiButton destructCore;
 
@@ -72,6 +75,8 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
         toggleGuide.visible =  ((!guiCore.tile.coreValid.value && !improvedTile.hasActiveDestructor()) || guiCore.tile.tier.value == 1) && !guiCore.tile.active.value;
         destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.hasActiveDestructor()) && !guiCore.tile.active.value && guiCore.tile.tier.value != 1;
         toggleGuide.enabled = guiCore.tile.tier.value != 1;
+
+        activate.enabled = guiCore.tile.coreValid.value && guiCore.tile.stabilizersOK.value;
 
         assembleCore.enabled = !improvedTile.hasActiveDestructor();
         if (DraconicHelpers.instantBuilder())

@@ -174,11 +174,11 @@ public class DraconicHelpers {
             return true;
         }
 
-        if (allowedStates.getDefault().equals(state)) return true;
+        if (BlockStates.statesEqual(allowedStates.getDefault(), state)) return true;
         if (!allowedStates.hasSubstitutes()) return false;
 
         for (var substitute : allowedStates.getSubstitutes()) {
-            if (substitute.equals(state)) return true;
+            if (BlockStates.statesEqual(substitute, state)) return true;
         }
         return false;
     }

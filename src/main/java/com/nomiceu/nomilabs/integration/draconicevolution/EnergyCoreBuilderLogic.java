@@ -1,9 +1,11 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -49,7 +51,8 @@ public class EnergyCoreBuilderLogic {
             }
             IBlockState state = world.getBlockState(key);
             if (!DraconicHelpers.validState(neededStates, state, false)) {
-                player.sendMessage(new TextComponentTranslation("ecore.de.assemble_found_invalid.txt", state.getBlock().getLocalizedName(), key.toString()).setStyle(new Style().setColor(TextFormatting.RED)));
+                player.sendMessage(new TextComponentTranslation("ecore.de.assemble_found_invalid.txt",
+                        BlockStates.transformStateToStack(state).getDisplayName(), key.toString()).setStyle(new Style().setColor(TextFormatting.RED)));
                 return true;
             }
         }

@@ -29,13 +29,16 @@ public class TileEnergyStorageCoreLogic {
     public static boolean validateStructure(TileEnergyStorageCore tile) {
         boolean valid = tile.checkStabilizers();
         var helper = ((BlockStateEnergyCoreStructure) tile.coreStructure).getHelper();
+        var improvedTile = (ImprovedTileEnergyCore) tile;
         if (!(tile.coreValid.value = tile.coreStructure.checkTier(tile.tier.value))) {
             BlockPos pos = helper.invalidBlock;
-            String expectedString = helper.expectedBlockState == null
+
+            improvedTile.setExpectedBlockString(helper.expectedBlockState == null
                     ? "null"
                     : new ItemStack(helper.expectedBlockState.getBlock(), 1,
-                    helper.expectedBlockState.getBlock().getMetaFromState(helper.expectedBlockState)).getDisplayName();
-            tile.invalidMessage.value = "Error At: x:" + pos.getX() + ", y:" + pos.getY() + ", z:" + pos.getZ() + " Expected: " + expectedString;
+                    helper.expectedBlockState.getBlock().getMetaFromState(helper.expectedBlockState)).getDisplayName());
+
+            improvedTile.setExpectedBlockPos(pos);
             valid = false;
         }
 
@@ -46,7 +49,7 @@ public class TileEnergyStorageCoreLogic {
 
         tile.structureValid.value = valid;
         if (valid) {
-            tile.invalidMessage.value = "";
+            improvedTile.setExpectedBlockString("");
         }
 
         return valid;
