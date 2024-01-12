@@ -3,7 +3,6 @@ package com.nomiceu.nomilabs.mixin.draconicevolution;
 import com.brandon3055.brandonscore.blocks.BlockBCore;
 import com.brandon3055.draconicevolution.blocks.machines.EnergyPylon;
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyPylon;
-import com.nomiceu.nomilabs.NomiLabs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -23,9 +22,6 @@ public abstract class EnergyPylonMixin extends BlockBCore {
     @Unique
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
-        if (world.getTileEntity(pos) instanceof TileEnergyPylon tile) {
-            NomiLabs.LOGGER.info("Success!");
-            tile.validateStructure();
-        } else NomiLabs.LOGGER.info("Fail!");
+        if (world.getTileEntity(pos) instanceof TileEnergyPylon tile) tile.validateStructure();
     }
 }
