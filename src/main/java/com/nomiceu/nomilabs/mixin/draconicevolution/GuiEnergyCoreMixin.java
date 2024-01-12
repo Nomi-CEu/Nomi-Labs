@@ -45,6 +45,7 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
     /**
      * Ignored mandatory constructor, so we can use protected fields
      */
+    @SuppressWarnings("unused")
     public GuiEnergyCoreMixin(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }

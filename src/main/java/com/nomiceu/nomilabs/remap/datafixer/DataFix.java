@@ -34,6 +34,7 @@ public class DataFix<T> {
         }
     }
 
+    @SuppressWarnings("unused")
     public static class BlockFix extends DataFix<BlockStateLike> {
         public final ResourceLocation[] neededLocations;
         public BlockFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion, Function<Map<String, String>, Boolean> validModList, Function<BlockStateLike, Boolean> validEntry, Consumer<BlockStateLike> transform, ResourceLocation... neededLocations) {

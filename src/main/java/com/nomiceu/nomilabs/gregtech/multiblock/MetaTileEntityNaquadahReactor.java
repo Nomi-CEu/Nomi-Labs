@@ -15,6 +15,7 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.Materials;
 import gregtech.client.renderer.ICubeRenderer;
@@ -49,15 +50,13 @@ import java.util.List;
 
 public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
     public final int numSpatial;
-    public final int tier;
     public final int voltageTier;
 
     public static final int AMP = 3;
 
-    public MetaTileEntityNaquadahReactor(ResourceLocation metaTileEntityId, int tier, int voltageTier, int numSpatial) {
-        super(metaTileEntityId, LabsRecipeMaps.NAQUADAH_REACTOR_RECIPES.get(tier - 1), voltageTier);
+    public MetaTileEntityNaquadahReactor(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap, int voltageTier, int numSpatial) {
+        super(metaTileEntityId, recipeMap, voltageTier);
         this.voltageTier = voltageTier;
-        this.tier = tier;
         this.numSpatial = numSpatial;
         this.recipeMapWorkable = new NaqRecipeLogic(this);
     }
@@ -171,7 +170,7 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
 
     public static class NaquadahReactor1 extends MetaTileEntityNaquadahReactor {
         public NaquadahReactor1(ResourceLocation metaTileEntityId) {
-            super(metaTileEntityId, 1, GTValues.ZPM, 3);
+            super(metaTileEntityId, LabsRecipeMaps.NAQUADAH_REACTOR_RECIPES.get(0), GTValues.ZPM, 3);
         }
 
         @Override
@@ -205,7 +204,7 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
 
     public static class NaquadahReactor2 extends MetaTileEntityNaquadahReactor {
         public NaquadahReactor2(ResourceLocation metaTileEntityId) {
-            super(metaTileEntityId, 2, GTValues.UV, 4);
+            super(metaTileEntityId, LabsRecipeMaps.NAQUADAH_REACTOR_RECIPES.get(1), GTValues.UV, 4);
         }
 
         @Override

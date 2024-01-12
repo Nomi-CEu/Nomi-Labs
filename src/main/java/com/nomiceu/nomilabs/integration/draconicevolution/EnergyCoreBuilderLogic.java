@@ -1,11 +1,9 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
 import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
-import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;

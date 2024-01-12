@@ -37,7 +37,7 @@ public class TooltipAdder {
             var formatter = new DecimalFormat("0.##"); // Format Levels to two decimal places (or less, this also removes trailing zeros)
             formatter.setRoundingMode(RoundingMode.HALF_UP); // Rounds up if in the middle (.5), else rounds to nearest
 
-            // No clue what to use as the capacitor key, using NO_POWER, common declarations, in EnderIO and Nomi-Labs, don't use that parameter anyways
+            // No clue what to use as the capacitor key, using NO_POWER, common declarations, in EnderIO and Nomi-Labs, don't use that parameter anyway
             tooltip.add(TextFormatting.DARK_PURPLE + I18n.format("tooltip.nomilabs.capacitors.level", formatter.format(level)));
         }
     }

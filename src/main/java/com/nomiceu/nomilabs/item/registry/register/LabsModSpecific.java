@@ -7,7 +7,6 @@ import com.nomiceu.nomilabs.item.ItemHandFramingTool;
 import net.minecraftforge.fml.common.Loader;
 
 import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
-import static com.nomiceu.nomilabs.item.registry.LabsItems.createItem;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 
 /**

@@ -9,6 +9,7 @@ import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
+@SuppressWarnings("unused")
 public class LabsTestRecipes {
     public static void postInit() {
         assert Blocks.SAPLING != null;
