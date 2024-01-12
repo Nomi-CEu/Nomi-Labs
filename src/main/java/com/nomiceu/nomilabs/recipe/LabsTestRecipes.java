@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 
 @SuppressWarnings("unused")
 public class LabsTestRecipes {
-    public static void postInit() {
+    public static void initRecipes() {
         assert Blocks.SAPLING != null;
         assert Blocks.LOG != null;
         LabsRecipeMaps.GREENHOUSE_RECIPES.recipeBuilder().duration(1200).EUt(GTValues.VHA[GTValues.MV])
