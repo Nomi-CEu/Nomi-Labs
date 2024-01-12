@@ -208,7 +208,7 @@ public class LabsConfig {
                 "If this is in a Nomi-CEu environment, make sure it is true, and do not change it, or items/blocks may be lost!",
                 "[default: false]"})
         @Config.LangKey("config.nomilabs.advanced.enable_nomi_ceu_data_fixes")
-        @Config.RequiresMcRestart
+        @Config.RequiresWorldRestart
         public boolean enableNomiCEuDataFixes = false;
 
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",

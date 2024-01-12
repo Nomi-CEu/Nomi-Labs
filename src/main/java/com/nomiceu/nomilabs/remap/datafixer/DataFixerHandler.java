@@ -118,6 +118,7 @@ public class DataFixerHandler {
                     .append(TextFormatting.RED).append("Launching with the wrong mode ")
                     .append(TextFormatting.UNDERLINE).append("WILL").append(TextFormatting.RESET).append(TextFormatting.RED)
                     .append(" void items and/or blocks!\n\n")
+                    .append(TextFormatting.GRAY).append("If you did not change it in your old instance, the default mode is 'Normal'.\n\n")
                     .append("Press 'No' if you are not sure! (It will cancel world loading)");
 
             if (!StartupQuery.confirm(modeMessage.toString())) {
@@ -171,7 +172,7 @@ public class DataFixerHandler {
                     if (!neededFixes.containsKey(fixType)) neededFixes.put(fixType, new ObjectArrayList<>());
                     neededFixes.get(fixType).add(fix);
                     if (fix.needsMode) modeNeeded = true;
-                    NomiLabs.LOGGER.info("- {}, {}", fix.name, fix.description);
+                    NomiLabs.LOGGER.info("- {}: {}", fix.name, fix.description);
                 }
             }
             NomiLabs.LOGGER.info("END SECTION: {}. SEE ABOVE. ^^^^^^^^^^^^^^^^^^^^^^^^^^^", fixType);

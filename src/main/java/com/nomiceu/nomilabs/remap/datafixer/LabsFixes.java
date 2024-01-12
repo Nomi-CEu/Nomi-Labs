@@ -247,7 +247,7 @@ public class LabsFixes {
         tileEntityFixes = new ObjectArrayList<>();
 
         tileEntityFixes.add(
-                new DataFix.TileEntityFix("Multiblock Tile Entity MetaId Remap",
+                new DataFix.TileEntityFix("Old Multiblock Tile Entity Meta ID Remap",
                         "Remaps old Multiblock Tile Entity Names to the new format.",
                         false,
                         (version) -> version <= DEFAULT_NOMI_CEU_VERSION,
