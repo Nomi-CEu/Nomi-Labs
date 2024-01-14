@@ -75,6 +75,10 @@ local.properties
 /out/
 /build/
 
+# Mac
+*.icloud
+*.DS_Store
+
 # Linux
 *~
 
