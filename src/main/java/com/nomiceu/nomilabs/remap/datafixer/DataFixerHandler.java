@@ -95,7 +95,7 @@ public class DataFixerHandler {
         LabsFixes.init();
         determineNeededFixesAndLog(save);
         if (neededFixes.isEmpty()) {
-            NomiLabs.LOGGER.info("This world does not need any data fixers, but it has no saved version or it is old.");
+            NomiLabs.LOGGER.info("This world does not need any data fixers, but it has no saved version, it is old, or this is a new world.");
             LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
             return;
         }
@@ -139,9 +139,13 @@ public class DataFixerHandler {
     private static void determineNeededFixesAndLog(SaveHandler save) {
         neededFixes = new Object2ObjectOpenHashMap<>();
         File levelDat = new File(save.getWorldDirectory(), "level.dat");
-        if (!levelDat.exists()) {
+
+        // If level.dat file does not exist, return.
+        // This normally means it is a new world.
+        // Sometimes the level.dat file is created first, but usually this runs after it is created.
+        // If the level.dat file is created first, its mod list is equal to the current one.
+        if (!levelDat.exists())
             return;
-        }
 
         Map<String, String> mods = new HashMap<>();
         NBTTagList modList;
@@ -162,6 +166,13 @@ public class DataFixerHandler {
                 continue;
             mods.put(compound.getString("ModId"), compound.getString("ModVersion"));
         }
+
+        // If Nomi Labs Version is same as current version, exit.
+        // This normally means it is a new world.
+        // Sometimes the level.dat file is created first, but usually this runs after it is created.
+        // If the level.dat file is created first, its mod list is equal to the current one.
+        if (mods.containsKey(LabsValues.LABS_MODID) && mods.get(LabsValues.LABS_MODID).equals(LabsValues.LABS_VERSION))
+            return;
 
         NomiLabs.LOGGER.info("NEEDED DATA FIXES: ----------------------------------------");
         for (var fixType : LabsFixes.fixes.keySet()) {

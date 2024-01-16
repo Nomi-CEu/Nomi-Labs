@@ -23,6 +23,9 @@ import static com.nomiceu.nomilabs.util.LabsNames.*;
 
 /**
  * Definitions for all values, and all data fixes.
+ * <p>
+ * No Data Fixes are loaded if the 'FIX_VERSION' is below the version saved in the world, or the Nomi Labs Version in world
+ * is the same as the current Nomi Labs Version.
  */
 public class LabsFixes {
     /**
