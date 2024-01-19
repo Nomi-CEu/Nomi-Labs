@@ -202,6 +202,19 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.disable_xp_scaling")
         public boolean disableXpScaling = false;
 
+        @Config.Comment({"Whether to disable Advancements.",
+                "Increases Load Speed, and reduces log errors.",
+                "[default: false]"})
+        @Config.LangKey("config.nomilabs.advanced.disable_advancements")
+        public boolean disableAdvancements = false;
+
+        @Config.Comment({"Whether to disable the Narrator.",
+                "Fixes Crashes in Arm Macs, in some very specific environments.",
+                "If your game is crashing, try enabling this!",
+                "[default: false]"})
+        @Config.LangKey("config.nomilabs.advanced.disable_narrator")
+        public boolean disableNarrator = false;
+
         @Config.Comment({"Whether to enable Nomi-CEu data fixes.",
                 "This is used for Nomi-CEu, for players coming from before core-mod.",
                 "If this mod is being used in other scenarios, leave this at false, as this may break worlds!",
