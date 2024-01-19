@@ -29,6 +29,7 @@ dependencies {
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848") // Version 3.2.3.358
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
+    // GT Has Mixins! CHECK MIXINS FOR COMPAT AFTER UPDATING!
     implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:Kff6K1WR") // Version 2.8.5
     implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:4BnBEiBw") // Version 1.2.7
 
@@ -45,6 +46,9 @@ dependencies {
 
     // Craft Tweaker, GT Compile dep
     compileOnly "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.684" // Version 4.1.20.684
+
+    // CTM, GT Compile Dep
+    compileOnly "curse.maven:ctm-267602:2915363" // Version 1.0.2.31
 
 
     /* -------------------------------- Soft Deps, Compile Time Declaration -------------------------------- */

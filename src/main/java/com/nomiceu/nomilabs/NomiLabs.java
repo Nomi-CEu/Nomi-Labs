@@ -21,10 +21,10 @@ import org.apache.logging.log4j.Logger;
                 + "required-after:groovyscript@[0.6.0,);"
                 + "required-after:gregtech@[2.8,);"
                 + "required-after:packmode;"
+                + "required-after:jei@[4.15.0,);"
+                + "required-after:theoneprobe;"
                 + "after:crafttweaker@[4.1.20,);"
-                + "after:appliedenergistics2;"
-                + "after:jei@[4.15.0,);"
-                + "after:theoneprobe;")
+                + "after:appliedenergistics2;")
 @SuppressWarnings("unused")
 public class NomiLabs {
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);

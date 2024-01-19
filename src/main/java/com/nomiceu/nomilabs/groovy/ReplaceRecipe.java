@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.groovy;
 
+import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.ingredient.OreDictIngredient;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
@@ -30,6 +31,7 @@ import java.util.Objects;
 
 import static com.cleanroommc.groovyscript.compat.vanilla.VanillaModule.crafting;
 
+@GroovyBlacklist
 public class ReplaceRecipe {
     static void reloadRecyclingRecipes() {
         removeRecipesInCategory(RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING);

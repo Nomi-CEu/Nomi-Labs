@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.groovy;
 
+import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Used for recipes where the input is unknown (Replacing Output)
  */
+@GroovyBlacklist
 public class PartialRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IShapedRecipe {
     private final IShapedRecipe originalRecipe;
     private final ItemStack output;
