@@ -3,8 +3,8 @@ package com.nomiceu.nomilabs.remap.datafixer;
 import com.nomiceu.nomilabs.remap.datafixer.storage.BlockStateLike;
 import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -34,12 +34,17 @@ public class DataFix<T> {
         }
     }
 
-    @SuppressWarnings("unused")
     public static class BlockFix extends DataFix<BlockStateLike> {
-        public final ResourceLocation[] neededLocations;
-        public BlockFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion, Function<Map<String, String>, Boolean> validModList, Function<BlockStateLike, Boolean> validEntry, Consumer<BlockStateLike> transform, ResourceLocation... neededLocations) {
-            super(name, description, needsMode, validVersion, validModList, validEntry, transform);
-            this.neededLocations = neededLocations;
+        public final boolean teNeeded;
+        @Nullable
+        public final Function<BlockStateLike, Boolean> secondaryValidEntry;
+
+        public BlockFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion,
+                        Function<Map<String, String>, Boolean> validModList, boolean teNeeded, Function<BlockStateLike, Boolean> validEntry,
+                        @Nullable Function<BlockStateLike, Boolean> secondaryValidEntry, Consumer<BlockStateLike> blockTransform) {
+            super(name, description, needsMode, validVersion, validModList, validEntry, blockTransform);
+            this.secondaryValidEntry = secondaryValidEntry;
+            this.teNeeded = teNeeded;
         }
     }
 

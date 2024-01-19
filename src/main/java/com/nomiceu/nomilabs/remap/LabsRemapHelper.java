@@ -5,17 +5,17 @@ import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.datafixer.storage.BlockRewriter;
 import com.nomiceu.nomilabs.remap.datafixer.storage.BlockStateLike;
 import com.nomiceu.nomilabs.remap.datafixer.storage.CompoundRewriter;
-import net.minecraft.block.Block;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.NibbleArray;
 import net.minecraftforge.fml.common.StartupQuery;
 import net.minecraftforge.fml.common.ZipperUtil;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistry;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class LabsRemapHelper {
@@ -23,6 +23,8 @@ public class LabsRemapHelper {
     public static final Pattern META_BLOCK_MATCHER = Pattern.compile("meta_block_.+_\\d+");
     public static final int MIN_META_ITEM_BASE_ID = 32000; // The Base ID where the Old Meta Items/Materials started from
     public static final int MIN_META_BLOCK_BASE_ID = 2000; // The Base ID where the Old Meta Blocks started from
+
+    private static Map<BlockPos, NBTTagCompound> posToTileEntityCache;
 
     public static void createWorldBackup() {
         try {
@@ -69,8 +71,25 @@ public class LabsRemapHelper {
         }
     }
 
-    public static void rewriteBlocks(NBTTagCompound chunkSectionTag, BlockRewriter rewriter) {
+    public static void rewriteBlocks(NBTTagCompound compound, BlockRewriter rewriter) {
+        clearTECache();
+        NBTTagCompound levelTag = compound.getCompoundTag("Level");
+        int x = levelTag.getInteger("xPos");
+        int z = levelTag.getInteger("zPos");
+        NBTTagList sectionListTag = levelTag.getTagList("Sections", Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < sectionListTag.tagCount(); i++) {
+            sectionListTag.set(i, rewriteBlocksInSection(sectionListTag.getCompoundTagAt(i), x, z, rewriter));
+        }
+        if (posToTileEntityCache != null) {
+            var tagList = new NBTTagList();
+            posToTileEntityCache.values().forEach(tagList::appendTag);
+            levelTag.setTag("TileEntities", tagList);
+        }
+    }
+
+    private static NBTTagCompound rewriteBlocksInSection(NBTTagCompound chunkSectionTag, int chunkX, int chunkZ, BlockRewriter rewriter) {
         byte[] blockIds = chunkSectionTag.getByteArray("Blocks");
+        int chunkY = chunkSectionTag.getInteger("Y");
         NibbleArray blockMetadata = new NibbleArray(chunkSectionTag.getByteArray("Data"));
         NibbleArray extendedIds = chunkSectionTag.hasKey("Add", Constants.NBT.TAG_BYTE_ARRAY)
                 ? new NibbleArray(chunkSectionTag.getByteArray("Add")) : null;
@@ -78,7 +97,8 @@ public class LabsRemapHelper {
             int x = i & 0x0F, y = i >> 8 & 0x0F, z = i >> 4 & 0x0F;
             int id = extendedIds == null ? (blockIds[i] & 0xFF)
                     : ((blockIds[i] & 0xFF) | (extendedIds.get(x, y, z) << 8));
-            var state = new BlockStateLike(id, (short) blockMetadata.get(x, y, z));
+            var state = new BlockStateLike(id, (short) blockMetadata.get(x, y, z),
+                    new BlockPos(chunkX * 16 + x, chunkY * 16 + y, chunkZ * 16 + z));
             if (state.invalid) continue;
             BlockStateLike remapped = rewriter.rewrite(state);
             if (remapped != null) {
@@ -91,15 +111,37 @@ public class LabsRemapHelper {
                     extendedIds.set(x, y, z, idExt);
                 }
                 blockMetadata.set(x, y, z, remapped.meta & 0x0F);
+
+                if (posToTileEntityCache != null && remapped.tileEntityTag != null)
+                    posToTileEntityCache.put(remapped.pos, remapped.tileEntityTag);
             }
         }
         if (extendedIds != null) {
             chunkSectionTag.setByteArray("Add", extendedIds.getData());
         }
+        return chunkSectionTag;
     }
 
-    public static ForgeRegistry<Block> getBlockRegistry() {
-        return (ForgeRegistry<Block>) ForgeRegistries.BLOCKS;
+    public static void clearTECache() {
+        posToTileEntityCache = null;
+    }
+
+    /**
+     * Call Clear TE Cache every time doing this on a new section!
+     * <br>
+     * {@link LabsRemapHelper#rewriteBlocks(NBTTagCompound, BlockRewriter)} does this for you!
+     */
+    public static Map<BlockPos, NBTTagCompound> getPosToTileEntityMap(NBTTagCompound chunkTag) {
+        if (posToTileEntityCache != null) return posToTileEntityCache;
+        posToTileEntityCache = new Object2ObjectLinkedOpenHashMap<>();
+        NBTTagCompound levelTag = chunkTag.getCompoundTag("Level");
+        NBTTagList tileEntities = levelTag.getTagList("TileEntities", Constants.NBT.TAG_COMPOUND); // Returns empty if doesn't exist
+        for (var te : tileEntities) {
+            var tag = (NBTTagCompound) te;
+            posToTileEntityCache.put(
+                    new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z")), tag);
+        }
+        return posToTileEntityCache;
     }
 
     public static void abort() {

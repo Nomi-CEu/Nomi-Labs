@@ -6,6 +6,10 @@ import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
+import gregtech.api.GregTechAPI;
+import gregtech.common.pipelike.cable.Insulation;
+import gregtech.common.pipelike.fluidpipe.FluidPipeType;
+import gregtech.common.pipelike.itempipe.ItemPipeType;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -14,9 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.IFixType;
 import net.minecraftforge.common.util.Constants;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static com.nomiceu.nomilabs.LabsValues.*;
 import static com.nomiceu.nomilabs.util.LabsNames.*;
@@ -76,6 +78,8 @@ public class LabsFixes {
 
     public static Map<ResourceLocation, ResourceLocation> multiblockMetaIdRemap;
     public static Map<Short, Short> multiblockMetaRemap;
+    public static Set<ResourceLocation> specialMetaItemsRemap;
+    public static Set<String> materialNames;
 
     public static void init() {
         helperMapsInit();
@@ -166,6 +170,18 @@ public class LabsFixes {
                                 .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
         );
 
+        itemFixes.add(
+                new DataFix.ItemFix("Material Special Meta Item Remap",
+                        "Remaps old special placeable Meta Items, from Custom Materials, to the new format and registry.",
+                        false,
+                        (version) -> version <= PRE_MATERIAL_REWORK_VERSION,
+                        (modList) -> true,
+                        (stack) -> specialMetaItemsRemap.contains(stack.rl) &&
+                                stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
+                        (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
+                                .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
+        );
+
         /*
          * Block Fixes.
          * Note that this is not applied on any new blocks, placed or generated.
@@ -185,22 +201,42 @@ public class LabsFixes {
          *
          *              false, // Whether the correct mode is required for the change to work right
          *
-         *              (version) -> version <= DEFAULT_VERSION,// Whether the previous version in the save means that this fix must be applied.
-         *                                                      // Note that this is not applied if the previous version is equal to the current overall fix version.
+         *              (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
+         *                                                       // Note that this is not applied if the previous version is equal to the current overall fix version.
          *
          *              (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
          *                                 // Note that the fix is only applied if the version AND the modlist is valid.
          *
-         *              (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0, // Input BlockStateLike, return a boolean (true to fix, false to skip)
+         *              false, // Whether the tile entity tag is needed. If yes, it is accessible via state.setTileEntityTag() and state.tileEntityTag. If this is false, that field will be null.
          *
-         *              (state) -> state.setRl(new ResourceLocation("minecraft:concrete")).setMeta((short) 12), // Change the given BlockStateLike (Changes to Brown Concrete in this case)
+         *              (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0, // Input BlockStateLike, return a boolean (true to fix, false to skip). You CAN NOT check the tile entity here!
          *
-         *              // Needed Resource Locations
-         *              // These are all Resource Locations that are accepted as input in this fix.
-         *              // THIS IS VERY IMPORTANT! IF THIS IS NOT INCLUDED, THE INPUTS WILL NOT WORK!
-         *              new ResourceLocation("minecraft:log")));
+         *              null, // Secondary check, Input BlockStateLike, return a boolean (true to fix, false to skip). You CAN check the tile entity here! Input Null if checking tile entity is not needed.
+         *
+         *              (state) -> state.setRl(new ResourceLocation("minecraft:concrete")).setMeta((short) 12), // Change the given BlockStateLike (Changes to Brown Concrete in this case). You can also change the tile entity here if needed.
+         * ));
          */
         blockFixes = new ObjectArrayList<>();
+
+        blockFixes.add(
+                new DataFix.BlockFix("Material Special Meta Block Remap",
+                        "Remaps old special placeable Meta Blocks, from Custom Materials, to the new format and registry.",
+                        false,
+                        (version) -> version <= PRE_MATERIAL_REWORK_VERSION,
+                        (modList) -> true,
+                        true,
+                        (state) -> specialMetaItemsRemap.contains(state.rl),
+                        (state) -> state.tileEntityTag != null &&
+                                specialMetaItemsRemap.contains(new ResourceLocation(state.tileEntityTag.getString("PipeBlock"))) &&
+                                materialNames.contains(state.tileEntityTag.getString("PipeMaterial")),
+                        (state) -> {
+                            state.setRl(LabsNames.makeLabsName(state.rl.getPath()));
+
+                            //noinspection DataFlowIssue
+                            state.tileEntityTag.setString("PipeBlock",
+                                    LabsNames.makeLabsName(new ResourceLocation(state.tileEntityTag.getString("PipeBlock")).getPath()).toString());
+                        })
+        );
 
         /*
          * Tile Entity Fixes.
@@ -263,11 +299,34 @@ public class LabsFixes {
 
         fixes = new Object2ObjectOpenHashMap<>();
         fixes.put(LabsFixTypes.FixerTypes.ITEM, itemFixes);
-        fixes.put(LabsFixTypes.FixerTypes.BLOCK, blockFixes);
+        fixes.put(LabsFixTypes.FixerTypes.CHUNK, blockFixes);
         fixes.put(LabsFixTypes.FixerTypes.TILE_ENTITY, tileEntityFixes);
     }
 
     private static void helperMapsInit() {
+        // Special Meta Items Remap is only needed for some meta items.
+        // They are all placeable, and do not have the special syntax that includes a base id.
+        // Therefore, they must be remapped.
+        // Placeable forms are... stored in Tile Entity. Handled by TileEntityMaterialPipeBaseMixin, and Tile Entity Fix.
+        specialMetaItemsRemap = new HashSet<>();
+        // Wires and Cables
+        // Fine Wire is not placeable, and thus follows normal meta item rules.
+        for (var cableType : Insulation.VALUES) { // All Cable Types
+            specialMetaItemsRemap.add(new ResourceLocation(GREGTECH_MODID, cableType.getName()));
+        }
+        // Fluid Pipes
+        for (var fluidPipeType : FluidPipeType.VALUES) {
+            specialMetaItemsRemap.add(new ResourceLocation(GREGTECH_MODID, String.format("fluid_pipe_%s", fluidPipeType.name)));
+        }
+        // Item Pipes
+        for (var itemPipeType : ItemPipeType.VALUES) {
+            specialMetaItemsRemap.add(new ResourceLocation(GREGTECH_MODID, String.format("item_pipe_%s", itemPipeType.name)));
+        }
+        // Compressed Blocks and Frames follow the special syntax.
+
+        // Get all material names to know which tile entities to fix.
+        materialNames = GregTechAPI.materialManager.getRegistry(LABS_MODID).registryObjects.keySet();
+
         multiblockMetaRemap = new Short2ShortLinkedOpenHashMap();
         multiblockMetaRemap.put((short) 32000, (short) 32100); // Microverse 1
         multiblockMetaRemap.put((short) 32001, (short) 32101); // Microverse 2

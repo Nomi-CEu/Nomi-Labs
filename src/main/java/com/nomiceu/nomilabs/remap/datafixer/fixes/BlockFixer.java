@@ -18,15 +18,18 @@ public class BlockFixer implements IFixableData {
 
     @Override
     public @NotNull NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
-        var blockFixes = DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.BLOCK);
+        var blockFixes = DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.CHUNK);
         LabsRemapHelper.rewriteBlocks(compound, (state) -> {
             for (var fix : blockFixes) {
                 if (!(fix instanceof DataFix.BlockFix blockFix)) continue;
                 if (!blockFix.validEntry.apply(state)) continue;
-                var oldRl = state.rl;
-                var oldMeta = state.meta;
+                if (blockFix.teNeeded) state.setTileEntityTag(LabsRemapHelper.getPosToTileEntityMap(compound).get(state.pos));
+                if (blockFix.secondaryValidEntry != null && !blockFix.secondaryValidEntry.apply(state)) continue;
+                var oldState = state.copy();
                 blockFix.transform.accept(state);
-                NomiLabs.LOGGER.debug("[Data Fixer] Changed Block: {} @ {} to {} @ {}", oldRl, oldMeta, state.rl, state.meta);
+                NomiLabs.LOGGER.debug("[Data Fixer] Changed Block: {} @ {} to {} @ {} at Pos: {}. (ID: {} to {})", oldState.rl, oldState.meta, state.rl, state.meta, state.pos, oldState.getId(), state.getId());
+                if (blockFix.teNeeded)
+                    NomiLabs.LOGGER.debug("[Data Fixer] Changed Tile Entity With Above Block: {} to {}.", oldState.tileEntityTag, state.tileEntityTag);
                 return state;
             }
             return state;

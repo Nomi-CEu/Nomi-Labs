@@ -10,9 +10,7 @@ import gregtech.api.util.GTUtility;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.StartupQuery;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.spongepowered.include.com.google.common.collect.ImmutableList;
 
@@ -23,6 +21,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import static com.nomiceu.nomilabs.LabsValues.*;
+import static com.nomiceu.nomilabs.remap.LabsMessageHelper.sendTranslatableMessage;
 import static com.nomiceu.nomilabs.remap.Remapper.RemapTypes;
 
 public class LabsRemappers {
@@ -200,16 +199,10 @@ public class LabsRemappers {
 
         // Check with user
         if (!checked && !DataFixerHandler.checked) {
-            var message = new StringBuilder("This world must be remapped.\n\n")
-                    .append(TextFormatting.BOLD).append("A Backup will be made.\n")
-                    .append("Pressing 'No' will cancel world loading.\n\n")
-                    .append(TextFormatting.RED)
-                    .append("Note that after the world is loaded with this, you CANNOT undo this!\n")
-                    .append("You WILL have to load from the backup in order to load in a previous version!");
-
-            if (!StartupQuery.confirm(message.toString())) {
-                LabsRemapHelper.abort();
-            }
+            sendTranslatableMessage(
+                    LabsMessageHelper.MessageType.CONFIRM,
+                    LabsMessageHelper.Components.getIntro()
+            );
 
             LabsRemapHelper.createWorldBackup();
 

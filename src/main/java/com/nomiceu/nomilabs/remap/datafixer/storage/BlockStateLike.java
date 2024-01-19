@@ -1,8 +1,12 @@
 package com.nomiceu.nomilabs.remap.datafixer.storage;
 
-import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Essentially an IBlockState, but contains ResourceLocation instead of Block. Contains meta, but no other info.
@@ -11,13 +15,24 @@ import net.minecraft.util.ResourceLocation;
 public class BlockStateLike {
     public ResourceLocation rl;
     public short meta;
-
     public boolean invalid;
+    public final BlockPos pos;
+    @Nullable
+    public NBTTagCompound tileEntityTag;
 
-    public BlockStateLike(int id, short meta) {
-        this.rl = DataFixerHandler.blockIdToRlMap.getOrDefault(id, null);
+    public BlockStateLike(int id, short meta, BlockPos pos) {
+        this.pos = pos;
+        this.rl = DataFixerHandler.getBlockHelperMap().getOrDefault(id, null);
         this.invalid = this.rl == null;
         this.meta = (short) Math.max(0, meta);
+    }
+
+    private BlockStateLike(ResourceLocation rl, short meta, boolean invalid, BlockPos pos, @Nullable NBTTagCompound tileEntityTag) {
+        this.rl = rl;
+        this.meta = meta;
+        this.invalid = invalid;
+        this.pos = pos;
+        this.tileEntityTag = tileEntityTag;
     }
 
     public BlockStateLike setRl(ResourceLocation newRl) {
@@ -30,7 +45,16 @@ public class BlockStateLike {
         return this;
     }
 
+    public BlockStateLike setTileEntityTag(@Nonnull NBTTagCompound tag) {
+        tileEntityTag = tag;
+        return this;
+    }
+
     public int getId() {
-        return rl == null ? -1 : LabsRemapHelper.getBlockRegistry().getID(rl);
+        return rl == null ? -1 : DataFixerHandler.getBlockHelperMap().inverse().getOrDefault(rl, 0);
+    }
+
+    public BlockStateLike copy() {
+        return new BlockStateLike(rl, meta, invalid, pos, tileEntityTag != null ? tileEntityTag.copy() : null);
     }
 }

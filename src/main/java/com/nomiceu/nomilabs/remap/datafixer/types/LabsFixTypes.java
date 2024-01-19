@@ -16,9 +16,9 @@ public class LabsFixTypes {
         TILE_ENTITY,
 
         /**
-         * A vertical section of a chunk containing block state data.
+         * Chunk Data.
          */
-        BLOCK
+        CHUNK
     }
     public enum WalkerTypes implements IFixType {
         /**

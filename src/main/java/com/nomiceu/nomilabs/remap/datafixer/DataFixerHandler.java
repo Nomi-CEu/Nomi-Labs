@@ -1,11 +1,13 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.BlockFixer;
-import com.nomiceu.nomilabs.remap.datafixer.fixes.TileEntityFixer;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.ItemFixer;
+import com.nomiceu.nomilabs.remap.datafixer.fixes.TileEntityFixer;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.remap.datafixer.walker.BlockEntityWalker;
 import com.nomiceu.nomilabs.remap.datafixer.walker.ChunkWalker;
@@ -13,6 +15,7 @@ import com.nomiceu.nomilabs.remap.datafixer.walker.ItemStackWalker;
 import io.sommers.packmode.PMConfig;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -20,14 +23,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.IFixType;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.common.util.CompoundDataFixer;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.StartupQuery;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistry;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.groovy.util.Arrays;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +40,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static com.nomiceu.nomilabs.remap.LabsMessageHelper.*;
 
 /**
  * The main handler for all Data Fixes.
@@ -49,7 +57,7 @@ public class DataFixerHandler {
     public static Map<IFixType, List<DataFix<?>>> neededFixes;
     public static boolean modeNeeded = false;
 
-    public static Map<Integer, ResourceLocation> blockIdToRlMap;
+    private static BiMap<Integer, ResourceLocation> blockHelperMap;
 
     public static void preInit() {
         CompoundDataFixer fmlFixer = FMLCommonHandler.instance().getDataFixer();
@@ -66,7 +74,7 @@ public class DataFixerHandler {
         // Fixers
         ModFixs fixs = fmlFixer.init(LabsValues.LABS_MODID, LabsFixes.FIX_VERSION);
         fixs.registerFix(LabsFixTypes.FixerTypes.ITEM, new ItemFixer());
-        fixs.registerFix(LabsFixTypes.FixerTypes.BLOCK, new BlockFixer());
+        fixs.registerFix(LabsFixTypes.FixerTypes.CHUNK, new BlockFixer());
         fixs.registerFix(LabsFixTypes.FixerTypes.TILE_ENTITY, new TileEntityFixer());
     }
 
@@ -94,39 +102,33 @@ public class DataFixerHandler {
 
         LabsFixes.init();
         determineNeededFixesAndLog(save);
+
+        // Clear Block Helper Map, the ids are different for some saves
+        blockHelperMap = null;
+
         if (neededFixes.isEmpty()) {
             NomiLabs.LOGGER.info("This world does not need any data fixers, but it has no saved version, it is old, or this is a new world.");
             LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
             return;
         }
 
-        var message = new StringBuilder("This world must be remapped.\n\n")
-                .append(TextFormatting.BOLD).append("A Backup will be made.\n")
-                .append("Pressing 'No' will cancel world loading.\n\n")
-                .append(TextFormatting.RED)
-                .append("Note that after the world is loaded with this, you CANNOT undo this!\n")
-                .append("The changes that must be made via Data Fixers have been printed to your log.\n")
-                .append("You WILL have to load from the backup in order to load in a previous version!");
-
-        if (!StartupQuery.confirm(message.toString())) {
-            LabsRemapHelper.abort();
-        }
+        sendTranslatableMessage(
+                MessageType.CONFIRM,
+                Arrays.concat(Components.getIntro(), Components.getIntroAddition())
+        );
 
         if (modeNeeded) {
-            var modeMessage = new StringBuilder("Are you sure you previously loaded this world with the pack mode '")
-                    .append(TextFormatting.YELLOW).append(StringUtils.capitalize(PMConfig.getPackMode())).append(TextFormatting.RESET).append("' ?\n\n")
-                    .append(TextFormatting.RED).append("Launching with the wrong mode ")
-                    .append(TextFormatting.UNDERLINE).append("WILL").append(TextFormatting.RESET).append(TextFormatting.RED)
-                    .append(" void items and/or blocks!\n\n")
-                    .append(TextFormatting.GRAY).append("If you did not change it in your old instance, the default mode is 'Normal'.\n\n")
-                    .append("Press 'No' if you are not sure! (It will cancel world loading)");
-
-            if (!StartupQuery.confirm(modeMessage.toString())) {
-                LabsRemapHelper.abort();
-            }
+            sendTranslatableMessage(
+                    MessageType.CONFIRM,
+                    Components.getModeCheck(StringUtils.capitalize(PMConfig.getPackMode()))
+            );
         }
 
-        generateIDToRlMap();
+        sendTranslatableMessage(
+                MessageType.NOTIFY,
+                Components.getDoNotExit()
+        );
+
         checked = true;
 
         LabsRemapHelper.createWorldBackup();
@@ -191,18 +193,20 @@ public class DataFixerHandler {
         NomiLabs.LOGGER.info("END NEEDED DATA FIXES. SEE ABOVE. ^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
 
-    public static void generateIDToRlMap() {
-        if (!neededFixes.containsKey(LabsFixTypes.FixerTypes.BLOCK)) return;
-        blockIdToRlMap = new Object2ObjectOpenHashMap<>();
-        var registry = LabsRemapHelper.getBlockRegistry();
-        neededFixes.get(LabsFixTypes.FixerTypes.BLOCK).stream()
-                .map((fix) -> fix instanceof DataFix.BlockFix blockFix ? blockFix.neededLocations : new ResourceLocation[0])
-                .forEach((rls) -> {
-                    for (var rl : rls) {
-                        var id = registry.getID(rl);
-                        if (id > 0) blockIdToRlMap.put(id, rl);
-                    }
-                });
+    /**
+     * The Block Helper Map is produced once needed, instead of in World Load or Post Init.<br>
+     * This means they are loaded after block id mismatch fixes, so the ids are correct to the world.
+     */
+    public static BiMap<Integer, ResourceLocation> getBlockHelperMap() {
+        if (blockHelperMap != null) return blockHelperMap;
+
+        ForgeRegistry<Block> registry = (ForgeRegistry<Block>) ForgeRegistries.BLOCKS;
+        blockHelperMap = HashBiMap.create(registry.getKeys().stream()
+                .collect(Collectors.toMap(registry::getID, Function.identity())));
+
+        NomiLabs.LOGGER.debug("Generated Block Helper Map!");
+        NomiLabs.LOGGER.debug(blockHelperMap);
+        return blockHelperMap;
     }
 
     public static void processEnderStorageInfo(DataFixer fixer, SaveHandler save) {
@@ -227,6 +231,7 @@ public class DataFixerHandler {
                 throw new IllegalStateException("Failed to read or write Ender Storage save data!", e);
             }
         }
+        NomiLabs.LOGGER.info("Finished Processing Ender Storage Info!");
     }
 
     public static boolean fixNotAvailable() {
