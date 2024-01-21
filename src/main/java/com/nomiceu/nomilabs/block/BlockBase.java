@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BlockBase extends Block implements TOPInfoProvider {
@@ -51,7 +52,7 @@ public class BlockBase extends Block implements TOPInfoProvider {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
-        tooltip.addAll(Arrays.asList(description));
+        Collections.addAll(tooltip, description);
     }
 
     @Override

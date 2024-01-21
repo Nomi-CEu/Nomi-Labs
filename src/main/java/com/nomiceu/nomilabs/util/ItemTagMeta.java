@@ -34,4 +34,10 @@ public class ItemTagMeta extends ItemMeta {
     public static boolean compare(ItemStack a, ItemStack b) {
         return ItemMeta.compare(a, b) && Objects.equals(a.getTagCompound(), b.getTagCompound());
     }
+
+    public ItemStack toStack() {
+        var stack = super.toStack();
+        if (tag != null) stack.setTagCompound(tag);
+        return stack;
+    }
 }

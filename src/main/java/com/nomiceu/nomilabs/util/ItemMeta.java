@@ -35,4 +35,8 @@ public class ItemMeta {
     public static boolean compare(ItemStack a, ItemStack b) {
         return a.getItem().equals(b.getItem()) && a.getMetadata() == b.getMetadata();
     }
+
+    public ItemStack toStack() {
+        return new ItemStack(item, 1, meta);
+    }
 }

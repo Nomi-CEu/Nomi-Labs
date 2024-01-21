@@ -6,7 +6,6 @@ import com.cleanroommc.groovyscript.compat.mods.jei.JeiPlugin;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
-import com.nomiceu.nomilabs.util.LabsSide;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 import gregtech.api.unification.material.Material;
 import gregtech.api.util.GTUtility;
@@ -54,11 +53,13 @@ public class GroovyHelpers {
     }
     public static class JEIHelpers {
         public static void addDescription(ItemStack stack, String... description) {
-            if (LabsSide.isClient())
-                JEIPlugin.addDescription(stack, description);
+            JEIPlugin.addGroovyDescription(stack, description);
         }
         public static void addRecipeOutputTooltip(ItemStack stack, String... tooltip) {
-            JEIPlugin.addRecipeOutputTooltip(stack, tooltip);
+            JEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
+        }
+        public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName, String... tooltip) {
+            JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
         }
     }
     public static class MaterialHelpers {

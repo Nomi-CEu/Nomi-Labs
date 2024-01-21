@@ -11,10 +11,16 @@ addDescription(item('minecraft:apple'), format("An Ordinary Apple... Not Poisone
 // Add a translated description page for a stack
 addDescription(item('minecraft:iron_ingot'), translate("tooltip.nomilabs.greenhouse.description"), translate("tooltip.nomilabs.dme_sim_chamber.description"))
 
-/* Recipe Output Tooltips. These are tooltips that appear on recipes that output that stack. */
+/* Recipe Output Tooltips. These are tooltips that appear on CRAFTING recipes that output that stack. */
 
-// Add a recipe output tooltip for a stack
-addRecipeOutputTooltip(item('minecraft:golden_apple'), format("An Ordinary Apple... Not Poisoned.", TextFormatting.GREEN), "Eat it!")
+// Add a crafting recipe output tooltip for a stack
+addRecipeOutputTooltip(item('minecraft:gold_ingot'), format("A Very Low Carrot Gold Ingot.", TextFormatting.GOLD), "Oops! Meant Carat!")
 
-// Add a translated recipe output tooltip for a stack
+// Add a translated crafting recipe output tooltip for a stack
 addRecipeOutputTooltip(item('minecraft:iron_ingot'), translate("tooltip.nomilabs.greenhouse.description"), translate("tooltip.nomilabs.dme_sim_chamber.description"))
+
+// Add a crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild)
+addRecipeOutputTooltip(item('minecraft:gold_ingot'), resource('minecraft:gold_ingot_from_block'), format("A Very High Carat Gold Ingot.", TextFormatting.GOLD), "Precious!")
+
+// Add a translated crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild)
+addRecipeOutputTooltip(item('minecraft:iron_ingot'), resource('minecraft:iron_ingot_from_nuggets'), translate("tooltip.nomilabs.universalnavigator.description"), translate("tooltip.nomilabs.greenhouse.description"), translate("tooltip.nomilabs.dme_sim_chamber.description"))
