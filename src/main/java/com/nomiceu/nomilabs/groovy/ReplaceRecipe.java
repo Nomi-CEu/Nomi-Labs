@@ -33,7 +33,7 @@ import static com.cleanroommc.groovyscript.compat.vanilla.VanillaModule.crafting
 
 @GroovyBlacklist
 public class ReplaceRecipe {
-    static void reloadRecyclingRecipes() {
+    public static void reloadRecyclingRecipes() {
         removeRecipesInCategory(RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING);
         removeRecipesInCategory(RecipeMaps.MACERATOR_RECIPES, RecipeCategories.MACERATOR_RECYCLING);
         removeRecipesInCategory(RecipeMaps.EXTRACTOR_RECIPES, RecipeCategories.EXTRACTOR_RECYCLING);
@@ -70,7 +70,7 @@ public class ReplaceRecipe {
         // Multiplies by original then Divides by new as https://github.com/GregTechCEu/GregTech/blob/master/src/main/java/gregtech/api/recipes/RecyclingHandler.java#L82 divides
         originalMaterials.forEach((materialStack -> newMaterials.add(new MaterialStack(materialStack.material, materialStack.amount * originalCount / newCount))));
 
-        OreDictUnifier.registerOre(newOutput, new ItemMaterialInfo(newMaterials));
+        LabsVirtualizedRegistries.REPLACE_RECIPE_MANAGER.registerOre(newOutput, new ItemMaterialInfo(newMaterials));
     }
 
     static void replaceRecipeInput(ResourceLocation name, List<List<IIngredient>> newInputs) {
@@ -97,6 +97,8 @@ public class ReplaceRecipe {
         if (OreDictUnifier.getMaterialInfo(originalOutput) == null)
             throw new IllegalArgumentException("Could not find existing Material Info for item " + originalOutput);
 
+        ReloadableRegistryManager.removeRegistryEntry(ForgeRegistries.RECIPES, name);
+
         return shapedRecipe;
     }
 
@@ -107,7 +109,7 @@ public class ReplaceRecipe {
                 gtInputs.add(ofGroovyIngredient(input));
             }
         }
-        OreDictUnifier.registerOre(output, RecyclingHandler.getRecyclingIngredients(gtInputs, output.getCount()));
+        LabsVirtualizedRegistries.REPLACE_RECIPE_MANAGER.registerOre(output, RecyclingHandler.getRecyclingIngredients(gtInputs, output.getCount()));
     }
 
     @NotNull

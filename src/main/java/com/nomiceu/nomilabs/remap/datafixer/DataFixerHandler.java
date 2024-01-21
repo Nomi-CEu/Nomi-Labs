@@ -112,19 +112,19 @@ public class DataFixerHandler {
             return;
         }
 
-        sendTranslatableMessage(
+        sendMessage(
                 MessageType.CONFIRM,
                 Arrays.concat(Components.getIntro(), Components.getIntroAddition())
         );
 
         if (modeNeeded) {
-            sendTranslatableMessage(
+            sendMessage(
                     MessageType.CONFIRM,
                     Components.getModeCheck(StringUtils.capitalize(PMConfig.getPackMode()))
             );
         }
 
-        sendTranslatableMessage(
+        sendMessage(
                 MessageType.NOTIFY,
                 Components.getDoNotExit()
         );

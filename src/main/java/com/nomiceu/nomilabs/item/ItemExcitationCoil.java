@@ -2,8 +2,8 @@ package com.nomiceu.nomilabs.item;
 
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
+import gregtech.client.utils.TooltipHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,16 +12,16 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import gregtech.client.utils.TooltipHelper;
 
 import java.util.List;
 import java.util.Objects;
+
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 public class ItemExcitationCoil extends ItemBlock {
 
@@ -55,12 +55,12 @@ public class ItemExcitationCoil extends ItemBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
-        tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.excitationcoil.description_item"));
+        tooltip.add(translate("tooltip.nomilabs.excitationcoil.description"));
         if (LabsTooltipHelper.isShiftDown()) {
-            tooltip.add(TextFormatting.GRAY+ I18n.format("tooltip.nomilabs.excitationcoil.placeable"));
-            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.excitationcoil.wearable"));
-            tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("tooltip.nomilabs.excitationcoil.night_vision"));
+            tooltip.add(translate("tooltip.nomilabs.excitationcoil.placeable"));
+            tooltip.add(translate("tooltip.nomilabs.excitationcoil.wearable"));
+            tooltip.add(translateFormat("tooltip.nomilabs.excitationcoil.night_vision", TooltipHelper.RAINBOW_SLOW));
         } else
-            tooltip.add(TooltipHelper.BLINKING_ORANGE + I18n.format("tooltip.nomilabs.general.press_shift_for_usages"));
+            tooltip.add(translateFormat("tooltip.nomilabs.general.press_shift_for_usages", TooltipHelper.BLINKING_ORANGE));
     }
 }

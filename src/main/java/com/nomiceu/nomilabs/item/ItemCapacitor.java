@@ -6,7 +6,6 @@ import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
 import crazypants.enderio.api.capacitor.ICapacitorData;
 import crazypants.enderio.api.capacitor.ICapacitorKey;
 import crazypants.enderio.base.lang.Lang;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -23,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+
 public class ItemCapacitor extends Item {
     public final LabsCapacitorData data;
     public ItemCapacitor(ResourceLocation rl, CreativeTabs tab, LabsCapacitorData data) {
@@ -36,7 +37,7 @@ public class ItemCapacitor extends Item {
     @Optional.Method(modid = LabsValues.ENDER_IO_MODID)
     public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(I18n.format("tooltip.nomilabs.capacitors.description")); // Not using default here. This one adds `EnderIO`, making it clearer
+        tooltip.add(translate("tooltip.nomilabs.capacitors.description")); // Not using default here. This one adds `EnderIO`, making it clearer
         // Add default info
         if (SpecialTooltipHandler.showAdvancedTooltips())
             SpecialTooltipHandler.addDetailedTooltipFromResources(tooltip, Lang.MACHINE_UPGRADE.getKey());
@@ -98,7 +99,7 @@ public class ItemCapacitor extends Item {
         @NotNull
         @Override
         public String getLocalizedName() {
-            return I18n.format(LabsValues.LABS_MODID + "." + name);
+            return translate(LabsValues.LABS_MODID + "." + name);
         }
     }
 }

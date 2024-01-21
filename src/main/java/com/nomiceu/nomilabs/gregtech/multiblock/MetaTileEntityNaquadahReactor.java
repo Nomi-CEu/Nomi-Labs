@@ -27,7 +27,6 @@ import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.common.blocks.BlockGlassCasing;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -47,6 +46,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockController {
     public final int numSpatial;
@@ -137,8 +138,8 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
     }
 
     public void addSharedInfo(@NotNull List<String> tooltip) {
-        tooltip.add(TextFormatting.WHITE + I18n.format("tooltip.nomilabs.naquadah_reactor.produces", AMP, GTValues.VNF[voltageTier] + TextFormatting.RESET));
-        tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("tooltip.nomilabs.naquadah_reactor.overclock"));
+        tooltip.add(translate("tooltip.nomilabs.naquadah_reactor.produces", AMP, GTValues.VNF[voltageTier] + TextFormatting.RESET));
+        tooltip.add(translateFormat("tooltip.nomilabs.naquadah_reactor.overclock", TooltipHelper.RAINBOW_SLOW));
     }
 
     @Override
@@ -195,7 +196,7 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
         @Override
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, World player, @NotNull List<String> tooltip, boolean advanced) {
-            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.naquadah_reactor_1.description") + TextFormatting.RESET);
+            tooltip.add(translate("tooltip.nomilabs.naquadah_reactor_1.description"));
             addSharedInfo(tooltip);
 
             super.addInformation(stack, player, tooltip, advanced);
@@ -236,7 +237,7 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
         public void addInformation(ItemStack stack, World player, @NotNull List<String> tooltip, boolean advanced) {
             super.addInformation(stack, player, tooltip, advanced);
 
-            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.naquadah_reactor_2.description") + TextFormatting.RESET);
+            tooltip.add(translate("tooltip.nomilabs.naquadah_reactor_2.description"));
             addSharedInfo(tooltip);
         }
     }

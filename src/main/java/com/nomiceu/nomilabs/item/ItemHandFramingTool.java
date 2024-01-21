@@ -15,7 +15,6 @@ import eutros.framedcompactdrawers.block.tile.TileSlaveCustom;
 import eutros.framedcompactdrawers.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +35,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
+
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 @Optional.Interface(iface = "com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable", modid = LabsValues.STORAGE_DRAWERS_MODID)
 public class ItemHandFramingTool extends Item implements IFrameable {
@@ -58,7 +59,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         NBTTagCompound tagCompound = stack.getTagCompound();
 
         if (tagCompound == null || getItemStackFromKey(tagCompound, MAT_SIDE_TAG).isEmpty()){
-            tooltip.add(I18n.format("tooltip.nomilabs.hand_framing_tool.not_set"));
+            tooltip.add(translate("tooltip.nomilabs.hand_framing_tool.not_set"));
             return;
         }
 
@@ -72,7 +73,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
 
     @SideOnly(Side.CLIENT)
     private void addTooltipItem(@NotNull List<String> tooltip, String translationKey, ItemStack stack) {
-        tooltip.add(I18n.format(translationKey, stack.isEmpty() ? "-" : stack.getDisplayName()));
+        tooltip.add(translate(translationKey, stack.isEmpty() ? "-" : stack.getDisplayName()));
     }
 
     @Override
@@ -286,12 +287,11 @@ public class ItemHandFramingTool extends Item implements IFrameable {
 
     public void addDescription() {
         JEIPlugin.addDescription(new ItemStack(this),
-                "item.nomilabs.hand_framing_tool.desc1",
-                "item.nomilabs.hand_framing_tool.desc2",
-                "item.nomilabs.hand_framing_tool.desc3",
-                "item.nomilabs.hand_framing_tool.desc4",
-                "item.nomilabs.hand_framing_tool.desc5",
-                "item.nomilabs.hand_framing_tool.desc6",
-                "item.nomilabs.hand_framing_tool.desc7");
+                translate("item.nomilabs.hand_framing_tool.desc1"),
+                translate("item.nomilabs.hand_framing_tool.desc2"),
+                translate("item.nomilabs.hand_framing_tool.desc3"),
+                translate("item.nomilabs.hand_framing_tool.desc4"),
+                translate("item.nomilabs.hand_framing_tool.desc5"),
+                translate("item.nomilabs.hand_framing_tool.desc6"));
     }
 }

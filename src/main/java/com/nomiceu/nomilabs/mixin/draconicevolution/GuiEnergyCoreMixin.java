@@ -6,7 +6,6 @@ import com.nomiceu.nomilabs.integration.draconicevolution.GuiEnergyCoreLogic;
 import com.nomiceu.nomilabs.integration.draconicevolution.ImprovedTileEnergyCore;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,6 +13,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 // TODO maybe one day improve the GUI, so you can destruct button at any time, and it isn't as crowded with buttons disappearing
 // Perhaps inspire by GT's?
@@ -54,7 +55,7 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
     public void initGui(CallbackInfo ci) {
         destructCore = GuiEnergyCoreLogic.addDestructButtonToList(this, buttonList);
         // Change default display string of assemble core
-        assembleCore.displayString = I18n.format("button.de.assembleCore.instant.txt");
+        assembleCore.displayString = translate("button.de.assembleCore.instant.txt");
     }
 
     @Inject(method = "drawGuiContainerBackgroundLayer(FII)V", at = @At("HEAD"), cancellable = true, remap = true)
@@ -81,22 +82,22 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
 
         assembleCore.enabled = !improvedTile.hasActiveDestructor();
         if (DraconicHelpers.instantBuilder())
-            assembleCore.displayString = I18n.format("button.de.assembleCore.instant.txt");
+            assembleCore.displayString = translate("button.de.assembleCore.instant.txt");
         else {
             if (improvedTile.hasActiveBuilder())
-                assembleCore.displayString = I18n.format("button.de.assembleCore.stop.txt");
+                assembleCore.displayString = translate("button.de.assembleCore.stop.txt");
             else
-                assembleCore.displayString = I18n.format("button.de.assembleCore.start.txt");
+                assembleCore.displayString = translate("button.de.assembleCore.start.txt");
         }
 
         destructCore.enabled = !improvedTile.hasActiveBuilder();
         if (DraconicHelpers.instantDestructor())
-            destructCore.displayString = I18n.format("button.de.destructCore.instant.txt");
+            destructCore.displayString = translate("button.de.destructCore.instant.txt");
         else {
             if (improvedTile.hasActiveDestructor())
-                destructCore.displayString = I18n.format("button.de.destructCore.stop.txt");
+                destructCore.displayString = translate("button.de.destructCore.stop.txt");
             else
-                destructCore.displayString = I18n.format("button.de.destructCore.start.txt");
+                destructCore.displayString = translate("button.de.destructCore.start.txt");
         }
     }
 

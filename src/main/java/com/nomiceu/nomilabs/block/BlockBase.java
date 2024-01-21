@@ -1,8 +1,6 @@
 package com.nomiceu.nomilabs.block;
 
-import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
-import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -18,13 +16,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BlockBase extends Block implements TOPInfoProvider {
-    private List<LabsTooltipHelper.Tooltip> description;
+    private String[] description;
     public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound) {
         super(material);
-        initialize(rl, tab, sound, ImmutableList.of());
+        initialize(rl, tab, sound);
     }
 
     /**
@@ -35,12 +34,12 @@ public class BlockBase extends Block implements TOPInfoProvider {
      * @param sound Sound
      * @param description Description. Map of translation keys to formatting keys. Is of string to string so we can use GTFormatCodes
      */
-    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, List<LabsTooltipHelper.Tooltip> description) {
+    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, String... description) {
         super(material);
         initialize(rl, tab, sound, description);
     }
 
-    private void initialize(ResourceLocation rl, CreativeTabs tab, SoundType sound, List<LabsTooltipHelper.Tooltip> description) {
+    private void initialize(ResourceLocation rl, CreativeTabs tab, SoundType sound, String... description) {
         this.setRegistryName(rl);
         this.setHardness(2.0F);
         this.setResistance(10.0F);
@@ -49,24 +48,15 @@ public class BlockBase extends Block implements TOPInfoProvider {
         this.description = description;
     }
 
-    /**
-     * I18n formatting is done here instead of in constructor as I18n is client only
-     */
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
-        for (var text : description)
-            tooltip.add(text.getFormattedString());
+        tooltip.addAll(Arrays.asList(description));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public List<String> getTOPMessage(IBlockState state) {
-        List<String> tooltip = new ArrayList<>();
-        for (var text : description) {
-            var string = text.getTOPFormattedString();
-            if (string != null) tooltip.add(string);
-        }
-        return tooltip;
+        return new ArrayList<>(Arrays.asList(description));
     }
 }

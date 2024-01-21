@@ -22,13 +22,11 @@ import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 import gregtech.core.sound.GTSoundEvents;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,6 +38,8 @@ import team.chisel.common.carving.Carving;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultiblockController {
 
@@ -152,7 +152,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
             super.addInformation(stack, world, tooltip, advanced);
-            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.microverse_projector_1.description") + TextFormatting.RESET);
+            tooltip.add(translate("tooltip.nomilabs.microverse_projector_1.description"));
         }
     }
 
@@ -213,7 +213,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         @Override
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
-            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.microverse_projector_2.description"));
+            tooltip.add(translate("tooltip.nomilabs.microverse_projector_2.description"));
             super.addInformation(stack, world, tooltip, advanced);
         }
     }
@@ -282,7 +282,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         @SideOnly(Side.CLIENT)
         public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
             super.addInformation(stack, world, tooltip, advanced);
-            tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.nomilabs.microverse_projector_3.description"));
+            tooltip.add(translate("tooltip.nomilabs.microverse_projector_3.description"));
         }
     }
 }

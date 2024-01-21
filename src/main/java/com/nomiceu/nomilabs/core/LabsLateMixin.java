@@ -19,7 +19,8 @@ public class LabsLateMixin implements ILateMixinLoader {
             LabsValues.DRACONIC_MODID, LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration,
             LabsValues.NUCLEARCRAFT_MODID, LabsConfig.modIntegration.enableNuclearCraftIntegration,
             LabsValues.XU2_MODID, LabsConfig.modIntegration.enableExtraUtils2Integration,
-            LabsValues.GREGTECH_MODID, true
+            LabsValues.GREGTECH_MODID, true,
+            LabsValues.JEI_MODID, true
     );
 
     @Override

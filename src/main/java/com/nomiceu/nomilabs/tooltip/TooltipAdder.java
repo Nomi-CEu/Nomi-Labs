@@ -5,9 +5,7 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
 import crazypants.enderio.base.capacitor.CapacitorKey;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,6 +15,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
+
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 @SideOnly(Side.CLIENT)
 public class TooltipAdder {
@@ -38,7 +38,7 @@ public class TooltipAdder {
             formatter.setRoundingMode(RoundingMode.HALF_UP); // Rounds up if in the middle (.5), else rounds to nearest
 
             // No clue what to use as the capacitor key, using NO_POWER, common declarations, in EnderIO and Nomi-Labs, don't use that parameter anyway
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format("tooltip.nomilabs.capacitors.level", formatter.format(level)));
+            tooltip.add(translate("tooltip.nomilabs.capacitors.level", formatter.format(level)));
         }
     }
 }

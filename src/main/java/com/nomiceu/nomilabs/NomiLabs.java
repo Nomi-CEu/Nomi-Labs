@@ -3,9 +3,9 @@ package com.nomiceu.nomilabs;
 import com.nomiceu.nomilabs.event.ClientProxy;
 import com.nomiceu.nomilabs.event.CommonProxy;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.util.LabsSide;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.*;
@@ -32,7 +32,7 @@ public class NomiLabs {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        if (LabsSide.isClient())
             ClientProxy.preInit();
         CommonProxy.preInit();
     }

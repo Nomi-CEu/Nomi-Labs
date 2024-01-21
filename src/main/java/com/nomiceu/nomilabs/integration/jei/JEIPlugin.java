@@ -1,7 +1,7 @@
 package com.nomiceu.nomilabs.integration.jei;
 
-import com.cleanroommc.groovyscript.compat.mods.jei.ShapedRecipeWrapper;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
+import com.nomiceu.nomilabs.util.ItemTagMeta;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ingredients.VanillaTypes;
@@ -16,19 +16,32 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class JEIPlugin implements IModPlugin {
     private static final Map<ItemStack, String[]> DESCRIPTIONS = new HashMap<>();
+    private static final Map<ItemTagMeta, String[]> RECIPE_OUTPUT_TOOLTIPS = new HashMap<>();
+
+    private static IModRegistry registry;
+
     @Override
     public void register(IModRegistry registry) {
+        JEIPlugin.registry = registry;
         var jeiHelpers = registry.getJeiHelpers();
 
         // JEI does not recognise Custom Recipe Classes on its own
-        // Uses the shaped recipe wrapper from GroovyScript
-        registry.handleRecipes(PartialRecipe.class, recipe -> new ShapedRecipeWrapper(jeiHelpers, recipe), VanillaRecipeCategoryUid.CRAFTING);
+        registry.handleRecipes(PartialRecipe.class, recipe -> new PartialRecipeWrapper(jeiHelpers, recipe), VanillaRecipeCategoryUid.CRAFTING);
 
         // Add Descriptions
-        DESCRIPTIONS.forEach(((itemStack, strings) -> registry.addIngredientInfo(itemStack, VanillaTypes.ITEM, strings)));
+        DESCRIPTIONS.forEach(((itemStack, strings) ->
+                registry.addIngredientInfo(itemStack, VanillaTypes.ITEM, String.join("\n\n", strings))));
     }
 
     public static void addDescription(@NotNull ItemStack stack, String... description) {
         DESCRIPTIONS.put(stack, description);
+    }
+
+    public static void addRecipeOutputTooltip(@NotNull ItemStack stack, String... tooltip) {
+        RECIPE_OUTPUT_TOOLTIPS.put(new ItemTagMeta(stack), tooltip);
+    }
+
+    public static Map<ItemTagMeta, String[]> getRecipeOutputTooltips() {
+        return RECIPE_OUTPUT_TOOLTIPS;
     }
 }

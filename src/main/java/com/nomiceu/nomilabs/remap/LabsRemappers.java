@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import static com.nomiceu.nomilabs.LabsValues.*;
-import static com.nomiceu.nomilabs.remap.LabsMessageHelper.sendTranslatableMessage;
+import static com.nomiceu.nomilabs.remap.LabsMessageHelper.sendMessage;
 import static com.nomiceu.nomilabs.remap.Remapper.RemapTypes;
 
 public class LabsRemappers {
@@ -199,7 +199,7 @@ public class LabsRemappers {
 
         // Check with user
         if (!checked && !DataFixerHandler.checked) {
-            sendTranslatableMessage(
+            sendMessage(
                     LabsMessageHelper.MessageType.CONFIRM,
                     LabsMessageHelper.Components.getIntro()
             );

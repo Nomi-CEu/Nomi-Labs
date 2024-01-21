@@ -29,6 +29,3 @@ replaceRecipeInput("electric_motor_hv", [
         [metaitem('plateWroughtIron'), ore('toolWrench'), metaitem('plateWroughtIron')],
         [metaitem('plateWroughtIron'), metaitem('plateWroughtIron'), metaitem('plateWroughtIron')]
 ])
-
-// Reload recycling recipes (so it works in GS Reload, and in the postInit phase)
-reloadRecyclingRecipes()

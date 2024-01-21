@@ -5,7 +5,6 @@ import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +13,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.block.state.BlockFaceShape;
@@ -24,6 +22,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 @SuppressWarnings({"PointlessArithmeticExpression", "deprecation"})
 public class BlockExcitationCoil extends BlockDirectional implements TOPInfoProvider {
@@ -150,6 +150,6 @@ public class BlockExcitationCoil extends BlockDirectional implements TOPInfoProv
     @Override
     @SideOnly(Side.CLIENT)
     public List<String> getTOPMessage(IBlockState state) {
-        return ImmutableList.of(TextFormatting.GRAY + I18n.format("tooltip.nomilabs.excitationcoil.description_block"));
+        return ImmutableList.of(translate("tooltip.nomilabs.general.crafting_component"));
     }
 }

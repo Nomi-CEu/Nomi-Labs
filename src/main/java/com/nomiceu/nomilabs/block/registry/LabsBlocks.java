@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.block.registry;
 
-import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.block.*;
 import com.nomiceu.nomilabs.item.ItemBlockBase;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
@@ -13,7 +12,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.IRarity;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +23,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
-import static com.nomiceu.nomilabs.tooltip.LabsTooltipHelper.Tooltip;
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 @SuppressWarnings("unused")
 public class LabsBlocks {
@@ -60,10 +58,10 @@ public class LabsBlocks {
 
         /* Ultimate Blocks */
         ULTIMATE_POWER_STORAGE = createBlock(new BlockBase(makeLabsName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
-                        ImmutableList.of(Tooltip.of("tooltip.nomilabs.ultimate_items.description").withFormat(TextFormatting.GRAY))),
+                        translate("tooltip.nomilabs.general.crafting_component")),
                 EnumRarity.EPIC, 1);
         ULTIMATE_GENERATOR = createBlock(new BlockBase(makeLabsName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON, SoundType.METAL,
-                        ImmutableList.of(Tooltip.of("tooltip.nomilabs.ultimate_items.description").withFormat(TextFormatting.GRAY))),
+                        translate("tooltip.nomilabs.general.crafting_component")),
                 EnumRarity.EPIC, 1);
 
         /* Misc Blocks */
