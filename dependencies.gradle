@@ -30,7 +30,7 @@ dependencies {
 
     // GT and GCYM, pretty much the 'core' of this coremod (from Modrinth)
     // GT Has Mixins! CHECK MIXINS FOR COMPAT AFTER UPDATING!
-    implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:Kff6K1WR") // Version 2.8.5
+    implementation rfg.deobf("maven.modrinth:gregtech-ce-unofficial:VpJ9gePM") // Version 2.8.5
     implementation rfg.deobf("maven.modrinth:gregicality-multiblocks:4BnBEiBw") // Version 1.2.7
 
     // Pack Mode (from CurseForge)
