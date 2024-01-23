@@ -72,7 +72,7 @@ public class DataFixerHandler {
         fmlFixer.registerVanillaWalker(FixTypes.CHUNK, new ChunkWalker());
 
         // Fixers
-        ModFixs fixs = fmlFixer.init(LabsValues.LABS_MODID, LabsFixes.FIX_VERSION);
+        ModFixs fixs = fmlFixer.init(LabsValues.LABS_MODID, LabsFixes.CURRENT);
         fixs.registerFix(LabsFixTypes.FixerTypes.ITEM, new ItemFixer());
         fixs.registerFix(LabsFixTypes.FixerTypes.CHUNK, new BlockFixer());
         fixs.registerFix(LabsFixTypes.FixerTypes.TILE_ENTITY, new TileEntityFixer());
@@ -89,15 +89,15 @@ public class DataFixerHandler {
             DataFixerHandler.worldSavedData = LabsWorldFixData.load(mapFile);
 
             // Shortcut: If saved version == Current Version, Exit
-            if (DataFixerHandler.worldSavedData.savedVersion == LabsFixes.FIX_VERSION) {
+            if (DataFixerHandler.worldSavedData.savedVersion == LabsFixes.CURRENT) {
                 DataFixerHandler.worldSavedData = null;
                 NomiLabs.LOGGER.info("This world's data version is up to date.");
                 return;
             }
-            NomiLabs.LOGGER.info("This world's data version needs updating. New Version: {}.", LabsFixes.FIX_VERSION);
+            NomiLabs.LOGGER.info("This world's data version needs updating. New Version: {}.", LabsFixes.CURRENT);
         } else {
             DataFixerHandler.worldSavedData = new LabsWorldFixData();
-            NomiLabs.LOGGER.info("This world was saved without a data version. New Version: {}.", LabsFixes.FIX_VERSION);
+            NomiLabs.LOGGER.info("This world was saved without a data version. New Version: {}.", LabsFixes.CURRENT);
         }
 
         LabsFixes.init();

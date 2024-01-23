@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class BlockFixer implements IFixableData {
     @Override
     public int getFixVersion() {
-        return LabsFixes.FIX_VERSION;
+        return LabsFixes.CURRENT;
     }
 
     @Override

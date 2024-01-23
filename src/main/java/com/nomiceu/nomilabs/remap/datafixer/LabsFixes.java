@@ -46,7 +46,7 @@ public class LabsFixes {
      * The current data format version. Increment this when breaking changes are made and the
      * data mixer must be applied. If this is not incremented, nothing will be applied.
      */
-    public static final int FIX_VERSION = 2;
+    public static final int CURRENT = 2;
 
     /**
      * Version before Material Registry Rework.
@@ -56,17 +56,17 @@ public class LabsFixes {
      * <p>
      * Meta Items are mapped below.
      */
-    public static final int PRE_MATERIAL_REWORK_VERSION = 1;
+    public static final int PRE_MATERIAL_REWORK = 1;
 
     /**
      * Default version, used if save doesn't have a fix version, or if something goes wrong.
      */
-    public static final int DEFAULT_VERSION = 0;
+    public static final int DEFAULT = 0;
 
     /**
      * Default Nomi-CEu version, used if save doesn't have a fix version, or if something goes wrong, and Nomi-CEu Specific Data Fixes are enabled.
      */
-    public static final int DEFAULT_NOMI_CEU_VERSION = -1;
+    public static final int DEFAULT_NOMI_CEU = -1;
 
     public static List<DataFix.ItemFix> itemFixes;
 
@@ -123,7 +123,7 @@ public class LabsFixes {
                 new DataFix.ItemFix("Dark Red Coal Remap",
                         "Correctly remaps Content Tweaker Dark Red Coal to XU2 Red Coal.",
                         false,
-                        (version) -> version <= DEFAULT_VERSION,
+                        (version) -> version <= DEFAULT,
                         (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation(CONTENTTWEAKER_MODID, "dark_red_coal")),
                         (stack) -> stack.setRl(new ResourceLocation(XU2_MODID, "ingredients"))
@@ -135,7 +135,7 @@ public class LabsFixes {
                     new DataFix.ItemFix("XU2 Frequency Removal",
                             "Removes Frequency from XU2 Ingredients.",
                             false,
-                            (version) -> version <= DEFAULT_VERSION,
+                            (version) -> version <= DEFAULT,
                             (modList) -> true,
                             (stack) -> stack.rl.equals(new ResourceLocation(XU2_MODID, "ingredients"))
                                     && stack.tag != null && stack.tag.hasKey("Freq"),
@@ -150,7 +150,7 @@ public class LabsFixes {
                 new DataFix.ItemFix("Old Multiblock Metadata Remap",
                         "Remaps old Multiblock Metadata to the new format.",
                         true,
-                        (version) -> version <= DEFAULT_NOMI_CEU_VERSION,
+                        (version) -> version <= DEFAULT_NOMI_CEU,
                         (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation(GREGTECH_MODID,"machine")) && multiblockMetaRemap.containsKey(stack.meta),
                         (stack) -> stack.setMeta(multiblockMetaRemap.get(stack.meta)))
@@ -160,7 +160,7 @@ public class LabsFixes {
                 new DataFix.ItemFix("Material Meta Item Remap",
                         "Remaps old Meta Items, from Custom Materials, to the new format and registry.",
                         false,
-                        (version) -> version <= PRE_MATERIAL_REWORK_VERSION,
+                        (version) -> version <= PRE_MATERIAL_REWORK,
                         (modList) -> true,
                         (stack) -> stack.rl.getNamespace().equals(GREGTECH_MODID) &&
                                 LabsRemapHelper.META_ITEM_MATCHER.matcher(stack.rl.getPath()).matches() &&
@@ -174,7 +174,7 @@ public class LabsFixes {
                 new DataFix.ItemFix("Material Special Meta Item Remap",
                         "Remaps old special placeable Meta Items, from Custom Materials, to the new format and registry.",
                         false,
-                        (version) -> version <= PRE_MATERIAL_REWORK_VERSION,
+                        (version) -> version <= PRE_MATERIAL_REWORK,
                         (modList) -> true,
                         (stack) -> specialMetaItemsRemap.contains(stack.rl) &&
                                 stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
@@ -222,7 +222,7 @@ public class LabsFixes {
                 new DataFix.BlockFix("Material Special Meta Block Remap",
                         "Remaps old special placeable Meta Blocks, from Custom Materials, to the new format and registry.",
                         false,
-                        (version) -> version <= PRE_MATERIAL_REWORK_VERSION,
+                        (version) -> version <= PRE_MATERIAL_REWORK,
                         (modList) -> true,
                         true,
                         (state) -> specialMetaItemsRemap.contains(state.rl),
@@ -289,7 +289,7 @@ public class LabsFixes {
                 new DataFix.TileEntityFix("Old Multiblock Tile Entity Meta ID Remap",
                         "Remaps old Multiblock Tile Entity Names to the new format.",
                         false,
-                        (version) -> version <= DEFAULT_NOMI_CEU_VERSION,
+                        (version) -> version <= DEFAULT_NOMI_CEU,
                         (modList) -> true,
                         (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) &&
                                 compound.getString("id").equals(new ResourceLocation(LabsValues.GREGTECH_MODID, "machine").toString()) &&

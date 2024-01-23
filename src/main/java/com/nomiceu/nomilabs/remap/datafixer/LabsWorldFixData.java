@@ -25,8 +25,8 @@ public class LabsWorldFixData extends WorldSavedData {
 
     public LabsWorldFixData() {
         super(LabsFixes.DATA_NAME);
-        if (LabsConfig.advanced.enableNomiCEuDataFixes) savedVersion = LabsFixes.DEFAULT_NOMI_CEU_VERSION;
-        else savedVersion = LabsFixes.DEFAULT_VERSION;
+        if (LabsConfig.advanced.enableNomiCEuDataFixes) savedVersion = LabsFixes.DEFAULT_NOMI_CEU;
+        else savedVersion = LabsFixes.DEFAULT;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class LabsWorldFixData extends WorldSavedData {
 
     @Override
     public @NotNull NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setInteger(VERSION_KEY, LabsFixes.FIX_VERSION); // Save the current fix version, not the saved version
+        compound.setInteger(VERSION_KEY, LabsFixes.CURRENT); // Save the current fix version, not the saved version
         return compound;
     }
 
