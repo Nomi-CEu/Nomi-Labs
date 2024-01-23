@@ -31,7 +31,7 @@ public class LabsElements {
                 .ingot().liquid()
                 .element(ADc)
                 .color(0xf58742).iconSet(METALLIC)
-                .flags(NO_SMELTING, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR)
+                .flags(NO_SMELTING, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_FRAME, GENERATE_RING)
                 .build();
 
         Omnium = new Material.Builder(4, makeLabsName("omnium"))
