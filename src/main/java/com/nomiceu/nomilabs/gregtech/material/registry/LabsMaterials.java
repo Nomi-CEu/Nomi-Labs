@@ -51,10 +51,10 @@ public class LabsMaterials {
     public static Material Oxydianiline; // ID: 55; HM only
     public static Material AntimonyPentafluoride; // ID: 56; HM only
     public static Material LeadMetasilicate; // ID: 66; HM only
-    public static Material Butanol; // ID: 112
-    public static Material PhosphorusTrichloride; // ID: 113
-    public static Material PhosphorylChloride; // ID: 114
-    public static Material TributylPhosphate; // ID: 115
+    public static Material Butanol; // ID: 112; HM only
+    public static Material PhosphorusTrichloride; // ID: 113; HM only
+    public static Material PhosphorylChloride; // ID: 114; HM only
+    public static Material TributylPhosphate; // ID: 115; HM only
 
     /**
      * Naquadah Line Materials
@@ -71,21 +71,21 @@ public class LabsMaterials {
     /**
      * Taranium Line Materials
      */
-    public static Material HexafluorosilicicAcid; // ID: 94
-    public static Material DirtyHexafluorosilicicAcid; // ID: 95
+    public static Material HexafluorosilicicAcid; // ID: 94; HM only
+    public static Material DirtyHexafluorosilicicAcid; // ID: 95; HM only
     public static Material StoneResidue; // ID: 96; HM only
     public static Material UncommonResidue; // ID: 97; HM only
     public static Material OxidisedResidue; // ID: 98; HM only
     public static Material RefinedResidue; // ID: 99; HM only
     public static Material CleanInertResidue; // ID: 100; HM only
-    public static Material UltraacidicResidue; // ID: 101
-    public static Material XenicAcid; // ID: 102
-    public static Material DustyHelium; // ID: 103
-    public static Material TaraniumEnrichedHelium; // ID: 104
-    public static Material TaraniumDepletedHelium; // ID: 105
-    public static Material TritiumHydride; // ID: 106
-    public static Material HeliumHydride; // ID: 107
-    public static Material DioxygenDifluoride; // ID: 108
+    public static Material UltraacidicResidue; // ID: 101; HM only
+    public static Material XenicAcid; // ID: 102; HM only
+    public static Material DustyHelium; // ID: 103; HM only
+    public static Material TaraniumEnrichedHelium; // ID: 104; HM only
+    public static Material TaraniumDepletedHelium; // ID: 105; HM only
+    public static Material TritiumHydride; // ID: 106; HM only
+    public static Material HeliumHydride; // ID: 107; HM only
+    public static Material DioxygenDifluoride; // ID: 108; HM only
 
     /**
      * Platinum Line Materials
@@ -93,7 +93,7 @@ public class LabsMaterials {
     public static Material PlatinumMetallic; // ID: 67; HM only
     public static Material PalladiumMetallic; // ID: 68; HM only
     public static Material AmmoniumHexachloroplatinate; // ID: 69; HM only
-    public static Material ChloroplatinicAcid; // ID: 70
+    public static Material ChloroplatinicAcid; // ID: 70; HM only
     public static Material PotassiumBisulfate; // ID: 71; HM only
     public static Material PotassiumPyrosulfate; // ID: 72; HM only
     public static Material PotassiumSulfate; // ID: 73; HM only
@@ -105,17 +105,17 @@ public class LabsMaterials {
     public static Material IridiumDioxideResidue; // ID: 79; HM only
     public static Material AmmoniumHexachloroiridiate; // ID: 80; HM only
     public static Material PlatinumGroupResidue; // ID: 81; HM only
-    public static Material PalladiumRichAmmonia; // ID: 82
+    public static Material PalladiumRichAmmonia; // ID: 82; HM only
     public static Material CrudePlatinumResidue; // ID: 83; HM only
     public static Material CrudePalladiumResidue; // ID: 84; HM only
     public static Material IridiumGroupSludge; // ID: 85; HM only
-    public static Material RhodiumSulfateSolution; // ID: 86
+    public static Material RhodiumSulfateSolution; // ID: 86; HM only
     public static Material CrudeRhodiumResidue; // ID: 87; HM only
     public static Material RhodiumSalt; // ID: 88; HM only
-    public static Material AcidicIridiumDioxideSolution; // ID: 89
-    public static Material PlatinumPalladiumLeachate; // ID: 90
-    public static Material MethylFormate; // ID: 91
-    public static Material FormicAcid; // ID: 92
+    public static Material AcidicIridiumDioxideSolution; // ID: 89; HM only
+    public static Material PlatinumPalladiumLeachate; // ID: 90; HM only
+    public static Material MethylFormate; // ID: 91; HM only
+    public static Material FormicAcid; // ID: 92; HM only
     public static Material SodiumMethoxide; // ID: 93; HM only
 
     /**
@@ -128,7 +128,7 @@ public class LabsMaterials {
     public static Material Fluorite; // ID: 36
     public static Material Snowchestite; // ID: 60; HM only
     public static Material Darmstadtite; // ID: 110
-    public static Material Dulysite; // ID: 111
+    public static Material Dulysite; // ID: 111; HM only
 
     /**
      * Thermal Materials
