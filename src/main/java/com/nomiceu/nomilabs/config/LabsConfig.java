@@ -159,6 +159,12 @@ public class LabsConfig {
         @Config.Name("draconic evolution integration")
         public final DraconicEvolutionIntegration draconicEvolutionIntegration = new DraconicEvolutionIntegration();
 
+        @Config.Comment({"Whether to enable Advanced Rocketry Integration, which fixes Advanced Rocketry registering items for Fluid Blocks.",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.mod_integration.advanced_rocketry")
+        @Config.RequiresMcRestart
+        public boolean enableAdvancedRocketryIntegration = true;
+
         public static class DraconicEvolutionIntegration {
             @Config.Comment({"Whether to enable Draconic Evolution Integration, which adds many features, such as:",
                     "Allowing GregTech Draconium and Awakened Draconium in the reactor and energy core.",
@@ -223,6 +229,12 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.enable_nomi_ceu_data_fixes")
         @Config.RequiresWorldRestart
         public boolean enableNomiCEuDataFixes = false;
+
+        @Config.Comment({"List of Resource Locations to be Default Fluids.",
+                "If multiple fluids with the same name match a resource location, the last one will be picked.",
+                "[default: ]"})
+        @Config.LangKey("config.nomilabs.advanced.default_fluids")
+        public String[] defaultFluids = new String[0];
 
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
                 "Do not change unless you know what you are doing!",

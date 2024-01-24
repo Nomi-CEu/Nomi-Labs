@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -82,7 +83,7 @@ public class ReplaceRecipe {
     }
 
     public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
-        registerRecycling(output, ImmutableList.of(ingredients));
+        registerRecycling(output, Collections.singletonList(ingredients));
     }
 
     private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput) {

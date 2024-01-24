@@ -23,6 +23,8 @@ import org.apache.logging.log4j.Logger;
                 + "required-after:packmode;"
                 + "required-after:jei@[4.15.0,);"
                 + "required-after:theoneprobe;"
+                + "after:advancedrocketry;"
+                + "after:libvulpes;"
                 + "after:crafttweaker@[4.1.20,);"
                 + "after:appliedenergistics2;")
 @SuppressWarnings("unused")

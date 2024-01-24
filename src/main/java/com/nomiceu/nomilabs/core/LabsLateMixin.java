@@ -1,27 +1,33 @@
 package com.nomiceu.nomilabs.core;
 
-import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import net.minecraftforge.fml.common.Loader;
 import zone.rong.mixinbooter.ILateMixinLoader;
 
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.nomiceu.nomilabs.NomiLabs.LOGGER;
 
 @SuppressWarnings("unused")
 public class LabsLateMixin implements ILateMixinLoader {
-    public static final Map<String, Boolean> modMixinsConfig = ImmutableMap.of(
-            LabsValues.DRACONIC_MODID, LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration,
-            LabsValues.NUCLEARCRAFT_MODID, LabsConfig.modIntegration.enableNuclearCraftIntegration,
-            LabsValues.XU2_MODID, LabsConfig.modIntegration.enableExtraUtils2Integration,
-            LabsValues.GREGTECH_MODID, true,
-            LabsValues.JEI_MODID, true
-    );
+    public static final Map<String, Boolean> modMixinsConfig = Stream.of(
+                    new AbstractMap.SimpleImmutableEntry<>(LabsValues.DRACONIC_MODID,
+                            LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration),
+                    new AbstractMap.SimpleImmutableEntry<>(LabsValues.NUCLEARCRAFT_MODID,
+                            LabsConfig.modIntegration.enableNuclearCraftIntegration),
+                    new AbstractMap.SimpleImmutableEntry<>(LabsValues.XU2_MODID,
+                            LabsConfig.modIntegration.enableExtraUtils2Integration),
+                    new AbstractMap.SimpleImmutableEntry<>(LabsValues.GREGTECH_MODID, true),
+                    new AbstractMap.SimpleImmutableEntry<>(LabsValues.JEI_MODID, true),
+                    new AbstractMap.SimpleImmutableEntry<>(LabsValues.ROCKETRY_MODID,
+                            LabsConfig.modIntegration.enableAdvancedRocketryIntegration))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     @Override
     public List<String> getMixinConfigs() {

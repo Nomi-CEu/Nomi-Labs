@@ -11,6 +11,8 @@ public class FluidBase extends Fluid {
     public FluidBase(String name, int color, int viscosity, int luminosity) {
         super(name, stillLocation, flowingLocation, color);
 
+
+
         this.viscosity = viscosity;
         this.luminosity = luminosity;
     }
