@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.gregtech.material;
 
 import gregtech.api.unification.material.info.MaterialIconSet;
 import gregtech.api.unification.material.properties.FluidProperty;
+import gregtech.api.unification.material.properties.GemProperty;
 import gregtech.api.unification.material.properties.IngotProperty;
 import gregtech.api.unification.material.properties.PropertyKey;
 
@@ -27,6 +28,10 @@ public class LabsProperties {
         Californium.setProperty(PropertyKey.FLUID, new FluidProperty());
         Einsteinium.setProperty(PropertyKey.FLUID, new FluidProperty());
         NetherStar.setProperty(PropertyKey.FLUID, new FluidProperty());
+
+        // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
+        // We don't have Thaumcraft. Add it back. (Part 2)
+        Cinnabar.setProperty(PropertyKey.GEM, new GemProperty());
     }
 
     public static void flagChanges() {
@@ -54,6 +59,10 @@ public class LabsProperties {
         Berkelium.addFlags(GENERATE_FRAME);
         BlueSteel.addFlags(GENERATE_FRAME);
         Ultimet.addFlags(GENERATE_FRAME);
+
+        // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
+        // We don't have Thaumcraft. Add it back. (Part 2)
+        Cinnabar.addFlags(CRYSTALLIZABLE);
 
         // Prevent TE Gears from showing up
         Tin.addFlags(GENERATE_GEAR);
