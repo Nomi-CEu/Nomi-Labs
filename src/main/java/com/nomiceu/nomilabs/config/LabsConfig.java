@@ -234,6 +234,7 @@ public class LabsConfig {
                 "If multiple fluids with the same name match a resource location, the last one will be picked.",
                 "[default: ]"})
         @Config.LangKey("config.nomilabs.advanced.default_fluids")
+        @Config.RequiresWorldRestart
         public String[] defaultFluids = new String[0];
 
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
