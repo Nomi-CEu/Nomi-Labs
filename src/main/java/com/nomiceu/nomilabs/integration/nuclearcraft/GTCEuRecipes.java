@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -127,14 +128,13 @@ public class GTCEuRecipes {
                 }
             }
             else {
-                List<String> ingredientOreList = new ArrayList<>(); // Hold the different oreDict names
+                Set<String> ingredientOreList = new HashSet<>(); // Hold the different oreDict names
                 List<RecipeBuilder<?>> newBuilders = new ArrayList<>();
                 for (ItemStack inputVariant : input.getInputStackList()) {
                     if(inputVariant.isEmpty()) continue;
                     Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
 
                     if (!variantOreList.isEmpty()) { // This variant has oreDict entries
-                        //noinspection SlowListContainsAll
                         if (ingredientOreList.containsAll(variantOreList)) {
                             continue;
                         }
@@ -155,8 +155,7 @@ public class GTCEuRecipes {
         }
 
         if (recipeMap == RecipeMaps.FLUID_SOLIDFICATION_RECIPES) {
-            //noinspection rawtypes
-            MetaItem.MetaValueItem mold = getIngotFormerMold(recipe);
+            MetaItem<?>.MetaValueItem mold = getIngotFormerMold(recipe);
             for (RecipeBuilder<?> builderVariant : builders) {
                 builderVariant.notConsumable(mold);
             }
@@ -170,12 +169,11 @@ public class GTCEuRecipes {
         }
 
         for (IItemIngredient output : recipe.itemProducts()) {
-            if (output instanceof ChanceItemIngredient) {
+            if (output instanceof ChanceItemIngredient chancedItem) {
                 List<ItemStack> outputStackList = output.getOutputStackList();
                 if (outputStackList.isEmpty()) continue;
                 for (RecipeBuilder<?> builderVariant : builders) {
-                    //noinspection UnusedAssignment TODO remove this comment when GTCEu implements chanced fluid outputs
-                    builderVariant = builderVariant.chancedOutput(outputStackList.get(0), (int)(((ChanceItemIngredient) output).meanStackSize * 10000.0D), 0);
+                    builderVariant.chancedOutput(outputStackList.get(0), (int) (chancedItem.meanStackSize * 10000.0D), 0);
                 }
             } else {
                 List<ItemStack> outputStackList = output.getOutputStackList();
@@ -187,13 +185,11 @@ public class GTCEuRecipes {
         }
 
         for (IFluidIngredient output : recipe.fluidProducts()) {
-            //noinspection StatementWithEmptyBody TODO remove this comment when GTCEu implements chanced fluid outputs
-            if (output instanceof ChanceFluidIngredient) {
-                /* TODO: Eventually when GTCEu implements chanced fluid outputs
+            if (output instanceof ChanceFluidIngredient chancedFluid) {
                 List<FluidStack> outputStackList = output.getOutputStackList();
                 for (RecipeBuilder<?> builderVariant : builders) {
-                    builderVariant.chancedFluidOutputs(outputStackList.get(0), (int)(((ChanceFluidIngredient) output).meanStackSize * 10000.0D), 0);
-                }*/
+                    builderVariant.chancedFluidOutput(outputStackList.get(0), (int) (chancedFluid.meanStackSize * 10000.0D), 0);
+                }
             } else {
                 List<FluidStack> outputStackList = output.getOutputStackList();
                 if (outputStackList.isEmpty()) continue;
@@ -220,7 +216,9 @@ public class GTCEuRecipes {
     /* Added Util Methods from https://github.com/Exaxxion/NuclearCraft/blob/2.18y-ceu/src/main/java/nc/integration/gtce/GTCERecipeHelper.java */
 
     private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, ProcessorRecipe recipe, int processPower, int processTime) {
-        return builder.EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 1)).duration((int) recipe.getBaseProcessTime(20D*processTime));
+        return builder
+                .EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 1))
+                .duration((int) recipe.getBaseProcessTime(20D * processTime));
     }
     private static boolean isPlateRecipe(ProcessorRecipe recipe) {
         ItemStack output = recipe.itemProducts().get(0).getStack();
