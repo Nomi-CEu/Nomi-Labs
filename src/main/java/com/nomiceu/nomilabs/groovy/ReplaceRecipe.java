@@ -49,14 +49,14 @@ public class ReplaceRecipe {
         }
     }
 
-    static void replaceRecipeShaped(ResourceLocation name, ItemStack output, List<List<IIngredient>> inputs) {
+    public static void replaceRecipeShaped(ResourceLocation name, ItemStack output, List<List<IIngredient>> inputs) {
         validate(name, output, true);
         crafting.remove(name);
         crafting.addShaped(LabsNames.makeLabsName(name.getPath()), output, inputs);
         registerRecycling(output, inputs);
     }
 
-    static void replaceRecipeOutput(ResourceLocation name, ItemStack newOutput) {
+    public static void replaceRecipeOutput(ResourceLocation name, ItemStack newOutput) {
         IShapedRecipe originalRecipe = validate(name, newOutput, true);
         var originalCount = originalRecipe.getRecipeOutput().getCount();
         var newCount = newOutput.getCount();
@@ -73,12 +73,16 @@ public class ReplaceRecipe {
         LabsVirtualizedRegistries.REPLACE_RECIPE_MANAGER.registerOre(newOutput, new ItemMaterialInfo(newMaterials));
     }
 
-    static void replaceRecipeInput(ResourceLocation name, List<List<IIngredient>> newInputs) {
+    public static void replaceRecipeInput(ResourceLocation name, List<List<IIngredient>> newInputs) {
         IRecipe originalRecipe = validate(name, ItemStack.EMPTY, false);
         var originalOutput = originalRecipe.getRecipeOutput();
         crafting.remove(name);
         crafting.addShaped(LabsNames.makeLabsName(name.getPath()), originalOutput, newInputs);
         registerRecycling(originalOutput, newInputs);
+    }
+
+    public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
+        registerRecycling(output, ImmutableList.of(ingredients));
     }
 
     private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput) {
