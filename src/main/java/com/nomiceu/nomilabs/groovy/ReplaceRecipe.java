@@ -5,6 +5,7 @@ import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.ingredient.OreDictIngredient;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.ImmutableList;
+import com.nomiceu.nomilabs.mixin.gregtech.RecipeMapAccessor;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.recipes.RecipeMap;
@@ -44,6 +45,10 @@ public class ReplaceRecipe {
     }
 
     private static void removeRecipesInCategory(RecipeMap<?> recipeMap, GTRecipeCategory category) {
+        if (recipeMap instanceof RecipeMapAccessor accessor) {
+            accessor.removeAllRecipesInCategory(category);
+            return;
+        }
         if (!recipeMap.getRecipesByCategory().containsKey(category)) return;
         var recipes = new ArrayList<>(recipeMap.getRecipesByCategory().get(category));
         if (recipes.isEmpty()) return;

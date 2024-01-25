@@ -6,7 +6,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "FluidStorageKeyMixin",
-    "MetaItemsMixin"
+    "MetaItemsMixin",
+    "RecipeMapMixin"
   ],
   "client": [],
   "server": []
