@@ -58,6 +58,9 @@ jobs:
       - name: Build Project
         run: ./gradlew build
 
+      - name: Generate Changelog
+        run: ./gradlew generateChangelog
+
       - name: Publish to GitHub
         uses: softprops/action-gh-release@v1
         with:
