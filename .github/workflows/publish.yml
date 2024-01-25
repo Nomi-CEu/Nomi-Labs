@@ -1,0 +1,90 @@
+# Publishes the project to GitHub Releases and CurseForge
+name: Publish Nomi Labs
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to Release.
+        required: true
+        type: string
+      release_type:
+        description: The Release Type.
+        required: true
+        type: choice
+        default: 'release'
+        options:
+          - 'release'
+          - 'beta'
+          - 'alpha'
+      deploy_to_gh:
+        description: Whether to deploy to GitHub Releases.
+        required: true
+        type: boolean
+        default: true
+      deploy_to_cf:
+        description: Whether to deploy to CurseForge.
+        required: true
+        type: boolean
+        default: true
+
+env:
+  RELEASE_TYPE: ${{ inputs.release_type }}
+
+jobs:
+  publishGithub:
+    name: Publish to GitHub Releases (${{ inputs.tag }})
+    runs-on: ubuntu-latest
+    if: ${{ inputs.deploy_to_gh }}
+
+    steps:
+      - name: Get Token
+        id: token
+        uses: peter-murray/workflow-application-token-action@v2.1.0
+        with:
+          application_id: ${{ secrets.APP_ID }}
+          application_private_key: ${{ secrets.APP_KEY }}
+          organization: Nomi-CEu
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+
+      - name: Setup Build
+        uses: ./.github/actions/build_setup
+
+      - name: Build Project
+        run: ./gradlew build
+
+      - name: Publish to GitHub
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "build/libs/*.jar"
+          body_path: "build/changelog.md"
+          token: ${{ steps.token.outputs.token }}
+          prerelease: ${{ inputs.release_type != 'release' }}
+          fail_on_unmatched_files: true
+
+  publishCurseForge:
+    name: Publish to CurseForge (${{ inputs.tag }})
+    runs-on: ubuntu-latest
+    if: ${{ inputs.deploy_to_cf }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+
+      - name: Setup Build
+        uses: ./.github/actions/build_setup
+
+      - name: Publish to CurseForge
+        env:
+          CURSEFORGE_API_KEY: "${{ secrets.CURSEFORGE_API_KEY }}"
+          CURSEFORGE_PROJECT_ID: "${{ secrets.CURSEFORGE_PROJECT_ID }}"
+          RELEASE_TYPE: "${{ env.RELEASE_TYPE }}"
+        run: ./gradlew curseforge
