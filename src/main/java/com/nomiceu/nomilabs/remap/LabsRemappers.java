@@ -109,6 +109,7 @@ public class LabsRemappers {
                 NomiLabs.LOGGER.throwing(e);
             }
         }
+        NomiLabs.LOGGER.info("[Remappers]: Parsed Ignore Config: {}, for Type: {}", ignored, type);
         return ignored;
     }
 

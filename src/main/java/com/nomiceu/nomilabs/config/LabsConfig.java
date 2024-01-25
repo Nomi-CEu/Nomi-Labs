@@ -230,12 +230,10 @@ public class LabsConfig {
         @Config.RequiresWorldRestart
         public boolean enableNomiCEuDataFixes = false;
 
-        @Config.Comment({"List of Resource Locations to be Default Fluids.",
-                "If multiple fluids with the same name match a resource location, the last one will be picked.",
-                "[default: ]"})
-        @Config.LangKey("config.nomilabs.advanced.default_fluids")
-        @Config.RequiresWorldRestart
-        public String[] defaultFluids = new String[0];
+        @Config.Comment("Fluid Registry Settings")
+        @Config.LangKey("config.nomilabs.advanced.fluid_registry")
+        @Config.Name("fluid registry")
+        public final FluidRegistry fluidRegistrySettings = new FluidRegistry();
 
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
                 "Do not change unless you know what you are doing!",
@@ -280,5 +278,23 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.ignore_biomes")
         @Config.RequiresMcRestart
         public String[] ignoreBiomes = new String[0];
+
+        public static class FluidRegistry {
+            @Config.Comment({"List of Regex Patterns to be Default Fluids.",
+                    "Fluids are picked based on a Hierarchy System.",
+                    "For Example: If the config is set to ['gregtech:.*', 'advancedrocketry:.*'], and the candidates for Oxygen are 'gregtech:oxygen' and 'advancedrocketry:oxygen', the GregTech one will be picked.",
+                    "This is only applied to conflicting fluids.",
+                    "This can be very inefficient with lots of patterns and lots of conflicting fluids. Try to condense it into one pattern where possible!",
+                    "[default: ]"})
+            @Config.LangKey("config.nomilabs.advanced.fluid_registry.default_fluids")
+            @Config.RequiresMcRestart
+            public String[] defaultFluids = new String[0];
+
+            @Config.Comment({"Whether to Log Conflicting Fluids, for use in setting default fluids correctly.",
+                    "[default: false]"})
+            @Config.LangKey("config.nomilabs.advanced.fluid_registry.log_conflicting_fluids")
+            @Config.RequiresMcRestart
+            public boolean logConflictingFluids = false;
+        }
     }
 }

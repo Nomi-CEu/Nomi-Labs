@@ -2,7 +2,7 @@ package com.nomiceu.nomilabs.mixin;
 
 import com.google.common.collect.BiMap;
 import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,31 +36,29 @@ public class FluidRegistryMixin {
                     shift = At.Shift.AFTER),
             require = 1)
     private static void loadSpecifiedFluidDefaults(BiMap<Fluid, Integer> localFluidIDs, Set<String> defaultNames, CallbackInfo ci) {
-        if (LabsConfig.advanced.defaultFluids.length == 0) return;
+        var defaultFluids = FluidRegistryMixinHelper.getDefaultFluids();
+        if (defaultFluids == null) return;
         int changed = 0;
-        for (var fluidName : LabsConfig.advanced.defaultFluids) {
-            NomiLabs.LOGGER.debug("Processing Input {}", fluidName);
+        for (var entry : defaultFluids.entrySet()) {
+            NomiLabs.LOGGER.debug("Processing Conflict {}", entry.getKey());
 
-            var fluid = masterFluidReference.get(fluidName);
-            if (fluid == null)
-                throw new IllegalArgumentException("Nomi Labs: Config Entry " + fluidName + "in Default Fluids Config doesn't exist!");
-            var oldFluid = fluids.get(fluid.getName());
-            if (oldFluid == null) continue;
+            var fluid = masterFluidReference.get(entry.getValue());
+            var oldFluid = fluids.get(entry.getKey());
 
             var oldName = masterFluidReference.inverse().get(oldFluid);
-            if (oldName.equals(fluidName)) {
-                NomiLabs.LOGGER.debug("Default fluid of {} is already {}. Not Changing...", fluid.getName(), fluidName);
+            if (oldName.equals(entry.getValue())) {
+                NomiLabs.LOGGER.debug("Default fluid of {} is already {}. Not Changing...", entry.getKey(), entry.getValue());
                 continue;
             }
 
-            NomiLabs.LOGGER.debug("Changing default fluid of {}, from {} to {}.", fluid.getName(), oldName, fluidName);
+            NomiLabs.LOGGER.debug("Changing default fluid of {}, from {} to {}.", entry.getKey(), oldName, entry.getValue());
             changed++;
 
-            fluids.forcePut(fluid.getName(), fluid);
-            defaultFluidName.forcePut(fluid.getName(), fluidName);
+            fluids.forcePut(entry.getKey(), fluid);
+            defaultFluidName.forcePut(entry.getKey(), entry.getValue());
             Integer id = localFluidIDs.remove(oldFluid);
             localFluidIDs.forcePut(fluid, id);
-            fluidNames.forcePut(id, fluid.getName());
+            fluidNames.forcePut(id, entry.getKey());
         }
         if (changed == 0) {
             NomiLabs.LOGGER.info("No Fluids Changed.");
@@ -69,4 +67,5 @@ public class FluidRegistryMixin {
         NomiLabs.LOGGER.info("Changed {} Default Fluid(s)!", changed);
         fluidIDs = localFluidIDs;
     }
+
 }

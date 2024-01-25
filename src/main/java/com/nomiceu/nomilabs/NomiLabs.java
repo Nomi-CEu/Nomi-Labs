@@ -40,6 +40,11 @@ public class NomiLabs {
     }
 
     @EventHandler
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        CommonProxy.loadComplete();
+    }
+
+    @EventHandler
     public void serverStopped(FMLServerStoppedEvent event) {
         DataFixerHandler.close();
     }
