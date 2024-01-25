@@ -53,5 +53,5 @@ createRecipe(metaitem('battery_buffer.uhv.8'), [
         [null, metaitem('battery_buffer.uv.8'), null],
         [null, null, null]])
 
-// Add / Change recycling to a stack, including fluids, although fluids are not included in recycling calculations
-changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv'), fluid('soldering_alloy') * 1152])
+// Add / Change recycling to a stack
+changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv')])

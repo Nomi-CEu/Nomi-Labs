@@ -12,7 +12,6 @@ import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.RecyclingHandler;
 import gregtech.api.recipes.category.GTRecipeCategory;
 import gregtech.api.recipes.category.RecipeCategories;
-import gregtech.api.recipes.ingredients.GTRecipeFluidInput;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
 import gregtech.api.recipes.ingredients.GTRecipeItemInput;
 import gregtech.api.recipes.ingredients.GTRecipeOreInput;
@@ -24,12 +23,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -109,13 +108,7 @@ public class ReplaceRecipe {
 
 
     public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
-        List<GTRecipeInput> gtInputs = new ArrayList<>();
-        for (var input : ingredients) {
-            var gtInput = ofGroovyIngredientIncludingFluids(input);
-            if (gtInput != null)
-                gtInputs.add(gtInput);
-        }
-        LabsVirtualizedRegistries.REPLACE_RECIPE_MANAGER.registerOre(output, RecyclingHandler.getRecyclingIngredients(gtInputs, output.getCount()));
+        registerRecycling(output, Collections.singletonList(ingredients));
     }
 
     private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput) {
@@ -182,17 +175,6 @@ public class ReplaceRecipe {
         }
         if ((Object) ingredient instanceof ItemStack stack) {
             return new GTRecipeItemInput(stack);
-        }
-        return null;
-    }
-
-    // TODO Remove? GTRecipeFluidInputs are not included in recycling calculations
-    @Nullable
-    private static GTRecipeInput ofGroovyIngredientIncludingFluids(IIngredient ingredient) {
-        var gtInput = ofGroovyIngredient(ingredient);
-        if (gtInput != null) return gtInput;
-        if ((Object) ingredient instanceof FluidStack stack) {
-            return new GTRecipeFluidInput(stack);
         }
         return null;
     }
