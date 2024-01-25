@@ -64,6 +64,7 @@ jobs:
           files: "build/libs/*.jar"
           body_path: "build/changelog.md"
           token: ${{ steps.token.outputs.token }}
+          tag_name: ${{ inputs.tag }}
           prerelease: ${{ inputs.release_type != 'release' }}
           fail_on_unmatched_files: true
 
