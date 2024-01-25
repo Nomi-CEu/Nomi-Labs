@@ -7,24 +7,35 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.RecipeRecyclingHelpers.*
 // output item, ignoring count, including meta, is the same as the old output item, ignoring count, including meta
 // Also don't work recursively, each item that depends on these needs to be changed too
 
-// Change a recipe's output & input
+// Change a recipe's output & input, replacing by name
 replaceRecipeShaped("casing_assembly_control", item('gregtech:multiblock_casing', 3) * 1, [
         [ore('circuitLuv'), metaitem('plate.high_power_integrated_circuit'), ore('circuitLuv')],
         [metaitem('sensor.iv'), metaitem('frameIridium'), metaitem('emitter.iv')],
         [ore('circuitLuv'), metaitem('electric.motor.iv'), ore('circuitLuv')]
 ])
 
-// Just change a recipe's output
+// Change a recipe's output & input, replacing by output
+replaceRecipeShaped(item('gregtech:multiblock_casing', 4) * 2, item('gregtech:multiblock_casing', 4) * 1, [
+        [ore('circuitLuv'), metaitem('plate.high_power_integrated_circuit'), ore('circuitLuv')],
+        [metaitem('sensor.iv'), metaitem('frameIridium'), metaitem('emitter.iv')],
+        [ore('circuitLuv'), metaitem('electric.motor.iv'), ore('circuitLuv')]
+])
+
+// Just change a recipe's output, replacing by name
 replaceRecipeOutput("assembly_line", metaitem('assembly_line') * 4)
 
-// Just change a recipe's input
+// Just change a recipe's output, replacing by output
+replaceRecipeOutput(metaitem('circuit_assembler.uv'), metaitem('circuit_assembler.uv') * 4)
+
+// Just change a recipe's input, replacing by name
 replaceRecipeInput("casing_lv", [
         [metaitem('plateWroughtIron'), metaitem('plateWroughtIron'), metaitem('plateWroughtIron')],
         [metaitem('plateWroughtIron'), ore('toolWrench'), metaitem('plateWroughtIron')],
         [metaitem('plateWroughtIron'), metaitem('plateWroughtIron'), metaitem('plateWroughtIron')]
 ])
 
-replaceRecipeInput("electric_motor_hv", [
+// Just change a recipe's input, replacing by output
+replaceRecipeInput(metaitem('electric.motor.hv'), [
         [metaitem('plateWroughtIron'), metaitem('plateWroughtIron'), metaitem('plateWroughtIron')],
         [metaitem('plateWroughtIron'), ore('toolWrench'), metaitem('plateWroughtIron')],
         [metaitem('plateWroughtIron'), metaitem('plateWroughtIron'), metaitem('plateWroughtIron')]
@@ -42,5 +53,5 @@ createRecipe(metaitem('battery_buffer.uhv.8'), [
         [null, metaitem('battery_buffer.uv.8'), null],
         [null, null, null]])
 
-// Add / Change recycling to a stack
-changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv')])
+// Add / Change recycling to a stack, including fluids, although fluids are not included in recycling calculations
+changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv'), fluid('soldering_alloy') * 1152])

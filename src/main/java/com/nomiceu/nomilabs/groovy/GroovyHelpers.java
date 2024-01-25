@@ -91,18 +91,12 @@ public class GroovyHelpers {
             return new FluidStack(fluid, 1);
         }
     }
-    public static class RecipeRecyclingHelpers {
-        public static void replaceRecipeShaped(ResourceLocation name, ItemStack output, List<List<IIngredient>> inputs) {
-            ReplaceRecipe.replaceRecipeShaped(name, output, inputs);
-        }
+    public static class RecipeRecyclingHelpers extends ReplaceRecipe {
         public static void replaceRecipeShaped(String name, ItemStack output, List<List<IIngredient>> inputs) {
             if (name.contains(":"))
                 replaceRecipeShaped(new ResourceLocation(name), output, inputs);
             else
                 replaceRecipeShaped(GTUtility.gregtechId(name), output, inputs);
-        }
-        public static void replaceRecipeOutput(ResourceLocation name, ItemStack output) {
-            ReplaceRecipe.replaceRecipeOutput(name, output);
         }
         public static void replaceRecipeOutput(String name, ItemStack output) {
             if (name.contains(":"))
@@ -110,23 +104,11 @@ public class GroovyHelpers {
             else
                 replaceRecipeOutput(GTUtility.gregtechId(name), output);
         }
-        public static void replaceRecipeInput(ResourceLocation name, List<List<IIngredient>> inputs) {
-            ReplaceRecipe.replaceRecipeInput(name, inputs);
-        }
         public static void replaceRecipeInput(String name, List<List<IIngredient>> inputs) {
             if (name.contains(":"))
                 replaceRecipeInput(new ResourceLocation(name), inputs);
             else
                 replaceRecipeInput(GTUtility.gregtechId(name), inputs);
-        }
-        public static void createRecipe(String name, ItemStack output, List<List<IIngredient>> inputs) {
-            ReplaceRecipe.createRecipe(name, output, inputs);
-        }
-        public static void createRecipe(ItemStack output, List<List<IIngredient>> inputs) {
-            ReplaceRecipe.createRecipe(output, inputs);
-        }
-        public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
-            ReplaceRecipe.changeStackRecycling(output, ingredients);
         }
     }
 }
