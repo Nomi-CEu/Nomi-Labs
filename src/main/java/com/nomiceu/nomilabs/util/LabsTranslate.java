@@ -1,9 +1,9 @@
 package com.nomiceu.nomilabs.util;
 
 import gregtech.client.utils.TooltipHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 @SuppressWarnings("unused")
@@ -14,13 +14,9 @@ public class LabsTranslate {
 
     public static String translateWithBackup(String key, String backup, Object... params) {
         if (LabsSide.isDedicatedServer()) return backup; // I18n is not available on Dedicated Servers
-        // Try Translating Indirectly
         try {
-            return (String) Class.forName("net.minecraft.client.resources.I18n")
-                    .getMethod("format", String.class, Object[].class)
-                    .invoke(null, key, params);
-        } catch (ClassNotFoundException | NoSuchMethodException
-                 | InvocationTargetException | IllegalAccessException | ClassCastException e) {
+            return I18n.format(key, params);
+        } catch (Exception e) {
             return backup;
         }
     }
