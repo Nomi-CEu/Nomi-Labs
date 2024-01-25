@@ -60,6 +60,8 @@ jobs:
 
       - name: Generate Changelog
         run: ./gradlew generateChangelog
+        env:
+          GITHUB_TAG: ${{ inputs.tag }}
 
       - name: Publish to GitHub
         uses: softprops/action-gh-release@v1
@@ -90,4 +92,5 @@ jobs:
         env:
           CURSEFORGE_API_KEY: "${{ secrets.CURSEFORGE_API_KEY }}"
           RELEASE_TYPE: "${{ env.RELEASE_TYPE }}"
+          GITHUB_TAG: ${{ inputs.tag }}
         run: ./gradlew curseforge
