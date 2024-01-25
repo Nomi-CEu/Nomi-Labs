@@ -24,6 +24,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +54,7 @@ public class ReplaceRecipe {
     public static void replaceRecipeShaped(ResourceLocation name, ItemStack output, List<List<IIngredient>> inputs) {
         validate(name, output, true);
         crafting.remove(name);
-        crafting.addShaped(LabsNames.makeLabsName(name.getPath()), output, inputs);
+        crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), output, inputs);
         registerRecycling(output, inputs);
     }
 
@@ -63,7 +64,7 @@ public class ReplaceRecipe {
         var newCount = newOutput.getCount();
 
         crafting.remove(name);
-        ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, LabsNames.makeLabsName(name.getPath()), new PartialRecipe(originalRecipe, newOutput.copy()));
+        ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, LabsNames.makeGroovyName(name.getPath()), new PartialRecipe(originalRecipe, newOutput.copy()));
 
         ImmutableList<MaterialStack> originalMaterials = Objects.requireNonNull(OreDictUnifier.getMaterialInfo(newOutput)).getMaterials();
         List<MaterialStack> newMaterials = new ArrayList<>();
@@ -78,9 +79,20 @@ public class ReplaceRecipe {
         IRecipe originalRecipe = validate(name, ItemStack.EMPTY, false);
         var originalOutput = originalRecipe.getRecipeOutput();
         crafting.remove(name);
-        crafting.addShaped(LabsNames.makeLabsName(name.getPath()), originalOutput, newInputs);
+        crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), originalOutput, newInputs);
         registerRecycling(originalOutput, newInputs);
     }
+
+    public static void createRecipe(String name, ItemStack output, List<List<IIngredient>> input) {
+        crafting.addShaped(LabsNames.makeGroovyName(name), output, input);
+        registerRecycling(output, input);
+    }
+
+    public static void createRecipe(ItemStack output, List<List<IIngredient>> input) {
+        crafting.addShaped(output, input);
+        registerRecycling(output, input);
+    }
+
 
     public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
         registerRecycling(output, Collections.singletonList(ingredients));
@@ -111,7 +123,9 @@ public class ReplaceRecipe {
         List<GTRecipeInput> gtInputs = new ArrayList<>();
         for (var inputList : inputs) {
             for (var input : inputList) {
-                gtInputs.add(ofGroovyIngredient(input));
+                var gtInput = ofGroovyIngredient(input);
+                if (gtInput != null)
+                    gtInputs.add(gtInput);
             }
         }
         LabsVirtualizedRegistries.REPLACE_RECIPE_MANAGER.registerOre(output, RecyclingHandler.getRecyclingIngredients(gtInputs, output.getCount()));
@@ -130,6 +144,7 @@ public class ReplaceRecipe {
     }
 
     @SuppressWarnings("ConstantValue")
+    @Nullable
     private static GTRecipeInput ofGroovyIngredient(IIngredient ingredient) {
         if (ingredient instanceof OreDictIngredient oreDictIngredient) {
             return new GTRecipeOreInput(oreDictIngredient.getOreDict(), ingredient.getAmount());
@@ -137,6 +152,6 @@ public class ReplaceRecipe {
         if ((Object) ingredient instanceof ItemStack stack) {
             return new GTRecipeItemInput(stack);
         }
-        throw new IllegalArgumentException("Could not add groovy ingredient " + ingredient + " to recipe!");
+        return null;
     }
 }

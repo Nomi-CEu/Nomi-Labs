@@ -119,6 +119,12 @@ public class GroovyHelpers {
             else
                 replaceRecipeInput(GTUtility.gregtechId(name), inputs);
         }
+        public static void createRecipe(String name, ItemStack output, List<List<IIngredient>> inputs) {
+            ReplaceRecipe.createRecipe(name, output, inputs);
+        }
+        public static void createRecipe(ItemStack output, List<List<IIngredient>> inputs) {
+            ReplaceRecipe.createRecipe(output, inputs);
+        }
         public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
             ReplaceRecipe.changeStackRecycling(output, ingredients);
         }

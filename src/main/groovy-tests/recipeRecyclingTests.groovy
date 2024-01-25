@@ -29,3 +29,18 @@ replaceRecipeInput("electric_motor_hv", [
         [metaitem('plateWroughtIron'), ore('toolWrench'), metaitem('plateWroughtIron')],
         [metaitem('plateWroughtIron'), metaitem('plateWroughtIron'), metaitem('plateWroughtIron')]
 ])
+
+// Add a recipe with recycling, with a defined name
+createRecipe("uhv_batbuf_4x", metaitem('battery_buffer.uhv.4'), [
+        [null, null, null],
+        [null, metaitem('battery_buffer.uv.4'), null],
+        [null, null, null]])
+
+// Add a recipe with recycling, without a defined name
+createRecipe(metaitem('battery_buffer.uhv.8'), [
+        [null, null, null],
+        [null, metaitem('battery_buffer.uv.8'), null],
+        [null, null, null]])
+
+// Add / Change recycling to a stack
+changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv')])
