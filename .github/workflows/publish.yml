@@ -89,6 +89,5 @@ jobs:
       - name: Publish to CurseForge
         env:
           CURSEFORGE_API_KEY: "${{ secrets.CURSEFORGE_API_KEY }}"
-          CURSEFORGE_PROJECT_ID: "${{ secrets.CURSEFORGE_PROJECT_ID }}"
           RELEASE_TYPE: "${{ env.RELEASE_TYPE }}"
         run: ./gradlew curseforge
