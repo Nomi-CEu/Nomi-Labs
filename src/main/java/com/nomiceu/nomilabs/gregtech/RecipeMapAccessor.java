@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin.gregtech;
+package com.nomiceu.nomilabs.gregtech;
 
 import gregtech.api.recipes.category.GTRecipeCategory;
 

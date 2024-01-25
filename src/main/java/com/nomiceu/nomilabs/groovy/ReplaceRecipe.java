@@ -5,7 +5,7 @@ import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.ingredient.OreDictIngredient;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.ImmutableList;
-import com.nomiceu.nomilabs.mixin.gregtech.RecipeMapAccessor;
+import com.nomiceu.nomilabs.gregtech.RecipeMapAccessor;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.recipes.RecipeMap;

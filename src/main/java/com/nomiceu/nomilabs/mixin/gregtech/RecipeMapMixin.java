@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
+import com.nomiceu.nomilabs.gregtech.RecipeMapAccessor;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.category.GTRecipeCategory;
