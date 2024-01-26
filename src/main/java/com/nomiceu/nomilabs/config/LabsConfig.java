@@ -257,6 +257,14 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public String[] ignoreBlocks = new String[0];
 
+        public DoubleHealthMode doubleHealthMode = DoubleHealthMode.NONE;
+
+        public enum DoubleHealthMode {
+            NONE,
+            NO_SPACE,
+            SPACE
+        }
+
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ENTITY missing registry list.",
                 "Do not change unless you know what you are doing!",
                 "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",

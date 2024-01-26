@@ -14,7 +14,8 @@
     "WorldLoadHandler"
   ],
   "client": [
-    "ClientAdvancementManagerMixin"
+    "ClientAdvancementManagerMixin",
+    "GuiIngameForgeMixin"
   ],
   "server": []
 }
