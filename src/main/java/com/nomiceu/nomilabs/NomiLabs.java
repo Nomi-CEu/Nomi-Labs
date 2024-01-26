@@ -32,8 +32,18 @@ public class NomiLabs {
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void onConstruction(FMLConstructionEvent event) {
+        FluidRegistry.enableUniversalBucket();
         MinecraftForge.EVENT_BUS.register(this);
+        if (LabsSide.isClient()) {
+            MinecraftForge.EVENT_BUS.register(ClientProxy.class);
+            ClientProxy.onConstruction();
+        }
+        MinecraftForge.EVENT_BUS.register(CommonProxy.class);
+    }
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
         if (LabsSide.isClient())
             ClientProxy.preInit();
         CommonProxy.preInit();
@@ -47,9 +57,5 @@ public class NomiLabs {
     @EventHandler
     public void serverStopped(FMLServerStoppedEvent event) {
         DataFixerHandler.close();
-    }
-
-    static {
-        FluidRegistry.enableUniversalBucket();
     }
 }

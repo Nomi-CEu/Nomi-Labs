@@ -2,13 +2,13 @@ package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
-import com.nomiceu.nomilabs.gregtech.LabsSounds;
-import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.LabsSounds;
+import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
@@ -36,13 +36,11 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber(modid = LabsValues.LABS_MODID)
 @SuppressWarnings("unused")
 public class CommonProxy {
     public static void preInit() {
