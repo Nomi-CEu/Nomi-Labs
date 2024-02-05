@@ -1,19 +1,21 @@
 package com.nomiceu.nomilabs.event;
 
+import com.cleanroommc.groovyscript.event.GsHandEvent;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
-import com.nomiceu.nomilabs.gregtech.LabsSounds;
-import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.LabsSounds;
+import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
+import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
@@ -144,5 +146,10 @@ public class CommonProxy {
     @SubscribeEvent
     public static void missingBiomeMappings(MissingMappings<Biome> event) {
         LabsRemappers.remapAndIgnoreEntries(event, Remapper.RemapTypes.BIOME);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void gsHandAdditions(GsHandEvent event) {
+        GroovyScriptHandManager.addToHand(event);
     }
 }

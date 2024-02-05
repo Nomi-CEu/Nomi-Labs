@@ -165,6 +165,11 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableAdvancedRocketryIntegration = true;
 
+        @Config.Comment({"Whether to enable GroovyScript Hand Additions.",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.mod_integration.groovy_hand")
+        public boolean enableGroovyHandAdditions = true;
+
         public static class DraconicEvolutionIntegration {
             @Config.Comment({"Whether to enable Draconic Evolution Integration, which adds many features, such as:",
                     "Allowing GregTech Draconium and Awakened Draconium in the reactor and energy core.",

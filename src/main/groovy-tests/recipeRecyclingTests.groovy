@@ -55,3 +55,6 @@ createRecipe(metaitem('battery_buffer.uhv.8'), [
 
 // Add / Change recycling to a stack
 changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv')])
+
+// Remove recycling to a stack
+removeStackRecycling(metaitem('item_collector.hv'))

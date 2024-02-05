@@ -5,8 +5,13 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AccessibleDecompositionRecipeHandler",
+    "AccessibleMaterialInfo",
     "FluidStorageKeyMixin",
-    "MetaItemsMixin"
+    "MaterialMixin",
+    "MaterialStackMixin",
+    "MetaItemsMixin",
+    "RecipeMapMixin"
   ],
   "client": [],
   "server": []
