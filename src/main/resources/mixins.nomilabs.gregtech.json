@@ -8,10 +8,13 @@
     "AccessibleDecompositionRecipeHandler",
     "AccessibleMaterialInfo",
     "FluidStorageKeyMixin",
+    "GTRecipeWrapperMixin",
+    "MaterialFlagsMixin",
     "MaterialMixin",
     "MaterialStackMixin",
     "MetaItemsMixin",
-    "RecipeMapMixin"
+    "RecipeMapMixin",
+    "VirtualizedRecipeMapMixin"
   ],
   "client": [],
   "server": []

@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
 
+/**
+ * Allows getting the Ore Prefixes used in Generating Meta Items for Materials.
+ */
 @Mixin(value = MetaItems.class, remap = false)
 public interface MetaItemsMixin {
     @Accessor(value = "orePrefixes")

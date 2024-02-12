@@ -1,7 +1,5 @@
 package com.nomiceu.nomilabs.groovy;
 
-import com.cleanroommc.groovyscript.GroovyScript;
-import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import com.cleanroommc.groovyscript.compat.mods.jei.JeiPlugin;
@@ -9,10 +7,11 @@ import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.util.LabsTranslate;
+import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
-import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
+import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.GTUtility;
 import gregtech.client.utils.TooltipHelper;
@@ -23,11 +22,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * The interface for groovy to interact with.
@@ -162,140 +158,39 @@ public class GroovyHelpers {
             ReplaceRecipe.changeStackRecycling(output, Collections.emptyList());
         }
     }
-    public static class ReplaceDecompositionHelpers {
-        public static void replaceDecomposition(Material material, List<IIngredient> components) {
-            ReplaceDecomposition.replaceDecomposition(material, getMatFromIIngredient(components));
+    public static class ChangeCompositionHelpers {
+        public static CompositionBuilder changeComposition(Material material) {
+            return new CompositionBuilder(material);
         }
 
-        public static void replaceDecomposition(MaterialStack material, List<IIngredient> components) {
-            ReplaceDecomposition.replaceDecomposition(material.material, getMatFromIIngredient(components));
+        public static CompositionBuilder replaceDeomposition(MaterialStack material) {
+            return new CompositionBuilder(material.material);
         }
 
-        public static void replaceDecomposition(ItemStack stack, List<IIngredient> components) {
-            MaterialStack mat = getMatFromStack(stack);
-            if (mat == null) return;
+        public static CompositionBuilder changeComposition(ItemStack stack) {
+            MaterialStack mat = CompositionBuilder.getMatFromStack(stack);
+            if (mat == null) return new CompositionBuilder(
+                    GregTechAPI.materialManager.getRegistry(GTValues.MODID).getFallbackMaterial());
 
-            ReplaceDecomposition.replaceDecomposition(mat.material, getMatFromIIngredient(components));
+            return new CompositionBuilder(mat.material);
         }
 
-        public static void replaceDecomposition(FluidStack stack, List<IIngredient> components) {
-            Material mat = getMaterialFromFluid(stack);
-            if (mat == null) return;
+        public static CompositionBuilder changeComposition(FluidStack fluid) {
+            MaterialStack mat = CompositionBuilder.getMatFromFluid(fluid);
+            if (mat == null) return new CompositionBuilder(
+                    GregTechAPI.materialManager.getRegistry(GTValues.MODID).getFallbackMaterial());
 
-            ReplaceDecomposition.replaceDecomposition(mat, getMatFromIIngredient(components));
-        }
-
-        public static void removeDecomposition(Material material) {
-            ReplaceDecomposition.replaceDecomposition(material, Collections.emptyList());
-        }
-
-        public static void removeDecomposition(MaterialStack material) {
-            ReplaceDecomposition.replaceDecomposition(material.material, Collections.emptyList());
-        }
-
-        public static void removeDecomposition(ItemStack stack) {
-            MaterialStack mat = getMatFromStack(stack);
-            if (mat == null) return;
-
-            ReplaceDecomposition.replaceDecomposition(mat.material, Collections.emptyList());
-        }
-
-        public static void removeDecomposition(FluidStack stack) {
-            Material mat = getMaterialFromFluid(stack);
-            if (mat == null) return;
-
-            ReplaceDecomposition.replaceDecomposition(mat, Collections.emptyList());
-        }
-
-        /* Helpers */
-        public static List<MaterialStack> getMatFromIIngredient(List<IIngredient> ingredients) {
-            List<MaterialStack> result = new ArrayList<>();
-            for (var ingredient : ingredients) {
-                //noinspection ConstantValue
-                if ((Object) ingredient instanceof ItemStack stack) {
-                    var mat = getMatFromStack(stack);
-                    result.add(mat);
-                    continue;
-                }
-                if ((Object) ingredient instanceof MaterialStack stack) {
-                    result.add(stack);
-                    continue;
-                }
-                if ((Object) ingredient instanceof FluidStack stack) {
-                    result.add(getMatFromFluid(stack));
-                    continue;
-                }
-                IllegalArgumentException e = new IllegalArgumentException("Component Specification must be an Item Stack, a Material Stack, or a Fluid Stack!");
-
-                if (!GroovyScript.getSandbox().isRunning()) throw e;
-
-                GroovyLog.get().exception(e);
-                result.add(null);
-            }
-            if (result.stream().anyMatch(Objects::isNull)) return null;
-            return result;
-        }
-
-        @Nullable
-        private static MaterialStack getMatFromStack(ItemStack stack) {
-            MaterialStack material = OreDictUnifier.getMaterial(stack);
-            if (material == null) {
-                IllegalArgumentException e = new IllegalArgumentException(
-                        String.format("Could not find Material for Stack %s @ %s, with %s.",
-                                stack.getItem().getRegistryName(), stack.getMetadata(),
-                                stack.hasTagCompound() ? "Tag " + stack.getTagCompound() : "No Tag"));
-
-                if (!GroovyScript.getSandbox().isRunning()) throw e;
-
-                GroovyLog.get().exception(e);
-                return null;
-            }
-            return material.copy(stack.getCount());
-        }
-
-        @Nullable
-        private static MaterialStack getMatFromFluid(FluidStack fluid) {
-            // Material Getting needs modid, which we don't have
-            // Recursive through all registries to find it
-            Material mat = getMaterialFromFluid(fluid);
-            if (mat == null) return null;
-
-            if (fluid.amount % 1000 != 0 || fluid.amount < 1000) {
-                IllegalArgumentException e = new IllegalArgumentException("Fluid Amount must be divisible by 1000, and be at least 1000!");
-
-                if (!GroovyScript.getSandbox().isRunning()) throw e;
-
-                GroovyLog.get().exception(e);
-                return null;
-            }
-            return new MaterialStack(mat, fluid.amount / 1000);
-        }
-
-        @Nullable
-        private static Material getMaterialFromFluid(FluidStack fluid) {
-            // Material Getting needs modid, which we don't have
-            // Recursive through all registries to find it
-            var name = fluid.getFluid().getName();
-            Material mat = null;
-            for (var registry : GregTechAPI.materialManager.getRegistries()) {
-                if (!registry.containsKey(name)) continue;
-
-                var foundMat = registry.getObject(name);
-                if (foundMat == null || !foundMat.hasProperty(PropertyKey.FLUID)) continue;
-
-                mat = foundMat;
-                break;
-            }
-            if (mat == null) {
-                IllegalArgumentException e = new IllegalArgumentException(
-                        String.format("Could not find Material for Fluid %s!", fluid.getFluid().getName()));
-
-                if (!GroovyScript.getSandbox().isRunning()) throw e;
-
-                GroovyLog.get().exception(e);
-                return null;
-            }
-            return mat;
+            return new CompositionBuilder(mat.material);
         }
     }
+    public static class GTRecipeHelpers {
+        public static ChancedItemOutput chanced(ItemStack stack, int chance, int chanceBoost) {
+            return new ChancedItemOutput(stack, chance, chanceBoost);
+        }
+
+        public static ChancedFluidOutput chanced(FluidStack fluid, int chance, int chanceBoost) {
+            return new ChancedFluidOutput(fluid, chance, chanceBoost);
+        }
+    }
+
 }

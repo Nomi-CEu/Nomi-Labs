@@ -53,7 +53,7 @@ public class ReplaceRecipe {
         var time = System.currentTimeMillis();
         for (var modified : LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.needReloading.entrySet()) {
             var stack = modified.getKey();
-            NomiLabs.LOGGER.debug("Replacing Recycling Recipes for {} @ {}...", stack.getItem().getRegistryName(), stack.getMetadata());
+            NomiLabs.LOGGER.debug("Removing Recycling Recipes for {} @ {}...", stack.getItem().getRegistryName(), stack.getMetadata());
             removeRecyclingRecipe(RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING, stack, Materials.Oxygen.getFluid());
             removeRecyclingRecipe(RecipeMaps.MACERATOR_RECIPES, RecipeCategories.MACERATOR_RECYCLING, stack, null);
             removeRecyclingRecipe(RecipeMaps.EXTRACTOR_RECIPES, RecipeCategories.EXTRACTOR_RECYCLING, stack, null);
@@ -130,7 +130,6 @@ public class ReplaceRecipe {
         registerRecycling(output, input);
     }
 
-
     public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
         registerRecycling(output, Collections.singletonList(ingredients));
     }
@@ -168,6 +167,10 @@ public class ReplaceRecipe {
     }
 
     private static void registerRecycling(ItemStack output, List<List<IIngredient>> inputs) {
+        if (inputs.isEmpty() || inputs.stream().allMatch(List::isEmpty)) {
+            LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerOre(output, null);
+            return;
+        }
         List<GTRecipeInput> gtInputs = new ArrayList<>();
         for (var inputList : inputs) {
             for (var input : inputList) {

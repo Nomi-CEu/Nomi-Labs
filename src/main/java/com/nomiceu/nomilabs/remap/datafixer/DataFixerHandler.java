@@ -176,6 +176,8 @@ public class DataFixerHandler {
         if (mods.containsKey(LabsValues.LABS_MODID) && mods.get(LabsValues.LABS_MODID).equals(LabsValues.LABS_VERSION))
             return;
 
+        DataFixerHandler.worldSavedData.processModList(mods);
+
         NomiLabs.LOGGER.info("NEEDED DATA FIXES: ----------------------------------------");
         for (var fixType : LabsFixes.fixes.keySet()) {
             NomiLabs.LOGGER.info("SECTION: {} -------------------------------------------", fixType);

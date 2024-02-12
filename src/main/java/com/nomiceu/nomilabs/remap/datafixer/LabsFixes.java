@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
+import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
@@ -14,14 +15,18 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.shorts.Short2ShortLinkedOpenHashMap;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.IFixType;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.Loader;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 import static com.nomiceu.nomilabs.LabsValues.*;
-import static com.nomiceu.nomilabs.util.LabsNames.*;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 
 /**
  * Definitions for all values, and all data fixes.
@@ -43,15 +48,31 @@ public class LabsFixes {
     public static final String DATA_KEY = "LabsFixer";
 
     /**
+     * The Data Fixer Version that occurs when a world has not been loaded with Nomi Labs before, and Nomi-CEu Specific Fixes are not enabled.
+     * <p>
+     * This is not for new worlds; new worlds must never have Data Fixes.
+     * <p>
+     * When comparing against this version, check for equality rather than less than!
+     */
+    public static final int NEW = Integer.MAX_VALUE;
+
+    /**
      * The current data format version. Increment this when breaking changes are made and the
      * data mixer must be applied. If this is not incremented, nothing will be applied.
      */
-    public static final int CURRENT = 2;
+    public static final int CURRENT = 3;
+
+    /**
+     * Version before Capacitor Remapping.
+     * <p>
+     * Versions before this need nbt of custom capacitors removed.
+     */
+    public static final int PRE_CAPACITOR_REMAPPING = 2;
 
     /**
      * Version before Material Registry Rework.
      * <p>
-     * Versions before this need to be remapped. Meta Blocks are remapped based on missing registry event, as they have 'baseID's
+     * Versions before this need to have their material items be remapped. Meta Blocks are remapped based on missing registry event, as they have 'baseID's
      * (thus, any new GT Addons must be checked to make sure they do not have IDs in GregTech's Registry above 32000)
      * <p>
      * Meta Items are mapped below.
@@ -59,7 +80,7 @@ public class LabsFixes {
     public static final int PRE_MATERIAL_REWORK = 1;
 
     /**
-     * Default version, used if save doesn't have a fix version, or if something goes wrong.
+     * Default version, used if save doesn't have a fix version and nomi-labs was loaded in the world before, or if something goes wrong.
      */
     public static final int DEFAULT = 0;
 
@@ -80,6 +101,7 @@ public class LabsFixes {
     public static Map<Short, Short> multiblockMetaRemap;
     public static Set<ResourceLocation> specialMetaItemsRemap;
     public static Set<String> materialNames;
+    public static Map<String, OldCapacitorSpecification> capacitorSpecificationRemap;
 
     public static void init() {
         helperMapsInit();
@@ -135,8 +157,8 @@ public class LabsFixes {
                     new DataFix.ItemFix("XU2 Frequency Removal",
                             "Removes Frequency from XU2 Ingredients.",
                             false,
-                            (version) -> version <= DEFAULT,
-                            (modList) -> true,
+                            (version) -> version <= DEFAULT || version == NEW,
+                            (modList) -> modList.containsKey(XU2_MODID),
                             (stack) -> stack.rl.equals(new ResourceLocation(XU2_MODID, "ingredients"))
                                     && stack.tag != null && stack.tag.hasKey("Freq"),
                             (stack) -> {
@@ -181,6 +203,20 @@ public class LabsFixes {
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
                                 .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
         );
+
+        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID))
+            itemFixes.add(
+                    new DataFix.ItemFix("Custom Capacitor NBT Removal",
+                            "Removes NBT from Custom Capacitors.",
+                            false,
+                            (version) -> version <= PRE_CAPACITOR_REMAPPING,
+                            (modList) -> true,
+                            (stack) -> (stack.rl.getNamespace().equals(LABS_MODID) ||
+                                    stack.rl.getNamespace().equals(CONTENTTWEAKER_MODID)) &&
+                                    capacitorSpecificationRemap.containsKey(stack.rl.getPath()) &&
+                                    capacitorSpecificationRemap.get(stack.rl.getPath()).needChange(stack.tag),
+                            (stack) -> stack.setTag(capacitorSpecificationRemap.get(stack.rl.getPath()).remove(stack.tag)))
+            );
 
         /*
          * Block Fixes.
@@ -373,5 +409,85 @@ public class LabsFixes {
         multiblockMetaIdRemap.put(
                 new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "dml_sim_chamber"), makeLabsName("dme_sim_chamber")
         );
+
+        capacitorSpecificationRemap = ImmutableMap.of(
+                "compressedoctadiccapacitor",
+                new OldCapacitorSpecification(4f, "Compressed Octadic RF Capacitor",
+                        "This is what is known as a Compressed Octadic Capacitor.",
+                        "Or, you could just call this an Octadic Capacitor Two.",
+                        "Can be inserted into EnderIO machines.",
+                        "Level: 4"),
+
+                "doublecompressedoctadiccapacitor",
+                new OldCapacitorSpecification(5f, "Double Compressed Octadic RF Capacitor",
+                        "AND THIS IS TO GO EVEN FURTHER BEYOND!",
+                        "Can be inserted into EnderIO machines.",
+                        "Level: 9.001",
+                        "Just kidding, it's only 5.")
+        );
+    }
+
+    public static class OldCapacitorSpecification {
+        private static final String EIO_KEY = "eiocap";
+        private static final String DISPLAY_KEY = "display";
+        private static final String NAME_KEY = "Name";
+        private static final String LORE_KEY = "Lore";
+        private final float level;
+        private final String name;
+        private final String[] lore;
+
+        private OldCapacitorSpecification(float level, String name, String... lore) {
+            this.level = level;
+            this.name = name;
+            this.lore = lore;
+        }
+
+        public boolean needChange(@Nullable NBTTagCompound compound) {
+            if (compound == null || compound.isEmpty()) return false;
+            return testEIO(compound) || testName(compound) || testLore(compound);
+        }
+
+        @Nullable
+        public NBTTagCompound remove(@Nullable NBTTagCompound compound) {
+            if (compound == null || compound.isEmpty()) return null;
+            if (testEIO(compound)) compound.removeTag(EIO_KEY);
+            removeDisplay(compound);
+            return compound.isEmpty() ? null : compound;
+        }
+
+        private boolean testEIO(NBTTagCompound compound) {
+            if (!compound.hasKey(EIO_KEY, Constants.NBT.TAG_FLOAT)) return false;
+            return compound.getFloat(EIO_KEY) == level;
+        }
+
+        private void removeDisplay(NBTTagCompound compound) {
+            if (!compound.hasKey(DISPLAY_KEY, Constants.NBT.TAG_COMPOUND)) return;
+            var display = compound.getCompoundTag(DISPLAY_KEY);
+            if (testName(compound)) display.removeTag(NAME_KEY);
+            if (testLore(compound)) display.removeTag(LORE_KEY);
+
+            if (display.isEmpty()) compound.removeTag(DISPLAY_KEY);
+            else compound.setTag(DISPLAY_KEY, display);
+        }
+
+        private boolean testName(NBTTagCompound compound) {
+            if (!compound.hasKey(DISPLAY_KEY, Constants.NBT.TAG_COMPOUND)) return false;
+            var display = compound.getCompoundTag(DISPLAY_KEY);
+            if (!display.hasKey(NAME_KEY, Constants.NBT.TAG_STRING)) return false;
+            return display.getString(NAME_KEY).equals(name);
+        }
+
+        private boolean testLore(NBTTagCompound compound) {
+            if (!compound.hasKey(DISPLAY_KEY, Constants.NBT.TAG_COMPOUND)) return false;
+            var display = compound.getCompoundTag(DISPLAY_KEY);
+            if (!display.hasKey(LORE_KEY, Constants.NBT.TAG_LIST)) return false;
+            var lore = display.getTagList(LORE_KEY, Constants.NBT.TAG_STRING);
+            for (int i = 0; i < lore.tagList.size(); i++) {
+                var tagStr = (NBTTagString) lore.tagList.get(i);
+                var str = tagStr.getString();
+                if (!str.equals(this.lore[i])) return false;
+            }
+            return true;
+        }
     }
 }

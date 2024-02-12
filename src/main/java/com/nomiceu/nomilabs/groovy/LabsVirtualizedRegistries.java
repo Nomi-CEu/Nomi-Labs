@@ -2,53 +2,42 @@ package com.nomiceu.nomilabs.groovy;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
-import com.nomiceu.nomilabs.gregtech.AccessibleMaterial;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import gregtech.api.unification.OreDictUnifier;
-import gregtech.api.unification.material.Material;
 import gregtech.api.unification.stack.ItemMaterialInfo;
-import gregtech.api.unification.stack.MaterialStack;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.nomiceu.nomilabs.groovy.CompositionBuilder.CompositionSpecification;
 
 @SuppressWarnings("unused")
 @GroovyBlacklist
 public class LabsVirtualizedRegistries {
     public static final ReplaceRecyclingManager REPLACE_RECYCLING_MANAGER = new ReplaceRecyclingManager();
-    public static final ReplaceDecompositionManager REPLACE_DECOMP_MANAGER = new ReplaceDecompositionManager();
+    public static final ReplaceCompositionManager REPLACE_DECOMP_MANAGER = new ReplaceCompositionManager();
     public static final JEIManager JEI_MANAGER = new JEIManager();
 
-    public static class ReplaceDecompositionManager extends VirtualizedRegistry<Pair<Material, List<MaterialStack>>> {
-        public final Map<Material, List<MaterialStack>> needReloading = new HashMap<>();
+    public static class ReplaceCompositionManager extends VirtualizedRegistry<CompositionSpecification> {
+        public final Deque<CompositionSpecification> needReloading = new ArrayDeque<>();
 
         @Override
         public void onReload() {
-            restoreFromBackup().forEach((pair) -> {
-                needReloading.put(pair.getLeft(), pair.getRight());
-                ((AccessibleMaterial) pair.getKey()).setComponents(pair.getRight());
-            });
+            restoreFromBackup().forEach(ChangeComposition::restore);
         }
 
         @Override
         public void afterScriptLoad() {
-            ReplaceDecomposition.reloadDecompositionRecipes();
+            ChangeComposition.reloadCompositionRecipes();
             needReloading.clear();
         }
 
-        @Override
-        protected boolean compareRecipe(Pair<Material, List<MaterialStack>> a, Pair<Material, List<MaterialStack>> b) {
-            return a.getKey().getRegistryName().equals(b.getKey().getRegistryName());
-        }
-
-        public void changeMaterialDecomp(Material material, List<MaterialStack> components) {
-            addBackup(Pair.of(material, material.getMaterialComponents()));
-            needReloading.put(material, components);
-            ((AccessibleMaterial) material).setComponents(components);
+        public void changeMaterialDecomp(CompositionSpecification spec) {
+            addBackup(spec);
+            // Add Items to the 'back' of the array deque, so that it's a LIFO structure
+            needReloading.addFirst(spec);
         }
     }
 

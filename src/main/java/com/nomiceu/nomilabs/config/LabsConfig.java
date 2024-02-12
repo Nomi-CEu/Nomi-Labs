@@ -11,6 +11,11 @@ public class LabsConfig {
     @Config.Name("content")
     public static Content content = new Content();
 
+    @Config.Comment({"GroovyScript Extensions and Script Helper Settings"})
+    @Config.LangKey("config.nomilabs.groovy")
+    @Config.Name("groovyscript settings")
+    public static GroovyScriptSettings groovyScriptSettings = new GroovyScriptSettings();
+
     @Config.Comment("Mod Integration Settings")
     @Config.LangKey("config.nomilabs.mod_integration")
     @Config.Name("mod integration")
@@ -122,6 +127,32 @@ public class LabsConfig {
         }
     }
 
+    public static class GroovyScriptSettings {
+        @Config.Comment({"Whether to enable GroovyScript Hand Additions.",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.groovy.hand")
+        public boolean enableGroovyHandAdditions = true;
+
+        @Config.Comment({"Mode to Use for GT Recipe Output Searching.",
+                "'LINEAR_SEARCH' browses each recipe sequentially, 'FAST_TREE' navigates a tree structure and stops at the first match, while 'TREE' explores the entire tree structure before concluding.",
+                "Because of the extra generated tree, if no removals occur, TREE and FAST_TREE have a slightly longer launch time. They also have slightly higher memory usage (around 20-50MB in limited testing)",
+                "If a small amount of removals occur, game launching is around the same for all three, but TREE or FAST_TREE has the lowest script reload time.",
+                "With a moderate-high amount of removals, game launching and script reloading is much faster with FAST_TREE or TREE, and FAST_TREE does consistently out perform TREE in time.",
+                "TREE is a safer option if all recipes need to be grabbed, but FAST_TREE has not failed to grab any recipes in the limited testing.",
+                "If some recipes are left over, try using TREE mode.",
+                "Recipe Output Searching is used when replacing ABS recipes and Mixer Recipes in Composition Replacements, and in Recipe Output Searching or Removing.",
+                "[default: FAST_TREE]"})
+        @Config.LangKey("config.nomilabs.groovy.recipe_search_mode")
+        @Config.RequiresMcRestart
+        public GTRecipeSearchMode gtRecipeSearchMode = GTRecipeSearchMode.FAST_TREE;
+
+        public enum GTRecipeSearchMode {
+            LINEAR_SEARCH,
+            FAST_TREE,
+            TREE
+        }
+    }
+
     public static class ModIntegration {
         @Config.Comment({"Whether to enable NuclearCraft Integration, which fixes its crash with GTCEu.",
                 "[default: true]"})
@@ -164,11 +195,6 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.advanced_rocketry")
         @Config.RequiresMcRestart
         public boolean enableAdvancedRocketryIntegration = true;
-
-        @Config.Comment({"Whether to enable GroovyScript Hand Additions.",
-                "[default: true]"})
-        @Config.LangKey("config.nomilabs.mod_integration.groovy_hand")
-        public boolean enableGroovyHandAdditions = true;
 
         public static class DraconicEvolutionIntegration {
             @Config.Comment({"Whether to enable Draconic Evolution Integration, which adds many features, such as:",

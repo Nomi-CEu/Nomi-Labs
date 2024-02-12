@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.Map;
 
+/**
+ * Allows getting all possible FluidStorageKey options.
+ */
 @Mixin(value = FluidStorageKey.class, remap = false)
 public interface FluidStorageKeyMixin {
     @Accessor(value = "keys")
