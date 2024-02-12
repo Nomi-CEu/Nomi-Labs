@@ -8,6 +8,7 @@ import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
 import gregtech.api.GregTechAPI;
+import gregtech.api.unification.material.Material;
 import gregtech.common.pipelike.cable.Insulation;
 import gregtech.common.pipelike.fluidpipe.FluidPipeType;
 import gregtech.common.pipelike.itempipe.ItemPipeType;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.common.Loader;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.nomiceu.nomilabs.LabsValues.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
@@ -361,7 +363,7 @@ public class LabsFixes {
         // Compressed Blocks and Frames follow the special syntax.
 
         // Get all material names to know which tile entities to fix.
-        materialNames = GregTechAPI.materialManager.getRegistry(LABS_MODID).registryObjects.keySet();
+        materialNames = GregTechAPI.materialManager.getRegistry(LABS_MODID).getAllMaterials().stream().map(Material::getName).collect(Collectors.toSet());
 
         multiblockMetaRemap = new Short2ShortLinkedOpenHashMap();
         multiblockMetaRemap.put((short) 32000, (short) 32100); // Microverse 1
