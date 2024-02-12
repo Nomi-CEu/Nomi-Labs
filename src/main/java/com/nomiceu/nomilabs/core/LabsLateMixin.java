@@ -26,7 +26,8 @@ public class LabsLateMixin implements ILateMixinLoader {
                     new AbstractMap.SimpleImmutableEntry<>(LabsValues.GREGTECH_MODID, true),
                     new AbstractMap.SimpleImmutableEntry<>(LabsValues.JEI_MODID, true),
                     new AbstractMap.SimpleImmutableEntry<>(LabsValues.ROCKETRY_MODID,
-                            LabsConfig.modIntegration.enableAdvancedRocketryIntegration))
+                            LabsConfig.modIntegration.enableAdvancedRocketryIntegration),
+                    new AbstractMap.SimpleImmutableEntry<>(LabsValues.GROOVY_MODID, true))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     @Override
