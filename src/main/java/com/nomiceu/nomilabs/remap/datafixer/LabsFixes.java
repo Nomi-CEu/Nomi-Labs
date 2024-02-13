@@ -431,6 +431,7 @@ public class LabsFixes {
 
     public static class OldCapacitorSpecification {
         private static final String EIO_KEY = "eiocap";
+        private static final String EIO_LEVEL_KEY = "level";
         private static final String DISPLAY_KEY = "display";
         private static final String NAME_KEY = "Name";
         private static final String LORE_KEY = "Lore";
@@ -452,14 +453,24 @@ public class LabsFixes {
         @Nullable
         public NBTTagCompound remove(@Nullable NBTTagCompound compound) {
             if (compound == null || compound.isEmpty()) return null;
-            if (testEIO(compound)) compound.removeTag(EIO_KEY);
+            removeEIO(compound);
             removeDisplay(compound);
             return compound.isEmpty() ? null : compound;
         }
 
+        private void removeEIO(NBTTagCompound compound) {
+            if (!testEIO(compound)) return;
+            var eio = compound.getCompoundTag(EIO_KEY);
+            eio.removeTag(EIO_LEVEL_KEY);
+            if (eio.isEmpty()) compound.removeTag(EIO_KEY);
+            else compound.setTag(EIO_KEY, eio);
+        }
+
         private boolean testEIO(NBTTagCompound compound) {
-            if (!compound.hasKey(EIO_KEY, Constants.NBT.TAG_FLOAT)) return false;
-            return compound.getFloat(EIO_KEY) == level;
+            if (!compound.hasKey(EIO_KEY, Constants.NBT.TAG_COMPOUND)) return false;
+            var eio = compound.getCompoundTag(EIO_KEY);
+            if (!eio.hasKey(EIO_LEVEL_KEY, Constants.NBT.TAG_FLOAT)) return false;
+            return eio.getFloat(EIO_LEVEL_KEY) == level;
         }
 
         private void removeDisplay(NBTTagCompound compound) {
