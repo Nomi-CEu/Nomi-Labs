@@ -37,10 +37,10 @@ public class LabsProperties {
     public static void flagChanges() {
         /* GT 2.8 made Double Plates a separate flag, so some materials lost it. Add it back to needed materials. */
 
-        // GT Materials
-        Trinium.addFlags(GENERATE_DOUBLE_PLATE);
+        // GT Materials, and their Other Needed Flag Additions
+        Trinium.addFlags(GENERATE_DOUBLE_PLATE, GENERATE_DENSE);
 
-        // GCYM Materials
+        // GCYM Materials, and their Other Needed Flag Additions
         WatertightSteel.addFlags(GENERATE_DOUBLE_PLATE);
         IncoloyMA956.addFlags(GENERATE_DOUBLE_PLATE);
 
@@ -54,11 +54,11 @@ public class LabsProperties {
         StainlessSteel.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
         NaquadahEnriched.addFlags(GENERATE_BOLT_SCREW);
         Naquadria.addFlags(GENERATE_BOLT_SCREW);
-        Trinium.addFlags(GENERATE_DENSE);
         Iridium.addFlags(GENERATE_DENSE);
         Berkelium.addFlags(GENERATE_FRAME);
         BlueSteel.addFlags(GENERATE_FRAME);
         Ultimet.addFlags(GENERATE_FRAME);
+        Tritanium.addFlags(GENERATE_DENSE, GENERATE_SPRING);
 
         // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
         // We don't have Thaumcraft. Add it back. (Part 2)
