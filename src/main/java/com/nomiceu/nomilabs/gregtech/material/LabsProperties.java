@@ -77,9 +77,5 @@ public class LabsProperties {
 
     public static void miscChanges() {
         RhodiumSulfate.setMaterialIconSet(MaterialIconSet.ROUGH);
-
-        // No idea why the lang for this is not working
-        BlackSteel.setFormula("(AuAgCu3)2Fe3?4", true);
-        RhodiumPlatedPalladium.setFormula("((SnFe)4(CuAg4)2)2Pd3Rh", true);
     }
 }
