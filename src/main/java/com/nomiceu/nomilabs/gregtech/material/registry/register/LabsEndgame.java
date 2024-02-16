@@ -20,7 +20,7 @@ public class LabsEndgame {
         DraconicSuperconductor = new Material.Builder(28, makeLabsName("draconic_superconductor"))
                 .ingot()
                 .color(0xf5f0f4).iconSet(SHINY)
-                .cableProperties(V[14], 4, 0, true)
+                .cableProperties(V[MAX], 4, 0, true)
                 .build();
 
         KaptonK = new Material.Builder(50, makeLabsName("kapton_k")) // Hardmode Material

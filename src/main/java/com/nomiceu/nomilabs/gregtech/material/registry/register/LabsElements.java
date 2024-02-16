@@ -23,7 +23,7 @@ public class LabsElements {
                 .element(Dc)
                 .color(0xbe49ed).iconSet(METALLIC)
                 .blast(6800, GasTier.HIGHER)
-                .cableProperties(V[8], 1, 0, true)
+                .cableProperties(V[UV], 1, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
 
@@ -38,7 +38,7 @@ public class LabsElements {
                 .ingot().liquid()
                 .element(Nm)
                 .color(0x84053e).iconSet(SHINY)
-                .cableProperties(V[14], 64, 0, true)
+                .cableProperties(V[MAX], 64, 0, true)
                 .build();
 
         Taranium = new Material.Builder(109, makeLabsName("taranium")) // Hardmode Material
@@ -48,8 +48,8 @@ public class LabsElements {
                 .flags(GENERATE_PLATE, GENERATE_DENSE)
                 .blast(builder -> builder
                         .temp(10800, GasTier.HIGHEST)
-                        .blastStats(VA[7], 1800)
-                        .vacuumStats(VA[6], 600))
+                        .blastStats(VA[ZPM], 1800)
+                        .vacuumStats(VA[LuV], 600))
                 .build();
     }
 }

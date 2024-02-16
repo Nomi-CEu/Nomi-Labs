@@ -27,7 +27,7 @@ public class LabsEIO {
                 .color(0xf7b29b).iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .components(Iron, 1, Redstone, 1)
-                .cableProperties(V[1], 1, 0, true)
+                .cableProperties(V[LV], 1, 0, true)
                 .build();
 
         EnergeticAlloy = new Material.Builder(12, makeLabsName("energetic_alloy"))
@@ -37,9 +37,9 @@ public class LabsEIO {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR)
                 .blast(builder -> builder
                         .temp(1250, GasTier.LOW)
-                        .blastStats(VA[2], 400))
+                        .blastStats(VA[MV], 400))
                 .components(Gold, 2, Redstone, 1, Glowstone, 1)
-                .cableProperties(V[2], 1, 0, true)
+                .cableProperties(V[MV], 1, 0, true)
                 .build();
 
         VibrantAlloy = new Material.Builder(13, makeLabsName("vibrant_alloy"))
@@ -49,9 +49,9 @@ public class LabsEIO {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_ROD, GENERATE_BOLT_SCREW)
                 .blast(builder -> builder
                         .temp(1350, GasTier.LOW)
-                        .blastStats(VA[3], 400))
+                        .blastStats(VA[MV], 400))
                 .components(EnergeticAlloy, 1, EnderPearl, 1)
-                .cableProperties(V[2], 1, 0, true)
+                .cableProperties(V[HV], 1, 0, true)
                 .build();
 
         PulsatingIron = new Material.Builder(14, makeLabsName("pulsating_iron"))
@@ -60,7 +60,7 @@ public class LabsEIO {
                 .color(0x6ae26e).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .components(Iron, 1)
-                .cableProperties(V[0], 1, 0, true)
+                .cableProperties(V[ULV], 1, 0, true)
                 .build();
 
         ElectricalSteel = new Material.Builder(15, makeLabsName("electrical_steel"))
@@ -85,7 +85,7 @@ public class LabsEIO {
                 .color(0xd6d980).iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .toolStats(ToolProperty.Builder.of(4.0f, 3.5f, 1024, 3).build())
-                .cableProperties(V[4], 1, 0, true)
+                .cableProperties(V[EV], 1, 0, true)
                 .build();
     }
 }

@@ -38,11 +38,11 @@ public class LabsThermal {
                 .color(0xff7f0f).iconSet(SHINY)
                 .blast(builder -> builder
                         .temp(4000, GasTier.MID)
-                        .blastStats(VA[5], 1400)
-                        .vacuumStats(VA[3], 500))
+                        .blastStats(VA[IV], 1400)
+                        .vacuumStats(VA[HV], 500))
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_GEAR)
                 .components(AnnealedCopper, 4, Ardite, 2, RedAlloy, 2)
-                .cableProperties(V[6], 1, 0, true)
+                .cableProperties(V[LuV], 1, 0, true)
                 .build();
 
         Lumium = new Material.Builder(17, makeLabsName("lumium"))
@@ -52,10 +52,10 @@ public class LabsThermal {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
                 .blast(builder -> builder
                         .temp(4500, GasTier.MID)
-                        .blastStats(VA[5], 1600)
-                        .vacuumStats(VA[3], 600))
+                        .blastStats(VA[IV], 1600)
+                        .vacuumStats(VA[HV], 600))
                 .components(TinAlloy, 4, SterlingSilver, 2)
-                .cableProperties(V[5], 1, 0, true)
+                .cableProperties(V[IV], 1, 0, true)
                 .build();
 
         Enderium = new Material.Builder(18, makeLabsName("enderium"))
@@ -65,10 +65,10 @@ public class LabsThermal {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
                 .blast(builder -> builder
                         .temp(6400, GasTier.HIGHEST)
-                        .blastStats(VA[6], 1200)
-                        .vacuumStats(VA[4], 400))
+                        .blastStats(VA[LuV], 1200)
+                        .vacuumStats(VA[EV], 400))
                 .components(Lead, 4, Platinum, 2, BlueSteel, 1, Osmium, 1)
-                .cableProperties(V[7], 1, 0, true)
+                .cableProperties(V[ZPM], 1, 0, true)
                 .build();
 
         ElectrumFlux = new Material.Builder(19, makeLabsName("electrum_flux"))
