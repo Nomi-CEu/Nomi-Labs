@@ -32,7 +32,7 @@ public class LabsWorldFixData extends WorldSavedData {
     }
 
     public void processModList(Map<String, String> mods) {
-        if (!mods.containsKey(LabsValues.LABS_MODID) && !LabsConfig.advanced.enableNomiCEuDataFixes)
+        if (!mods.containsKey(LabsValues.LABS_MODID) && savedVersion == LabsFixes.DEFAULT)
             savedVersion = LabsFixes.NEW;
     }
 
