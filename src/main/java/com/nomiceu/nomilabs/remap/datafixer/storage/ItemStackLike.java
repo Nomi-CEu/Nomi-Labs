@@ -49,7 +49,7 @@ public class ItemStackLike {
     }
 
     public ItemStackLike setTag(@Nullable NBTTagCompound newTag) {
-        tag = newTag;
+        tag = newTag == null || newTag.isEmpty() ? null : newTag;
         return this;
     }
 }

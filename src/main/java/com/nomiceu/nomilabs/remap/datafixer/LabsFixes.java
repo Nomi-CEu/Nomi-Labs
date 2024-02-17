@@ -144,6 +144,9 @@ public class LabsFixes {
          */
         itemFixes = new ObjectArrayList<>();
 
+        // Must be first Dark Red Coal Remap and Custom Capacitor NBT Removal, then Deprecated Item Remap, then CT General Remap,
+        // because only one fix is applied.
+
         itemFixes.add(
                 new DataFix.ItemFix("Dark Red Coal Remap",
                         "Correctly remaps Content Tweaker Dark Red Coal to XU2 Red Coal.",
@@ -154,6 +157,20 @@ public class LabsFixes {
                         (stack) -> stack.setRl(new ResourceLocation(XU2_MODID, "ingredients"))
                                 .setMeta((short) 4)) // Red Coal
         );
+
+        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID))
+            itemFixes.add(
+                    new DataFix.ItemFix("Custom Capacitor NBT Removal",
+                            "Removes NBT from Custom Capacitors.",
+                            false,
+                            (version) -> version <= PRE_CAPACITOR_REMAPPING,
+                            (modList) -> true,
+                            (stack) -> (stack.rl.getNamespace().equals(LABS_MODID) ||
+                                    stack.rl.getNamespace().equals(CONTENTTWEAKER_MODID)) &&
+                                    capacitorSpecificationRemap.containsKey(stack.rl.getPath()) &&
+                                    capacitorSpecificationRemap.get(stack.rl.getPath()).needChange(stack.tag),
+                            (stack) -> stack.setTag(capacitorSpecificationRemap.get(stack.rl.getPath()).remove(stack.tag)))
+            );
 
         itemFixes.add(
                 new DataFix.ItemFix("Deprecated Item Remap",
@@ -197,7 +214,7 @@ public class LabsFixes {
                             (stack) -> {
                                 var tag = Objects.requireNonNull(stack.tag);
                                 tag.removeTag("Freq");
-                                stack.setTag(tag.isEmpty() ? null : tag);
+                                stack.setTag(tag);
                             })
             );
 
@@ -246,20 +263,6 @@ public class LabsFixes {
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
                                 .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
         );
-
-        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID))
-            itemFixes.add(
-                    new DataFix.ItemFix("Custom Capacitor NBT Removal",
-                            "Removes NBT from Custom Capacitors.",
-                            false,
-                            (version) -> version <= PRE_CAPACITOR_REMAPPING,
-                            (modList) -> true,
-                            (stack) -> (stack.rl.getNamespace().equals(LABS_MODID) ||
-                                    stack.rl.getNamespace().equals(CONTENTTWEAKER_MODID)) &&
-                                    capacitorSpecificationRemap.containsKey(stack.rl.getPath()) &&
-                                    capacitorSpecificationRemap.get(stack.rl.getPath()).needChange(stack.tag),
-                            (stack) -> stack.setTag(capacitorSpecificationRemap.get(stack.rl.getPath()).remove(stack.tag)))
-            );
 
         /*
          * Block Fixes.
@@ -496,7 +499,7 @@ public class LabsFixes {
             if (compound == null || compound.isEmpty()) return null;
             removeEIO(compound);
             removeDisplay(compound);
-            return compound.isEmpty() ? null : compound;
+            return compound;
         }
 
         private void removeEIO(NBTTagCompound compound) {
