@@ -18,11 +18,11 @@ public class Remapper {
         this.remapRl = remapRl;
     }
 
-    public boolean shouldNotRemap(ResourceLocation rl) {
-        return !shouldRemap.apply(rl);
+    public boolean shouldRemap(ResourceLocation rl) {
+        return shouldRemap.apply(rl);
     }
 
-    protected ResourceLocation remapRl(ResourceLocation rl) {
+    public ResourceLocation remapRl(ResourceLocation rl) {
         return remapRl.apply(rl);
     }
 

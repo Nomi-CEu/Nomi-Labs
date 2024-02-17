@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
+import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
@@ -154,6 +155,36 @@ public class LabsFixes {
                                 .setMeta((short) 4)) // Red Coal
         );
 
+        itemFixes.add(
+                new DataFix.ItemFix("Deprecated Item Remap",
+                        "Remaps Deprecated Items to their Modern Counterparts.",
+                        false,
+                        (version) -> version <= DEFAULT,
+                        (modList) -> true,
+                        (stack) -> LabsRemappers.deprecatedRemapper.shouldRemap(stack.rl),
+                        (stack) -> stack.setRl(LabsRemappers.deprecatedRemapper.remapRl(stack.rl)))
+        );
+
+        itemFixes.add(
+                new DataFix.ItemFix("Content Tweaker Item Remap",
+                        "Remaps Content Tweaker Items to their counterparts.",
+                        false,
+                        (version) -> version <= DEFAULT,
+                        (modList) -> true,
+                        (stack) -> LabsRemappers.ctRemapper.shouldRemap(stack.rl),
+                        (stack) -> stack.setRl(LabsRemappers.ctRemapper.remapRl(stack.rl)))
+        );
+
+        itemFixes.add(
+                new DataFix.ItemFix("Perfect Gem Item Remap",
+                        "Remaps Perfect Gems to their counterparts.",
+                        false,
+                        (version) -> version <= DEFAULT,
+                        (modList) -> true,
+                        (stack) -> LabsRemappers.perfectGemRemapper.shouldRemap(stack.rl),
+                        (stack) -> stack.setRl(LabsRemappers.perfectGemRemapper.remapRl(stack.rl)))
+        );
+
         if (LabsConfig.modIntegration.enableExtraUtils2Integration)
             itemFixes.add(
                     new DataFix.ItemFix("XU2 Frequency Removal",
@@ -192,6 +223,16 @@ public class LabsFixes {
                                 stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
                                 .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
+        );
+
+        itemFixes.add(
+                new DataFix.ItemFix("Material Meta Blocks' Item Forms Remap",
+                        "Remaps old Meta Blocks' Item Forms, from Custom Materials, to the new format and registry.",
+                        false,
+                        (version) -> version <= PRE_MATERIAL_REWORK,
+                        (modList) -> true,
+                        (stack) -> LabsRemappers.metaBlockRemapper.shouldRemap(stack.rl),
+                        (stack) -> stack.setRl(LabsRemappers.metaBlockRemapper.remapRl(stack.rl)))
         );
 
         itemFixes.add(

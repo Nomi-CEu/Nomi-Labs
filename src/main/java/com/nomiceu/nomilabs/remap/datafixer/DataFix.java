@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class DataFix<T> {
+public abstract class DataFix<T> {
     public final String name;
     public final String description;
     public final boolean needsMode;

@@ -28,8 +28,13 @@ public class LabsRemappers {
     public static Map<RemapTypes, List<? extends Remapper>> remappers;
     public static Map<RemapTypes, List<Pattern>> ignorePtns;
 
-    private static Map<ResourceLocation, ResourceLocation> deprecationRemap;
-    private static Remapper metaBlockRemapper;
+    public static Map<ResourceLocation, ResourceLocation> deprecationRemap;
+
+    /* Saved Remappers, for Duplicate Remappers across version types, and so item remappers can be referenced in LabsFixes. */
+    public static Remapper deprecatedRemapper;
+    public static Remapper ctRemapper;
+    public static Remapper perfectGemRemapper;
+    public static Remapper metaBlockRemapper;
 
     public static boolean checked = false;
 
@@ -42,17 +47,18 @@ public class LabsRemappers {
     private static void initRemappers() {
         remappers = new Object2ObjectOpenHashMap<>();
 
+        /* All Item Remappers Here should most likely be in LabsFixes as well! */
+        /* This is because this will not change items saved in patterns! */
+        /* Remappers still need to be here, in order to avoid FML Warnings. */
         List<Remapper> itemRemappers = new ObjectArrayList<>();
         /* It is too big to use ImmutableList.of(). Add each manually. */
         itemRemappers.add(
                 // Remap Deprecated Items
-                new Remapper(rl -> (deprecationRemap.containsKey(rl)),
-                        rl -> deprecationRemap.get(rl))
+                deprecatedRemapper
         );
         itemRemappers.add(
                 // Remap Content Tweaker Items
-                new Remapper(rl -> (rl.getNamespace().equals(CONTENTTWEAKER_MODID)),
-                        rl -> LabsNames.makeLabsName(rl.getPath()))
+                ctRemapper
         );
         itemRemappers.add(
                 /*
@@ -60,8 +66,7 @@ public class LabsRemappers {
                  * DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
                  * Mod ID, so we need to map the DevTech metaitem to the GT metaitem.
                  */
-                new Remapper(rl -> (rl.getNamespace().equals(DEVTECH_MODID) && rl.getPath().equals("meta_gem_perfect")),
-                        rl -> GTUtility.gregtechId(rl.getPath()))
+                perfectGemRemapper
         );
         itemRemappers.add(
                 /*
@@ -77,8 +82,7 @@ public class LabsRemappers {
 
         remappers.put(RemapTypes.BLOCK, ImmutableList.of(
                 // Remap Content Tweaker Blocks
-                new Remapper(rl -> (rl.getNamespace().equals(LabsValues.CONTENTTWEAKER_MODID)),
-                        rl -> LabsNames.makeLabsName(rl.getPath())),
+                ctRemapper,
 
                 /*
                  * Remap old Meta Blocks. This remaps all meta blocks from old crafttweaker materials, to new nomi labs ones.
@@ -141,6 +145,21 @@ public class LabsRemappers {
                 new ResourceLocation(XU2_MODID, "ingredients")
         );
 
+        deprecatedRemapper = new Remapper(
+                (rl) -> deprecationRemap.containsKey(rl),
+                (rl) -> deprecationRemap.get(rl)
+        );
+
+        ctRemapper = new Remapper(
+                (rl) -> rl.getNamespace().equals(CONTENTTWEAKER_MODID),
+                (rl) -> LabsNames.makeLabsName(rl.getPath())
+        );
+
+        perfectGemRemapper = new Remapper(
+                (rl) -> rl.getNamespace().equals(DEVTECH_MODID) && rl.getPath().equals("meta_gem_perfect"),
+                (rl) -> GTUtility.gregtechId(rl.getPath())
+        );
+
         metaBlockRemapper = new Remapper(
                 (rl) -> getMetaBlockID(rl) >= LabsRemapHelper.MIN_META_BLOCK_BASE_ID,
                 (rl) -> {
@@ -189,7 +208,7 @@ public class LabsRemappers {
             }
             if (ignores[i] || needsRemap || remap == null) continue; // Only check if remap is needed if it is not already set to true
             for (var remapper : remap) {
-                if (remapper.shouldNotRemap(entry.key)) continue;
+                if (!remapper.shouldRemap(entry.key)) continue;
 
                 needsRemap = true;
                 break;
@@ -215,7 +234,7 @@ public class LabsRemappers {
             if (ignores[i]) continue;
             var entry = mappings.get(i);
             for (var remapper : remap) {
-                if (remapper.shouldNotRemap(entry.key)) continue;
+                if (!remapper.shouldRemap(entry.key)) continue;
                 var oldRl = entry.key;
                 NomiLabs.LOGGER.debug("Mapping Resource Location {}... (Type {})", oldRl, type);
                 var newRl = remapper.remapEntry(entry, type);
