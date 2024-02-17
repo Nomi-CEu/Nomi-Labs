@@ -1,10 +1,8 @@
 package com.nomiceu.nomilabs.remap;
 
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.StartupQuery;
 
-import static com.nomiceu.nomilabs.util.LabsTranslate.format;
-import static com.nomiceu.nomilabs.util.LabsTranslate.translateWithBackup;
+import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
 
 public class LabsMessageHelper {
     public static void sendMessage(MessageType type, String[] message) {
@@ -27,47 +25,40 @@ public class LabsMessageHelper {
     public static class Components {
         public static String[] getIntro() {
             return new String[] {
-                    translateWithBackup("nomilabs.fixer.intro.1", "This world must be remapped."),
-                    translateWithBackup("nomilabs.fixer.intro.2", format("A Backup will be made.", TextFormatting.BOLD)),
-                    translateWithBackup("nomilabs.fixer.intro.3", "Pressing 'No' will cancel world loading."),
-                    translateWithBackup("nomilabs.fixer.intro.4",
-                            format("Note that after the world is loaded with this, you CANNOT undo this!.", TextFormatting.RED)),
-                    translateWithBackup("nomilabs.fixer.intro.5",
-                            String.format("You %s have to load from the backup in order to load in a previous version!",
-                                    format("WILL", TextFormatting.UNDERLINE)))
+                    translate("nomilabs.fixer.intro.1"),
+                    translate("nomilabs.fixer.intro.2"),
+                    translate("nomilabs.fixer.intro.3"),
+                    "",
+                    translate("nomilabs.fixer.do_not_revert.intro_addition"),
+                    translate("nomilabs.fixer.do_not_revert.1"),
+                    translate("nomilabs.fixer.do_not_revert.2")
             };
         }
 
         public static String[] getIntroAddition() {
             return new String[] {
-                    translateWithBackup("nomilabs.fixer.intro.6",
-                            format("The changes that must be made via Data Fixers have been printed to your log.",
-                                    TextFormatting.GRAY))
+                    "",
+                    translate("nomilabs.fixer.intro.addition")
             };
         }
 
         public static String[] getModeCheck(String mode) {
             return new String[] {
-                    translateWithBackup("nomilabs.fixer.mode_check.1",
-                            String.format("Are you sure you previously loaded this world with the pack mode '%s' ?",
-                                    format(mode, TextFormatting.YELLOW)), mode),
-                    translateWithBackup("nomilabs.fixer.mode_check.2",
-                            format(String.format("Launching with the wrong mode %s void items and/or blocks!",
-                                            format("WILL", TextFormatting.UNDERLINE) + TextFormatting.RED),
-                                    TextFormatting.RED)),
-                    translateWithBackup("nomilabs.fixer.mode_check.3",
-                            format("If you did not change it in your old instance, the default mode is 'Normal'.", TextFormatting.GRAY)),
-                    translateWithBackup("nomilabs.fixer.mode_check.4",
-                            "Press 'No' if you are not sure! (It will cancel world loading)")
+                    translate("nomilabs.fixer.mode_check.1", mode),
+                    translate("nomilabs.fixer.mode_check.2"),
+                    translate("nomilabs.fixer.mode_check.3"),
+                    translate("nomilabs.fixer.mode_check.4")
             };
         }
 
         public static String[] getDoNotExit() {
             return new String[] {
-                    translateWithBackup("nomilabs.fixer.do_not_exit.1",
-                            format("Do not interrupt the loading process!", TextFormatting.RED)),
-                    translateWithBackup("nomilabs.fixer.do_not_exit.2",
-                            "If interrupted, load again from the backup, as your world may be corrupted!")
+                    translate("nomilabs.fixer.do_not_exit.1"),
+                    translate("nomilabs.fixer.do_not_exit.2"),
+                    "",
+                    translate("nomilabs.fixer.do_not_revert.do_not_exit_addition"),
+                    translate("nomilabs.fixer.do_not_revert.1"),
+                    translate("nomilabs.fixer.do_not_revert.2")
             };
         }
     }

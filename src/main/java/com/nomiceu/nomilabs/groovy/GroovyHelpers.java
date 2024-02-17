@@ -34,15 +34,9 @@ public class GroovyHelpers {
         public static String translate(String key, Object... params) {
             return LabsTranslate.translate(key, params);
         }
-        public static String translateWithBackup(String key, String backup, Object... params) {
-            return LabsTranslate.translateWithBackup(key, backup, params);
-        }
 
         public static String translateFormat(String key, TooltipHelper.GTFormatCode format, Object... params) {
             return LabsTranslate.translateFormat(key, format, params);
-        }
-        public static String translateWithBackupFormat(String key, String backup, TooltipHelper.GTFormatCode format, Object... params) {
-            return LabsTranslate.translateWithBackupFormat(key, backup, format, params);
         }
 
         public static String format(String str, TextFormatting... formats) {

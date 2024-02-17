@@ -1,23 +1,42 @@
 package com.nomiceu.nomilabs.util;
 
 import gregtech.client.utils.TooltipHelper;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.Arrays;
+import java.util.IllegalFormatException;
 
 @SuppressWarnings("unused")
 public class LabsTranslate {
     public static String translate(String key, Object... params) {
-        return translateWithBackup(key, key, params);
+        if (LabsSide.isDedicatedServer()) return translateServerSide(key, params); // I18n is not available on Dedicated Servers
+        try {
+            return net.minecraft.client.resources.I18n.format(key, params);
+        } catch (Exception e) {
+            return translateServerSide(key, params);
+        }
     }
 
-    public static String translateWithBackup(String key, String backup, Object... params) {
-        if (LabsSide.isDedicatedServer()) return backup; // I18n is not available on Dedicated Servers
+    @SuppressWarnings("deprecation")
+    private static String translateServerSide(String key, Object... params) {
         try {
-            return I18n.format(key, params);
+            var localTranslated = I18n.translateToLocalFormatted(key, params);
+            if (!localTranslated.equals(key)) return localTranslated;
+
+            // Try fallback
+            var fallbackTranslated = I18n.translateToFallback(key);
+            if (!fallbackTranslated.equals(key) && params.length != 0) {
+                try {
+                     fallbackTranslated = String.format(fallbackTranslated, params);
+                }
+                catch (IllegalFormatException var5) {
+                    fallbackTranslated = "Format error: " + fallbackTranslated;
+                }
+            }
+            return fallbackTranslated;
         } catch (Exception e) {
-            return backup;
+            return key;
         }
     }
 
@@ -26,10 +45,6 @@ public class LabsTranslate {
 
     public static String translateFormat(String key, TooltipHelper.GTFormatCode format, Object... params) {
         return format(translate(key, params), format);
-    }
-
-    public static String translateWithBackupFormat(String key, String backup, TooltipHelper.GTFormatCode format, Object... params) {
-        return format(translateWithBackup(key, backup, params), format);
     }
 
     public static String format(String str, TextFormatting... formats) {
