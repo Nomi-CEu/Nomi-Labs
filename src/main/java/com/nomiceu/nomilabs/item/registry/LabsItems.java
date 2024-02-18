@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -260,6 +261,20 @@ public class LabsItems {
             if (NO_MODEL_HANDLING_ITEMS.contains(item)) continue; // Skip Model Handling for these items
             registerModel(item);
         }
+
+        registerCustomModels();
+    }
+
+    private static void registerCustomModels() {
+        /* Add an Animated Version of Blaze Powder. Used in quest icons, so it fits in with the other Thermal Quests.*/
+
+        // Need to set a custom model resource location for meta 0, otherwise that appears as null.
+        var mrlBlaze0 = new ModelResourceLocation("blaze_powder", "inventory");
+        ModelLoader.setCustomModelResourceLocation(Items.BLAZE_POWDER, 0, mrlBlaze0);
+
+        // Add Animated Model
+        var mrlBlaze1 = new ModelResourceLocation("blaze_powder_animated", "inventory");
+        ModelLoader.setCustomModelResourceLocation(Items.BLAZE_POWDER, 1, mrlBlaze1);
     }
 
     public static <T extends Item> T createItem(T item) {
