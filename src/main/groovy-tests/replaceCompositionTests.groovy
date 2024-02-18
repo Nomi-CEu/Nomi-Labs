@@ -6,6 +6,9 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.ChangeCompositionHelpers
 import static com.nomiceu.nomilabs.groovy.CompositionBuilder.MixerSpecification
 
 // Replace Composition (changes specified)
+
+// THESE DO NOT APPLY UNTIL AFTER ALL POST INIT SCRIPTS ARE RUN!
+
 // Decomp recipes are either centrifuge or electrolyzer recipes, and require the material not to have the DISABLE_DECOMPOSITION flag, and either have a dust or fluid.
 // You cannot enable them, if the material already has them disabled.
 // Chemical Formula Changes are not recursive.
