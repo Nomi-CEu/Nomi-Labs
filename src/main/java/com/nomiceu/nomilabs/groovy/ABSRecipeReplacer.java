@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.groovy;
 
 import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
 import gregicality.multiblocks.api.recipes.alloyblast.AlloyBlastRecipeProducer;
+import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.builders.BlastRecipeBuilder;
 import gregtech.api.unification.material.Material;
@@ -23,14 +24,16 @@ public class ABSRecipeReplacer extends AlloyBlastRecipeProducer {
         if (compAmount < 2) return;
 
         // get the output fluid
-        Fluid molten = material.getFluid(GCYMFluidStorageKeys.MOLTEN);
-
+        Fluid output = material.getFluid(GCYMFluidStorageKeys.MOLTEN);
+        if (output == null) {
+            output = material.getFluid(FluidStorageKeys.LIQUID);
+        }
 
         RecipeBuilder<BlastRecipeBuilder> builder = createBuilder(blastProperty, material);
 
         int outputAmount = addInputs(material, builder);
         if (outputAmount <= 0) return;
 
-        buildRecipes(blastProperty, molten, outputAmount, compAmount, builder);
+        buildRecipes(blastProperty, output, outputAmount, compAmount, builder);
     }
 }

@@ -8,6 +8,7 @@ import com.nomiceu.nomilabs.gregtech.mixinhelper.CompositionRecipeType;
 import com.nomiceu.nomilabs.mixin.gregtech.AccessibleDecompositionRecipeHandler;
 import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
 import gregicality.multiblocks.api.recipes.GCYMRecipeMaps;
+import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.ingredients.GTRecipeFluidInput;
@@ -21,6 +22,7 @@ import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -195,8 +197,12 @@ public class ChangeComposition {
     }
 
     public static void removeABSRecipe(Material input) {
+        Fluid fluid = input.getFluid(GCYMFluidStorageKeys.MOLTEN);
+        if (fluid == null) {
+            fluid = input.getFluid(FluidStorageKeys.LIQUID);
+        }
         var recipes = ((AccessibleRecipeMap) GCYMRecipeMaps.ALLOY_BLAST_RECIPES)
-                .findByOutput(Collections.emptyList(), Collections.singletonList(input.getFluid(GCYMFluidStorageKeys.MOLTEN, 1)),
+                .findByOutput(Collections.emptyList(), Collections.singletonList(new FluidStack(fluid, 1)),
                         Collections.emptyList(), Collections.emptyList(), (r) -> true);
         ((AccessibleMaterial) input).setOriginalRecipes(CompositionRecipeType.ALLOY_BLAST, recipes == null ? Collections.emptyList() : recipes);
         if (recipes == null) return;

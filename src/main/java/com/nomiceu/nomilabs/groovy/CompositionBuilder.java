@@ -9,6 +9,7 @@ import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
 import gregicality.multiblocks.api.unification.GCYMMaterialFlags;
 import gregicality.multiblocks.api.unification.properties.GCYMPropertyKey;
 import gregtech.api.GregTechAPI;
+import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialFlags;
@@ -95,9 +96,10 @@ public class CompositionBuilder {
         }
         if (changeABS &&
                 (!material.hasProperty(GCYMPropertyKey.ALLOY_BLAST) || !material.hasProperty(PropertyKey.BLAST)
-                        || !material.hasFluid() || material.getFluid(GCYMFluidStorageKeys.MOLTEN) == null
+                        || !material.hasFluid() ||
+                        (material.getFluid(GCYMFluidStorageKeys.MOLTEN) == null &&  material.getFluid(FluidStorageKeys.LIQUID) == null)
                         || material.hasFlag(GCYMMaterialFlags.NO_ALLOY_BLAST_RECIPES))) {
-            throwIfShould(new IllegalArgumentException("Cannot change when ABS changing is specified, but the material cannot generate ABS recipes to a Molten Fluid!"));
+            throwIfShould(new IllegalArgumentException("Cannot change when ABS changing is specified, but the material cannot generate ABS recipes to a Fluid!"));
             return;
         }
 

@@ -13,7 +13,7 @@ import static com.nomiceu.nomilabs.groovy.CompositionBuilder.MixerSpecification
 // You cannot enable them, if the material already has them disabled.
 // Chemical Formula Changes are not recursive.
 // However, changes will apply if you first change the inner materials before the outer.
-// ABS Recipe requires the material to have a molten fluid, and Alloy Blast and Blast Properties, and not have the Disable ABS Recipe Flag.
+// ABS Recipe requires the material to have a Molten Fluid or a Liquid, and Alloy Blast and Blast Properties, and not have the Disable ABS Recipe Flag.
 // Mixer Recipe requires the material to have an existing mixer recipe, and have a Dust Property.
 
 // You can get all material components of a material by holding an ItemStack of that material, then doing /gs hand!
