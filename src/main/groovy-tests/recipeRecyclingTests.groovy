@@ -58,3 +58,11 @@ changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffe
 
 // Remove recycling to a stack
 removeStackRecycling(metaitem('item_collector.hv'))
+
+// Replace Recycling In a Recipe Builder
+mods.gregtech.assembler.recipeBuilder()
+    .inputs(metaitem('cableGtSingleEuropium') * 2, metaitem('circuit.wetware_mainframe'), metaitem('wireGtQuadrupleEuropium') * 4, item('minecraft:chest') * 1, metaitem('hull.uhv'))
+    .outputs(metaitem('charger.uhv'))
+    .changeRecycling()
+    .duration(500).EUt(120)
+    .buildAndRegister()

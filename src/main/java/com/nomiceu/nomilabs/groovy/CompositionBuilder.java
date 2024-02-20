@@ -22,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import static com.nomiceu.nomilabs.util.LabsGroovyHelper.throwOrGroovyLog;
+
 @SuppressWarnings("unused")
 public class CompositionBuilder {
     private final Material material;
@@ -79,37 +81,31 @@ public class CompositionBuilder {
     public void change() {
         /* Checks */
         if (components == null) {
-            throwIfShould(new IllegalArgumentException("Cannot change when components, or removal, has not been specified!"));
+            throwOrGroovyLog(new IllegalArgumentException("Cannot change when components, or removal, has not been specified!"));
             return;
         }
         if (!changeChemicalFormula && !changeDecomposition && !changeABS && changeMixer == null) {
-            throwIfShould(new IllegalArgumentException("Cannot change when change method(s) have not been specified!"));
+            throwOrGroovyLog(new IllegalArgumentException("Cannot change when change method(s) have not been specified!"));
             return;
         }
         if (changeDecomposition && material.hasFlag(MaterialFlags.DISABLE_DECOMPOSITION)) {
-            throwIfShould(new IllegalArgumentException("Cannot change when decomposition changing is specified, but the material has DISABLE_DECOMPOSITION flag!"));
+            throwOrGroovyLog(new IllegalArgumentException("Cannot change when decomposition changing is specified, but the material has DISABLE_DECOMPOSITION flag!"));
             return;
         }
-        if (changeMixer != null && !material.hasProperty(PropertyKey.DUST)){
-            throwIfShould(new IllegalArgumentException("Cannot change when mixer changing is specified, but the material does not have a Dust Property!"));
+        if (changeMixer != null && !material.hasProperty(PropertyKey.DUST)) {
+            throwOrGroovyLog(new IllegalArgumentException("Cannot change when mixer changing is specified, but the material does not have a Dust Property!"));
             return;
         }
         if (changeABS &&
                 (!material.hasProperty(GCYMPropertyKey.ALLOY_BLAST) || !material.hasProperty(PropertyKey.BLAST)
                         || !material.hasFluid() ||
-                        (material.getFluid(GCYMFluidStorageKeys.MOLTEN) == null &&  material.getFluid(FluidStorageKeys.LIQUID) == null)
+                        (material.getFluid(GCYMFluidStorageKeys.MOLTEN) == null && material.getFluid(FluidStorageKeys.LIQUID) == null)
                         || material.hasFlag(GCYMMaterialFlags.NO_ALLOY_BLAST_RECIPES))) {
-            throwIfShould(new IllegalArgumentException("Cannot change when ABS changing is specified, but the material cannot generate ABS recipes to a Fluid!"));
+            throwOrGroovyLog(new IllegalArgumentException("Cannot change when ABS changing is specified, but the material cannot generate ABS recipes to a Fluid!"));
             return;
         }
 
         LabsVirtualizedRegistries.REPLACE_DECOMP_MANAGER.changeMaterialDecomp(new CompositionSpecification(this));
-    }
-
-    public static void throwIfShould(Exception e) {
-        if (LabsGroovyHelper.isRunningGroovyScripts()) {
-            GroovyLog.get().exception(e);
-        }
     }
 
     /* Helpers */
@@ -211,7 +207,7 @@ public class CompositionBuilder {
 
         public MixerSpecification overrideEUt(int EUt) {
             if (EUt <= 0) {
-                CompositionBuilder.throwIfShould(new IllegalArgumentException("EUt override must be larger than 0!"));
+                throwOrGroovyLog(new IllegalArgumentException("EUt override must be larger than 0!"));
                 return this;
             }
             this.EUt = EUt;
@@ -220,7 +216,7 @@ public class CompositionBuilder {
 
         public MixerSpecification overrideDuration(int duration) {
             if (duration <= 0) {
-                CompositionBuilder.throwIfShould(new IllegalArgumentException("Duration override must be larger than 0!"));
+                throwOrGroovyLog(new IllegalArgumentException("Duration override must be larger than 0!"));
                 return this;
             }
             this.duration = duration;
@@ -229,7 +225,7 @@ public class CompositionBuilder {
 
         public MixerSpecification overrideCircuit(int circuit) {
             if (circuit < 0) {
-                CompositionBuilder.throwIfShould(new IllegalArgumentException("Circuit override must be larger or equal to 0!"));
+                throwOrGroovyLog(new IllegalArgumentException("Circuit override must be larger or equal to 0!"));
                 return this;
             }
             this.circuit = circuit;
@@ -238,7 +234,7 @@ public class CompositionBuilder {
 
         public MixerSpecification overrideOutputAmount(int outputAmount) {
             if (outputAmount <= 0) {
-                CompositionBuilder.throwIfShould(new IllegalArgumentException("Output amount override must be larger or equal to 0!"));
+                throwOrGroovyLog(new IllegalArgumentException("Output amount override must be larger or equal to 0!"));
                 return this;
             }
             this.outputAmount = outputAmount;
