@@ -78,7 +78,7 @@ public class ReplaceRecipe {
     }
 
     public static void replaceRecipeShaped(ResourceLocation name, ItemStack output, List<List<IIngredient>> inputs) {
-        validate(name, output, true);
+        validate(name, output, true, false);
         crafting.remove(name);
         crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), output, inputs);
         registerRecycling(output, inputs);
@@ -89,7 +89,7 @@ public class ReplaceRecipe {
     }
 
     public static void replaceRecipeOutput(ResourceLocation name, ItemStack newOutput) {
-        IShapedRecipe originalRecipe = validate(name, newOutput, true);
+        IShapedRecipe originalRecipe = validate(name, newOutput, true, true);
         var originalCount = originalRecipe.getRecipeOutput().getCount();
         var newCount = newOutput.getCount();
 
@@ -110,7 +110,7 @@ public class ReplaceRecipe {
     }
 
     public static void replaceRecipeInput(ResourceLocation name, List<List<IIngredient>> newInputs) {
-        IRecipe originalRecipe = validate(name, ItemStack.EMPTY, false);
+        IRecipe originalRecipe = validate(name, ItemStack.EMPTY, false, false);
         var originalOutput = originalRecipe.getRecipeOutput();
         crafting.remove(name);
         crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), originalOutput, newInputs);
@@ -135,7 +135,7 @@ public class ReplaceRecipe {
         registerRecycling(output, Collections.singletonList(ingredients));
     }
 
-    private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput) {
+    private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput, boolean requireOutputOriginalInfo) {
         IRecipe originalRecipe = ForgeRegistries.RECIPES.getValue(name);
         if (originalRecipe == null)
             throw new IllegalArgumentException("Could not find recipe with name " + name + "!");
@@ -148,7 +148,7 @@ public class ReplaceRecipe {
 
         ItemStack originalOutput = checkAndGetOutput(output, validateOutput, originalRecipe);
 
-        if (OreDictUnifier.getMaterialInfo(originalOutput) == null)
+        if (requireOutputOriginalInfo && OreDictUnifier.getMaterialInfo(originalOutput) == null)
             throw new IllegalArgumentException("Could not find existing Material Info for item " + originalOutput);
 
         ReloadableRegistryManager.removeRegistryEntry(ForgeRegistries.RECIPES, name);
