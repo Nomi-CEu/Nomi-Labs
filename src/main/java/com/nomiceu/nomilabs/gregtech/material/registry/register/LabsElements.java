@@ -22,7 +22,10 @@ public class LabsElements {
                 .ingot().liquid().ore()
                 .element(Dc)
                 .color(0xbe49ed).iconSet(METALLIC)
-                .blast(6800, GasTier.HIGHER)
+                .blast(builder -> builder
+                        .temp(6800, GasTier.HIGHER)
+                        .blastStats(VA[LuV], 1800)
+                        .vacuumStats(VA[EV], 600))
                 .cableProperties(V[UV], 1, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
@@ -49,7 +52,7 @@ public class LabsElements {
                 .blast(builder -> builder
                         .temp(10800, GasTier.HIGHEST)
                         .blastStats(VA[ZPM], 1800)
-                        .vacuumStats(VA[LuV], 600))
+                        .vacuumStats(VA[IV], 600))
                 .build();
     }
 }

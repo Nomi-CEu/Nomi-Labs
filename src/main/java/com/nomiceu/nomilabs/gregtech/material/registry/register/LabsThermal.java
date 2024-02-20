@@ -65,8 +65,8 @@ public class LabsThermal {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
                 .blast(builder -> builder
                         .temp(6400, GasTier.HIGHEST)
-                        .blastStats(VA[LuV], 1200)
-                        .vacuumStats(VA[EV], 400))
+                        .blastStats(VA[LuV], 1600)
+                        .vacuumStats(VA[EV], 600))
                 .components(Lead, 4, Platinum, 2, BlueSteel, 1, Osmium, 1)
                 .cableProperties(V[ZPM], 1, 0, true)
                 .build();
@@ -76,7 +76,10 @@ public class LabsThermal {
                 .liquid()
                 .color(0xf7be20).iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR)
-                .blast(1100)
+                .blast(builder -> builder
+                        .temp(1100, GasTier.LOW)
+                        .blastStats(VA[EV], 1600)
+                        .vacuumStats(VA[MV], 600))
                 .components(Electrum, 6, Lumium, 1, Signalum, 1)
                 .build();
 
