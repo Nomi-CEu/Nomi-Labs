@@ -39,4 +39,12 @@ public class ItemMeta {
     public ItemStack toStack() {
         return new ItemStack(item, 1, meta);
     }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public int getMeta() {
+        return meta;
+    }
 }

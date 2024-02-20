@@ -40,4 +40,8 @@ public class ItemTagMeta extends ItemMeta {
         if (tag != null) stack.setTagCompound(tag);
         return stack;
     }
+
+    public NBTTagCompound getTag() {
+        return tag;
+    }
 }

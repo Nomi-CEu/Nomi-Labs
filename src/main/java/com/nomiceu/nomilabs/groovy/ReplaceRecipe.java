@@ -52,13 +52,14 @@ public class ReplaceRecipe {
         reloadingRecycling = true;
         var time = System.currentTimeMillis();
         for (var modified : LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.needReloading.entrySet()) {
-            var stack = modified.getKey();
-            NomiLabs.LOGGER.debug("Removing Recycling Recipes for {} @ {}...", stack.getItem().getRegistryName(), stack.getMetadata());
+            var itemMeta = modified.getKey();
+            var stack = itemMeta.toStack();
+            NomiLabs.LOGGER.debug("Removing Recycling Recipes for {} @ {}...", itemMeta.getItem().getRegistryName(), itemMeta.getMeta());
             removeRecyclingRecipe(RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING, stack, Materials.Oxygen.getFluid());
             removeRecyclingRecipe(RecipeMaps.MACERATOR_RECIPES, RecipeCategories.MACERATOR_RECYCLING, stack, null);
             removeRecyclingRecipe(RecipeMaps.EXTRACTOR_RECIPES, RecipeCategories.EXTRACTOR_RECYCLING, stack, null);
             if (modified.getValue() == null) continue;
-            NomiLabs.LOGGER.debug("Adding Recycling Recipes for {} @ {}...", stack.getItem().getRegistryName(), stack.getMetadata());
+            NomiLabs.LOGGER.debug("Adding Recycling Recipes for {} @ {}...", itemMeta.getItem().getRegistryName(), itemMeta.getMeta());
             RecyclingRecipes.registerRecyclingRecipes(stack, modified.getValue().getMaterials(),false, null );
         }
         NomiLabs.LOGGER.info("Reloading Recycling Recipes took {}ms", System.currentTimeMillis() - time);

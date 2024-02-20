@@ -3,9 +3,11 @@ package com.nomiceu.nomilabs.groovy;
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.stack.ItemMaterialInfo;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -41,13 +43,13 @@ public class LabsVirtualizedRegistries {
         }
     }
 
-    public static class ReplaceRecyclingManager extends VirtualizedRegistry<Pair<ItemStack, ItemMaterialInfo>> {
-        public final Map<ItemStack, ItemMaterialInfo> needReloading = new HashMap<>();
+    public static class ReplaceRecyclingManager extends VirtualizedRegistry<Pair<ItemMeta, ItemMaterialInfo>> {
+        public final Map<ItemMeta, ItemMaterialInfo> needReloading = new Object2ObjectOpenHashMap<>();
 
         @Override
         public void onReload() {
             restoreFromBackup().forEach((pair) -> {
-                OreDictUnifier.registerOre(pair.getLeft(), pair.getRight());
+                OreDictUnifier.registerOre(pair.getLeft().toStack(), pair.getRight());
                 needReloading.put(pair.getLeft(), pair.getRight());
             });
         }
@@ -59,13 +61,14 @@ public class LabsVirtualizedRegistries {
         }
 
         @Override
-        protected boolean compareRecipe(Pair<ItemStack, ItemMaterialInfo> a, Pair<ItemStack, ItemMaterialInfo> b) {
-            return ItemTagMeta.compare(a.getKey(), b.getKey());
+        protected boolean compareRecipe(Pair<ItemMeta, ItemMaterialInfo> a, Pair<ItemMeta, ItemMaterialInfo> b) {
+            return a.getKey().equals(b.getKey());
         }
 
         public void registerOre(ItemStack stack, ItemMaterialInfo info) {
-            addBackup(Pair.of(stack, OreDictUnifier.getMaterialInfo(stack)));
-            needReloading.put(stack, info);
+            var in = new ItemTagMeta(stack);
+            addBackup(Pair.of(in, OreDictUnifier.getMaterialInfo(stack)));
+            needReloading.put(in, info);
             OreDictUnifier.registerOre(stack, info);
         }
     }
