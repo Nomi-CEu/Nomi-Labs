@@ -1,6 +1,6 @@
 package com.nomiceu.nomilabs.recipe;
 
-import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import gregtech.api.GTValues;
 import gregtech.api.unification.OreDictUnifier;

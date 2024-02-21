@@ -1,6 +1,8 @@
-package com.nomiceu.nomilabs.gregtech;
+package com.nomiceu.nomilabs.gregtech.recipe;
 
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.gregtech.LabsSounds;
+import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.widgets.ProgressWidget;

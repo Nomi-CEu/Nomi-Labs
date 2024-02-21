@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.gregtech.recipelogic;
+package com.nomiceu.nomilabs.gregtech.recipe.recipelogic;
 
 import gregtech.api.capability.impl.MultiblockFuelRecipeLogic;
 import gregtech.api.metatileentity.multiblock.FuelMultiblockController;

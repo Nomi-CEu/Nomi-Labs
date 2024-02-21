@@ -2,7 +2,7 @@ package com.nomiceu.nomilabs.gregtech.multiblock;
 
 import com.nomiceu.nomilabs.gregtech.block.BlockUniqueCasing;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
-import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;

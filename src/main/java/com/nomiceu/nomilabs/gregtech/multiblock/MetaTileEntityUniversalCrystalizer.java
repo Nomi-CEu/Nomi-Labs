@@ -2,7 +2,7 @@ package com.nomiceu.nomilabs.gregtech.multiblock;
 
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;

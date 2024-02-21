@@ -2,7 +2,7 @@ package com.nomiceu.nomilabs.gregtech.multiblock;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.gregtech.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
 import gregtech.api.GTValues;
