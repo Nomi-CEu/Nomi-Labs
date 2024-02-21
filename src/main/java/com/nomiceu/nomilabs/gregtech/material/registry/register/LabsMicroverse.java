@@ -65,5 +65,19 @@ public class LabsMicroverse {
                 .components(Duranium, 1, Chlorine, 3)
                 .addOreByproducts(Sphalerite, Duranium, Europium)
                 .build();
+
+        Laurite = new Material.Builder(116, makeLabsName("laurite"))
+                .gem().ore()
+                .color(0x6f2c23).iconSet(DIAMOND)
+                .components(Ruthenium, 1, Sulfur, 2)
+                .addOreByproducts(Pyrite, Ruthenium, Rhodium)
+                .build();
+
+        Cuprorhodsite = new Material.Builder(117, makeLabsName("cuprorhodsite"))
+                .dust().ore()
+                .color(0xc1aa82).iconSet(BRIGHT)
+                .components(Copper, 1, Iron, 1, Rhodium, 4, Sulfur, 8)
+                .addOreByproducts(Chalcocite, Platinum, Ruthenium)
+                .build();
     }
 }

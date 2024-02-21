@@ -129,6 +129,8 @@ public class LabsMaterials {
     public static Material Snowchestite; // ID: 60; HM only
     public static Material Darmstadtite; // ID: 110
     public static Material Dulysite; // ID: 111; HM only
+    public static Material Laurite; // ID: 116
+    public static Material Cuprorhodsite; // ID: 117
 
     /**
      * Thermal Materials
