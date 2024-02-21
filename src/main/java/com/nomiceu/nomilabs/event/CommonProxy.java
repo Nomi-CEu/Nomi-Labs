@@ -17,6 +17,7 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
+import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
@@ -36,6 +37,7 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -120,6 +122,11 @@ public class CommonProxy {
             event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName("hand_framing_recipe")));
 
         //com.nomiceu.nomilabs.recipe.LabsTestRecipes.initRecipes();
+    }
+
+    @SubscribeEvent
+    public static void onEquipmentChangeEvent(LivingEquipmentChangeEvent event) {
+        ItemExcitationCoil.onEquipmentChange(event);
     }
 
     @SubscribeEvent
