@@ -59,7 +59,7 @@ public class LabsRecipeMaps {
     }
 
     private static RecipeMap<SimpleRecipeBuilder> createMicroverseRecipeMap(int tier) {
-        return new RecipeMap<>("microverse_projector_" + tier, tier == 3 ? 9 : 4, 16, tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), !oldMultis())
+        return new MicroverseMap("microverse_projector_" + tier, tier == 3 ? 9 : 4, tier == 1 ? 20 : 16, tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), !oldMultis())
                 .setProgressBar(LabsTextures.PROGRESS_BAR_ROCKET, ProgressWidget.MoveType.HORIZONTAL).setSound(LabsSounds.MICROVERSE)
                 .setSlotOverlay(false, false, GuiTextures.IMPLOSION_OVERLAY_1);
     }

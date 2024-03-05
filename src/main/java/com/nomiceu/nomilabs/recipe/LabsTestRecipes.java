@@ -20,7 +20,7 @@ public class LabsTestRecipes {
                 .buildAndRegister();
 
         for (var recipeBuilder : LabsRecipeMaps.MICROVERSE_RECIPES) {
-            recipeBuilder.recipeBuilder().duration(1200).EUt(GTValues.VHA[GTValues.MV])
+            recipeBuilder.recipeBuilder().duration(9408).EUt(GTValues.VA[GTValues.LuV])
                 .input(LabsItems.T1_SHIP)
                 .output(Blocks.REDSTONE_ORE, 64)
                 .buildAndRegister();
