@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.groovy;
 
+import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import com.cleanroommc.groovyscript.compat.mods.jei.JeiPlugin;
@@ -21,7 +22,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,6 +54,58 @@ public class GroovyHelpers {
 
         public static String format(String str, LabsTranslate.Format... formats) {
             return LabsTranslate.format(str, formats);
+        }
+    }
+    public static class SafeMethodHelpers {
+        /**
+         * Calls a declared instance method of a caller safely. Searches for the method in that class and its subclasses.
+         */
+        @Nullable
+        public static Object callInstanceMethod(Object caller, @NotNull String methodName, @Nullable List<Object> params) {
+            return callMethod(caller.getClass(), caller, methodName, params, false);
+        }
+
+        /**
+         * Calls a declared instance method of a specific class safely. Only searches for that method in that class.
+         */
+        @Nullable
+        public static Object callInstanceMethodOfClass(Class<?> clazz, Object caller, @NotNull String methodName, @Nullable List<Object> params) {
+            return callMethod(clazz, caller, methodName, params, true);
+        }
+
+        /**
+         * Calls a declared static method of a class safely. Only searches for that method in that class.
+         */
+        @Nullable
+        public static Object callStaticMethod(Class<?> clazz, @NotNull String methodName, @Nullable List<Object> params) {
+            return callMethod(clazz, null, methodName, params, true);
+        }
+
+        /**
+         * Call a method of a class safely.
+         * @param clazz Class to call.
+         * @param caller Caller. Null if static.
+         * @param methodName Name of method
+         * @param params Params. Null or Empty List if none
+         * @param strict Whether to be strict. Strict means that checking for the method is only done in the class provided.
+         */
+        @Nullable
+        public static Object callMethod(Class<?> clazz, @Nullable Object caller, @NotNull String methodName, @Nullable List<Object> params, boolean strict) {
+            try {
+                var paramArray = params != null ?
+                        params.toArray() :
+                        new Object[0];
+                var paramClasses = params != null ?
+                        params.stream().map(Object::getClass).toArray(Class<?>[]::new) :
+                        new Class<?>[0];
+                Method method = strict ? clazz.getDeclaredMethod(methodName, paramClasses) : clazz.getMethod(methodName, paramClasses);
+                return method.invoke(caller, paramArray);
+            } catch (NoSuchMethodException | ClassCastException | NoClassDefFoundError | InvocationTargetException |
+                     IllegalAccessException | IllegalArgumentException e) {
+                // Doesn't throw it, but lets us know about the issue.
+                GroovyLog.get().exception(e);
+                return null;
+            }
         }
     }
     public static class JEIHelpers {
