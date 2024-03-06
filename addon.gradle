@@ -1,0 +1,15 @@
+if (tasks.names.contains('curseforge')) {
+    tasks.curseforge.doLast {
+        tasks.curseforge.property("mainArtifact")
+        def fileID = (tasks.named("curseforge${curseForgeProjectId}").properties.get("mainArtifact"))['fileID']
+
+        println("Uploaded Main File With ID: ${fileID}")
+
+        def summary = "# CurseForge Build Summary:\nBuilt to File ID: ${fileID}"
+
+        def stepSummary = providers.environmentVariable("GITHUB_STEP_SUMMARY")
+        if (stepSummary.isPresent()) {
+            file(stepSummary.get()).write(summary)
+        }
+    }
+}
