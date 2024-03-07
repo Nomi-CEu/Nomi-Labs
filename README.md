@@ -43,3 +43,4 @@ This mod requires [GregTech CEu](https://github.com/GregTechCEu/GregTech). Other
 - [GregTech CEu](https://github.com/GregTechCEu/GregTech) for some textures
 - [GregTech CE](https://github.com/GregTechCE/GregTech) & [Data Fixer Example](https://github.com/gabor7d2/DataFixerExampleMod) for sample & base code in Data Fixes
 - [GT-Expert-Core](https://github.com/GTModpackTeam/GTExpert-Core/tree/master) for development environment runtime fix for EnderCore
+- [GTNH's Fork of ArchitectureCraft](https://github.com/GTNewHorizons/ArchitectureCraft) for the basis of our ArchitectureCraft Integration
