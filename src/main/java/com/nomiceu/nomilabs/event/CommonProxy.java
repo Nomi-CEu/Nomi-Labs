@@ -16,6 +16,7 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
+import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
@@ -51,6 +52,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class CommonProxy {
     public static void preInit() {
         LabsModeHelper.check();
+
+        if (Loader.isModLoaded(LabsValues.ARCHITECTURE_MODID) &&
+                LabsConfig.modIntegration.enableArchitectureCraftIntegration)
+            LabsShapes.preInit();
         
         LabsCreativeTabs.preInit();
 

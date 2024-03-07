@@ -196,6 +196,12 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableAdvancedRocketryIntegration = true;
 
+        @Config.Comment({"Whether to enable ArchitectureCraft Integration, which adds new slope variants.",
+                "[default: true]"})
+        @Config.LangKey("config.nomilabs.mod_integration.architecture_craft")
+        @Config.RequiresMcRestart
+        public boolean enableArchitectureCraftIntegration = true;
+
         public static class DraconicEvolutionIntegration {
             @Config.Comment({"Whether to enable Draconic Evolution Integration, which adds many features, such as:",
                     "Allowing GregTech Draconium and Awakened Draconium in the reactor and energy core.",

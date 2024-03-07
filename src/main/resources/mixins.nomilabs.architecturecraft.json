@@ -1,0 +1,16 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.architecturecraft",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ShapeAccessor",
+    "TileSawbenchMixin"
+  ],
+  "client": [
+    "GuiSawbenchMixin",
+    "RenderRoofMixin"
+  ],
+  "server": []
+}

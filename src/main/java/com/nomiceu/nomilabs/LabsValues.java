@@ -30,4 +30,5 @@ public class LabsValues {
     public static final String ENDER_IO_MODID = "enderio";
     public static final String JEI_MODID = "jei";
     public static final String ROCKETRY_MODID = "advancedrocketry";
+    public static final String ARCHITECTURE_MODID = "architecturecraft";
 }

@@ -113,6 +113,9 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:libvulpes-236541:2949886") // Version 0.4.2-75 (Newer Versions Crash with Gas Charge Pad)
     compileOnly rfg.deobf("curse.maven:advanced-rocketry-236542:3015079") // Version 1.7.0-232 (Newer Versions need Newer Lib Vulpes)
 
+    // Architecture Craft (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:architecture-craft-277631:2750633") // Version 3.98
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -172,6 +175,10 @@ dependencies {
     if (project.enable_rocketry.toBoolean()) {
         runtimeOnly "curse.maven:libvulpes-236541:2949886" // Version 0.4.2-75 (Newer Versions Crash with Gas Charge Pad)
         runtimeOnly "curse.maven:advanced-rocketry-236542:3015079" // Version 1.7.0-232 (Newer Versions need Newer Lib Vulpes)
+    }
+
+    if (project.enable_architecture_craft.toBoolean()) {
+        runtimeOnly "curse.maven:architecture-craft-277631:2750633" // Version 3.98
     }
 
     if (project.enable_ender_storage.toBoolean()) {
