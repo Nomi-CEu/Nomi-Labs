@@ -6,10 +6,12 @@ import net.minecraft.inventory.Container;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Changes the Gui Shape Item Texture Used.
+ * Changes the Gui Textures and Colors Used.
  */
 @Mixin(value = GuiSawbench.class, remap = false)
 public class GuiSawbenchMixin extends BaseGui.Screen {
@@ -45,6 +47,22 @@ public class GuiSawbenchMixin extends BaseGui.Screen {
             return;
         }
         instance.bindTexture(texture, u, v);
+    }
+
+    @Redirect(method = "drawPageMenu", at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;setColor(DDD)V"))
+    public void setHighlightColor(GuiSawbench instance, double r, double g, double b) {
+        instance.setColor(0.0, 0.98, 0.94);
+    }
+
+    @Inject(method = "drawPageMenu", at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;gRestore()V", shift = At.Shift.AFTER))
+    public void setNewTextColor(CallbackInfo ci) {
+        gSave();
+        setTextColor(0, 0, 0);
+    }
+
+    @Inject(method = "drawPageMenu", at = @At(value = "TAIL"))
+    public void restorePrevious(CallbackInfo ci) {
+        gRestore();
     }
 
     @Redirect(method = "drawShapeMenu", at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;bindTexture(Ljava/lang/String;II)V"))
