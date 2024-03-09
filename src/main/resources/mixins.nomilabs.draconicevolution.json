@@ -13,7 +13,8 @@
     "ReactorSlotIntegration",
     "TileEnergyCoreStabilizerMixin",
     "TileEnergyStorageCoreMixin",
-    "TileInvisECoreBlockMixin"
+    "TileInvisECoreBlockMixin",
+    "ToolUpgradeMixin"
   ],
   "client": [
     "GuiEnergyCoreMixin"
