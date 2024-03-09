@@ -1,11 +1,14 @@
 package com.nomiceu.nomilabs.groovy;
 
+import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionRecipe;
+import com.brandon3055.draconicevolution.lib.RecipeManager;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import com.cleanroommc.groovyscript.compat.mods.jei.JeiPlugin;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 import gregtech.api.GTValues;
@@ -22,6 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The interface for groovy to interact with.
@@ -244,4 +249,16 @@ public class GroovyHelpers {
         }
     }
 
+    public static class MiscHelpers {
+        public static void removeDraconicFusionRecipe(ItemStack catalyst, ItemStack result) {
+            if (!Loader.isModLoaded(LabsValues.DRACONIC_MODID)) return;
+
+            //noinspection SimplifyStreamApiCallChains
+            for (IFusionRecipe recipe : RecipeManager.FUSION_REGISTRY.getRecipes().stream()
+                    .filter(x -> x.getRecipeCatalyst().isItemEqual(catalyst) && x.getRecipeOutput(catalyst).isItemEqual(result))
+                    .collect(Collectors.toList())) {
+                ModSupport.DRACONIC_EVOLUTION.get().fusion.remove(recipe);
+            }
+        }
+    }
 }
