@@ -245,12 +245,6 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.disable_xp_scaling")
         public boolean disableXpScaling = false;
 
-        @Config.Comment({"Whether to disable Advancements.",
-                "Increases Load Speed, and reduces log errors.",
-                "[default: false]"})
-        @Config.LangKey("config.nomilabs.advanced.disable_advancements")
-        public boolean disableAdvancements = false;
-
         @Config.Comment({"Whether to disable the Narrator.",
                 "Fixes Crashes in Arm Macs, in some very specific environments.",
                 "If your game is crashing, try enabling this!",

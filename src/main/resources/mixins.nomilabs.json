@@ -6,15 +6,11 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "AccessibleFluidRegistry",
-    "AdvancementListMixin",
-    "AdvancementManagerMixin",
     "FluidRegistryMixin",
     "ItemStackMixin",
     "NarratorMixin",
     "WorldLoadHandler"
   ],
-  "client": [
-    "ClientAdvancementManagerMixin"
-  ],
+  "client": [],
   "server": []
 }
