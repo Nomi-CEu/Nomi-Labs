@@ -208,7 +208,9 @@ public class LabsConfig {
                     "Modifying Energy Core Structure with improvements, such as allowing blocks surrounding the structure.",
                     "Adding a destructor to the energy core.",
                     "Allow changing the speed of the builder.",
+                    "Allow disabling Fusion Recipes for Chaotic Upgrades, which are empty as none of the tools support it.",
                     "If this option is disabled, then energy cores made whilst this was enabled may break!",
+                    "None of the below options work if this config is set to false.",
                     "[default: true]"})
             @Config.LangKey("config.nomilabs.mod_integration.draconicevolution.enable")
             @Config.RequiresMcRestart

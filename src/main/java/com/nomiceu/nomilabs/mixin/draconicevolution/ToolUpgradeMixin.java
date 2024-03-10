@@ -1,21 +1,30 @@
 package com.nomiceu.nomilabs.mixin.draconicevolution;
 
 import com.brandon3055.draconicevolution.items.ToolUpgrade;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static com.brandon3055.draconicevolution.items.ToolUpgrade.*;
+import java.util.Map;
 
+/**
+ * Removes Fusion Recipes for Chaotic Upgrades, which are empty.
+ */
 @Mixin(value = ToolUpgrade.class, remap = false)
 public class ToolUpgradeMixin {
-    @Inject(method = "registerUpgrade", at = @At("HEAD"), cancellable = true)
+    @Shadow
+    @Final
+    public static Map<String, Integer> NAME_MAX_LEVEL;
+
+    /**
+     * Inserts at the end of the method, where it overrides the previous value in the
+     * NAME_MAX_LEVEL map.
+     */
+    @Inject(method = "registerUpgrade", at = @At("TAIL"))
     private static void registerUpgradeExceptChaotic(int id, String upgrade, int maxLevel, CallbackInfo ci) {
-        maxLevel = Math.min(maxLevel, 3);
-        ID_TO_NAME.put(id, upgrade);
-        NAME_TO_ID.put(upgrade, id);
-        NAME_MAX_LEVEL.put(upgrade, maxLevel);
-        ci.cancel();
+        NAME_MAX_LEVEL.put(upgrade, Math.min(3, maxLevel));
     }
 }
