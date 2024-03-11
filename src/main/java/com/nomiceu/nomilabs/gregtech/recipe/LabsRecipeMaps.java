@@ -40,7 +40,7 @@ public class LabsRecipeMaps {
             NAQUADAH_REACTOR_RECIPES.add(i, createNaqRecipeMap(i + 1));
         }
 
-        ACTUALIZATION_CHAMBER_RECIPES = new RecipeMap<>("actualization_chamber", 2, 16, 0, 0, new SimpleRecipeBuilder(), !(oldMultis() || LabsModeHelper.isExpert()))
+        ACTUALIZATION_CHAMBER_RECIPES = new DownExpandingRecipeMap("actualization_chamber", 2, 20, 0, 0, new SimpleRecipeBuilder(), !(oldMultis() || LabsModeHelper.isExpert()))
                 .setSlotOverlay(false, false, GuiTextures.MOLECULAR_OVERLAY_1).setSound(GTSoundEvents.MINER)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
 
@@ -59,7 +59,7 @@ public class LabsRecipeMaps {
     }
 
     private static RecipeMap<SimpleRecipeBuilder> createMicroverseRecipeMap(int tier) {
-        return new MicroverseMap("microverse_projector_" + tier, tier == 3 ? 9 : 4, tier == 1 ? 20 : 16, tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), !oldMultis())
+        return new DownExpandingRecipeMap("microverse_projector_" + tier, tier == 3 ? 9 : 4, tier == 1 ? 20 : 16, tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), !oldMultis())
                 .setProgressBar(LabsTextures.PROGRESS_BAR_ROCKET, ProgressWidget.MoveType.HORIZONTAL).setSound(LabsSounds.MICROVERSE)
                 .setSlotOverlay(false, false, GuiTextures.IMPLOSION_OVERLAY_1);
     }

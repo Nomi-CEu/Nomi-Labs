@@ -8,13 +8,16 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * A Recipe Map in which slots expand downwards if the number of slots is not a square number, instead of sideways.
+ * <p>
  * TODO: Refactor when GT MUI Change Rolls In
  */
-public class MicroverseMap extends RecipeMap<SimpleRecipeBuilder> {
-    public MicroverseMap(@NotNull String unlocalizedName, int maxInputs, int maxOutputs, int maxFluidInputs, int maxFluidOutputs, @NotNull SimpleRecipeBuilder defaultRecipeBuilder, boolean isHidden) {
+public class DownExpandingRecipeMap extends RecipeMap<SimpleRecipeBuilder> {
+    public DownExpandingRecipeMap(@NotNull String unlocalizedName, int maxInputs, int maxOutputs, int maxFluidInputs, int maxFluidOutputs, @NotNull SimpleRecipeBuilder defaultRecipeBuilder, boolean isHidden) {
         super(unlocalizedName, maxInputs, maxOutputs, maxFluidInputs, maxFluidOutputs, defaultRecipeBuilder, isHidden);
     }
 
+    @SuppressWarnings("ConstantValue")
     @Override
     protected void addInventorySlotGroup(ModularUI.Builder builder, IItemHandlerModifiable itemHandler,
                                          FluidTankList fluidHandler, boolean isOutputs, int yOffset) {
