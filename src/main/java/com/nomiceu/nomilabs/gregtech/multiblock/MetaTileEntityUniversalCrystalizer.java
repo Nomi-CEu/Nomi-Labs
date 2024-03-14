@@ -96,7 +96,7 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
                         .setMinGlobalLimited(1))
                 .or(abilities(MultiblockAbility.EXPORT_ITEMS)
                         .setMinGlobalLimited(1))
-                .or(abilities(MultiblockAbility.INPUT_ENERGY, MultiblockAbility.INPUT_LASER)
+                .or(abilities(MultiblockAbility.INPUT_ENERGY, MultiblockAbility.SUBSTATION_INPUT_ENERGY, MultiblockAbility.INPUT_LASER)
                         .setMinGlobalLimited(1)
                         .setMaxGlobalLimited(2));
     }
@@ -107,6 +107,7 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
         List<IEnergyContainer> list = new ArrayList<>();
         list.addAll(getAbilities(MultiblockAbility.INPUT_ENERGY));
         list.addAll(getAbilities(MultiblockAbility.INPUT_LASER));
+        list.addAll(getAbilities(MultiblockAbility.SUBSTATION_INPUT_ENERGY));
         this.energyContainer = new EnergyContainerList(Collections.unmodifiableList(list));
     }
 
