@@ -2,17 +2,24 @@ package com.nomiceu.nomilabs.gregtech.multiblock;
 
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
+import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
+import gregicality.multiblocks.api.capability.IParallelMultiblock;
+import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
+import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import gregtech.api.capability.IEnergyContainer;
+import gregtech.api.capability.impl.EnergyContainerList;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
+import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.unification.material.Materials;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
@@ -32,11 +39,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
 
-public class MetaTileEntityUniversalCrystalizer extends RecipeMapMultiblockController {
+public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockController {
     public MetaTileEntityUniversalCrystalizer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES);
     }
@@ -59,7 +68,9 @@ public class MetaTileEntityUniversalCrystalizer extends RecipeMapMultiblockContr
                 .aisle("XXXXXXX", "G#####G", "G#####G", "F#####F", "G#####G", "G#####G", "XGGGGGX")
                 .aisle("XXXSXXX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XXXXXXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingStateMain()).setMinGlobalLimited(80).or(autoAbilities()))
+                .where('X', states(getCasingStateMain())
+                        .setMinGlobalLimited(80)
+                        .or(autoAbilities()))
                 .where('#', states(getCasingStateAir()))
                 .where('F', states(getCasingStateFrame()))
                 .where('G', states(getCasingStateGlass()))
@@ -69,6 +80,35 @@ public class MetaTileEntityUniversalCrystalizer extends RecipeMapMultiblockContr
                 .where('R', states(getCasingStateCore()))
                 .build();
 
+    }
+
+    @Override
+    public TraceabilityPredicate autoAbilities() {
+        return states(getCasingStateMain()).setMinGlobalLimited(80)
+                .or(abilities(MultiblockAbility.MAINTENANCE_HATCH)
+                        .setMinGlobalLimited(1)
+                        .setMaxGlobalLimited(1))
+                .or(abilities(GCYMMultiblockAbility.PARALLEL_HATCH)
+                        .setMaxGlobalLimited(1))
+                .or(abilities(MultiblockAbility.IMPORT_ITEMS)
+                        .setMinGlobalLimited(1))
+                .or(abilities(MultiblockAbility.IMPORT_FLUIDS)
+                        .setMinGlobalLimited(1))
+                .or(abilities(MultiblockAbility.EXPORT_ITEMS)
+                        .setMinGlobalLimited(1))
+                .or(abilities(MultiblockAbility.INPUT_ENERGY, MultiblockAbility.SUBSTATION_INPUT_ENERGY, MultiblockAbility.INPUT_LASER)
+                        .setMinGlobalLimited(1)
+                        .setMaxGlobalLimited(2));
+    }
+
+    @Override
+    protected void initializeAbilities() {
+        super.initializeAbilities();
+        List<IEnergyContainer> list = new ArrayList<>();
+        list.addAll(getAbilities(MultiblockAbility.INPUT_ENERGY));
+        list.addAll(getAbilities(MultiblockAbility.INPUT_LASER));
+        list.addAll(getAbilities(MultiblockAbility.SUBSTATION_INPUT_ENERGY));
+        this.energyContainer = new EnergyContainerList(Collections.unmodifiableList(list));
     }
 
     @Override
