@@ -4,7 +4,6 @@ import com.brandon3055.draconicevolution.DEFeatures;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
-import gregicality.multiblocks.api.capability.IParallelMultiblock;
 import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
@@ -16,7 +15,6 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.TraceabilityPredicate;
@@ -84,10 +82,9 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
 
     @Override
     public TraceabilityPredicate autoAbilities() {
-        return states(getCasingStateMain()).setMinGlobalLimited(80)
-                .or(abilities(MultiblockAbility.MAINTENANCE_HATCH)
+        return abilities(MultiblockAbility.MAINTENANCE_HATCH)
                         .setMinGlobalLimited(1)
-                        .setMaxGlobalLimited(1))
+                        .setMaxGlobalLimited(1)
                 .or(abilities(GCYMMultiblockAbility.PARALLEL_HATCH)
                         .setMaxGlobalLimited(1))
                 .or(abilities(MultiblockAbility.IMPORT_ITEMS)
@@ -179,6 +176,7 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.universal_crystallizer.description"));
+        tooltip.add(translate("tooltip.nomilabs.universal_crystallizer.description_laser"));
         super.addInformation(stack, world, tooltip, advanced);
     }
 }
