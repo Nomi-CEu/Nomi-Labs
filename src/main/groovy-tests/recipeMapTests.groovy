@@ -1,4 +1,9 @@
 // Import Recipe Search Helpers, used for Chanced Item and Fluid Ingredients
+
+
+import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition
+import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher
+
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.GTRecipeHelpers.*
 
 // Building Test Recipes
@@ -29,3 +34,14 @@ mods.gregtech.arc_furnace.removeByInput([item('minecraft:yellow_flower')], null)
 // [Outputs... (see above)] (Matches/Removes any recipe with that output)
 // [Predicate<Recipe> predicate, Outputs... (see above)] (Matches/Removes any recipe with that output, and matching that predicate)
 mods.gregtech.arc_furnace.removeByOutput(50, [item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64], null, [chanced(item('minecraft:apple') * 64, 50, 1)], [chanced(fluid('fluorine') * 2000, 50, 1)])
+
+// NBT Helpers for Recipe Builder
+// inputNBT version for ItemStack
+// wildInputNBT version for ItemStack
+
+mods.gregtech.assembler.recipeBuilder()
+    .inputNBT(metaitem('nomilabs:dustPureOsmiridium8020'), NBTMatcher.ANY, NBTCondition.ANY)
+    .inputWildNBT(metaitem('nomilabs:dustOsmiridium8020')) // Same as above (Except the ItemStack of course)
+    .outputs(item('minecraft:apple') * 64)
+    .EUt(30).duration(30)
+    .buildAndRegister()
