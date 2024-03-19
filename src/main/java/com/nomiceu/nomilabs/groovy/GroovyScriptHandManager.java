@@ -21,7 +21,7 @@ public class GroovyScriptHandManager {
         event.messages.add(new TextComponentString(""));
         addToMessage(event, material.copy(1), false);
 
-        if (material.material.getMaterialComponents().isEmpty()) return;
+        if (material.material.getMaterialComponents() == null || material.material.getMaterialComponents().isEmpty()) return;
         event.messages.add(new TextComponentTranslation("nomilabs.command.gs_hand.material_components"));
         for (var component : material.material.getMaterialComponents()) {
             addToMessage(event, component, true);
