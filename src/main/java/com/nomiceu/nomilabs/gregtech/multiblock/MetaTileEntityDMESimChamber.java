@@ -4,8 +4,10 @@ import appeng.core.Api;
 import com.blakebr0.extendedcrafting.block.BlockStorage;
 import com.blakebr0.extendedcrafting.block.ModBlocks;
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
+import com.nomiceu.nomilabs.util.LabsModeHelper;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
@@ -35,7 +37,7 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
-public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController {
+public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController implements ConditionalJEIMultiblock {
     public MetaTileEntityDMESimChamber(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.DME_SIM_CHAMBER_RECIPES);
     }
@@ -124,5 +126,10 @@ public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController {
     public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.dme_sim_chamber.description"));
         super.addInformation(stack, world, tooltip, advanced);
+    }
+
+    @Override
+    public boolean shouldShowInJEI() {
+        return LabsModeHelper.isNormal();
     }
 }

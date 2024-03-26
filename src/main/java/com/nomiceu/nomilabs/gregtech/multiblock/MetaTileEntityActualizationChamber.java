@@ -1,6 +1,8 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
+import com.nomiceu.nomilabs.util.LabsModeHelper;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -27,7 +29,7 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
 
-public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockController {
+public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockController implements ConditionalJEIMultiblock {
     public MetaTileEntityActualizationChamber(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.ACTUALIZATION_CHAMBER_RECIPES);
     }
@@ -91,5 +93,10 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
     public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.actualization_chamber.description"));
         super.addInformation(stack, world, tooltip, advanced);
+    }
+
+    @Override
+    public boolean shouldShowInJEI() {
+        return LabsModeHelper.isExpert();
     }
 }

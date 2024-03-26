@@ -3,7 +3,9 @@ package com.nomiceu.nomilabs.gregtech.multiblock;
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
+import com.nomiceu.nomilabs.util.LabsModeHelper;
 import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
@@ -43,7 +45,7 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
 
-public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockController implements ConditionalJEIMultiblock {
     public MetaTileEntityUniversalCrystalizer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES);
     }
@@ -56,7 +58,6 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
     @Override
     @NotNull
     protected BlockPattern createStructurePattern() {
-
         return FactoryBlockPattern.start()
                 .aisle("XXXXXXX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XXXXXXX")
                 .aisle("XXXXXXX", "G#####G", "G#####G", "F#####F", "G#####G", "G#####G", "XGGGGGX")
@@ -178,5 +179,10 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
         tooltip.add(translate("tooltip.nomilabs.universal_crystallizer.description"));
         tooltip.add(translate("tooltip.nomilabs.universal_crystallizer.description_laser"));
         super.addInformation(stack, world, tooltip, advanced);
+    }
+
+    @Override
+    public boolean shouldShowInJEI() {
+        return LabsModeHelper.isExpert();
     }
 }

@@ -1,6 +1,8 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
+import com.nomiceu.nomilabs.util.LabsModeHelper;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
@@ -29,7 +31,7 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
-public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockController {
+public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockController implements ConditionalJEIMultiblock {
 
     public MetaTileEntityCreativeTankProvider(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.CREATIVE_TANK_RECIPES);
@@ -90,5 +92,10 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
     public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.creative_tank_provider.description"));
         super.addInformation(stack, world, tooltip, advanced);
+    }
+
+    @Override
+    public boolean shouldShowInJEI() {
+        return LabsModeHelper.isNormal();
     }
 }
