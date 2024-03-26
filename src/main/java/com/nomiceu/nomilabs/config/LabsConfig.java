@@ -202,6 +202,80 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableArchitectureCraftIntegration = true;
 
+        @Config.Comment("Effortless Building Integration Settings")
+        @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding")
+        @Config.Name("effortless building integration")
+        public final EffortlessBuildingIntegration effortlessBuildingIntegration = new EffortlessBuildingIntegration();
+
+        public static class EffortlessBuildingIntegration {
+            @Config.Comment({"Whether to enable Effortless Building Integration, which splits the parts of reach.",
+                    "None of the below options work if this config is set to false.",
+                    "[default: true]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.enable")
+            @Config.RequiresMcRestart
+            public boolean enableEffortlessBuildingIntegration = true;
+
+            @Config.Comment({"Max Reach Per Axis Without Upgrades.",
+                    "[default: 8]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.axis.0")
+            @Config.RequiresMcRestart
+            public int axisReach0 = 8;
+
+            @Config.Comment({"Max Reach Per Axis With 1 Upgrade.",
+                    "[default: 16]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.axis.1")
+            @Config.RequiresMcRestart
+            public int axisReach1 = 16;
+
+            @Config.Comment({"Max Reach Per Axis With 2 Upgrades.",
+                    "[default: 32]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.axis.2")
+            @Config.RequiresMcRestart
+            public int axisReach2 = 32;
+
+            @Config.Comment({"Max Reach Per Axis With 3 Upgrades.",
+                    "[default: 64]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.axis.3")
+            @Config.RequiresMcRestart
+            public int axisReach3 = 64;
+
+            @Config.Comment({"Max Reach Per Axis In Creative.",
+                    "[default: 2048]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.axis.creative")
+            @Config.RequiresMcRestart
+            public int axisReachCreative = 2048;
+
+            @Config.Comment({"Max Blocks Placed at Once Without Upgrades.",
+                    "[default: 256]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.blocks.0")
+            @Config.RequiresMcRestart
+            public int blocksPlaced0 = 256;
+
+            @Config.Comment({"Max Blocks Placed at Once With 1 Upgrade.",
+                    "[default: 2048]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.blocks.1")
+            @Config.RequiresMcRestart
+            public int blocksPlaced1 = 2048;
+
+            @Config.Comment({"Max Blocks Placed at Once With 2 Upgrades.",
+                    "[default: 16384]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.blocks.2")
+            @Config.RequiresMcRestart
+            public int blocksPlaced2 = 16384;
+
+            @Config.Comment({"Max Blocks Placed at Once With 3 Upgrades.",
+                    "[default: 131072]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.blocks.3")
+            @Config.RequiresMcRestart
+            public int blocksPlaced3 = 131072;
+
+            @Config.Comment({"Max Blocks Placed at Once In Creative.",
+                    "[default: 1048576]"})
+            @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding.blocks.creative")
+            @Config.RequiresMcRestart
+            public int blocksPlacedCreative = 1048576;
+        }
+
         public static class DraconicEvolutionIntegration {
             @Config.Comment({"Whether to enable Draconic Evolution Integration, which adds many features, such as:",
                     "Allowing GregTech Draconium and Awakened Draconium in the reactor and energy core.",

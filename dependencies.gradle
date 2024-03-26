@@ -116,6 +116,9 @@ dependencies {
     // Architecture Craft (from CurseForge)
     compileOnly rfg.deobf("curse.maven:architecture-craft-277631:2750633") // Version 3.98
 
+    // Effortless Building (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:effortless-building-302113:2847346") // Version 2.16
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -179,6 +182,10 @@ dependencies {
 
     if (project.enable_architecture_craft.toBoolean()) {
         runtimeOnly "curse.maven:architecture-craft-277631:2750633" // Version 3.98
+    }
+
+    if (project.enable_effortless_building.toBoolean()) {
+        runtimeOnly "curse.maven:effortless-building-302113:2847346" // Version 2.16
     }
 
     if (project.enable_ender_storage.toBoolean()) {

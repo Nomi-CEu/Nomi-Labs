@@ -1,12 +1,14 @@
 {
-  "package": "com.nomiceu.nomilabs.mixin.jei",
+  "package": "com.nomiceu.nomilabs.mixin.effortlessbuilding",
   "refmap": "mixins.nomilabs.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "CraftingRecipeCategoryMixin",
-    "RecipeCategoryTabMixin"
+    "ItemReachUpgrade1Mixin",
+    "ItemReachUpgrade2Mixin",
+    "ItemReachUpgrade3Mixin",
+    "ReachHelperMixin"
   ],
   "client": [],
   "server": []
