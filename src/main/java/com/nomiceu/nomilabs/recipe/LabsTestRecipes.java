@@ -14,7 +14,7 @@ public class LabsTestRecipes {
     public static void initRecipes() {
         assert Blocks.SAPLING != null;
         assert Blocks.LOG != null;
-        LabsRecipeMaps.GREENHOUSE_RECIPES.recipeBuilder().duration(1200).EUt(GTValues.VHA[GTValues.MV])
+        LabsRecipeMaps.GROWTH_CHAMBER_RECIPES.recipeBuilder().duration(1200).EUt(GTValues.VHA[GTValues.MV])
                 .input(Blocks.SAPLING)
                 .output(Blocks.LOG)
                 .buildAndRegister();

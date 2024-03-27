@@ -21,7 +21,7 @@ public class LabsRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> ACTUALIZATION_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> UNIVERSAL_CRYSTALIZER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> DME_SIM_CHAMBER_RECIPES;
-    public static RecipeMap<SimpleRecipeBuilder> GREENHOUSE_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> GROWTH_CHAMBER_RECIPES;
 
     public static void preInit() {
         MICROVERSE_RECIPES = new ArrayList<>();
@@ -52,7 +52,7 @@ public class LabsRecipeMaps {
                 .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY).setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER, ProgressWidget.MoveType.VERTICAL).setSound(GTSoundEvents.COMPUTATION);
 
-        GREENHOUSE_RECIPES = new RecipeMap<>("greenhouse", 4, 9, 1, 0, new SimpleRecipeBuilder(), !newMultis())
+        GROWTH_CHAMBER_RECIPES = new RecipeMap<>("growth_chamber", 4, 9, 1, 0, new SimpleRecipeBuilder(), !newMultis())
                 .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY).setSlotOverlay(false, true, GuiTextures.SCANNER_OVERLAY)
                 .setSlotOverlay(true, false, GuiTextures.SCANNER_OVERLAY).setSlotOverlay(true, true, GuiTextures.SCANNER_OVERLAY)
                 .setSound(GTSoundEvents.SAW_TOOL);

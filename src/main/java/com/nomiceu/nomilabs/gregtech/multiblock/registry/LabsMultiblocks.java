@@ -10,7 +10,7 @@ import gregtech.common.metatileentities.MetaTileEntities;
  */
 @SuppressWarnings("unused")
 public class LabsMultiblocks {
-    public static MetaTileEntityGreenhouse GREENHOUSE;
+    public static MetaTileEntityGrowthChamber GROWTH_CHAMBER;
     public static MetaTileEntityMicroverseProjector.Microverse1 MICROVERSE_1;
     public static MetaTileEntityMicroverseProjector.Microverse2 MICROVERSE_2;
     public static MetaTileEntityMicroverseProjector.Microverse3 MICROVERSE_3;
@@ -48,6 +48,6 @@ public class LabsMultiblocks {
         DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108, new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
     }
     private static void initNew() {
-        GREENHOUSE = MetaTileEntities.registerMetaTileEntity(32109, new MetaTileEntityGreenhouse(LabsNames.makeLabsName("greenhouse")));
+        GROWTH_CHAMBER = MetaTileEntities.registerMetaTileEntity(32109, new MetaTileEntityGrowthChamber(LabsNames.makeLabsName("growth_chamber")));
     }
 }

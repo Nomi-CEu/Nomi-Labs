@@ -32,15 +32,15 @@ import java.util.List;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
-public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockController {
 
-    public MetaTileEntityGreenhouse(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, LabsRecipeMaps.GREENHOUSE_RECIPES);
+    public MetaTileEntityGrowthChamber(ResourceLocation metaTileEntityId) {
+        super(metaTileEntityId, LabsRecipeMaps.GROWTH_CHAMBER_RECIPES);
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity iGregTechTileEntity) {
-        return new MetaTileEntityGreenhouse(metaTileEntityId);
+        return new MetaTileEntityGrowthChamber(metaTileEntityId);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class MetaTileEntityGreenhouse extends GCYMRecipeMapMultiblockController 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
-        tooltip.add(translate("tooltip.nomilabs.greenhouse.description"));
+        tooltip.add(translate("tooltip.nomilabs.growth_chamber.description"));
         super.addInformation(stack, world, tooltip, advanced);
     }
 }
