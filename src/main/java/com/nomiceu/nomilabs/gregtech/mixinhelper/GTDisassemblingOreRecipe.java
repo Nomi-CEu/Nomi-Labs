@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
+import com.nomiceu.nomilabs.groovy.ShapedConversionRecipe;
 import gregtech.common.crafting.GTShapedOreRecipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GTDisassemblingOreRecipe extends GTShapedOreRecipe {
     private final int inputLocation;
+    private Integer[] cache;
 
     public GTDisassemblingOreRecipe(boolean isClearing, ResourceLocation group, @NotNull ItemStack result, Object... recipe) {
         super(isClearing, group, result, recipe);
@@ -29,36 +31,6 @@ public class GTDisassemblingOreRecipe extends GTShapedOreRecipe {
      */
     @Override
     public boolean matches(@NotNull InventoryCrafting inv, @NotNull World world) {
-        if (inv.getWidth() < 2 || inv.getWidth() > 3 || inv.getHeight() < 2 || inv.getHeight() > 3 || inv.getWidth() != inv.getHeight()) return false;
-        if (inputLocation == -1) return false;
-        var location = getLocationForDim(inv.getWidth());
-        if (location == -1) return false;
-
-        int locationX = location % inv.getWidth();
-        int locationY = location / inv.getWidth();
-
-        // Not using inv.stackList, as the stackList may not be correct for a given invCrafting.
-        for (int x = 0; x < inv.getWidth(); x++) {
-            for (int y = 0; y < inv.getHeight(); y++) {
-                if (x == locationX && y == locationY) {
-                    if (!input.get(inputLocation).apply(inv.getStackInRowAndColumn(x, y))) return false;
-                    continue;
-                }
-                if (!inv.getStackInRowAndColumn(x, y).isEmpty()) return false;
-            }
-        }
-        return true;
-    }
-
-    private int getLocationForDim(int dim) {
-        switch (dim) {
-            case 2 -> {
-                if (inputLocation > 4 || inputLocation == 2) return -1; // Not in 2x2 square
-                if (inputLocation > 2) return inputLocation - 1;
-                return inputLocation;
-            }
-            case 3 -> { return inputLocation; }
-            default -> { return -1; }
-        }
+        return ShapedConversionRecipe.matchesShaped(inv, inputLocation, (stack) -> input.get(inputLocation).apply(stack), cache, (cache1) -> cache = cache1);
     }
 }
