@@ -27,7 +27,8 @@ import org.apache.logging.log4j.Logger;
                 + "after:libvulpes;"
                 + "after:crafttweaker@[4.1.20,);"
                 + "after:appliedenergistics2;"
-                + "after:architecturecraft;")
+                + "after:architecturecraft;"
+                + "after:effortlessbuilding;")
 @SuppressWarnings("unused")
 public class NomiLabs {
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);

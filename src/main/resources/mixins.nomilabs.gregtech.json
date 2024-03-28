@@ -7,10 +7,12 @@
   "mixins": [
     "AccessibleDecompositionRecipeHandler",
     "AccessibleMaterialInfo",
+    "AccessibleModHandler",
     "FluidStorageKeyMixin",
     "GTRecipeWrapperMixin",
     "MaterialFlagsMixin",
     "MaterialMixin",
+    "MaterialRecipeHandlerMixin",
     "MaterialStackMixin",
     "MetaItemsMixin",
     "MultiblockInfoCategoryMixin",
