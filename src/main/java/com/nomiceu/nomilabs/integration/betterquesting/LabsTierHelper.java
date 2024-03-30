@@ -7,8 +7,10 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.*;
+import java.util.UUID;
 
 /**
  * Used by Nomi-CEu for Rich Presence.
@@ -17,7 +19,7 @@ import java.util.*;
  * <p>
  * Also, Mod Specific Event Bus Subscribers are annoying.
  */
-
+@SideOnly(Side.CLIENT)
 public class LabsTierHelper {
     private static int[] IDS;
     private static String[] SLUGS;
@@ -47,7 +49,17 @@ public class LabsTierHelper {
         cacheID = null;
     }
 
-    public static void rebuildCacheTier() {
+    @SuppressWarnings("unused")
+    public static String getTierSlug() {
+        return getOrDefault(LabsConfig.advanced.tierSettings.defaultSlug, SLUGS);
+    }
+
+    @SuppressWarnings("unused")
+    public static String getTierName() {
+        return getOrDefault(LabsConfig.advanced.tierSettings.defaultFormatted, NAMES);
+    }
+
+    private static void rebuildCacheTier() {
         var inputUuid = QuestingAPI.getQuestingUUID(Minecraft.getMinecraft().player);
         uuid = inputUuid;
         if (inputUuid == null) {
@@ -64,22 +76,12 @@ public class LabsTierHelper {
         cacheID = null;
     }
 
-    public static void resetCacheTier() {
+    private static void resetCacheTier() {
         uuid = null;
         cacheID = null;
     }
 
-    @SuppressWarnings("unused")
-    public static String getTierSlug() {
-        return getOrDefault(LabsConfig.advanced.tierSettings.defaultSlug, SLUGS);
-    }
-
-    @SuppressWarnings("unused")
-    public static String getTierName() {
-        return getOrDefault(LabsConfig.advanced.tierSettings.defaultFormatted, NAMES);
-    }
-
-    public static String getOrDefault(String defaultValue, String[] list) {
+    private static String getOrDefault(String defaultValue, String[] list) {
         if (!Loader.isModLoaded(LabsValues.BQU_MODID)) return Minecraft.getMinecraft().player == null ? "" : defaultValue;
         if (Minecraft.getMinecraft().player != null) {
             rebuildCacheTier();

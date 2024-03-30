@@ -1,14 +1,16 @@
 package com.nomiceu.nomilabs.event;
 
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
+import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
+import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.tooltip.TooltipAdder;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,8 +25,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SuppressWarnings("unused")
 public class ClientProxy {
 
-    public static void preInit() {
+    public static void earlyPreInit() {
         LabsTextures.preInit();
+    }
+
+    public static void latePreInit() {
+        if (Loader.isModLoaded(LabsValues.BQU_MODID))
+            LabsTierHelper.preInit();
     }
 
     @SubscribeEvent

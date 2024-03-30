@@ -17,7 +17,6 @@ import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
-import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
@@ -77,9 +76,6 @@ public class CommonProxy {
 
         if (LabsConfig.modIntegration.enableTOPIntegration && Loader.isModLoaded(LabsValues.TOP_MODID))
             TOPTooltipManager.registerProviders();
-
-        if (Loader.isModLoaded(LabsValues.BQU_MODID))
-            LabsTierHelper.preInit();
 
         DataFixerHandler.preInit();
         FluidRegistryMixinHelper.preInit();

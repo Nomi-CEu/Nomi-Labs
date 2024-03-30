@@ -38,8 +38,10 @@ public class NomiLabs {
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
         if (LabsSide.isClient())
-            ClientProxy.preInit();
+            ClientProxy.earlyPreInit();
         CommonProxy.preInit();
+        if (LabsSide.isClient())
+            ClientProxy.latePreInit();
     }
 
     @EventHandler
