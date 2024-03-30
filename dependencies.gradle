@@ -114,7 +114,7 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:advanced-rocketry-236542:3015079") // Version 1.7.0-232 (Newer Versions need Newer Lib Vulpes)
 
     // Architecture Craft (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:architecture-craft-277631:2750633") // Version 3.98
+    compileOnly rfg.deobf("curse.maven:architecture-craft-277631:4344128") // Version 3.108
 
     // Effortless Building (from CurseForge)
     compileOnly rfg.deobf("curse.maven:effortless-building-302113:2847346") // Version 2.16
@@ -184,7 +184,7 @@ dependencies {
     }
 
     if (project.enable_architecture_craft.toBoolean()) {
-        runtimeOnly "curse.maven:architecture-craft-277631:2750633" // Version 3.98
+        runtimeOnly "curse.maven:architecture-craft-277631:4344128" // Version 3.108
     }
 
     if (project.enable_effortless_building.toBoolean()) {
