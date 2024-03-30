@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.util;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import io.sommers.packmode.PMConfig;
+import org.apache.commons.lang3.StringUtils;
 
 public class LabsModeHelper {
     private static boolean checked = false;
@@ -17,6 +18,14 @@ public class LabsModeHelper {
         if (!checked)
             throw new IllegalStateException("Cannot access Pack Mode before Post Init!");
         return PMConfig.getPackMode().equals(LabsValues.EXPERT_MODE);
+    }
+
+    /**
+     * Used by Nomi-CEu Rich Presence.
+     */
+    @SuppressWarnings("unused")
+    public static String getFormattedMode() {
+        return StringUtils.capitalize(PMConfig.getPackMode());
     }
 
     public static void check() {

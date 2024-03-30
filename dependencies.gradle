@@ -119,6 +119,9 @@ dependencies {
     // Effortless Building (from CurseForge)
     compileOnly rfg.deobf("curse.maven:effortless-building-302113:2847346") // Version 2.16
 
+    // Better Questing Unofficial (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:better-questing-unofficial-629629:5183601") // Version 4.2.2
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -186,6 +189,10 @@ dependencies {
 
     if (project.enable_effortless_building.toBoolean()) {
         runtimeOnly "curse.maven:effortless-building-302113:2847346" // Version 2.16
+    }
+
+    if (project.enable_bqu.toBoolean()) {
+        runtimeOnly "curse.maven:better-questing-unofficial-629629:5183601" // Version 4.2.2
     }
 
     if (project.enable_ender_storage.toBoolean()) {

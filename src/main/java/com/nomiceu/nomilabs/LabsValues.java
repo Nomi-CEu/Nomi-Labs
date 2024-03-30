@@ -32,4 +32,5 @@ public class LabsValues {
     public static final String ROCKETRY_MODID = "advancedrocketry";
     public static final String ARCHITECTURE_MODID = "architecturecraft";
     public static final String EFFORTLESS_MODID = "effortlessbuilding";
+    public static final String BQU_MODID = "betterquesting";
 }

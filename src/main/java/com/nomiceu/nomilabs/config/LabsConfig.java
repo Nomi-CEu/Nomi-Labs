@@ -342,6 +342,12 @@ public class LabsConfig {
         @Config.Name("fluid registry")
         public final FluidRegistry fluidRegistrySettings = new FluidRegistry();
 
+        @Config.Comment({"Tier Detectors, which get the Tier a Player is On based on Quest Completion.",
+                "Currently only used in Nomi-CEu for Rich Presence."})
+        @Config.LangKey("config.nomilabs.advanced.tiers")
+        @Config.Name("tier settings")
+        public final TierSettings tierSettings = new TierSettings();
+
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
                 "Do not change unless you know what you are doing!",
                 "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
@@ -402,6 +408,72 @@ public class LabsConfig {
             @Config.LangKey("config.nomilabs.advanced.fluid_registry.log_conflicting_fluids")
             @Config.RequiresMcRestart
             public boolean logConflictingFluids = false;
+        }
+
+        public static class TierSettings {
+            @Config.Comment({"Better Questing QB IDs for Normal Mode Tiers.",
+                    "These are checked in reverse, so later quests in the list, and in progression, have higher priority",
+                    "[default: ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.normal_qb_ids")
+            @Config.RequiresMcRestart
+            public int[] normalModeQuestIds = new int[0];
+
+            @Config.Comment({"Non-Formatted Names for Normal Mode Tiers.",
+                    "Each Tier must have the same index as the corresponding Quest ID!",
+                    "[default: ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.normal_slugs")
+            @Config.RequiresMcRestart
+            public String[] normalModeSlugs = new String[0];
+
+            @Config.Comment({"Formatted Names for Normal Mode Tiers.",
+                    "Each Tier must have the same index as the corresponding Quest ID!",
+                    "[default: ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.normal_formatted")
+            @Config.RequiresMcRestart
+            public String[] normalModeFormatted = new String[0];
+
+            @Config.Comment({"Better Questing QB IDs for Expert Mode Tiers.",
+                    "[default: ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.expert_qb_ids")
+            @Config.RequiresMcRestart
+            public int[] expertModeQuestIds = new int[0];
+
+            @Config.Comment({"Non-Formatted Names for Expert Mode Tiers.",
+                    "Each Tier must have the same index as the corresponding Quest ID!",
+                    "[default: ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.expert_slugs")
+            @Config.RequiresMcRestart
+            public String[] expertModeSlugs = new String[0];
+
+            @Config.Comment({"Formatted Names for Expert Mode Tiers.",
+                    "Each Tier must have the same index as the corresponding Quest ID!",
+                    "[default: ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.expert_formatted")
+            @Config.RequiresMcRestart
+            public String[] expertModeFormatted = new String[0];
+
+            @Config.Comment({"Non-Formatted Name for Default Tier (Before Any Quests are Completed).",
+                    "[default: pre-lv ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.expert_formatted")
+            @Config.RequiresMcRestart
+            public String defaultSlug = "pre-lv";
+
+            @Config.Comment({"Formatted Name for Default Tier (Before Any Quests are Completed).",
+                    "[default: Before LV ]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.expert_formatted")
+            @Config.RequiresMcRestart
+            public String defaultFormatted = "Before LV";
+
+            @Config.Comment({"Which Lists to default to if the mode is not Normal or Expert.",
+                    "[default: NORMAL]"})
+            @Config.LangKey("config.nomilabs.advanced.tiers.default")
+            @Config.RequiresMcRestart
+            public DefaultModeType defaultMode = DefaultModeType.NORMAL;
+
+            public enum DefaultModeType {
+                NORMAL,
+                EXPERT
+            }
         }
     }
 }
