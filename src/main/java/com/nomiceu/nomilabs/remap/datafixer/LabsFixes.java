@@ -34,8 +34,9 @@ import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 /**
  * Definitions for all values, and all data fixes.
  * <p>
- * No Data Fixes are loaded if the 'FIX_VERSION' is below the version saved in the world, or the Nomi Labs Version in world
- * is the same as the current Nomi Labs Version.
+ * When the modList matches, and the fix version the world was created with matches the fix, the fix is included.
+ * This is because items and blocks may not be loaded in the first load.
+ * However, only fixes where the previous version the world was loaded with matches will be included in Ender Storage Remapping.
  */
 public class LabsFixes {
     /**
@@ -133,7 +134,7 @@ public class LabsFixes {
          *              false, // Whether the correct mode is required for the change to work right
          *
          *              (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
-         *                                                       // Note that this is not applied if the previous version is equal to the current overall fix version.
+         *                                                       // Note that this is not included in the fix list if the previous version is equal to the current overall fix version.
          *
          *              (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
          *                                 // Note that the fix is only applied if the version AND the modlist is valid.
@@ -284,7 +285,7 @@ public class LabsFixes {
          *              false, // Whether the correct mode is required for the change to work right
          *
          *              (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
-         *                                                       // Note that this is not applied if the previous version is equal to the current overall fix version.
+         *                                                       // Note that this is not included in the fix list if the previous version is equal to the current overall fix version.
          *
          *              (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
          *                                 // Note that the fix is only applied if the version AND the modlist is valid.
@@ -342,7 +343,7 @@ public class LabsFixes {
          *                    false, // Whether the correct mode is required for the change to work right
          *
          *                    (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
-         *                                                             // Note that this is not applied if the previous version is equal to the current overall fix version.
+         *                                                             // Note that this is not included in the fix list if the previous version is equal to the current overall fix version.
          *
          *                    (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
          *                                       // Note that the fix is only applied if the version AND the modlist is valid.

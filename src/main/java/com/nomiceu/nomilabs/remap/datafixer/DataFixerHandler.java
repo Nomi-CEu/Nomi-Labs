@@ -54,9 +54,16 @@ public class DataFixerHandler {
     public static LabsWorldFixData worldSavedData = null;
     public static boolean checked = false;
 
+    /* Fixes that should be applied */
     public static Map<IFixType, List<DataFix<?>>> neededFixes;
+
+    /* Fixes that should be logged */
+    public static Map<IFixType, List<DataFix<?>>> neededNewFixes;
+
+    /* Whether Mode is needed for New Fixes */
     public static boolean modeNeeded = false;
 
+    private static Map<String, String> mods;
     private static BiMap<Integer, ResourceLocation> blockHelperMap;
 
     public static void preInit() {
@@ -81,7 +88,23 @@ public class DataFixerHandler {
     public static void onWorldLoad(SaveHandler save) {
         checked = false;
         modeNeeded = false;
+        neededFixes = null;
+        neededNewFixes = null;
         NomiLabs.LOGGER.info("Checking Data Fixers...");
+
+        getModList(save);
+        if (mods.isEmpty()) return;
+
+        LabsFixes.init();
+        neededFixes = new Object2ObjectOpenHashMap<>();
+        for (var fixType : LabsFixes.fixes.keySet()) {
+            for (var fix : LabsFixes.fixes.get(fixType)) {
+                if (fix.validModList.apply(mods)) {
+                    if (!neededFixes.containsKey(fixType)) neededFixes.put(fixType, new ObjectArrayList<>());
+                    neededFixes.get(fixType).add(fix);
+                }
+            }
+        }
 
         var mapFile = save.getMapFileFromName(LabsFixes.DATA_NAME);
 
@@ -100,14 +123,13 @@ public class DataFixerHandler {
             NomiLabs.LOGGER.info("This world was saved without a data version. New Version: {}.", LabsFixes.CURRENT);
         }
 
-        LabsFixes.init();
-        determineNeededFixesAndLog(save);
+        determineNeededFixesAndLog();
 
         // Clear Block Helper Map, the ids are different for some saves
         blockHelperMap = null;
 
-        if (neededFixes.isEmpty()) {
-            NomiLabs.LOGGER.info("This world does not need any data fixers, but it has no saved version, it is old, or this is a new world.");
+        if (neededNewFixes.isEmpty()) {
+            NomiLabs.LOGGER.info("This world does not need any new data fixers, but it has no saved version, it is old, or this is a new world.");
             LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
             return;
         }
@@ -138,8 +160,9 @@ public class DataFixerHandler {
         LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
     }
 
-    private static void determineNeededFixesAndLog(SaveHandler save) {
-        neededFixes = new Object2ObjectOpenHashMap<>();
+    private static void getModList(SaveHandler save) {
+        mods = new HashMap<>();
+
         File levelDat = new File(save.getWorldDirectory(), "level.dat");
 
         // If level.dat file does not exist, return.
@@ -149,7 +172,6 @@ public class DataFixerHandler {
         if (!levelDat.exists())
             return;
 
-        Map<String, String> mods = new HashMap<>();
         NBTTagList modList;
         try {
             NBTTagCompound nbt = CompressedStreamTools.readCompressed(new FileInputStream(levelDat));
@@ -161,13 +183,18 @@ public class DataFixerHandler {
             NomiLabs.LOGGER.fatal("Failed to read level.dat.", e);
             return;
         }
-
         for (var mod : modList) {
             if (!(mod instanceof NBTTagCompound compound)) continue;
             if (!compound.hasKey("ModId", Constants.NBT.TAG_STRING) || !compound.hasKey("ModVersion", Constants.NBT.TAG_STRING))
                 continue;
             mods.put(compound.getString("ModId"), compound.getString("ModVersion"));
         }
+    }
+
+    private static void determineNeededFixesAndLog() {
+        neededNewFixes = new Object2ObjectOpenHashMap<>();
+
+        if (mods.isEmpty()) return;
 
         // If Nomi Labs Version is same as current version, exit.
         // This normally means it is a new world.
@@ -184,8 +211,8 @@ public class DataFixerHandler {
             var fixes = LabsFixes.fixes.get(fixType);
             for (var fix : fixes) {
                 if (fix.validVersion.apply(DataFixerHandler.worldSavedData.savedVersion) && fix.validModList.apply(mods)) {
-                    if (!neededFixes.containsKey(fixType)) neededFixes.put(fixType, new ObjectArrayList<>());
-                    neededFixes.get(fixType).add(fix);
+                    if (!neededNewFixes.containsKey(fixType)) neededNewFixes.put(fixType, new ObjectArrayList<>());
+                    neededNewFixes.get(fixType).add(fix);
                     if (fix.needsMode) modeNeeded = true;
                     NomiLabs.LOGGER.info("- {}: {}", fix.name, fix.description);
                 }
@@ -236,12 +263,18 @@ public class DataFixerHandler {
         NomiLabs.LOGGER.info("Finished Processing Ender Storage Info!");
     }
 
+    public static boolean hasNoNewFixes() {
+        return worldSavedData == null || neededNewFixes == null || neededNewFixes.isEmpty();
+    }
+
     public static boolean fixNotAvailable() {
-        return worldSavedData == null;
+        return neededFixes == null || neededFixes.isEmpty();
     }
 
     public static void close() {
         worldSavedData = null;
         checked = false;
+        neededFixes = null;
+        neededNewFixes = null;
     }
 }

@@ -27,7 +27,7 @@ public class WorldLoadHandler {
 
         DataFixerHandler.onWorldLoad(save);
 
-        if (DataFixerHandler.fixNotAvailable()) return;
+        if (DataFixerHandler.hasNoNewFixes()) return;
 
         if (Loader.isModLoaded(LabsValues.ENDER_STORAGE_MODID) && LabsConfig.modIntegration.enableEnderStorageIntegration)
             DataFixerHandler.processEnderStorageInfo(fixer, save);
