@@ -454,17 +454,17 @@ public class LabsConfig {
 
             @Config.Comment({"Non-Formatted Name for Default Tier (Before Any Quests are Completed).",
                     "[default: pre-lv ]"})
-            @Config.LangKey("config.nomilabs.advanced.tiers.expert_formatted")
+            @Config.LangKey("config.nomilabs.advanced.tiers.default_slug")
             @Config.RequiresMcRestart
             public String defaultSlug = "pre-lv";
 
             @Config.Comment({"Formatted Name for Default Tier (Before Any Quests are Completed).",
                     "[default: Before LV ]"})
-            @Config.LangKey("config.nomilabs.advanced.tiers.expert_formatted")
+            @Config.LangKey("config.nomilabs.advanced.tiers.default_formatted")
             @Config.RequiresMcRestart
             public String defaultFormatted = "Before LV";
 
-            @Config.Comment({"Which Lists to default to if the mode is not Normal or Expert.",
+            @Config.Comment({"Which lists to default to if the mode is not Normal or Expert.",
                     "[default: NORMAL]"})
             @Config.LangKey("config.nomilabs.advanced.tiers.default")
             @Config.RequiresMcRestart
