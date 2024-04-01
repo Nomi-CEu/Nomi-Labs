@@ -1,5 +1,7 @@
 import com.nomiceu.nomilabs.groovy.ShapedConversionRecipe
 
+// Custom Recipe Classes. Goes in Post Init.
+
 // Use a Custom Recipe Class in Shaped Recipes!
 
 // Using Key Based Matrix

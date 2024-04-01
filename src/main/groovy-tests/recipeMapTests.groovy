@@ -6,6 +6,8 @@ import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher
 
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.GTRecipeHelpers.*
 
+// Find and Removing GT Recipe Helpers. Goes in Post Init.
+
 // Building Test Recipes
 mods.gregtech.arc_furnace.recipeBuilder().inputs(metaitem('nomilabs:dustImpureOsmiridium8020')).outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64).EUt(50).duration(30).buildAndRegister()
 mods.gregtech.arc_furnace.recipeBuilder().inputs(item('minecraft:stick')).outputs(item('minecraft:apple') * 64).EUt(50).duration(30).buildAndRegister()

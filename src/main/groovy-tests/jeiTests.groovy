@@ -3,6 +3,8 @@ import net.minecraft.util.text.TextFormatting
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.JEIHelpers.*
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.TranslationHelpers.*
 
+// JEI Helpers. (Goes in Post Init)
+
 /* Description Pages. Each entry is seperated by double new lines. */
 
 // Add a description page for a stack

@@ -23,6 +23,7 @@ import groovy.lang.Closure;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
@@ -246,6 +247,16 @@ public class GroovyHelpers {
 
         public static ChancedFluidOutput chanced(FluidStack fluid, int chance, int chanceBoost) {
             return new ChancedFluidOutput(fluid, chance, chanceBoost);
+        }
+    }
+
+    public static class KeyBindingHelpers {
+        public static void addOverride(String id, int keyCode) {
+            addOverride(id, KeyModifier.NONE, keyCode);
+        }
+
+        public static void addOverride(String id, KeyModifier modifier, int keyCode) {
+            KeyBindingHelper.addKeybindOverride(id, modifier, keyCode);
         }
     }
 

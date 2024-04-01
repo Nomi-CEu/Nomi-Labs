@@ -122,6 +122,9 @@ dependencies {
     // Better Questing Unofficial (from CurseForge)
     compileOnly rfg.deobf("curse.maven:better-questing-unofficial-629629:5183601") // Version 4.2.2
 
+    // Controlling (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:controlling-250398:5165715") // Version 3.0.12.3
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -193,6 +196,10 @@ dependencies {
 
     if (project.enable_bqu.toBoolean()) {
         runtimeOnly "curse.maven:better-questing-unofficial-629629:5183601" // Version 4.2.2
+    }
+
+    if (project.enable_controlling.toBoolean()) {
+        runtimeOnly "curse.maven:controlling-250398:5165715" // Version 3.0.12.3
     }
 
     if (project.enable_ender_storage.toBoolean()) {

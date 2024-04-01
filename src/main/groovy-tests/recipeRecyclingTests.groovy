@@ -1,7 +1,7 @@
 // Imports all static functions from the recycling section of the groovy helpers
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.RecipeRecyclingHelpers.*
 
-// This should be placed in PostInit!
+// Crafting Recipe Recycling Helpers. Goes in Post Init.
 
 // All Replace Recipes only works for replacing recipes where:
 // output item, ignoring count, including meta, is the same as the old output item, ignoring count, including meta

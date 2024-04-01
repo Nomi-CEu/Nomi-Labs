@@ -5,7 +5,7 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.ChangeCompositionHelpers
 // Imports Mixer Specification, needed to specify Mixer Specification if specifying how to change Mixer
 import static com.nomiceu.nomilabs.groovy.CompositionBuilder.MixerSpecification
 
-// Replace Composition (changes specified)
+// Replace Composition (changes specified). Goes in Post Init.
 
 // THESE DO NOT APPLY UNTIL AFTER ALL POST INIT SCRIPTS ARE RUN!
 

@@ -1,3 +1,5 @@
+// Ore Dict Helpers. Goes in Post Init.
+
 // Note that just like groovy's default, removing Ore Dictionaries that apply to all metas of a item
 // is quite buggy.
 

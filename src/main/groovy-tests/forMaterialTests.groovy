@@ -2,6 +2,8 @@ import net.minecraftforge.fluids.Fluid
 
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.MaterialHelpers.*
 
+// Material Removers and Loopers. (Goes in Post Init)
+
 // Actions on Items include all material items and blocks, and buckets containing any material fluid.
 // Actions on Fluids include liquids, gasses, solids, and addon fluids (such as molten fluids, added by GCYM)
 

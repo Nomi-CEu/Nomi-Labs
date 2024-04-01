@@ -1,0 +1,13 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.controlling",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+    "GuiNewKeyBindingListAccessor",
+    "GuiNewKeyBindingListKeyEntryMixin"
+  ],
+  "server": []
+}

@@ -348,6 +348,12 @@ public class LabsConfig {
         @Config.Name("tier settings")
         public final TierSettings tierSettings = new TierSettings();
 
+        @Config.Comment({"Control Menu Tooltip Settings, which are used to help with default keybind overrides..",
+                "The actual override setting occurs in GroovyScript!"})
+        @Config.LangKey("config.nomilabs.advanced.controls_tooltips")
+        @Config.Name("control menu tooltip settings")
+        public final ControlMenuTooltipSettings controlMenuTooltipSettings = new ControlMenuTooltipSettings();
+
         @Config.Comment({"List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
                 "Do not change unless you know what you are doing!",
                 "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
@@ -474,6 +480,20 @@ public class LabsConfig {
                 NORMAL,
                 EXPERT
             }
+        }
+
+        public static class ControlMenuTooltipSettings {
+            @Config.Comment({"Whether to show the keybind ID, if hovering over a keybind and pressing SHIFT.",
+                    "The ID is used in default keybind overriding, as the ID specifies which keybind to override.",
+                    "[default: true]"})
+            @Config.LangKey("config.nomilabs.advanced.controls_tooltips.show_id")
+            public boolean showID = true;
+
+            @Config.Comment({"Whether to show the keybind's Class, if hovering over a keybind and pressing CTRL.",
+                    "If the class is not 'net.minecraft.client.settings.KeyBinding', default keybind overriding may not work for that keybind!",
+                    "[default: false]"})
+            @Config.LangKey("config.nomilabs.advanced.controls_tooltips.show_class")
+            public boolean showClass = false;
         }
     }
 }

@@ -11,6 +11,11 @@
     "NarratorMixin",
     "WorldLoadHandler"
   ],
-  "client": [],
+  "client": [
+    "GuiKeyBindingListAccessor",
+    "GuiKeyBindingListKeyEntryMixin",
+    "KeyBindingAccessor",
+    "KeyBindingMixin"
+  ],
   "server": []
 }
