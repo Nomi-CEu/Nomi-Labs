@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.gregtech.material.registry.register;
 import gregtech.api.unification.material.Material;
 
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
@@ -14,6 +15,7 @@ public class LabsMicroverse {
                 .ingot()
                 .color(0x9b61b8).iconSet(DULL)
                 .flags(GENERATE_PLATE, GENERATE_FRAME)
+                .cableProperties(V[MV], 4, 2, false)
                 .build();
 
         Osmiridium8020 = new Material.Builder(29, makeLabsName("osmiridium_8020"))

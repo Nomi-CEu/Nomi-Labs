@@ -1,7 +1,9 @@
 package com.nomiceu.nomilabs.gregtech.material.registry;
 
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.material.LabsProperties;
 import com.nomiceu.nomilabs.gregtech.material.registry.register.*;
+import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconSet;
 
@@ -200,6 +202,10 @@ public class LabsMaterials {
 
         /* Endgame Materials */
         LabsEndgame.initEndgame();
+
+        /* Fallback Material */
+        GregTechAPI.materialManager.getRegistry(LabsValues.LABS_MODID)
+                .setFallbackMaterial(Omnium);
     }
 
     public static void materialChanges() {

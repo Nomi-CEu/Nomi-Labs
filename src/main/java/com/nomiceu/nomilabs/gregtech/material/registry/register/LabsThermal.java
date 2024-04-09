@@ -43,6 +43,7 @@ public class LabsThermal {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_GEAR)
                 .components(AnnealedCopper, 4, Ardite, 2, RedAlloy, 2)
                 .cableProperties(V[LuV], 1, 0, true)
+                .itemPipeProperties(512, 64)
                 .build();
 
         Lumium = new Material.Builder(17, makeLabsName("lumium"))
@@ -56,6 +57,7 @@ public class LabsThermal {
                         .vacuumStats(VA[HV], 600))
                 .components(TinAlloy, 4, SterlingSilver, 2)
                 .cableProperties(V[IV], 1, 0, true)
+                .fluidPipeProperties(4500, 256, true, true, true, false)
                 .build();
 
         Enderium = new Material.Builder(18, makeLabsName("enderium"))
