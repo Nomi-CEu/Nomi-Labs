@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.integration.jei;
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.OreDictIngHelper;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import mezz.jei.api.IModPlugin;
@@ -28,6 +29,9 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void register(IModRegistry registry) {
+        // Refresh GT Ore Ingredients
+        OreDictIngHelper.incStandard();
+
         var jeiHelpers = registry.getJeiHelpers();
 
         // JEI does not recognise Custom Recipe Classes on its own
