@@ -214,6 +214,13 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableArchitectureCraftIntegration = true;
 
+        @Config.Comment({
+                "Whether to enable Default World Generator Port Integration, which fixes scaling issues, and adds a cancel button.",
+                "[default: true]" })
+        @Config.LangKey("config.nomilabs.mod_integration.default_world_gen")
+        @Config.RequiresMcRestart
+        public boolean enableDefaultWorldGenIntegration = true;
+
         @Config.Comment("Effortless Building Integration Settings")
         @Config.LangKey("config.nomilabs.mod_integration.effortlessbuilding")
         @Config.Name("effortless building integration")

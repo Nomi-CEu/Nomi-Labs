@@ -35,7 +35,9 @@ public class LabsLateMixin implements ILateMixinLoader {
             new AbstractMap.SimpleImmutableEntry<>(LabsValues.EFFORTLESS_MODID,
                     LabsConfig.modIntegration.effortlessBuildingIntegration.enableEffortlessBuildingIntegration),
             new AbstractMap.SimpleImmutableEntry<>(LabsValues.GROOVY_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.CONTROLLING_MODID, true))
+            new AbstractMap.SimpleImmutableEntry<>(LabsValues.CONTROLLING_MODID, true),
+            new AbstractMap.SimpleImmutableEntry<>(LabsValues.DEFAULT_WORLD_GEN_MODID,
+                    LabsConfig.modIntegration.enableDefaultWorldGenIntegration))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     @Override

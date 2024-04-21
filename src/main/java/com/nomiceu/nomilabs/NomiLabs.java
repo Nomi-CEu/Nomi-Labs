@@ -22,7 +22,8 @@ import com.nomiceu.nomilabs.util.LabsSide;
              "required-after:groovyscript@[0.6.0,);" + "required-after:gregtech@[2.8,);" + "required-after:packmode;" +
              "required-after:jei@[4.15.0,);" + "required-after:theoneprobe;" + "after:advancedrocketry;" +
              "after:libvulpes;" + "after:crafttweaker@[4.1.20,);" + "after:appliedenergistics2;" +
-             "after:architecturecraft;" + "after:effortlessbuilding;" + "after:betterquesting;")
+             "after:architecturecraft;" + "after:effortlessbuilding;" + "after:betterquesting;" +
+             "after:defaultworldgenerator-port;")
 @SuppressWarnings("unused")
 public class NomiLabs {
 

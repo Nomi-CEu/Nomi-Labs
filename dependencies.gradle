@@ -125,6 +125,9 @@ dependencies {
     // Controlling (from CurseForge)
     compileOnly rfg.deobf("curse.maven:controlling-250398:5165715") // Version 3.0.12.3
 
+    // Default World Generator Port (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:default-world-generator-port-241140:2499252") // Version 2.3
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -200,6 +203,10 @@ dependencies {
 
     if (project.enable_controlling.toBoolean()) {
         runtimeOnly "curse.maven:controlling-250398:5165715" // Version 3.0.12.3
+    }
+
+    if (project.enable_default_world_gen_port.toBoolean()) {
+        runtimeOnly "curse.maven:default-world-generator-port-241140:2499252" // Version 2.3
     }
 
     if (project.enable_ender_storage.toBoolean()) {
