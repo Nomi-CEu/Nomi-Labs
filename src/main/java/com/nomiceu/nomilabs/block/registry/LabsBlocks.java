@@ -27,6 +27,8 @@ import com.nomiceu.nomilabs.item.ItemBlockBase;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 
+import gregtech.api.items.toolitem.ToolClasses;
+
 @SuppressWarnings("unused")
 public class LabsBlocks {
 
@@ -64,20 +66,18 @@ public class LabsBlocks {
         /* Ultimate Blocks */
         ULTIMATE_POWER_STORAGE = createBlock(
                 new BlockBase(makeLabsName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON,
-                        SoundType.METAL,
+                        SoundType.METAL, ToolClasses.PICKAXE, 2,
                         translate("tooltip.nomilabs.general.crafting_component")),
                 EnumRarity.EPIC, 1);
         ULTIMATE_GENERATOR = createBlock(
                 new BlockBase(makeLabsName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON,
-                        SoundType.METAL,
+                        SoundType.METAL, ToolClasses.PICKAXE, 2,
                         translate("tooltip.nomilabs.general.crafting_component")),
                 EnumRarity.EPIC, 1);
 
         /* Misc Blocks */
-        MICROVERSE_CASING = createBlock(
-                new BlockBase(makeLabsName("microverse_casing"), LabsCreativeTabs.TAB_NOMI_LABS, Material.ROCK,
-                        SoundType.STONE),
-                EnumRarity.COMMON, 64);
+        MICROVERSE_CASING = createBlock(new BlockBase(makeLabsName("microverse_casing"), LabsCreativeTabs.TAB_NOMI_LABS,
+                Material.ROCK, SoundType.STONE, ToolClasses.WRENCH, 2), EnumRarity.COMMON, 64);
 
         /* Custom Behaviour Blocks */
         EXCITATION_COIL = createBlockWithItem(

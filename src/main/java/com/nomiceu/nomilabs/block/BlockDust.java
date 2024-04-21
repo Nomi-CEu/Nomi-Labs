@@ -6,6 +6,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 
+import gregtech.api.items.toolitem.ToolClasses;
+
 public class BlockDust extends BlockFalling {
 
     public BlockDust(ResourceLocation rl, CreativeTabs tab) {
@@ -14,7 +16,7 @@ public class BlockDust extends BlockFalling {
         setCreativeTab(tab);
         setHardness(0.4F);
         setResistance(0.4F);
-        setHarvestLevel("shovel", 0);
+        setHarvestLevel(ToolClasses.SHOVEL, 0);
         setRegistryName(rl);
     }
 }

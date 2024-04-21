@@ -22,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
 
+import gregtech.api.items.toolitem.ToolClasses;
+
 public class BlockBase extends Block implements TOPInfoProvider {
 
     private final String[] description;
@@ -30,17 +32,24 @@ public class BlockBase extends Block implements TOPInfoProvider {
         this(rl, tab, material, sound, new String[0]);
     }
 
+    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, String... description) {
+        this(rl, tab, material, sound, ToolClasses.PICKAXE, 1, description);
+    }
+
     /**
      * Make a block.
-     * 
-     * @param rl          Resource Location
-     * @param tab         Creative Tab
-     * @param material    Material
-     * @param sound       Sound
-     * @param description Description. Map of translation keys to formatting keys. Is of string to string so we can use
-     *                    GTFormatCodes
+     *
+     * @param rl           Resource Location
+     * @param tab          Creative Tab
+     * @param material     Material
+     * @param sound        Sound
+     * @param tool         Tool Type. Use {@link ToolClasses}
+     * @param harvestLevel Harvest Level
+     * @param description  Description. Map of translation keys to formatting keys. Is of string to string so we can use
+     *                     GTFormatCodes
      */
-    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, String... description) {
+    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, String tool,
+                     int harvestLevel, String... description) {
         super(material);
 
         this.setRegistryName(rl);
@@ -48,6 +57,7 @@ public class BlockBase extends Block implements TOPInfoProvider {
         this.setResistance(10.0F);
         this.setSoundType(sound);
         this.setCreativeTab(tab);
+        this.setHarvestLevel(tool, harvestLevel);
         this.description = description;
     }
 

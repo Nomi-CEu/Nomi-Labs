@@ -27,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
 
+import gregtech.api.items.toolitem.ToolClasses;
+
 @SuppressWarnings({ "PointlessArithmeticExpression", "deprecation" })
 public class BlockExcitationCoil extends BlockDirectional implements TOPInfoProvider {
 
@@ -63,7 +65,7 @@ public class BlockExcitationCoil extends BlockDirectional implements TOPInfoProv
         this.setHardness(5.0F);
         this.setResistance(5.0F);
         this.setLightLevel(1.0F);
-        this.setHarvestLevel("pickaxe", 2);
+        this.setHarvestLevel(ToolClasses.PICKAXE, 1);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
     }
 
