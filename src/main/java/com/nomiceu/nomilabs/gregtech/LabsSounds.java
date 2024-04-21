@@ -1,11 +1,13 @@
 package com.nomiceu.nomilabs.gregtech;
 
-import com.nomiceu.nomilabs.LabsValues;
-import net.minecraft.util.SoundEvent;
-
 import static gregtech.api.GregTechAPI.soundManager;
 
+import net.minecraft.util.SoundEvent;
+
+import com.nomiceu.nomilabs.LabsValues;
+
 public class LabsSounds {
+
     public static SoundEvent MICROVERSE;
 
     public static void register() {

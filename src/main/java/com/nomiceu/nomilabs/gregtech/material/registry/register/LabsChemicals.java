@@ -1,14 +1,15 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
-import gregtech.api.unification.material.Material;
-
+import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
-import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
+
+import gregtech.api.unification.material.Material;
 
 public class LabsChemicals {
+
     public static void initChemicals() {
         TungstenTrioxide = new Material.Builder(32, makeLabsName("tungsten_trioxide")) // Hardmode Material
                 .dust()
@@ -135,7 +136,8 @@ public class LabsChemicals {
 
         Durene.setFormula("C6H2(CH3)4", true);
 
-        PyromelliticDianhydride = new Material.Builder(52, makeLabsName("pyromellitic_dianhydride")) // Hardmode Material
+        PyromelliticDianhydride = new Material.Builder(52, makeLabsName("pyromellitic_dianhydride")) // Hardmode
+                                                                                                     // Material
                 .dust()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0xf0ead6).iconSet(ROUGH)

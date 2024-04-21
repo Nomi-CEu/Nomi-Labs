@@ -1,14 +1,15 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
-import gregtech.api.unification.material.Material;
-
+import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
-import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
+
+import gregtech.api.unification.material.Material;
 
 public class LabsPlatLine {
+
     public static void initPlatLine() {
         PlatinumMetallic = new Material.Builder(67, makeLabsName("platinum_metallic")) // Hardmode Material
                 .dust()
@@ -24,7 +25,8 @@ public class LabsPlatLine {
                 .components(Palladium, 1, RareEarth, 1)
                 .build();
 
-        AmmoniumHexachloroplatinate = new Material.Builder(69, makeLabsName("ammonium_hexachloroplatinate")) // Hardmode Material
+        AmmoniumHexachloroplatinate = new Material.Builder(69, makeLabsName("ammonium_hexachloroplatinate")) // Hardmode
+                                                                                                             // Material
                 .dust()
                 .color(0xfef0c2).iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
@@ -95,7 +97,8 @@ public class LabsPlatLine {
                 .components(Iridium, 1, Oxygen, 2, RareEarth, 1)
                 .build();
 
-        AmmoniumHexachloroiridiate = new Material.Builder(80, makeLabsName("ammonium_hexachloroiridiate")) // Hardmode Material
+        AmmoniumHexachloroiridiate = new Material.Builder(80, makeLabsName("ammonium_hexachloroiridiate")) // Hardmode
+                                                                                                           // Material
                 .dust()
                 .color(0x644629).iconSet(ROUGH)
                 .flags(DISABLE_DECOMPOSITION)

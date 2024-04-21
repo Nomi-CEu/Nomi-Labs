@@ -1,15 +1,10 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
 import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
-import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 import gregtech.api.recipes.map.MapFluidIngredient;
-import gregtech.api.recipes.map.MapItemStackIngredient;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 public class MapChancedFluidIngredient extends MapFluidIngredient {
+
     protected int chance;
     protected int chanceBoost;
 

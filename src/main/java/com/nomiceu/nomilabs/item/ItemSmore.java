@@ -1,5 +1,8 @@
 package com.nomiceu.nomilabs.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -9,12 +12,11 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IRarity;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ItemSmore extends ItemFood {
+
     private final List<PotionEffect> potionEffects;
     private IRarity rarity = null;
 
@@ -40,10 +42,8 @@ public class ItemSmore extends ItemFood {
     }
 
     @Override
-    protected void onFoodEaten(@NotNull ItemStack stack, World worldIn, @NotNull EntityPlayer player)
-    {
-        if (!worldIn.isRemote && this.potionEffects != null)
-        {
+    protected void onFoodEaten(@NotNull ItemStack stack, World worldIn, @NotNull EntityPlayer player) {
+        if (!worldIn.isRemote && this.potionEffects != null) {
             for (PotionEffect potionAdd : potionEffects) {
                 if (potionAdd != null)
                     player.addPotionEffect(new PotionEffect(potionAdd));

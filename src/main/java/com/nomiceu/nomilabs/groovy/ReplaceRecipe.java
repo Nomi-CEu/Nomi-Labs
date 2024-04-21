@@ -1,5 +1,20 @@
 package com.nomiceu.nomilabs.groovy;
 
+import static com.cleanroommc.groovyscript.compat.vanilla.VanillaModule.crafting;
+
+import java.util.*;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.IShapedRecipe;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.ingredient.OreDictIngredient;
@@ -9,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import com.nomiceu.nomilabs.util.LabsNames;
+
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.RecyclingHandler;
@@ -22,30 +38,17 @@ import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.stack.ItemMaterialInfo;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.loaders.recipe.RecyclingRecipes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
-
-import static com.cleanroommc.groovyscript.compat.vanilla.VanillaModule.crafting;
 
 @GroovyBlacklist
 public class ReplaceRecipe {
+
     private static boolean reloadingRecycling = false;
 
     // Extractor
     public static final Map<RecipeMap<?>, GTRecipeCategory> recyclingMaps = ImmutableMap.of(
             RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING,
             RecipeMaps.MACERATOR_RECIPES, RecipeCategories.MACERATOR_RECYCLING,
-            RecipeMaps.EXTRACTOR_RECIPES, RecipeCategories.EXTRACTOR_RECYCLING
-    );
+            RecipeMaps.EXTRACTOR_RECIPES, RecipeCategories.EXTRACTOR_RECYCLING);
 
     public static void reloadRecyclingRecipes() {
         if (LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.needReloading.isEmpty()) return;
@@ -54,19 +57,23 @@ public class ReplaceRecipe {
         for (var modified : LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.needReloading.entrySet()) {
             var itemMeta = modified.getKey();
             var stack = itemMeta.toStack();
-            NomiLabs.LOGGER.debug("Removing Recycling Recipes for {} @ {}...", itemMeta.getItem().getRegistryName(), itemMeta.getMeta());
-            removeRecyclingRecipe(RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING, stack, Materials.Oxygen.getFluid());
+            NomiLabs.LOGGER.debug("Removing Recycling Recipes for {} @ {}...", itemMeta.getItem().getRegistryName(),
+                    itemMeta.getMeta());
+            removeRecyclingRecipe(RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING, stack,
+                    Materials.Oxygen.getFluid());
             removeRecyclingRecipe(RecipeMaps.MACERATOR_RECIPES, RecipeCategories.MACERATOR_RECYCLING, stack, null);
             removeRecyclingRecipe(RecipeMaps.EXTRACTOR_RECIPES, RecipeCategories.EXTRACTOR_RECYCLING, stack, null);
             if (modified.getValue() == null) continue;
-            NomiLabs.LOGGER.debug("Adding Recycling Recipes for {} @ {}...", itemMeta.getItem().getRegistryName(), itemMeta.getMeta());
-            RecyclingRecipes.registerRecyclingRecipes(stack, modified.getValue().getMaterials(),false, null );
+            NomiLabs.LOGGER.debug("Adding Recycling Recipes for {} @ {}...", itemMeta.getItem().getRegistryName(),
+                    itemMeta.getMeta());
+            RecyclingRecipes.registerRecyclingRecipes(stack, modified.getValue().getMaterials(), false, null);
         }
         NomiLabs.LOGGER.info("Reloading Recycling Recipes took {}ms", System.currentTimeMillis() - time);
         reloadingRecycling = false;
     }
 
-    private static void removeRecyclingRecipe(RecipeMap<?> map, GTRecipeCategory category, ItemStack itemInput, Fluid fluidInput) {
+    private static void removeRecyclingRecipe(RecipeMap<?> map, GTRecipeCategory category, ItemStack itemInput,
+                                              Fluid fluidInput) {
         var recipe = map.find(Collections.singletonList(itemInput),
                 fluidInput == null ? Collections.emptyList() : Collections.singletonList(new FluidStack(fluidInput, 1)),
                 (recipe1) -> recipe1.getRecipeCategory().equals(category));
@@ -94,13 +101,18 @@ public class ReplaceRecipe {
         var newCount = newOutput.getCount();
 
         crafting.remove(name);
-        ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, LabsNames.makeGroovyName(name.getPath()), new PartialRecipe(originalRecipe, newOutput.copy()));
+        ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, LabsNames.makeGroovyName(name.getPath()),
+                new PartialRecipe(originalRecipe, newOutput.copy()));
 
-        ImmutableList<MaterialStack> originalMaterials = Objects.requireNonNull(OreDictUnifier.getMaterialInfo(newOutput)).getMaterials();
+        ImmutableList<MaterialStack> originalMaterials = Objects
+                .requireNonNull(OreDictUnifier.getMaterialInfo(newOutput)).getMaterials();
         List<MaterialStack> newMaterials = new ArrayList<>();
 
-        // Multiplies by original then Divides by new as https://github.com/GregTechCEu/GregTech/blob/master/src/main/java/gregtech/api/recipes/RecyclingHandler.java#L82 divides
-        originalMaterials.forEach((materialStack -> newMaterials.add(new MaterialStack(materialStack.material, materialStack.amount * originalCount / newCount))));
+        // Multiplies by original then Divides by new as
+        // https://github.com/GregTechCEu/GregTech/blob/master/src/main/java/gregtech/api/recipes/RecyclingHandler.java#L82
+        // divides
+        originalMaterials.forEach((materialStack -> newMaterials
+                .add(new MaterialStack(materialStack.material, materialStack.amount * originalCount / newCount))));
 
         LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerOre(newOutput, new ItemMaterialInfo(newMaterials));
     }
@@ -135,7 +147,8 @@ public class ReplaceRecipe {
         registerRecycling(output, Collections.singletonList(ingredients));
     }
 
-    private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput, boolean requireOutputOriginalInfo) {
+    private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput,
+                                          boolean requireOutputOriginalInfo) {
         IRecipe originalRecipe = ForgeRegistries.RECIPES.getValue(name);
         if (originalRecipe == null)
             throw new IllegalArgumentException("Could not find recipe with name " + name + "!");
@@ -180,7 +193,8 @@ public class ReplaceRecipe {
                     gtInputs.add(gtInput);
             }
         }
-        LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerOre(output, RecyclingHandler.getRecyclingIngredients(gtInputs, output.getCount()));
+        LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerOre(output,
+                RecyclingHandler.getRecyclingIngredients(gtInputs, output.getCount()));
     }
 
     @NotNull
@@ -188,9 +202,12 @@ public class ReplaceRecipe {
         ItemStack originalOutput = originalRecipe.getRecipeOutput();
         if (validateOutput) {
             if (!Objects.equals(originalOutput.getItem().getRegistryName(), output.getItem().getRegistryName()))
-                throw new IllegalArgumentException("New Recipe Output " + output.getItem().getRegistryName() + " must have same Registry Name as Original Input " + originalOutput.getItem().getRegistryName() + "!");
+                throw new IllegalArgumentException("New Recipe Output " + output.getItem().getRegistryName() +
+                        " must have same Registry Name as Original Input " +
+                        originalOutput.getItem().getRegistryName() + "!");
             if (originalOutput.getMetadata() != output.getMetadata())
-                throw new IllegalArgumentException("New Recipe Output's Metadata " + output.getMetadata() + " must be the same as Original Input's Metadata " + originalOutput.getMetadata() + "!");
+                throw new IllegalArgumentException("New Recipe Output's Metadata " + output.getMetadata() +
+                        " must be the same as Original Input's Metadata " + originalOutput.getMetadata() + "!");
         }
         return originalOutput;
     }

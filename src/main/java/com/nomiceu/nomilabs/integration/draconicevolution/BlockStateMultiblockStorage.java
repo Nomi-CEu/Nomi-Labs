@@ -1,19 +1,23 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.brandonscore.lib.MultiBlockStorage;
+import java.util.function.BiConsumer;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.function.BiConsumer;
+import com.brandon3055.brandonscore.lib.MultiBlockStorage;
 
 public class BlockStateMultiblockStorage extends MultiBlockStorage {
+
     private final BlockStates[][][] structure;
     private final int size;
     private final BlockStateMultiblockHelper helper;
     private final BlockStateEnergyCoreStructure energyCoreStructure;
     private int xPos = 0;
     private int yPos = 0;
-    public BlockStateMultiblockStorage(int size, BlockStateMultiblockHelper helper, BlockStateEnergyCoreStructure energyCoreStructure) {
+
+    public BlockStateMultiblockStorage(int size, BlockStateMultiblockHelper helper,
+                                       BlockStateEnergyCoreStructure energyCoreStructure) {
         super(size, helper);
         this.helper = helper;
         this.size = size;
@@ -30,18 +34,21 @@ public class BlockStateMultiblockStorage extends MultiBlockStorage {
                 xPos++;
             }
         } else {
-            throw new RuntimeException("[MultiBlockStorage] Attempt to add zRow larger or smaller then defined structure size");
+            throw new RuntimeException(
+                    "[MultiBlockStorage] Attempt to add zRow larger or smaller then defined structure size");
         }
     }
 
     /**
      * Mirrors a set of layers.
+     * 
      * @param minY Min y layer to mirror. Inclusive.
      * @param maxY Max y layer to mirror. Exclusive.
      */
     public void mirrorLayers(int minY, int maxY) {
         if (yPos < maxY) {
-            throw new IllegalArgumentException("[MultiBlockStorage] Cannot mirror from minY " + minY + " to maxY " + maxY + " as have not reached maxY yet!");
+            throw new IllegalArgumentException("[MultiBlockStorage] Cannot mirror from minY " + minY + " to maxY " +
+                    maxY + " as have not reached maxY yet!");
         }
         // Loop from last to first (mirror), excluding maxY, including minY
         for (int y = maxY - 1; y >= minY; y--) {

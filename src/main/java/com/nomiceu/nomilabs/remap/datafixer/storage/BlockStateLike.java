@@ -1,18 +1,20 @@
 package com.nomiceu.nomilabs.remap.datafixer.storage;
 
-import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 
 /**
  * Essentially an IBlockState, but contains ResourceLocation instead of Block. Contains meta, but no other info.
  */
-@SuppressWarnings({"UnusedReturnValue", "unused"})
+@SuppressWarnings({ "UnusedReturnValue", "unused" })
 public class BlockStateLike {
+
     public ResourceLocation rl;
     public short meta;
     public boolean invalid;
@@ -27,7 +29,8 @@ public class BlockStateLike {
         this.meta = (short) Math.max(0, meta);
     }
 
-    private BlockStateLike(ResourceLocation rl, short meta, boolean invalid, BlockPos pos, @Nullable NBTTagCompound tileEntityTag) {
+    private BlockStateLike(ResourceLocation rl, short meta, boolean invalid, BlockPos pos,
+                           @Nullable NBTTagCompound tileEntityTag) {
         this.rl = rl;
         this.meta = meta;
         this.invalid = invalid;

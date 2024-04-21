@@ -1,8 +1,7 @@
 package com.nomiceu.nomilabs.item.registry;
 
-import com.nomiceu.nomilabs.item.*;
-import com.nomiceu.nomilabs.item.registry.register.*;
-import gregtech.common.blocks.MetaBlocks;
+import java.util.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -14,14 +13,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.*;
+import com.nomiceu.nomilabs.item.*;
+import com.nomiceu.nomilabs.item.registry.register.*;
+
+import gregtech.common.blocks.MetaBlocks;
 
 @SuppressWarnings("unused")
 public class LabsItems {
+
     private static final String nullTranslationKey = "item.null";
 
     private static final List<Item> ITEMS = new ArrayList<>();
@@ -29,7 +32,7 @@ public class LabsItems {
     private static final Set<Item> NO_MODEL_HANDLING_ITEMS = new HashSet<>();
 
     /**
-     *  Coins
+     * Coins
      */
     public static ItemBase NOMICOIN_1;
     public static ItemBase NOMICOIN_5;
@@ -117,7 +120,7 @@ public class LabsItems {
     public static ItemBase T8_STABILIZED_MATTER;
 
     /**
-     *  Data
+     * Data
      */
     public static ItemBase DRAGON_DATA;
     public static ItemBase WITHER_DATA;
@@ -127,7 +130,7 @@ public class LabsItems {
     public static ItemBase CHAOS_DRAGON_DATA;
 
     /**
-     *  Solidified Items
+     * Solidified Items
      */
     public static ItemBase SOLIDIFIED_ARGON;
     public static ItemBase SOLIDIFIED_CHLORINE;
@@ -143,7 +146,7 @@ public class LabsItems {
     public static ItemBase SOLIDIFIED_XENON;
 
     /**
-     *  Stabilized Items
+     * Stabilized Items
      */
     public static ItemBase STABILIZED_EINSTEINIUM;
     public static ItemBase STABILIZED_BERKELIUM;
@@ -155,7 +158,7 @@ public class LabsItems {
     public static ItemBase STABILIZED_AMERICIUM;
 
     /**
-     *  Endgame Items
+     * Endgame Items
      */
     public static ItemBase HEART_OF_THE_UNIVERSE;
     public static ItemBase CREATIVE_TANK_MOLD;
@@ -164,7 +167,7 @@ public class LabsItems {
     public static ItemBase ULTIMATE_GEM;
 
     /**
-     *  Misc Items
+     * Misc Items
      */
     public static ItemBase GRAINS_OF_INNOCENCE;
 
@@ -190,19 +193,18 @@ public class LabsItems {
     public static ItemBase PULSATING_MESH;
 
     /**
-     *  Custom Behavior Items
-     *  These are Items not extending BaseItem
+     * Custom Behavior Items
+     * These are Items not extending BaseItem
      */
     public static ItemSmore[] SMORES;
 
     /**
-     *  Mod Specific Items
-     *  These are items that are only loaded if a certain mod is loaded.
+     * Mod Specific Items
+     * These are items that are only loaded if a certain mod is loaded.
      */
     public static ItemCapacitor COMPRESSED_OCTADIC_CAPACITOR;
     public static ItemCapacitor DOUBLE_COMPRESSED_OCTADIC_CAPACITOR;
     public static ItemHandFramingTool HAND_FRAMING_TOOL;
-
 
     public static void preInit() {
         /* Coins */
@@ -266,7 +268,7 @@ public class LabsItems {
     }
 
     private static void registerCustomModels() {
-        /* Add an Animated Version of Blaze Powder. Used in quest icons, so it fits in with the other Thermal Quests.*/
+        /* Add an Animated Version of Blaze Powder. Used in quest icons, so it fits in with the other Thermal Quests. */
 
         // Need to set a custom model resource location for meta 0, otherwise that appears as null.
         var mrlBlaze0 = new ModelResourceLocation("blaze_powder", "inventory");

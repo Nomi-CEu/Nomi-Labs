@@ -1,5 +1,20 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
+import static com.nomiceu.nomilabs.LabsValues.*;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.datafix.IFixType;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.Loader;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
@@ -8,6 +23,7 @@ import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
+
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
 import gregtech.common.pipelike.cable.Insulation;
@@ -17,28 +33,17 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.shorts.Short2ShortLinkedOpenHashMap;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.IFixType;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.common.Loader;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.nomiceu.nomilabs.LabsValues.*;
-import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 
 /**
  * Definitions for all values, and all data fixes.
  * <p>
  * When the modList matches, and the fix version the world was created with matches the fix, the fix is included.
  * This is because items and blocks may not be loaded in the first load.
- * However, only fixes where the previous version the world was loaded with matches will be included in Ender Storage Remapping.
+ * However, only fixes where the previous version the world was loaded with matches will be included in Ender Storage
+ * Remapping.
  */
 public class LabsFixes {
+
     /**
      * The name used to store fix data. Do not change this, although changing it will FORCE all fixes to be applied.
      * Do this via another way.
@@ -52,7 +57,8 @@ public class LabsFixes {
     public static final String DATA_KEY = "LabsFixer";
 
     /**
-     * The Data Fixer Version that occurs when a world has not been loaded with Nomi Labs before, and Nomi-CEu Specific Fixes are not enabled.
+     * The Data Fixer Version that occurs when a world has not been loaded with Nomi Labs before, and Nomi-CEu Specific
+     * Fixes are not enabled.
      * <p>
      * This is not for new worlds; new worlds must never have Data Fixes.
      * <p>
@@ -76,7 +82,8 @@ public class LabsFixes {
     /**
      * Version before Material Registry Rework.
      * <p>
-     * Versions before this need to have their material items be remapped. Meta Blocks are remapped based on missing registry event, as they have 'baseID's
+     * Versions before this need to have their material items be remapped. Meta Blocks are remapped based on missing
+     * registry event, as they have 'baseID's
      * (thus, any new GT Addons must be checked to make sure they do not have IDs in GregTech's Registry above 32000)
      * <p>
      * Meta Items are mapped below.
@@ -84,12 +91,14 @@ public class LabsFixes {
     public static final int PRE_MATERIAL_REWORK = 1;
 
     /**
-     * Default version, used if save doesn't have a fix version and nomi-labs was loaded in the world before, or if something goes wrong.
+     * Default version, used if save doesn't have a fix version and nomi-labs was loaded in the world before, or if
+     * something goes wrong.
      */
     public static final int DEFAULT = 0;
 
     /**
-     * Default Nomi-CEu version, used if save doesn't have a fix version, or if something goes wrong, and Nomi-CEu Specific Data Fixes are enabled.
+     * Default Nomi-CEu version, used if save doesn't have a fix version, or if something goes wrong, and Nomi-CEu
+     * Specific Data Fixes are enabled.
      */
     public static final int DEFAULT_NOMI_CEU = -1;
 
@@ -121,31 +130,37 @@ public class LabsFixes {
          *
          * Example of an input:
          * ItemStackLike:
-         *  rl: "minecraft:skull" // Type: Resource Location. Not Null.
-         *  meta: 3 // Type: Short
-         *  tag: {owner: "adsf", i: {k: 1, l: 4}, ...} // Type: NBT Tag Compound. Nullable.
+         * rl: "minecraft:skull" // Type: Resource Location. Not Null.
+         * meta: 3 // Type: Short
+         * tag: {owner: "adsf", i: {k: 1, l: 4}, ...} // Type: NBT Tag Compound. Nullable.
          *
          * Example:
          * itemFixes.add(
-         *      new DataFix.ItemFix("Example", // Name
+         * new DataFix.ItemFix("Example", // Name
          *
-         *              "Example Item Fix. Turns Apples into Creeper Heads.", // Description
+         * "Example Item Fix. Turns Apples into Creeper Heads.", // Description
          *
-         *              false, // Whether the correct mode is required for the change to work right
+         * false, // Whether the correct mode is required for the change to work right
          *
-         *              (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
-         *                                                       // Note that this is not included in the fix list if the previous version is equal to the current overall fix version.
+         * (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must
+         * be applied.
+         * // Note that this is not included in the fix list if the previous version is equal to the current overall fix
+         * version.
          *
-         *              (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
-         *                                 // Note that the fix is only applied if the version AND the modlist is valid.
+         * (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion),
+         * return whether it is valid.
+         * // Note that the fix is only applied if the version AND the modlist is valid.
          *
-         *              (stack) -> stack.rl.equals(new ResourceLocation("minecraft:apple")), // Input ItemStackLike, return a boolean (true to fix, false to skip)
+         * (stack) -> stack.rl.equals(new ResourceLocation("minecraft:apple")), // Input ItemStackLike, return a boolean
+         * (true to fix, false to skip)
          *
-         *              (stack) -> stack.setRl(new ResourceLocation("minecraft:skull")).setMeta((short) 4))); // Change the given ItemStackLike (Changes to Creeper Head in this case)
+         * (stack) -> stack.setRl(new ResourceLocation("minecraft:skull")).setMeta((short) 4))); // Change the given
+         * ItemStackLike (Changes to Creeper Head in this case)
          */
         itemFixes = new ObjectArrayList<>();
 
-        // Must be first Dark Red Coal Remap and Custom Capacitor NBT Removal, then Deprecated Item Remap, then CT General Remap,
+        // Must be first Dark Red Coal Remap and Custom Capacitor NBT Removal, then Deprecated Item Remap, then CT
+        // General Remap,
         // because only one fix is applied.
 
         itemFixes.add(
@@ -170,8 +185,8 @@ public class LabsFixes {
                                     stack.rl.getNamespace().equals(CONTENTTWEAKER_MODID)) &&
                                     capacitorSpecificationRemap.containsKey(stack.rl.getPath()) &&
                                     capacitorSpecificationRemap.get(stack.rl.getPath()).needChange(stack.tag),
-                            (stack) -> stack.setTag(capacitorSpecificationRemap.get(stack.rl.getPath()).remove(stack.tag)))
-            );
+                            (stack) -> stack
+                                    .setTag(capacitorSpecificationRemap.get(stack.rl.getPath()).remove(stack.tag))));
 
         itemFixes.add(
                 new DataFix.ItemFix("Deprecated Item Remap",
@@ -180,8 +195,7 @@ public class LabsFixes {
                         (version) -> version <= DEFAULT,
                         (modList) -> true,
                         (stack) -> LabsRemappers.deprecatedRemapper.shouldRemap(stack.rl),
-                        (stack) -> stack.setRl(LabsRemappers.deprecatedRemapper.remapRl(stack.rl)))
-        );
+                        (stack) -> stack.setRl(LabsRemappers.deprecatedRemapper.remapRl(stack.rl))));
 
         itemFixes.add(
                 new DataFix.ItemFix("Content Tweaker Item Remap",
@@ -190,8 +204,7 @@ public class LabsFixes {
                         (version) -> version <= DEFAULT,
                         (modList) -> true,
                         (stack) -> LabsRemappers.ctRemapper.shouldRemap(stack.rl),
-                        (stack) -> stack.setRl(LabsRemappers.ctRemapper.remapRl(stack.rl)))
-        );
+                        (stack) -> stack.setRl(LabsRemappers.ctRemapper.remapRl(stack.rl))));
 
         itemFixes.add(
                 new DataFix.ItemFix("Perfect Gem Item Remap",
@@ -200,8 +213,7 @@ public class LabsFixes {
                         (version) -> version <= DEFAULT,
                         (modList) -> true,
                         (stack) -> LabsRemappers.perfectGemRemapper.shouldRemap(stack.rl),
-                        (stack) -> stack.setRl(LabsRemappers.perfectGemRemapper.remapRl(stack.rl)))
-        );
+                        (stack) -> stack.setRl(LabsRemappers.perfectGemRemapper.remapRl(stack.rl))));
 
         if (LabsConfig.modIntegration.enableExtraUtils2Integration)
             itemFixes.add(
@@ -210,14 +222,13 @@ public class LabsFixes {
                             false,
                             (version) -> version <= DEFAULT || version == NEW,
                             (modList) -> modList.containsKey(XU2_MODID),
-                            (stack) -> stack.rl.equals(new ResourceLocation(XU2_MODID, "ingredients"))
-                                    && stack.tag != null && stack.tag.hasKey("Freq"),
+                            (stack) -> stack.rl.equals(new ResourceLocation(XU2_MODID, "ingredients")) &&
+                                    stack.tag != null && stack.tag.hasKey("Freq"),
                             (stack) -> {
                                 var tag = Objects.requireNonNull(stack.tag);
                                 tag.removeTag("Freq");
                                 stack.setTag(tag);
-                            })
-            );
+                            }));
 
         itemFixes.add(
                 new DataFix.ItemFix("Old Multiblock Metadata Remap",
@@ -225,9 +236,9 @@ public class LabsFixes {
                         true,
                         (version) -> version <= DEFAULT_NOMI_CEU,
                         (modList) -> true,
-                        (stack) -> stack.rl.equals(new ResourceLocation(GREGTECH_MODID,"machine")) && multiblockMetaRemap.containsKey(stack.meta),
-                        (stack) -> stack.setMeta(multiblockMetaRemap.get(stack.meta)))
-        );
+                        (stack) -> stack.rl.equals(new ResourceLocation(GREGTECH_MODID, "machine")) &&
+                                multiblockMetaRemap.containsKey(stack.meta),
+                        (stack) -> stack.setMeta(multiblockMetaRemap.get(stack.meta))));
 
         itemFixes.add(
                 new DataFix.ItemFix("Material Meta Item Remap",
@@ -240,8 +251,7 @@ public class LabsFixes {
                                 !LabsRemapHelper.META_BLOCK_MATCHER.matcher(stack.rl.getPath()).matches() &&
                                 stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
-                                .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
-        );
+                                .setRl(LabsNames.makeLabsName(stack.rl.getPath()))));
 
         itemFixes.add(
                 new DataFix.ItemFix("Material Meta Blocks' Item Forms Remap",
@@ -250,8 +260,7 @@ public class LabsFixes {
                         (version) -> version <= PRE_MATERIAL_REWORK,
                         (modList) -> true,
                         (stack) -> LabsRemappers.metaBlockRemapper.shouldRemap(stack.rl),
-                        (stack) -> stack.setRl(LabsRemappers.metaBlockRemapper.remapRl(stack.rl)))
-        );
+                        (stack) -> stack.setRl(LabsRemappers.metaBlockRemapper.remapRl(stack.rl))));
 
         itemFixes.add(
                 new DataFix.ItemFix("Material Special Meta Item Remap",
@@ -262,8 +271,7 @@ public class LabsFixes {
                         (stack) -> specialMetaItemsRemap.contains(stack.rl) &&
                                 stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
-                                .setRl(LabsNames.makeLabsName(stack.rl.getPath())))
-        );
+                                .setRl(LabsNames.makeLabsName(stack.rl.getPath()))));
 
         /*
          * Block Fixes.
@@ -273,30 +281,37 @@ public class LabsFixes {
          *
          * Example of an input:
          * BlockStateLike:
-         *  rl: "minecraft:concrete" // Type: Resource Location. Not Null.
-         *  meta: 1 // Type: Short
+         * rl: "minecraft:concrete" // Type: Resource Location. Not Null.
+         * meta: 1 // Type: Short
          *
          * Example:
          * blockFixes.add(
-         *      new DataFix.BlockFix("Example", // Name
+         * new DataFix.BlockFix("Example", // Name
          *
-         *              "Example Block Fix. Turns Oak Logs into Brown Concrete.", // Description
+         * "Example Block Fix. Turns Oak Logs into Brown Concrete.", // Description
          *
-         *              false, // Whether the correct mode is required for the change to work right
+         * false, // Whether the correct mode is required for the change to work right
          *
-         *              (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
-         *                                                       // Note that this is not included in the fix list if the previous version is equal to the current overall fix version.
+         * (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must
+         * be applied.
+         * // Note that this is not included in the fix list if the previous version is equal to the current overall fix
+         * version.
          *
-         *              (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
-         *                                 // Note that the fix is only applied if the version AND the modlist is valid.
+         * (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion),
+         * return whether it is valid.
+         * // Note that the fix is only applied if the version AND the modlist is valid.
          *
-         *              false, // Whether the tile entity tag is needed. If yes, it is accessible via state.setTileEntityTag() and state.tileEntityTag. If this is false, that field will be null.
+         * false, // Whether the tile entity tag is needed. If yes, it is accessible via state.setTileEntityTag() and
+         * state.tileEntityTag. If this is false, that field will be null.
          *
-         *              (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0, // Input BlockStateLike, return a boolean (true to fix, false to skip). You CAN NOT check the tile entity here!
+         * (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0, // Input
+         * BlockStateLike, return a boolean (true to fix, false to skip). You CAN NOT check the tile entity here!
          *
-         *              null, // Secondary check, Input BlockStateLike, return a boolean (true to fix, false to skip). You CAN check the tile entity here! Input Null if checking tile entity is not needed.
+         * null, // Secondary check, Input BlockStateLike, return a boolean (true to fix, false to skip). You CAN check
+         * the tile entity here! Input Null if checking tile entity is not needed.
          *
-         *              (state) -> state.setRl(new ResourceLocation("minecraft:concrete")).setMeta((short) 12), // Change the given BlockStateLike (Changes to Brown Concrete in this case). You can also change the tile entity here if needed.
+         * (state) -> state.setRl(new ResourceLocation("minecraft:concrete")).setMeta((short) 12), // Change the given
+         * BlockStateLike (Changes to Brown Concrete in this case). You can also change the tile entity here if needed.
          * ));
          */
         blockFixes = new ObjectArrayList<>();
@@ -310,16 +325,18 @@ public class LabsFixes {
                         true,
                         (state) -> specialMetaItemsRemap.contains(state.rl),
                         (state) -> state.tileEntityTag != null &&
-                                specialMetaItemsRemap.contains(new ResourceLocation(state.tileEntityTag.getString("PipeBlock"))) &&
+                                specialMetaItemsRemap
+                                        .contains(new ResourceLocation(state.tileEntityTag.getString("PipeBlock"))) &&
                                 materialNames.contains(state.tileEntityTag.getString("PipeMaterial")),
                         (state) -> {
                             state.setRl(LabsNames.makeLabsName(state.rl.getPath()));
 
-                            //noinspection DataFlowIssue
+                            // noinspection DataFlowIssue
                             state.tileEntityTag.setString("PipeBlock",
-                                    LabsNames.makeLabsName(new ResourceLocation(state.tileEntityTag.getString("PipeBlock")).getPath()).toString());
-                        })
-        );
+                                    LabsNames.makeLabsName(
+                                            new ResourceLocation(state.tileEntityTag.getString("PipeBlock")).getPath())
+                                            .toString());
+                        }));
 
         /*
          * Tile Entity Fixes.
@@ -328,7 +345,8 @@ public class LabsFixes {
          * - On Existing Tile Entities' Tag Compounds.
          *
          * Example of an input:
-         * {x:279,y:73,z:199,Items:[{Slot:0b,id:"minecraft:apple",Count:1,Damage:0s}],id:"minecraft:chest",Lock:"", ...} // Type: NBT Tag Compound. Not Null.
+         * {x:279,y:73,z:199,Items:[{Slot:0b,id:"minecraft:apple",Count:1,Damage:0s}],id:"minecraft:chest",Lock:"", ...}
+         * // Type: NBT Tag Compound. Not Null.
          *
          * Notes:
          * - Item Fixes are called each item in this tile before this fix is applied.
@@ -336,35 +354,39 @@ public class LabsFixes {
          *
          * Example:
          * tileEntityFixes.add(
-         *      new DataFix.TileEntityFix("Example", // Name
+         * new DataFix.TileEntityFix("Example", // Name
          *
-         *                    "Example Tile Entity Fix. Changes the amount of the all items in chests to be 64.", // Description
+         * "Example Tile Entity Fix. Changes the amount of the all items in chests to be 64.", // Description
          *
-         *                    false, // Whether the correct mode is required for the change to work right
+         * false, // Whether the correct mode is required for the change to work right
          *
-         *                    (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must be applied.
-         *                                                             // Note that this is not included in the fix list if the previous version is equal to the current overall fix version.
+         * (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must
+         * be applied.
+         * // Note that this is not included in the fix list if the previous version is equal to the current overall fix
+         * version.
          *
-         *                    (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is valid.
-         *                                       // Note that the fix is only applied if the version AND the modlist is valid.
+         * (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion),
+         * return whether it is valid.
+         * // Note that the fix is only applied if the version AND the modlist is valid.
          *
-         *                    // Input NBT Tag Compound, return a boolean (true to fix, false to skip)
-         *                    (compound) -> compound.hasKey("id", Constants.NBT.TAG_STRING) &&
-         *                     compound.getString("id").equals(new ResourceLocation("minecraft:chest").toString()) &&
-         *                     compound.hasKey("Items", Constants.NBT.TAG_LIST) && !compound.getTagList("Items", Constants.NBT.TAG_COMPOUND).isEmpty(),
+         * // Input NBT Tag Compound, return a boolean (true to fix, false to skip)
+         * (compound) -> compound.hasKey("id", Constants.NBT.TAG_STRING) &&
+         * compound.getString("id").equals(new ResourceLocation("minecraft:chest").toString()) &&
+         * compound.hasKey("Items", Constants.NBT.TAG_LIST) && !compound.getTagList("Items",
+         * Constants.NBT.TAG_COMPOUND).isEmpty(),
          *
-         *                    // Input NBT Tag Compound, transform it
-         *                    (compound -> {
-         *                        // Get Item List
-         *                        NBTTagList itemList = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
-         *                        // Iterate through, changing count to 64
-         *                       for (int i = 0; i < itemList.tagList.size(); i++) {
-         *                            if (!(itemList.get(i) instanceof NBTTagCompound item)) continue;
-         *                            item.setInteger("Count", 64);
-         *                            itemList.set(i, item);
-         *                        }
-         *                        // Item List is modified directly, no need to set it back
-         *                    })));
+         * // Input NBT Tag Compound, transform it
+         * (compound -> {
+         * // Get Item List
+         * NBTTagList itemList = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
+         * // Iterate through, changing count to 64
+         * for (int i = 0; i < itemList.tagList.size(); i++) {
+         * if (!(itemList.get(i) instanceof NBTTagCompound item)) continue;
+         * item.setInteger("Count", 64);
+         * itemList.set(i, item);
+         * }
+         * // Item List is modified directly, no need to set it back
+         * })));
          */
         tileEntityFixes = new ObjectArrayList<>();
 
@@ -374,11 +396,13 @@ public class LabsFixes {
                         false,
                         (version) -> version <= DEFAULT_NOMI_CEU,
                         (modList) -> true,
-                        (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) && compound.hasKey("id", Constants.NBT.TAG_STRING) &&
-                                compound.getString("id").equals(new ResourceLocation(LabsValues.GREGTECH_MODID, "machine").toString()) &&
+                        (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) &&
+                                compound.hasKey("id", Constants.NBT.TAG_STRING) &&
+                                compound.getString("id").equals(
+                                        new ResourceLocation(LabsValues.GREGTECH_MODID, "machine").toString()) &&
                                 multiblockMetaIdRemap.containsKey(new ResourceLocation(compound.getString("MetaId"))),
-                        (compound -> compound.setString("MetaId", multiblockMetaIdRemap.get(new ResourceLocation(compound.getString("MetaId"))).toString())))
-        );
+                        (compound -> compound.setString("MetaId", multiblockMetaIdRemap
+                                .get(new ResourceLocation(compound.getString("MetaId"))).toString()))));
 
         fixes = new Object2ObjectOpenHashMap<>();
         fixes.put(LabsFixTypes.FixerTypes.ITEM, itemFixes);
@@ -390,7 +414,8 @@ public class LabsFixes {
         // Special Meta Items Remap is only needed for some meta items.
         // They are all placeable, and do not have the special syntax that includes a base id.
         // Therefore, they must be remapped.
-        // Placeable forms are... stored in Tile Entity. Handled by TileEntityMaterialPipeBaseMixin, and Tile Entity Fix.
+        // Placeable forms are... stored in Tile Entity. Handled by TileEntityMaterialPipeBaseMixin, and Tile Entity
+        // Fix.
         specialMetaItemsRemap = new HashSet<>();
         // Wires and Cables
         // Fine Wire is not placeable, and thus follows normal meta item rules.
@@ -399,16 +424,19 @@ public class LabsFixes {
         }
         // Fluid Pipes
         for (var fluidPipeType : FluidPipeType.VALUES) {
-            specialMetaItemsRemap.add(new ResourceLocation(GREGTECH_MODID, String.format("fluid_pipe_%s", fluidPipeType.name)));
+            specialMetaItemsRemap
+                    .add(new ResourceLocation(GREGTECH_MODID, String.format("fluid_pipe_%s", fluidPipeType.name)));
         }
         // Item Pipes
         for (var itemPipeType : ItemPipeType.VALUES) {
-            specialMetaItemsRemap.add(new ResourceLocation(GREGTECH_MODID, String.format("item_pipe_%s", itemPipeType.name)));
+            specialMetaItemsRemap
+                    .add(new ResourceLocation(GREGTECH_MODID, String.format("item_pipe_%s", itemPipeType.name)));
         }
         // Compressed Blocks and Frames follow the special syntax.
 
         // Get all material names to know which tile entities to fix.
-        materialNames = GregTechAPI.materialManager.getRegistry(LABS_MODID).getAllMaterials().stream().map(Material::getName).collect(Collectors.toSet());
+        materialNames = GregTechAPI.materialManager.getRegistry(LABS_MODID).getAllMaterials().stream()
+                .map(Material::getName).collect(Collectors.toSet());
 
         multiblockMetaRemap = new Short2ShortLinkedOpenHashMap();
         multiblockMetaRemap.put((short) 32000, (short) 32100); // Microverse 1
@@ -420,7 +448,8 @@ public class LabsFixes {
             multiblockMetaRemap.put((short) 32005, (short) 32105); // Naq Reactor 2
             multiblockMetaRemap.put((short) 3100, (short) 32108); // DME Sim Chamber
         }
-        // In case it is some other mode, check if it is expert. This is only done here, as this specifically modifies data.
+        // In case it is some other mode, check if it is expert. This is only done here, as this specifically modifies
+        // data.
         if (LabsModeHelper.isExpert()) {
             multiblockMetaRemap.put((short) 32003, (short) 32104); // Naq Reactor 1
             multiblockMetaRemap.put((short) 32004, (short) 32105); // Naq Reactor 2
@@ -430,32 +459,29 @@ public class LabsFixes {
 
         multiblockMetaIdRemap = new Object2ObjectLinkedOpenHashMap<>();
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MBT_MODID, "microverse_projector_basic"), makeLabsName("microverse_projector_1")
-        );
+                new ResourceLocation(MBT_MODID, "microverse_projector_basic"), makeLabsName("microverse_projector_1"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MBT_MODID, "microverse_projector_advanced"), makeLabsName("microverse_projector_2")
-        );
+                new ResourceLocation(MBT_MODID, "microverse_projector_advanced"),
+                makeLabsName("microverse_projector_2"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MBT_MODID, "microverse_projector_advanced_ii"), makeLabsName("microverse_projector_3")
-        );
+                new ResourceLocation(MBT_MODID, "microverse_projector_advanced_ii"),
+                makeLabsName("microverse_projector_3"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MBT_MODID, "creative_tank_provider"), makeLabsName("creative_tank_provider")
-        );
+                new ResourceLocation(MBT_MODID, "creative_tank_provider"), makeLabsName("creative_tank_provider"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "naquadah_reactor_1"), makeLabsName("naquadah_reactor_1")
-        );
+                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "naquadah_reactor_1"),
+                makeLabsName("naquadah_reactor_1"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "naquadah_reactor_2"), makeLabsName("naquadah_reactor_2")
-        );
+                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "naquadah_reactor_2"),
+                makeLabsName("naquadah_reactor_2"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "actualization_chamber"), makeLabsName("actualization_chamber")
-        );
+                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "actualization_chamber"),
+                makeLabsName("actualization_chamber"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "universal_crystallizer"), makeLabsName("universal_crystallizer")
-        );
+                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "universal_crystallizer"),
+                makeLabsName("universal_crystallizer"));
         multiblockMetaIdRemap.put(
-                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "dml_sim_chamber"), makeLabsName("dme_sim_chamber")
-        );
+                new ResourceLocation(MULTIBLOCK_TWEAKER_MODID, "dml_sim_chamber"), makeLabsName("dme_sim_chamber"));
 
         capacitorSpecificationRemap = ImmutableMap.of(
                 "compressedoctadiccapacitor",
@@ -470,11 +496,11 @@ public class LabsFixes {
                         "AND THIS IS TO GO EVEN FURTHER BEYOND!",
                         "Can be inserted into EnderIO machines.",
                         "Level: 9.001",
-                        "Just kidding, it's only 5.")
-        );
+                        "Just kidding, it's only 5."));
     }
 
     public static class OldCapacitorSpecification {
+
         private static final String EIO_KEY = "eiocap";
         private static final String EIO_LEVEL_KEY = "level";
         private static final String DISPLAY_KEY = "display";

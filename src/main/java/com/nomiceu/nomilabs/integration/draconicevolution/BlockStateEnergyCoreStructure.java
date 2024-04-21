@@ -1,5 +1,24 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
+import java.util.List;
+import java.util.Objects;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.opengl.GL11;
+
 import com.brandon3055.brandonscore.lib.Vec3D;
 import com.brandon3055.brandonscore.utils.ModelUtils;
 import com.brandon3055.brandonscore.utils.Utils;
@@ -11,27 +30,12 @@ import com.brandon3055.draconicevolution.client.gui.GuiEnergyCore;
 import com.brandon3055.draconicevolution.client.handler.ClientEventHandler;
 import com.brandon3055.draconicevolution.world.EnergyCoreStructure;
 import com.nomiceu.nomilabs.NomiLabs;
+
 import gregtech.api.unification.material.Material;
 import gregtech.common.blocks.BlockCompressed;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.init.Blocks;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
-
-import java.util.List;
-import java.util.Objects;
 
 public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
+
     private static final int FLAG_RENDER = 0;
     private static final int FLAG_FORME = 1;
     private static final int FLAG_REVERT = 2;
@@ -43,6 +47,7 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
 
     /* e: Wildcard, X: Core Block, R: Redstone, D: Draconium, A: Awakened */
     public final BlockStates e, X, R, D, A;
+
     public BlockStateEnergyCoreStructure(TileEnergyStorageCore core) {
         this.core = core;
         this.helper = new BlockStateMultiblockHelper();
@@ -79,11 +84,13 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
         BlockPos offset = getCoreOffset(tier);
 
         if (tier <= 0) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure] Tier value to small. As far as TileEnergyStorageCore is concerned the tiers now start at 1 not 0. This class automatically handles the conversion now");
+            NomiLabs.LOGGER.error(
+                    "[EnergyCoreStructure] Tier value to small. As far as TileEnergyStorageCore is concerned the tiers now start at 1 not 0. This class automatically handles the conversion now");
             return false;
         }
         if (tier > 8) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
+            NomiLabs.LOGGER
+                    .error("[EnergyCoreStructure] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
             return false;
         }
 
@@ -95,11 +102,13 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
         BlockPos offset = getCoreOffset(tier);
 
         if (tier <= 0) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure] Tier value to small. As far as TileEnergyStorageCore is concerned the tiers now start at 1 not 0. This class automatically handles the conversion now");
+            NomiLabs.LOGGER.error(
+                    "[EnergyCoreStructure] Tier value to small. As far as TileEnergyStorageCore is concerned the tiers now start at 1 not 0. This class automatically handles the conversion now");
             return;
         }
         if (tier > 8) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
+            NomiLabs.LOGGER
+                    .error("[EnergyCoreStructure] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
             return;
         }
         structureTiers[tier - 1].placeStructure(core.getWorld(), core.getPos().add(offset));
@@ -125,12 +134,12 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
     private void forTier(int tier, int flag) {
         tier -= 1;
         if (tier < 0) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure] Tier value to small. As far as TileEnergyStorageCore is concerned the tiers now start at 1 not 0. This class automatically handles the conversion now");
-        }
-        else if (tier >= structureTiers.length) {
-            NomiLabs.LOGGER.error("[EnergyCoreStructure#placeTier] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
-        }
-        else {
+            NomiLabs.LOGGER.error(
+                    "[EnergyCoreStructure] Tier value to small. As far as TileEnergyStorageCore is concerned the tiers now start at 1 not 0. This class automatically handles the conversion now");
+        } else if (tier >= structureTiers.length) {
+            NomiLabs.LOGGER.error(
+                    "[EnergyCoreStructure#placeTier] What exactly were you expecting after Tier 8? Infinity.MAX_VALUE?");
+        } else {
             structureTiers[tier].forEachInStructure(core.getWorld(), core.getPos().add(getCoreOffset(tier + 1)), flag);
         }
     }
@@ -147,7 +156,7 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
                 states.equals(X))
             return;
 
-        //region Render Build Guide
+        // region Render Build Guide
 
         if (flag == FLAG_RENDER) {
             if (world.isRemote) {
@@ -155,9 +164,9 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             }
         }
 
-        //endregion
+        // endregion
 
-        //region Activate
+        // region Activate
 
         else if (flag == FLAG_FORME) {
             world.setBlockState(pos, DEFeatures.invisECoreBlock.getDefaultState());
@@ -165,19 +174,18 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             if (tile instanceof TileInvisECoreBlock invis) {
                 invis.blockName = Objects.requireNonNull(states.getDefault().getBlock().getRegistryName()).toString();
                 TileInvisECoreBlockState invisState = (TileInvisECoreBlockState) invis;
-                if (BlockStates.statesEqual(states.getDefault(), states.getDefault().getBlock().getDefaultState())){
+                if (BlockStates.statesEqual(states.getDefault(), states.getDefault().getBlock().getDefaultState())) {
                     invisState.setIsDefault();
-                }
-                else {
+                } else {
                     invisState.setMetadata(states.getDefault().getBlock().getMetaFromState(states.getDefault()));
                 }
                 invis.setController(core);
             }
         }
 
-        //endregion
+        // endregion
 
-        //region Deactivate
+        // region Deactivate
 
         else if (flag == FLAG_REVERT) {
             TileEntity tile = world.getTileEntity(pos);
@@ -186,7 +194,7 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             }
         }
 
-        //endregion
+        // endregion
     }
 
     @SideOnly(Side.CLIENT)
@@ -207,7 +215,8 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             return;
         }
 
-        BlockPos translation = new BlockPos(pos.getX() - startPos.getX(), pos.getY() - startPos.getY(), pos.getZ() - startPos.getZ());
+        BlockPos translation = new BlockPos(pos.getX() - startPos.getX(), pos.getY() - startPos.getY(),
+                pos.getZ() - startPos.getZ());
         translation = translation.add(getCoreOffset(core.tier.value));
 
         int alpha = 0xFF000000;
@@ -223,8 +232,7 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             double s = Math.sin(ClientEventHandler.elapsedTicks / 10D) * 0.1D;
             GlStateManager.scale(0.8 + s, 0.8 + s, 0.8 + s);
             GlStateManager.translate(0.1 - s, 0.1 - s, 0.1 - s);
-        }
-        else {
+        } else {
             GlStateManager.scale(0.8, 0.8, 0.8);
             GlStateManager.translate(0.1, 0.1, 0.1);
         }
@@ -244,20 +252,18 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             int r = (color & 0xFF0000) >> (4 * Integer.BYTES);
             int g = (color & 0x00FF00) >> (2 * Integer.BYTES);
             int b = color & 0x0000FF;
-            if (invalid){
+            if (invalid) {
                 r = 255;
                 g = 0;
                 b = 0;
-            }
-            else {
-                r = MathHelper.clamp(r-50, 0, 255);
-                g = MathHelper.clamp(g-50, 0, 255);
-                b = MathHelper.clamp(b-50, 0, 255);
+            } else {
+                r = MathHelper.clamp(r - 50, 0, 255);
+                g = MathHelper.clamp(g - 50, 0, 255);
+                b = MathHelper.clamp(b - 50, 0, 255);
             }
 
-            ModelUtils.renderQuadsRGB(blockQuads, r/255f, g/255f, b/255f);
-        }
-        else
+            ModelUtils.renderQuadsRGB(blockQuads, r / 255f, g / 255f, b / 255f);
+        } else
             ModelUtils.renderQuadsARGB(blockQuads, (invalid ? 0x00500000 : 0x00808080) | alpha);
 
         if (invalid) {
@@ -270,14 +276,16 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
 
     public boolean checkBlock(BlockStates states, World world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof TileInvisECoreBlock invis){
-            if (invis.blockName.equals(Objects.requireNonNull(states.getDefault().getBlock().getRegistryName()).toString())) {
+        if (tile instanceof TileInvisECoreBlock invis) {
+            if (invis.blockName
+                    .equals(Objects.requireNonNull(states.getDefault().getBlock().getRegistryName()).toString())) {
                 TileInvisECoreBlockState invisState = (TileInvisECoreBlockState) invis;
                 if (invisState.getDefault()) {
                     if (BlockStates.statesEqual(states.getDefault(), states.getDefault().getBlock().getDefaultState()))
                         return true;
-                } else if (states.getDefault().getBlock().getMetaFromState(states.getDefault()) == invisState.getMetadata())
-                        return true;
+                } else if (states.getDefault().getBlock().getMetaFromState(states.getDefault()) ==
+                        invisState.getMetadata())
+                    return true;
             }
         }
         return helper.checkBlock(states, world, pos);
@@ -565,7 +573,7 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
     private BlockStateMultiblockStorage buildTierOMG() {
         BlockStateMultiblockStorage storage = new BlockStateMultiblockStorage(13, helper, this);
 
-        //region Hard
+        // region Hard
         if (DEConfig.hardMode) {
             storage.addRow(e, e, e, e, e, e, e, e, e, e, e, e, e);
             storage.addRow(e, e, e, e, e, e, e, e, e, e, e, e, e);

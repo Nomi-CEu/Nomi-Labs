@@ -1,21 +1,24 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.config.LabsConfig;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.common.util.Constants;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.storage.WorldSavedData;
+import net.minecraftforge.common.util.Constants;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
+
 public class LabsWorldFixData extends WorldSavedData {
+
     // Fix Version stored in this world.
     public int savedVersion;
 
@@ -42,7 +45,9 @@ public class LabsWorldFixData extends WorldSavedData {
             savedVersion = nbt.getInteger(VERSION_KEY);
             NomiLabs.LOGGER.info("This world was previously loaded with Fix Version {}.", savedVersion);
         } else
-            NomiLabs.LOGGER.info("This world was previously loaded without a saved Fix Version, possibly due to corruption, defaulting to {}.", savedVersion);
+            NomiLabs.LOGGER.info(
+                    "This world was previously loaded without a saved Fix Version, possibly due to corruption, defaulting to {}.",
+                    savedVersion);
     }
 
     @Override

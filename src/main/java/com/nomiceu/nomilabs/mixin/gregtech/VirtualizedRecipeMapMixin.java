@@ -1,16 +1,14 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
-import com.cleanroommc.groovyscript.api.GroovyLog;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
-import com.nomiceu.nomilabs.util.LabsGroovyHelper;
-import gregtech.api.recipes.Recipe;
-import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.category.GTRecipeCategory;
-import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
-import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
-import gregtech.integration.groovy.VirtualizedRecipeMap;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -18,11 +16,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import com.cleanroommc.groovyscript.api.GroovyLog;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
+import com.nomiceu.nomilabs.util.LabsGroovyHelper;
+
+import gregtech.api.recipes.Recipe;
+import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.category.GTRecipeCategory;
+import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
+import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
+import gregtech.integration.groovy.VirtualizedRecipeMap;
 
 /**
  * Allows calling of `removeByOutput` via `mods.gregtech.&lt;RECIPE_MAP_NAME&gt;` calls in Groovy.
@@ -30,6 +33,7 @@ import java.util.stream.Collectors;
 @Mixin(value = VirtualizedRecipeMap.class, remap = false)
 @SuppressWarnings("unused")
 public abstract class VirtualizedRecipeMapMixin {
+
     @Shadow
     @Final
     private RecipeMap<?> recipeMap;
@@ -55,7 +59,8 @@ public abstract class VirtualizedRecipeMapMixin {
         inputs = validateList(inputs);
         fluidInputs = validateList(fluidInputs);
         List<ItemStack> items = inputs.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
-        List<FluidStack> fluids = fluidInputs.stream().filter((f) -> f != null && f.amount != 0).collect(Collectors.toList());
+        List<FluidStack> fluids = fluidInputs.stream().filter((f) -> f != null && f.amount != 0)
+                .collect(Collectors.toList());
         return recipeMap.find(items, fluids, condition);
     }
 
@@ -76,7 +81,8 @@ public abstract class VirtualizedRecipeMapMixin {
     }
 
     @Unique
-    private boolean removeByInput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids, String components) {
+    private boolean removeByInput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
+                                  String components) {
         Recipe recipe = find(condition, items, fluids);
         if (recipe == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
@@ -94,7 +100,7 @@ public abstract class VirtualizedRecipeMapMixin {
     @Unique
     @Nullable
     public List<Recipe> findByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                           List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
+                                     List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         inputs = validateList(inputs);
         fluidInputs = validateList(fluidInputs);
         chancedItems = validateList(chancedItems);
@@ -105,26 +111,30 @@ public abstract class VirtualizedRecipeMapMixin {
     @Unique
     @Nullable
     public List<Recipe> findByOutput(List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                           List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
+                                     List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         return findByOutput((r) -> true, inputs, fluidInputs, chancedItems, chancedFluids);
     }
 
     @Unique
     @Nullable
-    public List<Recipe> findRecipeByOutput(GTRecipeCategory category, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                           List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        return findByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), inputs, fluidInputs, chancedItems, chancedFluids);
+    public List<Recipe> findRecipeByOutput(GTRecipeCategory category, List<ItemStack> inputs,
+                                           List<FluidStack> fluidInputs,
+                                           List<ChancedItemOutput> chancedItems,
+                                           List<ChancedFluidOutput> chancedFluids) {
+        return findByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), inputs, fluidInputs, chancedItems,
+                chancedFluids);
     }
 
     @Unique
     public List<Recipe> findByOutput(Predicate<Recipe> condition, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
+                                     List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         inputs = validateList(inputs);
         fluidInputs = validateList(fluidInputs);
         chancedItems = validateList(chancedItems);
         chancedFluids = validateList(chancedFluids);
         List<ItemStack> items = inputs.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
-        List<FluidStack> fluids = fluidInputs.stream().filter((f) -> f != null && f.amount != 0).collect(Collectors.toList());
+        List<FluidStack> fluids = fluidInputs.stream().filter((f) -> f != null && f.amount != 0)
+                .collect(Collectors.toList());
         return getAccessibleRecipeMap().findByOutput(items, fluids, chancedItems, chancedFluids, condition);
     }
 
@@ -135,7 +145,8 @@ public abstract class VirtualizedRecipeMapMixin {
         if (recipes == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
                 GroovyLog.msg("Error removing GregTech " + getName() + " recipe")
-                        .add("could not find recipe for: voltage {}, items: {}, fluids: {}, chanced items: {}, chanced fluids: {}", voltage, items, fluids, chancedItems, chancedFluids)
+                        .add("could not find recipe for: voltage {}, items: {}, fluids: {}, chanced items: {}, chanced fluids: {}",
+                                voltage, items, fluids, chancedItems, chancedFluids)
                         .error()
                         .post();
             }
@@ -151,7 +162,8 @@ public abstract class VirtualizedRecipeMapMixin {
     public boolean removeByOutput(List<ItemStack> items, List<FluidStack> fluids,
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         return removeByOutput((r) -> true, items, fluids, chancedItems, chancedFluids,
-                String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids, chancedItems, chancedFluids));
+                String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
+                        chancedItems, chancedFluids));
     }
 
     @Unique
@@ -159,14 +171,16 @@ public abstract class VirtualizedRecipeMapMixin {
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         return removeByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
                 chancedItems, chancedFluids,
-                String.format("category: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", category, items, fluids, chancedItems, chancedFluids));
+                String.format("category: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", category,
+                        items, fluids, chancedItems, chancedFluids));
     }
 
     @Unique
     public boolean removeByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         return removeByOutput(condition, items, fluids, chancedItems, chancedFluids,
-                String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids, chancedItems, chancedFluids));
+                String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
+                        chancedItems, chancedFluids));
     }
 
     @Unique

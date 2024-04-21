@@ -1,11 +1,12 @@
 package com.nomiceu.nomilabs.gregtech.prefix;
 
+import static gregtech.api.unification.material.Materials.*;
+
 import gregtech.api.unification.material.info.MaterialFlag;
 import gregtech.api.unification.material.properties.PropertyKey;
 
-import static gregtech.api.unification.material.Materials.*;
-
 public class LabsMaterialFlags {
+
     public static MaterialFlag GENERATE_PERFECT_GEM;
 
     public static void init() {

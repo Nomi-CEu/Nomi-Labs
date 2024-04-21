@@ -1,20 +1,22 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 /**
  * Class allowing matching multiple block states.
  */
 public class BlockStates {
+
     private final IBlockState defaultBlockState;
     private final IBlockState[] substitutes;
     private final boolean wildcard;
+
     private BlockStates(IBlockState defaultBlockState, IBlockState[] substitutes, boolean wildcard) {
         this.defaultBlockState = defaultBlockState;
         this.substitutes = substitutes;
@@ -25,30 +27,36 @@ public class BlockStates {
     public static BlockStates of(IBlockState defaultBlockState) {
         return new BlockStates(defaultBlockState, new IBlockState[0], false);
     }
+
     @SuppressWarnings("unused")
     public static BlockStates of(IBlockState defaultBlockState, IBlockState... substitutes) {
         return new BlockStates(defaultBlockState, substitutes, false);
     }
+
     @SuppressWarnings("unused")
     public static BlockStates of(ItemStack defaultBlockState) {
         return new BlockStates(transformStackToState(defaultBlockState), new IBlockState[0], false);
     }
+
     @SuppressWarnings("unused")
     public static BlockStates of(ItemStack defaultBlockState, ItemStack... substitutes) {
         return new BlockStates(transformStackToState(defaultBlockState),
                 Arrays.stream(substitutes).map(BlockStates::transformStackToState).toArray(IBlockState[]::new),
                 false);
     }
+
     @SuppressWarnings("unused")
     public static BlockStates of(Block defaultBlock) {
         return new BlockStates(defaultBlock.getDefaultState(), new IBlockState[0], false);
     }
+
     @SuppressWarnings("unused")
     public static BlockStates of(Block defaultBlock, Block... substitutes) {
         return new BlockStates(defaultBlock.getDefaultState(),
                 Arrays.stream(substitutes).map(Block::getDefaultState).toArray(IBlockState[]::new),
                 false);
     }
+
     public static BlockStates wildcard() {
         return new BlockStates(null, new IBlockState[0], true);
     }
@@ -101,7 +109,7 @@ public class BlockStates {
     }
 
     public static boolean statesEqual(IBlockState a, IBlockState b) {
-        return Objects.equals(a.getBlock().getRegistryName(), b.getBlock().getRegistryName())
-                && a.getBlock().getMetaFromState(a) == b.getBlock().getMetaFromState(b);
+        return Objects.equals(a.getBlock().getRegistryName(), b.getBlock().getRegistryName()) &&
+                a.getBlock().getMetaFromState(a) == b.getBlock().getMetaFromState(b);
     }
 }

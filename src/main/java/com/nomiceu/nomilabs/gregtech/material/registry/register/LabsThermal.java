@@ -1,16 +1,17 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
-import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.properties.BlastProperty.GasTier;
-
+import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
-import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
+
+import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.properties.BlastProperty.GasTier;
 
 public class LabsThermal {
+
     public static void initThermal() {
         Ardite = new Material.Builder(6, makeLabsName("ardite"))
                 .ingot()

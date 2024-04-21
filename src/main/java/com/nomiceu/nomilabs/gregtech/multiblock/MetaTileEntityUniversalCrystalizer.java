@@ -1,11 +1,31 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.brandon3055.draconicevolution.DEFeatures;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
+
 import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
@@ -27,25 +47,10 @@ import gregtech.common.blocks.BlockFusionCasing;
 import gregtech.common.blocks.BlockGlassCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockController
+                                                implements ConditionalJEIMultiblock {
 
-import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
-
-public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockController implements ConditionalJEIMultiblock {
     public MetaTileEntityUniversalCrystalizer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES);
     }
@@ -78,14 +83,13 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
                 .where('B', states(getCasingStateComponent()))
                 .where('R', states(getCasingStateCore()))
                 .build();
-
     }
 
     @Override
     public TraceabilityPredicate autoAbilities() {
         return abilities(MultiblockAbility.MAINTENANCE_HATCH)
-                        .setMinGlobalLimited(1)
-                        .setMaxGlobalLimited(1)
+                .setMinGlobalLimited(1)
+                .setMaxGlobalLimited(1)
                 .or(abilities(GCYMMultiblockAbility.PARALLEL_HATCH)
                         .setMaxGlobalLimited(1))
                 .or(abilities(MultiblockAbility.IMPORT_ITEMS)
@@ -94,9 +98,10 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
                         .setMinGlobalLimited(1))
                 .or(abilities(MultiblockAbility.EXPORT_ITEMS)
                         .setMinGlobalLimited(1))
-                .or(abilities(MultiblockAbility.INPUT_ENERGY, MultiblockAbility.SUBSTATION_INPUT_ENERGY, MultiblockAbility.INPUT_LASER)
-                        .setMinGlobalLimited(1)
-                        .setMaxGlobalLimited(2));
+                .or(abilities(MultiblockAbility.INPUT_ENERGY, MultiblockAbility.SUBSTATION_INPUT_ENERGY,
+                        MultiblockAbility.INPUT_LASER)
+                                .setMinGlobalLimited(1)
+                                .setMaxGlobalLimited(2));
     }
 
     @Override
@@ -143,17 +148,15 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
     protected IBlockState getCasingStateComponent() {
         assert Blocks.AIR != null;
 
-        return Loader.isModLoaded(LabsValues.DRACONIC_MODID)
-                ? DEFeatures.reactorComponent.getDefaultState()
-                : Blocks.AIR.getDefaultState();
+        return Loader.isModLoaded(LabsValues.DRACONIC_MODID) ? DEFeatures.reactorComponent.getDefaultState() :
+                Blocks.AIR.getDefaultState();
     }
 
     protected IBlockState getCasingStateCore() {
         assert Blocks.AIR != null;
 
-        return Loader.isModLoaded(LabsValues.DRACONIC_MODID)
-                ? DEFeatures.reactorCore.getDefaultState()
-                : Blocks.AIR.getDefaultState();
+        return Loader.isModLoaded(LabsValues.DRACONIC_MODID) ? DEFeatures.reactorCore.getDefaultState() :
+                Blocks.AIR.getDefaultState();
     }
 
     @Override
@@ -175,7 +178,8 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                               boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.universal_crystallizer.description"));
         tooltip.add(translate("tooltip.nomilabs.universal_crystallizer.description_laser"));
         super.addInformation(stack, world, tooltip, advanced);

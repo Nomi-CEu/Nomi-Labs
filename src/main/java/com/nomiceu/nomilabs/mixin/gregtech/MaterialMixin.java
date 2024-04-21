@@ -1,17 +1,9 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMaterial;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMaterialFlags;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.CompositionRecipeType;
-import com.nomiceu.nomilabs.groovy.CompositionBuilder;
-import gregtech.api.recipes.Recipe;
-import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.info.MaterialFlag;
-import gregtech.api.unification.material.info.MaterialFlags;
-import gregtech.api.unification.stack.MaterialStack;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
@@ -23,15 +15,26 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMaterial;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMaterialFlags;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.CompositionRecipeType;
+import com.nomiceu.nomilabs.groovy.CompositionBuilder;
+
+import gregtech.api.recipes.Recipe;
+import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.info.MaterialFlag;
+import gregtech.api.unification.material.info.MaterialFlags;
+import gregtech.api.unification.stack.MaterialStack;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 /**
  * Allows setting material components, and saving original components.
  */
 @Mixin(value = Material.class, remap = false)
 public abstract class MaterialMixin implements AccessibleMaterial {
+
     @Unique
     private String setChemicalFormula;
 
@@ -54,7 +57,7 @@ public abstract class MaterialMixin implements AccessibleMaterial {
     private final MaterialFlag[] decompFlags = new MaterialFlag[] {
             MaterialFlags.DISABLE_DECOMPOSITION,
             MaterialFlags.DECOMPOSITION_BY_CENTRIFUGING,
-            MaterialFlags.DECOMPOSITION_BY_ELECTROLYZING};
+            MaterialFlags.DECOMPOSITION_BY_ELECTROLYZING };
 
     @Shadow
     @NotNull

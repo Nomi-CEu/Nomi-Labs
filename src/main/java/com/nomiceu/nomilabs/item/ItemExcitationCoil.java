@@ -1,7 +1,11 @@
 package com.nomiceu.nomilabs.item;
 
-import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
-import gregtech.client.utils.TooltipHelper;
+import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
+import static com.nomiceu.nomilabs.util.LabsTranslate.translateFormat;
+
+import java.util.List;
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.MobEffects;
@@ -13,14 +17,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Objects;
+import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 
-import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
-import static com.nomiceu.nomilabs.util.LabsTranslate.translateFormat;
+import gregtech.client.utils.TooltipHelper;
 
 public class ItemExcitationCoil extends ItemBlock {
 
@@ -55,13 +58,15 @@ public class ItemExcitationCoil extends ItemBlock {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
+    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip,
+                               @NotNull ITooltipFlag flagIn) {
         tooltip.add(translate("tooltip.nomilabs.excitationcoil.description"));
         if (LabsTooltipHelper.isShiftDown()) {
             tooltip.add(translate("tooltip.nomilabs.excitationcoil.placeable"));
             tooltip.add(translate("tooltip.nomilabs.excitationcoil.wearable"));
             tooltip.add(translateFormat("tooltip.nomilabs.excitationcoil.night_vision", TooltipHelper.RAINBOW_SLOW));
         } else
-            tooltip.add(translateFormat("tooltip.nomilabs.general.press_shift_for_usages", TooltipHelper.BLINKING_ORANGE));
+            tooltip.add(
+                    translateFormat("tooltip.nomilabs.general.press_shift_for_usages", TooltipHelper.BLINKING_ORANGE));
     }
 }

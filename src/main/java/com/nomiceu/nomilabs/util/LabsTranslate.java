@@ -1,16 +1,19 @@
 package com.nomiceu.nomilabs.util;
 
-import gregtech.client.utils.TooltipHelper;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
-
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
+
+import gregtech.client.utils.TooltipHelper;
+
 @SuppressWarnings("unused")
 public class LabsTranslate {
+
     public static String translate(String key, Object... params) {
-        if (LabsSide.isDedicatedServer()) return translateServerSide(key, params); // I18n is not available on Dedicated Servers
+        if (LabsSide.isDedicatedServer()) return translateServerSide(key, params); // I18n is not available on Dedicated
+                                                                                   // Servers
         try {
             return net.minecraft.client.resources.I18n.format(key, params);
         } catch (Exception e) {
@@ -28,9 +31,8 @@ public class LabsTranslate {
             var fallbackTranslated = I18n.translateToFallback(key);
             if (!fallbackTranslated.equals(key) && params.length != 0) {
                 try {
-                     fallbackTranslated = String.format(fallbackTranslated, params);
-                }
-                catch (IllegalFormatException var5) {
+                    fallbackTranslated = String.format(fallbackTranslated, params);
+                } catch (IllegalFormatException var5) {
                     fallbackTranslated = "Format error: " + fallbackTranslated;
                 }
             }
@@ -48,28 +50,33 @@ public class LabsTranslate {
     }
 
     public static String format(String str, TextFormatting... formats) {
-        return String.join("", Arrays.stream(formats).map(TextFormatting::toString).toArray(String[]::new))
-                + str + TextFormatting.RESET;
+        return String.join("", Arrays.stream(formats).map(TextFormatting::toString).toArray(String[]::new)) + str +
+                TextFormatting.RESET;
     }
 
     public static String format(String str, TooltipHelper.GTFormatCode... formats) {
-        return String.join("", Arrays.stream(formats).map(TooltipHelper.GTFormatCode::toString).toArray(String[]::new))
-                + str + TextFormatting.RESET;
+        return String.join("",
+                Arrays.stream(formats).map(TooltipHelper.GTFormatCode::toString).toArray(String[]::new)) + str +
+                TextFormatting.RESET;
     }
 
     public static String format(String str, Format... formats) {
-        return String.join("", Arrays.stream(formats).map((format) -> format.format).toArray(String[]::new))
-                + str + TextFormatting.RESET;
+        return String.join("", Arrays.stream(formats).map((format) -> format.format).toArray(String[]::new)) + str +
+                TextFormatting.RESET;
     }
 
     public static class Format {
+
         public final String format;
+
         private Format(String format) {
             this.format = format;
         }
+
         public Format of(TextFormatting format) {
             return new Format(format.toString());
         }
+
         public Format of(TooltipHelper.GTFormatCode format) {
             return new Format(format.toString());
         }

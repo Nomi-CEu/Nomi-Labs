@@ -1,8 +1,7 @@
 package com.nomiceu.nomilabs.mixin.architecturecraft;
 
-import com.elytradev.architecture.client.gui.GuiSawbench;
-import com.elytradev.architecture.legacy.base.BaseGui;
 import net.minecraft.inventory.Container;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,11 +9,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.elytradev.architecture.client.gui.GuiSawbench;
+import com.elytradev.architecture.legacy.base.BaseGui;
+
 /**
  * Changes the Gui Textures and Colors Used.
  */
 @Mixin(value = GuiSawbench.class, remap = false)
 public class GuiSawbenchMixin extends BaseGui.Screen {
+
     @Unique
     private static final String ORIGINAL_GUI_PATH = "gui/gui_sawbench.png";
 
@@ -40,7 +43,9 @@ public class GuiSawbenchMixin extends BaseGui.Screen {
         super(container, width, height);
     }
 
-    @Redirect(method = "drawBackgroundLayer", at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;bindTexture(Ljava/lang/String;II)V"))
+    @Redirect(method = "drawBackgroundLayer",
+              at = @At(value = "INVOKE",
+                       target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;bindTexture(Ljava/lang/String;II)V"))
     public void bindNewGuiTexture(GuiSawbench instance, String texture, int u, int v) {
         if (texture.equals(ORIGINAL_GUI_PATH)) {
             instance.bindTexture(NEW_GUI_PATH, u, v);
@@ -49,12 +54,16 @@ public class GuiSawbenchMixin extends BaseGui.Screen {
         instance.bindTexture(texture, u, v);
     }
 
-    @Redirect(method = "drawPageMenu", at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;setColor(DDD)V"))
+    @Redirect(method = "drawPageMenu",
+              at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;setColor(DDD)V"))
     public void setHighlightColor(GuiSawbench instance, double r, double g, double b) {
         instance.setColor(0.0, 0.98, 0.94);
     }
 
-    @Inject(method = "drawPageMenu", at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;gRestore()V", shift = At.Shift.AFTER))
+    @Inject(method = "drawPageMenu",
+            at = @At(value = "INVOKE",
+                     target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;gRestore()V",
+                     shift = At.Shift.AFTER))
     public void setNewTextColor(CallbackInfo ci) {
         gSave();
         setTextColor(0, 0, 0);
@@ -65,7 +74,9 @@ public class GuiSawbenchMixin extends BaseGui.Screen {
         gRestore();
     }
 
-    @Redirect(method = "drawShapeMenu", at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;bindTexture(Ljava/lang/String;II)V"))
+    @Redirect(method = "drawShapeMenu",
+              at = @At(value = "INVOKE",
+                       target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;bindTexture(Ljava/lang/String;II)V"))
     public void bindNewGuiShapeTexture(GuiSawbench instance, String texture, int u, int v) {
         if (texture.equals(ORIGINAL_GUI_BG_PATH)) {
             instance.bindTexture(NEW_GUI_BG_PATH, u, v);

@@ -1,17 +1,18 @@
 package com.nomiceu.nomilabs.mixin.architecturecraft;
 
-import com.elytradev.architecture.common.shape.Shape;
-import com.elytradev.architecture.common.tile.TileSawbench;
-import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-
-import com.elytradev.architecture.common.shape.ShapePage;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.elytradev.architecture.common.shape.Shape;
+import com.elytradev.architecture.common.shape.ShapePage;
+import com.elytradev.architecture.common.tile.TileSawbench;
+import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 
 @Mixin(value = TileSawbench.class, remap = false)
 public class TileSawbenchMixin {
+
     /**
      * Adds the new Shapes to the pages.
      */
@@ -117,6 +118,6 @@ public class TileSawbenchMixin {
                         LabsShapes.SLOPE_TILE_C1,
                         LabsShapes.SLOPE_TILE_C2,
                         LabsShapes.SLOPE_TILE_C3,
-                        LabsShapes.SLOPE_TILE_C4)};
+                        LabsShapes.SLOPE_TILE_C4) };
     }
 }

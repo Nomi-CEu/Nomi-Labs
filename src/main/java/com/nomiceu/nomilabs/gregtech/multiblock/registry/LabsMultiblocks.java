@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.gregtech.multiblock.registry;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.multiblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
+
 import gregtech.common.metatileentities.MetaTileEntities;
 
 /**
@@ -10,6 +11,7 @@ import gregtech.common.metatileentities.MetaTileEntities;
  */
 @SuppressWarnings("unused")
 public class LabsMultiblocks {
+
     public static MetaTileEntityGrowthChamber GROWTH_CHAMBER;
     public static MetaTileEntityMicroverseProjector.Microverse1 MICROVERSE_1;
     public static MetaTileEntityMicroverseProjector.Microverse2 MICROVERSE_2;
@@ -32,22 +34,33 @@ public class LabsMultiblocks {
     }
 
     private static void initOld() {
-        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32100, new MetaTileEntityMicroverseProjector.Microverse1(LabsNames.makeLabsName("microverse_projector_1")));
-        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32101, new MetaTileEntityMicroverseProjector.Microverse2(LabsNames.makeLabsName("microverse_projector_2")));
-        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32102, new MetaTileEntityMicroverseProjector.Microverse3(LabsNames.makeLabsName("microverse_projector_3")));
+        MICROVERSE_1 = MetaTileEntities.registerMetaTileEntity(32100,
+                new MetaTileEntityMicroverseProjector.Microverse1(LabsNames.makeLabsName("microverse_projector_1")));
+        MICROVERSE_2 = MetaTileEntities.registerMetaTileEntity(32101,
+                new MetaTileEntityMicroverseProjector.Microverse2(LabsNames.makeLabsName("microverse_projector_2")));
+        MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32102,
+                new MetaTileEntityMicroverseProjector.Microverse3(LabsNames.makeLabsName("microverse_projector_3")));
 
-        CREATIVE_TANK_PROVIDER = MetaTileEntities.registerMetaTileEntity(32103, new MetaTileEntityCreativeTankProvider(LabsNames.makeLabsName("creative_tank_provider")));
+        CREATIVE_TANK_PROVIDER = MetaTileEntities.registerMetaTileEntity(32103,
+                new MetaTileEntityCreativeTankProvider(LabsNames.makeLabsName("creative_tank_provider")));
 
-        NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32104, new MetaTileEntityNaquadahReactor.NaquadahReactor1(LabsNames.makeLabsName("naquadah_reactor_1")));
-        NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32105, new MetaTileEntityNaquadahReactor.NaquadahReactor2(LabsNames.makeLabsName("naquadah_reactor_2")));
+        NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32104,
+                new MetaTileEntityNaquadahReactor.NaquadahReactor1(LabsNames.makeLabsName("naquadah_reactor_1")));
+        NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32105,
+                new MetaTileEntityNaquadahReactor.NaquadahReactor2(LabsNames.makeLabsName("naquadah_reactor_2")));
 
-        ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32106, new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
+        ACTUALIZATION_CHAMBER = MetaTileEntities.registerMetaTileEntity(32106,
+                new MetaTileEntityActualizationChamber(LabsNames.makeLabsName("actualization_chamber")));
 
-        UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32107, new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
+        UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32107,
+                new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
 
-        DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108, new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
+        DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108,
+                new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
     }
+
     private static void initNew() {
-        GROWTH_CHAMBER = MetaTileEntities.registerMetaTileEntity(32109, new MetaTileEntityGrowthChamber(LabsNames.makeLabsName("growth_chamber")));
+        GROWTH_CHAMBER = MetaTileEntities.registerMetaTileEntity(32109,
+                new MetaTileEntityGrowthChamber(LabsNames.makeLabsName("growth_chamber")));
     }
 }

@@ -1,18 +1,8 @@
 package com.nomiceu.nomilabs.remap;
 
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
-import com.nomiceu.nomilabs.util.LabsNames;
-import gregtech.api.util.GTUtility;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.IForgeRegistryEntry;
-import org.spongepowered.include.com.google.common.collect.ImmutableList;
+import static com.nomiceu.nomilabs.LabsValues.*;
+import static com.nomiceu.nomilabs.remap.LabsMessageHelper.sendMessage;
+import static com.nomiceu.nomilabs.remap.Remapper.RemapTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +10,33 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import static com.nomiceu.nomilabs.LabsValues.*;
-import static com.nomiceu.nomilabs.remap.LabsMessageHelper.sendMessage;
-import static com.nomiceu.nomilabs.remap.Remapper.RemapTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
+import org.spongepowered.include.com.google.common.collect.ImmutableList;
+
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.util.LabsNames;
+
+import gregtech.api.util.GTUtility;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class LabsRemappers {
+
     public static Map<RemapTypes, List<? extends Remapper>> remappers;
     public static Map<RemapTypes, List<Pattern>> ignorePtns;
 
     public static Map<ResourceLocation, ResourceLocation> deprecationRemap;
 
-    /* Saved Remappers, for Duplicate Remappers across version types, and so item remappers can be referenced in LabsFixes. */
+    /*
+     * Saved Remappers, for Duplicate Remappers across version types, and so item remappers can be referenced in
+     * LabsFixes.
+     */
     public static Remapper deprecatedRemapper;
     public static Remapper ctRemapper;
     public static Remapper perfectGemRemapper;
@@ -54,30 +60,27 @@ public class LabsRemappers {
         /* It is too big to use ImmutableList.of(). Add each manually. */
         itemRemappers.add(
                 // Remap Deprecated Items
-                deprecatedRemapper
-        );
+                deprecatedRemapper);
         itemRemappers.add(
                 // Remap Content Tweaker Items
-                ctRemapper
-        );
+                ctRemapper);
         itemRemappers.add(
                 /*
                  * Remap old DevTech perfect gem to new perfect gem.
                  * DevTech did this badly, and created a MetaPrefixItem with GT's material registry but their
                  * Mod ID, so we need to map the DevTech metaitem to the GT metaitem.
                  */
-                perfectGemRemapper
-        );
+                perfectGemRemapper);
         itemRemappers.add(
                 /*
-                 * Remap old Meta Blocks. This remaps all meta blocks from old crafttweaker materials, to new nomi labs ones.
+                 * Remap old Meta Blocks. This remaps all meta blocks from old crafttweaker materials, to new nomi labs
+                 * ones.
                  * Because the old id was + 32000, and the base id (the number after `meta_block_.*_`) is id / 16,
                  * we can just decrease 2000 from that to get the new base id.
                  *
                  * The meta does not need to be changed, as id % 16 stays the same (32000 is thankfully divisible by 16)
                  */
-                metaBlockRemapper
-        );
+                metaBlockRemapper);
         remappers.put(RemapTypes.ITEM, itemRemappers);
 
         remappers.put(RemapTypes.BLOCK, ImmutableList.of(
@@ -85,14 +88,14 @@ public class LabsRemappers {
                 ctRemapper,
 
                 /*
-                 * Remap old Meta Blocks. This remaps all meta blocks from old crafttweaker materials, to new nomi labs ones.
+                 * Remap old Meta Blocks. This remaps all meta blocks from old crafttweaker materials, to new nomi labs
+                 * ones.
                  * Because the old id was + 32000, and the base id (the number after `meta_block_.*_`) is id / 16,
                  * we can just decrease 2000 from that to get the new base id.
                  *
                  * The meta does not need to be changed, as id % 16 stays the same (32000 is thankfully divisible by 16)
                  */
-                metaBlockRemapper
-        ));
+                metaBlockRemapper));
     }
 
     private static void parseIgnoreConfigs() {
@@ -122,52 +125,43 @@ public class LabsRemappers {
         /* It is too big to use ImmutableMap.of(). Add each manually. */
         deprecationRemap.put(
                 new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "omnicoin"),
-                LabsNames.makeLabsName("nomicoin")
-        );
+                LabsNames.makeLabsName("nomicoin"));
         deprecationRemap.put(
                 new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "omnicoin5"),
-                LabsNames.makeLabsName("nomicoin5")
-        );
+                LabsNames.makeLabsName("nomicoin5"));
         deprecationRemap.put(
                 new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "omnicoin25"),
-                LabsNames.makeLabsName("nomicoin25")
-        );
+                LabsNames.makeLabsName("nomicoin25"));
         deprecationRemap.put(
                 new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "omnicoin100"),
-                LabsNames.makeLabsName("nomicoin100")
-        );
+                LabsNames.makeLabsName("nomicoin100"));
         deprecationRemap.put(
-                new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID,"blazepowder"),
-                new ResourceLocation(MC_MODID, "blaze_powder")
-        );
+                new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "blazepowder"),
+                new ResourceLocation(MC_MODID, "blaze_powder"));
         deprecationRemap.put(
                 new ResourceLocation(LabsValues.CONTENTTWEAKER_MODID, "dark_red_coal"),
-                new ResourceLocation(XU2_MODID, "ingredients")
-        );
+                new ResourceLocation(XU2_MODID, "ingredients"));
 
         deprecatedRemapper = new Remapper(
                 (rl) -> deprecationRemap.containsKey(rl),
-                (rl) -> deprecationRemap.get(rl)
-        );
+                (rl) -> deprecationRemap.get(rl));
 
         ctRemapper = new Remapper(
                 (rl) -> rl.getNamespace().equals(CONTENTTWEAKER_MODID),
-                (rl) -> LabsNames.makeLabsName(rl.getPath())
-        );
+                (rl) -> LabsNames.makeLabsName(rl.getPath()));
 
         perfectGemRemapper = new Remapper(
                 (rl) -> rl.getNamespace().equals(DEVTECH_MODID) && rl.getPath().equals("meta_gem_perfect"),
-                (rl) -> GTUtility.gregtechId(rl.getPath())
-        );
+                (rl) -> GTUtility.gregtechId(rl.getPath()));
 
         metaBlockRemapper = new Remapper(
                 (rl) -> getMetaBlockID(rl) >= LabsRemapHelper.MIN_META_BLOCK_BASE_ID,
                 (rl) -> {
                     var split = rl.getPath().split("_");
-                    split[split.length - 1] = String.valueOf(getMetaBlockID(rl) - LabsRemapHelper.MIN_META_BLOCK_BASE_ID);
+                    split[split.length - 1] = String
+                            .valueOf(getMetaBlockID(rl) - LabsRemapHelper.MIN_META_BLOCK_BASE_ID);
                     return LabsNames.makeLabsName(String.join("_", split));
-                }
-        );
+                });
     }
 
     private static int getMetaBlockID(ResourceLocation rl) {
@@ -177,14 +171,17 @@ public class LabsRemappers {
         return Integer.parseInt(split[split.length - 1]);
     }
 
-    public static <T extends IForgeRegistryEntry<T>> void remapAndIgnoreEntries(RegistryEvent.MissingMappings<T> event, RemapTypes type) {
+    public static <T extends IForgeRegistryEntry<T>> void remapAndIgnoreEntries(RegistryEvent.MissingMappings<T> event,
+                                                                                RemapTypes type) {
         var mappings = event.getAllMappings();
         var remap = remappers.get(type);
         var ptns = ignorePtns.get(type);
 
         // How this works:
-        // This is an array with size of all the mappings. Each index in the mappings list corresponds to an index in this array.
-        // If the value of the index in this array is false, the entry is ignored. If it is true, the entry is not ignored.
+        // This is an array with size of all the mappings. Each index in the mappings list corresponds to an index in
+        // this array.
+        // If the value of the index in this array is false, the entry is ignored. If it is true, the entry is not
+        // ignored.
         // Not using `getAction()`, as that is marked for internal use.
         // By default, all values in the array are false (default array value)
         boolean[] ignores = new boolean[mappings.size()];
@@ -206,7 +203,8 @@ public class LabsRemappers {
                     break;
                 }
             }
-            if (ignores[i] || needsRemap || remap == null) continue; // Only check if remap is needed if it is not already set to true
+            if (ignores[i] || needsRemap || remap == null) continue; // Only check if remap is needed if it is not
+                                                                     // already set to true
             for (var remapper : remap) {
                 if (!remapper.shouldRemap(entry.key)) continue;
 
@@ -215,14 +213,15 @@ public class LabsRemappers {
             }
         }
 
-        if (!needsRemap) return; // Don't set checked to true, even if it is false, other remappers might detect needed remaps. Also returns if remap is null (because needRemap is never changed if remap is null)
+        if (!needsRemap) return; // Don't set checked to true, even if it is false, other remappers might detect needed
+                                 // remaps. Also returns if remap is null (because needRemap is never changed if remap
+                                 // is null)
 
         // Check with user
         if (!checked && !DataFixerHandler.checked) {
             sendMessage(
                     LabsMessageHelper.MessageType.CONFIRM,
-                    LabsMessageHelper.Components.getIntro()
-            );
+                    LabsMessageHelper.Components.getIntro());
 
             LabsRemapHelper.createWorldBackup();
 

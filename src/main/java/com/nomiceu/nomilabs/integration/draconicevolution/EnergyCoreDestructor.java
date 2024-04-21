@@ -1,7 +1,7 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
-import com.nomiceu.nomilabs.config.LabsConfig;
+import java.util.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,9 +10,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.*;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
+import com.nomiceu.nomilabs.config.LabsConfig;
 
 public class EnergyCoreDestructor implements StoppableProcess {
+
     private Map<BlockPos, BlockStates> workList;
     private final LinkedList<BlockPos> workOrder;
     private final TileEnergyStorageCore core;
@@ -74,19 +76,22 @@ public class EnergyCoreDestructor implements StoppableProcess {
 
         if (pos == null || states == null)
             return;
-        if (states.isWildcard() || states.equals(((BlockStateEnergyCoreStructure) core.coreStructure).X) || world.isAirBlock(pos))
+        if (states.isWildcard() || states.equals(((BlockStateEnergyCoreStructure) core.coreStructure).X) ||
+                world.isAirBlock(pos))
             return;
 
-        if (!player.capabilities.isCreativeMode){
-            ItemStack stack = new ItemStack(states.getDefault().getBlock(), 1, states.getDefault().getBlock().getMetaFromState(states.getDefault()));
-            if (!DraconicHelpers.insertItem(stack, player)){
+        if (!player.capabilities.isCreativeMode) {
+            ItemStack stack = new ItemStack(states.getDefault().getBlock(), 1,
+                    states.getDefault().getBlock().getMetaFromState(states.getDefault()));
+            if (!DraconicHelpers.insertItem(stack, player)) {
                 Block.spawnAsEntity(world, pos, stack);
             }
         }
 
         world.setBlockToAir(pos);
         SoundType soundtype = states.getDefault().getBlock().getSoundType(states.getDefault(), world, pos, player);
-        world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, soundtype.getBreakSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+        world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, soundtype.getBreakSound(),
+                SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
     }
 
     @Override

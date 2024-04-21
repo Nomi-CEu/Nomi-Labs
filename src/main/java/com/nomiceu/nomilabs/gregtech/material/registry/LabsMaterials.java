@@ -1,18 +1,20 @@
 package com.nomiceu.nomilabs.gregtech.material.registry;
 
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.gregtech.material.LabsProperties;
-import com.nomiceu.nomilabs.gregtech.material.registry.register.*;
-import gregtech.api.GregTechAPI;
-import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.info.MaterialIconSet;
-
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.Neutronium;
 import static gregtech.api.unification.material.info.MaterialFlags.GENERATE_PLATE;
 
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.gregtech.material.LabsProperties;
+import com.nomiceu.nomilabs.gregtech.material.registry.register.*;
+
+import gregtech.api.GregTechAPI;
+import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.info.MaterialIconSet;
+
 @SuppressWarnings("unused")
 public class LabsMaterials {
+
     /**
      * Deprecated Materials
      */

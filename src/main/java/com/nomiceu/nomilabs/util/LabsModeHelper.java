@@ -1,11 +1,14 @@
 package com.nomiceu.nomilabs.util;
 
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.config.LabsConfig;
-import io.sommers.packmode.PMConfig;
 import org.apache.commons.lang3.StringUtils;
 
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.config.LabsConfig;
+
+import io.sommers.packmode.PMConfig;
+
 public class LabsModeHelper {
+
     private static boolean checked = false;
 
     public static boolean isNormal() {
@@ -32,7 +35,8 @@ public class LabsModeHelper {
         checked = true;
         if (LabsConfig.advanced.allowOtherPackModes) return;
 
-        if (!(PMConfig.getPackMode().equals(LabsValues.NORMAL_MODE) || PMConfig.getPackMode().equals(LabsValues.EXPERT_MODE))) {
+        if (!(PMConfig.getPackMode().equals(LabsValues.NORMAL_MODE) ||
+                PMConfig.getPackMode().equals(LabsValues.EXPERT_MODE))) {
             throw new IllegalArgumentException("[Nomi Labs]: Pack Mode must be either 'normal' or 'expert'." +
                     "If you are sure of what you are doing, you can allow other pack modes in the Nomi Labs Config, but beware: many mode specific behaviours will break.");
         }

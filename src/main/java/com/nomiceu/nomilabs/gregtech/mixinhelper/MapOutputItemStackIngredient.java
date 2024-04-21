@@ -1,15 +1,17 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
-import gregtech.api.recipes.map.MapItemStackIngredient;
+import java.util.Objects;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.util.Objects;
+import gregtech.api.recipes.map.MapItemStackIngredient;
 
 /**
  * Can't use MapItemStackIngredient as equals() always returns false, if gt recipe input is null.
  */
 public class MapOutputItemStackIngredient extends MapItemStackIngredient {
+
     public MapOutputItemStackIngredient(ItemStack stack, int meta, NBTTagCompound tag) {
         super(stack, meta, tag);
     }
@@ -25,6 +27,7 @@ public class MapOutputItemStackIngredient extends MapItemStackIngredient {
 
     @Override
     public String toString() {
-        return "MapOutputItemStackIngredient{item=" + this.stack.getItem().getRegistryName() + "} {meta=" + this.meta + "} {tag=" + this.tag + "}";
+        return "MapOutputItemStackIngredient{item=" + this.stack.getItem().getRegistryName() + "} {meta=" + this.meta +
+                "} {tag=" + this.tag + "}";
     }
 }

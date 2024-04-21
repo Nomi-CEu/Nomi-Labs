@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs;
 
 @SuppressWarnings("unused")
 public class LabsValues {
+
     public static final String LABS_MODID = "nomilabs";
     public static final String LABS_MODNAME = "Nomi Labs";
     public static final String LABS_VERSION = Tags.VERSION;

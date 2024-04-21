@@ -1,14 +1,16 @@
 package com.nomiceu.nomilabs.item;
 
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.IRarity;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class ItemBlockBase extends ItemBlock {
+
     private IRarity rarity;
 
     public ItemBlockBase(Block block, @NotNull IRarity rarity, int stackSize) {

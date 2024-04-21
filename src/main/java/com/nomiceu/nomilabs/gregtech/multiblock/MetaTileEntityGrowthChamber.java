@@ -1,9 +1,27 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+
+import java.util.List;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.block.BlockUniqueCasing;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
-import com.nomiceu.nomilabs.gregtech.LabsTextures;
+
+import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -16,21 +34,6 @@ import gregtech.common.blocks.BlockGlassCasing;
 import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-
-import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockController {
 
@@ -63,7 +66,6 @@ public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockControll
                 .where('A', air())
                 .where('#', any())
                 .build();
-
     }
 
     @Override
@@ -84,17 +86,20 @@ public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockControll
         assert Blocks.DIRT != null;
         assert Blocks.GRASS != null;
         assert Blocks.FARMLAND != null;
-        return new IBlockState[] {Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState(), Blocks.FARMLAND.getDefaultState()}; // Allow dirt or grass or farmland
+        return new IBlockState[] { Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState(),
+                Blocks.FARMLAND.getDefaultState() }; // Allow dirt or grass or farmland
     }
 
     protected IBlockState getCasingStateLamp() {
         assert Blocks.AIR != null;
-        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() : LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.GROWTH_LIGHT);
+        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() :
+                LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.GROWTH_LIGHT);
     }
 
     protected IBlockState getCasingStateVent() {
         assert Blocks.AIR != null;
-        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() : LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.AIR_VENT);
+        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() :
+                LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.AIR_VENT);
     }
 
     protected IBlockState getCasingStatePipe() {
@@ -120,7 +125,8 @@ public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockControll
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                               boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.growth_chamber.description"));
         super.addInformation(stack, world, tooltip, advanced);
     }

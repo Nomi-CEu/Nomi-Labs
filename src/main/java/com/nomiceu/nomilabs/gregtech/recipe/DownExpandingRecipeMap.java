@@ -1,11 +1,13 @@
 package com.nomiceu.nomilabs.gregtech.recipe;
 
+import net.minecraftforge.items.IItemHandlerModifiable;
+
+import org.jetbrains.annotations.NotNull;
+
 import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.gui.ModularUI;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A Recipe Map in which slots expand downwards if the number of slots is not a square number, instead of sideways.
@@ -13,7 +15,10 @@ import org.jetbrains.annotations.NotNull;
  * TODO: Refactor when GT MUI Change Rolls In
  */
 public class DownExpandingRecipeMap extends RecipeMap<SimpleRecipeBuilder> {
-    public DownExpandingRecipeMap(@NotNull String unlocalizedName, int maxInputs, int maxOutputs, int maxFluidInputs, int maxFluidOutputs, @NotNull SimpleRecipeBuilder defaultRecipeBuilder, boolean isHidden) {
+
+    public DownExpandingRecipeMap(@NotNull String unlocalizedName, int maxInputs, int maxOutputs, int maxFluidInputs,
+                                  int maxFluidOutputs, @NotNull SimpleRecipeBuilder defaultRecipeBuilder,
+                                  boolean isHidden) {
         super(unlocalizedName, maxInputs, maxOutputs, maxFluidInputs, maxFluidOutputs, defaultRecipeBuilder, isHidden);
     }
 
@@ -71,7 +76,4 @@ public class DownExpandingRecipeMap extends RecipeMap<SimpleRecipeBuilder> {
             }
         }
     }
-
-
-
 }

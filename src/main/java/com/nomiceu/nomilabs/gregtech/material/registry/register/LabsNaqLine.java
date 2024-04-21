@@ -1,15 +1,16 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
-import gregtech.api.fluids.FluidBuilder;
-import gregtech.api.unification.material.Material;
-
+import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
-import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
+
+import gregtech.api.fluids.FluidBuilder;
+import gregtech.api.unification.material.Material;
 
 public class LabsNaqLine {
+
     public static void initNaqLine() {
         NaquadahOxide = new Material.Builder(57, makeLabsName("naquadah_oxide")) // Hardmode Material
                 .dust()
@@ -47,22 +48,25 @@ public class LabsNaqLine {
                 .components(Caesium, 3, Naquadah, 1, Fluorine, 6)
                 .build();
 
-        NaquadahOxidePetroSolution = new Material.Builder(63, makeLabsName("naquadah_oxide_petro_solution")) // Hardmode Material
+        NaquadahOxidePetroSolution = new Material.Builder(63, makeLabsName("naquadah_oxide_petro_solution")) // Hardmode
+                                                                                                             // Material
                 .liquid()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x595c70)
                 .build();
 
-        NaquadahOxideAeroSolution = new Material.Builder(64, makeLabsName("naquadah_oxide_aero_solution")) // Hardmode Material
+        NaquadahOxideAeroSolution = new Material.Builder(64, makeLabsName("naquadah_oxide_aero_solution")) // Hardmode
+                                                                                                           // Material
                 .liquid()
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x6f7059)
                 .build();
 
-        HotNaquadahOxideNeocryoliteSolution = new Material.Builder(65, makeLabsName("hot_naquadah_oxide_neocryolite_solution")) // Hardmode Material
-                .liquid(new FluidBuilder().temperature(4700))
-                .flags(DISABLE_DECOMPOSITION)
-                .color(0x658280)
-                .build();
+        HotNaquadahOxideNeocryoliteSolution = new Material.Builder(65,
+                makeLabsName("hot_naquadah_oxide_neocryolite_solution")) // Hardmode Material
+                        .liquid(new FluidBuilder().temperature(4700))
+                        .flags(DISABLE_DECOMPOSITION)
+                        .color(0x658280)
+                        .build();
     }
 }

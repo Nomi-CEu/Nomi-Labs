@@ -1,10 +1,11 @@
 package com.nomiceu.nomilabs.mixin.jei;
 
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
-import mezz.jei.plugins.vanilla.crafting.CraftingRecipeCategory;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,10 +13,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
+import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+
+import mezz.jei.plugins.vanilla.crafting.CraftingRecipeCategory;
 
 @Mixin(value = CraftingRecipeCategory.class, remap = false)
 public class CraftingRecipeCategoryMixin {
+
     @Shadow
     @Final
     private static int craftOutputSlot;

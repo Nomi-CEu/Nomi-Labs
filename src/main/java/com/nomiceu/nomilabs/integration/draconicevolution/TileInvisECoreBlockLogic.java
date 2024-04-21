@@ -1,8 +1,5 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.draconicevolution.DEFeatures;
-import com.brandon3055.draconicevolution.blocks.ParticleGenerator;
-import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -10,24 +7,29 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.blocks.ParticleGenerator;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
+
 public class TileInvisECoreBlockLogic {
+
     @SuppressWarnings("deprecation")
     public static void revert(TileInvisECoreBlock invis) {
         if (invis.blockName.equals("draconicevolution:particle_generator")) {
-            invis.getWorld().setBlockState(invis.getPos(), DEFeatures.particleGenerator.getDefaultState().withProperty(ParticleGenerator.TYPE, "stabilizer"));
+            invis.getWorld().setBlockState(invis.getPos(),
+                    DEFeatures.particleGenerator.getDefaultState().withProperty(ParticleGenerator.TYPE, "stabilizer"));
             return;
         }
         Block block = Block.REGISTRY.getObject(new ResourceLocation(invis.blockName));
         IBlockState state;
-        if (!block.equals(Blocks.AIR)){
+        if (!block.equals(Blocks.AIR)) {
             if (!((TileInvisECoreBlockState) invis).getDefault())
                 state = block.getStateFromMeta(((TileInvisECoreBlockState) invis).getMetadata());
             else
                 state = block.getDefaultState();
 
             invis.getWorld().setBlockState(invis.getPos(), state);
-        }
-        else {
+        } else {
             invis.getWorld().setBlockToAir(invis.getPos());
         }
     }
@@ -47,11 +49,10 @@ public class TileInvisECoreBlockLogic {
     public static void onDataPacket(TileInvisECoreBlock invis, SPacketUpdateTileEntity pkt) {
         String[] input = pkt.getNbtCompound().getString("BlockName").split(" ");
         var invisState = (TileInvisECoreBlockState) invis;
-        if (input.length != 2){
+        if (input.length != 2) {
             invis.blockName = input[0];
             invisState.setIsDefault();
-        }
-        else{
+        } else {
             invis.blockName = input[0];
             invisState.setMetadata(Integer.parseInt(input[1]));
         }
@@ -69,11 +70,10 @@ public class TileInvisECoreBlockLogic {
     public static void readExtraNBT(TileInvisECoreBlock invis, NBTTagCompound compound) {
         String[] input = compound.getString("BlockName").split(" ");
         var invisState = (TileInvisECoreBlockState) invis;
-        if (input.length != 2){
+        if (input.length != 2) {
             invis.blockName = input[0];
             invisState.setIsDefault();
-        }
-        else{
+        } else {
             invis.blockName = input[0];
             invisState.setMetadata(Integer.parseInt(input[1]));
         }

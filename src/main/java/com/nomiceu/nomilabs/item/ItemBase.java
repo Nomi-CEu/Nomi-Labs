@@ -1,5 +1,8 @@
 package com.nomiceu.nomilabs.item;
 
+import java.util.Collections;
+import java.util.List;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
@@ -10,13 +13,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IRarity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
-
 public class ItemBase extends Item {
+
     private final IRarity rarity;
     private final String[] description;
 
@@ -34,13 +36,15 @@ public class ItemBase extends Item {
 
     /**
      * Makes an item.
-     * @param rl Resource Location
-     * @param tab Creative Tab
-     * @param rarity Rarity
-     * @param stackSize Max Stack Size
+     * 
+     * @param rl          Resource Location
+     * @param tab         Creative Tab
+     * @param rarity      Rarity
+     * @param stackSize   Max Stack Size
      * @param description Description. Localized.
      */
-    public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize, String... description) {
+    public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize,
+                    String... description) {
         setRegistryName(rl);
         setCreativeTab(tab);
         setMaxStackSize(stackSize);
@@ -56,7 +60,8 @@ public class ItemBase extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
+    public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                               @NotNull ITooltipFlag flagIn) {
         Collections.addAll(tooltip, description);
     }
 }

@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.remap.datafixer.types;
 import net.minecraft.util.datafix.IFixType;
 
 public class LabsFixTypes {
+
     public enum FixerTypes implements IFixType {
         /**
          * Any compound tag that looks like an item stack.
@@ -20,6 +21,7 @@ public class LabsFixTypes {
          */
         CHUNK
     }
+
     public enum WalkerTypes implements IFixType {
         /**
          * Fix Type used by ItemStack Walker to fix Ender Storage Items

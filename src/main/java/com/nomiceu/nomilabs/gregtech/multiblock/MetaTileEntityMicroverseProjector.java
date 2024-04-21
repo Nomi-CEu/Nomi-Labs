@@ -1,10 +1,31 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
+import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
+
 import gregtech.api.GTValues;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
@@ -21,25 +42,7 @@ import gregtech.common.blocks.BlockMultiblockCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 import gregtech.core.sound.GTSoundEvents;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import team.chisel.common.carving.Carving;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultiblockController {
 
@@ -58,8 +61,9 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
     protected IBlockState getCasingStateDiamond() {
         assert Blocks.AIR != null;
 
-        return Loader.isModLoaded(LabsValues.CHISEL_MODID)
-                ? Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations().get(4).getBlockState() // This cursed line returns the Space Diamond Chisel Block
+        return Loader.isModLoaded(LabsValues.CHISEL_MODID) ?
+                Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations()
+                        .get(4).getBlockState() // This cursed line returns the Space Diamond Chisel Block
                 : Blocks.AIR.getDefaultState();
     }
 
@@ -100,8 +104,9 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
     }
 
     public static class Microverse1 extends MetaTileEntityMicroverseProjector {
+
         public Microverse1(ResourceLocation metaTileEntityId) {
-            super(metaTileEntityId,1);
+            super(metaTileEntityId, 1);
         }
 
         @Override
@@ -132,7 +137,8 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateGrate())
                     .where('D', getCasingStateDiamond())
-                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.UP) // ULV = LV, Muffler Hatches start at LV
+                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.UP) // ULV = LV, Muffler Hatches
+                                                                                            // start at LV
                     .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('O', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('F', MetaTileEntities.FLUID_IMPORT_HATCH[GTValues.LV], EnumFacing.WEST)
@@ -150,15 +156,17 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
 
         @Override
         @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                                   boolean advanced) {
             super.addInformation(stack, world, tooltip, advanced);
             tooltip.add(translate("tooltip.nomilabs.microverse_projector_1.description"));
         }
     }
 
     public static class Microverse2 extends MetaTileEntityMicroverseProjector {
+
         public Microverse2(ResourceLocation metaTileEntityId) {
-            super(metaTileEntityId,2);
+            super(metaTileEntityId, 2);
         }
 
         @Override
@@ -194,7 +202,8 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateGrate())
                     .where('D', getCasingStateDiamond())
-                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.UP) // ULV = LV, Muffler Hatches start at LV
+                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.UP) // ULV = LV, Muffler Hatches
+                                                                                            // start at LV
                     .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('O', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.EV], EnumFacing.NORTH)
@@ -212,28 +221,38 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
 
         @Override
         @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                                   boolean advanced) {
             tooltip.add(translate("tooltip.nomilabs.microverse_projector_2.description"));
             super.addInformation(stack, world, tooltip, advanced);
         }
     }
 
     public static class Microverse3 extends MetaTileEntityMicroverseProjector {
+
         public Microverse3(ResourceLocation metaTileEntityId) {
-            super(metaTileEntityId,3);
+            super(metaTileEntityId, 3);
         }
 
         @Override
         @NotNull
         protected BlockPattern createStructurePattern() {
             return FactoryBlockPattern.start()
-                    .aisle("#########", "#########", "##XXXXX##", "##XVXVX##", "##XXXXX##", "##XVXVX##", "##XXXXX##", "#########", "#########")
-                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#", "##XGGGX##", "#########")
-                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "#XDDDDDX#", "##XXXXX##")
-                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX", "#GDDDDDG#", "##XGGGX##").setRepeatable(3)
-                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "#XDDDDDX#", "##XXXXX##")
-                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#", "##XGGGX##", "#########")
-                    .aisle("#########", "#########", "##XXSXX##", "##XGGGX##", "##XGGGX##", "##XGGGX##", "##XXXXX##", "#########", "#########")
+                    .aisle("#########", "#########", "##XXXXX##", "##XVXVX##", "##XXXXX##", "##XVXVX##", "##XXXXX##",
+                            "#########", "#########")
+                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#",
+                            "##XGGGX##", "#########")
+                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX",
+                            "#XDDDDDX#", "##XXXXX##")
+                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX",
+                            "#GDDDDDG#", "##XGGGX##")
+                    .setRepeatable(3)
+                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX",
+                            "#XDDDDDX#", "##XXXXX##")
+                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#",
+                            "##XGGGX##", "#########")
+                    .aisle("#########", "#########", "##XXSXX##", "##XGGGX##", "##XGGGX##", "##XGGGX##", "##XXXXX##",
+                            "#########", "#########")
                     .where('S', selfPredicate())
                     .where('G', states(getCasingStateGlass()))
                     .where('V', states(getCasingStateEngine()))
@@ -248,21 +267,31 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         public List<MultiblockShapeInfo> getMatchingShapes() {
             ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
             shapeInfo.add(MultiblockShapeInfo.builder()
-                    .aisle("#########", "#########", "##XEEMX##", "##XVXVX##", "##XXHXX##", "##XVXVX##", "##XXXXX##", "#########", "#########")
-                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#", "##XGGGX##", "#########")
-                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "#XDDDDDX#", "##XXXXX##")
-                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX", "#GDDDDDG#", "##XGGGX##")
-                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX", "#GDDDDDG#", "##XGGGX##")
-                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX", "#GDDDDDG#", "##XGGGX##")
-                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "#XDDDDDX#", "##XXXXX##")
-                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#", "##XGGGX##", "#########")
-                    .aisle("#########", "#########", "##XISOX##", "##XGGGX##", "##XGGGX##", "##XGGGX##", "##XXXXX##", "#########", "#########")
+                    .aisle("#########", "#########", "##XEEMX##", "##XVXVX##", "##XXHXX##", "##XVXVX##", "##XXXXX##",
+                            "#########", "#########")
+                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#",
+                            "##XGGGX##", "#########")
+                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX",
+                            "#XDDDDDX#", "##XXXXX##")
+                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX",
+                            "#GDDDDDG#", "##XGGGX##")
+                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX",
+                            "#GDDDDDG#", "##XGGGX##")
+                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX",
+                            "#GDDDDDG#", "##XGGGX##")
+                    .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX",
+                            "#XDDDDDX#", "##XXXXX##")
+                    .aisle("#########", "##XGGGX##", "#XDDDDDX#", "#GDDDDDG#", "#GDDDDDG#", "#GDDDDDG#", "#XDDDDDX#",
+                            "##XGGGX##", "#########")
+                    .aisle("#########", "#########", "##XISOX##", "##XGGGX##", "##XGGGX##", "##XGGGX##", "##XXXXX##",
+                            "#########", "#########")
                     .where('X', getCasingStateMain())
                     .where('S', LabsMultiblocks.MICROVERSE_3, EnumFacing.SOUTH)
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateEngine())
                     .where('D', getCasingStateDiamond())
-                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.NORTH) // ULV = LV, Muffler Hatches start at LV
+                    .where('H', MetaTileEntities.MUFFLER_HATCH[GTValues.LV], EnumFacing.NORTH) // ULV = LV, Muffler
+                                                                                               // Hatches start at LV
                     .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('O', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.LV], EnumFacing.SOUTH)
                     .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.IV], EnumFacing.NORTH)
@@ -280,7 +309,8 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
 
         @Override
         @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+        public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                                   boolean advanced) {
             super.addInformation(stack, world, tooltip, advanced);
             tooltip.add(translate("tooltip.nomilabs.microverse_projector_3.description"));
         }

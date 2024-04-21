@@ -1,5 +1,14 @@
 package com.nomiceu.nomilabs.groovy;
 
+import static com.nomiceu.nomilabs.groovy.CompositionBuilder.CompositionSpecification;
+
+import java.util.*;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import com.nomiceu.nomilabs.NomiLabs;
@@ -7,26 +16,22 @@ import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import com.nomiceu.nomilabs.util.LabsSide;
+
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.stack.ItemMaterialInfo;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.*;
-
-import static com.nomiceu.nomilabs.groovy.CompositionBuilder.CompositionSpecification;
 
 @SuppressWarnings("unused")
 @GroovyBlacklist
 public class LabsVirtualizedRegistries {
+
     public static final ReplaceRecyclingManager REPLACE_RECYCLING_MANAGER = new ReplaceRecyclingManager();
     public static final ReplaceCompositionManager REPLACE_DECOMP_MANAGER = new ReplaceCompositionManager();
     public static final JEIManager JEI_MANAGER = new JEIManager();
     public static final DefaultKeybindOverrideManager DEFAULT_KEYBIND_OVERRIDE_MANAGER = new DefaultKeybindOverrideManager();
 
     public static class ReplaceCompositionManager extends VirtualizedRegistry<CompositionSpecification> {
+
         public final Deque<CompositionSpecification> needReloading = new ArrayDeque<>();
 
         @Override
@@ -48,6 +53,7 @@ public class LabsVirtualizedRegistries {
     }
 
     public static class ReplaceRecyclingManager extends VirtualizedRegistry<Pair<ItemMeta, ItemMaterialInfo>> {
+
         public final Map<ItemMeta, ItemMaterialInfo> needReloading = new Object2ObjectOpenHashMap<>();
 
         @Override
@@ -78,6 +84,7 @@ public class LabsVirtualizedRegistries {
     }
 
     public static class JEIManager extends VirtualizedRegistry<String> {
+
         @Override
         public void onReload() {
             JEIPlugin.onReload();
@@ -85,10 +92,9 @@ public class LabsVirtualizedRegistries {
     }
 
     public static class DefaultKeybindOverrideManager extends VirtualizedRegistry<String> {
-        @Override
-        public void onReload() {
 
-        }
+        @Override
+        public void onReload() {}
 
         // Re-read Options File to re-apply set Keybindings
         @Override

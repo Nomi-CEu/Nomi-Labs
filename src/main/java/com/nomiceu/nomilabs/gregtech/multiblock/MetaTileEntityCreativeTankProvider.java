@@ -1,8 +1,24 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+
+import java.util.List;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
+
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
@@ -17,21 +33,9 @@ import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.*;
 import gregtech.core.sound.GTSoundEvents;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-import static com.nomiceu.nomilabs.util.LabsTranslate.*;
-
-public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockController implements ConditionalJEIMultiblock {
+public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockController
+                                                implements ConditionalJEIMultiblock {
 
     public MetaTileEntityCreativeTankProvider(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.CREATIVE_TANK_RECIPES);
@@ -53,7 +57,6 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
                 .where('X', states(getCasingStateMain()).setMinGlobalLimited(15).or(autoAbilities()))
                 .where('F', states(getCasingStateFrame()))
                 .build();
-
     }
 
     @Override
@@ -89,7 +92,8 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                               boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.creative_tank_provider.description"));
         super.addInformation(stack, world, tooltip, advanced);
     }

@@ -1,13 +1,31 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
-import appeng.core.Api;
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+
+import java.util.List;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.blakebr0.extendedcrafting.block.BlockStorage;
 import com.blakebr0.extendedcrafting.block.ModBlocks;
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
-import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
+
+import appeng.core.Api;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
@@ -21,23 +39,9 @@ import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-
-import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController implements ConditionalJEIMultiblock {
+
     public MetaTileEntityDMESimChamber(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.DME_SIM_CHAMBER_RECIPES);
     }
@@ -82,7 +86,8 @@ public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController i
     }
 
     protected IBlockState getCasingStateVibration() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.VIBRATION_SAFE_CASING);
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                .getState(BlockLargeMultiblockCasing.CasingType.VIBRATION_SAFE_CASING);
     }
 
     protected IBlockState getCasingStateEnderium() {
@@ -92,16 +97,18 @@ public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController i
     protected IBlockState getCasingStateGlass() {
         assert Blocks.AIR != null;
 
-        return Loader.isModLoaded(LabsValues.AE2_MODID) && Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().isPresent()
-                ? Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().get().getDefaultState()
-                : Blocks.AIR.getDefaultState();
+        return Loader.isModLoaded(LabsValues.AE2_MODID) &&
+                Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().isPresent() ?
+                        Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().get().getDefaultState() :
+                        Blocks.AIR.getDefaultState();
     }
 
     protected IBlockState getCasingStateOmnium() {
         assert Blocks.AIR != null;
 
-        return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID) ? ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())
-                : Blocks.AIR.getDefaultState();
+        return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID) ?
+                ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata()) :
+                Blocks.AIR.getDefaultState();
     }
 
     @Override
@@ -123,7 +130,8 @@ public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController i
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                               boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.dme_sim_chamber.description"));
         super.addInformation(stack, world, tooltip, advanced);
     }

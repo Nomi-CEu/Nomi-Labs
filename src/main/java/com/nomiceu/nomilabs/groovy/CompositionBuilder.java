@@ -1,10 +1,22 @@
 package com.nomiceu.nomilabs.groovy;
 
+import static com.nomiceu.nomilabs.util.LabsGroovyHelper.throwOrGroovyLog;
+
+import java.util.*;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMaterial;
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
+
 import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
 import gregicality.multiblocks.api.unification.GCYMMaterialFlags;
 import gregicality.multiblocks.api.unification.properties.GCYMPropertyKey;
@@ -15,17 +27,10 @@ import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialFlags;
 import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.stack.MaterialStack;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.*;
-
-import static com.nomiceu.nomilabs.util.LabsGroovyHelper.throwOrGroovyLog;
 
 @SuppressWarnings("unused")
 public class CompositionBuilder {
+
     private final Material material;
 
     private List<MaterialStack> components = null;
@@ -68,7 +73,7 @@ public class CompositionBuilder {
         return this;
     }
 
-    public CompositionBuilder changeMixer(){
+    public CompositionBuilder changeMixer() {
         changeMixer = new MixerSpecification();
         return this;
     }
@@ -81,27 +86,33 @@ public class CompositionBuilder {
     public void change() {
         /* Checks */
         if (components == null) {
-            throwOrGroovyLog(new IllegalArgumentException("Cannot change when components, or removal, has not been specified!"));
+            throwOrGroovyLog(
+                    new IllegalArgumentException("Cannot change when components, or removal, has not been specified!"));
             return;
         }
         if (!changeChemicalFormula && !changeDecomposition && !changeABS && changeMixer == null) {
-            throwOrGroovyLog(new IllegalArgumentException("Cannot change when change method(s) have not been specified!"));
+            throwOrGroovyLog(
+                    new IllegalArgumentException("Cannot change when change method(s) have not been specified!"));
             return;
         }
         if (changeDecomposition && material.hasFlag(MaterialFlags.DISABLE_DECOMPOSITION)) {
-            throwOrGroovyLog(new IllegalArgumentException("Cannot change when decomposition changing is specified, but the material has DISABLE_DECOMPOSITION flag!"));
+            throwOrGroovyLog(new IllegalArgumentException(
+                    "Cannot change when decomposition changing is specified, but the material has DISABLE_DECOMPOSITION flag!"));
             return;
         }
         if (changeMixer != null && !material.hasProperty(PropertyKey.DUST)) {
-            throwOrGroovyLog(new IllegalArgumentException("Cannot change when mixer changing is specified, but the material does not have a Dust Property!"));
+            throwOrGroovyLog(new IllegalArgumentException(
+                    "Cannot change when mixer changing is specified, but the material does not have a Dust Property!"));
             return;
         }
         if (changeABS &&
-                (!material.hasProperty(GCYMPropertyKey.ALLOY_BLAST) || !material.hasProperty(PropertyKey.BLAST)
-                        || !material.hasFluid() ||
-                        (material.getFluid(GCYMFluidStorageKeys.MOLTEN) == null && material.getFluid(FluidStorageKeys.LIQUID) == null)
-                        || material.hasFlag(GCYMMaterialFlags.NO_ALLOY_BLAST_RECIPES))) {
-            throwOrGroovyLog(new IllegalArgumentException("Cannot change when ABS changing is specified, but the material cannot generate ABS recipes to a Fluid!"));
+                (!material.hasProperty(GCYMPropertyKey.ALLOY_BLAST) || !material.hasProperty(PropertyKey.BLAST) ||
+                        !material.hasFluid() ||
+                        (material.getFluid(GCYMFluidStorageKeys.MOLTEN) == null &&
+                                material.getFluid(FluidStorageKeys.LIQUID) == null) ||
+                        material.hasFlag(GCYMMaterialFlags.NO_ALLOY_BLAST_RECIPES))) {
+            throwOrGroovyLog(new IllegalArgumentException(
+                    "Cannot change when ABS changing is specified, but the material cannot generate ABS recipes to a Fluid!"));
             return;
         }
 
@@ -112,7 +123,7 @@ public class CompositionBuilder {
     public static List<MaterialStack> getMatFromIIngredient(List<IIngredient> ingredients) {
         List<MaterialStack> result = new ArrayList<>();
         for (var ingredient : ingredients) {
-            //noinspection ConstantValue
+            // noinspection ConstantValue
             if ((Object) ingredient instanceof ItemStack stack) {
                 var mat = getMatFromStack(stack);
                 result.add(mat);
@@ -126,7 +137,8 @@ public class CompositionBuilder {
                 result.add(getMatFromFluid(stack));
                 continue;
             }
-            IllegalArgumentException e = new IllegalArgumentException("Component Specification must be an Item Stack, a Material Stack, or a Fluid Stack!");
+            IllegalArgumentException e = new IllegalArgumentException(
+                    "Component Specification must be an Item Stack, a Material Stack, or a Fluid Stack!");
 
             if (!LabsGroovyHelper.isRunningGroovyScripts()) throw e;
 
@@ -162,7 +174,8 @@ public class CompositionBuilder {
         if (mat == null) return null;
 
         if (fluid.amount % 1000 != 0 || fluid.amount < 1000) {
-            IllegalArgumentException e = new IllegalArgumentException("Fluid Amount must be divisible by 1000, and be at least 1000!");
+            IllegalArgumentException e = new IllegalArgumentException(
+                    "Fluid Amount must be divisible by 1000, and be at least 1000!");
 
             if (!LabsGroovyHelper.isRunningGroovyScripts()) throw e;
 
@@ -200,6 +213,7 @@ public class CompositionBuilder {
     }
 
     public static class MixerSpecification {
+
         private int EUt = -1;
         private int duration = -1;
         private int circuit = -1;
@@ -243,6 +257,7 @@ public class CompositionBuilder {
     }
 
     public static class CompositionSpecification {
+
         public final Material material;
         public final ImmutableList<MaterialStack> components;
         public final boolean changeChemicalFormula;

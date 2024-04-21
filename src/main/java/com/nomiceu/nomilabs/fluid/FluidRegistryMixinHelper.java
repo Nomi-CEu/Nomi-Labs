@@ -1,11 +1,5 @@
 package com.nomiceu.nomilabs.fluid;
 
-import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.mixin.AccessibleFluidRegistry;
-import org.apache.logging.log4j.Level;
-
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +7,16 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.Level;
+
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.mixin.AccessibleFluidRegistry;
+
 public class FluidRegistryMixinHelper {
+
     private static List<Pattern> defaultFluidsRegex;
     private static Map<String, String> defaultFluids;
 
@@ -94,7 +97,8 @@ public class FluidRegistryMixinHelper {
         NomiLabs.LOGGER.log(level, "Possible Options: {}", entry.getValue());
         if (solved) {
             NomiLabs.LOGGER.log(level, "Chosen Option: {}", defaultFluids.get(entry.getKey()));
-            NomiLabs.LOGGER.log(level, "Used Regex: {} (No. {})", ptnUsed.pattern(), defaultFluidsRegex.indexOf(ptnUsed) + 1);
+            NomiLabs.LOGGER.log(level, "Used Regex: {} (No. {})", ptnUsed.pattern(),
+                    defaultFluidsRegex.indexOf(ptnUsed) + 1);
         }
         NomiLabs.LOGGER.log(level, "~~~~~~~~~~~~~~~~~");
         return solved ? ConflictType.SOLVED : ConflictType.CONFLICT;

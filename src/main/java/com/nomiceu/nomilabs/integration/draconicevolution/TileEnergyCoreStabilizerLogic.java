@@ -1,17 +1,19 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.brandonscore.lib.datamanager.ManagedVec3I;
-import com.brandon3055.brandonscore.utils.FacingUtils;
-import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyCoreStabilizer;
-import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+
+import com.brandon3055.brandonscore.lib.datamanager.ManagedVec3I;
+import com.brandon3055.brandonscore.utils.FacingUtils;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyCoreStabilizer;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
+
 public class TileEnergyCoreStabilizerLogic {
+
     public static Iterable<BlockPos> getBlocksForFrameMove(TileEnergyCoreStabilizer tile) {
         TileEnergyStorageCore core = tile.getCore();
         if (core != null && !core.moveBlocksProvided) {

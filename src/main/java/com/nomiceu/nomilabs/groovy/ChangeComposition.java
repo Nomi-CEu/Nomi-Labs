@@ -1,11 +1,23 @@
 package com.nomiceu.nomilabs.groovy;
 
+import java.util.Collections;
+import java.util.Deque;
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMaterial;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.CompositionRecipeType;
 import com.nomiceu.nomilabs.mixin.gregtech.AccessibleDecompositionRecipeHandler;
+
 import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
 import gregicality.multiblocks.api.recipes.GCYMRecipeMaps;
 import gregtech.api.fluids.store.FluidStorageKeys;
@@ -21,18 +33,10 @@ import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
-import java.util.Deque;
-import java.util.List;
 
 @GroovyBlacklist
 public class ChangeComposition {
+
     public static void reloadCompositionRecipes() {
         var specs = LabsVirtualizedRegistries.REPLACE_DECOMP_MANAGER.needReloading;
         if (specs.isEmpty()) return;
@@ -66,7 +70,8 @@ public class ChangeComposition {
     private static void changeDecomp(Deque<CompositionBuilder.CompositionSpecification> specs) {
         NomiLabs.LOGGER.debug("Replacing Decomp Recipes...");
         specs.stream().filter((spec) -> spec.changeDecomposition)
-                .distinct() // Should take the newest version, since isDistinct preserves first dupe, and we are using the Deque as a LIFO structure
+                .distinct() // Should take the newest version, since isDistinct preserves first dupe, and we are using
+                            // the Deque as a LIFO structure
                 .forEach((spec) -> {
                     NomiLabs.LOGGER.debug("---------------------------");
                     NomiLabs.LOGGER.debug("Processing Spec For Decomp:");
@@ -97,9 +102,11 @@ public class ChangeComposition {
     private static void changeABS(Deque<CompositionBuilder.CompositionSpecification> specs) {
         NomiLabs.LOGGER.debug("Replacing ABS Recipes...");
 
-        // Since we already checked to see if the ABS flags are valid during the builder check phase, it should be fine now
+        // Since we already checked to see if the ABS flags are valid during the builder check phase, it should be fine
+        // now
         specs.stream().filter((spec) -> spec.changeABS)
-                .distinct() // Should take the newest version, since isDistinct preserves first dupe, and we are using the Deque as a LIFO structure
+                .distinct() // Should take the newest version, since isDistinct preserves first dupe, and we are using
+                            // the Deque as a LIFO structure
                 .forEach((spec) -> {
                     NomiLabs.LOGGER.debug("------------------------");
                     NomiLabs.LOGGER.debug("Processing Spec For ABS:");
@@ -127,9 +134,11 @@ public class ChangeComposition {
     private static void changeMixer(Deque<CompositionBuilder.CompositionSpecification> specs) {
         NomiLabs.LOGGER.debug("Replacing Mixer Recipes...");
 
-        // Since we already checked to see if the material has a dust property during the builder check phase, it should be fine now
+        // Since we already checked to see if the material has a dust property during the builder check phase, it should
+        // be fine now
         specs.stream().filter((spec) -> spec.changeMixer)
-                .distinct() // Should take the newest version, since isDistinct preserves first dupe, and we are using the Deque as a LIFO structure
+                .distinct() // Should take the newest version, since isDistinct preserves first dupe, and we are using
+                            // the Deque as a LIFO structure
                 .forEach((spec) -> {
                     NomiLabs.LOGGER.debug("--------------------------");
                     NomiLabs.LOGGER.debug("Processing Spec For Mixer:");
@@ -188,7 +197,8 @@ public class ChangeComposition {
         var recipe = map.find(itemInput.isEmpty() ? Collections.emptyList() : Collections.singletonList(itemInput),
                 fluidInput == null ? Collections.emptyList() : Collections.singletonList(fluidInput),
                 (recipe1) -> true);
-        ((AccessibleMaterial) input).setOriginalRecipes(type, recipe == null ? Collections.emptyList() : Collections.singletonList(recipe));
+        ((AccessibleMaterial) input).setOriginalRecipes(type,
+                recipe == null ? Collections.emptyList() : Collections.singletonList(recipe));
         if (recipe == null) return;
         NomiLabs.LOGGER.debug("Removing Decomp Recipe for {} @ {} in recipe map {}.",
                 itemInput.getItem().getRegistryName(), itemInput.getMetadata(),
@@ -204,10 +214,12 @@ public class ChangeComposition {
         var recipes = ((AccessibleRecipeMap) GCYMRecipeMaps.ALLOY_BLAST_RECIPES)
                 .findByOutput(Collections.emptyList(), Collections.singletonList(new FluidStack(fluid, 1)),
                         Collections.emptyList(), Collections.emptyList(), (r) -> true);
-        ((AccessibleMaterial) input).setOriginalRecipes(CompositionRecipeType.ALLOY_BLAST, recipes == null ? Collections.emptyList() : recipes);
+        ((AccessibleMaterial) input).setOriginalRecipes(CompositionRecipeType.ALLOY_BLAST,
+                recipes == null ? Collections.emptyList() : recipes);
         if (recipes == null) return;
         for (var recipe : recipes) {
-            NomiLabs.LOGGER.debug("Removing ABS Recipe with inputs {} and fluid inputs {}.", recipe.getInputs(), recipe.getFluidInputs());
+            NomiLabs.LOGGER.debug("Removing ABS Recipe with inputs {} and fluid inputs {}.", recipe.getInputs(),
+                    recipe.getFluidInputs());
             GCYMRecipeMaps.ALLOY_BLAST_RECIPES.removeRecipe(recipe);
         }
     }
@@ -215,12 +227,15 @@ public class ChangeComposition {
     @Nullable
     public static Recipe removeMixerRecipe(Material input) {
         var recipes = ((AccessibleRecipeMap) RecipeMaps.MIXER_RECIPES)
-                .findByOutput(Collections.singletonList(OreDictUnifier.get(OrePrefix.dust, input)), Collections.emptyList(),
+                .findByOutput(Collections.singletonList(OreDictUnifier.get(OrePrefix.dust, input)),
+                        Collections.emptyList(),
                         Collections.emptyList(), Collections.emptyList(), (r) -> true);
-        ((AccessibleMaterial) input).setOriginalRecipes(CompositionRecipeType.MIXER, recipes == null ? Collections.emptyList() : recipes);
+        ((AccessibleMaterial) input).setOriginalRecipes(CompositionRecipeType.MIXER,
+                recipes == null ? Collections.emptyList() : recipes);
         if (recipes == null) return null;
         for (var recipe : recipes) {
-            NomiLabs.LOGGER.debug("Removing Mixer Recipe with inputs {} and fluid inputs {}.", recipe.getInputs(), recipe.getFluidInputs());
+            NomiLabs.LOGGER.debug("Removing Mixer Recipe with inputs {} and fluid inputs {}.", recipe.getInputs(),
+                    recipe.getFluidInputs());
             RecipeMaps.MIXER_RECIPES.removeRecipe(recipe);
         }
         return recipes.get(0);

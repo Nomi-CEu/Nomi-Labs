@@ -1,10 +1,11 @@
 package com.nomiceu.nomilabs.remap;
 
-import net.minecraftforge.fml.common.StartupQuery;
-
 import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
 
+import net.minecraftforge.fml.common.StartupQuery;
+
 public class LabsMessageHelper {
+
     public static void sendMessage(MessageType type, String[] message) {
         var finalMessage = String.join("\n\n", message);
 
@@ -23,6 +24,7 @@ public class LabsMessageHelper {
 
     // Don't forget to update this in en_us.lang as well!
     public static class Components {
+
         public static String[] getIntro() {
             return new String[] {
                     translate("nomilabs.fixer.intro.1"),

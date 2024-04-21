@@ -3,11 +3,13 @@ package com.nomiceu.nomilabs.gregtech.mixinhelper;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 
 public class MapChancedItemStackIngredient extends MapOutputItemStackIngredient {
+
     protected int chance;
     protected int chanceBoost;
 
     public MapChancedItemStackIngredient(ChancedItemOutput chancedItemOutput) {
-        super(chancedItemOutput.getIngredient(), chancedItemOutput.getIngredient().getMetadata(), chancedItemOutput.getIngredient().getTagCompound());
+        super(chancedItemOutput.getIngredient(), chancedItemOutput.getIngredient().getMetadata(),
+                chancedItemOutput.getIngredient().getTagCompound());
         chance = chancedItemOutput.getChance();
         chanceBoost = chancedItemOutput.getChanceBoost();
     }

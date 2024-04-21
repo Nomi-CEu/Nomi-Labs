@@ -5,6 +5,7 @@ import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.nomiceu.nomilabs.NomiLabs;
 
 public class LabsGroovyHelper {
+
     public static boolean isRunningGroovyScripts() {
         return GroovyScript.getSandbox().isRunning();
     }

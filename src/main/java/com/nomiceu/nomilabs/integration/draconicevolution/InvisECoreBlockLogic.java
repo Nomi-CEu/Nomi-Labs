@@ -1,8 +1,5 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.draconicevolution.DEFeatures;
-import com.brandon3055.draconicevolution.blocks.tileentity.IMultiBlockPart;
-import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,7 +9,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.blocks.tileentity.IMultiBlockPart;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
+
 public class InvisECoreBlockLogic {
+
     @SuppressWarnings("deprecation")
     public static void onBlockHarvested(World world, BlockPos pos, EntityPlayer player) {
         TileEntity tile = world.getTileEntity(pos);
@@ -20,15 +22,14 @@ public class InvisECoreBlockLogic {
             var invisState = (TileInvisECoreBlockState) invis;
             if (!invis.blockName.isEmpty() && !player.capabilities.isCreativeMode) {
                 Block trueBlock = Block.REGISTRY.getObject(new ResourceLocation(invis.blockName));
-                if (!trueBlock.equals(Blocks.AIR)){
+                if (!trueBlock.equals(Blocks.AIR)) {
                     if (invisState.getDefault()) {
                         if (invis.blockName.equals("draconicevolution:particle_generator")) {
                             Block.spawnAsEntity(world, pos, new ItemStack(trueBlock, 1, 2));
                         } else {
                             Block.spawnAsEntity(world, pos, new ItemStack(trueBlock));
                         }
-                    }
-                    else
+                    } else
                         Block.spawnAsEntity(world, pos, new ItemStack(trueBlock, 1, invisState.getMetadata()));
                 }
             }

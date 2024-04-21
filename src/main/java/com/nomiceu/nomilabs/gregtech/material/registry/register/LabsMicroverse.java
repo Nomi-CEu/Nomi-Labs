@@ -1,15 +1,16 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
-import gregtech.api.unification.material.Material;
-
+import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
-import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
+
+import gregtech.api.unification.material.Material;
 
 public class LabsMicroverse {
+
     public static void initMicroverse() {
         Microversium = new Material.Builder(27, makeLabsName("microversium"))
                 .ingot()

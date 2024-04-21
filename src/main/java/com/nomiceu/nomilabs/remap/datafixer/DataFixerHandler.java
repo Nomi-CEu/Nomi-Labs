@@ -1,20 +1,17 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.remap.LabsRemapHelper;
-import com.nomiceu.nomilabs.remap.datafixer.fixes.BlockFixer;
-import com.nomiceu.nomilabs.remap.datafixer.fixes.ItemFixer;
-import com.nomiceu.nomilabs.remap.datafixer.fixes.TileEntityFixer;
-import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
-import com.nomiceu.nomilabs.remap.datafixer.walker.BlockEntityWalker;
-import com.nomiceu.nomilabs.remap.datafixer.walker.ChunkWalker;
-import com.nomiceu.nomilabs.remap.datafixer.walker.ItemStackWalker;
-import io.sommers.packmode.PMConfig;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import static com.nomiceu.nomilabs.remap.LabsMessageHelper.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import net.minecraft.block.Block;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,20 +27,26 @@ import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.groovy.util.Arrays;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.remap.LabsRemapHelper;
+import com.nomiceu.nomilabs.remap.datafixer.fixes.BlockFixer;
+import com.nomiceu.nomilabs.remap.datafixer.fixes.ItemFixer;
+import com.nomiceu.nomilabs.remap.datafixer.fixes.TileEntityFixer;
+import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
+import com.nomiceu.nomilabs.remap.datafixer.walker.BlockEntityWalker;
+import com.nomiceu.nomilabs.remap.datafixer.walker.ChunkWalker;
+import com.nomiceu.nomilabs.remap.datafixer.walker.ItemStackWalker;
 
-import static com.nomiceu.nomilabs.remap.LabsMessageHelper.*;
+import io.sommers.packmode.PMConfig;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 /**
  * The main handler for all Data Fixes.
@@ -51,6 +54,7 @@ import static com.nomiceu.nomilabs.remap.LabsMessageHelper.*;
  * Values and Fixes are defined in {@link LabsFixes}.
  */
 public class DataFixerHandler {
+
     public static LabsWorldFixData worldSavedData = null;
     public static boolean checked = false;
 
@@ -129,27 +133,25 @@ public class DataFixerHandler {
         blockHelperMap = null;
 
         if (neededNewFixes.isEmpty()) {
-            NomiLabs.LOGGER.info("This world does not need any new data fixers, but it has no saved version, it is old, or this is a new world.");
+            NomiLabs.LOGGER.info(
+                    "This world does not need any new data fixers, but it has no saved version, it is old, or this is a new world.");
             LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
             return;
         }
 
         sendMessage(
                 MessageType.CONFIRM,
-                Arrays.concat(Components.getIntro(), Components.getIntroAddition())
-        );
+                Arrays.concat(Components.getIntro(), Components.getIntroAddition()));
 
         if (modeNeeded) {
             sendMessage(
                     MessageType.CONFIRM,
-                    Components.getModeCheck(StringUtils.capitalize(PMConfig.getPackMode()))
-            );
+                    Components.getModeCheck(StringUtils.capitalize(PMConfig.getPackMode())));
         }
 
         sendMessage(
                 MessageType.NOTIFY,
-                Components.getDoNotExit()
-        );
+                Components.getDoNotExit());
 
         checked = true;
 
@@ -185,7 +187,8 @@ public class DataFixerHandler {
         }
         for (var mod : modList) {
             if (!(mod instanceof NBTTagCompound compound)) continue;
-            if (!compound.hasKey("ModId", Constants.NBT.TAG_STRING) || !compound.hasKey("ModVersion", Constants.NBT.TAG_STRING))
+            if (!compound.hasKey("ModId", Constants.NBT.TAG_STRING) ||
+                    !compound.hasKey("ModVersion", Constants.NBT.TAG_STRING))
                 continue;
             mods.put(compound.getString("ModId"), compound.getString("ModVersion"));
         }
@@ -210,7 +213,8 @@ public class DataFixerHandler {
             NomiLabs.LOGGER.info("SECTION: {} -------------------------------------------", fixType);
             var fixes = LabsFixes.fixes.get(fixType);
             for (var fix : fixes) {
-                if (fix.validVersion.apply(DataFixerHandler.worldSavedData.savedVersion) && fix.validModList.apply(mods)) {
+                if (fix.validVersion.apply(DataFixerHandler.worldSavedData.savedVersion) &&
+                        fix.validModList.apply(mods)) {
                     if (!neededNewFixes.containsKey(fixType)) neededNewFixes.put(fixType, new ObjectArrayList<>());
                     neededNewFixes.get(fixType).add(fix);
                     if (fix.needsMode) modeNeeded = true;
@@ -243,9 +247,10 @@ public class DataFixerHandler {
 
         // Ender Storage Fixes
         // Ender Storage Stores Data in data1.dat and data2.dat. Sometimes its only data1.dat.
-        // lock.dat stores a byte, which has weird bitwise stuff done to it, to determine which file (data1.dat or data2.dat) to read.
+        // lock.dat stores a byte, which has weird bitwise stuff done to it, to determine which file (data1.dat or
+        // data2.dat) to read.
         var enderStorageDir = new File(save.getWorldDirectory(), "EnderStorage");
-        String[] processFiles = new String[]{"data1.dat", "data2.dat"};
+        String[] processFiles = new String[] { "data1.dat", "data2.dat" };
         for (var toProcess : processFiles) {
             File processFile = new File(enderStorageDir, toProcess);
             if (!processFile.isFile()) continue; // Also checks if it exists

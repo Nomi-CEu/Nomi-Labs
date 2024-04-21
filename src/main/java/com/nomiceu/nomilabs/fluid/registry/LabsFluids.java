@@ -1,8 +1,10 @@
 package com.nomiceu.nomilabs.fluid.registry;
 
-import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.fluid.FluidBase;
-import com.nomiceu.nomilabs.util.LabsNames;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -20,12 +22,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.nomiceu.nomilabs.block.registry.LabsBlocks;
+import com.nomiceu.nomilabs.fluid.FluidBase;
+import com.nomiceu.nomilabs.util.LabsNames;
 
 @SuppressWarnings("unused")
 public class LabsFluids {
@@ -111,7 +113,6 @@ public class LabsFluids {
         }
     }
 
-
     /**
      * All the below is Excerpted from Actually Additions.
      * They excerpted it from Tinkers' Construct with permission.
@@ -128,6 +129,7 @@ public class LabsFluids {
 
     @SideOnly(Side.CLIENT)
     public static class FluidStateMapper extends StateMapperBase implements ItemMeshDefinition {
+
         public final ModelResourceLocation location;
 
         public FluidStateMapper(Fluid fluid) {

@@ -1,16 +1,18 @@
 package com.nomiceu.nomilabs.integration.betterquesting;
 
-import betterquesting.api.api.QuestingAPI;
-import betterquesting.questing.QuestDatabase;
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.UUID;
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.util.LabsModeHelper;
+
+import betterquesting.api.api.QuestingAPI;
+import betterquesting.questing.QuestDatabase;
 
 /**
  * Used by Nomi-CEu for Rich Presence.
@@ -21,6 +23,7 @@ import java.util.UUID;
  */
 @SideOnly(Side.CLIENT)
 public class LabsTierHelper {
+
     private static int[] IDS;
     private static String[] SLUGS;
     private static String[] NAMES;
@@ -32,7 +35,8 @@ public class LabsTierHelper {
     public static void preInit() {
         boolean normal = LabsModeHelper.isNormal();
         if (!normal && !LabsModeHelper.isExpert()) {
-            if (LabsConfig.advanced.tierSettings.defaultMode == LabsConfig.Advanced.TierSettings.DefaultModeType.NORMAL) {
+            if (LabsConfig.advanced.tierSettings.defaultMode ==
+                    LabsConfig.Advanced.TierSettings.DefaultModeType.NORMAL) {
                 normal = true;
             }
         }
@@ -82,7 +86,8 @@ public class LabsTierHelper {
     }
 
     private static String getOrDefault(String defaultValue, String[] list) {
-        if (!Loader.isModLoaded(LabsValues.BQU_MODID)) return Minecraft.getMinecraft().player == null ? "" : defaultValue;
+        if (!Loader.isModLoaded(LabsValues.BQU_MODID))
+            return Minecraft.getMinecraft().player == null ? "" : defaultValue;
         if (Minecraft.getMinecraft().player != null) {
             rebuildCacheTier();
         } else

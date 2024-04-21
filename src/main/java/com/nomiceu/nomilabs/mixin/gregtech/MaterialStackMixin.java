@@ -1,15 +1,18 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
-import com.cleanroommc.groovyscript.api.IIngredient;
-import com.cleanroommc.groovyscript.api.IResourceStack;
-import gregtech.api.unification.stack.MaterialStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+
+import com.cleanroommc.groovyscript.api.IIngredient;
+import com.cleanroommc.groovyscript.api.IResourceStack;
+
+import gregtech.api.unification.stack.MaterialStack;
 
 /**
  * Allows using the Groovy '*' Operator, and allows it to be treated as an IIngredient.
@@ -17,6 +20,7 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(value = MaterialStack.class, remap = false)
 @SuppressWarnings("unused")
 public abstract class MaterialStackMixin implements IIngredient {
+
     @Shadow
     @Final
     public long amount;

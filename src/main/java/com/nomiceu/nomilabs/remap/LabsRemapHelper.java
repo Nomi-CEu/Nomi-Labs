@@ -1,27 +1,31 @@
 package com.nomiceu.nomilabs.remap;
 
-import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
-import com.nomiceu.nomilabs.remap.datafixer.storage.BlockRewriter;
-import com.nomiceu.nomilabs.remap.datafixer.storage.BlockStateLike;
-import com.nomiceu.nomilabs.remap.datafixer.storage.CompoundRewriter;
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.NibbleArray;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.StartupQuery;
 import net.minecraftforge.fml.common.ZipperUtil;
-import net.minecraftforge.common.util.Constants;
 
-import java.util.Map;
-import java.util.regex.Pattern;
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.remap.datafixer.storage.BlockRewriter;
+import com.nomiceu.nomilabs.remap.datafixer.storage.BlockStateLike;
+import com.nomiceu.nomilabs.remap.datafixer.storage.CompoundRewriter;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 
 public class LabsRemapHelper {
+
     public static final Pattern META_ITEM_MATCHER = Pattern.compile("meta_.+");
     public static final Pattern META_BLOCK_MATCHER = Pattern.compile("meta_block_.+_\\d+");
-    public static final int MIN_META_ITEM_BASE_ID = 32000; // The Base ID where the Old Meta Items/Materials started from
+    public static final int MIN_META_ITEM_BASE_ID = 32000; // The Base ID where the Old Meta Items/Materials started
+                                                           // from
     public static final int MIN_META_BLOCK_BASE_ID = 2000; // The Base ID where the Old Meta Blocks started from
 
     private static Map<BlockPos, NBTTagCompound> posToTileEntityCache;
@@ -87,16 +91,17 @@ public class LabsRemapHelper {
         }
     }
 
-    private static NBTTagCompound rewriteBlocksInSection(NBTTagCompound chunkSectionTag, int chunkX, int chunkZ, BlockRewriter rewriter) {
+    private static NBTTagCompound rewriteBlocksInSection(NBTTagCompound chunkSectionTag, int chunkX, int chunkZ,
+                                                         BlockRewriter rewriter) {
         byte[] blockIds = chunkSectionTag.getByteArray("Blocks");
         int chunkY = chunkSectionTag.getInteger("Y");
         NibbleArray blockMetadata = new NibbleArray(chunkSectionTag.getByteArray("Data"));
-        NibbleArray extendedIds = chunkSectionTag.hasKey("Add", Constants.NBT.TAG_BYTE_ARRAY)
-                ? new NibbleArray(chunkSectionTag.getByteArray("Add")) : null;
+        NibbleArray extendedIds = chunkSectionTag.hasKey("Add", Constants.NBT.TAG_BYTE_ARRAY) ?
+                new NibbleArray(chunkSectionTag.getByteArray("Add")) : null;
         for (int i = 0; i < 4096; ++i) {
             int x = i & 0x0F, y = i >> 8 & 0x0F, z = i >> 4 & 0x0F;
-            int id = extendedIds == null ? (blockIds[i] & 0xFF)
-                    : ((blockIds[i] & 0xFF) | (extendedIds.get(x, y, z) << 8));
+            int id = extendedIds == null ? (blockIds[i] & 0xFF) :
+                    ((blockIds[i] & 0xFF) | (extendedIds.get(x, y, z) << 8));
             var state = new BlockStateLike(id, (short) blockMetadata.get(x, y, z),
                     new BlockPos(chunkX * 16 + x, chunkY * 16 + y, chunkZ * 16 + z));
             if (state.invalid) continue;
@@ -135,7 +140,8 @@ public class LabsRemapHelper {
         if (posToTileEntityCache != null) return posToTileEntityCache;
         posToTileEntityCache = new Object2ObjectLinkedOpenHashMap<>();
         NBTTagCompound levelTag = chunkTag.getCompoundTag("Level");
-        NBTTagList tileEntities = levelTag.getTagList("TileEntities", Constants.NBT.TAG_COMPOUND); // Returns empty if doesn't exist
+        NBTTagList tileEntities = levelTag.getTagList("TileEntities", Constants.NBT.TAG_COMPOUND); // Returns empty if
+                                                                                                   // doesn't exist
         for (var te : tileEntities) {
             var tag = (NBTTagCompound) te;
             posToTileEntityCache.put(

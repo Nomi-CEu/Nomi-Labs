@@ -1,10 +1,12 @@
 package com.nomiceu.nomilabs.tooltip;
 
-import mcjty.theoneprobe.api.IProbeInfo;
 import org.lwjgl.input.Keyboard;
+
+import mcjty.theoneprobe.api.IProbeInfo;
 
 @SuppressWarnings("unused")
 public class LabsTooltipHelper {
+
     public static boolean isShiftDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     }

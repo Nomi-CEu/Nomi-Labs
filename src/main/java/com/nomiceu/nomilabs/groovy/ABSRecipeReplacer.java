@@ -1,5 +1,9 @@
 package com.nomiceu.nomilabs.groovy;
 
+import net.minecraftforge.fluids.Fluid;
+
+import org.jetbrains.annotations.NotNull;
+
 import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
 import gregicality.multiblocks.api.recipes.alloyblast.AlloyBlastRecipeProducer;
 import gregtech.api.fluids.store.FluidStorageKeys;
@@ -7,10 +11,9 @@ import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.builders.BlastRecipeBuilder;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.properties.BlastProperty;
-import net.minecraftforge.fluids.Fluid;
-import org.jetbrains.annotations.NotNull;
 
 public class ABSRecipeReplacer extends AlloyBlastRecipeProducer {
+
     public static final AlloyBlastRecipeProducer REPLACE_PRODUCER = new ABSRecipeReplacer();
 
     /**

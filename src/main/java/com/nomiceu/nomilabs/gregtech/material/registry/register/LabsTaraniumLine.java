@@ -1,15 +1,16 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
-import gregtech.api.fluids.FluidBuilder;
-import gregtech.api.unification.material.Material;
-
+import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
-import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
+
+import gregtech.api.fluids.FluidBuilder;
+import gregtech.api.unification.material.Material;
 
 public class LabsTaraniumLine {
+
     public static void initTaraniumLine() {
         HexafluorosilicicAcid = new Material.Builder(94, makeLabsName("hexafluorosilicic_acid"))
                 .liquid()

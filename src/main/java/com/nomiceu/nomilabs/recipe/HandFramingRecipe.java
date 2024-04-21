@@ -1,7 +1,5 @@
 package com.nomiceu.nomilabs.recipe;
 
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -9,7 +7,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+
 import org.jetbrains.annotations.NotNull;
+
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityFramingTable;
 
 /**
  * This is the actual hand framing recipe, whilst the one in GroovyScript is the example one.
@@ -92,7 +94,8 @@ public class HandFramingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
 
         // Validate the tool is in the bottomRight slot and the side material is provided
         if (isValidCraftingSet(topLeft, bottomRight)) {
-            return ((IFrameable) bottomRight.getItem()).decorate(bottomRight, topLeft, getValidStackOrEmpty(topRight), getValidStackOrEmpty(bottomLeft));
+            return ((IFrameable) bottomRight.getItem()).decorate(bottomRight, topLeft, getValidStackOrEmpty(topRight),
+                    getValidStackOrEmpty(bottomLeft));
         }
 
         return ItemStack.EMPTY;

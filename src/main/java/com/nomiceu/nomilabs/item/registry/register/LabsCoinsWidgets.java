@@ -1,18 +1,23 @@
 package com.nomiceu.nomilabs.item.registry.register;
 
-import com.nomiceu.nomilabs.item.ItemBase;
-import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
+import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+
 import net.minecraft.item.EnumRarity;
 
-import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
-import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
+import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import com.nomiceu.nomilabs.item.ItemBase;
 
 public class LabsCoinsWidgets {
+
     public static void initCoins() {
         NOMICOIN_1 = createItem(new ItemBase(makeLabsName("nomicoin"), LabsCreativeTabs.TAB_NOMI_LABS));
-        NOMICOIN_5 = createItem(new ItemBase(makeLabsName("nomicoin5"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON));
-        NOMICOIN_25 = createItem(new ItemBase(makeLabsName("nomicoin25"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
-        NOMICOIN_100 = createItem(new ItemBase(makeLabsName("nomicoin100"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+        NOMICOIN_5 = createItem(
+                new ItemBase(makeLabsName("nomicoin5"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON));
+        NOMICOIN_25 = createItem(
+                new ItemBase(makeLabsName("nomicoin25"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
+        NOMICOIN_100 = createItem(
+                new ItemBase(makeLabsName("nomicoin100"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
     }
 
     public static void initWidgets() {

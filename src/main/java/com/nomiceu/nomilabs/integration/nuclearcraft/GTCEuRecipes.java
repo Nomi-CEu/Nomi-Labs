@@ -1,6 +1,15 @@
 package com.nomiceu.nomilabs.integration.nuclearcraft;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
 import com.nomiceu.nomilabs.NomiLabs;
+
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.items.metaitem.MetaItem.MetaValueItem;
 import gregtech.api.recipes.RecipeBuilder;
@@ -13,20 +22,16 @@ import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.*;
 import nc.util.NCUtil;
 import nc.util.OreDictHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
- * Thanks to Exaxxion, in the repo <a href="https://github.com/Exaxxion/NuclearCraft/tree/2.18y-ceu">Exaxxion/NuclearCraft/tree/2.18y-ceu</a>, for the original fixes!
+ * Thanks to Exaxxion, in the repo
+ * <a href="https://github.com/Exaxxion/NuclearCraft/tree/2.18y-ceu">Exaxxion/NuclearCraft/tree/2.18y-ceu</a>, for the
+ * original fixes!
  * This contains cleaned up and modified code, that uses new GT apis, and makes use of native GT recipe checks.
  * All the util methods are private, thus we must add them.
  */
 public class GTCEuRecipes {
+
     public static void addGTCEuRecipe(String recipeName, ProcessorRecipe recipe) {
         RecipeMap<?> recipeMap = null;
         RecipeBuilder<?> builder = null;
@@ -124,14 +129,13 @@ public class GTCEuRecipes {
         for (IItemIngredient input : recipe.itemIngredients()) {
             if (input instanceof OreIngredient) {
                 for (RecipeBuilder<?> builderVariant : builders) {
-                    builderVariant.input(((OreIngredient)input).oreName, ((OreIngredient)input).stackSize);
+                    builderVariant.input(((OreIngredient) input).oreName, ((OreIngredient) input).stackSize);
                 }
-            }
-            else {
+            } else {
                 Set<String> ingredientOreList = new HashSet<>(); // Hold the different oreDict names
                 List<RecipeBuilder<?>> newBuilders = new ArrayList<>();
                 for (ItemStack inputVariant : input.getInputStackList()) {
-                    if(inputVariant.isEmpty()) continue;
+                    if (inputVariant.isEmpty()) continue;
                     Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
 
                     if (!variantOreList.isEmpty()) { // This variant has oreDict entries
@@ -141,10 +145,10 @@ public class GTCEuRecipes {
                         ingredientOreList.addAll(variantOreList);
 
                         for (RecipeBuilder<?> recipeBuilder : builders) {
-                            newBuilders.add(recipeBuilder.copy().input(variantOreList.iterator().next(), inputVariant.getCount()));
+                            newBuilders.add(recipeBuilder.copy().input(variantOreList.iterator().next(),
+                                    inputVariant.getCount()));
                         }
-                    }
-                    else {
+                    } else {
                         for (RecipeBuilder<?> recipeBuilder : builders) {
                             newBuilders.add(recipeBuilder.copy().inputs(inputVariant));
                         }
@@ -173,7 +177,8 @@ public class GTCEuRecipes {
                 List<ItemStack> outputStackList = output.getOutputStackList();
                 if (outputStackList.isEmpty()) continue;
                 for (RecipeBuilder<?> builderVariant : builders) {
-                    builderVariant.chancedOutput(outputStackList.get(0), (int) (chancedItem.meanStackSize * 10000.0D), 0);
+                    builderVariant.chancedOutput(outputStackList.get(0), (int) (chancedItem.meanStackSize * 10000.0D),
+                            0);
                 }
             } else {
                 List<ItemStack> outputStackList = output.getOutputStackList();
@@ -188,7 +193,8 @@ public class GTCEuRecipes {
             if (output instanceof ChanceFluidIngredient chancedFluid) {
                 List<FluidStack> outputStackList = output.getOutputStackList();
                 for (RecipeBuilder<?> builderVariant : builders) {
-                    builderVariant.chancedFluidOutput(outputStackList.get(0), (int) (chancedFluid.meanStackSize * 10000.0D), 0);
+                    builderVariant.chancedFluidOutput(outputStackList.get(0),
+                            (int) (chancedFluid.meanStackSize * 10000.0D), 0);
                 }
             } else {
                 List<FluidStack> outputStackList = output.getOutputStackList();
@@ -208,18 +214,24 @@ public class GTCEuRecipes {
         }
 
         if (built && NCConfig.gtce_recipe_logging) {
-            NCUtil.getLogger().info("Injected GTCEu " + recipeMap.unlocalizedName + " recipe: " + RecipeHelper.getRecipeString(recipe));
+            NCUtil.getLogger().info(
+                    "Injected GTCEu " + recipeMap.unlocalizedName + " recipe: " + RecipeHelper.getRecipeString(recipe));
             NomiLabs.LOGGER.info("This recipe was overrided by Nomi Labs' NC Fixes.");
         }
     }
 
-    /* Added Util Methods from https://github.com/Exaxxion/NuclearCraft/blob/2.18y-ceu/src/main/java/nc/integration/gtce/GTCERecipeHelper.java */
+    /*
+     * Added Util Methods from
+     * https://github.com/Exaxxion/NuclearCraft/blob/2.18y-ceu/src/main/java/nc/integration/gtce/GTCERecipeHelper.java
+     */
 
-    private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, ProcessorRecipe recipe, int processPower, int processTime) {
+    private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, ProcessorRecipe recipe, int processPower,
+                                             int processTime) {
         return builder
                 .EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 1))
                 .duration((int) recipe.getBaseProcessTime(20D * processTime));
     }
+
     private static boolean isPlateRecipe(ProcessorRecipe recipe) {
         ItemStack output = recipe.itemProducts().get(0).getStack();
         return output != null && OreDictHelper.hasOrePrefix(output, "plate", "plateDense");

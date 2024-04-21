@@ -1,10 +1,12 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
+
 public class TileEnergyStorageCoreLogic {
+
     public static void activateCore(TileEnergyStorageCore tile, long capacity) {
         if (!tile.getWorld().isRemote && tile.validateStructure()) {
             if (tile.energy.value > capacity) {
@@ -33,10 +35,10 @@ public class TileEnergyStorageCoreLogic {
         if (!(tile.coreValid.value = tile.coreStructure.checkTier(tile.tier.value))) {
             BlockPos pos = helper.invalidBlock;
 
-            improvedTile.setExpectedBlockString(helper.expectedBlockState == null
-                    ? "null"
-                    : new ItemStack(helper.expectedBlockState.getBlock(), 1,
-                    helper.expectedBlockState.getBlock().getMetaFromState(helper.expectedBlockState)).getDisplayName());
+            improvedTile.setExpectedBlockString(helper.expectedBlockState == null ? "null" :
+                    new ItemStack(helper.expectedBlockState.getBlock(), 1,
+                            helper.expectedBlockState.getBlock().getMetaFromState(helper.expectedBlockState))
+                                    .getDisplayName());
 
             improvedTile.setExpectedBlockPos(pos);
             valid = false;

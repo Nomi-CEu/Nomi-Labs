@@ -1,5 +1,9 @@
 package com.nomiceu.nomilabs.groovy;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.settings.KeyModifier;
+
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.groovy.mixinhelper.AccessibleKeyBinding;
@@ -7,12 +11,10 @@ import com.nomiceu.nomilabs.mixin.KeyBindingAccessor;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
 import com.nomiceu.nomilabs.util.LabsTranslate;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.client.settings.KeyModifier;
 
 @GroovyBlacklist
 public class KeyBindingHelper {
+
     public static void drawKeybindingTooltip(int mouseX, int mouseY, FontRenderer fontRenderer, KeyBinding keybinding) {
         fontRenderer.drawString(LabsTranslate.translate(keybinding.getKeyCategory()), mouseX + 10, mouseY, 0xFFFFFF);
         var spacing = fontRenderer.FONT_HEIGHT;
@@ -27,7 +29,8 @@ public class KeyBindingHelper {
 
     public static void addKeybindOverride(String id, KeyModifier modifier, int keyCode) {
         if (!KeyBindingAccessor.getKeybindRegistry().containsKey(id)) {
-            LabsGroovyHelper.throwOrGroovyLog(new IllegalArgumentException("Keybind with ID " + id + " was not found!"));
+            LabsGroovyHelper
+                    .throwOrGroovyLog(new IllegalArgumentException("Keybind with ID " + id + " was not found!"));
             return;
         }
         ((AccessibleKeyBinding) KeyBindingAccessor.getKeybindRegistry().get(id))

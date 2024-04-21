@@ -1,18 +1,13 @@
 package com.nomiceu.nomilabs.item;
 
-import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
-import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable;
-import com.jaquadro.minecraft.storagedrawers.block.*;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
-import com.jaquadro.minecraft.storagedrawers.block.tile.tiledata.MaterialData;
-import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
-import com.nomiceu.nomilabs.item.registry.LabsItems;
-import eutros.framedcompactdrawers.block.tile.TileControllerCustom;
-import eutros.framedcompactdrawers.block.tile.TileSlaveCustom;
-import eutros.framedcompactdrawers.registry.ModBlocks;
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+
+import java.util.List;
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -29,17 +24,28 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Objects;
+import com.jaquadro.minecraft.storagedrawers.api.storage.INetworked;
+import com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable;
+import com.jaquadro.minecraft.storagedrawers.block.*;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityTrim;
+import com.jaquadro.minecraft.storagedrawers.block.tile.tiledata.MaterialData;
+import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
 
-import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+import eutros.framedcompactdrawers.block.tile.TileControllerCustom;
+import eutros.framedcompactdrawers.block.tile.TileSlaveCustom;
+import eutros.framedcompactdrawers.registry.ModBlocks;
 
-@Optional.Interface(iface = "com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable", modid = LabsValues.STORAGE_DRAWERS_MODID)
+@Optional.Interface(iface = "com.jaquadro.minecraft.storagedrawers.api.storage.attribute.IFrameable",
+                    modid = LabsValues.STORAGE_DRAWERS_MODID)
 public class ItemHandFramingTool extends Item implements IFrameable {
+
     public static final String MAT_SIDE_TAG = "MatS";
     public static final String MAT_TRIM_TAG = "MatT";
     public static final String MAT_FRONT_TAG = "MatF";
@@ -55,10 +61,11 @@ public class ItemHandFramingTool extends Item implements IFrameable {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
+    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip,
+                               @NotNull ITooltipFlag flagIn) {
         NBTTagCompound tagCompound = stack.getTagCompound();
 
-        if (tagCompound == null || getItemStackFromKey(tagCompound, MAT_SIDE_TAG).isEmpty()){
+        if (tagCompound == null || getItemStackFromKey(tagCompound, MAT_SIDE_TAG).isEmpty()) {
             tooltip.add(translate("tooltip.nomilabs.hand_framing_tool.not_set"));
             return;
         }
@@ -77,7 +84,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
     }
 
     @Override
-    @Optional.Method(modid=LabsValues.STORAGE_DRAWERS_MODID)
+    @Optional.Method(modid = LabsValues.STORAGE_DRAWERS_MODID)
     public @NotNull EnumActionResult onItemUse(@NotNull EntityPlayer player, World world, @NotNull BlockPos pos,
                                                @NotNull EnumHand hand, @NotNull EnumFacing facing,
                                                float hitX, float hitY, float hitZ) {
@@ -99,7 +106,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         ItemStack tool = player.getHeldItem(hand);
 
         // Check if we should make this block a framed one
-        if (!isDecorating(Objects.requireNonNull(block.getRegistryName()))){
+        if (!isDecorating(Objects.requireNonNull(block.getRegistryName()))) {
             // Make it framed
             var framedResult = makeFramedState(world, pos);
             if (framedResult != null) return framedResult;
@@ -138,15 +145,15 @@ public class ItemHandFramingTool extends Item implements IFrameable {
     }
 
     private boolean isDecorating(ResourceLocation registryName) {
-        return registryName.getNamespace().equals(LabsValues.FRAMED_COMPACT_MODID)
-               || registryName.equals(new ResourceLocation(LabsValues.STORAGE_DRAWERS_MODID, "customdrawers"))
-               || registryName.equals(new ResourceLocation(LabsValues.STORAGE_DRAWERS_MODID, "customtrim"));
+        return registryName.getNamespace().equals(LabsValues.FRAMED_COMPACT_MODID) ||
+                registryName.equals(new ResourceLocation(LabsValues.STORAGE_DRAWERS_MODID, "customdrawers")) ||
+                registryName.equals(new ResourceLocation(LabsValues.STORAGE_DRAWERS_MODID, "customtrim"));
     }
 
     /**
      * Returns null if everything is as planned, or an action state to return instead.
      */
-    @Optional.Method(modid=LabsValues.STORAGE_DRAWERS_MODID)
+    @Optional.Method(modid = LabsValues.STORAGE_DRAWERS_MODID)
     @Nullable
     private EnumActionResult makeFramedState(World world, BlockPos pos) {
         if (Loader.isModLoaded(LabsValues.FRAMED_COMPACT_MODID) && makeFramedCompactState(world, pos)) return null;
@@ -154,12 +161,15 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
 
-        // If framed compact is not loaded (checked above), and we are trying to frame a controller, slave or compacting drawer, exit.
-        if (block instanceof BlockCompDrawers || block instanceof BlockController || block instanceof BlockSlave) return EnumActionResult.FAIL;
+        // If framed compact is not loaded (checked above), and we are trying to frame a controller, slave or compacting
+        // drawer, exit.
+        if (block instanceof BlockCompDrawers || block instanceof BlockController || block instanceof BlockSlave)
+            return EnumActionResult.FAIL;
 
         // Special Case for drawers, to transfer items
         if (block instanceof BlockDrawers) {
-            handleDrawerFraming(world, pos, com.jaquadro.minecraft.storagedrawers.core.ModBlocks.customDrawers.getStateFromMeta(block.getMetaFromState(state)));
+            handleDrawerFraming(world, pos, com.jaquadro.minecraft.storagedrawers.core.ModBlocks.customDrawers
+                    .getStateFromMeta(block.getMetaFromState(state)));
             return null;
         }
 
@@ -172,7 +182,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
     /**
      * Returns true if succeeded, false if not
      */
-    @Optional.Method(modid=LabsValues.FRAMED_COMPACT_MODID)
+    @Optional.Method(modid = LabsValues.FRAMED_COMPACT_MODID)
     private boolean makeFramedCompactState(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
@@ -181,8 +191,10 @@ public class ItemHandFramingTool extends Item implements IFrameable {
             return true;
         }
         IBlockState newState;
-        // Meta for controllers are their direction, so read that (Custom Controller's meta is a bit different to normal controller, so -2 to meta is needed)
-        if (block instanceof BlockController) newState = ModBlocks.framedDrawerController.getStateFromMeta(block.getMetaFromState(state) - 2);
+        // Meta for controllers are their direction, so read that (Custom Controller's meta is a bit different to normal
+        // controller, so -2 to meta is needed)
+        if (block instanceof BlockController)
+            newState = ModBlocks.framedDrawerController.getStateFromMeta(block.getMetaFromState(state) - 2);
         else if (block instanceof BlockSlave) newState = ModBlocks.framedSlave.getDefaultState();
         else return false;
 
@@ -190,7 +202,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
         return true;
     }
 
-    @Optional.Method(modid=LabsValues.STORAGE_DRAWERS_MODID)
+    @Optional.Method(modid = LabsValues.STORAGE_DRAWERS_MODID)
     private void handleDrawerFraming(World world, BlockPos pos, IBlockState state) {
         var tag = new NBTTagCompound();
 
@@ -212,7 +224,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
     }
 
     @Nullable
-    @Optional.Method(modid=LabsValues.STORAGE_DRAWERS_MODID)
+    @Optional.Method(modid = LabsValues.STORAGE_DRAWERS_MODID)
     private MaterialData getMaterialData(World world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
 
@@ -231,7 +243,8 @@ public class ItemHandFramingTool extends Item implements IFrameable {
             return trim.material();
 
         // Tile was null, or didn't inherit from these, aka error
-        NomiLabs.LOGGER.fatal("[Hand Framing Tool] Failed to get the material data of tile entity at block pos {}.", pos);
+        NomiLabs.LOGGER.fatal("[Hand Framing Tool] Failed to get the material data of tile entity at block pos {}.",
+                pos);
         return null;
     }
 
@@ -239,7 +252,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
      * Don't use this, this is seperated from main method to allow for just storage drawers, without framed compact
      */
     @Nullable
-    @Optional.Method(modid=LabsValues.FRAMED_COMPACT_MODID)
+    @Optional.Method(modid = LabsValues.FRAMED_COMPACT_MODID)
     private MaterialData getMaterialDataFramed(TileEntity tile) {
         // Framed Controller
         if (tile instanceof TileControllerCustom controller) {
@@ -261,7 +274,7 @@ public class ItemHandFramingTool extends Item implements IFrameable {
     }
 
     @Override
-    @Optional.Method(modid=LabsValues.STORAGE_DRAWERS_MODID)
+    @Optional.Method(modid = LabsValues.STORAGE_DRAWERS_MODID)
     public ItemStack decorate(ItemStack itemStack, ItemStack matSide, ItemStack matTrim, ItemStack matFront) {
         ItemStack stack = new ItemStack(LabsItems.HAND_FRAMING_TOOL, 1);
         NBTTagCompound compound = new NBTTagCompound();

@@ -1,11 +1,9 @@
 package com.nomiceu.nomilabs.mixin.draconicevolution;
 
-import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
-import com.nomiceu.nomilabs.integration.draconicevolution.TileInvisECoreBlockLogic;
-import com.nomiceu.nomilabs.integration.draconicevolution.TileInvisECoreBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,9 +11,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
+import com.nomiceu.nomilabs.integration.draconicevolution.TileInvisECoreBlockLogic;
+import com.nomiceu.nomilabs.integration.draconicevolution.TileInvisECoreBlockState;
+
 @SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(value = TileInvisECoreBlock.class, remap = false)
 public class TileInvisECoreBlockMixin implements TileInvisECoreBlockState {
+
     @Unique
     boolean isDefault = true;
     @Unique
@@ -48,7 +51,10 @@ public class TileInvisECoreBlockMixin implements TileInvisECoreBlockState {
         ci.cancel();
     }
 
-    @Inject(method = "getUpdatePacket()Lnet/minecraft/network/play/server/SPacketUpdateTileEntity;", at = @At("HEAD"), cancellable = true, remap = true)
+    @Inject(method = "getUpdatePacket()Lnet/minecraft/network/play/server/SPacketUpdateTileEntity;",
+            at = @At("HEAD"),
+            cancellable = true,
+            remap = true)
     public void getUpdatePacket(CallbackInfoReturnable<SPacketUpdateTileEntity> cir) {
         cir.setReturnValue(TileInvisECoreBlockLogic.getUpdatePacket((TileInvisECoreBlock) (Object) this));
     }

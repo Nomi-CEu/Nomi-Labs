@@ -1,5 +1,22 @@
 package com.nomiceu.nomilabs.groovy;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.settings.KeyModifier;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.brandon3055.draconicevolution.api.fusioncrafting.IFusionRecipe;
 import com.brandon3055.draconicevolution.lib.RecipeManager;
 import com.cleanroommc.groovyscript.api.GroovyLog;
@@ -11,6 +28,7 @@ import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.util.LabsTranslate;
+
 import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
 import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
@@ -20,28 +38,15 @@ import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.GTUtility;
 import gregtech.client.utils.TooltipHelper;
 import groovy.lang.Closure;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.settings.KeyModifier;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.Loader;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The interface for groovy to interact with.
  */
 @SuppressWarnings("unused")
 public class GroovyHelpers {
+
     public static class TranslationHelpers {
+
         public static String translate(String key, Object... params) {
             return LabsTranslate.translate(key, params);
         }
@@ -62,12 +67,16 @@ public class GroovyHelpers {
             return LabsTranslate.format(str, formats);
         }
     }
+
     public static class SafeMethodHelpers {
+
         /**
-         * Calls a declared instance method of a caller safely. Searches for the method in that class and its subclasses.
+         * Calls a declared instance method of a caller safely. Searches for the method in that class and its
+         * subclasses.
          */
         @Nullable
-        public static Object callInstanceMethod(Object caller, @NotNull String methodName, @Nullable List<Object> params) {
+        public static Object callInstanceMethod(Object caller, @NotNull String methodName,
+                                                @Nullable List<Object> params) {
             return callMethod(caller.getClass(), caller, methodName, params, false);
         }
 
@@ -75,7 +84,8 @@ public class GroovyHelpers {
          * Calls a declared instance method of a specific class safely. Only searches for that method in that class.
          */
         @Nullable
-        public static Object callInstanceMethodOfClass(Class<?> clazz, Object caller, @NotNull String methodName, @Nullable List<Object> params) {
+        public static Object callInstanceMethodOfClass(Class<?> clazz, Object caller, @NotNull String methodName,
+                                                       @Nullable List<Object> params) {
             return callMethod(clazz, caller, methodName, params, true);
         }
 
@@ -83,20 +93,24 @@ public class GroovyHelpers {
          * Calls a declared static method of a class safely. Only searches for that method in that class.
          */
         @Nullable
-        public static Object callStaticMethod(Class<?> clazz, @NotNull String methodName, @Nullable List<Object> params) {
+        public static Object callStaticMethod(Class<?> clazz, @NotNull String methodName,
+                                              @Nullable List<Object> params) {
             return callMethod(clazz, null, methodName, params, true);
         }
 
         /**
          * Call a method of a class safely.
-         * @param clazz Class to call.
-         * @param caller Caller. Null if static.
+         * 
+         * @param clazz      Class to call.
+         * @param caller     Caller. Null if static.
          * @param methodName Name of method
-         * @param params Params. Null or Empty List if none
-         * @param strict Whether to be strict. Strict means that checking for the method is only done in the class provided.
+         * @param params     Params. Null or Empty List if none
+         * @param strict     Whether to be strict. Strict means that checking for the method is only done in the class
+         *                   provided.
          */
         @Nullable
-        public static Object callMethod(Class<?> clazz, @Nullable Object caller, @NotNull String methodName, @Nullable List<Object> params, boolean strict) {
+        public static Object callMethod(Class<?> clazz, @Nullable Object caller, @NotNull String methodName,
+                                        @Nullable List<Object> params, boolean strict) {
             try {
                 var paramArray = params != null ?
                         params.toArray() :
@@ -104,7 +118,8 @@ public class GroovyHelpers {
                 var paramClasses = params != null ?
                         params.stream().map(Object::getClass).toArray(Class<?>[]::new) :
                         new Class<?>[0];
-                Method method = strict ? clazz.getDeclaredMethod(methodName, paramClasses) : clazz.getMethod(methodName, paramClasses);
+                Method method = strict ? clazz.getDeclaredMethod(methodName, paramClasses) :
+                        clazz.getMethod(methodName, paramClasses);
                 return method.invoke(caller, paramArray);
             } catch (NoSuchMethodException | ClassCastException | NoClassDefFoundError | InvocationTargetException |
                      IllegalAccessException | IllegalArgumentException e) {
@@ -114,38 +129,49 @@ public class GroovyHelpers {
             }
         }
     }
+
     public static class JEIHelpers {
+
         public static void addDescription(ItemStack stack, String... description) {
             JEIPlugin.addGroovyDescription(stack, description);
         }
+
         public static void addRecipeOutputTooltip(ItemStack stack, String... tooltip) {
             JEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
         }
+
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName, String... tooltip) {
             JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
         }
     }
+
     public static class MaterialHelpers {
+
         public static void hideMaterial(Material material) {
             MaterialHelper.forMaterialItem(material, JeiPlugin::hideItem);
             MaterialHelper.forMaterialFluid(material, (fluid) -> JeiPlugin.HIDDEN_FLUIDS.add(toFluidStack(fluid)));
         }
+
         public static void removeAndHideMaterial(Material material) {
-            MaterialHelper.forMaterialItem(material, (stack) ->
-                    ModSupport.JEI.get().removeAndHide(IngredientHelper.toIIngredient(stack)));
+            MaterialHelper.forMaterialItem(material,
+                    (stack) -> ModSupport.JEI.get().removeAndHide(IngredientHelper.toIIngredient(stack)));
             // Normal Hiding for Fluids, they don't have recipes
             MaterialHelper.forMaterialFluid(material, (fluid) -> JeiPlugin.HIDDEN_FLUIDS.add(toFluidStack(fluid)));
         }
+
         public static void yeetMaterial(Material material) {
             removeAndHideMaterial(material);
         }
+
         public static void forMaterial(Material material, Closure<ItemStack> itemAction, Closure<Fluid> fluidAction) {
             forMaterialItem(material, itemAction);
             forMaterialFluid(material, fluidAction);
         }
+
         public static void forMaterialItem(Material material, Closure<ItemStack> action) {
             MaterialHelper.forMaterialItem(material, (stack) -> ClosureHelper.call(action, stack));
         }
+
         public static void forMaterialFluid(Material material, Closure<Fluid> action) {
             MaterialHelper.forMaterialFluid(material, (fluid) -> ClosureHelper.call(action, fluid));
         }
@@ -154,7 +180,9 @@ public class GroovyHelpers {
             return new FluidStack(fluid, 1);
         }
     }
+
     public static class RecipeRecyclingHelpers {
+
         public static void replaceRecipeShaped(String name, ItemStack output, List<List<IIngredient>> inputs) {
             if (name.contains(":"))
                 replaceRecipeShaped(new ResourceLocation(name), output, inputs);
@@ -162,12 +190,14 @@ public class GroovyHelpers {
                 replaceRecipeShaped(GTUtility.gregtechId(name), output, inputs);
         }
 
-        public static void replaceRecipeShaped(ResourceLocation name, ItemStack output, List<List<IIngredient>> inputs) {
+        public static void replaceRecipeShaped(ResourceLocation name, ItemStack output,
+                                               List<List<IIngredient>> inputs) {
             ReplaceRecipe.replaceRecipeShaped(name, output, inputs);
         }
 
-        public static void replaceRecipeShaped(ItemStack oldOutput, ItemStack newOutput, List<List<IIngredient>> inputs) {
-            ReplaceRecipe.replaceRecipeShaped(oldOutput, newOutput,inputs);
+        public static void replaceRecipeShaped(ItemStack oldOutput, ItemStack newOutput,
+                                               List<List<IIngredient>> inputs) {
+            ReplaceRecipe.replaceRecipeShaped(oldOutput, newOutput, inputs);
         }
 
         public static void replaceRecipeOutput(String name, ItemStack output) {
@@ -211,11 +241,14 @@ public class GroovyHelpers {
         public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
             ReplaceRecipe.changeStackRecycling(output, ingredients);
         }
+
         public static void removeStackRecycling(ItemStack output) {
             ReplaceRecipe.changeStackRecycling(output, Collections.emptyList());
         }
     }
+
     public static class ChangeCompositionHelpers {
+
         public static CompositionBuilder changeComposition(Material material) {
             return new CompositionBuilder(material);
         }
@@ -240,7 +273,9 @@ public class GroovyHelpers {
             return new CompositionBuilder(mat.material);
         }
     }
+
     public static class GTRecipeHelpers {
+
         public static ChancedItemOutput chanced(ItemStack stack, int chance, int chanceBoost) {
             return new ChancedItemOutput(stack, chance, chanceBoost);
         }
@@ -251,6 +286,7 @@ public class GroovyHelpers {
     }
 
     public static class KeyBindingHelpers {
+
         public static void addOverride(String id, int keyCode) {
             addOverride(id, KeyModifier.NONE, keyCode);
         }
@@ -261,12 +297,14 @@ public class GroovyHelpers {
     }
 
     public static class MiscHelpers {
+
         public static void removeDraconicFusionRecipe(ItemStack catalyst, ItemStack result) {
             if (!Loader.isModLoaded(LabsValues.DRACONIC_MODID)) return;
 
-            //noinspection SimplifyStreamApiCallChains
+            // noinspection SimplifyStreamApiCallChains
             for (IFusionRecipe recipe : RecipeManager.FUSION_REGISTRY.getRecipes().stream()
-                    .filter(x -> x.getRecipeCatalyst().isItemEqual(catalyst) && x.getRecipeOutput(catalyst).isItemEqual(result))
+                    .filter(x -> x.getRecipeCatalyst().isItemEqual(catalyst) &&
+                            x.getRecipeOutput(catalyst).isItemEqual(result))
                     .collect(Collectors.toList())) {
                 ModSupport.DRACONIC_EVOLUTION.get().fusion.remove(recipe);
             }

@@ -1,18 +1,19 @@
 package com.nomiceu.nomilabs.gregtech.material.registry.register;
 
-import gregtech.api.unification.Element;
-import gregtech.api.unification.Elements;
-import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.properties.BlastProperty.GasTier;
-
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
+import gregtech.api.unification.Element;
+import gregtech.api.unification.Elements;
+import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.properties.BlastProperty.GasTier;
+
 public class LabsElements {
-    public static final Element Nm = Elements.add(130, 234, -1, null,"Omnium", "Nm", false);
+
+    public static final Element Nm = Elements.add(130, 234, -1, null, "Omnium", "Nm", false);
     public static final Element Dc = Elements.add(149, 264, -1, null, "Draconium", "Dc", false);
     public static final Element ADc = Elements.add(149, 264, -1, null, "AwakenedDraconium", "Dc*", false);
     public static final Element Tn = Elements.add(43, 55, -1, null, "Taranium", "Tn", false);
@@ -34,7 +35,8 @@ public class LabsElements {
                 .ingot().liquid()
                 .element(ADc)
                 .color(0xf58742).iconSet(METALLIC)
-                .flags(NO_SMELTING, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_FRAME, GENERATE_RING)
+                .flags(NO_SMELTING, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_FRAME,
+                        GENERATE_RING)
                 .build();
 
         Omnium = new Material.Builder(4, makeLabsName("omnium"))

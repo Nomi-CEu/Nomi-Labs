@@ -1,8 +1,24 @@
 package com.nomiceu.nomilabs.gregtech.multiblock;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
+
+import java.util.List;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
+
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -15,21 +31,10 @@ import gregtech.common.blocks.BlockFusionCasing;
 import gregtech.common.blocks.BlockGlassCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockController
+                                                implements ConditionalJEIMultiblock {
 
-import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
-
-public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockController implements ConditionalJEIMultiblock {
     public MetaTileEntityActualizationChamber(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.ACTUALIZATION_CHAMBER_RECIPES);
     }
@@ -43,9 +48,9 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
     @NotNull
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
-                .aisle("XXX","GGG","XXX")
-                .aisle("XXX","GOG","XXX")
-                .aisle("XSX","GGG","XXX")
+                .aisle("XXX", "GGG", "XXX")
+                .aisle("XXX", "GOG", "XXX")
+                .aisle("XSX", "GGG", "XXX")
                 .where('S', selfPredicate())
                 .where('X', states(getCasingStateMain()).setMinGlobalLimited(9).or(autoAbilities()))
                 .where('G', states(getCasingStateGlass()))
@@ -90,7 +95,8 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
+                               boolean advanced) {
         tooltip.add(translate("tooltip.nomilabs.actualization_chamber.description"));
         super.addInformation(stack, world, tooltip, advanced);
     }

@@ -1,15 +1,16 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
-import gregtech.api.recipes.Recipe;
-import gregtech.api.recipes.map.AbstractMapIngredient;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import gregtech.api.recipes.map.AbstractMapIngredient;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+
 public class OutputBranch {
+
     // Keys on this have *(should)* unique hashcodes, but perhaps not to specialNodes.
     private Map<AbstractMapIngredient, EitherOrBoth<Set<Recipe>, OutputBranch>> nodes;
 

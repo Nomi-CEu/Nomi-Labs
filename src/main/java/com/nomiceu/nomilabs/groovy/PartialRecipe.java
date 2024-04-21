@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.groovy;
 
-import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -9,13 +8,17 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+
 import org.jetbrains.annotations.NotNull;
+
+import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 
 /**
  * Used for recipes where the input is unknown (Replacing Output)
  */
 @GroovyBlacklist
 public class PartialRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IShapedRecipe {
+
     private final IShapedRecipe originalRecipe;
     private final ItemStack output;
 
@@ -23,6 +26,7 @@ public class PartialRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements 
         this.originalRecipe = originalRecipe;
         this.output = output;
     }
+
     @Override
     public boolean matches(@NotNull InventoryCrafting inv, @NotNull World worldIn) {
         return this.originalRecipe.matches(inv, worldIn);

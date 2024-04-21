@@ -1,19 +1,22 @@
 package com.nomiceu.nomilabs.remap;
 
+import java.util.function.Function;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-import javax.annotation.Nullable;
-import java.util.function.Function;
-
 public class Remapper {
+
     private final Function<ResourceLocation, Boolean> shouldRemap;
     private final Function<ResourceLocation, ResourceLocation> remapRl;
 
-    public Remapper(Function<ResourceLocation, Boolean> shouldRemap, Function<ResourceLocation, ResourceLocation> remapRl) {
+    public Remapper(Function<ResourceLocation, Boolean> shouldRemap,
+                    Function<ResourceLocation, ResourceLocation> remapRl) {
         this.shouldRemap = shouldRemap;
         this.remapRl = remapRl;
     }
@@ -27,7 +30,8 @@ public class Remapper {
     }
 
     @Nullable
-    public <T extends IForgeRegistryEntry<T>> ResourceLocation remapEntry(RegistryEvent.MissingMappings.Mapping<T> entry, RemapTypes type) {
+    public <T extends IForgeRegistryEntry<T>> ResourceLocation remapEntry(RegistryEvent.MissingMappings.Mapping<T> entry,
+                                                                          RemapTypes type) {
         var rl = remapRl(entry.key);
         var remap = new RemapTypes.RegistryHelper<T>().getRegistryForType(type).getValue(rl);
         if (remap == null) return null;
@@ -36,6 +40,7 @@ public class Remapper {
     }
 
     public enum RemapTypes {
+
         ITEM,
         BLOCK,
         ENTITY,
@@ -43,6 +48,7 @@ public class Remapper {
 
         @SuppressWarnings("unchecked")
         public static class RegistryHelper<T extends IForgeRegistryEntry<T>> {
+
             public IForgeRegistry<T> getRegistryForType(RemapTypes type) {
                 switch (type) {
                     case ITEM -> {

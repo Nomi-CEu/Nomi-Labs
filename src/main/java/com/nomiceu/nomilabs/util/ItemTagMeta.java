@@ -1,15 +1,16 @@
 package com.nomiceu.nomilabs.util;
 
+import java.util.Objects;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import java.util.Objects;
 
 /**
  * Util class to compare ItemStacks based on Item, Tag and Meta.
  */
 @SuppressWarnings("unused")
 public class ItemTagMeta extends ItemMeta {
+
     private final NBTTagCompound tag;
 
     public ItemTagMeta(ItemStack stack) {

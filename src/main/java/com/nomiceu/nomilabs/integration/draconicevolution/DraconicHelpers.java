@@ -1,15 +1,13 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.draconicevolution.DEFeatures;
-import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
-import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
-import gregtech.api.GregTechAPI;
-import gregtech.api.unification.OreDictUnifier;
-import gregtech.api.unification.material.Material;
-import gregtech.api.unification.ore.OrePrefix;
-import gregtech.common.blocks.MetaBlocks;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,16 +16,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.brandon3055.draconicevolution.DEFeatures;
+import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyStorageCore;
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
+
+import gregtech.api.GregTechAPI;
+import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.unification.material.Material;
+import gregtech.api.unification.ore.OrePrefix;
+import gregtech.common.blocks.MetaBlocks;
 
 public class DraconicHelpers {
+
     private static List<ItemStack> gtDraconiumCache;
     private static List<ItemStack> gtAwakenedCache;
 
@@ -107,10 +112,12 @@ public class DraconicHelpers {
 
     /**
      * Gets the list of a gt material, with [0] = block, [1] = ingot & [2] = nugget
+     * 
      * @return List of material properties, null if material not found
      */
     @Nullable
-    private static List<ItemStack> getListFromMaterial(@Nullable Material nomiLabsDeclaration, @NotNull String materialName) {
+    private static List<ItemStack> getListFromMaterial(@Nullable Material nomiLabsDeclaration,
+                                                       @NotNull String materialName) {
         Material material;
         List<ItemStack> materialList = new ArrayList<>();
         if (LabsConfig.content.gtCustomContent.enableMaterials && nomiLabsDeclaration != null)
@@ -118,13 +125,15 @@ public class DraconicHelpers {
         else {
             material = GregTechAPI.materialManager.getMaterial(materialName);
             if (material == null) {
-                NomiLabs.LOGGER.fatal("No GT material with name '" + materialName + "' for use in Nomi Labs Draconic Evolution Integration, and custom GT content has not been enabled! Defaulting to normal Draconic Evolution Draconium...");
+                NomiLabs.LOGGER.fatal("No GT material with name '" + materialName +
+                        "' for use in Nomi Labs Draconic Evolution Integration, and custom GT content has not been enabled! Defaulting to normal Draconic Evolution Draconium...");
                 return null;
             }
         }
         IBlockState gtDraconiumState = MetaBlocks.COMPRESSED.get(material).getBlock(material);
 
-        materialList.add(new ItemStack(gtDraconiumState.getBlock(), COUNT, gtDraconiumState.getBlock().getMetaFromState(gtDraconiumState)));
+        materialList.add(new ItemStack(gtDraconiumState.getBlock(), COUNT,
+                gtDraconiumState.getBlock().getMetaFromState(gtDraconiumState)));
         materialList.add(OreDictUnifier.get(OrePrefix.ingot, material, COUNT));
         materialList.add(OreDictUnifier.get(OrePrefix.nugget, material, COUNT));
         return materialList;
@@ -135,9 +144,11 @@ public class DraconicHelpers {
         if (handler == null) return false;
         for (int i = 0; i < handler.getSlots(); i++) {
             ItemStack inSlot = handler.getStackInSlot(i);
-            if (!inSlot.isEmpty() && inSlot.getItem().equals(toExtract.getItem()) && inSlot.getMetadata() == toExtract.getMetadata()) {
+            if (!inSlot.isEmpty() && inSlot.getItem().equals(toExtract.getItem()) &&
+                    inSlot.getMetadata() == toExtract.getMetadata()) {
                 ItemStack extracted = handler.extractItem(i, 1, false);
-                if (!extracted.isEmpty() && extracted.getItem().equals(toExtract.getItem()) && extracted.getMetadata() == toExtract.getMetadata()) {
+                if (!extracted.isEmpty() && extracted.getItem().equals(toExtract.getItem()) &&
+                        extracted.getMetadata() == toExtract.getMetadata()) {
                     return true;
                 }
             }
@@ -158,7 +169,8 @@ public class DraconicHelpers {
         if (handler == null) return false;
         for (int i = 0; i < handler.getSlots(); i++) {
             ItemStack inSlot = handler.getStackInSlot(i);
-            if (inSlot.isEmpty() || (inSlot.getItem().equals(toInsert.getItem()) && inSlot.getMetadata() == toInsert.getMetadata() && inSlot.getCount() < toInsert.getMaxStackSize())) {
+            if (inSlot.isEmpty() || (inSlot.getItem().equals(toInsert.getItem()) &&
+                    inSlot.getMetadata() == toInsert.getMetadata() && inSlot.getCount() < toInsert.getMaxStackSize())) {
                 ItemStack inserted = handler.insertItem(i, toInsert, false);
                 if (inserted.isEmpty() || inserted.getItem().equals(Items.AIR))
                     return true;

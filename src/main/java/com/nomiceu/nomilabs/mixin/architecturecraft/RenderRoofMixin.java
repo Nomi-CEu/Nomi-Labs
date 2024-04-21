@@ -1,12 +1,8 @@
 package com.nomiceu.nomilabs.mixin.architecturecraft;
 
-import com.elytradev.architecture.client.render.shape.RenderRoof;
-import com.elytradev.architecture.client.render.shape.RenderShape;
-import com.elytradev.architecture.client.render.target.RenderTargetBase;
-import com.elytradev.architecture.client.render.texture.ITexture;
-import com.elytradev.architecture.common.helpers.Trans3;
-import com.elytradev.architecture.common.tile.TileShape;
-import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -14,11 +10,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.elytradev.architecture.client.render.shape.RenderRoof;
+import com.elytradev.architecture.client.render.shape.RenderShape;
+import com.elytradev.architecture.client.render.target.RenderTargetBase;
+import com.elytradev.architecture.client.render.texture.ITexture;
+import com.elytradev.architecture.common.helpers.Trans3;
+import com.elytradev.architecture.common.tile.TileShape;
+import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 
 @Mixin(value = RenderRoof.class, remap = false)
 public abstract class RenderRoofMixin extends RenderShape {
+
     @Unique
     private Map<Integer, Runnable> ID_TO_RENDER_MAP = null;
 
@@ -87,7 +89,6 @@ public abstract class RenderRoofMixin extends RenderShape {
         map.get(id).run();
         ci.cancel();
     }
-
 
     // -------------------------------------------------------------------------------------
     @Unique
@@ -222,7 +223,6 @@ public abstract class RenderRoofMixin extends RenderShape {
         renderVariableBackFace(0.25);
     }
 
-
     // -------------------------------------------------------------------------------------
 
     @Unique
@@ -242,8 +242,8 @@ public abstract class RenderRoofMixin extends RenderShape {
         beginPosXFace();
         beginTriangle();
         vertex(1, offset + height, 1, 0, 0);
-        vertex(1, offset, 1, 0, 1-height);
-        vertex(1, offset, 0, 1, 1-height);
+        vertex(1, offset, 1, 0, 1 - height);
+        vertex(1, offset, 0, 1, 1 - height);
         endFace();
     }
 
@@ -252,8 +252,8 @@ public abstract class RenderRoofMixin extends RenderShape {
         beginNegXFace();
         beginTriangle();
         vertex(0, offset + height, 1, 1, 0);
-        vertex(0, offset, 0, 0, 1-height);
-        vertex(0, offset, 1, 1, 1-height);
+        vertex(0, offset, 0, 0, 1 - height);
+        vertex(0, offset, 1, 1, 1 - height);
         endFace();
     }
 
@@ -262,10 +262,10 @@ public abstract class RenderRoofMixin extends RenderShape {
     protected void renderVariableFaceLeft(double offset, double height) {
         beginNegXFace();
         beginQuad();
-        vertex(0, offset+height, 0, 0, 1-height);
+        vertex(0, offset + height, 0, 0, 1 - height);
         vertex(0, offset, 0, 0, 1);
         vertex(0, offset, 1, 1, 1);
-        vertex(0, offset+height, 1, 1, 1-height);
+        vertex(0, offset + height, 1, 1, 1 - height);
         endFace();
     }
 
@@ -274,10 +274,10 @@ public abstract class RenderRoofMixin extends RenderShape {
     protected void renderVariableFaceRight(double offset, double height) {
         beginPosXFace();
         beginQuad();
-        vertex(1, offset+height, 1, 0, 1-height);
+        vertex(1, offset + height, 1, 0, 1 - height);
         vertex(1, offset, 1, 0, 1);
         vertex(1, offset, 0, 1, 1);
-        vertex(1, offset+height, 0, 1, 1-height);
+        vertex(1, offset + height, 0, 1, 1 - height);
         endFace();
     }
 
@@ -285,10 +285,10 @@ public abstract class RenderRoofMixin extends RenderShape {
     protected void renderVariableFrontFace(double height) {
         beginNegZFace();
         beginQuad();
-        vertex(1, height, 0, 0, 1-height);
+        vertex(1, height, 0, 0, 1 - height);
         vertex(1, 0, 0, 0, 1);
         vertex(0, 0, 0, 1, 1);
-        vertex(0, height, 0, 1, 1-height);
+        vertex(0, height, 0, 1, 1 - height);
         endFace();
     }
 
@@ -296,10 +296,10 @@ public abstract class RenderRoofMixin extends RenderShape {
     protected void renderVariableBackFace(double height) {
         beginPosZFace();
         beginQuad();
-        vertex(0, height, 1, 0, 1-height);
+        vertex(0, height, 1, 0, 1 - height);
         vertex(0, 0, 1, 0, 1);
         vertex(1, 0, 1, 1, 1);
-        vertex(1, height, 1, 1, 1-height);
+        vertex(1, height, 1, 1, 1 - height);
         endFace();
     }
 }

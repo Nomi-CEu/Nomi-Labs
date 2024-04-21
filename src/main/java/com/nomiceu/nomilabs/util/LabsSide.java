@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.util;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class LabsSide {
+
     public static boolean isClient() {
         return FMLCommonHandler.instance().getEffectiveSide().isClient();
     }

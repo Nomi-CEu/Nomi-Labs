@@ -1,11 +1,9 @@
 package com.nomiceu.nomilabs.item;
 
-import com.enderio.core.client.handlers.SpecialTooltipHandler;
-import com.nomiceu.nomilabs.LabsValues;
-import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
-import crazypants.enderio.api.capacitor.ICapacitorData;
-import crazypants.enderio.api.capacitor.ICapacitorKey;
-import crazypants.enderio.base.lang.Lang;
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+
+import java.util.List;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -17,15 +15,22 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.Optional;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import com.enderio.core.client.handlers.SpecialTooltipHandler;
+import com.nomiceu.nomilabs.LabsValues;
 
-import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
+import crazypants.enderio.api.capacitor.ICapacitorData;
+import crazypants.enderio.api.capacitor.ICapacitorKey;
+import crazypants.enderio.base.lang.Lang;
 
 public class ItemCapacitor extends Item {
+
     public final LabsCapacitorData data;
+
     public ItemCapacitor(ResourceLocation rl, CreativeTabs tab, LabsCapacitorData data) {
         setCreativeTab(tab);
         setRegistryName(rl);
@@ -35,9 +40,11 @@ public class ItemCapacitor extends Item {
 
     @Override
     @Optional.Method(modid = LabsValues.ENDER_IO_MODID)
-    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
+    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip,
+                               @NotNull ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(translate("tooltip.nomilabs.capacitors.description")); // Not using default here. This one adds `EnderIO`, making it clearer
+        tooltip.add(translate("tooltip.nomilabs.capacitors.description")); // Not using default here. This one adds
+                                                                           // `EnderIO`, making it clearer
         // Add default info
         if (SpecialTooltipHandler.showAdvancedTooltips())
             SpecialTooltipHandler.addDetailedTooltipFromResources(tooltip, Lang.MACHINE_UPGRADE.getKey());
@@ -53,7 +60,9 @@ public class ItemCapacitor extends Item {
     }
 
     public static class CapacitorCapabilityProvider implements ICapabilityProvider {
+
         private final ICapacitorData data;
+
         public CapacitorCapabilityProvider(ICapacitorData data) {
             this.data = data;
         }
@@ -73,6 +82,7 @@ public class ItemCapacitor extends Item {
     }
 
     public enum LabsCapacitorData implements ICapacitorData {
+
         COMPRESSED("compressed_octadic", 4),
         DOUBLE_COMPRESSED("double_compressed_octadic", 5);
 
@@ -83,7 +93,6 @@ public class ItemCapacitor extends Item {
             this.name = name;
             this.level = level;
         }
-
 
         @Override
         public float getUnscaledValue(@NotNull ICapacitorKey iCapacitorKey) {

@@ -1,5 +1,22 @@
 package com.nomiceu.nomilabs.event;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.RegistryEvent.MissingMappings;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.registries.IForgeRegistry;
+
 import com.cleanroommc.groovyscript.event.GsHandEvent;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
@@ -26,37 +43,23 @@ import com.nomiceu.nomilabs.remap.Remapper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
+
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.event.MaterialRegistryEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.RegistryEvent.MissingMappings;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod.EventBusSubscriber(modid = LabsValues.LABS_MODID)
 @SuppressWarnings("unused")
 public class CommonProxy {
+
     public static void preInit() {
         LabsModeHelper.check();
 
         if (Loader.isModLoaded(LabsValues.ARCHITECTURE_MODID) &&
                 LabsConfig.modIntegration.enableArchitectureCraftIntegration)
             LabsShapes.preInit();
-        
+
         LabsCreativeTabs.preInit();
 
         if (LabsConfig.content.customContent.enableItems)
@@ -126,7 +129,7 @@ public class CommonProxy {
         if (LabsConfig.content.customContent.enableComplexRecipes && LabsItems.HAND_FRAMING_TOOL != null)
             event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName("hand_framing_recipe")));
 
-        //com.nomiceu.nomilabs.recipe.LabsTestRecipes.initRecipes();
+        // com.nomiceu.nomilabs.recipe.LabsTestRecipes.initRecipes();
     }
 
     @SubscribeEvent

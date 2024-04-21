@@ -1,16 +1,17 @@
 package com.nomiceu.nomilabs.gregtech.material;
 
+import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
+import static gregtech.api.unification.material.Materials.*;
+import static gregtech.api.unification.material.info.MaterialFlags.*;
+
 import gregtech.api.unification.material.info.MaterialIconSet;
 import gregtech.api.unification.material.properties.FluidProperty;
 import gregtech.api.unification.material.properties.GemProperty;
 import gregtech.api.unification.material.properties.IngotProperty;
 import gregtech.api.unification.material.properties.PropertyKey;
 
-import static gregtech.api.unification.material.Materials.*;
-import static gregtech.api.unification.material.info.MaterialFlags.*;
-import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
-
 public class LabsProperties {
+
     public static void propertyChanges() {
         // Rhodium Sulfate gets Dust Property from adding it as an ore byproduct of Darmstadtite in LabsMicroverse
 

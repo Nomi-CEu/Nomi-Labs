@@ -1,14 +1,13 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
-import gregtech.api.recipes.map.Either;
-
-import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
-@SuppressWarnings({"UnusedReturnValue", "unused"})
+import javax.annotation.Nullable;
+
+@SuppressWarnings({ "UnusedReturnValue", "unused" })
 public class EitherOrBoth<L, R> {
+
     @Nullable
     private L valueL;
 
@@ -24,13 +23,15 @@ public class EitherOrBoth<L, R> {
     }
 
     public EitherOrBoth<L, R> setLeft(L value) {
-        if (hasLeft()) throw new IllegalArgumentException("Cannot set Either Or Both when value of that side already exists!");
+        if (hasLeft())
+            throw new IllegalArgumentException("Cannot set Either Or Both when value of that side already exists!");
         valueL = value;
         return this;
     }
 
     public EitherOrBoth<L, R> setRight(R value) {
-        if (hasRight()) throw new IllegalArgumentException("Cannot set Either Or Both when value of that side already exists!");
+        if (hasRight())
+            throw new IllegalArgumentException("Cannot set Either Or Both when value of that side already exists!");
         valueR = value;
         return this;
     }

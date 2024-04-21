@@ -1,14 +1,17 @@
 package com.nomiceu.nomilabs.integration.draconicevolution;
 
-import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore;
-import com.nomiceu.nomilabs.util.ItemMeta;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 
+import com.brandon3055.draconicevolution.blocks.reactor.tileentity.TileReactorCore;
+import com.nomiceu.nomilabs.util.ItemMeta;
+
 public class ReactorLogic {
+
     private static final int BLOCK_MULTI = 1296;
     private static final int INGOT_MULTI = 144;
     private static final int NUGGET_MULTI = 16;
+
     public static int getFuelValue(ItemStack stack) {
         if (stack.isEmpty())
             return 0;

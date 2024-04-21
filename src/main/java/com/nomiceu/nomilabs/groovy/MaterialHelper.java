@@ -1,9 +1,20 @@
 package com.nomiceu.nomilabs.groovy;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.mixin.gregtech.FluidStorageKeyMixin;
 import com.nomiceu.nomilabs.mixin.gregtech.MetaItemsMixin;
+
 import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.pipenet.block.material.IMaterialPipeType;
 import gregtech.api.pipenet.block.material.ItemBlockMaterialPipe;
@@ -17,18 +28,10 @@ import gregtech.common.blocks.OreItemBlock;
 import gregtech.common.pipelike.cable.Insulation;
 import gregtech.common.pipelike.fluidpipe.FluidPipeType;
 import gregtech.common.pipelike.itempipe.ItemPipeType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeModContainer;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Consumer;
 
 @GroovyBlacklist
 public class MaterialHelper {
+
     public static final int CAPACITY = 1000;
 
     private static Material material;

@@ -1,16 +1,19 @@
 package com.nomiceu.nomilabs.recipe;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
+
 import gregtech.api.GTValues;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 
 @SuppressWarnings("unused")
 public class LabsTestRecipes {
+
     public static void initRecipes() {
         assert Blocks.SAPLING != null;
         assert Blocks.LOG != null;
@@ -21,9 +24,9 @@ public class LabsTestRecipes {
 
         for (var recipeBuilder : LabsRecipeMaps.MICROVERSE_RECIPES) {
             recipeBuilder.recipeBuilder().duration(9408).EUt(GTValues.VA[GTValues.LuV])
-                .input(LabsItems.T1_SHIP)
-                .output(Blocks.REDSTONE_ORE, 64)
-                .buildAndRegister();
+                    .input(LabsItems.T1_SHIP)
+                    .output(Blocks.REDSTONE_ORE, 64)
+                    .buildAndRegister();
         }
 
         LabsRecipeMaps.CREATIVE_TANK_RECIPES.recipeBuilder().duration(1200).EUt(40)

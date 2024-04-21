@@ -1,17 +1,20 @@
 package com.nomiceu.nomilabs.mixin.extrautils2;
 
-import com.rwtema.extrautils2.api.resonator.IResonatorRecipe;
-import com.rwtema.extrautils2.tile.TileResonator;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.rwtema.extrautils2.api.resonator.IResonatorRecipe;
+import com.rwtema.extrautils2.tile.TileResonator;
+
 @Mixin(value = TileResonator.class, remap = false)
 public class ResonatorMixin {
+
     @Shadow
     IResonatorRecipe currentRecipe;
 

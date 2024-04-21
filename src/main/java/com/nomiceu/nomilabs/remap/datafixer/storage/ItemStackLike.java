@@ -1,10 +1,10 @@
 package com.nomiceu.nomilabs.remap.datafixer.storage;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
-
-import javax.annotation.Nullable;
 
 /**
  * Essentially an ItemStack, but contains ResourceLocation instead of Item. For Unregistered Items.
@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
  */
 @SuppressWarnings("UnusedReturnValue")
 public class ItemStackLike {
+
     public ResourceLocation rl;
     public short meta;
     @Nullable

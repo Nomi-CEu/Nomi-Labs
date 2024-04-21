@@ -1,15 +1,16 @@
 package com.nomiceu.nomilabs.util;
 
+import java.util.Objects;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-import java.util.Objects;
 
 /**
  * Util class to compare ItemStacks based on Item and Meta.
  */
 @SuppressWarnings("unused")
 public class ItemMeta {
+
     private final Item item;
     private final int meta;
 

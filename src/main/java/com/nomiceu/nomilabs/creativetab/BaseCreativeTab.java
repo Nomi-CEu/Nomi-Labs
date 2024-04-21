@@ -1,13 +1,15 @@
 package com.nomiceu.nomilabs.creativetab;
 
+import java.util.function.Supplier;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-
 public class BaseCreativeTab extends CreativeTabs {
+
     private final boolean hasSearchBar;
     private final Supplier<Item> icon;
 
