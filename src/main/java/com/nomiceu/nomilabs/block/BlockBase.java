@@ -21,10 +21,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class BlockBase extends Block implements TOPInfoProvider {
-    private String[] description;
+    private final String[] description;
+
     public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound) {
-        super(material);
-        initialize(rl, tab, sound);
+        this(rl, tab, material, sound, new String[0]);
     }
 
     /**
@@ -37,10 +37,7 @@ public class BlockBase extends Block implements TOPInfoProvider {
      */
     public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, String... description) {
         super(material);
-        initialize(rl, tab, sound, description);
-    }
 
-    private void initialize(ResourceLocation rl, CreativeTabs tab, SoundType sound, String... description) {
         this.setRegistryName(rl);
         this.setHardness(2.0F);
         this.setResistance(10.0F);

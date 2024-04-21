@@ -17,17 +17,21 @@ import java.util.Collections;
 import java.util.List;
 
 public class ItemBase extends Item {
-    private IRarity rarity;
-    private String[] description;
+    private final IRarity rarity;
+    private final String[] description;
+
     public ItemBase(ResourceLocation rl, CreativeTabs tab) {
-        initialise(rl, tab, EnumRarity.COMMON, 64);
+        this(rl, tab, EnumRarity.COMMON, 64);
     }
+
     public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity) {
-        initialise(rl, tab, rarity, 64);
+        this(rl, tab, rarity, 64);
     }
+
     public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize) {
-        initialise(rl, tab, rarity, stackSize);
+        this(rl, tab, rarity, stackSize, new String[0]);
     }
+
     /**
      * Makes an item.
      * @param rl Resource Location
@@ -37,19 +41,11 @@ public class ItemBase extends Item {
      * @param description Description. Localized.
      */
     public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize, String... description) {
-        initialise(rl, tab, rarity, stackSize, description);
-    }
-
-    private void initialise(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize, String... description) {
         setRegistryName(rl);
         setCreativeTab(tab);
-        setRarity(rarity);
         setMaxStackSize(stackSize);
-        this.description = description;
-    }
-
-    public void setRarity(@NotNull IRarity rarity) {
         this.rarity = rarity;
+        this.description = description;
     }
 
     @Override
