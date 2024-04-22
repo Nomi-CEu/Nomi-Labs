@@ -102,12 +102,11 @@ public class LabsConfig {
 
             @Config.Comment({
                     "Enable Custom GT Blocks.",
-                    "In Beta.",
-                    "[default: false]"
+                    "[default: true]"
             })
             @Config.LangKey("config.nomilabs.content.gt_content.blocks")
             @Config.RequiresMcRestart
-            public boolean enableBlocks = false;
+            public boolean enableBlocks = true;
 
             @Config.Comment({
                     "Enable Old Multiblocks.",
@@ -123,12 +122,11 @@ public class LabsConfig {
                     "Enable New Multiblocks.",
                     "These are new to this Core Mod, as in they do not exist in pre-core-mod versions of Nomi-CEu.",
                     "Will not work properly if Custom GT Blocks is turned off.",
-                    "In Beta.",
-                    "[default: false]"
+                    "[default: true]"
             })
             @Config.LangKey("config.nomilabs.content.gt_content.new_multiblocks")
             @Config.RequiresMcRestart
-            public boolean enableNewMultiblocks = false;
+            public boolean enableNewMultiblocks = true;
         }
     }
 
@@ -370,7 +368,7 @@ public class LabsConfig {
         @Config.Name("tier settings")
         public final TierSettings tierSettings = new TierSettings();
 
-        @Config.Comment({ "Control Menu Tooltip Settings, which are used to help with default keybind overrides..",
+        @Config.Comment({ "Control Menu Tooltip Settings, which are used to help with default keybind overrides.",
                 "The actual override setting occurs in GroovyScript!" })
         @Config.LangKey("config.nomilabs.advanced.controls_tooltips")
         @Config.Name("control menu tooltip settings")
