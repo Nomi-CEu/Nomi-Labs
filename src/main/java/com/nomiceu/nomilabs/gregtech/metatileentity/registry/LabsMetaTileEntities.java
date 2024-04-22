@@ -1,12 +1,13 @@
 package com.nomiceu.nomilabs.gregtech.metatileentity.registry;
 
+import net.minecraftforge.fml.common.Loader;
+
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.metatileentity.multiblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 
 import gregtech.common.metatileentities.MetaTileEntities;
-import net.minecraftforge.fml.common.Loader;
 
 /**
  * Meta Tile Entities all start at 31000, as colliding metas with old Meta Tile Entities usually causes problems.

@@ -3,6 +3,8 @@ package com.nomiceu.nomilabs.gregtech.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.fml.common.Loader;
+
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.LabsSounds;
@@ -15,7 +17,6 @@ import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.builders.FuelRecipeBuilder;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.core.sound.GTSoundEvents;
-import net.minecraftforge.fml.common.Loader;
 
 public class LabsRecipeMaps {
 
@@ -63,7 +64,8 @@ public class LabsRecipeMaps {
                     !(oldMultis() || LabsModeHelper.isNormal()))
                             .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY)
                             .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
-                            .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER, ProgressWidget.MoveType.VERTICAL)
+                            .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER,
+                                    ProgressWidget.MoveType.VERTICAL)
                             .setSound(GTSoundEvents.COMPUTATION);
 
         GROWTH_CHAMBER_RECIPES = new RecipeMap<>("growth_chamber", 4, 9, 1, 0, new SimpleRecipeBuilder(), !newMultis())
