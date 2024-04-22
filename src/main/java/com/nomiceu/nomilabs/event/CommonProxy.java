@@ -27,7 +27,7 @@ import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsSounds;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
-import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
+import com.nomiceu.nomilabs.gregtech.metatileentity.registry.LabsMetaTileEntities;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
@@ -75,7 +75,7 @@ public class CommonProxy {
         LabsSounds.register();
         LabsRemappers.preInit();
         LabsRecipeMaps.preInit();
-        LabsMultiblocks.preInit();
+        LabsMetaTileEntities.preInit();
 
         if (LabsConfig.modIntegration.enableTOPIntegration && Loader.isModLoaded(LabsValues.TOP_MODID))
             TOPTooltipManager.registerProviders();

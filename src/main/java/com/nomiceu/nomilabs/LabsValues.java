@@ -36,4 +36,5 @@ public class LabsValues {
     public static final String BQU_MODID = "betterquesting";
     public static final String CONTROLLING_MODID = "controlling";
     public static final String DEFAULT_WORLD_GEN_MODID = "defaultworldgenerator-port";
+    public static final String DME_MODID = "deepmoblearning";
 }

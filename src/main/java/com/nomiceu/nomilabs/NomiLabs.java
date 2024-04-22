@@ -23,7 +23,7 @@ import com.nomiceu.nomilabs.util.LabsSide;
              "required-after:jei@[4.15.0,);" + "required-after:theoneprobe;" + "after:advancedrocketry;" +
              "after:libvulpes;" + "after:crafttweaker@[4.1.20,);" + "after:appliedenergistics2;" +
              "after:architecturecraft;" + "after:effortlessbuilding;" + "after:betterquesting;" +
-             "after:defaultworldgenerator-port;")
+             "after:defaultworldgenerator-port;" + "after:deepmoblearning;")
 @SuppressWarnings("unused")
 public class NomiLabs {
 

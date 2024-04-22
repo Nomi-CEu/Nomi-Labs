@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.gregtech.multiblock;
+package com.nomiceu.nomilabs.gregtech.metatileentity.multiblock;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
-import com.nomiceu.nomilabs.gregtech.multiblock.registry.LabsMultiblocks;
+import com.nomiceu.nomilabs.gregtech.metatileentity.registry.LabsMetaTileEntities;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 
 import gregtech.api.GTValues;
@@ -133,7 +133,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .aisle("FXX", "GDG", "XHX")
                     .aisle("ISO", "XGX", "XXX")
                     .where('X', getCasingStateMain())
-                    .where('S', LabsMultiblocks.MICROVERSE_1, EnumFacing.SOUTH)
+                    .where('S', LabsMetaTileEntities.MICROVERSE_1, EnumFacing.SOUTH)
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateGrate())
                     .where('D', getCasingStateDiamond())
@@ -198,7 +198,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .aisle("XVXVX", "GDDDG", "GDDDG", "GDDDG", "XVXVX")
                     .aisle("XISOX", "XGGGX", "XGGGX", "XGGGX", "XXXXX")
                     .where('X', getCasingStateMain())
-                    .where('S', LabsMultiblocks.MICROVERSE_2, EnumFacing.SOUTH)
+                    .where('S', LabsMetaTileEntities.MICROVERSE_2, EnumFacing.SOUTH)
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateGrate())
                     .where('D', getCasingStateDiamond())
@@ -286,7 +286,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .aisle("#########", "#########", "##XISOX##", "##XGGGX##", "##XGGGX##", "##XGGGX##", "##XXXXX##",
                             "#########", "#########")
                     .where('X', getCasingStateMain())
-                    .where('S', LabsMultiblocks.MICROVERSE_3, EnumFacing.SOUTH)
+                    .where('S', LabsMetaTileEntities.MICROVERSE_3, EnumFacing.SOUTH)
                     .where('G', getCasingStateGlass())
                     .where('V', getCasingStateEngine())
                     .where('D', getCasingStateDiamond())

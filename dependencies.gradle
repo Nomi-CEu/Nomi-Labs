@@ -92,6 +92,9 @@ dependencies {
     // AE2, Used in Naquadah Reactors (AE2 Unofficial Extended Life used) (from CurseForge)
     compileOnly rfg.deobf("curse.maven:ae2-extended-life-570458:4851091") // Version 0.55.27
 
+    // DeepMobEvolution, Used in DME Data Hatch (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:dme-737252:5043404") // Version 1.2.2
+
     // Extended Crafting, Used in Naquadah Reactors (Nomifactory Fork Used) (from CurseForge)
     compileOnly rfg.deobf("curse.maven:extended-crafting-nomifactory-edition-398267:4592627") // Version 1.7.0.6
 
@@ -164,6 +167,12 @@ dependencies {
 
     if (project.enable_ae2.toBoolean()) {
         runtimeOnly "curse.maven:ae2-extended-life-570458:4851091" // Version 0.55.27
+    }
+
+    if (project.enable_dme.toBoolean()) {
+        // Dep: Patchouli
+        runtimeOnly "curse.maven:patchouli-306770:3162874" // Version 1.0-23.6
+        runtimeOnly "curse.maven:dme-737252:5043404" // Version 1.2.2
     }
 
     if (project.enable_extended_crafting.toBoolean()) {

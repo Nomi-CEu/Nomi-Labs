@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.gregtech.multiblock;
+package com.nomiceu.nomilabs.gregtech.metatileentity.multiblock;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 

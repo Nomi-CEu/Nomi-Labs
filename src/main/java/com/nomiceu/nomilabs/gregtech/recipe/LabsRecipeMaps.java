@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.gregtech.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.LabsSounds;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
@@ -14,6 +15,7 @@ import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.builders.FuelRecipeBuilder;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.core.sound.GTSoundEvents;
+import net.minecraftforge.fml.common.Loader;
 
 public class LabsRecipeMaps {
 
@@ -22,7 +24,7 @@ public class LabsRecipeMaps {
     public static List<RecipeMap<FuelRecipeBuilder>> NAQUADAH_REACTOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> ACTUALIZATION_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> UNIVERSAL_CRYSTALIZER_RECIPES;
-    public static RecipeMap<SimpleRecipeBuilder> DME_SIM_CHAMBER_RECIPES;
+    public static RecipeMap<DMESimChamberRecipeMapBuilder> DME_SIM_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GROWTH_CHAMBER_RECIPES;
 
     public static void preInit() {
@@ -55,12 +57,14 @@ public class LabsRecipeMaps {
                         .setSlotOverlay(true, false, GuiTextures.CRYSTAL_OVERLAY).setSound(GTSoundEvents.COMPUTATION)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
 
-        DME_SIM_CHAMBER_RECIPES = new RecipeMap<>("dme_sim_chamber", 2, 2, 0, 0, new SimpleRecipeBuilder(),
-                !(oldMultis() || LabsModeHelper.isNormal()))
-                        .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY)
-                        .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
-                        .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER, ProgressWidget.MoveType.VERTICAL)
-                        .setSound(GTSoundEvents.COMPUTATION);
+        if (Loader.isModLoaded(LabsValues.DME_MODID))
+            DME_SIM_CHAMBER_RECIPES = new RecipeMap<>("dme_sim_chamber", 2, 2, 0, 0,
+                    new DMESimChamberRecipeMapBuilder(),
+                    !(oldMultis() || LabsModeHelper.isNormal()))
+                            .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY)
+                            .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
+                            .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER, ProgressWidget.MoveType.VERTICAL)
+                            .setSound(GTSoundEvents.COMPUTATION);
 
         GROWTH_CHAMBER_RECIPES = new RecipeMap<>("growth_chamber", 4, 9, 1, 0, new SimpleRecipeBuilder(), !newMultis())
                 .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY)

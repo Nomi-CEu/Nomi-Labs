@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.gregtech.multiblock;
+package com.nomiceu.nomilabs.gregtech.metatileentity.multiblock;
 
 import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
@@ -23,16 +23,17 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
+import com.nomiceu.nomilabs.gregtech.recipe.recipelogic.DMERecipeLogic;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 import appeng.core.Api;
+import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.client.renderer.ICubeRenderer;
@@ -40,10 +41,11 @@ import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
 
-public class MetaTileEntityDMESimChamber extends RecipeMapMultiblockController implements ConditionalJEIMultiblock {
+public class MetaTileEntityDMESimChamber extends GCYMRecipeMapMultiblockController implements ConditionalJEIMultiblock {
 
     public MetaTileEntityDMESimChamber(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, LabsRecipeMaps.DME_SIM_CHAMBER_RECIPES);
+        this.recipeMapWorkable = new DMERecipeLogic(this);
     }
 
     @Override

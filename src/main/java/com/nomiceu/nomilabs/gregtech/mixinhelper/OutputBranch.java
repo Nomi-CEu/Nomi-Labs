@@ -6,6 +6,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.map.AbstractMapIngredient;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 

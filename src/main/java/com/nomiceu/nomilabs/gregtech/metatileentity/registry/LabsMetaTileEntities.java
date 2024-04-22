@@ -1,16 +1,18 @@
-package com.nomiceu.nomilabs.gregtech.multiblock.registry;
+package com.nomiceu.nomilabs.gregtech.metatileentity.registry;
 
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.gregtech.multiblock.*;
+import com.nomiceu.nomilabs.gregtech.metatileentity.multiblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 
 import gregtech.common.metatileentities.MetaTileEntities;
+import net.minecraftforge.fml.common.Loader;
 
 /**
- * Multiblocks all start at 31000, as colliding metas with old multiblocks usually causes problems.
+ * Meta Tile Entities all start at 31000, as colliding metas with old Meta Tile Entities usually causes problems.
  */
 @SuppressWarnings("unused")
-public class LabsMultiblocks {
+public class LabsMetaTileEntities {
 
     public static MetaTileEntityGrowthChamber GROWTH_CHAMBER;
     public static MetaTileEntityMicroverseProjector.Microverse1 MICROVERSE_1;
@@ -55,8 +57,9 @@ public class LabsMultiblocks {
         UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32107,
                 new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
 
-        DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108,
-                new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
+        if (Loader.isModLoaded(LabsValues.DME_MODID))
+            DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108,
+                    new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
     }
 
     private static void initNew() {
