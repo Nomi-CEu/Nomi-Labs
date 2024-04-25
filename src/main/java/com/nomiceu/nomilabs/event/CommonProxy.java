@@ -37,6 +37,7 @@ import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
+import com.nomiceu.nomilabs.network.LabsNetworkHandler;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.Remapper;
@@ -52,6 +53,10 @@ import gregtech.api.unification.material.event.PostMaterialEvent;
 @Mod.EventBusSubscriber(modid = LabsValues.LABS_MODID)
 @SuppressWarnings("unused")
 public class CommonProxy {
+
+    public static void onConstruction() {
+        LabsNetworkHandler.onConstruction();
+    }
 
     public static void preInit() {
         LabsModeHelper.check();
@@ -82,6 +87,8 @@ public class CommonProxy {
 
         DataFixerHandler.preInit();
         FluidRegistryMixinHelper.preInit();
+
+        LabsNetworkHandler.preInit();
     }
 
     public static void loadComplete() {

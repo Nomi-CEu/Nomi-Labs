@@ -21,20 +21,20 @@ public class ReachHelperMixin {
     @Inject(method = "getMaxBlocksPerAxis", at = @At("HEAD"), cancellable = true)
     private static void getNewMaxBlocksPerAxis(EntityPlayer player, CallbackInfoReturnable<Integer> cir) {
         if (player.isCreative()) {
-            cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(GenericReachUpgrade.CREATIVE_LEVEL).axis);
+            cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(GenericReachUpgrade.CREATIVE_LEVEL).getAxis());
             return;
         }
         int level = ModifierSettingsManager.getModifierSettings(player).getReachUpgrade();
-        cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(level).axis);
+        cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(level).getAxis());
     }
 
     @Inject(method = "getMaxBlocksPlacedAtOnce", at = @At("HEAD"), cancellable = true)
     private static void getNewMaxBlocksPlacedAtOnce(EntityPlayer player, CallbackInfoReturnable<Integer> cir) {
         if (player.isCreative()) {
-            cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(GenericReachUpgrade.CREATIVE_LEVEL).maxBlocks);
+            cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(GenericReachUpgrade.CREATIVE_LEVEL).getMaxBlocks());
             return;
         }
         int level = ModifierSettingsManager.getModifierSettings(player).getReachUpgrade();
-        cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(level).maxBlocks);
+        cir.setReturnValue(GenericReachUpgrade.REACH_MAP.get(level).getMaxBlocks());
     }
 }

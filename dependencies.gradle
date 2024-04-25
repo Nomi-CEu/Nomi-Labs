@@ -122,6 +122,9 @@ dependencies {
     // Effortless Building (from CurseForge)
     compileOnly rfg.deobf("curse.maven:effortless-building-302113:2847346") // Version 2.16
 
+    // FTB Utilities (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:ftb-utilities-forge-237102:3157548") // Version 5.4.1.131
+
     // Better Questing Unofficial (from CurseForge)
     compileOnly rfg.deobf("curse.maven:better-questing-unofficial-629629:5183601") // Version 4.2.2
 
@@ -204,6 +207,11 @@ dependencies {
 
     if (project.enable_effortless_building.toBoolean()) {
         runtimeOnly "curse.maven:effortless-building-302113:2847346" // Version 2.16
+    }
+
+    if (project.enable_ftb_utils.toBoolean()) {
+        runtimeOnly "curse.maven:ftb-library-legacy-forge-237167:2985811" // Version 5.4.7.2
+        runtimeOnly "curse.maven:ftb-utilities-forge-237102:3157548" // Version 5.4.1.131
     }
 
     if (project.enable_bqu.toBoolean()) {

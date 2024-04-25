@@ -5,10 +5,15 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BuildModifiersMixin",
+    "EventHandlerMixin",
     "ItemReachUpgrade1Mixin",
     "ItemReachUpgrade2Mixin",
     "ItemReachUpgrade3Mixin",
-    "ReachHelperMixin"
+    "ReachHelperMixin",
+    "RenderHandlerMixin",
+    "SurvivalHelperMixin",
+    "UndoRedoMixin"
   ],
   "client": [],
   "server": []

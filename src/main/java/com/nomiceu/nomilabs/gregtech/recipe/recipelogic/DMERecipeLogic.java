@@ -33,9 +33,11 @@ public class DMERecipeLogic extends GCYMMultiblockRecipeLogic {
         for (var stack : list) {
             if (stack.getItem() == searchItem && DataModelHelper.getTier(stack) == searchTier) {
                 DataModelHelper.setCurrentTierDataCount(stack,
-                        Math.min(Integer.MAX_VALUE, DataModelHelper.getCurrentTierDataCount(stack) + property.getAddition()));
+                        Math.min(Integer.MAX_VALUE,
+                                DataModelHelper.getCurrentTierDataCount(stack) + property.getAddition()));
                 DataModelHelper.setTotalSimulationCount(stack,
-                        Math.min(Integer.MAX_VALUE, DataModelHelper.getTotalSimulationCount(stack) + property.getAddition()));
+                        Math.min(Integer.MAX_VALUE,
+                                DataModelHelper.getTotalSimulationCount(stack) + property.getAddition()));
                 var increase = true;
                 while (increase) {
                     increase = DataModelHelperAccessor.tryIncreaseTier(stack);

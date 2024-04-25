@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.*;
@@ -9,8 +10,11 @@ import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.event.ClientProxy;
 import com.nomiceu.nomilabs.event.CommonProxy;
+import com.nomiceu.nomilabs.integration.effortlessbuilding.EffortlessEventHandler;
+import com.nomiceu.nomilabs.integration.ftbutilities.event.FTBUtilsEventHandler;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.util.LabsSide;
 
@@ -23,11 +27,16 @@ import com.nomiceu.nomilabs.util.LabsSide;
              "required-after:jei@[4.15.0,);" + "required-after:theoneprobe;" + "after:advancedrocketry;" +
              "after:libvulpes;" + "after:crafttweaker@[4.1.20,);" + "after:appliedenergistics2;" +
              "after:architecturecraft;" + "after:effortlessbuilding;" + "after:betterquesting;" +
-             "after:defaultworldgenerator-port;" + "after:deepmoblearning;")
+             "after:defaultworldgenerator-port;" + "after:deepmoblearning;" + "after:ftbutilities;")
 @SuppressWarnings("unused")
 public class NomiLabs {
 
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);
+
+    @EventHandler
+    public void onConstruction(FMLConstructionEvent event) {
+        CommonProxy.onConstruction();
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -37,6 +46,14 @@ public class NomiLabs {
         CommonProxy.preInit();
         if (LabsSide.isClient())
             ClientProxy.latePreInit();
+
+        if (Loader.isModLoaded(LabsValues.EFFORTLESS_MODID) &&
+                LabsConfig.modIntegration.effortlessBuildingIntegration.enableEffortlessBuildingIntegration)
+            MinecraftForge.EVENT_BUS.register(EffortlessEventHandler.class);
+
+        if (Loader.isModLoaded(LabsValues.FTB_UTILS_MODID) &&
+                LabsConfig.modIntegration.enableFTBUtilsIntegration)
+            MinecraftForge.EVENT_BUS.register(FTBUtilsEventHandler.class);
     }
 
     @EventHandler

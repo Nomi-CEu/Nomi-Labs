@@ -12,6 +12,7 @@
     "WorldLoadHandler"
   ],
   "client": [
+    "EntityPlayerSPMixin",
     "GuiKeyBindingListAccessor",
     "GuiKeyBindingListKeyEntryMixin",
     "KeyBindingAccessor",
