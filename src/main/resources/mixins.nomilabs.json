@@ -15,6 +15,8 @@
     "EntityPlayerSPMixin",
     "GuiKeyBindingListAccessor",
     "GuiKeyBindingListKeyEntryMixin",
+    "GuiLanguageListMixin",
+    "GuiLanguageMixin",
     "KeyBindingAccessor",
     "KeyBindingMixin"
   ],

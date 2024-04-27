@@ -423,6 +423,18 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public String[] ignoreBiomes = new String[0];
 
+        @Config.Comment({ "How to Modify the Language Tab in Minecraft Options.",
+                "LABS or NOMI adds buttons and text for lanugage pack download.",
+                "[default: LABS]" })
+        @Config.LangKey("config.nomilabs.advanced.language_modify_option")
+        public LanguageModifyOption languageModifyOption = LanguageModifyOption.LABS;
+
+        public enum LanguageModifyOption {
+            NONE,
+            LABS,
+            NOMI
+        }
+
         public static class FluidRegistry {
 
             @Config.Comment({ "List of Regex Patterns to be Default Fluids.",
