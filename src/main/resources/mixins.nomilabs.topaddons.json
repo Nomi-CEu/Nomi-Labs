@@ -1,0 +1,12 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.topaddons",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "AddonArchitectureCraftMixin"
+  ],
+  "client": [],
+  "server": []
+}

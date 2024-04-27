@@ -206,7 +206,7 @@ public class LabsConfig {
         public boolean enableAdvancedRocketryIntegration = true;
 
         @Config.Comment({
-                "Whether to enable ArchitectureCraft Integration, which adds new slope variants, and improves the GUI of the Sawbench.",
+                "Whether to enable ArchitectureCraft Integration, which adds new slope variants, improves the GUI of the Sawbench, and fixes the Sawbench Particle Texture.",
                 "[default: true]" })
         @Config.LangKey("config.nomilabs.mod_integration.architecture_craft")
         @Config.RequiresMcRestart
@@ -230,6 +230,13 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.ftb_utils")
         @Config.RequiresMcRestart
         public boolean enableFTBUtilsIntegration = true;
+
+        @Config.Comment({
+                "Whether to enable TOP Addons Integration. Fixes Error Messages with ArchitectureCraft 3.108.",
+                "[default: true]" })
+        @Config.LangKey("config.nomilabs.mod_integration.top_addons")
+        @Config.RequiresMcRestart
+        public boolean enableTopAddonsIntegration = true;
 
         public static class EffortlessBuildingIntegration {
 

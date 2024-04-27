@@ -16,7 +16,6 @@ import com.nomiceu.nomilabs.util.LabsTranslate;
 import nl.requios.effortlessbuilding.BuildConfig;
 import nl.requios.effortlessbuilding.EffortlessBuilding;
 import nl.requios.effortlessbuilding.buildmodifier.ModifierSettingsManager;
-import scala.Int;
 
 public class GenericReachUpgrade {
 
@@ -91,6 +90,7 @@ public class GenericReachUpgrade {
     }
 
     public static class ReachInfo {
+
         // Uses Suppliers so that we can change configs on the fly
         private final Supplier<Integer> distance;
         private final Supplier<Integer> axis;
