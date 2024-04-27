@@ -206,7 +206,7 @@ public class LabsConfig {
         public boolean enableAdvancedRocketryIntegration = true;
 
         @Config.Comment({
-                "Whether to enable ArchitectureCraft Integration, which adds new slope variants, improves the GUI of the Sawbench, and fixes the Sawbench Particle Texture.",
+                "Whether to enable ArchitectureCraft Integration, which adds new slope variants, improves the GUI of the Sawbench, fixes the Sawbench Particle Texture, and fixes Shapes' Harvest Tools and Levels in The One Probe.",
                 "[default: true]" })
         @Config.LangKey("config.nomilabs.mod_integration.architecture_craft")
         @Config.RequiresMcRestart
