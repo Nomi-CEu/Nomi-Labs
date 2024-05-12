@@ -4,7 +4,6 @@ import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 import java.util.List;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -28,6 +27,7 @@ import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.unification.material.Materials;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
@@ -54,8 +54,8 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
                 .aisle("XXX", "XFX", "XXX")
                 .aisle("XXX", "XSX", "XXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingStateMain()).setMinGlobalLimited(15).or(autoAbilities()))
-                .where('F', states(getCasingStateFrame()))
+                .where('X', getCasingPredicateMain().setMinGlobalLimited(15).or(autoAbilities()))
+                .where('F', getCasingPredicateFrame())
                 .build();
     }
 
@@ -65,12 +65,13 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
         return GCYMTextures.ATOMIC_CASING;
     }
 
-    protected IBlockState getCasingStateMain() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING);
+    protected TraceabilityPredicate getCasingPredicateMain() {
+        return states(
+                GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING));
     }
 
-    protected IBlockState getCasingStateFrame() {
-        return MetaBlocks.FRAMES.get(Materials.TungstenCarbide).getBlock(Materials.TungstenCarbide);
+    protected TraceabilityPredicate getCasingPredicateFrame() {
+        return states(MetaBlocks.FRAMES.get(Materials.TungstenCarbide).getBlock(Materials.TungstenCarbide));
     }
 
     @Override

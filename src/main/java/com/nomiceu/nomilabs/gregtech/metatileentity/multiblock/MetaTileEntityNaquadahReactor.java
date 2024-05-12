@@ -4,8 +4,6 @@ import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 import java.util.List;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -41,6 +39,7 @@ import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.Materials;
@@ -99,11 +98,11 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
                 .aisle(aisle2)
                 .aisle(aisle3)
                 .where('S', selfPredicate())
-                .where('G', states(getCasingStateGlass()))
-                .where('P', states(getCasingStateSpatial()))
-                .where('T', states(getCasingStateTop()))
-                .where('B', states(getCasingStateBottom()))
-                .where('C', states(getCasingStateMain()).setMinGlobalLimited(10)
+                .where('G', getCasingPredicateGlass())
+                .where('P', getCasingPredicateSpatial())
+                .where('T', getCasingPredicateTop())
+                .where('B', getCasingPredicateBottom())
+                .where('C', getCasingPredicateMain().setMinGlobalLimited(10)
                         .or(abilities(MultiblockAbility.OUTPUT_ENERGY).setExactLimit(1))
                         .or(autoAbilities(false, true, true, true, false, false, false)))
                 .build();
@@ -122,25 +121,25 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
         return Textures.FUSION_REACTOR_OVERLAY;
     }
 
-    protected IBlockState getCasingStateMain() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.MIXER_CASING);
+    protected TraceabilityPredicate getCasingPredicateMain() {
+        return states(
+                GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.MIXER_CASING));
     }
 
-    protected IBlockState getCasingStateGlass() {
-        return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
+    protected TraceabilityPredicate getCasingPredicateGlass() {
+        return states(MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS));
     }
 
-    protected abstract IBlockState getCasingStateBottom();
+    protected abstract TraceabilityPredicate getCasingPredicateBottom();
 
-    protected abstract IBlockState getCasingStateTop();
+    protected abstract TraceabilityPredicate getCasingPredicateTop();
 
-    protected IBlockState getCasingStateSpatial() {
-        assert Blocks.AIR != null;
-
+    protected TraceabilityPredicate getCasingPredicateSpatial() {
         return Loader.isModLoaded(LabsValues.AE2_MODID) &&
                 Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().isPresent() ?
-                        Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().get().getDefaultState() :
-                        Blocks.AIR.getDefaultState();
+                        states(Api.INSTANCE.definitions().blocks().spatialPylon().maybeBlock().get()
+                                .getDefaultState()) :
+                        air();
     }
 
     public void addSharedInfo(@NotNull List<String> tooltip) {
@@ -188,17 +187,15 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
         }
 
         @Override
-        protected IBlockState getCasingStateBottom() {
-            return MetaBlocks.COMPRESSED.get(Materials.Duranium).getBlock(Materials.Duranium);
+        protected TraceabilityPredicate getCasingPredicateBottom() {
+            return states(MetaBlocks.COMPRESSED.get(Materials.Duranium).getBlock(Materials.Duranium));
         }
 
         @Override
-        protected IBlockState getCasingStateTop() {
-            assert Blocks.AIR != null;
-
+        protected TraceabilityPredicate getCasingPredicateTop() {
             return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID) ?
-                    ModBlocks.blockTrimmed.getStateFromMeta(BlockTrimmed.Type.ULTIMATE_TRIMMED.getMetadata()) :
-                    Blocks.AIR.getDefaultState();
+                    states(ModBlocks.blockTrimmed.getStateFromMeta(BlockTrimmed.Type.ULTIMATE_TRIMMED.getMetadata())) :
+                    air();
         }
 
         @Override
@@ -223,22 +220,20 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
         }
 
         @Override
-        protected IBlockState getCasingStateBottom() {
+        protected TraceabilityPredicate getCasingPredicateBottom() {
             Material material;
             if (LabsModeHelper.isNormal())
                 material = Materials.RutheniumTriniumAmericiumNeutronate;
             else
                 material = LabsMaterials.Taranium;
-            return MetaBlocks.COMPRESSED.get(material).getBlock(material);
+            return states(MetaBlocks.COMPRESSED.get(material).getBlock(material));
         }
 
         @Override
-        protected IBlockState getCasingStateTop() {
-            assert Blocks.AIR != null;
-
+        protected TraceabilityPredicate getCasingPredicateTop() {
             return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID) ?
-                    ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata()) :
-                    Blocks.AIR.getDefaultState();
+                    states(ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata())) :
+                    air();
         }
 
         @Override

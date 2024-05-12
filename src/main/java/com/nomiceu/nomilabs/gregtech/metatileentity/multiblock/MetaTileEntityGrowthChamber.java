@@ -4,7 +4,6 @@ import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 import java.util.List;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -27,6 +26,7 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.BlockBoilerCasing;
@@ -51,19 +51,19 @@ public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockControll
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
                 .aisle("CCCCCCC", "BGGGGGB", "BGGGGGB", "#BGGGB#", "##VLV##")
-                .aisle("CDDPDDC", "GAAAAAG", "GAAAAAG", "#GAAAG#", "##GGG##").setRepeatable(3)
-                .aisle("CDDPDDC", "BAAAAAB", "BAAAAAB", "#BAAAB#", "##VLV##")
-                .aisle("CDDPDDC", "GAAAAAG", "GAAAAAG", "#GAAAG#", "##GGG##").setRepeatable(3)
+                .aisle("CDDPDDC", "G-----G", "G-----G", "#G---G#", "##GGG##").setRepeatable(3)
+                .aisle("CDDPDDC", "B-----B", "B-----B", "#B---B#", "##VLV##")
+                .aisle("CDDPDDC", "G-----G", "G-----G", "#G---G#", "##GGG##").setRepeatable(3)
                 .aisle("CCCSCCC", "BGGGGGB", "BGGGGGB", "#BGGGB#", "##VLV##")
                 .where('S', selfPredicate())
-                .where('C', states(getCasingStateMain()).setMinGlobalLimited(20).or(autoAbilities()))
-                .where('B', states(getCasingStateMain())) // Like C, but only accepts solid steel
-                .where('G', states(getCasingStateGlass()))
-                .where('D', states(getCasingStateDirt()))
-                .where('L', states(getCasingStateLamp()))
-                .where('V', states(getCasingStateVent()))
-                .where('P', states(getCasingStatePipe()))
-                .where('A', air())
+                .where('C', getCasingPredicateMain().setMinGlobalLimited(20).or(autoAbilities()))
+                .where('B', getCasingPredicateMain()) // Like C, but only accepts solid steel
+                .where('G', getCasingPredicateGlass())
+                .where('D', getCasingPredicateDirt())
+                .where('L', getCasingPredicateLamp())
+                .where('V', getCasingPredicateVent())
+                .where('P', getCasingPredicatePipe())
+                .where('-', air())
                 .where('#', any())
                 .build();
     }
@@ -74,36 +74,35 @@ public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockControll
         return Textures.SOLID_STEEL_CASING;
     }
 
-    protected IBlockState getCasingStateMain() {
-        return MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.STEEL_SOLID);
+    protected TraceabilityPredicate getCasingPredicateMain() {
+        return states(MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.STEEL_SOLID));
     }
 
-    protected IBlockState getCasingStateGlass() {
-        return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
+    protected TraceabilityPredicate getCasingPredicateGlass() {
+        return states(MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS));
     }
 
-    protected IBlockState[] getCasingStateDirt() {
-        assert Blocks.DIRT != null;
-        assert Blocks.GRASS != null;
-        assert Blocks.FARMLAND != null;
-        return new IBlockState[] { Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState(),
-                Blocks.FARMLAND.getDefaultState() }; // Allow dirt or grass or farmland
+    protected TraceabilityPredicate getCasingPredicateDirt() {
+        return states(Blocks.DIRT.getDefaultState(), Blocks.GRASS.getDefaultState(), Blocks.FARMLAND.getDefaultState()); // Allow
+                                                                                                                         // dirt
+                                                                                                                         // or
+                                                                                                                         // grass
+                                                                                                                         // or
+                                                                                                                         // farmland
     }
 
-    protected IBlockState getCasingStateLamp() {
-        assert Blocks.AIR != null;
-        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() :
-                LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.GROWTH_LIGHT);
+    protected TraceabilityPredicate getCasingPredicateLamp() {
+        return LabsMetaBlocks.UNIQUE_CASING == null ? air() :
+                states(LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.GROWTH_LIGHT));
     }
 
-    protected IBlockState getCasingStateVent() {
-        assert Blocks.AIR != null;
-        return LabsMetaBlocks.UNIQUE_CASING == null ? Blocks.AIR.getDefaultState() :
-                LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.AIR_VENT);
+    protected TraceabilityPredicate getCasingPredicateVent() {
+        return LabsMetaBlocks.UNIQUE_CASING == null ? air() :
+                states(LabsMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.AIR_VENT));
     }
 
-    protected IBlockState getCasingStatePipe() {
-        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.STEEL_PIPE);
+    protected TraceabilityPredicate getCasingPredicatePipe() {
+        return states(MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.STEEL_PIPE));
     }
 
     @Override

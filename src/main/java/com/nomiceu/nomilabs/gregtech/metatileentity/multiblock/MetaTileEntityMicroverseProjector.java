@@ -34,6 +34,7 @@ import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.MultiblockShapeInfo;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.ConfigHolder;
@@ -50,6 +51,31 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
         super(metaTileEntityId, LabsRecipeMaps.MICROVERSE_RECIPES.get(tier - 1));
     }
 
+    protected TraceabilityPredicate getCasingPredicateMain() {
+        return states(LabsBlocks.MICROVERSE_CASING.getDefaultState());
+    }
+
+    protected TraceabilityPredicate getCasingPredicateGlass() {
+        return states(MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS));
+    }
+
+    protected TraceabilityPredicate getCasingPredicateDiamond() {
+        if (Loader.isModLoaded(LabsValues.CHISEL_MODID)) {
+            var group = Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState());
+            if (group != null) return states(group.getVariations().get(4).getBlockState()); // Space Diamond Block
+        }
+        return air();
+    }
+
+    protected TraceabilityPredicate getCasingPredicateGrate() {
+        return states(MetaBlocks.MULTIBLOCK_CASING.getState(BlockMultiblockCasing.MultiblockCasingType.GRATE_CASING));
+    }
+
+    protected TraceabilityPredicate getCasingPredicateEngine() {
+        return states(
+                MetaBlocks.MULTIBLOCK_CASING.getState(BlockMultiblockCasing.MultiblockCasingType.ENGINE_INTAKE_CASING));
+    }
+
     protected IBlockState getCasingStateMain() {
         return LabsBlocks.MICROVERSE_CASING.getDefaultState();
     }
@@ -59,8 +85,6 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
     }
 
     protected IBlockState getCasingStateDiamond() {
-        assert Blocks.AIR != null;
-
         return Loader.isModLoaded(LabsValues.CHISEL_MODID) ?
                 Objects.requireNonNull(Carving.chisel.getGroup(Blocks.DIAMOND_BLOCK.getDefaultState())).getVariations()
                         .get(4).getBlockState() // This cursed line returns the Space Diamond Chisel Block
@@ -117,10 +141,10 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .aisle("XXX", "GDG", "XXX")
                     .aisle("XSX", "XGX", "XXX")
                     .where('S', selfPredicate())
-                    .where('G', states(getCasingStateGlass()))
-                    .where('V', states(getCasingStateGrate()))
-                    .where('D', states(getCasingStateDiamond()))
-                    .where('X', states(getCasingStateMain()).setMinGlobalLimited(12).or(autoAbilities()))
+                    .where('G', getCasingPredicateGlass())
+                    .where('V', getCasingPredicateGrate())
+                    .where('D', getCasingPredicateDiamond())
+                    .where('X', getCasingPredicateMain().setMinGlobalLimited(12).or(autoAbilities()))
                     .build();
         }
 
@@ -179,11 +203,11 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .aisle("XVXVX", "GDDDG", "GDDDG", "GDDDG", "XVXVX")
                     .aisle("XXSXX", "XGGGX", "XGGGX", "XGGGX", "XXXXX")
                     .where('S', selfPredicate())
-                    .where('G', states(getCasingStateGlass()))
-                    .where('V', states(getCasingStateGrate()))
-                    .where('D', states(getCasingStateDiamond()))
-                    .where('X', states(getCasingStateMain()).setMinGlobalLimited(45).or(autoAbilities()))
-                    .where('#', any())
+                    .where('G', getCasingPredicateGlass())
+                    .where('V', getCasingPredicateGrate())
+                    .where('D', getCasingPredicateDiamond())
+                    .where('X', getCasingPredicateMain().setMinGlobalLimited(45).or(autoAbilities()))
+                    .where('#', air())
                     .build();
         }
 
@@ -244,7 +268,7 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                             "##XGGGX##", "#########")
                     .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX",
                             "#XDDDDDX#", "##XXXXX##")
-                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD###DDG", "GDD###DDG", "GDD###DDG", "XDDDDDDDX",
+                    .aisle("##XGGGX##", "#GDDDDDG#", "XDDDDDDDX", "GDD---DDG", "GDD---DDG", "GDD---DDG", "XDDDDDDDX",
                             "#GDDDDDG#", "##XGGGX##")
                     .setRepeatable(3)
                     .aisle("##XXXXX##", "#XDDDDDX#", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX", "XDDDDDDDX",
@@ -254,11 +278,12 @@ public abstract class MetaTileEntityMicroverseProjector extends RecipeMapMultibl
                     .aisle("#########", "#########", "##XXSXX##", "##XGGGX##", "##XGGGX##", "##XGGGX##", "##XXXXX##",
                             "#########", "#########")
                     .where('S', selfPredicate())
-                    .where('G', states(getCasingStateGlass()))
-                    .where('V', states(getCasingStateEngine()))
-                    .where('D', states(getCasingStateDiamond()))
-                    .where('X', states(getCasingStateMain()).setMinGlobalLimited(115).or(autoAbilities()))
-                    .where('#', any())
+                    .where('G', getCasingPredicateGlass())
+                    .where('V', getCasingPredicateEngine())
+                    .where('D', getCasingPredicateDiamond())
+                    .where('X', getCasingPredicateMain().setMinGlobalLimited(115).or(autoAbilities()))
+                    .where('-', air()) // Only allow air inside the projector
+                    .where('#', any()) // Allow anything outside the projector
                     .build();
         }
 

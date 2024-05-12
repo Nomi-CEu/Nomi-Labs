@@ -4,8 +4,6 @@ import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 import java.util.List;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -36,6 +34,7 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.MetaBlocks;
@@ -63,12 +62,12 @@ public class MetaTileEntityDMESimChamber extends GCYMRecipeMapMultiblockControll
                 .aisle("XXXXX", "GOOOG", "VOOOV", "GOOOG", "XGGGX")
                 .aisle("XXSXX", "VEGEV", "VGGGV", "VEGEV", "XXXXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingStateMain()).setMinGlobalLimited(30).or(autoAbilities()))
-                .where('#', states(getCasingStateAir()))
-                .where('V', states(getCasingStateVibration()))
-                .where('E', states(getCasingStateEnderium()))
-                .where('G', states(getCasingStateGlass()))
-                .where('O', states(getCasingStateOmnium()))
+                .where('X', getCasingPredicateMain().setMinGlobalLimited(30).or(autoAbilities()))
+                .where('#', air())
+                .where('V', getCasingPredicateVibration())
+                .where('E', getCasingPredicateEnderium())
+                .where('G', getCasingPredicateGlass())
+                .where('O', getCasingPredicateOmnium())
                 .build();
     }
 
@@ -78,39 +77,34 @@ public class MetaTileEntityDMESimChamber extends GCYMRecipeMapMultiblockControll
         return GCYMTextures.ATOMIC_CASING;
     }
 
-    protected IBlockState getCasingStateAir() {
-        assert Blocks.AIR != null;
-        return Blocks.AIR.getDefaultState();
+    protected TraceabilityPredicate getCasingPredicateMain() {
+        return states(
+                GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING));
     }
 
-    protected IBlockState getCasingStateMain() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING);
+    protected TraceabilityPredicate getCasingPredicateVibration() {
+        return states(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                .getState(BlockLargeMultiblockCasing.CasingType.VIBRATION_SAFE_CASING));
     }
 
-    protected IBlockState getCasingStateVibration() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
-                .getState(BlockLargeMultiblockCasing.CasingType.VIBRATION_SAFE_CASING);
+    protected TraceabilityPredicate getCasingPredicateEnderium() {
+        return states(MetaBlocks.COMPRESSED.get(LabsMaterials.Enderium).getBlock(LabsMaterials.Enderium));
     }
 
-    protected IBlockState getCasingStateEnderium() {
-        return MetaBlocks.COMPRESSED.get(LabsMaterials.Enderium).getBlock(LabsMaterials.Enderium);
+    protected TraceabilityPredicate getCasingPredicateGlass() {
+        if (Loader.isModLoaded(LabsValues.AE2_MODID) &&
+                Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().isPresent())
+            return states(
+                    Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().get().getDefaultState());
+
+        return air();
     }
 
-    protected IBlockState getCasingStateGlass() {
-        assert Blocks.AIR != null;
+    protected TraceabilityPredicate getCasingPredicateOmnium() {
+        if (Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID))
+            return states(ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata()));
 
-        return Loader.isModLoaded(LabsValues.AE2_MODID) &&
-                Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().isPresent() ?
-                        Api.INSTANCE.definitions().blocks().quartzVibrantGlass().maybeBlock().get().getDefaultState() :
-                        Blocks.AIR.getDefaultState();
-    }
-
-    protected IBlockState getCasingStateOmnium() {
-        assert Blocks.AIR != null;
-
-        return Loader.isModLoaded(LabsValues.EXTENDED_CRAFTING_MODID) ?
-                ModBlocks.blockStorage.getStateFromMeta(BlockStorage.Type.ULTIMATE.getMetadata()) :
-                Blocks.AIR.getDefaultState();
+        return air();
     }
 
     @Override

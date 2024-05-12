@@ -4,7 +4,6 @@ import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
 
 import java.util.List;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -25,6 +24,7 @@ import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.blocks.BlockFusionCasing;
@@ -52,9 +52,9 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
                 .aisle("XXX", "GOG", "XXX")
                 .aisle("XSX", "GGG", "XXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingStateMain()).setMinGlobalLimited(9).or(autoAbilities()))
-                .where('G', states(getCasingStateGlass()))
-                .where('O', states(getCasingStateCoil()))
+                .where('X', getCasingPredicateMain().setMinGlobalLimited(9).or(autoAbilities()))
+                .where('G', getCasingPredicateGlass())
+                .where('O', getCasingPredicateCoil())
                 .build();
     }
 
@@ -64,16 +64,16 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
         return recipeMapWorkable.isActive() ? Textures.ACTIVE_FUSION_TEXTURE : Textures.FUSION_TEXTURE;
     }
 
-    protected IBlockState getCasingStateMain() {
-        return MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_CASING_MK3);
+    protected TraceabilityPredicate getCasingPredicateMain() {
+        return states(MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_CASING_MK3));
     }
 
-    protected IBlockState getCasingStateGlass() {
-        return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
+    protected TraceabilityPredicate getCasingPredicateGlass() {
+        return states(MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS));
     }
 
-    protected IBlockState getCasingStateCoil() {
-        return MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_COIL);
+    protected TraceabilityPredicate getCasingPredicateCoil() {
+        return states(MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_COIL));
     }
 
     @Override

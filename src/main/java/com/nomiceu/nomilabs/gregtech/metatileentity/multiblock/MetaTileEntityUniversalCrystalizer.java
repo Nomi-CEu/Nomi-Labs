@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -72,16 +70,16 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
                 .aisle("XXXXXXX", "G#####G", "G#####G", "F#####F", "G#####G", "G#####G", "XGGGGGX")
                 .aisle("XXXSXXX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XXXXXXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingStateMain())
+                .where('X', getCasingPredicateMain()
                         .setMinGlobalLimited(80)
                         .or(autoAbilities()))
-                .where('#', states(getCasingStateAir()))
-                .where('F', states(getCasingStateFrame()))
-                .where('G', states(getCasingStateGlass()))
-                .where('T', states(getCasingStateTaranium()))
-                .where('C', states(getCasingStateCoil()))
-                .where('B', states(getCasingStateComponent()))
-                .where('R', states(getCasingStateCore()))
+                .where('#', air())
+                .where('F', getCasingPredicateFrame())
+                .where('G', getCasingPredicateGlass())
+                .where('T', getCasingPredicateTaranium())
+                .where('C', getCasingPredicateCoil())
+                .where('B', getCasingPredicateComponent())
+                .where('R', getCasingPredicateCore())
                 .build();
     }
 
@@ -120,43 +118,35 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
         return GCYMTextures.ENGRAVER_CASING;
     }
 
-    protected IBlockState getCasingStateAir() {
-        assert Blocks.AIR != null;
-        return Blocks.AIR.getDefaultState();
+    protected TraceabilityPredicate getCasingPredicateMain() {
+        return states(
+                GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ENGRAVER_CASING));
     }
 
-    protected IBlockState getCasingStateMain() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ENGRAVER_CASING);
+    protected TraceabilityPredicate getCasingPredicateFrame() {
+        return states(MetaBlocks.FRAMES.get(Materials.Berkelium).getBlock(Materials.Berkelium));
     }
 
-    protected IBlockState getCasingStateFrame() {
-        return MetaBlocks.FRAMES.get(Materials.Berkelium).getBlock(Materials.Berkelium);
+    protected TraceabilityPredicate getCasingPredicateGlass() {
+        return states(MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS));
     }
 
-    protected IBlockState getCasingStateGlass() {
-        return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
+    protected TraceabilityPredicate getCasingPredicateTaranium() {
+        return states(MetaBlocks.COMPRESSED.get(LabsMaterials.Taranium).getBlock(LabsMaterials.Taranium));
     }
 
-    protected IBlockState getCasingStateTaranium() {
-        return MetaBlocks.COMPRESSED.get(LabsMaterials.Taranium).getBlock(LabsMaterials.Taranium);
+    protected TraceabilityPredicate getCasingPredicateCoil() {
+        return states(MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_COIL));
     }
 
-    protected IBlockState getCasingStateCoil() {
-        return MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_COIL);
+    protected TraceabilityPredicate getCasingPredicateComponent() {
+        return Loader.isModLoaded(LabsValues.DRACONIC_MODID) ? states(DEFeatures.reactorComponent.getDefaultState()) :
+                air();
     }
 
-    protected IBlockState getCasingStateComponent() {
-        assert Blocks.AIR != null;
-
-        return Loader.isModLoaded(LabsValues.DRACONIC_MODID) ? DEFeatures.reactorComponent.getDefaultState() :
-                Blocks.AIR.getDefaultState();
-    }
-
-    protected IBlockState getCasingStateCore() {
-        assert Blocks.AIR != null;
-
-        return Loader.isModLoaded(LabsValues.DRACONIC_MODID) ? DEFeatures.reactorCore.getDefaultState() :
-                Blocks.AIR.getDefaultState();
+    protected TraceabilityPredicate getCasingPredicateCore() {
+        return Loader.isModLoaded(LabsValues.DRACONIC_MODID) ? states(DEFeatures.reactorCore.getDefaultState()) :
+                air();
     }
 
     @Override
