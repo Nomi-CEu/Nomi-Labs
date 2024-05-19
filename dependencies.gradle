@@ -46,9 +46,9 @@ dependencies {
 
     // GT and GCYM, pretty much the 'core' of this coremod (from GTCEu Maven)
     // GT Has Mixins! CHECK MIXINS FOR COMPAT AFTER UPDATING!
-    implementation ("gregtech:gregtech:2.8.7-beta") {
+    implementation ("gregtech:gregtech:2.8.8-beta") {
         transitive = false
-    } // Version 2.8.7
+    } // Version 2.8.8
     implementation ("gregicality:GregicalityMultiblocks:1.2.8") {
         transitive = false
     } // Version 1.2.8
@@ -57,9 +57,9 @@ dependencies {
     implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
 
     // GroovyScript (from Cleanroom Maven)
-    implementation ("com.cleanroommc:groovyscript:0.8.0") {
+    implementation ("com.cleanroommc:groovyscript:1.0.1") {
         transitive = false
-    } // Version 0.8.0
+    } // Version 1.0.1
 
 
     /* -------------------------------- Compile Time Only Deps -------------------------------- */

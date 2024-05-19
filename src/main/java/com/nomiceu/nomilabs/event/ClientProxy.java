@@ -3,13 +3,16 @@ package com.nomiceu.nomilabs.event;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.cleanroommc.groovyscript.event.ScriptRunEvent;
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
@@ -50,5 +53,11 @@ public class ClientProxy {
     @SubscribeEvent
     public static void addTooltipNormal(ItemTooltipEvent event) {
         TooltipAdder.addTooltipNormal(event.getToolTip(), event.getItemStack());
+    }
+
+    @SubscribeEvent
+    public static void afterScriptLoad(ScriptRunEvent.Post event) {
+        NomiLabs.LOGGER.info("Reloading Options File.");
+        FMLClientHandler.instance().getClient().gameSettings.loadOptions();
     }
 }

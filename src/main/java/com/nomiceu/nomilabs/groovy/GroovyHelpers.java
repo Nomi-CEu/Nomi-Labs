@@ -22,7 +22,6 @@ import com.brandon3055.draconicevolution.lib.RecipeManager;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
-import com.cleanroommc.groovyscript.compat.mods.jei.JeiPlugin;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
@@ -148,15 +147,18 @@ public class GroovyHelpers {
     public static class MaterialHelpers {
 
         public static void hideMaterial(Material material) {
-            MaterialHelper.forMaterialItem(material, JeiPlugin::hideItem);
-            MaterialHelper.forMaterialFluid(material, (fluid) -> JeiPlugin.HIDDEN_FLUIDS.add(toFluidStack(fluid)));
+            MaterialHelper.forMaterialItem(material,
+                    (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)));
+            MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
+                    .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
         }
 
         public static void removeAndHideMaterial(Material material) {
             MaterialHelper.forMaterialItem(material,
-                    (stack) -> ModSupport.JEI.get().removeAndHide(IngredientHelper.toIIngredient(stack)));
+                    (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)));
             // Normal Hiding for Fluids, they don't have recipes
-            MaterialHelper.forMaterialFluid(material, (fluid) -> JeiPlugin.HIDDEN_FLUIDS.add(toFluidStack(fluid)));
+            MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
+                    .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
         }
 
         public static void yeetMaterial(Material material) {
