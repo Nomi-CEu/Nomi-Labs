@@ -9,7 +9,6 @@
     "AccessibleMaterialInfo",
     "AccessibleModHandler",
     "FluidStorageKeyMixin",
-    "GTOreRecipeInputMixin",
     "GTRecipeWrapperMixin",
     "MaterialFlagsMixin",
     "MaterialMixin",
