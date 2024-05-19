@@ -30,6 +30,10 @@ public class ItemMeta {
         return Objects.hash(item, meta);
     }
 
+    public boolean compareWith(ItemStack other) {
+        return item == other.getItem() && meta == other.getMetadata();
+    }
+
     /**
      * Compares ItemStacks based on Item and Meta.
      */

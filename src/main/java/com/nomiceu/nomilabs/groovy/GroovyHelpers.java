@@ -4,9 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.settings.KeyModifier;
@@ -131,6 +133,7 @@ public class GroovyHelpers {
 
     public static class JEIHelpers {
 
+        /* Description + Tooltip */
         public static void addDescription(ItemStack stack, String... description) {
             JEIPlugin.addGroovyDescription(stack, description);
         }
@@ -141,6 +144,32 @@ public class GroovyHelpers {
 
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName, String... tooltip) {
             JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
+        }
+
+        /* Hiding Ignore NBT */
+        public static void hideItemIgnoreNBT(ItemStack stack) {
+            JEIPlugin.hideItemNBTMatch(stack, (tag) -> true);
+        }
+
+        public static void removeAndHideItemIgnoreNBT(ItemStack stack) {
+            JEIPlugin.removeAndHideItemNBTMatch(stack, (tag) -> true);
+        }
+
+        public static void yeetItemIgnoreNBT(ItemStack stack) {
+            removeAndHideItemIgnoreNBT(stack);
+        }
+
+        /* Hiding NBT Match */
+        public static void hideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
+            JEIPlugin.hideItemNBTMatch(stack, condition);
+        }
+
+        public static void removeAndHideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
+            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+        }
+
+        public static void yeetItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
+            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
         }
     }
 

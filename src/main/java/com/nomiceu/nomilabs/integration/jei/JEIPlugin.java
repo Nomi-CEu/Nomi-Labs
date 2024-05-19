@@ -2,14 +2,21 @@ package com.nomiceu.nomilabs.integration.jei;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
+import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
@@ -31,6 +38,7 @@ public class JEIPlugin implements IModPlugin {
             .create();
     private static final Table<ItemTagMeta, ResourceLocation, List<String>> GROOVY_RECIPE_OUTPUT_TOOLTIPS = HashBasedTable
             .create();
+    private static final List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> IGNORE_NBT_HIDE = new ArrayList<>();
 
     @Override
     public void register(IModRegistry registry) {
@@ -45,6 +53,25 @@ public class JEIPlugin implements IModPlugin {
         GROOVY_DESCRIPTIONS.forEach(((key, value) -> addDescription(tempMap, key, (list) -> list.addAll(value))));
         tempMap.forEach(((itemTagMeta, strings) -> registry.addIngredientInfo(itemTagMeta.toStack(), VanillaTypes.ITEM,
                 String.join("\n\n", strings))));
+    }
+
+    public static void hideItemNBTMatch(ItemStack itemStack, Function<NBTTagCompound, Boolean> condition) {
+        IGNORE_NBT_HIDE.add(Pair.of(itemStack, condition));
+    }
+
+    public static void removeAndHideItemNBTMatch(ItemStack itemStack, Function<NBTTagCompound, Boolean> condition) {
+        for (IRecipe recipe : ForgeRegistries.RECIPES) {
+            var output = recipe.getRecipeOutput();
+            if (recipe.getRegistryName() != null && output.getItem() == itemStack.getItem() &&
+                    output.getMetadata() == itemStack.getMetadata() && condition.apply(output.getTagCompound()))
+                ReloadableRegistryManager.removeRegistryEntry(ForgeRegistries.RECIPES, recipe.getRegistryName());
+        }
+
+        IGNORE_NBT_HIDE.add(Pair.of(itemStack, condition));
+    }
+
+    public static List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> getIgnoreNbtHide() {
+        return ImmutableList.copyOf(IGNORE_NBT_HIDE);
     }
 
     public static void addDescription(@NotNull ItemStack stack, String... description) {
@@ -107,5 +134,6 @@ public class JEIPlugin implements IModPlugin {
     public static void onReload() {
         GROOVY_DESCRIPTIONS.clear();
         GROOVY_RECIPE_OUTPUT_TOOLTIPS.clear();
+        IGNORE_NBT_HIDE.clear();
     }
 }
