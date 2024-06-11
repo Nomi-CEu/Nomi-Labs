@@ -1,0 +1,32 @@
+# CI/CD: Build Labs on Commit
+name: Build Nomi Labs
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Nomi Labs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+
+      - name: Setup Build
+        uses: ./.github/actions/build_setup
+
+      - name: Build Project
+        run: ./gradlew build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Built Jars
+          path: |
+            ./build/libs/*.jar
+          if-no-files-found: error
+          compression-level: 0
