@@ -136,12 +136,14 @@ public class LabsMicroMiners {
     private static String[] getStabilizedMinerDesc() {
         return new String[] {
                 translate("tooltip.stabilized_miners.description1"),
-                translate("tooltip.stabilized_miners.description2"),
-                translate("tooltip.stabilized_miners.description3")
+                translate("tooltip.stabilized_miners.description2")
         };
     }
 
-    private static String getStabilizedMatterDesc() {
-        return translate("tooltip.stabilized_matters.description");
+    private static String[] getStabilizedMatterDesc() {
+        return new String[] {
+                translate("tooltip.stabilized_matters.description1"),
+                translate("tooltip.stabilized_matters.description2")
+        };
     }
 }
