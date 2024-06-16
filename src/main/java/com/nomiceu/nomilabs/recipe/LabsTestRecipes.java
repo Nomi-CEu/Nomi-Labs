@@ -24,6 +24,11 @@ public class LabsTestRecipes {
                 .output(Blocks.LOG)
                 .buildAndRegister();
 
+        LabsRecipeMaps.ECOSYSTEM_EMULATOR_RECIPES.recipeBuilder().duration(1200).EUt(GTValues.VHA[GTValues.MV])
+                .input(Blocks.SAPLING)
+                .output(Blocks.LOG)
+                .buildAndRegister();
+
         for (var recipeBuilder : LabsRecipeMaps.MICROVERSE_RECIPES) {
             recipeBuilder.recipeBuilder().duration(9408).EUt(GTValues.VA[GTValues.LuV])
                     .input(LabsItems.T1_SHIP)

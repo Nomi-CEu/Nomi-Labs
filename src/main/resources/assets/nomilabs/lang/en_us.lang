@@ -584,4 +584,9 @@ tooltip.nomilabs.actualization_chamber.description=§8A powerful machine that ha
 tooltip.nomilabs.universal_crystallizer.description=§8An immense device, capable of turning raw materials into complex matters.§r
 tooltip.nomilabs.universal_crystallizer.description_laser=Can use §bLaser Hatches§r
 tooltip.nomilabs.dme_sim_chamber.description=§8A high powered simulation device, capable of performing more complex simulations faster than ever.§r
-tooltip.nomilabs.growth_chamber.description=§8A high powered UV ray chamber, capable of mass-growing even the most incomprehensible plants.§r
+tooltip.nomilabs.growth_chamber.description=§8A chamber with lights and air circulation, capable of automating basic plant growth.§r
+tooltip.nomilabs.ecosystem_emulator.description=§8A high powered UV ray chamber, capable of mass-simulating even the most incomprehensible ecosystems.§r
+
+# Multiblock Pattern Errors
+nomilabs.multiblock.pattern.error.base_tier=All Base Blocks must be the same!
+nomilabs.multiblock.pattern.error.special_tier=All Special Modifier Blocks must be the Same Tier!

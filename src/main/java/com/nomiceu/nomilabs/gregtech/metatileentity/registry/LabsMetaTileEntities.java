@@ -1,12 +1,17 @@
 package com.nomiceu.nomilabs.gregtech.metatileentity.registry;
 
+import com.nomiceu.nomilabs.gregtech.LabsTextures;
+import com.nomiceu.nomilabs.gregtech.metatileentity.part.MetaTileEntityGrowthBase;
+import gregtech.client.renderer.texture.Textures;
 import net.minecraftforge.fml.common.Loader;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.metatileentity.multiblock.*;
+import com.nomiceu.nomilabs.gregtech.metatileentity.part.MetaTileEntityGrowthModifier;
 import com.nomiceu.nomilabs.util.LabsNames;
 
+import gregtech.api.GTValues;
 import gregtech.common.metatileentities.MetaTileEntities;
 
 /**
@@ -15,7 +20,12 @@ import gregtech.common.metatileentities.MetaTileEntities;
 @SuppressWarnings("unused")
 public class LabsMetaTileEntities {
 
+    public static MetaTileEntityGrowthModifier GROWTH_LAMP_1;
+    public static MetaTileEntityGrowthModifier GROWTH_VENT_1;
+    public static MetaTileEntityGrowthBase GROWTH_BASE_1;
     public static MetaTileEntityGrowthChamber GROWTH_CHAMBER;
+    public static MetaTileEntityEcosystemEmulator ECOSYSTEM_EMULATOR;
+
     public static MetaTileEntityMicroverseProjector.Microverse1 MICROVERSE_1;
     public static MetaTileEntityMicroverseProjector.Microverse2 MICROVERSE_2;
     public static MetaTileEntityMicroverseProjector.Microverse3 MICROVERSE_3;
@@ -66,5 +76,16 @@ public class LabsMetaTileEntities {
     private static void initNew() {
         GROWTH_CHAMBER = MetaTileEntities.registerMetaTileEntity(32109,
                 new MetaTileEntityGrowthChamber(LabsNames.makeLabsName("growth_chamber")));
+
+        ECOSYSTEM_EMULATOR = MetaTileEntities.registerMetaTileEntity(32110,
+                new MetaTileEntityEcosystemEmulator(LabsNames.makeLabsName("ecosystem_emulator")));
+
+        GROWTH_LAMP_1 = MetaTileEntities.registerMetaTileEntity(32111,
+                new MetaTileEntityGrowthModifier(LabsNames.makeLabsName("growth_lamp_1"), GTValues.MV, LabsTextures.OVERLAY_LAMP_1));
+
+        GROWTH_VENT_1 = MetaTileEntities.registerMetaTileEntity(32112,
+                new MetaTileEntityGrowthModifier(LabsNames.makeLabsName("growth_vent_1"), GTValues.MV, LabsTextures.OVERLAY_VENT_1));
+
+        GROWTH_BASE_1 = MetaTileEntities.registerMetaTileEntity(32113, new MetaTileEntityGrowthBase(LabsNames.makeLabsName("growth_base_1"), GTValues.MV, Textures.STEAM_CASING_BRONZE));
     }
 }

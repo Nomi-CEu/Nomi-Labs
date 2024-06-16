@@ -16,6 +16,7 @@
     "MaterialStackMixin",
     "MetaItemsMixin",
     "MultiblockInfoCategoryMixin",
+    "MultiblockInfoRecipeWrapperMixin",
     "RecipeBuilderMixin",
     "RecipeMapMixin",
     "VirtualizedRecipeMapMixin"

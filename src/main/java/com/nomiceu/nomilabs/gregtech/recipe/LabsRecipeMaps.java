@@ -27,6 +27,7 @@ public class LabsRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> UNIVERSAL_CRYSTALIZER_RECIPES;
     public static RecipeMap<DMESimChamberRecipeMapBuilder> DME_SIM_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GROWTH_CHAMBER_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> ECOSYSTEM_EMULATOR_RECIPES;
 
     public static void preInit() {
         MICROVERSE_RECIPES = new ArrayList<>();
@@ -74,6 +75,14 @@ public class LabsRecipeMaps {
                 .setSlotOverlay(true, false, GuiTextures.SCANNER_OVERLAY)
                 .setSlotOverlay(true, true, GuiTextures.SCANNER_OVERLAY)
                 .setSound(GTSoundEvents.SAW_TOOL);
+
+        ECOSYSTEM_EMULATOR_RECIPES = new RecipeMap<>("ecosystem_emulator", 9, 16, 4, 0, new SimpleRecipeBuilder(),
+                !newMultis())
+                        .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY)
+                        .setSlotOverlay(false, true, GuiTextures.SCANNER_OVERLAY)
+                        .setSlotOverlay(true, false, GuiTextures.SCANNER_OVERLAY)
+                        .setSlotOverlay(true, true, GuiTextures.SCANNER_OVERLAY)
+                        .setSound(GTSoundEvents.SAW_TOOL);
     }
 
     private static RecipeMap<SimpleRecipeBuilder> createMicroverseRecipeMap(int tier) {
