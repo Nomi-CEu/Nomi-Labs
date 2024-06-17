@@ -102,11 +102,12 @@ public class LabsConfig {
 
             @Config.Comment({
                     "Enable Custom GT Blocks.",
-                    "[default: true]"
+                    "In Beta.",
+                    "[default: false]"
             })
             @Config.LangKey("config.nomilabs.content.gt_content.blocks")
             @Config.RequiresMcRestart
-            public boolean enableBlocks = true;
+            public boolean enableBlocks = false;
 
             @Config.Comment({
                     "Enable Old Multiblocks.",
@@ -122,11 +123,12 @@ public class LabsConfig {
                     "Enable New Multiblocks.",
                     "These are new to this Core Mod, as in they do not exist in pre-core-mod versions of Nomi-CEu.",
                     "Will not work properly if Custom GT Blocks is turned off.",
-                    "[default: true]"
+                    "In Beta.",
+                    "[default: false]"
             })
             @Config.LangKey("config.nomilabs.content.gt_content.new_multiblocks")
             @Config.RequiresMcRestart
-            public boolean enableNewMultiblocks = true;
+            public boolean enableNewMultiblocks = false;
         }
     }
 
