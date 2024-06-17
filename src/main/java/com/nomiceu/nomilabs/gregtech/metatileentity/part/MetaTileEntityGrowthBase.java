@@ -4,12 +4,15 @@ import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
 import com.nomiceu.nomilabs.gregtech.metatileentity.multiblock.MetaTileEntityBaseChamber;
+import com.nomiceu.nomilabs.util.LabsParticle;
 import gregtech.api.GTValues;
 import gregtech.api.gui.ModularUI;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.client.renderer.ICubeRenderer;
+import gregtech.client.renderer.texture.cube.SimpleOrientedCubeRenderer;
 import gregtech.client.renderer.texture.cube.SimpleOverlayRenderer;
+import gregtech.client.renderer.texture.custom.FireboxActiveRenderer;
 import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -24,59 +27,36 @@ public class MetaTileEntityGrowthBase extends MetaTileEntityMultiblockPart {
 
     private final int tier;
     private final ICubeRenderer renderer;
+    private final float particleBuffer;
 
-    public MetaTileEntityGrowthBase(ResourceLocation metaTileEntityId, int tier, ICubeRenderer renderer) {
+    public MetaTileEntityGrowthBase(ResourceLocation metaTileEntityId, int tier, ICubeRenderer renderer, float particleBuffer) {
         super(metaTileEntityId, tier);
         this.tier = tier;
         this.renderer = renderer;
+        this.particleBuffer = particleBuffer;
     }
 
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity tileEntity) {
-        return new MetaTileEntityGrowthBase(metaTileEntityId, tier, renderer);
+        return new MetaTileEntityGrowthBase(metaTileEntityId, tier, renderer, particleBuffer);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
-        renderer.render(renderState, translation, pipeline);
+        super.renderMetaTileEntity(renderState, translation, pipeline);
+        var direction = (getController() instanceof MetaTileEntityBaseChamber chamber) ? chamber.getTopAbsolute().getOpposite() : null;
+        for (var facing : EnumFacing.VALUES) {
+            if (facing != direction) renderer.renderSided(facing, renderState, translation, pipeline);
+        }
     }
 
     @Override
     public void update() {
         if (getWorld() != null && getWorld().isRemote && getController() instanceof MetaTileEntityBaseChamber controller &&
-                controller.isActive() && GTValues.RNG.nextFloat() > 0.8) {
-            spawnEffect(controller.getTopAbsolute(), EnumParticleTypes.VILLAGER_HAPPY);
+                controller.isActive() && GTValues.RNG.nextFloat() > particleBuffer) {
+            LabsParticle.spawnEffect(this, controller.getTopAbsolute(), EnumParticleTypes.VILLAGER_HAPPY);
         }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void spawnEffect(EnumFacing facing, @NotNull EnumParticleTypes particle) {
-        if (getPos() == null) return;
-
-        BlockPos pos = getPos();
-        float xPos = facing.getXOffset() * 0.76F + pos.getX() + 0.25F;
-        float yPos = facing.getYOffset() * 0.76F + pos.getY() + 0.25F;
-        float zPos = facing.getZOffset() * 0.76F + pos.getZ() + 0.25F;
-
-        float ySpd = facing.getYOffset() * 0.1F + 0.2F + 0.1F * GTValues.RNG.nextFloat();
-        float xSpd;
-        float zSpd;
-
-        if (facing.getYOffset() == -1) {
-            float temp = GTValues.RNG.nextFloat() * 2 * (float) Math.PI;
-            xSpd = (float) Math.sin(temp) * 0.1F;
-            zSpd = (float) Math.cos(temp) * 0.1F;
-        } else {
-            xSpd = facing.getXOffset() * (0.1F + 0.2F * GTValues.RNG.nextFloat());
-            zSpd = facing.getZOffset() * (0.1F + 0.2F * GTValues.RNG.nextFloat());
-        }
-
-        xPos += GTValues.RNG.nextFloat() * 0.5F;
-        yPos += GTValues.RNG.nextFloat() * 0.5F;
-        zPos += GTValues.RNG.nextFloat() * 0.5F;
-
-        getWorld().spawnParticle(particle, xPos, yPos, zPos, xSpd, ySpd, zSpd);
     }
 
     @Override

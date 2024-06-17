@@ -13,6 +13,7 @@ public class LabsTextures {
     public static OrientedOverlayRenderer GREENHOUSE_OVERLAY;
     public static OrientedOverlayRenderer OVERLAY_LAMP_1;
     public static OrientedOverlayRenderer OVERLAY_VENT_1;
+    public static SimpleOverlayRenderer OVERLAY_BASE_1;
 
     /* Overlays (Casings) */
     public static SimpleOverlayRenderer MICROVERSE_CASING;
@@ -24,6 +25,7 @@ public class LabsTextures {
         GREENHOUSE_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/greenhouse");
         OVERLAY_LAMP_1 = new ProperlySidedOverlayRenderer("nomilabs:part/growth_modifier/overlay_lamp_1");
         OVERLAY_VENT_1 = new ProperlySidedOverlayRenderer("nomilabs:part/growth_modifier/overlay_vent_1");
+        OVERLAY_BASE_1 = new SimpleOverlayRenderer("nomilabs:part/growth_base/overlay_base_1/overlay");
         MICROVERSE_CASING = new SimpleOverlayRenderer("nomilabs:microverse_casing");
         PROGRESS_BAR_ROCKET = labsFullImage("textures/gui/progress_bar/progress_bar_rocket.png");
     }

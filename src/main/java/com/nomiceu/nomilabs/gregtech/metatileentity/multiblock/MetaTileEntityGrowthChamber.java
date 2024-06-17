@@ -48,11 +48,7 @@ public class MetaTileEntityGrowthChamber extends MetaTileEntityBaseChamber {
         canParallel = false;
 
         baseTiers = new ArrayList<>();
-        baseTiers.add(Pair.of(Blocks.DIRT.getDefaultState(), (byte) 1));
-        baseTiers.add(Pair.of(Blocks.GRASS.getDefaultState(), (byte) 1));
-        baseTiers.add(Pair.of(Blocks.FARMLAND.getDefaultState(), (byte) 1));
-        baseTiers.add(Pair.of(Blocks.NETHERRACK.getDefaultState(), (byte) 2));
-        baseTiers.add(Pair.of(Blocks.END_STONE.getDefaultState(), (byte) 3));
+        baseTiers.add(Pair.of(LabsMetaTileEntities.GROWTH_BASE_1, (byte) 1));;
 
         specialTiers = new ArrayList<>();
         specialTiers.add(Triple.of(LabsMetaTileEntities.GROWTH_LAMP_1,
@@ -114,8 +110,8 @@ public class MetaTileEntityGrowthChamber extends MetaTileEntityBaseChamber {
     }
 
     @Override
-    public MultiblockShapeInfo.Builder getBaseShapeFromBuilder(MultiblockShapeInfo.Builder builder, IBlockState state) {
-        return builder.where('D', state);
+    public MultiblockShapeInfo.Builder getBaseShapeFromBuilder(MultiblockShapeInfo.Builder builder, MetaTileEntity state) {
+        return builder.where('D', state, EnumFacing.UP);
     }
 
     @Override

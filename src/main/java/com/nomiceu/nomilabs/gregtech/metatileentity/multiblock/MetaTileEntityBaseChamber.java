@@ -37,6 +37,7 @@ import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
 import gregtech.integration.jei.multiblock.MultiblockInfoRecipeWrapper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockController
                                                 implements IJEISpecialMultiblock {
@@ -52,17 +53,21 @@ public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockC
     // Values that will not change (must be set by super class)
     protected int voltageTier;
     protected boolean canParallel;
-    protected List<Pair<IBlockState, Byte>> baseTiers;
+    protected List<Pair<MetaTileEntity, Byte>> baseTiers;
     // First State: Light, Second State: Vent
     protected List<Triple<MetaTileEntity, MetaTileEntity, Byte>> specialTiers;
 
     // States (don't set in super class)
-    protected Map<IBlockState, Byte> baseTierMap;
+    protected Map<ResourceLocation, Byte> baseTierMap;
     protected Map<ResourceLocation, Byte> specialLightTierMap;
     protected Map<ResourceLocation, Byte> specialVentTierMap;
 
+    @Nullable
+    protected EnumFacing topAbsolute;
+
     protected MetaTileEntityBaseChamber(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap) {
         super(metaTileEntityId, recipeMap);
+        topAbsolute = null;
     }
 
     @Override
@@ -81,9 +86,9 @@ public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockC
 
     protected TraceabilityPredicate getCasingPredicateBase() {
         baseTierMap = new Object2ObjectOpenHashMap<>();
-        baseTiers.forEach((pair) -> baseTierMap.put(pair.getKey(), pair.getValue()));
-        return getTieredPredicateState(baseTierMap, baseTiers.stream().map(Pair::getKey).collect(Collectors.toList()),
-                "nomilabs.multiblock.pattern.error.base_tier", BASE_TIER_KEY);
+        baseTiers.forEach((pair) -> baseTierMap.put(pair.getKey().metaTileEntityId, pair.getValue()));
+        return getTieredPredicateMetaTileEntity(baseTierMap, baseTiers.stream().map(Pair::getKey).collect(Collectors.toList()),
+                "nomilabs.multiblock.pattern.error.base_tier", "nomilabs.multiblock.pattern.error.base_tier", BASE_TIER_KEY, false);
     }
 
     protected TraceabilityPredicate getCasingPredicateLamp() {
@@ -92,7 +97,7 @@ public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockC
         return getTieredPredicateMetaTileEntity(specialLightTierMap,
                 specialTiers.stream().map(Triple::getLeft).collect(Collectors.toList()),
                 "nomilabs.multiblock.pattern.error.special_tier.tier",
-                "nomilabs.multiblock.pattern.error.special_tier.direction", SPECIAL_TIER_KEY);
+                "nomilabs.multiblock.pattern.error.special_tier.direction", SPECIAL_TIER_KEY, true);
     }
 
     protected TraceabilityPredicate getCasingPredicateVent() {
@@ -100,33 +105,13 @@ public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockC
         specialTiers.forEach((triple) -> specialVentTierMap.put(triple.getMiddle().metaTileEntityId, triple.getRight()));
         return getTieredPredicateMetaTileEntity(specialVentTierMap,
                 specialTiers.stream().map(Triple::getMiddle).collect(Collectors.toList()),
-                "nomilabs.multiblock.pattern.error.special_tier", "nomilabs.multiblock.pattern.error.special_tier.direction", SPECIAL_TIER_KEY);
-    }
-
-    protected TraceabilityPredicate getTieredPredicateState(Map<IBlockState, Byte> tierMap, List<IBlockState> states,
-                                                            String langKey, String contextKey) {
-        return new TraceabilityPredicate(blockWorldState -> {
-            IBlockState blockState = blockWorldState.getBlockState();
-            if (tierMap.containsKey(blockState)) {
-                byte tier = tierMap.get(blockState);
-                byte currentTier = blockWorldState.getMatchContext().getOrPut(contextKey, tier);
-                if (currentTier != tier) {
-                    blockWorldState.setError(new PatternStringError(langKey));
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        }, () -> states.stream()
-                .map(state -> new BlockInfo(state, null))
-                .toArray(BlockInfo[]::new))
-                        .addTooltips(langKey);
+                "nomilabs.multiblock.pattern.error.special_tier", "nomilabs.multiblock.pattern.error.special_tier.direction", SPECIAL_TIER_KEY, true);
     }
 
     protected TraceabilityPredicate getTieredPredicateMetaTileEntity(Map<ResourceLocation, Byte> tierMap,
                                                                      List<MetaTileEntity> metaTileEntities,
                                                                      String wrongTierKey, String wrongDirectionKey,
-                                                                     String contextKey) {
+                                                                     String contextKey, boolean checkDirection) {
         return tilePredicate((blockWorldState, mte) -> {
             if (tierMap.containsKey(mte.metaTileEntityId)) {
                 byte tier = tierMap.get(mte.metaTileEntityId);
@@ -135,7 +120,7 @@ public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockC
                     blockWorldState.setError(new PatternStringError(wrongTierKey));
                     return false;
                 }
-                if (mte.getFrontFacing() != getTopAbsolute()) {
+                if (checkDirection && mte.getFrontFacing() != getTopAbsolute()) {
                     blockWorldState.setError(new PatternStringError(wrongDirectionKey));
                     return false;
                 }
@@ -151,12 +136,24 @@ public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockC
         }).toArray(BlockInfo[]::new));
     }
 
+    @NotNull
     public EnumFacing getTopAbsolute() {
-        if (frontFacing.getAxis() == EnumFacing.Axis.Y) return upwardsFacing;
+        if (topAbsolute == null) updateTopAbsolute();
+        return topAbsolute;
+    }
 
-        if (upwardsFacing.getAxis() == EnumFacing.Axis.Z)
-            return upwardsFacing == EnumFacing.SOUTH ? EnumFacing.DOWN : EnumFacing.UP;
-        return upwardsFacing == EnumFacing.EAST ? frontFacing.rotateYCCW() : frontFacing.rotateY();
+    private void updateTopAbsolute() {
+        if (frontFacing.getAxis() == EnumFacing.Axis.Y)
+            topAbsolute = upwardsFacing;
+        else if (upwardsFacing.getAxis() == EnumFacing.Axis.Z)
+            topAbsolute = upwardsFacing == EnumFacing.SOUTH ? EnumFacing.DOWN : EnumFacing.UP;
+        else topAbsolute = upwardsFacing == EnumFacing.EAST ? frontFacing.rotateYCCW() : frontFacing.rotateY();
+    }
+
+    @Override
+    public void setUpwardsFacing(EnumFacing upwardsFacing) {
+        super.setUpwardsFacing(upwardsFacing);
+        updateTopAbsolute();
     }
 
     @Override
@@ -198,7 +195,7 @@ public abstract class MetaTileEntityBaseChamber extends GCYMRecipeMapMultiblockC
     public abstract MultiblockShapeInfo.Builder getBuilder();
 
     public abstract MultiblockShapeInfo.Builder getBaseShapeFromBuilder(MultiblockShapeInfo.Builder builder,
-                                                                        IBlockState state);
+                                                                        MetaTileEntity state);
 
     public abstract MultiblockShapeInfo.Builder getSpecialShapeFromBuilder(MultiblockShapeInfo.Builder builder,
                                                                            MetaTileEntity light, MetaTileEntity vent);

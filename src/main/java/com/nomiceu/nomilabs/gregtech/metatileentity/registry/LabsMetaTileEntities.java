@@ -2,7 +2,9 @@ package com.nomiceu.nomilabs.gregtech.metatileentity.registry;
 
 import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.metatileentity.part.MetaTileEntityGrowthBase;
+import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.client.renderer.texture.Textures;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.Loader;
 
 import com.nomiceu.nomilabs.LabsValues;
@@ -81,11 +83,11 @@ public class LabsMetaTileEntities {
                 new MetaTileEntityEcosystemEmulator(LabsNames.makeLabsName("ecosystem_emulator")));
 
         GROWTH_LAMP_1 = MetaTileEntities.registerMetaTileEntity(32111,
-                new MetaTileEntityGrowthModifier(LabsNames.makeLabsName("growth_lamp_1"), GTValues.MV, LabsTextures.OVERLAY_LAMP_1));
+                new MetaTileEntityGrowthModifier(LabsNames.makeLabsName("growth_lamp_1"), GTValues.MV, LabsTextures.OVERLAY_LAMP_1, true, 0.9f, MetaTileEntity::getFrontFacing, EnumParticleTypes.SMOKE_NORMAL));
 
         GROWTH_VENT_1 = MetaTileEntities.registerMetaTileEntity(32112,
-                new MetaTileEntityGrowthModifier(LabsNames.makeLabsName("growth_vent_1"), GTValues.MV, LabsTextures.OVERLAY_VENT_1));
+                new MetaTileEntityGrowthModifier(LabsNames.makeLabsName("growth_vent_1"), GTValues.MV, LabsTextures.OVERLAY_VENT_1, true, 0.9f, (vent) -> vent.getFrontFacing().getOpposite(), EnumParticleTypes.CLOUD));
 
-        GROWTH_BASE_1 = MetaTileEntities.registerMetaTileEntity(32113, new MetaTileEntityGrowthBase(LabsNames.makeLabsName("growth_base_1"), GTValues.MV, Textures.STEAM_CASING_BRONZE));
+        GROWTH_BASE_1 = MetaTileEntities.registerMetaTileEntity(32113, new MetaTileEntityGrowthBase(LabsNames.makeLabsName("growth_base_1"), GTValues.MV, LabsTextures.OVERLAY_BASE_1, 0.99f));
     }
 }
