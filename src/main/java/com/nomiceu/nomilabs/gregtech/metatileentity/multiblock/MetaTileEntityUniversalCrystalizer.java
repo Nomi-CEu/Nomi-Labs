@@ -24,7 +24,6 @@ import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 
-import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
@@ -83,23 +82,18 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
                 .build();
     }
 
+    /**
+     * Allow usage of Laser Hatches.
+     */
     @Override
     public TraceabilityPredicate autoAbilities() {
-        return abilities(MultiblockAbility.MAINTENANCE_HATCH)
-                .setMinGlobalLimited(1)
-                .setMaxGlobalLimited(1)
-                .or(abilities(GCYMMultiblockAbility.PARALLEL_HATCH)
-                        .setMaxGlobalLimited(1))
-                .or(abilities(MultiblockAbility.IMPORT_ITEMS)
-                        .setMinGlobalLimited(1))
-                .or(abilities(MultiblockAbility.IMPORT_FLUIDS)
-                        .setMinGlobalLimited(1))
-                .or(abilities(MultiblockAbility.EXPORT_ITEMS)
-                        .setMinGlobalLimited(1))
+        // Don't get the energy (we do that ourselves) or fluid export (not needed for UC) from super
+        return super.autoAbilities(false, true, true, true, true, false, true)
                 .or(abilities(MultiblockAbility.INPUT_ENERGY, MultiblockAbility.SUBSTATION_INPUT_ENERGY,
                         MultiblockAbility.INPUT_LASER)
                                 .setMinGlobalLimited(1)
-                                .setMaxGlobalLimited(2));
+                                .setMaxGlobalLimited(2)
+                                .setPreviewCount(1));
     }
 
     @Override
