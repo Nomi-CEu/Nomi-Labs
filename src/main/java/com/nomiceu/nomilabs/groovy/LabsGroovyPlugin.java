@@ -3,9 +3,8 @@ package com.nomiceu.nomilabs.groovy;
 import org.jetbrains.annotations.NotNull;
 
 import com.cleanroommc.groovyscript.api.GroovyPlugin;
-import com.cleanroommc.groovyscript.api.IGameObjectParser;
+import com.cleanroommc.groovyscript.api.IObjectParser;
 import com.cleanroommc.groovyscript.compat.mods.GroovyContainer;
-import com.cleanroommc.groovyscript.gameobjects.GameObjectHandler;
 import com.nomiceu.nomilabs.LabsValues;
 
 import gregtech.api.GregTechAPI;
@@ -28,14 +27,14 @@ public class LabsGroovyPlugin implements GroovyPlugin {
 
     @Override
     public void onCompatLoaded(GroovyContainer<?> container) {
-        GameObjectHandler.builder("materialstack", MaterialStack.class)
+        container.objectMapperBuilder("materialstack", MaterialStack.class)
                 .mod(LabsValues.LABS_MODID)
-                .parser(IGameObjectParser
+                .parser(IObjectParser
                         .wrapStringGetter((str) -> new MaterialStack(GregTechAPI.materialManager.getMaterial(str), 1)))
                 .completerOfNamed(GregTechAPI.materialManager::getRegisteredMaterials, Material::getRegistryName)
                 .register();
 
-        container.getRegistrar().addRegistry(LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER);
-        container.getRegistrar().addRegistry(LabsVirtualizedRegistries.REPLACE_DECOMP_MANAGER);
+        container.addProperty(LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER);
+        container.addProperty(LabsVirtualizedRegistries.REPLACE_DECOMP_MANAGER);
     }
 }

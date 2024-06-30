@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.cleanroommc.groovyscript.registry.AbstractReloadableStorage;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
@@ -63,8 +64,15 @@ public class LabsVirtualizedRegistries {
         }
 
         @Override
-        protected boolean compareRecipe(Pair<ItemMeta, ItemMaterialInfo> a, Pair<ItemMeta, ItemMaterialInfo> b) {
-            return a.getKey().equals(b.getKey());
+        protected AbstractReloadableStorage<Pair<ItemMeta, ItemMaterialInfo>> createRecipeStorage() {
+            return new AbstractReloadableStorage<>() {
+
+                @Override
+                protected boolean compareRecipe(Pair<ItemMeta, ItemMaterialInfo> a,
+                                                Pair<ItemMeta, ItemMaterialInfo> b) {
+                    return a.getKey().equals(b.getKey());
+                }
+            };
         }
 
         public void registerOre(ItemStack stack, ItemMaterialInfo info) {
