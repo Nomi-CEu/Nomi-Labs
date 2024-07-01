@@ -18,7 +18,8 @@
     "GuiLanguageListMixin",
     "GuiLanguageMixin",
     "KeyBindingAccessor",
-    "KeyBindingMixin"
+    "KeyBindingMixin",
+    "MinecraftMixin"
   ],
   "server": []
 }

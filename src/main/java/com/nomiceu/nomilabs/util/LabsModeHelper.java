@@ -1,5 +1,10 @@
 package com.nomiceu.nomilabs.util;
 
+import java.io.File;
+
+import net.minecraft.launchwrapper.Launch;
+import net.minecraftforge.common.config.Configuration;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.nomiceu.nomilabs.LabsValues;
@@ -13,13 +18,13 @@ public class LabsModeHelper {
 
     public static boolean isNormal() {
         if (!checked)
-            throw new IllegalStateException("Cannot access Pack Mode before Post Init!");
+            throw new IllegalStateException("Cannot access Pack Mode before Post Init or Labs Config Load!");
         return PMConfig.getPackMode().equals(LabsValues.NORMAL_MODE);
     }
 
     public static boolean isExpert() {
         if (!checked)
-            throw new IllegalStateException("Cannot access Pack Mode before Post Init!");
+            throw new IllegalStateException("Cannot access Pack Mode before Post Init or Labs Config Load!");
         return PMConfig.getPackMode().equals(LabsValues.EXPERT_MODE);
     }
 
@@ -28,7 +33,26 @@ public class LabsModeHelper {
      */
     @SuppressWarnings("unused")
     public static String getFormattedMode() {
-        return StringUtils.capitalize(PMConfig.getPackMode());
+        return getFormattedModeFromString(PMConfig.getPackMode());
+    }
+
+    /**
+     * Used by Window Title Override. Doesn't Access PM Class Because of a ClassNorFoundException.
+     */
+    public static String getFormattedModePre() {
+        File configDir = new File(Launch.minecraftHome, "config");
+        File packModeCfgFile = new File(configDir, LabsValues.PACK_MODE_MODID + ".cfg");
+
+        // Return Default if No Mode File
+        if (!packModeCfgFile.exists()) return LabsValues.NORMAL_MODE;
+
+        var configuration = new Configuration(packModeCfgFile);
+        configuration.load();
+        return getFormattedModeFromString(configuration.get("general", "packMode", LabsValues.NORMAL_MODE).getString());
+    }
+
+    private static String getFormattedModeFromString(String mode) {
+        return StringUtils.capitalize(mode);
     }
 
     public static void check() {

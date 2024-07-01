@@ -61,6 +61,9 @@ dependencies {
         transitive = false
     } // Version 1.1.0-hotfix1
 
+    // Config Anytime (from Cleanroom Maven)
+    implementation ('com.cleanroommc:configanytime:3.0') // Version 3.0
+
 
     /* -------------------------------- Compile Time Only Deps -------------------------------- */
 

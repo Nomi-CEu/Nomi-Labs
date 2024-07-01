@@ -39,4 +39,5 @@ public class LabsValues {
     public static final String DME_MODID = "deepmoblearning";
     public static final String FTB_UTILS_MODID = "ftbutilities";
     public static final String TOP_ADDONS_MODID = "topaddons";
+    public static final String PACK_MODE_MODID = "packmode";
 }

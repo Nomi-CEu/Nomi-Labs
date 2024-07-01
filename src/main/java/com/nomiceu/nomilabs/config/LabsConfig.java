@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.config;
 
 import net.minecraftforge.common.config.Config;
 
+import com.cleanroommc.configanytime.ConfigAnytime;
 import com.nomiceu.nomilabs.LabsValues;
 
 @SuppressWarnings({ "CanBeFinal", "unused" })
@@ -381,6 +382,11 @@ public class LabsConfig {
         @Config.Name("control menu tooltip settings")
         public final ControlMenuTooltipSettings controlMenuTooltipSettings = new ControlMenuTooltipSettings();
 
+        @Config.Comment({ "Overrides for the Minecraft Window." })
+        @Config.LangKey("config.nomilabs.advanced.window")
+        @Config.Name("minecraft window overrides")
+        public final WindowOverrides windowOverrides = new WindowOverrides();
+
         @Config.Comment({ "List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
                 "Do not change unless you know what you are doing!",
                 "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
@@ -430,6 +436,45 @@ public class LabsConfig {
                 "[default: LABS]" })
         @Config.LangKey("config.nomilabs.advanced.language_modify_option")
         public LanguageModifyOption languageModifyOption = LanguageModifyOption.LABS;
+
+        public static class WindowOverrides {
+
+            @Config.Comment({ "Override for the Minecraft Window Title.",
+                    "Leave Empty for the Default.",
+                    "Substitutions: {version} for the Modpack Formatted Version (from 'nomilabs-version.cfg'), {mode} for the Modpack Formatted Mode (from LabsModeHelper & the PackMode Mod).",
+                    "Note: Only the First Substitution in the String is Replaced!",
+                    "[default: ]" })
+            @Config.LangKey("config.nomilabs.advanced.window.window_title")
+            @Config.RequiresMcRestart
+            public String windowTitleOverride = "";
+
+            @Config.Comment({ "Override for the Minecraft Window Logo (16x).",
+                    "This should be a Path, Relative to the Base Instance Folder.",
+                    "16x, 32x and 256x must be set for logo overrides to apply!",
+                    "Leave Empty for the Default.",
+                    "[default: ]" })
+            @Config.LangKey("config.nomilabs.advanced.window.window_logo_16x")
+            @Config.RequiresMcRestart
+            public String windowLogo16xOverride = "";
+
+            @Config.Comment({ "Override for the Minecraft Window Logo (32x).",
+                    "This should be a Path, Relative to the Base Instance Folder.",
+                    "16x, 32x and 256x must be set for logo overrides to apply!",
+                    "Leave Empty for the Default.",
+                    "[default: ]" })
+            @Config.LangKey("config.nomilabs.advanced.window.window_logo_32x")
+            @Config.RequiresMcRestart
+            public String windowLogo32xOverride = "";
+
+            @Config.Comment({ "Override for the Minecraft Window Logo (256x).",
+                    "This should be a Path, Relative to the Base Instance Folder.",
+                    "16x, 32x and 256x must be set for logo overrides to apply!",
+                    "Leave Empty for the Default.",
+                    "[default: ]" })
+            @Config.LangKey("config.nomilabs.advanced.window.window_logo_256x")
+            @Config.RequiresMcRestart
+            public String windowLogo256xOverride = "";
+        }
 
         public enum LanguageModifyOption {
             NONE,
@@ -537,5 +582,9 @@ public class LabsConfig {
             @Config.LangKey("config.nomilabs.advanced.controls_tooltips.show_class")
             public boolean showClass = false;
         }
+    }
+
+    static {
+        ConfigAnytime.register(LabsConfig.class);
     }
 }
