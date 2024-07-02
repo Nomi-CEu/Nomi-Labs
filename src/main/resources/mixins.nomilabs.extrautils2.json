@@ -6,7 +6,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ItemIngredientsMixin",
-    "ResonatorMixin"
+    "ResonatorMixin",
+    "EnchanterMixin"
   ],
   "client": [],
   "server": []
