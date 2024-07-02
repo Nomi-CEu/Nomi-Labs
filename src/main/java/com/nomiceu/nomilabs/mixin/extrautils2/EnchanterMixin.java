@@ -28,7 +28,7 @@ public class MixinMechEnchantmentRecipe {
 
         // Get all items
         List<ItemStack> matchingItems = GameRegistry.findRegistry(Item.class).getValues().stream()
-                .filter(item -> item.getRegistryName().getPath().startsWith("item.gt.tool")) // Change "iron_" to your desired prefix
+                .filter(item -> item.getRegistryName().getPath().startsWith("item.gt.tool")) 
                 .map(ItemStack::new)
                 .collect(Collectors.toList());
        
