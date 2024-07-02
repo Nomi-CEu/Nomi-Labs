@@ -26,9 +26,9 @@ public class MixinMechEnchantmentRecipe {
     private void modifyJEIInputItemExamples(CallbackInfoReturnable<List<Pair<Map<MachineSlotItem, List<ItemStack>>, Map<MachineSlotFluid, List<FluidStack>>>>> cir) {
         List<Pair<Map<MachineSlotItem, List<ItemStack>>, Map<MachineSlotFluid, List<FluidStack>>>> originalList = cir.getReturnValue();
 
-        // Get all items
+         // Get items whose unlocalized names start with "item.gt.tool" and exclude "item.gt.tool.plunger.name"
         List<ItemStack> matchingItems = GameRegistry.findRegistry(Item.class).getValues().stream()
-                .filter(item -> item.getRegistryName().getPath().startsWith("item.gt.tool")) 
+                .filter(item -> item.getRegistryName().getPath().startsWith("item.gt.tool") && !item.getRegistryName().getPath().equals("item.gt.tool.plunger.name"))
                 .map(ItemStack::new)
                 .collect(Collectors.toList());
        
