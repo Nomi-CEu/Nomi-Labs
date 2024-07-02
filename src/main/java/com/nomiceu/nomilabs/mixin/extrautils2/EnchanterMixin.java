@@ -36,7 +36,7 @@ public class MixinMechEnchantmentRecipe {
         
                 
 
-        // Modify the ImmutableMap here
+        // Modify the ImmutableMap 
         List<Pair<Map<MachineSlotItem, List<ItemStack>>, Map<MachineSlotFluid, List<FluidStack>>>> modifiedList = originalList.stream().map(pair -> {
             ImmutableMap<MachineSlotItem, List<ItemStack>> modifiedMap = new ImmutableMap.Builder<MachineSlotItem, List<ItemStack>>()
                     .putAll(pair.getLeft())
