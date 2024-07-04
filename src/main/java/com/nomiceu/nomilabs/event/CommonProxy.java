@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.MissingMappings;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -44,6 +45,7 @@ import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.Remapper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
 
@@ -139,6 +141,16 @@ public class CommonProxy {
             event.getRegistry().register(new HandFramingRecipe(LabsNames.makeLabsName("hand_framing_recipe")));
 
         // com.nomiceu.nomilabs.recipe.LabsTestRecipes.initRecipes();
+    }
+
+    @SubscribeEvent
+    public static void onWorldLoad(WorldEvent.Load event) {
+        var toLock = LabsDifficultyHelper.getLockedDifficulty();
+        if (toLock == null) return;
+
+        // Lock Difficulty
+        event.getWorld().getWorldInfo().setDifficulty(toLock);
+        event.getWorld().getWorldInfo().setDifficultyLocked(true);
     }
 
     @SubscribeEvent

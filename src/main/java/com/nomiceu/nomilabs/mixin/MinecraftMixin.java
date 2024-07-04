@@ -21,9 +21,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.nomiceu.nomilabs.LabsVersionConfig;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 /**
@@ -41,7 +41,7 @@ public class MinecraftMixin {
         if (LabsConfig.advanced.windowOverrides.windowTitleOverride.isEmpty()) Display.setTitle(title);
         else Display.setTitle(LabsConfig.advanced.windowOverrides.windowTitleOverride
                 .replace("{version}", LabsVersionConfig.formattedVersion)
-                .replace("{mode}", LabsModeHelper.getFormattedModePre()));
+                .replace("{mode}", LabsModeHelper.getFormattedMode()));
     }
 
     @Inject(method = "setWindowIcon", at = @At("HEAD"), cancellable = true)

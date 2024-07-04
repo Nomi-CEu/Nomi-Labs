@@ -20,6 +20,7 @@ public class LabsNetworkHandler {
     public static void preInit() {
         CURRENT_ID = 0;
         registerMessage(CanEditChunkDataMessage.MessageHandler.class, CanEditChunkDataMessage.class);
+        registerMessage(LabsDifficultyChangeMessage.MessageHandler.class, LabsDifficultyChangeMessage.class);
     }
 
     @SuppressWarnings("SameParameterValue")

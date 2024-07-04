@@ -1,8 +1,9 @@
-package com.nomiceu.nomilabs;
+package com.nomiceu.nomilabs.config;
 
 import net.minecraftforge.common.config.Config;
 
 import com.cleanroommc.configanytime.ConfigAnytime;
+import com.nomiceu.nomilabs.LabsValues;
 
 @SuppressWarnings({ "CanBeFinal", "unused" })
 @Config(modid = LabsValues.LABS_MODID, name = LabsValues.LABS_MODID + "-version")

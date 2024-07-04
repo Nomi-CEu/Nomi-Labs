@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "AccessibleFluidRegistry",
+    "CommandDifficultyMixin",
     "FluidRegistryMixin",
     "ItemStackMixin",
     "NarratorMixin",
@@ -17,9 +18,13 @@
     "GuiKeyBindingListKeyEntryMixin",
     "GuiLanguageListMixin",
     "GuiLanguageMixin",
+    "GuiOptionsMixin",
+    "IntegratedServerMixin",
     "KeyBindingAccessor",
     "KeyBindingMixin",
     "MinecraftMixin"
   ],
-  "server": []
+  "server": [
+    "DedicatedServerMixin"
+  ]
 }
