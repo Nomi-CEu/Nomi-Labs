@@ -23,7 +23,8 @@ import com.nomiceu.nomilabs.util.LabsSide;
      name = LabsValues.LABS_MODNAME,
      acceptedMinecraftVersions = "[1.12.2]",
      dependencies = "required:forge@[14.23.5.2847,);" + "required-after:codechickenlib@[3.2.3,);" +
-             "required-after:groovyscript@[1.1.0,);" + "required-after:gregtech@[2.8,);" + "required-after:packmode;" +
+             "required-after:groovyscript@[1.1.0,);" + "required-after:gregtech@[2.8,);" + "required-after:gcym;" +
+             "required-after:packmode;" +
              "required-after:jei@[4.15.0,);" + "required-after:theoneprobe;" + "required-after:configanytime;" +
              "after:advancedrocketry;" +
              "after:libvulpes;" + "after:crafttweaker@[4.1.20,);" + "after:appliedenergistics2;" +

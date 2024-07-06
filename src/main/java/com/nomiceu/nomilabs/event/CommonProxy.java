@@ -24,6 +24,7 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
+import com.nomiceu.nomilabs.dimension.LabsDimensions;
 import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.LabsSounds;
@@ -93,6 +94,9 @@ public class CommonProxy {
         FluidRegistryMixinHelper.preInit();
 
         LabsNetworkHandler.preInit();
+
+        if (LabsConfig.content.customContent.enableVoidDimension)
+            LabsDimensions.register();
     }
 
     public static void loadComplete() {

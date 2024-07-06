@@ -81,6 +81,16 @@ public class LabsConfig {
             @Config.LangKey("config.nomilabs.content.custom_content.complex_recipes")
             @Config.RequiresMcRestart
             public boolean enableComplexRecipes = true;
+
+            @Config.Comment({
+                    "Enable a Custom Void Dimension.",
+                    "By default, has no blocks, and there is no way to reach it.",
+                    "DimensionalEdibles (Nomifactory Edition) can allow transport to it, as well as provide a spawn obsidian platform.",
+                    "[default: false]"
+            })
+            @Config.LangKey("config.nomilabs.content.custom_content.custom_void")
+            @Config.RequiresMcRestart
+            public boolean enableVoidDimension = false;
         }
 
         public static class GTCustomContent {
