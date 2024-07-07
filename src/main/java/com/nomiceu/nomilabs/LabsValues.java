@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs;
 
+import com.nomiceu.nomilabs.util.LabsVersionUtil;
+
 @SuppressWarnings("unused")
 public class LabsValues {
 
@@ -40,4 +42,9 @@ public class LabsValues {
     public static final String FTB_UTILS_MODID = "ftbutilities";
     public static final String TOP_ADDONS_MODID = "topaddons";
     public static final String PACK_MODE_MODID = "packmode";
+
+    /* AE2 Stuff Compat */
+    public static final String AE2_STUFF_MODID = "ae2stuff";
+    public static final LabsVersionUtil.LabsVersion AE2_STUFF_UNOFFICIAL_SEPARATOR = LabsVersionUtil
+            .getVersionFromString("0.8");
 }

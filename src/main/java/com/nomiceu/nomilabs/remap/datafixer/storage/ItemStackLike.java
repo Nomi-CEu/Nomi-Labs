@@ -11,17 +11,19 @@ import net.minecraftforge.common.util.Constants;
  * <p>
  * Currently just contains rl, meta and tag.
  */
-@SuppressWarnings("UnusedReturnValue")
+@SuppressWarnings({ "UnusedReturnValue", "unused" })
 public class ItemStackLike {
 
     public ResourceLocation rl;
     public short meta;
+    public int count;
     @Nullable
     public NBTTagCompound tag;
 
     public ItemStackLike(NBTTagCompound compound) {
         this.rl = new ResourceLocation(compound.getString("id"));
         this.meta = (short) Math.max(0, compound.getShort("Damage"));
+        this.count = Math.max(0, compound.getInteger("Count"));
 
         if (compound.hasKey("tag", Constants.NBT.TAG_COMPOUND)) {
             this.tag = compound.getCompoundTag("tag");
@@ -32,6 +34,7 @@ public class ItemStackLike {
     public NBTTagCompound changeCompound(NBTTagCompound compound) {
         compound.setString("id", rl.toString());
         compound.setShort("Damage", meta);
+        compound.setInteger("Count", count);
         if (tag != null)
             compound.setTag("tag", tag);
         else if (compound.hasKey("tag", Constants.NBT.TAG_COMPOUND))
@@ -46,6 +49,11 @@ public class ItemStackLike {
 
     public ItemStackLike setMeta(short newMeta) {
         meta = newMeta;
+        return this;
+    }
+
+    public ItemStackLike setCount(int newCount) {
+        count = newCount;
         return this;
     }
 

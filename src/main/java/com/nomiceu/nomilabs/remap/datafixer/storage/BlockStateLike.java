@@ -15,6 +15,8 @@ import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 @SuppressWarnings({ "UnusedReturnValue", "unused" })
 public class BlockStateLike {
 
+    private final int oldId;
+
     public ResourceLocation rl;
     public short meta;
     public boolean invalid;
@@ -24,18 +26,20 @@ public class BlockStateLike {
 
     public BlockStateLike(int id, short meta, BlockPos pos) {
         this.pos = pos;
-        this.rl = DataFixerHandler.getBlockHelperMap().getOrDefault(id, null);
+        this.rl = DataFixerHandler.getIdToBlockMap().getOrDefault(id, null);
         this.invalid = this.rl == null;
         this.meta = (short) Math.max(0, meta);
+        this.oldId = id;
     }
 
-    private BlockStateLike(ResourceLocation rl, short meta, boolean invalid, BlockPos pos,
+    private BlockStateLike(int oldId, ResourceLocation rl, short meta, boolean invalid, BlockPos pos,
                            @Nullable NBTTagCompound tileEntityTag) {
         this.rl = rl;
         this.meta = meta;
         this.invalid = invalid;
         this.pos = pos;
         this.tileEntityTag = tileEntityTag;
+        this.oldId = oldId;
     }
 
     public BlockStateLike setRl(ResourceLocation newRl) {
@@ -53,11 +57,18 @@ public class BlockStateLike {
         return this;
     }
 
+    /**
+     * Get the id that was set as input into this BlockStateLike.
+     */
+    public int getOldId() {
+        return oldId;
+    }
+
     public int getId() {
-        return rl == null ? -1 : DataFixerHandler.getBlockHelperMap().inverse().getOrDefault(rl, 0);
+        return rl == null ? -1 : DataFixerHandler.getBlockToIdMap().getOrDefault(rl, 0);
     }
 
     public BlockStateLike copy() {
-        return new BlockStateLike(rl, meta, invalid, pos, tileEntityTag != null ? tileEntityTag.copy() : null);
+        return new BlockStateLike(oldId, rl, meta, invalid, pos, tileEntityTag != null ? tileEntityTag.copy() : null);
     }
 }

@@ -2,11 +2,16 @@ package com.nomiceu.nomilabs.remap.datafixer;
 
 import static com.nomiceu.nomilabs.LabsValues.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
+import static com.nomiceu.nomilabs.util.LabsVersionUtil.getVersionFromString;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.IFixType;
@@ -16,13 +21,12 @@ import net.minecraftforge.fml.common.Loader;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMap;
-import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
+import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
-import com.nomiceu.nomilabs.util.LabsNames;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
@@ -70,7 +74,16 @@ public class LabsFixes {
      * The current data format version. Increment this when breaking changes are made and the
      * data mixer must be applied. If this is not incremented, nothing will be applied.
      */
-    public static final int CURRENT = 3;
+    public static final int CURRENT = 4;
+
+    /**
+     * Version before Remapping of AE2 Stuff Pattern Encoder.
+     * <p>
+     * Versions before this needs to have the AE2 Stuff Pattern Encoder mapped to AE2 Interfaces.
+     * <p>
+     * Note that this also may be needed on worlds that have not been loaded with NomiLabs before!
+     */
+    public static final int PRE_AE2_STUFF_REMAP = 3;
 
     /**
      * Version before Capacitor Remapping.
@@ -115,9 +128,10 @@ public class LabsFixes {
     public static Set<ResourceLocation> specialMetaItemsRemap;
     public static Set<String> materialNames;
     public static Map<String, OldCapacitorSpecification> capacitorSpecificationRemap;
+    public static Function<Map<String, String>, Boolean> requiresAe2StuffRemap;
 
     public static void init() {
-        helperMapsInit();
+        helpersInit();
 
         /*
          * Item Fixes.
@@ -174,7 +188,7 @@ public class LabsFixes {
                                 .setMeta((short) 4)) // Red Coal
         );
 
-        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID))
+        if (Loader.isModLoaded(ENDER_IO_MODID))
             itemFixes.add(
                     new DataFix.ItemFix("Custom Capacitor NBT Removal",
                             "Removes NBT from Custom Capacitors.",
@@ -251,7 +265,7 @@ public class LabsFixes {
                                 !LabsRemapHelper.META_BLOCK_MATCHER.matcher(stack.rl.getPath()).matches() &&
                                 stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
-                                .setRl(LabsNames.makeLabsName(stack.rl.getPath()))));
+                                .setRl(makeLabsName(stack.rl.getPath()))));
 
         itemFixes.add(
                 new DataFix.ItemFix("Material Meta Blocks' Item Forms Remap",
@@ -271,7 +285,18 @@ public class LabsFixes {
                         (stack) -> specialMetaItemsRemap.contains(stack.rl) &&
                                 stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
-                                .setRl(LabsNames.makeLabsName(stack.rl.getPath()))));
+                                .setRl(makeLabsName(stack.rl.getPath()))));
+
+        if (Loader.isModLoaded(AE2_STUFF_MODID))
+            itemFixes.add(
+                    new DataFix.ItemFix("AE2 Stuff Pattern Encoder Remap",
+                            "Remaps AE2 Stuff Pattern Encoders, which were removed in AE2 Stuff Unofficial, to AE2 Interfaces.",
+                            false,
+                            (version) -> version <= PRE_AE2_STUFF_REMAP || version == NEW,
+                            requiresAe2StuffRemap,
+                            (stack) -> stack.rl.getNamespace().equals(AE2_STUFF_MODID) &&
+                                    stack.rl.getPath().equals("encoder"),
+                            (stack) -> stack.setRl(new ResourceLocation(AE2_MODID, "interface"))));
 
         /*
          * Block Fixes.
@@ -281,7 +306,7 @@ public class LabsFixes {
          *
          * Example of an input:
          * BlockStateLike:
-         * rl: "minecraft:concrete" // Type: Resource Location. Not Null.
+         * rl: "minecraft:concrete" // Type: Resource Location. Not Null. Can not be registered.
          * meta: 1 // Type: Short
          *
          * Example:
@@ -293,25 +318,27 @@ public class LabsFixes {
          * false, // Whether the correct mode is required for the change to work right
          *
          * (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must
-         * be applied.
-         * // Note that this is not included in the fix list if the previous version is equal to the current overall fix
-         * version.
+         * // be applied.
+         * // Note that this is not included in the fix list if the previous
+         * // version is equal to the current overall fix version.
          *
          * (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion),
-         * return whether it is valid.
+         * // return whether it is valid.
          * // Note that the fix is only applied if the version AND the modlist is valid.
          *
          * false, // Whether the tile entity tag is needed. If yes, it is accessible via state.setTileEntityTag() and
-         * state.tileEntityTag. If this is false, that field will be null.
+         * // state.tileEntityTag. If this is false, that field will be null.
          *
-         * (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0, // Input
-         * BlockStateLike, return a boolean (true to fix, false to skip). You CAN NOT check the tile entity here!
+         * (state) -> state.rl.equals(new ResourceLocation("minecraft:log")) && state.meta == 0,
+         * // Input BlockStateLike, return a boolean (true to fix, false to skip). You CAN NOT check the tile entity
+         * here!
          *
          * null, // Secondary check, Input BlockStateLike, return a boolean (true to fix, false to skip). You CAN check
-         * the tile entity here! Input Null if checking tile entity is not needed.
+         * // the tile entity here! Input Null if checking tile entity is not needed.
          *
-         * (state) -> state.setRl(new ResourceLocation("minecraft:concrete")).setMeta((short) 12), // Change the given
-         * BlockStateLike (Changes to Brown Concrete in this case). You can also change the tile entity here if needed.
+         * (state) -> state.setRl(new ResourceLocation("minecraft:concrete")).setMeta((short) 12),
+         * // Change the given BlockStateLike (Changes to Brown Concrete in this case).
+         * // You can also change the tile entity here if needed.
          * ));
          */
         blockFixes = new ObjectArrayList<>();
@@ -329,14 +356,107 @@ public class LabsFixes {
                                         .contains(new ResourceLocation(state.tileEntityTag.getString("PipeBlock"))) &&
                                 materialNames.contains(state.tileEntityTag.getString("PipeMaterial")),
                         (state) -> {
-                            state.setRl(LabsNames.makeLabsName(state.rl.getPath()));
+                            state.setRl(makeLabsName(state.rl.getPath()));
 
                             // noinspection DataFlowIssue
                             state.tileEntityTag.setString("PipeBlock",
-                                    LabsNames.makeLabsName(
+                                    makeLabsName(
                                             new ResourceLocation(state.tileEntityTag.getString("PipeBlock")).getPath())
-                                            .toString());
+                                                    .toString());
                         }));
+
+        if (Loader.isModLoaded(AE2_STUFF_MODID))
+            blockFixes.add(
+                    new DataFix.BlockFix("AE2 Stuff Pattern Encoder Remap",
+                            "Remaps AE2 Stuff Pattern Encoders, which were removed in AE2 Stuff Unofficial, to AE2 Interfaces.",
+                            false,
+                            (version) -> version <= PRE_AE2_STUFF_REMAP || version == NEW,
+                            requiresAe2StuffRemap,
+                            true,
+                            (state) -> state.rl.getNamespace().equals(AE2_STUFF_MODID) &&
+                                    state.rl.getPath().equals("encoder"),
+                            // Always apply regardless of TE Tag
+                            null,
+                            (state) -> {
+                                state.setRl(new ResourceLocation(AE2_MODID, "interface"));
+                                state.setMeta((short) 0);
+                                if (state.tileEntityTag == null) return;
+
+                                state.tileEntityTag.setString("id",
+                                        new ResourceLocation(AE2_MODID, "interface").toString());
+                                state.tileEntityTag.setBoolean("omniDirectional", true); // Default setting, required
+
+                                // Set a custom name
+                                state.tileEntityTag.setString("customName", "Replaced AE2 Stuff Pattern Encoder");
+
+                                // Check if we have to port patterns
+                                if (state.tileEntityTag.getTagList("Items", Constants.NBT.TAG_COMPOUND).isEmpty()) {
+                                    return;
+                                }
+
+                                NBTTagList tagList = state.tileEntityTag.getTagList("Items",
+                                        Constants.NBT.TAG_COMPOUND);
+                                state.tileEntityTag.removeTag("Items");
+
+                                NBTTagCompound patternTag = null;
+
+                                for (var slotBase : tagList) {
+                                    // Edge Case 1
+                                    if (slotBase.isEmpty() || !(slotBase instanceof NBTTagCompound slotTag)) continue;
+
+                                    // Edge Case 2
+                                    if (!slotTag.hasKey("Slot", Constants.NBT.TAG_ANY_NUMERIC) ||
+                                            !LabsRemapHelper.tagHasItemInfo(slotTag))
+                                        continue;
+
+                                    // Slot & Item Check
+                                    byte slot = slotTag.getByte("Slot");
+                                    ItemStackLike item = new ItemStackLike(slotTag);
+
+                                    // Check if correct slot, and if correct item, and if count is higher than 0
+                                    if (slot != 10 || !item.rl.getNamespace().equals(AE2_MODID) ||
+                                            !item.rl.getPath().equals("material") ||
+                                            item.meta != 52 || item.count <= 0)
+                                        continue;
+
+                                    patternTag = slotTag;
+                                    break;
+                                }
+
+                                var patterns = new NBTTagCompound();
+                                var patternItems = new NBTTagList();
+
+                                if (patternTag != null) {
+                                    // Set new slot index
+                                    patternTag.setInteger("Slot", 0);
+
+                                    patternItems.appendTag(patternTag);
+                                }
+
+                                var infoItem = new ItemStack(Items.PAPER);
+                                var infoItemTag = new NBTTagCompound();
+                                var infoItemDisplay = new NBTTagCompound();
+                                var infoItemLore = new NBTTagList();
+
+                                infoItemLore.appendTag(new NBTTagString("§cAE2 Pattern Encoders have been removed.§r"));
+                                infoItemLore.appendTag(new NBTTagString(""));
+                                infoItemLore.appendTag(new NBTTagString("§6Please use AE2 Pattern Terminals instead.§r"));
+                                infoItemLore.appendTag(new NBTTagString(""));
+                                infoItemLore.appendTag(new NBTTagString(
+                                        "§6All Existing Items §l(including in Patterns)§r§6, Blocks, and usages in Recipes, have been replaced by AE2 Interfaces.§r"));
+
+                                infoItemDisplay.setString("Name", "Information");
+                                infoItemDisplay.setTag("Lore", infoItemLore);
+                                infoItemTag.setTag("display", infoItemDisplay);
+                                infoItem.setTagCompound(infoItemTag);
+
+                                var infoTag = infoItem.writeToNBT(new NBTTagCompound());
+                                infoTag.setInteger("Slot", patternTag == null ? 0 : 1);
+                                patternItems.appendTag(infoTag);
+
+                                patterns.setTag("Items", patternItems);
+                                state.tileEntityTag.setTag("patterns", patterns);
+                            }));
 
         /*
          * Tile Entity Fixes.
@@ -360,13 +480,14 @@ public class LabsFixes {
          *
          * false, // Whether the correct mode is required for the change to work right
          *
-         * (version) -> version <= DEFAULT_VERSION, // Whether the previous version in the save means that this fix must
-         * be applied.
-         * // Note that this is not included in the fix list if the previous version is equal to the current overall fix
-         * version.
+         * (version) -> version <= DEFAULT_VERSION,
+         * // Whether the previous version in the save means that this fix must be applied.
+         * // Note that this is not included in the fix list if the previous version is equal to the
+         * // current overall fix version.
          *
-         * (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion),
-         * return whether it is valid.
+         * (modList) -> true,
+         * // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is
+         * valid.
          * // Note that the fix is only applied if the version AND the modlist is valid.
          *
          * // Input NBT Tag Compound, return a boolean (true to fix, false to skip)
@@ -399,7 +520,7 @@ public class LabsFixes {
                         (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) &&
                                 compound.hasKey("id", Constants.NBT.TAG_STRING) &&
                                 compound.getString("id").equals(
-                                        new ResourceLocation(LabsValues.GREGTECH_MODID, "machine").toString()) &&
+                                        new ResourceLocation(GREGTECH_MODID, "machine").toString()) &&
                                 multiblockMetaIdRemap.containsKey(new ResourceLocation(compound.getString("MetaId"))),
                         (compound -> compound.setString("MetaId", multiblockMetaIdRemap
                                 .get(new ResourceLocation(compound.getString("MetaId"))).toString()))));
@@ -410,7 +531,7 @@ public class LabsFixes {
         fixes.put(LabsFixTypes.FixerTypes.TILE_ENTITY, tileEntityFixes);
     }
 
-    private static void helperMapsInit() {
+    private static void helpersInit() {
         // Special Meta Items Remap is only needed for some meta items.
         // They are all placeable, and do not have the special syntax that includes a base id.
         // Therefore, they must be remapped.
@@ -497,6 +618,16 @@ public class LabsFixes {
                         "Can be inserted into EnderIO machines.",
                         "Level: 9.001",
                         "Just kidding, it's only 5."));
+
+        // If AE2 Stuff is loaded before and now, and if old version was before 0.8, and if current version is equal to
+        // or after 0.8
+        requiresAe2StuffRemap = (modlist) -> modlist.containsKey(AE2_STUFF_MODID) &&
+                getVersionFromString(modlist.get(AE2_STUFF_MODID))
+                        .compareTo(AE2_STUFF_UNOFFICIAL_SEPARATOR) < 0 &&
+                getVersionFromString(
+                        Loader.instance().getIndexedModList().get(AE2_STUFF_MODID).getVersion())
+                                .compareTo(AE2_STUFF_UNOFFICIAL_SEPARATOR) >=
+                        0;
     }
 
     public static class OldCapacitorSpecification {

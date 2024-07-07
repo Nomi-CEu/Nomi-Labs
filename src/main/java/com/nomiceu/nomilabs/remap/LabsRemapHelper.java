@@ -127,6 +127,11 @@ public class LabsRemapHelper {
         return chunkSectionTag;
     }
 
+    public static boolean tagHasItemInfo(NBTTagCompound tag) {
+        return tag.hasKey("id", Constants.NBT.TAG_STRING) && tag.hasKey("Count", Constants.NBT.TAG_ANY_NUMERIC) &&
+                tag.hasKey("Damage", Constants.NBT.TAG_ANY_NUMERIC);
+    }
+
     public static void clearTECache() {
         posToTileEntityCache = null;
     }

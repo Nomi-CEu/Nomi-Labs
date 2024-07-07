@@ -32,7 +32,7 @@ public class BlockFixer implements IFixableData {
                 var oldState = state.copy();
                 blockFix.transform.accept(state);
                 NomiLabs.LOGGER.debug("[Data Fixer] Changed Block: {} @ {} to {} @ {} at Pos: {}. (ID: {} to {})",
-                        oldState.rl, oldState.meta, state.rl, state.meta, state.pos, oldState.getId(), state.getId());
+                        oldState.rl, oldState.meta, state.rl, state.meta, state.pos, state.getOldId(), state.getId());
                 if (blockFix.teNeeded)
                     NomiLabs.LOGGER.debug("[Data Fixer] Changed Tile Entity With Above Block: {} to {}.",
                             oldState.tileEntityTag, state.tileEntityTag);

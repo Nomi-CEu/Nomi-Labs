@@ -3,7 +3,6 @@ package com.nomiceu.nomilabs.remap.datafixer.walker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.datafix.IDataFixer;
 import net.minecraft.util.datafix.IDataWalker;
-import net.minecraftforge.common.util.Constants;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,8 +20,7 @@ public class ItemStackWalker implements IDataWalker {
             return compound;
 
         LabsRemapHelper.rewriteCompoundTags(compound, tag -> {
-            if (tag.hasKey("id", Constants.NBT.TAG_STRING) && tag.hasKey("Count", Constants.NBT.TAG_ANY_NUMERIC) &&
-                    tag.hasKey("Damage", Constants.NBT.TAG_ANY_NUMERIC)) {
+            if (LabsRemapHelper.tagHasItemInfo(tag)) {
                 return fixer.process(LabsFixTypes.FixerTypes.ITEM, tag, versionIn);
             }
             return null;

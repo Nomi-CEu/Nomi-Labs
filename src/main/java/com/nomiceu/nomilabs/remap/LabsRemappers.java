@@ -41,6 +41,7 @@ public class LabsRemappers {
     public static Remapper ctRemapper;
     public static Remapper perfectGemRemapper;
     public static Remapper metaBlockRemapper;
+    public static Remapper patternEncoderRemapper;
 
     public static boolean checked = false;
 
@@ -57,13 +58,16 @@ public class LabsRemappers {
         /* This is because this will not change items saved in patterns! */
         /* Remappers still need to be here, in order to avoid FML Warnings. */
         List<Remapper> itemRemappers = new ObjectArrayList<>();
+
         /* It is too big to use ImmutableList.of(). Add each manually. */
         itemRemappers.add(
                 // Remap Deprecated Items
                 deprecatedRemapper);
+
         itemRemappers.add(
-                // Remap Content Tweaker Items
+                // Remap Content Tweaker Items and Blocks in Item Form
                 ctRemapper);
+
         itemRemappers.add(
                 /*
                  * Remap old DevTech perfect gem to new perfect gem.
@@ -71,6 +75,7 @@ public class LabsRemappers {
                  * Mod ID, so we need to map the DevTech metaitem to the GT metaitem.
                  */
                 perfectGemRemapper);
+
         itemRemappers.add(
                 /*
                  * Remap old Meta Blocks. This remaps all meta blocks from old crafttweaker materials, to new nomi labs
@@ -81,9 +86,17 @@ public class LabsRemappers {
                  * The meta does not need to be changed, as id % 16 stays the same (32000 is thankfully divisible by 16)
                  */
                 metaBlockRemapper);
+
+        itemRemappers.add(
+                /*
+                 * Remap AE2 Stuff Pattern Encoders (Removed in AE2 Stuff Unofficial) to AE2 Interfaces.
+                 */
+                patternEncoderRemapper);
+
         remappers.put(RemapTypes.ITEM, itemRemappers);
 
         remappers.put(RemapTypes.BLOCK, ImmutableList.of(
+
                 // Remap Content Tweaker Blocks
                 ctRemapper,
 
@@ -95,7 +108,15 @@ public class LabsRemappers {
                  *
                  * The meta does not need to be changed, as id % 16 stays the same (32000 is thankfully divisible by 16)
                  */
-                metaBlockRemapper));
+                metaBlockRemapper,
+
+                /*
+                 * Remap AE2 Stuff Pattern Encoders (Removed in AE2 Stuff Unofficial) to AE2 Interfaces.
+                 * Tile Entity NBT Data and Metadata also needs to be changed (to preserve patterns and to change the id),
+                 * but that is performed in LabsFixes.
+                 * Technically, this is useless, but it prevents warnings and acts as a fallback.
+                 */
+                patternEncoderRemapper));
     }
 
     private static void parseIgnoreConfigs() {
@@ -162,6 +183,10 @@ public class LabsRemappers {
                             .valueOf(getMetaBlockID(rl) - LabsRemapHelper.MIN_META_BLOCK_BASE_ID);
                     return LabsNames.makeLabsName(String.join("_", split));
                 });
+
+        patternEncoderRemapper = new Remapper(
+                (rl) -> rl.getNamespace().equals(AE2_STUFF_MODID) && rl.getPath().equals("encoder"),
+                (rl) -> new ResourceLocation(AE2_MODID, "interface"));
     }
 
     private static int getMetaBlockID(ResourceLocation rl) {

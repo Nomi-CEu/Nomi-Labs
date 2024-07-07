@@ -27,12 +27,11 @@ import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.GameData;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.groovy.util.Arrays;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
@@ -68,7 +67,11 @@ public class DataFixerHandler {
     public static boolean modeNeeded = false;
 
     private static Map<String, String> mods;
-    private static BiMap<Integer, ResourceLocation> blockHelperMap;
+
+    /* Must be split up so that idToBlockMap is the old one (so we can use not registered resource locations) */
+    private static NBTTagList oldBlockRegistry;
+    private static Map<Integer, ResourceLocation> idToBlockMap;
+    private static Map<ResourceLocation, Integer> blockToIdMap;
 
     public static void preInit() {
         CompoundDataFixer fmlFixer = FMLCommonHandler.instance().getDataFixer();
@@ -96,7 +99,12 @@ public class DataFixerHandler {
         neededNewFixes = null;
         NomiLabs.LOGGER.info("Checking Data Fixers...");
 
-        getModList(save);
+        // Clear Block Helper Maps, the ids can be different for each save
+        idToBlockMap = null;
+        blockToIdMap = null;
+        oldBlockRegistry = null;
+
+        getInfoFromSave(save);
         if (mods.isEmpty()) return;
 
         LabsFixes.init();
@@ -129,9 +137,6 @@ public class DataFixerHandler {
 
         determineNeededFixesAndLog();
 
-        // Clear Block Helper Map, the ids are different for some saves
-        blockHelperMap = null;
-
         if (neededNewFixes.isEmpty()) {
             NomiLabs.LOGGER.info(
                     "This world does not need any new data fixers, but it has no saved version, it is old, or this is a new world.");
@@ -162,7 +167,7 @@ public class DataFixerHandler {
         LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
     }
 
-    private static void getModList(SaveHandler save) {
+    private static void getInfoFromSave(SaveHandler save) {
         mods = new HashMap<>();
 
         File levelDat = new File(save.getWorldDirectory(), "level.dat");
@@ -179,18 +184,28 @@ public class DataFixerHandler {
             NBTTagCompound nbt = CompressedStreamTools.readCompressed(new FileInputStream(levelDat));
             if (!nbt.hasKey("FML", Constants.NBT.TAG_COMPOUND)) return;
             NBTTagCompound fml = nbt.getCompoundTag("FML");
-            if (!fml.hasKey("ModList", Constants.NBT.TAG_LIST)) return;
-            modList = fml.getTagList("ModList", Constants.NBT.TAG_COMPOUND);
+
+            if (fml.hasKey("ModList", Constants.NBT.TAG_LIST)) {
+                modList = fml.getTagList("ModList", Constants.NBT.TAG_COMPOUND);
+                for (var mod : modList) {
+                    if (!(mod instanceof NBTTagCompound compound)) continue;
+                    if (!compound.hasKey("ModId", Constants.NBT.TAG_STRING) ||
+                            !compound.hasKey("ModVersion", Constants.NBT.TAG_STRING))
+                        continue;
+                    mods.put(compound.getString("ModId"), compound.getString("ModVersion"));
+                }
+            }
+
+            if (!fml.hasKey("Registries", Constants.NBT.TAG_COMPOUND)) return;
+            NBTTagCompound registries = fml.getCompoundTag("Registries");
+
+            if (!registries.hasKey(GameData.BLOCKS.toString(), Constants.NBT.TAG_COMPOUND)) return;
+            NBTTagCompound blocks = registries.getCompoundTag(GameData.BLOCKS.toString());
+
+            if (!blocks.hasKey("ids", Constants.NBT.TAG_LIST)) return;
+            oldBlockRegistry = blocks.getTagList("ids", Constants.NBT.TAG_COMPOUND);
         } catch (IOException e) {
             NomiLabs.LOGGER.fatal("Failed to read level.dat.", e);
-            return;
-        }
-        for (var mod : modList) {
-            if (!(mod instanceof NBTTagCompound compound)) continue;
-            if (!compound.hasKey("ModId", Constants.NBT.TAG_STRING) ||
-                    !compound.hasKey("ModVersion", Constants.NBT.TAG_STRING))
-                continue;
-            mods.put(compound.getString("ModId"), compound.getString("ModVersion"));
         }
     }
 
@@ -215,8 +230,7 @@ public class DataFixerHandler {
             for (var fix : fixes) {
                 if (fix.validVersion.apply(DataFixerHandler.worldSavedData.savedVersion) &&
                         fix.validModList.apply(mods)) {
-                    if (!neededNewFixes.containsKey(fixType)) neededNewFixes.put(fixType, new ObjectArrayList<>());
-                    neededNewFixes.get(fixType).add(fix);
+                    neededNewFixes.computeIfAbsent(fixType, (key) -> new ObjectArrayList<>()).add(fix);
                     if (fix.needsMode) modeNeeded = true;
                     NomiLabs.LOGGER.info("- {}: {}", fix.name, fix.description);
                 }
@@ -227,19 +241,45 @@ public class DataFixerHandler {
     }
 
     /**
-     * The Block Helper Map is produced once needed, instead of in World Load or Post Init.<br>
+     * The Id To Block Map is either loaded from the save's existing registry map, or is produced once needed,
+     * instead of in World Load or Post Init.<br>
      * This means they are loaded after block id mismatch fixes, so the ids are correct to the world.
      */
-    public static BiMap<Integer, ResourceLocation> getBlockHelperMap() {
-        if (blockHelperMap != null) return blockHelperMap;
+    public static Map<Integer, ResourceLocation> getIdToBlockMap() {
+        if (idToBlockMap != null) return idToBlockMap;
+
+        if (oldBlockRegistry == null || oldBlockRegistry.isEmpty()) {
+            ForgeRegistry<Block> registry = (ForgeRegistry<Block>) ForgeRegistries.BLOCKS;
+            idToBlockMap = registry.getKeys().stream()
+                    .collect(Collectors.toMap(registry::getID, Function.identity()));
+            NomiLabs.LOGGER.error(
+                    "Block Registry Save in level.dat was not found. Defaulting to Current Registry, some Remaps may not work correctly!");
+        } else {
+            idToBlockMap = oldBlockRegistry.tagList.stream()
+                    .map((tag) -> (NBTTagCompound) tag)
+                    .collect(Collectors.toMap((tag) -> tag.getInteger("V"),
+                            (tag) -> new ResourceLocation(tag.getString("K"))));
+        }
+
+        NomiLabs.LOGGER.debug("Generated Id to Block Map!");
+        NomiLabs.LOGGER.debug(idToBlockMap);
+        return idToBlockMap;
+    }
+
+    /**
+     * The Block to Id Map is produced once needed, instead of in World Load or Post Init.<br>
+     * This means they are loaded after block id mismatch fixes, so the ids are correct to the world.
+     */
+    public static Map<ResourceLocation, Integer> getBlockToIdMap() {
+        if (blockToIdMap != null) return blockToIdMap;
 
         ForgeRegistry<Block> registry = (ForgeRegistry<Block>) ForgeRegistries.BLOCKS;
-        blockHelperMap = HashBiMap.create(registry.getKeys().stream()
-                .collect(Collectors.toMap(registry::getID, Function.identity())));
+        blockToIdMap = registry.getKeys().stream()
+                .collect(Collectors.toMap(Function.identity(), registry::getID));
 
-        NomiLabs.LOGGER.debug("Generated Block Helper Map!");
-        NomiLabs.LOGGER.debug(blockHelperMap);
-        return blockHelperMap;
+        NomiLabs.LOGGER.debug("Generated Block To Id Map!");
+        NomiLabs.LOGGER.debug(blockToIdMap);
+        return blockToIdMap;
     }
 
     public static void processEnderStorageInfo(DataFixer fixer, SaveHandler save) {
