@@ -4,6 +4,8 @@ import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 
+import gregtech.api.fluids.FluidBuilder;
+import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.unification.material.info.MaterialIconSet;
 import gregtech.api.unification.material.properties.FluidProperty;
 import gregtech.api.unification.material.properties.GemProperty;
@@ -23,12 +25,12 @@ public class LabsProperties {
         Einsteinium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Graphite.setProperty(PropertyKey.INGOT, new IngotProperty());
 
-        Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty());
-        Curium.setProperty(PropertyKey.FLUID, new FluidProperty());
-        Berkelium.setProperty(PropertyKey.FLUID, new FluidProperty());
-        Californium.setProperty(PropertyKey.FLUID, new FluidProperty());
-        Einsteinium.setProperty(PropertyKey.FLUID, new FluidProperty());
-        NetherStar.setProperty(PropertyKey.FLUID, new FluidProperty());
+        Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+        Curium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+        Berkelium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+        Californium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+        Einsteinium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+        NetherStar.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
 
         // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
         // We don't have Thaumcraft. Add it back. (Part 2)
