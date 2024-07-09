@@ -3,11 +3,11 @@ package com.nomiceu.nomilabs.remap.datafixer.storage;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.nomiceu.nomilabs.NomiLabs;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 
 /**
@@ -68,8 +68,10 @@ public class BlockStateLike {
     public int getId() {
         // Return oldId as a fallback, so that if the rl is not registered, we can still let remappers remap it
         if (rl == null || !DataFixerHandler.getBlockToIdMap().containsKey(rl)) {
-            NomiLabs.LOGGER.debug("[Data Fixer] Block at Pos {} has Resource Location {}, which is not registered.", rl, pos);
-            NomiLabs.LOGGER.debug("[Data Fixer] Most likely, this indicates removed blocks. If the Resource Location is null, report this to Nomi-CEu/Nomi-Labs Devs.");
+            NomiLabs.LOGGER.debug("[Data Fixer] Block at Pos {} has Resource Location {}, which is not registered.", rl,
+                    pos);
+            NomiLabs.LOGGER.debug(
+                    "[Data Fixer] Most likely, this indicates removed blocks. If the Resource Location is null, report this to Nomi-CEu/Nomi-Labs Devs.");
             return oldId;
         }
         // Still use getOrDefault, just in case
