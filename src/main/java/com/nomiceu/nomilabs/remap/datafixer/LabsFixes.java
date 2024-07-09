@@ -390,38 +390,37 @@ public class LabsFixes {
                                 // Set a custom name
                                 state.tileEntityTag.setString("customName", "Replaced Pattern Encoder");
 
-                                // Check if we have to port patterns
-                                if (state.tileEntityTag.getTagList("Items", Constants.NBT.TAG_COMPOUND).isEmpty()) {
-                                    return;
-                                }
-
-                                NBTTagList tagList = state.tileEntityTag.getTagList("Items",
-                                        Constants.NBT.TAG_COMPOUND);
-                                state.tileEntityTag.removeTag("Items");
-
                                 NBTTagCompound patternTag = null;
 
-                                for (var slotBase : tagList) {
-                                    // Edge Case 1
-                                    if (slotBase.isEmpty() || !(slotBase instanceof NBTTagCompound slotTag)) continue;
+                                // Check if we have to port patterns
+                                if (!state.tileEntityTag.getTagList("Items", Constants.NBT.TAG_COMPOUND).isEmpty()) {
+                                    NBTTagList tagList = state.tileEntityTag.getTagList("Items",
+                                            Constants.NBT.TAG_COMPOUND);
+                                    state.tileEntityTag.removeTag("Items");
 
-                                    // Edge Case 2
-                                    if (!slotTag.hasKey("Slot", Constants.NBT.TAG_ANY_NUMERIC) ||
-                                            !LabsRemapHelper.tagHasItemInfo(slotTag))
-                                        continue;
+                                    for (var slotBase : tagList) {
+                                        // Edge Case 1
+                                        if (slotBase.isEmpty() || !(slotBase instanceof NBTTagCompound slotTag))
+                                            continue;
 
-                                    // Slot & Item Check
-                                    byte slot = slotTag.getByte("Slot");
-                                    ItemStackLike item = new ItemStackLike(slotTag);
+                                        // Edge Case 2
+                                        if (!slotTag.hasKey("Slot", Constants.NBT.TAG_ANY_NUMERIC) ||
+                                                !LabsRemapHelper.tagHasItemInfo(slotTag))
+                                            continue;
 
-                                    // Check if correct slot, and if correct item, and if count is higher than 0
-                                    if (slot != 10 || !item.rl.getNamespace().equals(AE2_MODID) ||
-                                            !item.rl.getPath().equals("material") ||
-                                            item.meta != 52 || item.count <= 0)
-                                        continue;
+                                        // Slot & Item Check
+                                        byte slot = slotTag.getByte("Slot");
+                                        ItemStackLike item = new ItemStackLike(slotTag);
 
-                                    patternTag = slotTag;
-                                    break;
+                                        // Check if correct slot, and if correct item, and if count is higher than 0
+                                        if (slot != 10 || !item.rl.getNamespace().equals(AE2_MODID) ||
+                                                !item.rl.getPath().equals("material") ||
+                                                item.meta != 52 || item.count <= 0)
+                                            continue;
+
+                                        patternTag = slotTag;
+                                        break;
+                                    }
                                 }
 
                                 var patterns = new NBTTagCompound();
@@ -436,7 +435,8 @@ public class LabsFixes {
 
                                 var infoTag = new ItemStack(LabsItems.INFO_ITEM, 1, ItemInfo.AE2_STUFF_REMAP_INFO)
                                         .writeToNBT(new NBTTagCompound());
-                                infoTag.setInteger("Slot", patternTag == null ? 0 : 1);
+                                infoTag.setInteger("Slot", patternItems.tagList.size()); // Should be 0 if no pattern, 1
+                                                                                         // if has pattern
                                 patternItems.appendTag(infoTag);
 
                                 patterns.setTag("Items", patternItems);
