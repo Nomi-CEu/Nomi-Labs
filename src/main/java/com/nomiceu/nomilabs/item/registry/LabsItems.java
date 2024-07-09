@@ -189,6 +189,8 @@ public class LabsItems {
 
     public static ItemBase MAGNETRON;
 
+    public static ItemInfo INFO_ITEM;
+
     public static ItemBase PULSATING_DUST;
     public static ItemBase PULSATING_MESH;
 
@@ -277,6 +279,16 @@ public class LabsItems {
         // Add Animated Model
         var mrlBlaze1 = new ModelResourceLocation("blaze_powder_animated", "inventory");
         ModelLoader.setCustomModelResourceLocation(Items.BLAZE_POWDER, 1, mrlBlaze1);
+
+        // Add the same model for all metas in ItemInfo
+        var rlInfo = Objects.requireNonNull(INFO_ITEM.getRegistryName());
+        ModelBakery.registerItemVariants(INFO_ITEM, rlInfo);
+        var mrlInfo = new ModelResourceLocation(rlInfo, "inventory");
+        ModelLoader.setCustomModelResourceLocation(INFO_ITEM, 0, mrlInfo);
+
+        for (var meta : INFO_ITEM.getSubMetas()) {
+            ModelLoader.setCustomModelResourceLocation(INFO_ITEM, meta, mrlInfo);
+        }
     }
 
     public static <T extends Item> T createItem(T item) {

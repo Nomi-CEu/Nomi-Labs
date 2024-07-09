@@ -6,10 +6,12 @@ import java.net.URISyntaxException;
 
 import net.minecraft.client.gui.*;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.Language;
 import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.resource.VanillaResourceType;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import org.spongepowered.asm.mixin.Final;
@@ -22,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.event.LabsLanguageChangedEvent;
 import com.nomiceu.nomilabs.mixinhelper.AccessibleGuiLanguage;
 import com.nomiceu.nomilabs.mixinhelper.GuiCustomConfirmOpenLink;
 
@@ -47,7 +50,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
     private String downloadPackNote;
 
     @Unique
-    private String previousLangCode;
+    private Language previousLang;
 
     @Shadow
     private GuiOptionButton forceUnicodeFontBtn;
@@ -66,7 +69,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
     @Inject(method = "<init>", at = @At("TAIL"))
     public void savePreviousLang(GuiScreen screen, GameSettings gameSettingsObj, LanguageManager manager,
                                  CallbackInfo ci) {
-        previousLangCode = manager.getCurrentLanguage().getLanguageCode();
+        previousLang = manager.getCurrentLanguage();
     }
 
     @Inject(method = "initGui", at = @At("TAIL"))
@@ -110,7 +113,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
             case 6: // Done Button
                 var language = languageManager.getCurrentLanguage();
                 var code = language.getLanguageCode();
-                if (code.equals(previousLangCode)) break;
+                if (code.equals(previousLang.getLanguageCode())) break;
 
                 game_settings_3.language = code;
                 FMLClientHandler.instance().refreshResources(VanillaResourceType.LANGUAGES);
@@ -118,6 +121,9 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
                         .setUnicodeFlag(languageManager.isCurrentLocaleUnicode() || game_settings_3.forceUnicodeFont);
                 fontRenderer.setBidiFlag(languageManager.isCurrentLanguageBidirectional());
                 game_settings_3.saveOptions();
+
+                // Fire Lang Change Event
+                MinecraftForge.EVENT_BUS.post(new LabsLanguageChangedEvent(previousLang, language));
                 break;
             case DOWNLOAD_PACK_BTN_ID:
                 mc.displayGuiScreen(new GuiCustomConfirmOpenLink(this, TRANSLATIONS_DOWNLOAD, downloadPackNote,
@@ -148,7 +154,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
         if (result) {
             try {
                 Class<?> desktopClass = Class.forName("java.awt.Desktop");
-                Object desktopObj = desktopClass.getMethod("getDesktop").invoke((Object) null);
+                Object desktopObj = desktopClass.getMethod("getDesktop").invoke(null);
                 desktopClass.getMethod("browse", URI.class).invoke(desktopObj, new URI(url));
             } catch (URISyntaxException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
                      NoSuchMethodException e) {

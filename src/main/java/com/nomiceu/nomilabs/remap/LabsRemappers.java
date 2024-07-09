@@ -112,7 +112,8 @@ public class LabsRemappers {
 
                 /*
                  * Remap AE2 Stuff Pattern Encoders (Removed in AE2 Stuff Unofficial) to AE2 Interfaces.
-                 * Tile Entity NBT Data and Metadata also needs to be changed (to preserve patterns and to change the id),
+                 * Tile Entity NBT Data and Metadata also needs to be changed (to preserve patterns and to change the
+                 * id),
                  * but that is performed in LabsFixes.
                  * Technically, this is useless, but it prevents warnings and acts as a fallback.
                  */

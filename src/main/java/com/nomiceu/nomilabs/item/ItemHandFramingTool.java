@@ -300,11 +300,11 @@ public class ItemHandFramingTool extends Item implements IFrameable {
 
     public void addDescription() {
         JEIPlugin.addDescription(new ItemStack(this),
-                translate("item.nomilabs.hand_framing_tool.desc1"),
-                translate("item.nomilabs.hand_framing_tool.desc2"),
-                translate("item.nomilabs.hand_framing_tool.desc3"),
-                translate("item.nomilabs.hand_framing_tool.desc4"),
-                translate("item.nomilabs.hand_framing_tool.desc5"),
-                translate("item.nomilabs.hand_framing_tool.desc6"));
+                translatable("item.nomilabs.hand_framing_tool.desc1"),
+                translatable("item.nomilabs.hand_framing_tool.desc2"),
+                translatable("item.nomilabs.hand_framing_tool.desc3"),
+                translatable("item.nomilabs.hand_framing_tool.desc4"),
+                translatable("item.nomilabs.hand_framing_tool.desc5"),
+                translatable("item.nomilabs.hand_framing_tool.desc6"));
     }
 }

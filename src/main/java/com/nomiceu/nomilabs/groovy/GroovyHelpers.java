@@ -67,6 +67,14 @@ public class GroovyHelpers {
         public static String format(String str, LabsTranslate.Format... formats) {
             return LabsTranslate.format(str, formats);
         }
+
+        public static LabsTranslate.Translatable translatable(String key, Object... params) {
+            return LabsTranslate.translatable(key, params);
+        }
+
+        public static LabsTranslate.Translatable translatableLiteral(String text) {
+            return LabsTranslate.translatableLiteral(text);
+        }
     }
 
     public static class SafeMethodHelpers {
@@ -134,15 +142,16 @@ public class GroovyHelpers {
     public static class JEIHelpers {
 
         /* Description + Tooltip */
-        public static void addDescription(ItemStack stack, String... description) {
+        public static void addDescription(ItemStack stack, LabsTranslate.Translatable... description) {
             JEIPlugin.addGroovyDescription(stack, description);
         }
 
-        public static void addRecipeOutputTooltip(ItemStack stack, String... tooltip) {
+        public static void addRecipeOutputTooltip(ItemStack stack, LabsTranslate.Translatable... tooltip) {
             JEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
         }
 
-        public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName, String... tooltip) {
+        public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName,
+                                                  LabsTranslate.Translatable... tooltip) {
             JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
         }
 

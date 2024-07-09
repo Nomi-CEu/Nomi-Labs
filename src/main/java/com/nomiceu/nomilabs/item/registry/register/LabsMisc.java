@@ -9,6 +9,7 @@ import net.minecraft.potion.Potion;
 
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.item.ItemBase;
+import com.nomiceu.nomilabs.item.ItemInfo;
 import com.nomiceu.nomilabs.item.ItemSmore;
 
 public class LabsMisc {
@@ -36,6 +37,9 @@ public class LabsMisc {
                 new ItemBase(makeLabsName("ultradensehydrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
 
         MAGNETRON = createItem(new ItemBase(makeLabsName("magnetron"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        // Custom model handling is in LabsItems
+        INFO_ITEM = createItemWithoutModelHandling(new ItemInfo(makeLabsName("info_item"), EnumRarity.EPIC));
 
         PULSATING_DUST = createItem(new ItemBase(makeLabsName("pulsatingdust"), LabsCreativeTabs.TAB_NOMI_LABS));
         PULSATING_MESH = createItem(new ItemBase(makeLabsName("pulsatingmesh"), LabsCreativeTabs.TAB_NOMI_LABS));

@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -22,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.item.ItemInfo;
+import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
@@ -387,7 +388,7 @@ public class LabsFixes {
                                 state.tileEntityTag.setBoolean("omniDirectional", true); // Default setting, required
 
                                 // Set a custom name
-                                state.tileEntityTag.setString("customName", "Replaced AE2 Stuff Pattern Encoder");
+                                state.tileEntityTag.setString("customName", "Replaced Pattern Encoder");
 
                                 // Check if we have to port patterns
                                 if (state.tileEntityTag.getTagList("Items", Constants.NBT.TAG_COMPOUND).isEmpty()) {
@@ -433,24 +434,8 @@ public class LabsFixes {
                                     patternItems.appendTag(patternTag);
                                 }
 
-                                var infoItem = new ItemStack(Items.PAPER);
-                                var infoItemTag = new NBTTagCompound();
-                                var infoItemDisplay = new NBTTagCompound();
-                                var infoItemLore = new NBTTagList();
-
-                                infoItemLore.appendTag(new NBTTagString("§cAE2 Pattern Encoders have been removed.§r"));
-                                infoItemLore.appendTag(new NBTTagString(""));
-                                infoItemLore.appendTag(new NBTTagString("§6Please use AE2 Pattern Terminals instead.§r"));
-                                infoItemLore.appendTag(new NBTTagString(""));
-                                infoItemLore.appendTag(new NBTTagString(
-                                        "§6All Existing Items §l(including in Patterns)§r§6, Blocks, and usages in Recipes, have been replaced by AE2 Interfaces.§r"));
-
-                                infoItemDisplay.setString("Name", "Information");
-                                infoItemDisplay.setTag("Lore", infoItemLore);
-                                infoItemTag.setTag("display", infoItemDisplay);
-                                infoItem.setTagCompound(infoItemTag);
-
-                                var infoTag = infoItem.writeToNBT(new NBTTagCompound());
+                                var infoTag = new ItemStack(LabsItems.INFO_ITEM, 1, ItemInfo.AE2_STUFF_REMAP_INFO)
+                                        .writeToNBT(new NBTTagCompound());
                                 infoTag.setInteger("Slot", patternTag == null ? 0 : 1);
                                 patternItems.appendTag(infoTag);
 

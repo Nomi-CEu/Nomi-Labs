@@ -1,7 +1,9 @@
 package com.nomiceu.nomilabs.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IllegalFormatException;
+import java.util.List;
 
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
@@ -42,9 +44,10 @@ public class LabsTranslate {
         }
     }
 
-    // Only GT Format Code version is available.
-    // If need Text Formatting format, place it in lang.
-
+    /**
+     * Only GT Format Code version is available.<br>
+     * If need Text Formatting format, place it in lang.
+     */
     public static String translateFormat(String key, TooltipHelper.GTFormatCode format, Object... params) {
         return format(translate(key, params), format);
     }
@@ -65,6 +68,14 @@ public class LabsTranslate {
                 TextFormatting.RESET;
     }
 
+    public static Translatable translatable(String key, Object... params) {
+        return new Translatable(key, params);
+    }
+
+    public static Translatable translatableLiteral(String text) {
+        return new TranslatableLiteral(text);
+    }
+
     public static class Format {
 
         public final String format;
@@ -73,12 +84,90 @@ public class LabsTranslate {
             this.format = format;
         }
 
-        public Format of(TextFormatting format) {
+        public static Format of(TextFormatting format) {
             return new Format(format.toString());
         }
 
-        public Format of(TooltipHelper.GTFormatCode format) {
+        public static Format of(TooltipHelper.GTFormatCode format) {
             return new Format(format.toString());
+        }
+    }
+
+    /**
+     * A translatable object, which has its value translated dynamically (allowing for on-the-fly language changes)
+     */
+    @SuppressWarnings("unused")
+    public static class Translatable {
+
+        public final String key;
+        public final Object[] params;
+
+        protected List<Format> format;
+        protected List<Translatable> appended;
+
+        public Translatable(String key, Object... params) {
+            this.key = key;
+            this.params = params;
+            this.format = new ArrayList<>();
+            this.appended = new ArrayList<>();
+        }
+
+        public Translatable addFormat(Format format) {
+            this.format.add(format);
+            return this;
+        }
+
+        public Translatable addFormat(TextFormatting format) {
+            this.format.add(Format.of(format));
+            return this;
+        }
+
+        public Translatable addFormat(TooltipHelper.GTFormatCode format) {
+            this.format.add(Format.of(format));
+            return this;
+        }
+
+        public Translatable append(Translatable append) {
+            this.appended.add(append);
+            return this;
+        }
+
+        public String translate() {
+            String translated = translateThis();
+
+            for (var toAppend : appended) {
+                translated = translated.concat(toAppend.translate());
+            }
+
+            return translated;
+        }
+
+        protected String translateThis() {
+            if (format.isEmpty()) return LabsTranslate.translate(key, params);
+
+            return LabsTranslate.format(LabsTranslate.translate(key, params), format.toArray(new Format[0]));
+        }
+
+        @Override
+        public String toString() {
+            return translate();
+        }
+    }
+
+    /**
+     * A translatable object with literal text, designed to be appended to a Translatable object.
+     */
+    public static class TranslatableLiteral extends Translatable {
+
+        public TranslatableLiteral(String text) {
+            super(text);
+        }
+
+        @Override
+        protected String translateThis() {
+            if (format.isEmpty()) return key;
+
+            return LabsTranslate.format(key, format.toArray(new Format[0]));
         }
     }
 }
