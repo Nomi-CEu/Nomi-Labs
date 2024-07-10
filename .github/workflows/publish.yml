@@ -40,11 +40,11 @@ jobs:
     steps:
       - name: Get Token
         id: token
-        uses: peter-murray/workflow-application-token-action@v2.1.0
+        uses: actions/create-github-app-token@v1
         with:
-          application_id: ${{ secrets.APP_ID }}
-          application_private_key: ${{ secrets.APP_KEY }}
-          organization: Nomi-CEu
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_KEY }}
+          owner: Nomi-CEu
           
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -64,7 +64,7 @@ jobs:
           GITHUB_TAG: ${{ inputs.tag }}
 
       - name: Publish to GitHub
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: "build/libs/*.jar"
           body_path: "build/changelog.md"
