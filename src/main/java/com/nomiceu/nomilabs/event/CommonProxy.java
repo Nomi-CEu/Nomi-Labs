@@ -21,6 +21,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import com.cleanroommc.groovyscript.event.GsHandEvent;
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
@@ -31,6 +32,7 @@ import com.nomiceu.nomilabs.gregtech.LabsSounds;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.metatileentity.registry.LabsMetaTileEntities;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.RecipeMapLogic;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsMaterialFlags;
 import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
@@ -99,8 +101,22 @@ public class CommonProxy {
             LabsDimensions.register();
     }
 
+    public static void postInit() {
+        // Load EnderIO Keybinds, Make Sure Loaded Before Groovy Keybind Overrides
+        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID)) {
+            try {
+                Class.forName("crazypants.enderio.base.handler.KeyTracker");
+            } catch (ClassNotFoundException e) {
+                NomiLabs.LOGGER.error(
+                        "Failed to load EnderIO's KeyTracker Class! Overrides for Ender IO Keybindings may not be available!");
+            }
+        }
+    }
+
     public static void loadComplete() {
         FluidRegistryMixinHelper.loadComplete();
+
+        RecipeMapLogic.clearAll();
     }
 
     @SubscribeEvent

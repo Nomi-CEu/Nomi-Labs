@@ -5,6 +5,8 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.KeyModifier;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
+import com.cleanroommc.groovyscript.api.GroovyLog;
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.groovy.mixinhelper.AccessibleKeyBinding;
 import com.nomiceu.nomilabs.mixin.KeyBindingAccessor;
@@ -31,6 +33,8 @@ public class KeyBindingHelper {
         if (!KeyBindingAccessor.getKeybindRegistry().containsKey(id)) {
             LabsGroovyHelper
                     .throwOrGroovyLog(new IllegalArgumentException("Keybind with ID " + id + " was not found!"));
+            NomiLabs.LOGGER.info("Available Keybind IDs: {}", KeyBindingAccessor.getKeybindRegistry().keySet());
+            GroovyLog.get().info("Available Keybind IDs: " + KeyBindingAccessor.getKeybindRegistry().keySet());
             return;
         }
         ((AccessibleKeyBinding) KeyBindingAccessor.getKeybindRegistry().get(id))

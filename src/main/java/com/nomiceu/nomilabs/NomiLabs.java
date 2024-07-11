@@ -60,6 +60,11 @@ public class NomiLabs {
     }
 
     @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        CommonProxy.postInit();
+    }
+
+    @EventHandler
     public void loadComplete(FMLLoadCompleteEvent event) {
         CommonProxy.loadComplete();
     }
