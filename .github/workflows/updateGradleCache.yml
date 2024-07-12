@@ -23,8 +23,6 @@ jobs:
 
       - name: Setup Build
         uses: ./.github/actions/build_setup
-        with:
-          update-cache: true
 
       - name: Build Project with Gradle
         run: ./gradlew assemble --warning-mode all --build-cache

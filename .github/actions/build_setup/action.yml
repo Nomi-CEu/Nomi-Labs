@@ -1,12 +1,6 @@
 name: Build Setup
 description: Setup for standard Java builds
 
-inputs:
-  update-cache:
-    description: If cache should be updated
-    required: false
-    default: false
-
 runs:
   using: 'composite'
 
@@ -20,7 +14,6 @@ runs:
   - name: Setup Gradle
     uses: gradle/actions/setup-gradle@v3
     with:
-      cache-write-only: ${{ inputs.update-cache }}
       add-job-summary: 'on-failure'
       gradle-home-cache-includes: |
         caches
