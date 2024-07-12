@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.groovy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -90,7 +91,10 @@ public class GroovyHelpers {
         }
 
         public static void addTooltip(ItemStack item, LabsTranslate.Translatable tr) {
-            LabsTooltipHelper.addTooltip(new ItemMeta(item), Collections.singletonList(tr));
+            // Don't use Collections.singletonList, as other elements may need to be added
+            List<LabsTranslate.Translatable> list = new ArrayList<>();
+            list.add(tr);
+            LabsTooltipHelper.addTooltip(new ItemMeta(item), list);
         }
     }
 

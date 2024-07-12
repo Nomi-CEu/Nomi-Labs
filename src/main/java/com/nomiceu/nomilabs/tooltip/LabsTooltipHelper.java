@@ -42,7 +42,7 @@ public class LabsTooltipHelper {
      */
     public static void addTooltip(ItemMeta itemMeta, List<LabsTranslate.Translatable> tr) {
         if (TOOLTIPS.containsKey(itemMeta)) TOOLTIPS.get(itemMeta).addAll(tr);
-        TOOLTIPS.put(itemMeta, tr);
+        else TOOLTIPS.put(itemMeta, tr);
     }
 
     public static void clearAll() {
