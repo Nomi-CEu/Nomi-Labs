@@ -1,0 +1,14 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.ae2",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "InscriberRecipeMixin"
+  ],
+  "client": [
+    "AEBaseGuiMixin"
+  ],
+  "server": []
+}

@@ -43,7 +43,8 @@ public class LabsLateMixin implements ILateMixinLoader {
                     LabsConfig.modIntegration.enableFTBUtilsIntegration),
             new AbstractMap.SimpleImmutableEntry<>(LabsValues.TOP_ADDONS_MODID,
                     LabsConfig.modIntegration.enableTopAddonsIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.TOP_MODID, true))
+            new AbstractMap.SimpleImmutableEntry<>(LabsValues.TOP_MODID, true),
+            new AbstractMap.SimpleImmutableEntry<>(LabsValues.AE2_MODID, true))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     @Override
@@ -58,26 +59,26 @@ public class LabsLateMixin implements ILateMixinLoader {
 
         if (parts.length != 4) {
             LOGGER.fatal("Mixin Config Check Failed! Invalid Length.");
-            LOGGER.fatal("Mixin Config: " + mixinConfig);
+            LOGGER.fatal("Mixin Config: {}", mixinConfig);
             return true;
         }
 
         if (!Objects.equals(parts[1], LabsValues.LABS_MODID)) {
             LOGGER.error("Non Nomi-Labs Mixin Found in Mixin Queue. This is probably an error. Skipping...");
-            LOGGER.error("Mixin Config: " + mixinConfig);
+            LOGGER.error("Mixin Config: {}", mixinConfig);
             return true;
         }
 
         if (!Loader.isModLoaded(parts[2])) {
-            LOGGER.error("Mod '" + parts[2] +
-                    "' is not loaded. If this is a normal Nomi-CEu instance, this is probably an error.");
-            LOGGER.error("Not Loading Mixin Config " + mixinConfig);
+            LOGGER.error("Mod '{}' is not loaded. If this is a normal Nomi-CEu instance, this is probably an error.",
+                    parts[2]);
+            LOGGER.error("Not Loading Mixin Config {}", mixinConfig);
             return false;
         }
 
         if (!modMixinsConfig.containsKey(parts[2]) || !modMixinsConfig.get(parts[2])) {
-            LOGGER.info("Integration for Mod '" + parts[2] + "' is not enabled, or does not exist.");
-            LOGGER.info("Not Loading Mixin Config " + mixinConfig);
+            LOGGER.info("Integration for Mod '{}' is not enabled, or does not exist.", parts[2]);
+            LOGGER.info("Not Loading Mixin Config {}", mixinConfig);
             return false;
         }
 
