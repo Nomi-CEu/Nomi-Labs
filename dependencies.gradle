@@ -46,9 +46,9 @@ dependencies {
 
     // GT and GCYM, pretty much the 'core' of this coremod (from GTCEu Maven)
     // GT Has Mixins! CHECK MIXINS FOR COMPAT AFTER UPDATING!
-    implementation ("gregtech:gregtech:2.8.9-beta") {
+    implementation ("gregtech:gregtech:2.8.10-beta") {
         transitive = false
-    } // Version 2.8.9
+    } // Version 2.8.10
     implementation ("gregicality:GregicalityMultiblocks:1.2.10") {
         transitive = false
     } // Version 1.2.10
