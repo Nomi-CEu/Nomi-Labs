@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -28,6 +29,7 @@ import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.GTValues;
@@ -74,6 +76,37 @@ public class GroovyHelpers {
 
         public static LabsTranslate.Translatable translatableLiteral(String text) {
             return LabsTranslate.translatableLiteral(text);
+        }
+
+        public static LabsTranslate.Translatable translatableEmpty() {
+            return LabsTranslate.translatableEmpty();
+        }
+    }
+
+    public static class TooltipHelpers {
+
+        public static void addTooltip(ResourceLocation rl, List<LabsTranslate.Translatable> tr) {
+            LabsTooltipHelper.addTooltip(rl, tr);
+        }
+
+        public static void addTooltip(Item item, List<LabsTranslate.Translatable> tr) {
+            LabsTooltipHelper.addTooltip(item.getRegistryName(), tr);
+        }
+
+        public static void addTooltip(ItemStack item, List<LabsTranslate.Translatable> tr) {
+            LabsTooltipHelper.addTooltip(item.getItem().getRegistryName(), tr);
+        }
+
+        public static void addTooltip(ResourceLocation rl, LabsTranslate.Translatable tr) {
+            LabsTooltipHelper.addTooltip(rl, Collections.singletonList(tr));
+        }
+
+        public static void addTooltip(Item item, LabsTranslate.Translatable tr) {
+            LabsTooltipHelper.addTooltip(item.getRegistryName(), Collections.singletonList(tr));
+        }
+
+        public static void addTooltip(ItemStack item, LabsTranslate.Translatable tr) {
+            LabsTooltipHelper.addTooltip(item.getItem().getRegistryName(), Collections.singletonList(tr));
         }
     }
 

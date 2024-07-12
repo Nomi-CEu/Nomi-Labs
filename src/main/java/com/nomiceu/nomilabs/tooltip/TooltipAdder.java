@@ -24,6 +24,10 @@ import crazypants.enderio.base.capacitor.CapacitorKey;
 public class TooltipAdder {
 
     public static void addTooltipNormal(List<String> tooltip, ItemStack stack) {
+        var groovyTooltips = LabsTooltipHelper.getTranslatableFromStack(stack);
+        if (groovyTooltips != null)
+            tooltip.addAll(groovyTooltips);
+
         // Add Information of EIO Capacitors' Levels
         if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID) && LabsConfig.modIntegration.enableEnderIOIntegration)
             addTooltipEIO(tooltip, stack);

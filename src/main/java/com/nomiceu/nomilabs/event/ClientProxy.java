@@ -19,6 +19,7 @@ import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
+import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.tooltip.TooltipAdder;
 
 /*
@@ -61,6 +62,8 @@ public class ClientProxy {
         // Reload JEI to refresh description text
         // noinspection UnstableApiUsage
         ReloadableRegistryManager.reloadJei(false);
+
+        LabsTooltipHelper.onLanguageChange();
     }
 
     @SubscribeEvent

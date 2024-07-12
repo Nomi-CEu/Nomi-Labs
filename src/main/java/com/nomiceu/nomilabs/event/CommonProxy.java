@@ -48,6 +48,7 @@ import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.Remapper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
@@ -212,5 +213,6 @@ public class CommonProxy {
     @SubscribeEvent
     public static void onScriptReload(ScriptRunEvent.Pre event) {
         JEIPlugin.onReload();
+        LabsTooltipHelper.clearAll();
     }
 }

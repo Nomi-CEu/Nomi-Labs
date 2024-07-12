@@ -76,6 +76,10 @@ public class LabsTranslate {
         return new TranslatableLiteral(text);
     }
 
+    public static Translatable translatableEmpty() {
+        return new TranslatableLiteral("");
+    }
+
     public static class Format {
 
         public final String format;
