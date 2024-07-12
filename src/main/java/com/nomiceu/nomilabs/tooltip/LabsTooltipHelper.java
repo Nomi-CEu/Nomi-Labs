@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.tooltip;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
@@ -14,11 +15,14 @@ import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mcjty.theoneprobe.api.IProbeInfo;
 
 @SuppressWarnings("unused")
 @GroovyBlacklist
 public class LabsTooltipHelper {
+
+    private static final Set<ItemMeta> CLEARED = new ObjectOpenHashSet<>();
 
     private static final Map<ItemMeta, List<LabsTranslate.Translatable>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static final Map<ItemMeta, List<String>> CACHED_TOOLTIPS = new Object2ObjectOpenHashMap<>();
@@ -40,18 +44,32 @@ public class LabsTooltipHelper {
      * <p>
      * If you want to add a tooltip in Labs, add a function to {@link TooltipAdder}.
      */
+    public static void clearTooltip(ItemMeta itemMeta) {
+        CLEARED.add(itemMeta);
+    }
+
+    /**
+     * For use in GroovyScript ONLY.
+     * <p>
+     * If you want to add a tooltip in Labs, add a function to {@link TooltipAdder}.
+     */
     public static void addTooltip(ItemMeta itemMeta, List<LabsTranslate.Translatable> tr) {
         if (TOOLTIPS.containsKey(itemMeta)) TOOLTIPS.get(itemMeta).addAll(tr);
         else TOOLTIPS.put(itemMeta, tr);
     }
 
     public static void clearAll() {
+        CLEARED.clear();
         TOOLTIPS.clear();
         CACHED_TOOLTIPS.clear();
     }
 
     public static void onLanguageChange() {
         CACHED_TOOLTIPS.clear();
+    }
+
+    public static boolean shouldClear(ItemStack stack) {
+        return CLEARED.contains(new ItemMeta(stack));
     }
 
     @Nullable

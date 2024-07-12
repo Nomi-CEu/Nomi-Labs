@@ -24,6 +24,9 @@ import crazypants.enderio.base.capacitor.CapacitorKey;
 public class TooltipAdder {
 
     public static void addTooltipNormal(List<String> tooltip, ItemStack stack) {
+        if (LabsTooltipHelper.shouldClear(stack))
+            tooltip.clear();
+
         var groovyTooltips = LabsTooltipHelper.getTranslatableFromStack(stack);
         if (groovyTooltips != null)
             tooltip.addAll(groovyTooltips);
