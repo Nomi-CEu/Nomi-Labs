@@ -36,7 +36,7 @@ public class IngredientMixin {
         for (var entry : JEIPlugin.getIgnoreNbtHide()) {
             allIng.stream()
                     .filter((stack) -> entry.getKey().getItem() == stack.getItem() &&
-                            entry.getKey().getItem() == stack.getItem() &&
+                            entry.getKey().getMetadata() == stack.getMetadata() &&
                             entry.getValue().apply(stack.getTagCompound()))
                     .forEach(list::add);
         }
