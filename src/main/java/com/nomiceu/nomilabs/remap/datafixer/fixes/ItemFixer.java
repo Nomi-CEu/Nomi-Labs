@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.datafixer.DataFix;
-import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
@@ -22,13 +21,13 @@ public class ItemFixer implements IFixableData {
     @Override
     public @NotNull NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
         var stack = new ItemStackLike(compound);
-        for (var fix : DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.ITEM)) {
+        for (var fix : LabsFixes.fixes.get(LabsFixTypes.FixerTypes.ITEM)) {
             if (!(fix instanceof DataFix.ItemFix itemFix)) continue;
             if (!itemFix.validEntry.apply(stack)) continue;
             itemFix.transform.accept(stack);
             var oldCompound = compound.copy();
             NomiLabs.LOGGER.debug("[Data Fixer] Changed Stack: {} to {}", oldCompound, stack.changeCompound(compound));
-            return compound;
+            // Don't return, allow other item fixes to apply
         }
         return compound;
     }

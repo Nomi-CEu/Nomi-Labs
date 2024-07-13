@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
 
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,14 +12,13 @@ import net.minecraftforge.common.util.Constants;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 
 public class LabsWorldFixData extends WorldSavedData {
 
     // Fix Version stored in this world.
-    public int savedVersion;
+    public int savedFixVersion;
 
     // Base Data Key
     public static final String BASE_DATA_KEY = "data";
@@ -30,24 +28,24 @@ public class LabsWorldFixData extends WorldSavedData {
 
     public LabsWorldFixData() {
         super(LabsFixes.DATA_NAME);
-        if (LabsConfig.advanced.enableNomiCEuDataFixes) savedVersion = LabsFixes.DEFAULT_NOMI_CEU;
-        else savedVersion = LabsFixes.DEFAULT;
+        if (LabsConfig.advanced.enableNomiCEuDataFixes) savedFixVersion = LabsFixes.DEFAULT_NOMI_CEU;
+        else savedFixVersion = LabsFixes.DEFAULT;
     }
 
-    public void processModList(Map<String, String> mods) {
-        if (!mods.containsKey(LabsValues.LABS_MODID) && savedVersion == LabsFixes.DEFAULT)
-            savedVersion = LabsFixes.NEW;
+    public void processSavedLabsVersion(String savedLabsVersion) {
+        if (savedLabsVersion == null && savedFixVersion == LabsFixes.DEFAULT)
+            savedFixVersion = LabsFixes.NEW;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         if (nbt.hasKey(VERSION_KEY, Constants.NBT.TAG_ANY_NUMERIC)) {
-            savedVersion = nbt.getInteger(VERSION_KEY);
-            NomiLabs.LOGGER.info("This world was previously loaded with Fix Version {}.", savedVersion);
+            savedFixVersion = nbt.getInteger(VERSION_KEY);
+            NomiLabs.LOGGER.info("This world was previously loaded with Fix Version {}.", savedFixVersion);
         } else
             NomiLabs.LOGGER.info(
                     "This world was previously loaded without a saved Fix Version, possibly due to corruption, defaulting to {}.",
-                    savedVersion);
+                    savedFixVersion);
     }
 
     @Override

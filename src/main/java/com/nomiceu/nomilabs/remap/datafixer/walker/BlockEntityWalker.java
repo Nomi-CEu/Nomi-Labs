@@ -7,6 +7,7 @@ import net.minecraft.util.datafix.IDataWalker;
 import org.jetbrains.annotations.NotNull;
 
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 
 public class BlockEntityWalker implements IDataWalker {
@@ -23,7 +24,7 @@ public class BlockEntityWalker implements IDataWalker {
         if (DataFixerHandler.fixNotAvailable()) return compound;
 
         itemWalker.process(fixer, compound, versionIn);
-        if (!DataFixerHandler.neededFixes.containsKey(LabsFixTypes.FixerTypes.TILE_ENTITY)) return compound;
+        if (!LabsFixes.fixes.containsKey(LabsFixTypes.FixerTypes.TILE_ENTITY)) return compound;
         return fixer.process(LabsFixTypes.FixerTypes.TILE_ENTITY, compound, versionIn);
     }
 }

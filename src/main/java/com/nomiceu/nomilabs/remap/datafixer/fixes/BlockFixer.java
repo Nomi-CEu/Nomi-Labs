@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFix;
-import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 
@@ -21,7 +20,7 @@ public class BlockFixer implements IFixableData {
 
     @Override
     public @NotNull NBTTagCompound fixTagCompound(@NotNull NBTTagCompound compound) {
-        var blockFixes = DataFixerHandler.neededFixes.get(LabsFixTypes.FixerTypes.CHUNK);
+        var blockFixes = LabsFixes.fixes.get(LabsFixTypes.FixerTypes.CHUNK);
         LabsRemapHelper.rewriteBlocks(compound, (state) -> {
             for (var fix : blockFixes) {
                 if (!(fix instanceof DataFix.BlockFix blockFix)) continue;
@@ -36,7 +35,7 @@ public class BlockFixer implements IFixableData {
                 if (blockFix.teNeeded)
                     NomiLabs.LOGGER.debug("[Data Fixer] Changed Tile Entity With Above Block: {} to {}.",
                             oldState.tileEntityTag, state.tileEntityTag);
-                return state;
+                // Don't return, allow other block fixes to apply
             }
             return state;
         });

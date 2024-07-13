@@ -2,10 +2,8 @@ package com.nomiceu.nomilabs.remap.datafixer;
 
 import static com.nomiceu.nomilabs.LabsValues.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
-import static com.nomiceu.nomilabs.util.LabsVersionUtil.getVersionFromString;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
@@ -129,7 +127,6 @@ public class LabsFixes {
     public static Set<ResourceLocation> specialMetaItemsRemap;
     public static Set<String> materialNames;
     public static Map<String, OldCapacitorSpecification> capacitorSpecificationRemap;
-    public static Function<Map<String, String>, Boolean> requiresAe2StuffRemap;
 
     public static void init() {
         helpersInit();
@@ -183,7 +180,6 @@ public class LabsFixes {
                         "Correctly remaps Content Tweaker Dark Red Coal to XU2 Red Coal.",
                         false,
                         (version) -> version <= DEFAULT,
-                        (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation(CONTENTTWEAKER_MODID, "dark_red_coal")),
                         (stack) -> stack.setRl(new ResourceLocation(XU2_MODID, "ingredients"))
                                 .setMeta((short) 4)) // Red Coal
@@ -195,7 +191,6 @@ public class LabsFixes {
                             "Removes NBT from Custom Capacitors.",
                             false,
                             (version) -> version <= PRE_CAPACITOR_REMAPPING,
-                            (modList) -> true,
                             (stack) -> (stack.rl.getNamespace().equals(LABS_MODID) ||
                                     stack.rl.getNamespace().equals(CONTENTTWEAKER_MODID)) &&
                                     capacitorSpecificationRemap.containsKey(stack.rl.getPath()) &&
@@ -208,7 +203,6 @@ public class LabsFixes {
                         "Remaps Deprecated Items to their Modern Counterparts.",
                         false,
                         (version) -> version <= DEFAULT,
-                        (modList) -> true,
                         (stack) -> LabsRemappers.deprecatedRemapper.shouldRemap(stack.rl),
                         (stack) -> stack.setRl(LabsRemappers.deprecatedRemapper.remapRl(stack.rl))));
 
@@ -217,7 +211,6 @@ public class LabsFixes {
                         "Remaps Content Tweaker Items to their counterparts.",
                         false,
                         (version) -> version <= DEFAULT,
-                        (modList) -> true,
                         (stack) -> LabsRemappers.ctRemapper.shouldRemap(stack.rl),
                         (stack) -> stack.setRl(LabsRemappers.ctRemapper.remapRl(stack.rl))));
 
@@ -226,7 +219,6 @@ public class LabsFixes {
                         "Remaps Perfect Gems to their counterparts.",
                         false,
                         (version) -> version <= DEFAULT,
-                        (modList) -> true,
                         (stack) -> LabsRemappers.perfectGemRemapper.shouldRemap(stack.rl),
                         (stack) -> stack.setRl(LabsRemappers.perfectGemRemapper.remapRl(stack.rl))));
 
@@ -236,7 +228,6 @@ public class LabsFixes {
                             "Removes Frequency from XU2 Ingredients.",
                             false,
                             (version) -> version <= DEFAULT || version == NEW,
-                            (modList) -> modList.containsKey(XU2_MODID),
                             (stack) -> stack.rl.equals(new ResourceLocation(XU2_MODID, "ingredients")) &&
                                     stack.tag != null && stack.tag.hasKey("Freq"),
                             (stack) -> {
@@ -250,7 +241,6 @@ public class LabsFixes {
                         "Remaps old Multiblock Metadata to the new format.",
                         true,
                         (version) -> version <= DEFAULT_NOMI_CEU,
-                        (modList) -> true,
                         (stack) -> stack.rl.equals(new ResourceLocation(GREGTECH_MODID, "machine")) &&
                                 multiblockMetaRemap.containsKey(stack.meta),
                         (stack) -> stack.setMeta(multiblockMetaRemap.get(stack.meta))));
@@ -260,7 +250,6 @@ public class LabsFixes {
                         "Remaps old Meta Items, from Custom Materials, to the new format and registry.",
                         false,
                         (version) -> version <= PRE_MATERIAL_REWORK,
-                        (modList) -> true,
                         (stack) -> stack.rl.getNamespace().equals(GREGTECH_MODID) &&
                                 LabsRemapHelper.META_ITEM_MATCHER.matcher(stack.rl.getPath()).matches() &&
                                 !LabsRemapHelper.META_BLOCK_MATCHER.matcher(stack.rl.getPath()).matches() &&
@@ -273,7 +262,6 @@ public class LabsFixes {
                         "Remaps old Meta Blocks' Item Forms, from Custom Materials, to the new format and registry.",
                         false,
                         (version) -> version <= PRE_MATERIAL_REWORK,
-                        (modList) -> true,
                         (stack) -> LabsRemappers.metaBlockRemapper.shouldRemap(stack.rl),
                         (stack) -> stack.setRl(LabsRemappers.metaBlockRemapper.remapRl(stack.rl))));
 
@@ -282,7 +270,6 @@ public class LabsFixes {
                         "Remaps old special placeable Meta Items, from Custom Materials, to the new format and registry.",
                         false,
                         (version) -> version <= PRE_MATERIAL_REWORK,
-                        (modList) -> true,
                         (stack) -> specialMetaItemsRemap.contains(stack.rl) &&
                                 stack.meta >= LabsRemapHelper.MIN_META_ITEM_BASE_ID,
                         (stack) -> stack.setMeta((short) (stack.meta - LabsRemapHelper.MIN_META_ITEM_BASE_ID))
@@ -294,7 +281,6 @@ public class LabsFixes {
                             "Remaps AE2 Stuff Pattern Encoders, which were removed in AE2 Stuff Unofficial, to AE2 Interfaces.",
                             false,
                             (version) -> version <= PRE_AE2_STUFF_REMAP || version == NEW,
-                            requiresAe2StuffRemap,
                             (stack) -> stack.rl.getNamespace().equals(AE2_STUFF_MODID) &&
                                     stack.rl.getPath().equals("encoder"),
                             (stack) -> stack.setRl(new ResourceLocation(AE2_MODID, "interface"))));
@@ -349,7 +335,6 @@ public class LabsFixes {
                         "Remaps old special placeable Meta Blocks, from Custom Materials, to the new format and registry.",
                         false,
                         (version) -> version <= PRE_MATERIAL_REWORK,
-                        (modList) -> true,
                         true,
                         (state) -> specialMetaItemsRemap.contains(state.rl),
                         (state) -> state.tileEntityTag != null &&
@@ -372,7 +357,6 @@ public class LabsFixes {
                             "Remaps AE2 Stuff Pattern Encoders, which were removed in AE2 Stuff Unofficial, to AE2 Interfaces.",
                             false,
                             (version) -> version <= PRE_AE2_STUFF_REMAP || version == NEW,
-                            requiresAe2StuffRemap,
                             true,
                             (state) -> state.rl.getNamespace().equals(AE2_STUFF_MODID) &&
                                     state.rl.getPath().equals("encoder"),
@@ -501,7 +485,6 @@ public class LabsFixes {
                         "Remaps old Multiblock Tile Entity Names to the new format.",
                         false,
                         (version) -> version <= DEFAULT_NOMI_CEU,
-                        (modList) -> true,
                         (compound) -> compound.hasKey("MetaId", Constants.NBT.TAG_STRING) &&
                                 compound.hasKey("id", Constants.NBT.TAG_STRING) &&
                                 compound.getString("id").equals(
@@ -603,16 +586,6 @@ public class LabsFixes {
                         "Can be inserted into EnderIO machines.",
                         "Level: 9.001",
                         "Just kidding, it's only 5."));
-
-        // If AE2 Stuff is loaded before and now, and if old version was before 0.8, and if current version is equal to
-        // or after 0.8
-        requiresAe2StuffRemap = (modlist) -> modlist.containsKey(AE2_STUFF_MODID) &&
-                getVersionFromString(modlist.get(AE2_STUFF_MODID))
-                        .compareTo(AE2_STUFF_UNOFFICIAL_SEPARATOR) < 0 &&
-                getVersionFromString(
-                        Loader.instance().getIndexedModList().get(AE2_STUFF_MODID).getVersion())
-                                .compareTo(AE2_STUFF_UNOFFICIAL_SEPARATOR) >=
-                        0;
     }
 
     public static class OldCapacitorSpecification {

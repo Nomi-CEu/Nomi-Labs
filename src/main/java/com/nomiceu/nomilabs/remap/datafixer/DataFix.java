@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.remap.datafixer;
 
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -17,18 +16,15 @@ public abstract class DataFix<T> {
     public final String description;
     public final boolean needsMode;
     public final Function<Integer, Boolean> validVersion;
-    public final Function<Map<String, String>, Boolean> validModList;
     public final Function<T, Boolean> validEntry;
     public final Consumer<T> transform;
 
     public DataFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion,
-                   Function<Map<String, String>, Boolean> validModList, Function<T, Boolean> validEntry,
-                   Consumer<T> transform) {
+                   Function<T, Boolean> validEntry, Consumer<T> transform) {
         this.name = name;
         this.description = description;
         this.needsMode = needsMode;
         this.validVersion = validVersion;
-        this.validModList = validModList;
         this.validEntry = validEntry;
         this.transform = transform;
     }
@@ -36,9 +32,8 @@ public abstract class DataFix<T> {
     public static class ItemFix extends DataFix<ItemStackLike> {
 
         public ItemFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion,
-                       Function<Map<String, String>, Boolean> validModList, Function<ItemStackLike, Boolean> validEntry,
-                       Consumer<ItemStackLike> transform) {
-            super(name, description, needsMode, validVersion, validModList, validEntry, transform);
+                       Function<ItemStackLike, Boolean> validEntry, Consumer<ItemStackLike> transform) {
+            super(name, description, needsMode, validVersion, validEntry, transform);
         }
     }
 
@@ -49,11 +44,10 @@ public abstract class DataFix<T> {
         public final Function<BlockStateLike, Boolean> secondaryValidEntry;
 
         public BlockFix(String name, String description, boolean needsMode, Function<Integer, Boolean> validVersion,
-                        Function<Map<String, String>, Boolean> validModList, boolean teNeeded,
-                        Function<BlockStateLike, Boolean> validEntry,
+                        boolean teNeeded, Function<BlockStateLike, Boolean> validEntry,
                         @Nullable Function<BlockStateLike, Boolean> secondaryValidEntry,
                         Consumer<BlockStateLike> blockTransform) {
-            super(name, description, needsMode, validVersion, validModList, validEntry, blockTransform);
+            super(name, description, needsMode, validVersion, validEntry, blockTransform);
             this.secondaryValidEntry = secondaryValidEntry;
             this.teNeeded = teNeeded;
         }
@@ -63,9 +57,8 @@ public abstract class DataFix<T> {
 
         public TileEntityFix(String name, String description, boolean needsMode,
                              Function<Integer, Boolean> validVersion,
-                             Function<Map<String, String>, Boolean> validModList,
                              Function<NBTTagCompound, Boolean> validEntry, Consumer<NBTTagCompound> transform) {
-            super(name, description, needsMode, validVersion, validModList, validEntry, transform);
+            super(name, description, needsMode, validVersion, validEntry, transform);
         }
     }
 }

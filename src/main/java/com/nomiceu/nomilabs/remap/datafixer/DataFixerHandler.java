@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -57,16 +56,16 @@ public class DataFixerHandler {
     public static LabsWorldFixData worldSavedData = null;
     public static boolean checked = false;
 
-    /* Fixes that should be applied */
-    public static Map<IFixType, List<DataFix<?>>> neededFixes;
-
     /* Fixes that should be logged */
     public static Map<IFixType, List<DataFix<?>>> neededNewFixes;
 
     /* Whether Mode is needed for New Fixes */
     public static boolean modeNeeded = false;
 
-    private static Map<String, String> mods;
+    /* Whether fix is available */
+    private static boolean fixAvailable = false;
+
+    private static String savedLabsVersion;
 
     /* Must be split up so that idToBlockMap is the old one (so we can use not registered resource locations) */
     private static NBTTagList oldBlockRegistry;
@@ -95,28 +94,19 @@ public class DataFixerHandler {
     public static void onWorldLoad(SaveHandler save) {
         checked = false;
         modeNeeded = false;
-        neededFixes = null;
         neededNewFixes = null;
-        NomiLabs.LOGGER.info("Checking Data Fixers...");
+        savedLabsVersion = null;
+        fixAvailable = true;
 
         // Clear Block Helper Maps, the ids can be different for each save
         idToBlockMap = null;
         blockToIdMap = null;
         oldBlockRegistry = null;
+        NomiLabs.LOGGER.info("Checking Data Fixers...");
 
         getInfoFromSave(save);
-        if (mods.isEmpty()) return;
 
         LabsFixes.init();
-        neededFixes = new Object2ObjectOpenHashMap<>();
-        for (var fixType : LabsFixes.fixes.keySet()) {
-            for (var fix : LabsFixes.fixes.get(fixType)) {
-                if (fix.validModList.apply(mods)) {
-                    if (!neededFixes.containsKey(fixType)) neededFixes.put(fixType, new ObjectArrayList<>());
-                    neededFixes.get(fixType).add(fix);
-                }
-            }
-        }
 
         var mapFile = save.getMapFileFromName(LabsFixes.DATA_NAME);
 
@@ -124,7 +114,7 @@ public class DataFixerHandler {
             DataFixerHandler.worldSavedData = LabsWorldFixData.load(mapFile);
 
             // Shortcut: If saved version == Current Version, Exit
-            if (DataFixerHandler.worldSavedData.savedVersion == LabsFixes.CURRENT) {
+            if (DataFixerHandler.worldSavedData.savedFixVersion == LabsFixes.CURRENT) {
                 DataFixerHandler.worldSavedData = null;
                 NomiLabs.LOGGER.info("This world's data version is up to date.");
                 return;
@@ -168,8 +158,6 @@ public class DataFixerHandler {
     }
 
     private static void getInfoFromSave(SaveHandler save) {
-        mods = new HashMap<>();
-
         File levelDat = new File(save.getWorldDirectory(), "level.dat");
 
         // If level.dat file does not exist, return.
@@ -179,20 +167,23 @@ public class DataFixerHandler {
         if (!levelDat.exists())
             return;
 
-        NBTTagList modList;
         try {
             NBTTagCompound nbt = CompressedStreamTools.readCompressed(new FileInputStream(levelDat));
             if (!nbt.hasKey("FML", Constants.NBT.TAG_COMPOUND)) return;
             NBTTagCompound fml = nbt.getCompoundTag("FML");
 
             if (fml.hasKey("ModList", Constants.NBT.TAG_LIST)) {
-                modList = fml.getTagList("ModList", Constants.NBT.TAG_COMPOUND);
+                NBTTagList modList = fml.getTagList("ModList", Constants.NBT.TAG_COMPOUND);
                 for (var mod : modList) {
                     if (!(mod instanceof NBTTagCompound compound)) continue;
                     if (!compound.hasKey("ModId", Constants.NBT.TAG_STRING) ||
                             !compound.hasKey("ModVersion", Constants.NBT.TAG_STRING))
                         continue;
-                    mods.put(compound.getString("ModId"), compound.getString("ModVersion"));
+                    if (!LabsValues.LABS_MODID.equals(compound.getString("ModId")))
+                        continue;
+
+                    savedLabsVersion = compound.getString("ModVersion");
+                    break;
                 }
             }
 
@@ -212,24 +203,21 @@ public class DataFixerHandler {
     private static void determineNeededFixesAndLog() {
         neededNewFixes = new Object2ObjectOpenHashMap<>();
 
-        if (mods.isEmpty()) return;
-
         // If Nomi Labs Version is same as current version, exit.
         // This normally means it is a new world.
         // Sometimes the level.dat file is created first, but usually this runs after it is created.
         // If the level.dat file is created first, its mod list is equal to the current one.
-        if (mods.containsKey(LabsValues.LABS_MODID) && mods.get(LabsValues.LABS_MODID).equals(LabsValues.LABS_VERSION))
+        if (LabsValues.LABS_VERSION.equals(savedLabsVersion))
             return;
 
-        DataFixerHandler.worldSavedData.processModList(mods);
+        DataFixerHandler.worldSavedData.processSavedLabsVersion(savedLabsVersion);
 
         NomiLabs.LOGGER.info("NEEDED DATA FIXES: ----------------------------------------");
         for (var fixType : LabsFixes.fixes.keySet()) {
             NomiLabs.LOGGER.info("SECTION: {} -------------------------------------------", fixType);
             var fixes = LabsFixes.fixes.get(fixType);
             for (var fix : fixes) {
-                if (fix.validVersion.apply(DataFixerHandler.worldSavedData.savedVersion) &&
-                        fix.validModList.apply(mods)) {
+                if (fix.validVersion.apply(DataFixerHandler.worldSavedData.savedFixVersion)) {
                     neededNewFixes.computeIfAbsent(fixType, (key) -> new ObjectArrayList<>()).add(fix);
                     if (fix.needsMode) modeNeeded = true;
                     NomiLabs.LOGGER.info("- {}: {}", fix.name, fix.description);
@@ -313,13 +301,16 @@ public class DataFixerHandler {
     }
 
     public static boolean fixNotAvailable() {
-        return neededFixes == null || neededFixes.isEmpty();
+        return !fixAvailable;
     }
 
     public static void close() {
         worldSavedData = null;
         checked = false;
-        neededFixes = null;
+        fixAvailable = false;
         neededNewFixes = null;
+        idToBlockMap = null;
+        blockToIdMap = null;
+        oldBlockRegistry = null;
     }
 }

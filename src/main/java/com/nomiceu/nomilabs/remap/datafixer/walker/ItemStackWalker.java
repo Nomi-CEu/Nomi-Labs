@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
 
 public class ItemStackWalker implements IDataWalker {
@@ -16,7 +17,7 @@ public class ItemStackWalker implements IDataWalker {
     @NotNull
     public NBTTagCompound process(@NotNull IDataFixer fixer, @NotNull NBTTagCompound compound, int versionIn) {
         if (DataFixerHandler.fixNotAvailable() ||
-                !DataFixerHandler.neededFixes.containsKey(LabsFixTypes.FixerTypes.ITEM))
+                !LabsFixes.fixes.containsKey(LabsFixTypes.FixerTypes.ITEM))
             return compound;
 
         LabsRemapHelper.rewriteCompoundTags(compound, tag -> {
