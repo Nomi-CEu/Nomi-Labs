@@ -18,6 +18,7 @@
     "MultiblockInfoCategoryMixin",
     "RecipeBuilderMixin",
     "RecipeMapMixin",
+    "RecipeMixin",
     "RecyclingRecipesMixin",
     "VirtualizedRecipeMapMixin"
   ],

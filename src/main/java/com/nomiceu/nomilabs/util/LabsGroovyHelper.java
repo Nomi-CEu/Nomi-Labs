@@ -6,6 +6,12 @@ import com.nomiceu.nomilabs.NomiLabs;
 
 public class LabsGroovyHelper {
 
+    /**
+     * Whether Labs-Groovy Helpers are running.<br>
+     * Only includes those that run after Groovy Script Load (recycling, composition, etc.)
+     */
+    public static boolean LABS_GROOVY_RUNNING = false;
+
     public static boolean isRunningGroovyScripts() {
         return GroovyScript.getSandbox().isRunning();
     }

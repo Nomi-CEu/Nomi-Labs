@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.groovy;
 
 import static com.nomiceu.nomilabs.groovy.CompositionBuilder.CompositionSpecification;
+import static com.nomiceu.nomilabs.util.LabsGroovyHelper.LABS_GROOVY_RUNNING;
 
 import java.util.*;
 
@@ -36,7 +37,9 @@ public class LabsVirtualizedRegistries {
 
         @Override
         public void afterScriptLoad() {
+            LABS_GROOVY_RUNNING = true;
             ChangeComposition.reloadCompositionRecipes();
+            LABS_GROOVY_RUNNING = false;
             needReloading.clear();
         }
 
@@ -70,9 +73,11 @@ public class LabsVirtualizedRegistries {
         public void afterScriptLoad() {
             // Load actual map into accessible one
             nbtConditions = addedNbtConditions;
+            LABS_GROOVY_RUNNING = true;
 
             RecyclingHelper.reloadRecyclingRecipes();
 
+            LABS_GROOVY_RUNNING = false;
             needReloading.clear();
             nbtConditions = null;
         }
