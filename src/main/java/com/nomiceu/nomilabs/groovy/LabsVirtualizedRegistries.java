@@ -59,7 +59,7 @@ public class LabsVirtualizedRegistries {
 
         @Override
         public void afterScriptLoad() {
-            ReplaceRecipe.reloadRecyclingRecipes();
+            RecyclingHelper.reloadRecyclingRecipes();
             needReloading.clear();
         }
 

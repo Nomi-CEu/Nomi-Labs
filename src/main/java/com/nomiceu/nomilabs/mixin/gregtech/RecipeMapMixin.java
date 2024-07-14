@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.OutputBranch;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.RecipeMapLogic;
-import com.nomiceu.nomilabs.groovy.ReplaceRecipe;
+import com.nomiceu.nomilabs.groovy.RecyclingHelper;
 
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
@@ -43,9 +43,9 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
     @Inject(method = "addRecipe", at = @At("HEAD"), cancellable = true)
     public void addRecipeInRecycling(@NotNull ValidationResult<Recipe> validationResult,
                                      CallbackInfoReturnable<Boolean> cir) {
-        if (!ReplaceRecipe.isReloadingRecycling()) return;
+        if (!RecyclingHelper.isReloadingRecycling()) return;
         // If not in the map returns null, which will never equal the recipe category of the recipe, which is never null
-        if (!Objects.equals(ReplaceRecipe.recyclingMaps.get((RecipeMap<?>) (Object) this),
+        if (!Objects.equals(RecyclingHelper.recyclingMaps.get((RecipeMap<?>) (Object) this),
                 validationResult.getResult().getRecipeCategory()))
             cir.setReturnValue(false);
     }

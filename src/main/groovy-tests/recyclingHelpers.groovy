@@ -1,11 +1,13 @@
 // Imports all static functions from the recycling section of the groovy helpers
-import static com.nomiceu.nomilabs.groovy.GroovyHelpers.RecipeRecyclingHelpers.*
+import static com.nomiceu.nomilabs.groovy.GroovyHelpers.RecyclingHelpers.*
 
-// Crafting Recipe Recycling Helpers. Goes in Post Init.
+// Recycling Helpers. Goes in Post Init.
 
 // All Replace Recipes only works for replacing recipes where:
 // output item, ignoring count, including meta, is the same as the old output item, ignoring count, including meta
 // Also don't work recursively, each item that depends on these needs to be changed too
+
+// All crafting recipe 'replacements' or 'creations' in this script also changes/adds recycling of the output!
 
 // Change a recipe's output & input, replacing by name
 replaceRecipeShaped("casing_assembly_control", item('gregtech:multiblock_casing', 3) * 1, [

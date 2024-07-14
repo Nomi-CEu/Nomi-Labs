@@ -246,7 +246,7 @@ public class GroovyHelpers {
         }
     }
 
-    public static class RecipeRecyclingHelpers {
+    public static class RecyclingHelpers {
 
         public static void replaceRecipeShaped(String name, ItemStack output, List<List<IIngredient>> inputs) {
             if (name.contains(":"))
@@ -257,12 +257,12 @@ public class GroovyHelpers {
 
         public static void replaceRecipeShaped(ResourceLocation name, ItemStack output,
                                                List<List<IIngredient>> inputs) {
-            ReplaceRecipe.replaceRecipeShaped(name, output, inputs);
+            RecyclingHelper.replaceRecipeShaped(name, output, inputs);
         }
 
         public static void replaceRecipeShaped(ItemStack oldOutput, ItemStack newOutput,
                                                List<List<IIngredient>> inputs) {
-            ReplaceRecipe.replaceRecipeShaped(oldOutput, newOutput, inputs);
+            RecyclingHelper.replaceRecipeShaped(oldOutput, newOutput, inputs);
         }
 
         public static void replaceRecipeOutput(String name, ItemStack output) {
@@ -273,11 +273,11 @@ public class GroovyHelpers {
         }
 
         public static void replaceRecipeOutput(ResourceLocation name, ItemStack newOutput) {
-            ReplaceRecipe.replaceRecipeOutput(name, newOutput);
+            RecyclingHelper.replaceRecipeOutput(name, newOutput);
         }
 
         public static void replaceRecipeOutput(ItemStack oldOutput, ItemStack newOutput) {
-            ReplaceRecipe.replaceRecipeOutput(oldOutput, newOutput);
+            RecyclingHelper.replaceRecipeOutput(oldOutput, newOutput);
         }
 
         public static void replaceRecipeInput(String name, List<List<IIngredient>> inputs) {
@@ -288,27 +288,27 @@ public class GroovyHelpers {
         }
 
         public static void replaceRecipeInput(ResourceLocation name, List<List<IIngredient>> newInputs) {
-            ReplaceRecipe.replaceRecipeInput(name, newInputs);
+            RecyclingHelper.replaceRecipeInput(name, newInputs);
         }
 
         public static void replaceRecipeInput(ItemStack oldOutput, List<List<IIngredient>> newInputs) {
-            ReplaceRecipe.replaceRecipeInput(oldOutput, newInputs);
+            RecyclingHelper.replaceRecipeInput(oldOutput, newInputs);
         }
 
         public static void createRecipe(String name, ItemStack output, List<List<IIngredient>> input) {
-            ReplaceRecipe.createRecipe(name, output, input);
+            RecyclingHelper.createRecipe(name, output, input);
         }
 
         public static void createRecipe(ItemStack output, List<List<IIngredient>> input) {
-            ReplaceRecipe.createRecipe(output, input);
+            RecyclingHelper.createRecipe(output, input);
         }
 
         public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
-            ReplaceRecipe.changeStackRecycling(output, ingredients);
+            RecyclingHelper.changeStackRecycling(output, ingredients);
         }
 
         public static void removeStackRecycling(ItemStack output) {
-            ReplaceRecipe.changeStackRecycling(output, Collections.emptyList());
+            RecyclingHelper.changeStackRecycling(output, Collections.emptyList());
         }
     }
 

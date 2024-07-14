@@ -40,11 +40,10 @@ import gregtech.api.unification.stack.MaterialStack;
 import gregtech.loaders.recipe.RecyclingRecipes;
 
 @GroovyBlacklist
-public class ReplaceRecipe {
+public class RecyclingHelper {
 
     private static boolean reloadingRecycling = false;
 
-    // Extractor
     public static final Map<RecipeMap<?>, GTRecipeCategory> recyclingMaps = ImmutableMap.of(
             RecipeMaps.ARC_FURNACE_RECIPES, RecipeCategories.ARC_FURNACE_RECYCLING,
             RecipeMaps.MACERATOR_RECIPES, RecipeCategories.MACERATOR_RECYCLING,
