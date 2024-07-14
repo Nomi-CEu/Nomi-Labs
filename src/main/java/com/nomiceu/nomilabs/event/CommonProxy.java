@@ -21,7 +21,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import com.cleanroommc.groovyscript.event.GsHandEvent;
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
@@ -100,18 +99,6 @@ public class CommonProxy {
 
         if (LabsConfig.content.customContent.enableVoidDimension)
             LabsDimensions.register();
-    }
-
-    public static void postInit() {
-        // Load EnderIO Keybinds, Make Sure Loaded Before Groovy Keybind Overrides
-        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID)) {
-            try {
-                Class.forName("crazypants.enderio.base.handler.KeyTracker");
-            } catch (ClassNotFoundException e) {
-                NomiLabs.LOGGER.error(
-                        "Failed to load EnderIO's KeyTracker Class! Overrides for Ender IO Keybindings may not be available!");
-            }
-        }
     }
 
     public static void loadComplete() {

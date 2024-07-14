@@ -61,7 +61,8 @@ public class NomiLabs {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        CommonProxy.postInit();
+        if (LabsSide.isClient())
+            ClientProxy.postInit();
     }
 
     @EventHandler

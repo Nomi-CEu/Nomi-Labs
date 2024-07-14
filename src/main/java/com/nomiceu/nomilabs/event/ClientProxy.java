@@ -40,6 +40,18 @@ public class ClientProxy {
             LabsTierHelper.preInit();
     }
 
+    public static void postInit() {
+        // Load EnderIO Keybinds, Make Sure Loaded Before Groovy Keybind Overrides
+        if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID)) {
+            try {
+                Class.forName("crazypants.enderio.base.handler.KeyTracker");
+            } catch (ClassNotFoundException e) {
+                NomiLabs.LOGGER.error(
+                        "Failed to load EnderIO's KeyTracker Class! Overrides for Ender IO Keybindings may not be available!");
+            }
+        }
+    }
+
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         LabsItems.registerModels();
