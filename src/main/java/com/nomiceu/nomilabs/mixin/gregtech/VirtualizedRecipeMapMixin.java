@@ -99,43 +99,50 @@ public abstract class VirtualizedRecipeMapMixin {
 
     @Unique
     @Nullable
-    public List<Recipe> findByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+    public List<Recipe> findByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        inputs = validateList(inputs);
-        fluidInputs = validateList(fluidInputs);
+        items = validateList(items);
+        fluids = validateList(fluids);
         chancedItems = validateList(chancedItems);
         chancedFluids = validateList(chancedFluids);
-        return getAccessibleRecipeMap().findRecipeByOutput(voltage, inputs, fluidInputs, chancedItems, chancedFluids);
-    }
 
-    @Unique
-    @Nullable
-    public List<Recipe> findByOutput(List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                     List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        return findByOutput((r) -> true, inputs, fluidInputs, chancedItems, chancedFluids);
-    }
-
-    @Unique
-    @Nullable
-    public List<Recipe> findRecipeByOutput(GTRecipeCategory category, List<ItemStack> inputs,
-                                           List<FluidStack> fluidInputs,
-                                           List<ChancedItemOutput> chancedItems,
-                                           List<ChancedFluidOutput> chancedFluids) {
-        return findByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), inputs, fluidInputs, chancedItems,
+        List<ItemStack> filteredItems = items.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
+        List<FluidStack> filteredFluids = fluids.stream().filter((f) -> f != null && f.amount != 0)
+                .collect(Collectors.toList());
+        return getAccessibleRecipeMap().findRecipeByOutput(voltage, filteredItems, filteredFluids, chancedItems,
                 chancedFluids);
     }
 
     @Unique
-    public List<Recipe> findByOutput(Predicate<Recipe> condition, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+    @Nullable
+    public List<Recipe> findByOutput(List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        inputs = validateList(inputs);
-        fluidInputs = validateList(fluidInputs);
+        return findByOutput((r) -> true, items, fluids, chancedItems, chancedFluids);
+    }
+
+    @Unique
+    @Nullable
+    public List<Recipe> findRecipeByOutput(GTRecipeCategory category, List<ItemStack> items,
+                                           List<FluidStack> fluids,
+                                           List<ChancedItemOutput> chancedItems,
+                                           List<ChancedFluidOutput> chancedFluids) {
+        return findByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids, chancedItems,
+                chancedFluids);
+    }
+
+    @Unique
+    public List<Recipe> findByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
+                                     List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
+        items = validateList(items);
+        fluids = validateList(fluids);
         chancedItems = validateList(chancedItems);
         chancedFluids = validateList(chancedFluids);
-        List<ItemStack> items = inputs.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
-        List<FluidStack> fluids = fluidInputs.stream().filter((f) -> f != null && f.amount != 0)
+
+        List<ItemStack> filteredItems = items.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
+        List<FluidStack> filteredFluids = fluids.stream().filter((f) -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
-        return getAccessibleRecipeMap().findByOutput(items, fluids, chancedItems, chancedFluids, condition);
+        return getAccessibleRecipeMap().findByOutput(filteredItems, filteredFluids, chancedItems, chancedFluids,
+                condition);
     }
 
     @Unique
