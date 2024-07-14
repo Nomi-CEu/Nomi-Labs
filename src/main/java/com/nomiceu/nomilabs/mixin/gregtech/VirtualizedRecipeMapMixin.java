@@ -99,6 +99,7 @@ public abstract class VirtualizedRecipeMapMixin {
 
     @Unique
     @Nullable
+    @SuppressWarnings("DuplicatedCode")
     public List<Recipe> findByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         items = validateList(items);
@@ -131,6 +132,8 @@ public abstract class VirtualizedRecipeMapMixin {
     }
 
     @Unique
+    @Nullable
+    @SuppressWarnings("DuplicatedCode")
     public List<Recipe> findByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
         items = validateList(items);
