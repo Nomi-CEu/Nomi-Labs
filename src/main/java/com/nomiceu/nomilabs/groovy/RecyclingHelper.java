@@ -1,8 +1,10 @@
 package com.nomiceu.nomilabs.groovy;
 
 import static com.cleanroommc.groovyscript.compat.vanilla.VanillaModule.crafting;
+import static com.nomiceu.nomilabs.util.LabsGroovyHelper.throwOrGroovyLog;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -19,15 +21,16 @@ import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.ingredient.OreDictIngredient;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Multiset;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 import com.nomiceu.nomilabs.util.LabsNames;
 
-import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.recipes.RecyclingHandler;
+import gregtech.api.recipes.*;
 import gregtech.api.recipes.category.GTRecipeCategory;
 import gregtech.api.recipes.category.RecipeCategories;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
@@ -144,6 +147,67 @@ public class RecyclingHelper {
 
     public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
         registerRecycling(output, Collections.singletonList(ingredients));
+    }
+
+    /**
+     * Helper Method for Recipe/Recipe Builder Method to Use.<br>
+     * Returns false if recipe is invalid, and returns true if successful.
+     */
+    public static boolean changeStackRecycling(List<ItemStack> outputs, List<GTRecipeInput> inputs) {
+        if (outputs.size() != 1 || inputs.isEmpty()) {
+            throwOrGroovyLog(new IllegalArgumentException(
+                    "Cannot change recycling from recipe when there is not one item output, or there are no item inputs!"));
+            return false;
+        }
+        LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerOre(outputs.get(0),
+                RecyclingHandler.getRecyclingIngredients(inputs, outputs.get(0).getCount()));
+        return true;
+    }
+
+    /**
+     * Helper method for find recipe + change stack recycling.<br>
+     * Returns false if recipe is not found, more than one recipe is found, or the found recipe is invalid.
+     * Returns true otherwise.
+     */
+    public static boolean changeStackRecycling(ItemStack output, RecipeMap<?> map, Predicate<Recipe> acceptedRecipe) {
+        var foundRecipes = ((AccessibleRecipeMap) map).findByOutput(Collections.singletonList(output),
+                Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), acceptedRecipe);
+
+        if (foundRecipes == null || foundRecipes.isEmpty()) { // Is Empty probably won't happen, but no harm in checking
+            throwOrGroovyLog(new IllegalStateException("Could not find recipe in Recipe Map " +
+                    map.getUnlocalizedName() + " with output " + output.toString() + "!"));
+            return false;
+        }
+
+        if (foundRecipes.size() > 1) {
+            // Check if the found recipes have the same item input, as that means they are the same for the purposes of
+            // recycling.
+            // This may take a while with a lot of recipes. Hopefully not required much if the users specify recipes
+            // correctly.
+            // Use Multiset: an efficient way to compare inputs where inputs can be duplicated.
+            Multiset<GTRecipeInput> inputs = HashMultiset.create();
+            inputs.addAll(foundRecipes.get(0).getInputs());
+            boolean inputsAllEqual = true;
+
+            // Skip Recipe with index 0, that is already the inputs from above
+            for (int i = 1; i < foundRecipes.size(); i++) {
+                Multiset<GTRecipeInput> compare = HashMultiset.create();
+                compare.addAll(foundRecipes.get(i).getInputs());
+
+                if (!inputs.equals(compare)) {
+                    inputsAllEqual = false;
+                    break;
+                }
+            }
+
+            if (!inputsAllEqual) {
+                throwOrGroovyLog(new IllegalStateException("Found more than one recipe in Recipe Map " +
+                        map.getUnlocalizedName() + " with output " + output.toString() + "!"));
+                return false;
+            }
+        }
+
+        return changeStackRecycling(Collections.singletonList(output), foundRecipes.get(0).getInputs());
     }
 
     private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput,

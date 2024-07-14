@@ -18,6 +18,7 @@
     "MultiblockInfoCategoryMixin",
     "RecipeBuilderMixin",
     "RecipeMapMixin",
+    "RecyclingRecipesMixin",
     "VirtualizedRecipeMapMixin"
   ],
   "client": [],

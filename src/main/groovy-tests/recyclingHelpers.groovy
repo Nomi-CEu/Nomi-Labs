@@ -1,4 +1,10 @@
 // Imports all static functions from the recycling section of the groovy helpers
+
+
+import gregtech.api.recipes.RecipeMaps
+import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition
+import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher
+
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.RecyclingHelpers.*
 
 // Recycling Helpers. Goes in Post Init.
@@ -55,11 +61,25 @@ createRecipe(metaitem('battery_buffer.uhv.8'), [
         [null, metaitem('battery_buffer.uv.8'), null],
         [null, null, null]])
 
+/* Note that all versions of changeStackRecycling have a corresponding changeStackRecyclingNBT, which allows specification of nbt matcher and condition. */
+
 // Add / Change recycling to a stack
 changeStackRecycling(metaitem('battery_buffer.uhv.16'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv')])
 
+// Add / Change recycling to a stack (with NBT)
+changeStackRecyclingNBT(metaitem('tool.datastick'), [metaitem('battery_buffer.uv.16'), metaitem('charger.uv')], NBTMatcher.ANY, NBTCondition.ANY)
+
 // Remove recycling to a stack
 removeStackRecycling(metaitem('item_collector.hv'))
+
+// Add / Change recycling to a stack, with items from a GT Recipe
+changeStackRecyclingNBT(mods.gregtech.circuit_assembler.findByOutput([item('gregtech:meta_item_1', 262)], null, null, null)[0], NBTMatcher.ANY, NBTCondition.ANY)
+
+// Add / Change recycling to a stack, with items sourced from the recipe with that output in that RecipeMap
+// You can either use the actual map itself (RecipeMaps.CIRCUIT_ASSEMBLER) or the GrS reference (mods.gregtech.circuit_assembler)
+// If more than one recipe is found, and the recipes have different item inputs, or no recipe is found, will error.
+// Also accepts appending a Predicate<Recipe> at the end.
+changeStackRecycling(metaitem('cover.screen'), RecipeMaps.ASSEMBLER_RECIPES)
 
 // Replace Recycling In a Recipe Builder
 mods.gregtech.assembler.recipeBuilder()

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
@@ -35,12 +36,17 @@ import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
+import gregtech.api.recipes.Recipe;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
+import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition;
+import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.GTUtility;
 import gregtech.client.utils.TooltipHelper;
+import gregtech.integration.groovy.VirtualizedRecipeMap;
 import groovy.lang.Closure;
 
 /**
@@ -305,6 +311,71 @@ public class GroovyHelpers {
 
         public static void changeStackRecycling(ItemStack output, List<IIngredient> ingredients) {
             RecyclingHelper.changeStackRecycling(output, ingredients);
+        }
+
+        public static void changeStackRecyclingNBT(ItemStack output, List<IIngredient> ingredients, NBTMatcher matcher,
+                                                   NBTCondition condition) {
+            RecyclingHelper.changeStackRecycling(output, ingredients);
+
+            LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerNBTHandling(output, matcher, condition);
+        }
+
+        public static void changeStackRecycling(Recipe recipe) {
+            RecyclingHelper.changeStackRecycling(recipe.getOutputs(), recipe.getInputs());
+        }
+
+        public static void changeStackRecyclingNBT(Recipe recipe, NBTMatcher matcher, NBTCondition condition) {
+            if (RecyclingHelper.changeStackRecycling(recipe.getOutputs(), recipe.getInputs())) {
+                LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerNBTHandling(recipe.getOutputs().get(0),
+                        matcher, condition);
+            }
+        }
+
+        /*
+         * Recipe Search + Recycling Helpers
+         * These Helpers have an output, map, (and a predicate) input, use them to find a recipe, then use that recipe
+         * to change the output's recycling.
+         */
+        public static void changeStackRecycling(ItemStack output, VirtualizedRecipeMap map) {
+            changeStackRecycling(output, map.getRecipeMap(), (r) -> true);
+        }
+
+        public static void changeStackRecyclingNBT(ItemStack output, VirtualizedRecipeMap map, NBTMatcher matcher,
+                                                   NBTCondition condition) {
+            changeStackRecyclingNBT(output, map.getRecipeMap(), (r) -> true, matcher, condition);
+        }
+
+        public static void changeStackRecycling(ItemStack output, VirtualizedRecipeMap map,
+                                                Predicate<Recipe> acceptedRecipe) {
+            RecyclingHelper.changeStackRecycling(output, map.getRecipeMap(), acceptedRecipe);
+        }
+
+        public static void changeStackRecyclingNBT(ItemStack output, VirtualizedRecipeMap map,
+                                                   Predicate<Recipe> acceptedRecipe, NBTMatcher matcher,
+                                                   NBTCondition condition) {
+            if (RecyclingHelper.changeStackRecycling(output, map.getRecipeMap(), acceptedRecipe)) {
+                LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerNBTHandling(output, matcher, condition);
+            }
+        }
+
+        public static void changeStackRecycling(ItemStack output, RecipeMap<?> map) {
+            changeStackRecycling(output, map, (r) -> true);
+        }
+
+        public static void changeStackRecyclingNBT(ItemStack output, RecipeMap<?> map, NBTMatcher matcher,
+                                                   NBTCondition condition) {
+            changeStackRecyclingNBT(output, map, (r) -> true, matcher, condition);
+        }
+
+        public static void changeStackRecycling(ItemStack output, RecipeMap<?> map, Predicate<Recipe> acceptedRecipe) {
+            RecyclingHelper.changeStackRecycling(output, map, acceptedRecipe);
+        }
+
+        public static void changeStackRecyclingNBT(ItemStack output, RecipeMap<?> map, Predicate<Recipe> acceptedRecipe,
+                                                   NBTMatcher matcher, NBTCondition condition) {
+            if (RecyclingHelper.changeStackRecycling(output, map, acceptedRecipe)) {
+                LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER.registerNBTHandling(output, matcher, condition);
+            }
         }
 
         public static void removeStackRecycling(ItemStack output) {
