@@ -8,8 +8,11 @@
     "AccessibleFluidRegistry",
     "CommandDifficultyMixin",
     "FluidRegistryMixin",
+    "ForgeRegistryMixin",
+    "GameDataMixin",
     "ItemStackMixin",
     "NarratorMixin",
+    "SnapshotMixin",
     "WorldLoadHandler"
   ],
   "client": [

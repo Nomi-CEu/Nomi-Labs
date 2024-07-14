@@ -159,10 +159,6 @@ public class LabsFixes {
          * // Note that this is not included in the fix list if the previous version is equal to the current overall fix
          * version.
          *
-         * (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion),
-         * return whether it is valid.
-         * // Note that the fix is only applied if the version AND the modlist is valid.
-         *
          * (stack) -> stack.rl.equals(new ResourceLocation("minecraft:apple")), // Input ItemStackLike, return a boolean
          * (true to fix, false to skip)
          *
@@ -293,7 +289,7 @@ public class LabsFixes {
          *
          * Example of an input:
          * BlockStateLike:
-         * rl: "minecraft:concrete" // Type: Resource Location. Not Null. Can not be registered.
+         * rl: "minecraft:concrete" // Type: Resource Location. Not Null. Note that Remappers are Applied before Fixes!
          * meta: 1 // Type: Short
          *
          * Example:
@@ -308,10 +304,6 @@ public class LabsFixes {
          * // be applied.
          * // Note that this is not included in the fix list if the previous
          * // version is equal to the current overall fix version.
-         *
-         * (modList) -> true, // Inputs the previous modlist the world was loaded with (map of modid to modversion),
-         * // return whether it is valid.
-         * // Note that the fix is only applied if the version AND the modlist is valid.
          *
          * false, // Whether the tile entity tag is needed. If yes, it is accessible via state.setTileEntityTag() and
          * // state.tileEntityTag. If this is false, that field will be null.
@@ -358,14 +350,19 @@ public class LabsFixes {
                             false,
                             (version) -> version <= PRE_AE2_STUFF_REMAP || version == NEW,
                             true,
-                            (state) -> state.rl.getNamespace().equals(AE2_STUFF_MODID) &&
-                                    state.rl.getPath().equals("encoder"),
+                            (state) -> state.rl.getNamespace().equals(AE2_MODID) &&
+                                    state.rl.getPath().equals("interface") && state.meta != 0, // Apply if meta is not
+                                                                                               // 0, interface can only
+                                                                                               // be meta of 0
                             // Always apply regardless of TE Tag
                             null,
                             (state) -> {
-                                state.setRl(new ResourceLocation(AE2_MODID, "interface"));
                                 state.setMeta((short) 0);
-                                if (state.tileEntityTag == null) return;
+
+                                if (state.tileEntityTag == null ||
+                                        !state.tileEntityTag.getString("id")
+                                                .equals(new ResourceLocation(AE2_STUFF_MODID, "encoder").toString()))
+                                    return;
 
                                 state.tileEntityTag.setString("id",
                                         new ResourceLocation(AE2_MODID, "interface").toString());
@@ -453,11 +450,6 @@ public class LabsFixes {
          * // Whether the previous version in the save means that this fix must be applied.
          * // Note that this is not included in the fix list if the previous version is equal to the
          * // current overall fix version.
-         *
-         * (modList) -> true,
-         * // Inputs the previous modlist the world was loaded with (map of modid to modversion), return whether it is
-         * valid.
-         * // Note that the fix is only applied if the version AND the modlist is valid.
          *
          * // Input NBT Tag Compound, return a boolean (true to fix, false to skip)
          * (compound) -> compound.hasKey("id", Constants.NBT.TAG_STRING) &&

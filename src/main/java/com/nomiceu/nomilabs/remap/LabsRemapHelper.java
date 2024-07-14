@@ -100,6 +100,11 @@ public class LabsRemapHelper {
                 new NibbleArray(chunkSectionTag.getByteArray("Add")) : null;
         for (int i = 0; i < 4096; ++i) {
             int x = i & 0x0F, y = i >> 8 & 0x0F, z = i >> 4 & 0x0F;
+
+            // This is based off BlockStateContainer's setDataFromNBT
+            // There, the block id is shifted by 4, and extended is shifted by 12
+            // However, that is to allow the accommodation of 4 bits of metadata info
+            // Thus, here, the block id is not shifted, and extended is only shifted by 8.
             int id = extendedIds == null ? (blockIds[i] & 0xFF) :
                     ((blockIds[i] & 0xFF) | (extendedIds.get(x, y, z) << 8));
             var state = new BlockStateLike(id, (short) blockMetadata.get(x, y, z),

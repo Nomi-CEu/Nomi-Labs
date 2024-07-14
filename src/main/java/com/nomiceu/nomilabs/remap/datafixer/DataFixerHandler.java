@@ -26,13 +26,13 @@ import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
-import net.minecraftforge.registries.GameData;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.groovy.util.Arrays;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.mixinhelper.RemappableForgeRegistry;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.BlockFixer;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.ItemFixer;
@@ -67,8 +67,11 @@ public class DataFixerHandler {
 
     private static String savedLabsVersion;
 
-    /* Must be split up so that idToBlockMap is the old one (so we can use not registered resource locations) */
-    private static NBTTagList oldBlockRegistry;
+    /*
+     * Must be split up so that idToBlockMap has remapped info
+     * (Remapped Info from ForgeRegistry & Snapshot & Game Data Mixins)
+     * Remapped contains the old id mapped to the new resource location (as specified by LabsRemappers)
+     */
     private static Map<Integer, ResourceLocation> idToBlockMap;
     private static Map<ResourceLocation, Integer> blockToIdMap;
 
@@ -97,11 +100,9 @@ public class DataFixerHandler {
         neededNewFixes = null;
         savedLabsVersion = null;
         fixAvailable = true;
-
-        // Clear Block Helper Maps, the ids can be different for each save
         idToBlockMap = null;
         blockToIdMap = null;
-        oldBlockRegistry = null;
+
         NomiLabs.LOGGER.info("Checking Data Fixers...");
 
         getInfoFromSave(save);
@@ -183,18 +184,9 @@ public class DataFixerHandler {
                         continue;
 
                     savedLabsVersion = compound.getString("ModVersion");
-                    break;
+                    return;
                 }
             }
-
-            if (!fml.hasKey("Registries", Constants.NBT.TAG_COMPOUND)) return;
-            NBTTagCompound registries = fml.getCompoundTag("Registries");
-
-            if (!registries.hasKey(GameData.BLOCKS.toString(), Constants.NBT.TAG_COMPOUND)) return;
-            NBTTagCompound blocks = registries.getCompoundTag(GameData.BLOCKS.toString());
-
-            if (!blocks.hasKey("ids", Constants.NBT.TAG_LIST)) return;
-            oldBlockRegistry = blocks.getTagList("ids", Constants.NBT.TAG_COMPOUND);
         } catch (IOException e) {
             NomiLabs.LOGGER.fatal("Failed to read level.dat.", e);
         }
@@ -229,24 +221,22 @@ public class DataFixerHandler {
     }
 
     /**
-     * The Id To Block Map is either loaded from the save's existing registry map, or is produced once needed,
-     * instead of in World Load or Post Init.<br>
+     * The Id to Block Map also includes Remapped IDs of Blocks.<br>
      * This means they are loaded after block id mismatch fixes, so the ids are correct to the world.
      */
     public static Map<Integer, ResourceLocation> getIdToBlockMap() {
         if (idToBlockMap != null) return idToBlockMap;
 
-        if (oldBlockRegistry == null || oldBlockRegistry.isEmpty()) {
-            ForgeRegistry<Block> registry = (ForgeRegistry<Block>) ForgeRegistries.BLOCKS;
-            idToBlockMap = registry.getKeys().stream()
-                    .collect(Collectors.toMap(registry::getID, Function.identity()));
-            NomiLabs.LOGGER.error(
-                    "Block Registry Save in level.dat was not found. Defaulting to Current Registry, some Remaps may not work correctly!");
-        } else {
-            idToBlockMap = oldBlockRegistry.tagList.stream()
-                    .map((tag) -> (NBTTagCompound) tag)
-                    .collect(Collectors.toMap((tag) -> tag.getInteger("V"),
-                            (tag) -> new ResourceLocation(tag.getString("K"))));
+        ForgeRegistry<Block> registry = (ForgeRegistry<Block>) ForgeRegistries.BLOCKS;
+        idToBlockMap = registry.getKeys().stream()
+                .collect(Collectors.toMap(registry::getID, Function.identity()));
+        var remReg = (RemappableForgeRegistry) registry;
+        if (!remReg.getRemapped().isEmpty()) {
+            NomiLabs.LOGGER.debug("Map Before Adding Remapped IDs:");
+            NomiLabs.LOGGER.debug(idToBlockMap);
+            NomiLabs.LOGGER.debug("Adding Block Remapped IDs:");
+            NomiLabs.LOGGER.debug(remReg.getRemapped());
+            idToBlockMap.putAll(remReg.getRemapped());
         }
 
         NomiLabs.LOGGER.debug("Generated Id to Block Map!");
@@ -311,6 +301,5 @@ public class DataFixerHandler {
         neededNewFixes = null;
         idToBlockMap = null;
         blockToIdMap = null;
-        oldBlockRegistry = null;
     }
 }
