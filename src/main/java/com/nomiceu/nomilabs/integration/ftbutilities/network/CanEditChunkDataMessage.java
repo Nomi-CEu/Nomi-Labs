@@ -43,10 +43,12 @@ public class CanEditChunkDataMessage implements IMessage {
         this.startZ = startZ;
         this.storage = 0;
 
+        NomiLabs.LOGGER.debug("[FTB Utils Integration] Serializing Chunk Info {}...", chunkInfo);
+
         // Encode Boolean List into one integer.
         // Using Bit Manipulation. Each storage is a bit.
         for (int i = 0; i < chunkInfo.length; i++) {
-            if (chunkInfo[i]) storage += (int) Math.pow(2, i);
+            if (chunkInfo[i]) storage += 1 << i; // 1 Here represents a Boolean Value of True
         }
 
         NomiLabs.LOGGER.debug(
@@ -55,14 +57,17 @@ public class CanEditChunkDataMessage implements IMessage {
     }
 
     public boolean[][] getChunkInfo() {
+        NomiLabs.LOGGER.debug("[FTB Utils Integration] Decoding Storage {}...", storage);
         // Decode Storage (More Bit Manipulation)
         boolean[][] chunkInfo = new boolean[STORAGE_WIDTH][STORAGE_WIDTH];
         for (int x = 0; x < STORAGE_WIDTH; x++) {
             for (int z = 0; z < STORAGE_WIDTH; z++) {
-                chunkInfo[x][z] = (storage & (int) Math.pow(2, x * STORAGE_WIDTH + z)) != 0;
+                // Shift Storage by position in List, then mask with 1
+                chunkInfo[x][z] = ((storage >> x * STORAGE_WIDTH + z) & 1) != 0;
             }
         }
-        NomiLabs.LOGGER.debug("[FTB Utils Integration] Decoded Storage: {}", Arrays.deepToString(chunkInfo));
+        NomiLabs.LOGGER.debug("[FTB Utils Integration] Decoded Storage into Chunk Info: {}",
+                Arrays.deepToString(chunkInfo));
         return chunkInfo;
     }
 
