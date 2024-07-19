@@ -41,10 +41,9 @@ public abstract class AEBaseGuiMixin extends GuiContainer {
             if (getSlotUnderMouse() != null &&
                     getSlotUnderMouse().isItemValid(mc.player.inventory.getItemStack()))
                 ignoreMouseUp = true;
-
             cir.setReturnValue(true);
+        } else {
+            cir.setReturnValue(false);
         }
-
-        cir.setReturnValue(false);
     }
 }

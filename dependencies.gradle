@@ -177,7 +177,7 @@ dependencies {
     // This Mod has a Temporary Mixin to fix a Bug, which may be fixed in a Later Version!
     // Check/Remove the mixin after updating!
     if (project.enable_ae2.toBoolean()) {
-        runtimeOnly "curse.maven:ae2-extended-life-570458:4851091" // Version 0.56.5
+        runtimeOnly "curse.maven:ae2-extended-life-570458:5378163" // Version 0.56.5
     }
 
     if (project.enable_dme.toBoolean()) {
@@ -250,5 +250,9 @@ dependencies {
         runtimeOnly "curse.maven:redstone-arsenal-70631:2939416" // Version 2.6.6.1
         runtimeOnly "curse.maven:cofh-world-271384:2920434" // Version 1.4.0.1
         runtimeOnly "curse.maven:cofh-core-69162:2920433" // Version 4.6.6.1
+    }
+
+    if (project.enable_mouse_tweaks.toBoolean()) {
+        runtimeOnly "curse.maven:mouse-tweaks-461660:4661407" // Mouse Tweaks Unofficial, Version 3.1.4
     }
 }
