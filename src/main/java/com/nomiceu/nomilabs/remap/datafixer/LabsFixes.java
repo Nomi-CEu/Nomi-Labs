@@ -70,8 +70,9 @@ public class LabsFixes {
     public static final int NEW = Integer.MAX_VALUE;
 
     /**
-     * The current data format version. Increment this when breaking changes are made and the
-     * data mixer must be applied. If this is not incremented, nothing will be applied.
+     * The current data format version. Increment this when breaking changes are made and
+     * data fixers should be applied. If this is not incremented, nothing will be applied to loaded worlds and
+     * inventories.
      */
     public static final int CURRENT = 4;
 

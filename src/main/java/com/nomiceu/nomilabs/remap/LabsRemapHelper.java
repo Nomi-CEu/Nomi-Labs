@@ -13,7 +13,9 @@ import net.minecraftforge.fml.common.StartupQuery;
 import net.minecraftforge.fml.common.ZipperUtil;
 
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
+import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import com.nomiceu.nomilabs.remap.datafixer.storage.BlockRewriter;
 import com.nomiceu.nomilabs.remap.datafixer.storage.BlockStateLike;
 import com.nomiceu.nomilabs.remap.datafixer.storage.CompoundRewriter;
@@ -158,6 +160,15 @@ public class LabsRemapHelper {
                     new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z")), tag);
         }
         return posToTileEntityCache;
+    }
+
+    /**
+     * This method gets the version which should be reported by all Labs Data Fixers.
+     * <p>
+     * This combines the internal version with the config version, allowing for forced re-application.
+     */
+    public static int getReportedVersion() {
+        return LabsFixes.CURRENT + LabsVersionConfig.manualFixVersion;
     }
 
     public static void abort() {

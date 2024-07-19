@@ -32,6 +32,7 @@ import org.apache.groovy.util.Arrays;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.mixinhelper.RemappableForgeRegistry;
 import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.fixes.BlockFixer;
@@ -88,7 +89,7 @@ public class DataFixerHandler {
         fmlFixer.registerVanillaWalker(FixTypes.CHUNK, new ChunkWalker());
 
         // Fixers
-        ModFixs fixs = fmlFixer.init(LabsValues.LABS_MODID, LabsFixes.CURRENT);
+        ModFixs fixs = fmlFixer.init(LabsValues.LABS_MODID, LabsRemapHelper.getReportedVersion());
         fixs.registerFix(LabsFixTypes.FixerTypes.ITEM, new ItemFixer());
         fixs.registerFix(LabsFixTypes.FixerTypes.CHUNK, new BlockFixer());
         fixs.registerFix(LabsFixTypes.FixerTypes.TILE_ENTITY, new TileEntityFixer());
@@ -114,16 +115,39 @@ public class DataFixerHandler {
         if (mapFile.exists()) {
             DataFixerHandler.worldSavedData = LabsWorldFixData.load(mapFile);
 
-            // Shortcut: If saved version == Current Version, Exit
+            // Check if manual fix version has been decremented
+            // This could break things, so throw an exception
+            if (LabsVersionConfig.manualFixVersion < DataFixerHandler.worldSavedData.savedManualFixVersion) {
+                NomiLabs.LOGGER.fatal("Manual Data Fix Version has been decremented. This is not supported!");
+                sendMessage(MessageType.NOTIFY, Components.getInvalidManualVersion());
+                LabsRemapHelper.abort();
+            }
+
+            // No need to increment version, the fix version, not the stored version, is saved
+            // Still need to call as otherwise it isn't actually changed
+            LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
+
+            // Shortcut: If saved version == Current Version, Exit (No NEW Fixes)
             if (DataFixerHandler.worldSavedData.savedFixVersion == LabsFixes.CURRENT) {
+                NomiLabs.LOGGER.info("This world's internal data version is up to date.");
+
+                // Check only relevant if internal fix version hasn't changed
+                // Else, manual version increment doesn't matter
+                if (LabsVersionConfig.manualFixVersion != DataFixerHandler.worldSavedData.savedManualFixVersion) {
+                    NomiLabs.LOGGER.info(
+                            "The Manual Data Fix Version has been increased. New Version: {}. Enabling Data Fixers...",
+                            LabsVersionConfig.manualFixVersion);
+                }
+
                 DataFixerHandler.worldSavedData = null;
-                NomiLabs.LOGGER.info("This world's data version is up to date.");
                 return;
             }
-            NomiLabs.LOGGER.info("This world's data version needs updating. New Version: {}.", LabsFixes.CURRENT);
+            NomiLabs.LOGGER.info("This world's internal data version needs updating. New Version: {}.",
+                    LabsFixes.CURRENT);
         } else {
             DataFixerHandler.worldSavedData = new LabsWorldFixData();
-            NomiLabs.LOGGER.info("This world was saved without a data version. New Version: {}.", LabsFixes.CURRENT);
+            NomiLabs.LOGGER.info("This world was saved without a data version info. New Version: {}.",
+                    LabsFixes.CURRENT);
         }
 
         determineNeededFixesAndLog();
@@ -152,10 +176,6 @@ public class DataFixerHandler {
         checked = true;
 
         LabsRemapHelper.createWorldBackup();
-
-        // No need to increment version, the fix version, not the stored version, is saved
-        // Still need to call as otherwise it isn't actually changed
-        LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
     }
 
     private static void getInfoFromSave(SaveHandler save) {
@@ -199,6 +219,7 @@ public class DataFixerHandler {
         // This normally means it is a new world.
         // Sometimes the level.dat file is created first, but usually this runs after it is created.
         // If the level.dat file is created first, its mod list is equal to the current one.
+        // Regardless, NEW fixes are not required.
         if (LabsValues.LABS_VERSION.equals(savedLabsVersion))
             return;
 

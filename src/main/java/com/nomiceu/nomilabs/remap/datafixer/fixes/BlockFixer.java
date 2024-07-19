@@ -15,7 +15,7 @@ public class BlockFixer implements IFixableData {
 
     @Override
     public int getFixVersion() {
-        return LabsFixes.CURRENT;
+        return LabsRemapHelper.getReportedVersion();
     }
 
     @Override

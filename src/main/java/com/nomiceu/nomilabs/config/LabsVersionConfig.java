@@ -16,6 +16,17 @@ public class LabsVersionConfig {
     @Config.RequiresMcRestart
     public static String formattedVersion = "v1.0.0";
 
+    @Config.Comment({
+            "Manual Fix Version. Increment this to have Data Fixers be POTENTIALLY applied.",
+            "Note that if a chunk or inventory is loaded on the same fix version multiple times, it will only be fixed the first time.",
+            "Note that no warning will be displayed before game load.",
+            "The data fix version itself will be this config + the Labs internal fix version.",
+            "[default: 0]" })
+    @Config.LangKey("config.nomilabs.version.manual-fix-version")
+    @Config.RangeInt(min = 0)
+    @Config.RequiresMcRestart
+    public static int manualFixVersion = 0;
+
     static {
         ConfigAnytime.register(LabsVersionConfig.class);
     }

@@ -22,7 +22,6 @@ public class LabsMessageHelper {
         CONFIRM
     }
 
-    // Don't forget to update this in en_us.lang as well!
     public static class Components {
 
         public static String[] getIntro() {
@@ -61,6 +60,13 @@ public class LabsMessageHelper {
                     translate("nomilabs.fixer.do_not_revert.do_not_exit_addition"),
                     translate("nomilabs.fixer.do_not_revert.1"),
                     translate("nomilabs.fixer.do_not_revert.2")
+            };
+        }
+
+        public static String[] getInvalidManualVersion() {
+            return new String[] {
+                    translate("nomilabs.fixer.invalid_manual_version.1"),
+                    translate("nomilabs.fixer.invalid_manual_version.2")
             };
         }
     }

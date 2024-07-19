@@ -14,11 +14,13 @@ import org.jetbrains.annotations.NotNull;
 
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.config.LabsVersionConfig;
 
 public class LabsWorldFixData extends WorldSavedData {
 
-    // Fix Version stored in this world.
+    // Fix Versions stored in this world.
     public int savedFixVersion;
+    public int savedManualFixVersion;
 
     // Base Data Key
     public static final String BASE_DATA_KEY = "data";
@@ -26,10 +28,16 @@ public class LabsWorldFixData extends WorldSavedData {
     // Key used to store fix version
     public static final String VERSION_KEY = "Version";
 
+    // Key used to store manual fix version. Used for log status messages.
+    public static final String MANUAL_VERSION_KEY = "ManualVersion";
+
     public LabsWorldFixData() {
         super(LabsFixes.DATA_NAME);
+
         if (LabsConfig.advanced.enableNomiCEuDataFixes) savedFixVersion = LabsFixes.DEFAULT_NOMI_CEU;
         else savedFixVersion = LabsFixes.DEFAULT;
+
+        savedManualFixVersion = 0;
     }
 
     public void processSavedLabsVersion(String savedLabsVersion) {
@@ -43,14 +51,23 @@ public class LabsWorldFixData extends WorldSavedData {
             savedFixVersion = nbt.getInteger(VERSION_KEY);
             NomiLabs.LOGGER.info("This world was previously loaded with Fix Version {}.", savedFixVersion);
         } else
-            NomiLabs.LOGGER.info(
+            NomiLabs.LOGGER.warn(
                     "This world was previously loaded without a saved Fix Version, possibly due to corruption, defaulting to {}.",
                     savedFixVersion);
+
+        if (nbt.hasKey(MANUAL_VERSION_KEY, Constants.NBT.TAG_ANY_NUMERIC)) {
+            savedManualFixVersion = nbt.getInteger(MANUAL_VERSION_KEY);
+            NomiLabs.LOGGER.info("This world was previously loaded with Manual Fix Version {}.", savedManualFixVersion);
+        } else
+            NomiLabs.LOGGER.info("This world was saved without a Manual Fix Version. Defaulting to {}.",
+                    savedManualFixVersion);
     }
 
     @Override
     public @NotNull NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setInteger(VERSION_KEY, LabsFixes.CURRENT); // Save the current fix version, not the saved version
+        compound.setInteger(MANUAL_VERSION_KEY, LabsVersionConfig.manualFixVersion); // Save current manual fix version,
+                                                                                     // not the saved manual version
         return compound;
     }
 

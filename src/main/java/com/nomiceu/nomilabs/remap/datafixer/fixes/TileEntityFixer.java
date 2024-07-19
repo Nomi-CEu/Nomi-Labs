@@ -6,6 +6,7 @@ import net.minecraft.util.datafix.IFixableData;
 import org.jetbrains.annotations.NotNull;
 
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFix;
 import com.nomiceu.nomilabs.remap.datafixer.LabsFixes;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
@@ -14,7 +15,7 @@ public class TileEntityFixer implements IFixableData {
 
     @Override
     public int getFixVersion() {
-        return LabsFixes.CURRENT;
+        return LabsRemapHelper.getReportedVersion();
     }
 
     @Override
