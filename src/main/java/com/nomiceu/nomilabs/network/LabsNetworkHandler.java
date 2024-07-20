@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.network;
 
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -21,6 +22,8 @@ public class LabsNetworkHandler {
         CURRENT_ID = 0;
         registerMessage(CanEditChunkDataMessage.MessageHandler.class, CanEditChunkDataMessage.class);
         registerMessage(LabsDifficultyChangeMessage.MessageHandler.class, LabsDifficultyChangeMessage.class);
+        if (Loader.isModLoaded(LabsValues.AE2_MODID))
+            registerMessage(LabsP2PCycleMessage.MessageHandler.class, LabsP2PCycleMessage.class);
     }
 
     @SuppressWarnings("SameParameterValue")

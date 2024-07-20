@@ -1,6 +1,10 @@
 package com.nomiceu.nomilabs.event;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -19,8 +23,11 @@ import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
+import com.nomiceu.nomilabs.network.LabsNetworkHandler;
+import com.nomiceu.nomilabs.network.LabsP2PCycleMessage;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.tooltip.TooltipAdder;
+import com.nomiceu.nomilabs.util.ItemMeta;
 
 /*
  * Every texture is registered, in case something in that registry, not in that config, is enabled.
@@ -82,5 +89,31 @@ public class ClientProxy {
     public static void afterScriptLoad(ScriptRunEvent.Post event) {
         NomiLabs.LOGGER.info("Reloading Options File.");
         FMLClientHandler.instance().getClient().gameSettings.loadOptions();
+    }
+
+    @SubscribeEvent
+    public static void onMouseEvent(MouseEvent event) {
+        if (!Loader.isModLoaded(LabsValues.AE2_MODID)) return;
+
+        int scroll = event.getDwheel();
+        if (scroll == 0 || !LabsTooltipHelper.isShiftDown()) return;
+        byte offset = (byte) (scroll < 0 ? -1 : 1);
+
+        // Handle P2P Scroll
+        Minecraft minecraft = Minecraft.getMinecraft();
+        EntityPlayer player = minecraft.player;
+        if (player == null || minecraft.currentScreen != null) return;
+
+        if (LabsP2PCycleMessage.MessageHandler.getP2ps()
+                .containsKey(new ItemMeta(player.getHeldItem(EnumHand.MAIN_HAND)))) {
+            LabsNetworkHandler.NETWORK_HANDLER
+                    .sendToServer(new LabsP2PCycleMessage(player, EnumHand.MAIN_HAND, offset));
+            event.setCanceled(true);
+        } else if (LabsP2PCycleMessage.MessageHandler.getP2ps()
+                .containsKey(new ItemMeta(player.getHeldItem(EnumHand.OFF_HAND)))) {
+                    LabsNetworkHandler.NETWORK_HANDLER
+                            .sendToServer(new LabsP2PCycleMessage(player, EnumHand.OFF_HAND, offset));
+                    event.setCanceled(true);
+                }
     }
 }

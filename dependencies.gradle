@@ -93,9 +93,14 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:chisel-235279:2915375") // Version 1.0.2.45
 
     // AE2, Used in Naquadah Reactors (AE2 Unofficial Extended Life used) (from CurseForge)
+    // This Mod has a Temporary Mixin to fix a Bug, which may be fixed in a Later Version!
+    // Check/Remove the mixin after updating!
     compileOnly rfg.deobf("curse.maven:ae2-extended-life-570458:5378163") // Version 0.56.5
 
-    // DeepMobEvolution, Used in DME Data Hatch (from CurseForge)
+    // NAE2, Used in P2P Shift Scrolling (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:nae2-884359:5380800") // Version 1.6.4
+
+    // DeepMobEvolution, Used in DME Sim Chamber (from CurseForge)
     compileOnly rfg.deobf("curse.maven:dme-737252:5043404") // Version 1.2.2
 
     // Extended Crafting, Used in Naquadah Reactors (Nomifactory Fork Used) (from CurseForge)
@@ -174,10 +179,12 @@ dependencies {
         runtimeOnly "curse.maven:ctm-267602:2915363" // Version 1.0.2.31
     }
 
-    // This Mod has a Temporary Mixin to fix a Bug, which may be fixed in a Later Version!
-    // Check/Remove the mixin after updating!
     if (project.enable_ae2.toBoolean()) {
         runtimeOnly "curse.maven:ae2-extended-life-570458:5378163" // Version 0.56.5
+    }
+
+    if (project.enable_nae2.toBoolean()) {
+        runtimeOnly "curse.maven:nae2-884359:5380800" // Version 1.6.4
     }
 
     if (project.enable_dme.toBoolean()) {

@@ -23,6 +23,7 @@ public class LabsValues {
     public static final String ENDER_STORAGE_MODID = "enderstorage";
     public static final String EXTENDED_CRAFTING_MODID = "extendedcrafting";
     public static final String AE2_MODID = "appliedenergistics2";
+    public static final String NAE2_MODID = "nae2";
     public static final String CHISEL_MODID = "chisel";
     public static final String DRACONIC_MODID = "draconicevolution";
     public static final String NUCLEARCRAFT_MODID = "nuclearcraft";
