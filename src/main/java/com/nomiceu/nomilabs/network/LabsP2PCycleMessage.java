@@ -117,6 +117,7 @@ public class LabsP2PCycleMessage implements IMessage {
                 }
                 ItemStack next = getP2ps().inverse().get((getP2ps().get(held) + 1) % p2ps.size()).toStack();
                 next.setCount(heldStack.getCount());
+                next.setTagCompound(heldStack.getTagCompound());
                 player.setHeldItem(cycle.getHand(), next);
             }
         }
