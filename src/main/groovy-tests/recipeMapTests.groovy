@@ -3,6 +3,7 @@
 import com.nomiceu.nomilabs.groovy.ChangeRecipeBuilder
 
 import gregtech.api.recipes.RecipeBuilder
+import gregtech.api.recipes.RecipeMaps
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput
 import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher
@@ -77,7 +78,25 @@ mods.gregtech.assembler.recipeBuilder()
     .inputNBT(ore('dyeBlue'), NBTMatcher.ANY, NBTCondition.ANY)
     .inputWildNBT(ore('dyeRed')) // Same as above (Except the OreDict of course)
     .outputs(item('minecraft:apple') * 64)
-    .EUt(30).duration(VA[LV])
+    .EUt(VA[LV]).duration(30)
+    .buildAndRegister()
+
+// Replace Recipes
+// A ReplaceByOutput on the recipe builder's recipe map, with the outputs (and other info) specified up to that point, will be conducted.
+// Remember that ReplaceByOutput ignores amount!
+
+// Variations: `replace(RecipeMap<?>... otherMaps), `replace(Predicate<Recipe> condition, RecipeMap<?>... otherMaps)`,
+// `replaceInCategory(RecipeMap<?>... otherMaps)`, `replaceWithVoltage(RecipeMap<?>... otherMaps)`,
+// `replaceWithExactVoltage(RecipeMap<?>... otherMaps)`
+
+// Other Maps also have the recipe removed from them. Useful when a recipe is auto-registered to multiple recipe maps (e.g. Chemical Reactor)
+// Example: Changing the Recipe for Multi-Layer Fiber Reinforced Circuit Board (with Recycling)
+mods.gregtech.chemical_reactor.recipeBuilder()
+    .inputs(metaitem('board.wetware') * 6, metaitem('circuit_assembler.iv') * 5)
+    .fluidInputs(fluid('rhodium') * 144)
+    .outputs(metaitem('board.multilayer.fiber_reinforced') * 12)
+    .EUt(VA[OpV]).duration(1_000_000)
+    .replace(RecipeMaps.LARGE_CHEMICAL_RECIPES) // Chem Reactor recipes are also registered to Large Chemical Reactor's Recipe Map
     .buildAndRegister()
 
 // Change Recipes
