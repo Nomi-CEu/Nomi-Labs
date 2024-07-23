@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
@@ -48,6 +49,11 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
         if (!Objects.equals(RecyclingHelper.recyclingMaps.get((RecipeMap<?>) (Object) this),
                 validationResult.getResult().getRecipeCategory()))
             cir.setReturnValue(false);
+    }
+
+    @Inject(method = "removeAllRecipes", at = @At(value = "HEAD"))
+    private void updateOutputLookupClear(CallbackInfo ci) {
+        outputLookup.clear();
     }
 
     @Inject(method = "compileRecipe",

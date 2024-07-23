@@ -12,11 +12,13 @@ import org.jetbrains.annotations.Nullable;
 
 import com.cleanroommc.groovyscript.registry.AbstractReloadableStorage;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
+import com.nomiceu.nomilabs.mixin.gregtech.OreDictUnifierAccessor;
 import com.nomiceu.nomilabs.util.ItemMeta;
 
 import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher;
 import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.unification.stack.ItemAndMetadata;
 import gregtech.api.unification.stack.ItemMaterialInfo;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
@@ -62,8 +64,16 @@ public class LabsVirtualizedRegistries {
 
         @Override
         public void onReload() {
+            removeScripted().forEach((pair) -> {
+                // These will be overrided by values in `restoreFromBackup` if they existed before.
+                OreDictUnifierAccessor.getMaterialUnificationInfo()
+                        .remove(new ItemAndMetadata(pair.getLeft().toStack()));
+                needReloading.put(pair.getLeft(), null);
+            });
             restoreFromBackup().forEach((pair) -> {
-                OreDictUnifier.registerOre(pair.getLeft().toStack(), pair.getRight());
+                if (pair.getValue() != null) OreDictUnifier.registerOre(pair.getLeft().toStack(), pair.getRight());
+                else OreDictUnifierAccessor.getMaterialUnificationInfo()
+                        .remove(new ItemAndMetadata(pair.getLeft().toStack()));
                 needReloading.put(pair.getLeft(), pair.getRight());
             });
             addedNbtConditions.clear();
@@ -97,6 +107,7 @@ public class LabsVirtualizedRegistries {
         public void registerOre(ItemStack stack, ItemMaterialInfo info) {
             var in = new ItemMeta(stack);
             addBackup(Pair.of(in, OreDictUnifier.getMaterialInfo(stack)));
+            addScripted(Pair.of(in, info));
             needReloading.put(in, info);
             OreDictUnifier.registerOre(stack, info);
         }

@@ -42,6 +42,11 @@ public class OutputBranch {
         return nodes;
     }
 
+    public void clear() {
+        nodes = null;
+        specialNodes = null;
+    }
+
     @Nullable
     public Map<AbstractMapIngredient, EitherOrBoth<Set<Recipe>, OutputBranch>> getNodesIfExists(AbstractMapIngredient ingredient) {
         if (ingredient.isSpecialIngredient())
@@ -52,8 +57,7 @@ public class OutputBranch {
 
     public static void clearAll() {
         for (var branch : REGISTERED_OUTPUT_BRANCHES) {
-            branch.nodes = null;
-            branch.specialNodes = null;
+            branch.clear();
         }
     }
 }

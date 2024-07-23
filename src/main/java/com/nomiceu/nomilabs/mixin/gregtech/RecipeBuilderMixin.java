@@ -9,15 +9,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
+import com.cleanroommc.groovyscript.api.IIngredient;
 import com.nomiceu.nomilabs.groovy.RecyclingHelper;
 
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
-import gregtech.api.recipes.ingredients.GTRecipeItemInput;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher;
 import gregtech.api.util.EnumValidationResult;
 
+@SuppressWarnings({ "unchecked", "DataFlowIssue" })
 @Mixin(value = RecipeBuilder.class, remap = false)
 public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
 
@@ -33,27 +34,30 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     protected EnumValidationResult recipeStatus;
 
     @Shadow
-    public abstract RecipeBuilder<R> inputNBT(GTRecipeInput input, NBTMatcher matcher, NBTCondition condition);
+    public abstract R inputNBT(GTRecipeInput input, NBTMatcher matcher, NBTCondition condition);
+
+    @Shadow
+    private static GTRecipeInput ofGroovyIngredient(IIngredient ingredient) {
+        return null;
+    }
 
     @Unique
     @SuppressWarnings("unused")
-    public RecipeBuilder<R> changeRecycling() {
+    public R changeRecycling() {
         if (!RecyclingHelper.changeStackRecycling(outputs, inputs))
             recipeStatus = EnumValidationResult.INVALID;
 
-        // noinspection unchecked
-        return (RecipeBuilder<R>) (Object) this;
+        return (R) (Object) this;
+    }
+
+    @Unique
+    public R inputNBT(IIngredient ingredient, NBTMatcher matcher, NBTCondition condition) {
+        return inputNBT(ofGroovyIngredient(ingredient), matcher, condition);
     }
 
     @Unique
     @SuppressWarnings("unused")
-    public RecipeBuilder<R> inputWildNBT(ItemStack stack) {
-        return inputNBT(stack, NBTMatcher.ANY, NBTCondition.ANY);
-    }
-
-    @Unique
-    @SuppressWarnings("unused")
-    public RecipeBuilder<R> inputNBT(ItemStack stack, NBTMatcher matcher, NBTCondition condition) {
-        return inputNBT(new GTRecipeItemInput(stack), matcher, condition);
+    public R inputWildNBT(IIngredient ingredient) {
+        return inputNBT(ingredient, NBTMatcher.ANY, NBTCondition.ANY);
     }
 }

@@ -82,7 +82,7 @@ material('rhodium_plated_palladium')
         // Start the builder
         .changeComposition()
         // Set Components, using a mixture of MaterialStacks, ItemStacks and FluidStacks
-        .setComponents([materialstack('pyrite') * 4, materialstack('rhodium') * 2, materialstack('nomilabs:naquadah_oxide'), materialstack('magnesium'), materialstack('carbon')])
+        .setComponents([materialstack('pyrite') * 4, materialstack('rhodium') * 2, materialstack('nomilabs:naquadah_oxide')])
         // Change Chemical Formula (Also Saves the Change, so GS Hand shows new components instead of original)
         .changeChemicalFormula()
         // Change Decomp Recipes
