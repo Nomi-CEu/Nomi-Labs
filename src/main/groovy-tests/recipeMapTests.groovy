@@ -13,11 +13,39 @@ import static gregtech.api.GTValues.*
 // Find and Removing GT Recipe Helpers. Goes in Post Init.
 
 // Building Test Recipes
-mods.gregtech.sifter.recipeBuilder().inputs(metaitem('nomilabs:dustImpureOsmiridium8020')).outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64).EUt(50).duration(30).buildAndRegister()
-mods.gregtech.sifter.recipeBuilder().inputs(item('minecraft:stick')).outputs(item('minecraft:apple') * 64).EUt(50).duration(30).buildAndRegister()
-mods.gregtech.sifter.recipeBuilder().inputs(item('minecraft:yellow_flower')).outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64).chancedOutput(item('minecraft:apple') * 64, 50, 1).chancedFluidOutput(fluid('fluorine') * 2000, 50, 1).EUt(50).duration(30).buildAndRegister()
-mods.gregtech.sifter.recipeBuilder().inputs(metaitem('nomilabs:dustOsmiridium8020')).outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64).chancedOutput(item('minecraft:apple') * 64, 50, 1).chancedFluidOutput(fluid('fluorine') * 2000, 50, 1).EUt(50).duration(30).buildAndRegister()
-mods.gregtech.sifter.recipeBuilder().inputs(metaitem('nomilabs:dustPureOsmiridium8020')).outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64).EUt(50).duration(30).buildAndRegister()
+mods.gregtech.sifter.recipeBuilder()
+        .inputs(metaitem('nomilabs:dustImpureOsmiridium8020'))
+        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+        .EUt(VA[LV]).duration(30)
+        .buildAndRegister()
+
+mods.gregtech.sifter.recipeBuilder()
+        .inputs(item('minecraft:stick'))
+        .outputs(item('minecraft:apple') * 64)
+        .EUt(VA[LV]).duration(30)
+        .buildAndRegister()
+
+mods.gregtech.sifter.recipeBuilder()
+        .inputs(item('minecraft:yellow_flower'))
+        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+        .chancedOutput(item('minecraft:apple') * 64, 50, 1)
+        .chancedFluidOutput(fluid('fluorine') * 2000, 50, 1)
+        .EUt(VA[LV]).duration(30)
+        .buildAndRegister()
+
+mods.gregtech.sifter.recipeBuilder()
+        .inputs(metaitem('nomilabs:dustOsmiridium8020'))
+        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+        .chancedOutput(item('minecraft:apple') * 64, 50, 1)
+        .chancedFluidOutput(fluid('fluorine') * 2000, 50, 1)
+        .EUt(VA[LV]).duration(30)
+        .buildAndRegister()
+
+mods.gregtech.sifter.recipeBuilder()
+        .inputs(metaitem('nomilabs:dustPureOsmiridium8020'))
+        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+        .EUt(VA[LV]).duration(30)
+        .buildAndRegister()
 
 // Find/Remove By Input Extensions (Are Lists of: List<ItemStack> itemInputs, List<FluidStack> fluidInputs)
 // mods.gregtech.<RECIPE_MAP>.removeByInput to remove, mods.gregtech.<RECIPE_MAP>.find to find (Returns null if no recipe found)
@@ -31,6 +59,7 @@ mods.gregtech.sifter.removeByInput([item('minecraft:yellow_flower')], null)
 
 // Find/Remove By Output
 // Outputs Specification: List<ItemStack> itemOutputs, List<FluidStack> fluidOutputs, List<ChancedItemOutput> chancedItemOutputs, List<ChancedFluidOutput> chancedFluidOutputs
+// (You can also exclude the Chanced Items and Fluids, e.g. List<ItemStack> itemOutputs, List<FluidStack> fluidOutputs)
 // Chanced Item/Fluid Outputs: chanced(item/fluid, chance, chanceBoost)
 // mods.gregtech.<RECIPE_MAP>.removeByOutput to remove, mods.gregtech.<RECIPE_MAP>.findByOutput to find (Returns null if no recipes found)
 // ALL FIND/REMOVE BY OUTPUT OPTIONS IGNORE THE AMOUNT!
@@ -70,8 +99,8 @@ mods.gregtech.primitive_blast_furnace.changeAllRecipes()
                 .replaceAndRegister()
     }
 
-// Example 2: Making All Electronic Circuit Recipes Output Double and require an Apple, whilst Changing Recycling
-mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.electronic') * 2], null, null, null)
+// Example 2: Making All Electronic Circuit Recipes Output Double and require an Apple, whilst Changing (Adding) Recycling
+mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.electronic') * 2], null) // Excluding Chanced Output Specification
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeEachOutput { stack ->
             stack.count *= 2
@@ -91,7 +120,7 @@ mods.gregtech.macerator.changeByInput([metaitem('plant_ball') * 2], null)
     .replaceAndRegister()
 
 // Example 4: Changing the Circuit Meta of a Recipe
-mods.gregtech.assembler.changeByOutput([item('minecraft:iron_bars') * 4], null, null, null)
+mods.gregtech.assembler.changeByOutput([item('minecraft:iron_bars') * 4], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeCircuitMeta { meta -> meta * 2 }
             .replaceAndRegister()
@@ -99,7 +128,7 @@ mods.gregtech.assembler.changeByOutput([item('minecraft:iron_bars') * 4], null, 
 
 // Example 5: Adding Alternative Chemical Reactor Recipes
 // Alternative = `buildAndRegister` not `replaceAndRegister`
-mods.gregtech.chemical_reactor.changeByOutput(null, [fluid('polytetrafluoroethylene')], null, null) // Change By Output ignores Amount
+mods.gregtech.chemical_reactor.changeByOutput(null, [fluid('polytetrafluoroethylene')]) // Change By Output ignores Amount
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeCircuitMeta { meta -> meta + 10 }
             .builder { RecipeBuilder recipe ->

@@ -107,6 +107,32 @@ public abstract class VirtualizedRecipeMapMixin {
 
     @Unique
     @Nullable
+    public List<Recipe> findByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids) {
+        return findByOutput(voltage, items, fluids, null, null);
+    }
+
+    @Unique
+    @Nullable
+    public List<Recipe> findByOutput(List<ItemStack> items, List<FluidStack> fluids) {
+        return findByOutput(items, fluids, null, null);
+    }
+
+    @Unique
+    @Nullable
+    public List<Recipe> findByOutput(GTRecipeCategory category, List<ItemStack> items,
+                                     List<FluidStack> fluids) {
+        return findByOutput(category, items, fluids, null, null);
+    }
+
+    @Unique
+    @Nullable
+    @SuppressWarnings("DuplicatedCode")
+    public List<Recipe> findByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids) {
+        return findByOutput(condition, items, fluids, null, null);
+    }
+
+    @Unique
+    @Nullable
     @SuppressWarnings("DuplicatedCode")
     public List<Recipe> findByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
@@ -154,6 +180,26 @@ public abstract class VirtualizedRecipeMapMixin {
                 .collect(Collectors.toList());
         return getAccessibleRecipeMap().findByOutput(filteredItems, filteredFluids, chancedItems, chancedFluids,
                 condition);
+    }
+
+    @Unique
+    public boolean removeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids) {
+        return removeByOutput(voltage, items, fluids, null, null);
+    }
+
+    @Unique
+    public boolean removeByOutput(List<ItemStack> items, List<FluidStack> fluids) {
+        return removeByOutput(items, fluids, null, null);
+    }
+
+    @Unique
+    public boolean removeByOutput(GTRecipeCategory category, List<ItemStack> items, List<FluidStack> fluids) {
+        return removeByOutput(category, items, fluids, null, null);
+    }
+
+    @Unique
+    public boolean removeByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids) {
+        return removeByOutput(condition, items, fluids, null, null);
     }
 
     @Unique
@@ -270,6 +316,28 @@ public abstract class VirtualizedRecipeMapMixin {
             return new DummyChangeRecipeBuilder<>(recipeMap);
         }
         return new ChangeRecipeBuilder<>(recipe, recipeMap);
+    }
+
+    @Unique
+    public Stream<ChangeRecipeBuilder<?>> changeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids) {
+        return changeByOutput(voltage, items, fluids, null, null);
+    }
+
+    @Unique
+    public Stream<ChangeRecipeBuilder<?>> changeByOutput(List<ItemStack> items, List<FluidStack> fluids) {
+        return changeByOutput(items, fluids, null, null);
+    }
+
+    @Unique
+    public Stream<ChangeRecipeBuilder<?>> changeByOutput(GTRecipeCategory category, List<ItemStack> items,
+                                                         List<FluidStack> fluids) {
+        return changeByOutput(category, items, fluids, null, null);
+    }
+
+    @Unique
+    public Stream<ChangeRecipeBuilder<?>> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
+                                                         List<FluidStack> fluids) {
+        return changeByOutput(condition, items, fluids, null, null);
     }
 
     @Unique
