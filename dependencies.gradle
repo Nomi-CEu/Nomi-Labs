@@ -57,9 +57,9 @@ dependencies {
     implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
 
     // GroovyScript (from Cleanroom Maven)
-    implementation ("com.cleanroommc:groovyscript:1.1.1") {
+    implementation ("com.cleanroommc:groovyscript:1.1.2") {
         transitive = false
-    } // Version 1.1.1
+    } // Version 1.1.2
 
     // Config Anytime (from Cleanroom Maven)
     implementation ('com.cleanroommc:configanytime:3.0') // Version 3.0
