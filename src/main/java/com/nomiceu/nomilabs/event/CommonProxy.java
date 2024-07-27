@@ -37,6 +37,7 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
+import com.nomiceu.nomilabs.groovy.NCActiveCoolerHelper;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
@@ -201,5 +202,16 @@ public class CommonProxy {
     public static void onScriptReload(ScriptRunEvent.Pre event) {
         JEIPlugin.onReload();
         LabsTooltipHelper.clearAll();
+
+        if (Loader.isModLoaded(LabsValues.NUCLEARCRAFT_MODID)) {
+            NCActiveCoolerHelper.onReload();
+        }
+    }
+
+    @SubscribeEvent
+    public static void afterScriptLoad(ScriptRunEvent.Post event) {
+        if (Loader.isModLoaded(LabsValues.NUCLEARCRAFT_MODID)) {
+            NCActiveCoolerHelper.afterScriptLoad();
+        }
     }
 }
