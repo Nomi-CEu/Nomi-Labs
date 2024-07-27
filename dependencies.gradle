@@ -74,6 +74,11 @@ dependencies {
     compileOnly "curse.maven:ctm-267602:2915363" // Version 1.0.2.31
 
 
+    /* -------------------------------- Hard Runtime Only Deps -------------------------------- */
+
+    // Modular UI, needed sometimes for GT Runtime
+    runtimeOnly "curse.maven:modularui-624243:5153413" // Version 2.4.3
+
     /* -------------------------------- Soft Deps, Compile Time Declaration -------------------------------- */
 
     // Storage Drawers and Framed Compacting Drawers, used in Hand Framing Tool (from CurseForge)
