@@ -27,7 +27,7 @@ public class LabsElements {
                         .temp(6800, GasTier.HIGHER)
                         .blastStats(VA[LuV], 1800)
                         .vacuumStats(VA[EV], 600))
-                .cableProperties(V[UV], 1, 0, true)
+                .cableProperties(V[UV], 8, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
 
