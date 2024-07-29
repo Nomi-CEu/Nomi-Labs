@@ -18,14 +18,19 @@ import nc.recipe.other.ActiveCoolerRecipes;
 
 public class NCActiveCoolerHelper {
 
+    private static boolean loadedFluidNames = false;
+
     /*
      * Reference must not be CHANGED! References are stored in TileActiveCooler!
      * ID - 1 -> Fluid Name
      */
-    public static final List<String> fluidNamesFromIDs = new ArrayList<>();
+    private static final List<String> fluidNamesFromIDs = new ArrayList<>();
 
-    static {
-        reloadFluidNames();
+    public static List<String> getFluidNamesFromIDs() {
+        if (!loadedFluidNames) reloadFluidNames();
+
+        loadedFluidNames = true;
+        return fluidNamesFromIDs;
     }
 
     @SuppressWarnings("ConstantValue")
@@ -83,6 +88,6 @@ public class NCActiveCoolerHelper {
                         20.0),
                 Math.round(NCConfig.fusion_active_cooling_rate[type.getID() - 1] * NCConfig.active_cooler_max_rate /
                         20.0));
-        fluidNamesFromIDs.set(type.getID() - 1, newStack.getFluid().getName());
+        getFluidNamesFromIDs().set(type.getID() - 1, newStack.getFluid().getName());
     }
 }

@@ -29,7 +29,7 @@ public class CoolerTypeMixin implements AccessibleCoolerType {
         if (id == 0)
             cir.setReturnValue(fluidName);
         else
-            cir.setReturnValue(NCActiveCoolerHelper.fluidNamesFromIDs.get(id - 1));
+            cir.setReturnValue(NCActiveCoolerHelper.getFluidNamesFromIDs().get(id - 1));
     }
 
     @Override

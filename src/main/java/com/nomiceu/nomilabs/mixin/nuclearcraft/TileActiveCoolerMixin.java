@@ -19,6 +19,6 @@ public class TileActiveCoolerMixin {
 
     @Inject(method = "validFluids", at = @At("HEAD"), cancellable = true)
     private static void getProperValidFluids(CallbackInfoReturnable<List<String>> cir) {
-        cir.setReturnValue(NCActiveCoolerHelper.fluidNamesFromIDs);
+        cir.setReturnValue(NCActiveCoolerHelper.getFluidNamesFromIDs());
     }
 }
