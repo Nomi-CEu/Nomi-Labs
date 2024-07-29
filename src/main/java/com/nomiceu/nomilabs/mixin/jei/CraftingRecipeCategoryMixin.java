@@ -2,9 +2,10 @@ package com.nomiceu.nomilabs.mixin.jei;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,10 +14,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.util.LabsSide;
 
 import mezz.jei.plugins.vanilla.crafting.CraftingRecipeCategory;
 
+/**
+ * Allows adding Custom Recipe Output Tooltips, and adds a new line before any recipe output tooltip (including `Recipe
+ * By <modid>`)
+ */
 @Mixin(value = CraftingRecipeCategory.class, remap = false)
 public class CraftingRecipeCategoryMixin {
 
@@ -27,7 +34,20 @@ public class CraftingRecipeCategoryMixin {
     @Inject(method = "lambda$setRecipe$0", at = @At("HEAD"))
     private static void addRecipeOutputTooltip(ResourceLocation registryName, int slotIndex, boolean input,
                                                ItemStack stack, List<String> tooltip, CallbackInfo ci) {
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer() || slotIndex != craftOutputSlot) return;
-        tooltip.addAll(JEIPlugin.getRecipeOutputTooltip(stack, registryName));
+        if (LabsSide.isServer() || slotIndex != craftOutputSlot) return;
+        boolean modIdDifferent = false;
+        ResourceLocation itemRegistryName = stack.getItem().getRegistryName();
+        if (itemRegistryName != null) {
+            String itemModId = itemRegistryName.getNamespace();
+            modIdDifferent = !registryName.getNamespace().equals(itemModId);
+        }
+
+        boolean showAdvanced = Minecraft.getMinecraft().gameSettings.advancedItemTooltips || GuiScreen.isShiftKeyDown();
+
+        var outputTooltip = JEIPlugin.getRecipeOutputTooltip(stack, registryName);
+        if (LabsConfig.modIntegration.addJEICraftingOutputEmptyLine &&
+                (modIdDifferent || showAdvanced || !outputTooltip.isEmpty()))
+            tooltip.add("");
+        tooltip.addAll(outputTooltip);
     }
 }

@@ -45,7 +45,14 @@ addDescription(item('minecraft:apple'), translatableLiteral('An Ordinary Apple..
 // Add a translated description page for a stack
 addDescription(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.greenhouse.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))
 
-/* Recipe Output Tooltips. These are tooltips that appear on CRAFTING recipes that output that stack. */
+/*
+ * Recipe Output Tooltips. These are tooltips that appear on CRAFTING TABLE recipes that output that stack.
+ *
+ * They appear BEFORE `Recipe By <MODID>` Tooltips, and AFTER any item tooltips.
+ *
+ * You can either PROVIDE or NOT PROVIDE a Resource Location of the Recipe Name. If you PROVIDE, that provided tooltip has
+ * a higher priority than tooltip of the same stack, but without Recipe Name provided.
+ */
 
 // Add a crafting recipe output tooltip for a stack
 addRecipeOutputTooltip(item('minecraft:gold_ingot'), translatableLiteral('A Very Low Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
@@ -53,8 +60,8 @@ addRecipeOutputTooltip(item('minecraft:gold_ingot'), translatableLiteral('A Very
 // Add a translated crafting recipe output tooltip for a stack
 addRecipeOutputTooltip(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.greenhouse.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))
 
-// Add a crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild)
+// Add a crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild recipe name)
 addRecipeOutputTooltip(item('minecraft:gold_ingot'), resource('minecraft:gold_ingot_from_block'), translatableLiteral('A Very High Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
 
-// Add a translated crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild)
+// Add a translated crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild recipe name)
 addRecipeOutputTooltip(item('minecraft:iron_ingot'), resource('minecraft:iron_ingot_from_nuggets'), translatable('tooltip.nomilabs.universalnavigator.description'), translatable('tooltip.nomilabs.greenhouse.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))

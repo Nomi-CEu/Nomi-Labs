@@ -46,6 +46,8 @@ public class JEIPlugin implements IModPlugin {
             .create();
     private static final List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> IGNORE_NBT_HIDE = new ArrayList<>();
 
+    private static Table<ItemTagMeta, ResourceLocation, List<Translatable>> COMPILED_RECIPE_OUTPUT_TOOLTIPS = null;
+
     private static IIngredientRegistry itemRegistry;
 
     @Override
@@ -133,18 +135,25 @@ public class JEIPlugin implements IModPlugin {
         table.put(stack, recipeName, list);
     }
 
-    public static List<String> getRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName) {
-        var tempTable = HashBasedTable.create(RECIPE_OUTPUT_TOOLTIPS);
+    private static void cacheRecipeOutputTooltip() {
+        if (COMPILED_RECIPE_OUTPUT_TOOLTIPS != null) return;
+
+        COMPILED_RECIPE_OUTPUT_TOOLTIPS = HashBasedTable.create(RECIPE_OUTPUT_TOOLTIPS);
         GROOVY_RECIPE_OUTPUT_TOOLTIPS.cellSet()
-                .forEach((cell) -> addRecipeOutputTooltip(tempTable, Objects.requireNonNull(cell.getRowKey()),
+                .forEach((cell) -> addRecipeOutputTooltip(COMPILED_RECIPE_OUTPUT_TOOLTIPS,
+                        Objects.requireNonNull(cell.getRowKey()),
                         cell.getColumnKey(),
                         (list) -> list.addAll(Objects.requireNonNull(cell.getValue()))));
+    }
+
+    public static List<String> getRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName) {
+        cacheRecipeOutputTooltip();
 
         var itemTagMeta = new ItemTagMeta(stack);
-        var specific = tempTable.get(itemTagMeta, recipeName);
+        var specific = COMPILED_RECIPE_OUTPUT_TOOLTIPS.get(itemTagMeta, recipeName);
         if (specific != null) return specific.stream().map(Translatable::translate).collect(Collectors.toList());
 
-        var wildcard = tempTable.get(itemTagMeta, WILDCARD_LOCATION);
+        var wildcard = COMPILED_RECIPE_OUTPUT_TOOLTIPS.get(itemTagMeta, WILDCARD_LOCATION);
         if (wildcard != null) return wildcard.stream().map(Translatable::translate).collect(Collectors.toList());
         return new ArrayList<>();
     }
@@ -153,5 +162,6 @@ public class JEIPlugin implements IModPlugin {
         GROOVY_DESCRIPTIONS.clear();
         GROOVY_RECIPE_OUTPUT_TOOLTIPS.clear();
         IGNORE_NBT_HIDE.clear();
+        COMPILED_RECIPE_OUTPUT_TOOLTIPS = null;
     }
 }

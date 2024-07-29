@@ -256,6 +256,14 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableTopAddonsIntegration = true;
 
+        @Config.Comment({
+                "Whether to add a Empty Line between any Crafting Recipe Output Tooltips in JEI.",
+                "Examples of Crafting Recipe Output Tooltips are `Recipe By <MOD_ID>` and `Recipe ID: <RECIPE_ID>`.",
+                "[default: true]",
+        })
+        @Config.LangKey("config.nomilabs.mod_integration.jei_crafting_output_empty_line")
+        public boolean addJEICraftingOutputEmptyLine = true;
+
         public static class EffortlessBuildingIntegration {
 
             @Config.Comment({ "Whether to enable Effortless Building Integration, which splits the parts of reach.",
