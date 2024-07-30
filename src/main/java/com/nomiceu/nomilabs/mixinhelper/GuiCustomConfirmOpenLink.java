@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.mixinhelper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +54,7 @@ public class GuiCustomConfirmOpenLink extends GuiScreen {
         this.listLines = new ArrayList<>();
     }
 
+    @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
@@ -70,13 +70,15 @@ public class GuiCustomConfirmOpenLink extends GuiScreen {
         buttonList.add(new GuiButton(id, width / 2 - 50 + xOffset, height / 6 + 96, 100, 20, displayText));
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    @Override
+    protected void actionPerformed(GuiButton button) {
         if (button.id == 2)
             setClipboardString(linkText);
 
         parentScreen.confirmClicked(button.id == 0, parentButtonClickedId);
     }
 
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
 

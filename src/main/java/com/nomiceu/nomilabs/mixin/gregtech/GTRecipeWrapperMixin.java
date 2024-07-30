@@ -49,8 +49,8 @@ public abstract class GTRecipeWrapperMixin extends AdvancedRecipeWrapper {
         buttons.add(new JeiButton(166, 2, 10, 10)
                 .setTextures(GuiTextures.INFO_ICON)
                 .setTooltipBuilder(lines -> lines.add(recipe.isGroovyRecipe() ?
-                        LabsTranslate.translate("gui.nomilabs.recipes.tooltip.gs_recipe") :
-                        LabsTranslate.translate("gui.nomilabs.recipes.tooltip.ct_recipe")))
+                        LabsTranslate.translate("nomilabs.gui.recipes.tooltip.gs_recipe") :
+                        LabsTranslate.translate("nomilabs.gui.recipes.tooltip.ct_recipe")))
                 .setClickAction((mc, x, y, button) -> false)
                 .setActiveSupplier(creativeTweaker));
     }

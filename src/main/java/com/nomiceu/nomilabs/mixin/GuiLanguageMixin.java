@@ -11,7 +11,6 @@ import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.resource.VanillaResourceType;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import org.spongepowered.asm.mixin.Final;
@@ -27,6 +26,7 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.event.LabsLanguageChangedEvent;
 import com.nomiceu.nomilabs.mixinhelper.AccessibleGuiLanguage;
 import com.nomiceu.nomilabs.mixinhelper.GuiCustomConfirmOpenLink;
+import com.nomiceu.nomilabs.mixinhelper.GuiLanguageShouldReloadJEI;
 
 /**
  * Adds Nomi-CEu & Nomi-Labs Translation Pack 'Advertisements' to Language Selection Screen.
@@ -66,6 +66,9 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
     @Final
     private LanguageManager languageManager;
 
+    @Shadow
+    protected GuiScreen parentScreen;
+
     @Inject(method = "<init>", at = @At("TAIL"))
     public void savePreviousLang(GuiScreen screen, GameSettings gameSettingsObj, LanguageManager manager,
                                  CallbackInfo ci) {
@@ -98,7 +101,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
                 0xffffff);
         drawCenteredString(fontRenderer,
                 I18n.format(LabsConfig.advanced.languageModifyOption == LabsConfig.Advanced.LanguageModifyOption.LABS ?
-                        "gui.nomilabs.language_pack_labs" : "gui.nomilabs.language_pack_nomi"),
+                        "nomilabs.gui.language_pack_labs" : "nomilabs.gui.language_pack_nomi"),
                 width / 2, 10 + (int) (fontRenderer.FONT_HEIGHT * 2.5), 0xffffff);
         drawCenteredString(fontRenderer, "(" + I18n.format("options.languageWarning") + ")", width / 2,
                 10 + fontRenderer.FONT_HEIGHT * 4, 0x808080);
@@ -122,8 +125,9 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
                 fontRenderer.setBidiFlag(languageManager.isCurrentLanguageBidirectional());
                 game_settings_3.saveOptions();
 
-                // Fire Lang Change Event
-                MinecraftForge.EVENT_BUS.post(new LabsLanguageChangedEvent(previousLang, language));
+                mc.displayGuiScreen(new GuiLanguageShouldReloadJEI(parentScreen,
+                        new LabsLanguageChangedEvent(previousLang, language)));
+                ci.cancel();
                 break;
             case DOWNLOAD_PACK_BTN_ID:
                 mc.displayGuiScreen(new GuiCustomConfirmOpenLink(this, TRANSLATIONS_DOWNLOAD, downloadPackNote,

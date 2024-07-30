@@ -15,7 +15,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
-import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
@@ -78,10 +77,6 @@ public class ClientProxy {
 
     @SubscribeEvent
     public static void languageChanged(LabsLanguageChangedEvent event) {
-        // Reload JEI to refresh description text
-        // noinspection UnstableApiUsage
-        ReloadableRegistryManager.reloadJei(false);
-
         LabsTooltipHelper.onLanguageChange();
     }
 
