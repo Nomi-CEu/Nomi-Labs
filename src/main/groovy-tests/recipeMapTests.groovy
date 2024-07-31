@@ -7,6 +7,9 @@ import gregtech.api.recipes.RecipeMaps
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput
 import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher
+import gregtech.api.recipes.recipeproperties.CleanroomProperty
+import gregtech.api.recipes.recipeproperties.ResearchProperty
+import gregtech.api.recipes.recipeproperties.TemperatureProperty
 
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.GTRecipeHelpers.*
 import static gregtech.api.GTValues.*
@@ -159,6 +162,50 @@ mods.gregtech.chemical_reactor.changeByOutput(null, [fluid('polytetrafluoroethyl
                 return output
             }
             .buildAndRegister()
+    }
+
+// Example 6: Doubling the Output of the Crystal Processor Assembly Circuit Recipes
+mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.crystal_assembly')], null)
+    .forEach { ChangeRecipeBuilder builder ->
+        builder.changeEachOutput { stack ->
+                stack.count *= 2
+                return stack
+            }
+            .copyProperties(CleanroomProperty.instance) // Copy the CLEANROOM Property!
+            .replaceAndRegister()
+    }
+
+// Example 7: Adding an Alternative Blast Furnace Recipe for Red Steel, with Double Output but Double Temperature
+// Alternative = `buildAndRegister` not `replaceAndRegister`
+mods.gregtech.electric_blast_furnace.changeByOutput([metaitem('ingotRedSteel')], null)
+    .forEach { ChangeRecipeBuilder builder ->
+        builder.changeEachOutput { stack ->
+                stack.count *= 2
+                return stack
+            }
+            .changeCircuitMeta { meta -> meta + 10 }
+            /*
+             * It is important that you, somehow, make a copy of the input property, and not modify the property itself!
+             * Otherwise, reloading may not work correctly, and can cause modifications to be applied on top of each other!
+             *
+             * Note that the `changeProperty` method does not allow for property string keys, you must input an object.
+             *
+             * Note that this is not needed for the TemperatureProperty, as it simply stores an integer.
+             * (Also note that you would do `copyProperties(TemperatureProperty.instance)` to copy the temperature property.
+             */
+            .changeProperty(TemperatureProperty.instance, temp -> temp * 2)
+            .buildAndRegister()
+    }
+
+// Example 8: Doubling the Output of the Fusion MK I Controller Assembly Line Recipe (With Recycling)
+mods.gregtech.assembly_line.changeByOutput([metaitem('fusion_reactor.luv')], null)
+    .forEach { ChangeRecipeBuilder builder ->
+        builder.changeEachOutput { stack ->
+                stack.count *= 2
+                return stack
+            }.builder { recipe -> recipe.changeRecycling() }
+            .copyProperties(ResearchProperty.instance)
+            .replaceAndRegister()
     }
 
 // See {@link com.nomiceu.nomilabs.groovy.ChangeRecipeBuilder} for more functions!

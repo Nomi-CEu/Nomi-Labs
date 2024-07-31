@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleIntCircuitIngredient;
 
 import gregtech.api.recipes.Recipe;
@@ -18,6 +19,7 @@ import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
+import gregtech.api.recipes.recipeproperties.RecipeProperty;
 
 @SuppressWarnings({ "unused", "UnusedReturnValue" })
 public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
@@ -237,6 +239,34 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
     public ChangeRecipeBuilder<R> changeChancedFluidOutputLogic(Function<ChancedOutputLogic, ChancedOutputLogic> logicChanger) {
         builder.chancedFluidOutputLogic(
                 logicChanger.apply(originalRecipe.getChancedFluidOutputs().getChancedOutputLogic()));
+        return this;
+    }
+
+    public ChangeRecipeBuilder<R> copyProperties(RecipeProperty<?>... properties) {
+        for (var property : properties) {
+            var prop = originalRecipe.getProperty(property, null);
+            if (prop == null) {
+                GroovyLog.get().error("Could not find property {} in recipe {}!", property.getKey(), originalRecipe);
+                continue;
+            }
+
+            builder.applyProperty(property, prop);
+        }
+        return this;
+    }
+
+    /**
+     * It is important that you, somehow, make a copy of the input property, and not modify the property itself!<br>
+     * Otherwise, reloading may not work correctly, and can cause modifications to be applied on top of each other!
+     */
+    public <T> ChangeRecipeBuilder<R> changeProperty(RecipeProperty<T> property, Function<T, T> changer) {
+        T prop = originalRecipe.getProperty(property, null);
+        if (prop == null) {
+            GroovyLog.get().error("Could not find property {} in recipe {}!", property.getKey(), originalRecipe);
+            return this;
+        }
+
+        builder.applyProperty(property, changer.apply(prop));
         return this;
     }
 
