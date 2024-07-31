@@ -53,6 +53,9 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
             builder.chancedFluidOutput(output.getIngredient().copy(), output.getChance(), output.getChanceBoost());
         }
 
+        if (originalRecipe.isHidden())
+            builder.hidden();
+
         builder.chancedOutputLogic(originalRecipe.getChancedOutputs().getChancedOutputLogic());
         builder.chancedFluidOutputLogic(originalRecipe.getChancedFluidOutputs().getChancedOutputLogic());
         builder.duration(originalRecipe.getDuration());
