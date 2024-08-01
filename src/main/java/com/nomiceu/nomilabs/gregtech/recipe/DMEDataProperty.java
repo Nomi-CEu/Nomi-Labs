@@ -27,6 +27,11 @@ public class DMEDataProperty extends RecipeProperty<DMEDataPropertyData> {
     }
 
     @Override
+    public boolean isHidden() {
+        return true;
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void drawInfo(Minecraft minecraft, int x, int y, int color, Object value) {}
 }
