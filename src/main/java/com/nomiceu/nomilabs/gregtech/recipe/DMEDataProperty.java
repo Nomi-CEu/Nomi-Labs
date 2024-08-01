@@ -1,7 +1,8 @@
 package com.nomiceu.nomilabs.gregtech.recipe;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +10,7 @@ import gregtech.api.recipes.recipeproperties.RecipeProperty;
 
 public class DMEDataProperty extends RecipeProperty<DMEDataPropertyData> {
 
-    public static final String KEY = "research";
+    public static final String KEY = "dmeData";
 
     private static DMEDataProperty INSTANCE;
 
@@ -26,7 +27,6 @@ public class DMEDataProperty extends RecipeProperty<DMEDataPropertyData> {
     }
 
     @Override
-    public void drawInfo(@NotNull Minecraft minecraft, int x, int y, int color, Object value) {
-        minecraft.fontRenderer.drawString(I18n.format("gregtech.recipe.research"), x, y, color);
-    }
+    @SideOnly(Side.CLIENT)
+    public void drawInfo(Minecraft minecraft, int x, int y, int color, Object value) {}
 }
