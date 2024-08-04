@@ -13,7 +13,10 @@ import gregtech.api.recipes.RecipeMap;
 import gregtech.common.metatileentities.multi.electric.MetaTileEntityProcessingArray;
 
 /**
- * Fixes Edge Cases where Processing Arrays would not run recipes, due to Cleanroom States not being synced correctly.
+ * Fixes Edge Cases where Processing Arrays would not run recipes, due to Cleanroom States not being synced
+ * correctly.<br>
+ * To be removed when a release is made containing <a href="https://github.com/GregTechCEu/GregTech/pull/2566">GT PR
+ * #2566</a>.
  */
 @Mixin(value = MetaTileEntityProcessingArray.class, remap = false)
 public abstract class MetaTileEntityProcessingArrayMixin extends RecipeMapMultiblockController {

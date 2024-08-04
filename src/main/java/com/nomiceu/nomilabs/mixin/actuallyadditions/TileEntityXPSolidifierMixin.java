@@ -9,6 +9,9 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 
 import de.ellpeck.actuallyadditions.mod.tile.TileEntityXPSolidifier;
 
+/**
+ * Allows the AA XP Solidifier to use Linear XP Scaling.
+ */
 @Mixin(value = TileEntityXPSolidifier.class, remap = false)
 public abstract class TileEntityXPSolidifierMixin {
 

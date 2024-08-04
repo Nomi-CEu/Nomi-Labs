@@ -9,6 +9,9 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 
 import crazypants.enderio.base.xp.XpUtil;
 
+/**
+ * Allows EIO Machines to use Linear XP Scaling.
+ */
 @Mixin(value = XpUtil.class, remap = false)
 public class XPUtilMixin {
 
