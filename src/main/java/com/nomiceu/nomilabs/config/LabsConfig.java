@@ -146,10 +146,10 @@ public class LabsConfig {
 
     public static class GroovyScriptSettings {
 
-        @Config.Comment({ "Whether to enable GroovyScript Hand Additions.",
-                "[default: true]" })
+        @Config.Comment({ "Whether to enable Labs' GroovyScript Hand Additions.",
+                "[default: false]" })
         @Config.LangKey("config.nomilabs.groovy.hand")
-        public boolean enableGroovyHandAdditions = true;
+        public boolean enableGroovyHandAdditions = false;
 
         @Config.Comment({ "Mode to Use for GT Recipe Output Searching.",
                 "'LINEAR_SEARCH' browses each recipe sequentially, 'FAST_TREE' navigates a tree structure and stops at the first match, while 'TREE' explores the entire tree structure before concluding.",

@@ -195,7 +195,8 @@ public class CommonProxy {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void gsHandAdditions(GsHandEvent event) {
-        GroovyScriptHandManager.addToHand(event);
+        if (LabsConfig.groovyScriptSettings.enableGroovyHandAdditions)
+            GroovyScriptHandManager.addToHand(event);
     }
 
     @SubscribeEvent
