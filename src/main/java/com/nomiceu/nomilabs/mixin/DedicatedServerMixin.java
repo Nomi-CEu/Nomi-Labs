@@ -14,12 +14,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.mixinhelper.DifficultySettableServer;
 import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
@@ -34,6 +37,8 @@ import com.nomiceu.nomilabs.util.LabsTranslate;
  * <p>
  * Allows for support of calling `setDifficultyForAllWorldsAndSave`, changing difficulty and saving to
  * `server.properties` on the fly.
+ * <p>
+ * Also replaces {mode} and {server} with Labs Values if config says so.
  */
 @Mixin(DedicatedServer.class)
 public abstract class DedicatedServerMixin extends MinecraftServer implements DifficultySettableServer {
@@ -54,6 +59,17 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
     public void getLockedDifficulty(CallbackInfoReturnable<EnumDifficulty> cir) {
         var locked = LabsDifficultyHelper.getLockedDifficulty();
         if (locked != null) cir.setReturnValue(locked);
+    }
+
+    @Redirect(method = "init",
+              at = @At(value = "INVOKE",
+                       target = "Lnet/minecraft/server/dedicated/DedicatedServer;setMOTD(Ljava/lang/String;)V"))
+    public void motdSubstitutions(DedicatedServer instance, String s) {
+        if (!LabsConfig.advanced.serverMotdSubstitutions) return;
+
+        NomiLabs.LOGGER.info("Enabling Labs MOTD Substitutions...");
+        instance.setMOTD(s.replace("{version}", LabsVersionConfig.formattedVersion)
+                .replace("{mode}", LabsModeHelper.getFormattedMode()));
     }
 
     @SuppressWarnings("LoggingSimilarMessage")

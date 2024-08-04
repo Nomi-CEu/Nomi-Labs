@@ -475,6 +475,14 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.language_modify_option")
         public LanguageModifyOption languageModifyOption = LanguageModifyOption.LABS;
 
+        @Config.Comment({ "Whether to enable Substitutions for the Server Properties MOTD.",
+                "Substitutions: {version} for the Modpack Formatted Version (from 'nomilabs-version.cfg'), {mode} for the Modpack Formatted Mode (from LabsModeHelper & the PackMode Mod).",
+                "Note: Only the First Substitution in the String is Replaced!",
+                "[default: false]" })
+        @Config.RequiresMcRestart
+        @Config.LangKey("config.nomilabs.advanced.server_motd_substitutions")
+        public boolean serverMotdSubstitutions = false;
+
         public static class WindowOverrides {
 
             @Config.Comment({ "Override for the Minecraft Window Title.",
