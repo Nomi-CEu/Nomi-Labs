@@ -13,21 +13,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
-import com.nomiceu.nomilabs.event.LabsLanguageChangedEvent;
+import com.nomiceu.nomilabs.event.LabsResourcesRefreshedEvent;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 @SideOnly(Side.CLIENT)
 public class GuiLanguageShouldReloadJEI extends GuiYesNo {
 
     protected final GuiScreen parent;
-    protected final LabsLanguageChangedEvent event;
+    protected final LabsResourcesRefreshedEvent event;
     protected final List<String> descLines = new ArrayList<>();
 
     /**
      * @param parent The parent screen of the GuiLanguage instance that is creating this GUI.
      * @param event  Event to fire
      */
-    public GuiLanguageShouldReloadJEI(GuiScreen parent, LabsLanguageChangedEvent event) {
+    public GuiLanguageShouldReloadJEI(GuiScreen parent, LabsResourcesRefreshedEvent event) {
         // Parent Callback will never happen, just insert default id 0
         super(parent, LabsTranslate.translate("nomilabs.gui.language_jei.title"), "", 0);
         this.event = event;

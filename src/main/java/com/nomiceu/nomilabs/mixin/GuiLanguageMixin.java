@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.event.LabsLanguageChangedEvent;
+import com.nomiceu.nomilabs.event.LabsResourcesRefreshedEvent;
 import com.nomiceu.nomilabs.mixinhelper.AccessibleGuiLanguage;
 import com.nomiceu.nomilabs.mixinhelper.GuiCustomConfirmOpenLink;
 import com.nomiceu.nomilabs.mixinhelper.GuiLanguageShouldReloadJEI;
@@ -126,7 +126,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
                 game_settings_3.saveOptions();
 
                 mc.displayGuiScreen(new GuiLanguageShouldReloadJEI(parentScreen,
-                        new LabsLanguageChangedEvent(previousLang, language)));
+                        new LabsResourcesRefreshedEvent(previousLang, language)));
                 ci.cancel();
                 break;
             case DOWNLOAD_PACK_BTN_ID:

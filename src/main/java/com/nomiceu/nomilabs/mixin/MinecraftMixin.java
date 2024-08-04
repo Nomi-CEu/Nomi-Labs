@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Util;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.Display;
@@ -24,13 +25,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.config.LabsVersionConfig;
+import com.nomiceu.nomilabs.event.LabsResourcesRefreshedEvent;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 /**
- * Allows Setting of Window Title and Icon.
+ * Allows Setting of Window Title and Icon. Also calls an event on Resources Reload.
  */
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
+
+    @Inject(method = "refreshResources", at = @At("RETURN"))
+    private void callResourcesRefreshedEvent(CallbackInfo ci) {
+        MinecraftForge.EVENT_BUS.post(new LabsResourcesRefreshedEvent());
+    }
 
     @Redirect(method = "createDisplay",
               at = @At(value = "INVOKE",

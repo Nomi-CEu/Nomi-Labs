@@ -76,7 +76,7 @@ public class ClientProxy {
     }
 
     @SubscribeEvent
-    public static void languageChanged(LabsLanguageChangedEvent event) {
+    public static void languageChanged(LabsResourcesRefreshedEvent event) {
         LabsTooltipHelper.onLanguageChange();
     }
 
