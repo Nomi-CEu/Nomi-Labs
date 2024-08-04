@@ -30,6 +30,7 @@ public class LabsValues {
     public static final String STORAGE_DRAWERS_MODID = "storagedrawers";
     public static final String FRAMED_COMPACT_MODID = "framedcompactdrawers";
     public static final String ENDER_IO_MODID = "enderio";
+    public static final String AA_MODID = "actuallyadditions";
     public static final String JEI_MODID = "jei";
     public static final String ROCKETRY_MODID = "advancedrocketry";
     public static final String ARCHITECTURE_MODID = "architecturecraft";

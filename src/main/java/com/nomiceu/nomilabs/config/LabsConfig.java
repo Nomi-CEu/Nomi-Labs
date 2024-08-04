@@ -372,6 +372,16 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.disable_xp_scaling")
         public boolean disableXpScaling = false;
 
+        @Config.Comment({ "Amount of XP Per Level, for Linear XP Scaling.",
+                "Used for Linear XP Scaling in Actually Additions and EIO Machines.",
+                "MUST be used in conjunction with UT's Linear XP Scaling Config, else weird issues may happen!",
+                "Enter a value of 0 for default.",
+                "[default: 0]" })
+        @Config.LangKey("config.nomilabs.advanced.aa_eio_linear_xp")
+        @Config.RequiresMcRestart
+        @Config.RangeInt(min = 0)
+        public int aaEioLinearXp = 0;
+
         @Config.Comment({ "Whether to disable the Narrator.",
                 "Fixes Crashes in Arm Macs, in some very specific environments.",
                 "If your game is crashing, try enabling this!",

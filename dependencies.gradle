@@ -144,6 +144,9 @@ dependencies {
     // Controlling (from CurseForge)
     compileOnly rfg.deobf("curse.maven:controlling-250398:5165715") // Version 3.0.12.3
 
+    // Actually Additions (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:actually-additions-228404:3117927") // Version r152
+
     // Default World Generator Port (from CurseForge)
     compileOnly rfg.deobf("curse.maven:default-world-generator-port-241140:2499252") // Version 2.3
 
@@ -248,6 +251,10 @@ dependencies {
 
     if (project.enable_top_addons.toBoolean()) {
         runtimeOnly "curse.maven:top-addons-247111:2887479" // Version 1.13.0
+    }
+
+    if (project.enable_aa.toBoolean()) {
+        runtimeOnly "curse.maven:actually-additions-228404:3117927" // Version r152
     }
 
     if (project.enable_ender_storage.toBoolean()) {
