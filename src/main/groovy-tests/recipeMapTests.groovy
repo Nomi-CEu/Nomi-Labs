@@ -16,6 +16,11 @@ import static gregtech.api.GTValues.*
 
 // Find and Removing GT Recipe Helpers. Goes in Post Init.
 
+// For running this on servers, when using recipe properties (in 2.8.10), you will need to add client-side methods
+// via labs config.
+// Example for Temperature Property:
+// gregtech/api/recipes/recipeproperties/TemperatureProperty@drawInfo@(Lnet/minecraft/client/Minecraft;IIILjava/lang/Object;)V
+
 // Building Test Recipes
 mods.gregtech.sifter.recipeBuilder()
         .inputs(metaitem('nomilabs:dustImpureOsmiridium8020'))

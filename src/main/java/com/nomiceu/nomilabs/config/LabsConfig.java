@@ -469,6 +469,54 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public String[] ignoreBiomes = new String[0];
 
+        @Config.Comment({ "List of Fields to be client side only, acting as @SideOnly(Side.CLIENT).",
+                "Do not change unless you know what you are doing!",
+                "Helps with fixing GrS errors Server Side.",
+                "Format: <CLASS>@<FIELD>",
+                "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@KEY",
+                "Accepts Obfuscated Fields.",
+                "Many Client Side Only modifications, on the same class, may be inefficient.",
+                "[default: ]" })
+        @Config.LangKey("config.nomilabs.advanced.client_side_fields")
+        @Config.RequiresMcRestart
+        public String[] clientSideFields = new String[0];
+
+        @Config.Comment({ "List of Methods to be client side only, acting as @SideOnly(Side.CLIENT).",
+                "Do not change unless you know what you are doing!",
+                "Helps with fixing GrS errors Server Side.",
+                "Format: <CLASS>@<METHOD>@<DESC>",
+                "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@drawInfo@(Lnet/minecraft/client/Minecraft;IIILjava/lang/Object;)V",
+                "Accepts Obfuscated Methods.",
+                "Many Client Side Only modifications, on the same class, may be inefficient.",
+                "[default: ]" })
+        @Config.LangKey("config.nomilabs.advanced.client_side_methods")
+        @Config.RequiresMcRestart
+        public String[] clientSideMethods = new String[0];
+
+        @Config.Comment({ "List of Fields to be server side only, acting as @SideOnly(Side.SERVER).",
+                "Do not change unless you know what you are doing!",
+                "Helps with fixing GrS errors Client Side.",
+                "Format: <CLASS>@<FIELD>",
+                "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@KEY",
+                "Accepts Obfuscated Fields.",
+                "Many Server Side Only modifications, on the same class, may be inefficient.",
+                "[default: ]" })
+        @Config.LangKey("config.nomilabs.advanced.server_side_fields")
+        @Config.RequiresMcRestart
+        public String[] serverSideFields = new String[0];
+
+        @Config.Comment({ "List of Methods to be server side only, acting as @SideOnly(Side.SERVER).",
+                "Do not change unless you know what you are doing!",
+                "Helps with fixing GrS errors Client Side.",
+                "Format: <CLASS>@<METHOD>@<DESC>",
+                "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@drawInfo@(Lnet/minecraft/client/Minecraft;IIILjava/lang/Object;)V",
+                "Accepts Obfuscated Methods.",
+                "Many Server Side Only modifications, on the same class, may be inefficient.",
+                "[default: ]" })
+        @Config.LangKey("config.nomilabs.advanced.server_side_methods")
+        @Config.RequiresMcRestart
+        public String[] serverSideMethods = new String[0];
+
         @Config.Comment({ "How to Modify the Language Tab in Minecraft Options.",
                 "LABS or NOMI adds buttons and text for lanugage pack download.",
                 "[default: LABS]" })
