@@ -148,6 +148,8 @@ public class DataFixerHandler {
             DataFixerHandler.worldSavedData = new LabsWorldFixData();
             NomiLabs.LOGGER.info("This world was saved without a data version info. New Version: {}.",
                     LabsFixes.CURRENT);
+
+            LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
         }
 
         determineNeededFixesAndLog();
@@ -155,7 +157,6 @@ public class DataFixerHandler {
         if (neededNewFixes.isEmpty()) {
             NomiLabs.LOGGER.info(
                     "This world does not need any new data fixers, but it has no saved version, it is old, or this is a new world.");
-            LabsWorldFixData.save(mapFile, DataFixerHandler.worldSavedData);
             return;
         }
 
