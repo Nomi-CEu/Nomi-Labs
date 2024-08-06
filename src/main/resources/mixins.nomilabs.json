@@ -7,13 +7,15 @@
   "mixins": [
     "AccessibleFluidRegistry",
     "CommandDifficultyMixin",
+    "DerivedWorldInfoMixin",
     "FluidRegistryMixin",
     "ForgeRegistryMixin",
     "GameDataMixin",
     "ItemStackMixin",
     "NarratorMixin",
     "SnapshotMixin",
-    "WorldLoadHandler"
+    "WorldLoadHandler",
+    "WorldMixin"
   ],
   "client": [
     "EntityPlayerSPMixin",

@@ -20,6 +20,7 @@ import static gregtech.api.GTValues.*
 // via labs config.
 // Example for Temperature Property:
 // gregtech/api/recipes/recipeproperties/TemperatureProperty@drawInfo@(Lnet/minecraft/client/Minecraft;IIILjava/lang/Object;)V
+// All GT Properties, in 2.8.10, require this change.
 
 // Building Test Recipes
 mods.gregtech.sifter.recipeBuilder()
