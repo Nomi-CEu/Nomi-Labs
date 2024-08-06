@@ -353,6 +353,17 @@ public class LabsConfig {
             @Config.LangKey("config.nomilabs.mod_integration.draconicevolution.auto_destructor_speed")
             @Config.RangeInt(min = 0)
             public int autoDestructorSpeed = 1;
+
+            @Config.Comment({
+                    "Rough time in Ticks, Required for the Charging Phase of Fusion Injectors, for each tier.",
+                    "Charging Time is assuming Maximum Energy is given to the Injector Each Tick.",
+                    "Should have 4 Values: Basic, Wyvern, Draconic, Chaotic.",
+                    "Set this to 1 to Disable Energy Limits, and have the Fusion Injector take in as much power as provided.",
+                    "[default: 300, 220, 140, 60]" })
+            @Config.LangKey("config.nomilabs.mod_integration.draconicevolution.fusion_charging_time")
+            @Config.RangeInt(min = 1)
+            @Config.RequiresWorldRestart
+            public int[] fusionChargingTime = new int[] { 300, 220, 140, 60 };
         }
     }
 
