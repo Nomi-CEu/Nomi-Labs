@@ -492,7 +492,7 @@ public class LabsConfig {
                 "Helps with fixing GrS errors Server Side.",
                 "Format: <CLASS>@<FIELD>",
                 "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@KEY",
-                "Accepts Obfuscated Fields.",
+                "Accepts Obfuscated Fields, but they must be under the Obfuscated Name.",
                 "Many Client Side Only modifications, on the same class, may be inefficient.",
                 "[default: ]" })
         @Config.LangKey("config.nomilabs.advanced.client_side_fields")
@@ -504,7 +504,7 @@ public class LabsConfig {
                 "Helps with fixing GrS errors Server Side.",
                 "Format: <CLASS>@<METHOD>@<DESC>",
                 "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@drawInfo@(Lnet/minecraft/client/Minecraft;IIILjava/lang/Object;)V",
-                "Accepts Obfuscated Methods.",
+                "Accepts Obfuscated Methods, but they must be under the Obfuscated Name.",
                 "Many Client Side Only modifications, on the same class, may be inefficient.",
                 "[default: ]" })
         @Config.LangKey("config.nomilabs.advanced.client_side_methods")
@@ -516,7 +516,7 @@ public class LabsConfig {
                 "Helps with fixing GrS errors Client Side.",
                 "Format: <CLASS>@<FIELD>",
                 "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@KEY",
-                "Accepts Obfuscated Fields.",
+                "Accepts Obfuscated Fields, but they must be under the Obfuscated Name.",
                 "Many Server Side Only modifications, on the same class, may be inefficient.",
                 "[default: ]" })
         @Config.LangKey("config.nomilabs.advanced.server_side_fields")
@@ -528,7 +528,7 @@ public class LabsConfig {
                 "Helps with fixing GrS errors Client Side.",
                 "Format: <CLASS>@<METHOD>@<DESC>",
                 "Example: gregtech/api/recipes/recipeproperties/TemperatureProperty@drawInfo@(Lnet/minecraft/client/Minecraft;IIILjava/lang/Object;)V",
-                "Accepts Obfuscated Methods.",
+                "Accepts Obfuscated Methods, but they must be under the Obfuscated Name.",
                 "Many Server Side Only modifications, on the same class, may be inefficient.",
                 "[default: ]" })
         @Config.LangKey("config.nomilabs.advanced.server_side_methods")

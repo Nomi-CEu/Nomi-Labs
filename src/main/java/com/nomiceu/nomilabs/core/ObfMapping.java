@@ -304,6 +304,9 @@ public class ObfMapping extends Remapper {
         }
     }
 
+    /**
+     * Maps Obfuscated Names TO MCP Names for Dev Env.
+     */
     public static class MCPRemapper extends Remapper implements LineProcessor<Void> {
 
         private final HashMap<String, String> fields = new HashMap<>();
