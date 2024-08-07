@@ -9,6 +9,7 @@
     "AccessibleMaterialInfo",
     "AccessibleModHandler",
     "FluidStorageKeyAccessor",
+    "FluidStorageKeysMixin",
     "GTRecipeInputMixin",
     "GTRecipeWrapperMixin",
     "IntCircuitIngredientMixin",
