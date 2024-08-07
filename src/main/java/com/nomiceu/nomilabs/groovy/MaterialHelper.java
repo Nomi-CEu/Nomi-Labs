@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.google.common.collect.ImmutableList;
-import com.nomiceu.nomilabs.mixin.gregtech.FluidStorageKeyMixin;
+import com.nomiceu.nomilabs.mixin.gregtech.FluidStorageKeyAccessor;
 import com.nomiceu.nomilabs.mixin.gregtech.MetaItemsMixin;
 
 import gregtech.api.items.metaitem.MetaItem;
@@ -63,7 +63,7 @@ public class MaterialHelper {
 
         /* Buckets */
         if (!material.hasFluid()) return;
-        FluidStorageKeyMixin.getKeys().values().forEach((key) -> {
+        FluidStorageKeyAccessor.getKeys().values().forEach((key) -> {
             var fluid = material.getFluid(key);
             if (fluid == null || ForgeModContainer.getInstance().universalBucket == null) return;
 
@@ -95,7 +95,7 @@ public class MaterialHelper {
 
     public static void forMaterialFluid(Material material, Consumer<Fluid> action) {
         if (!material.hasFluid()) return;
-        FluidStorageKeyMixin.getKeys().values().forEach((key) -> {
+        FluidStorageKeyAccessor.getKeys().values().forEach((key) -> {
             var fluid = material.getFluid(key);
             if (fluid != null) action.accept(fluid);
         });

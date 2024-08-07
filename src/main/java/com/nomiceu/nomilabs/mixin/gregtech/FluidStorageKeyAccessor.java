@@ -14,7 +14,7 @@ import gregtech.api.fluids.store.FluidStorageKey;
  * Allows getting all possible FluidStorageKey options.
  */
 @Mixin(value = FluidStorageKey.class, remap = false)
-public interface FluidStorageKeyMixin {
+public interface FluidStorageKeyAccessor {
 
     @Accessor(value = "keys")
     static Map<ResourceLocation, FluidStorageKey> getKeys() {

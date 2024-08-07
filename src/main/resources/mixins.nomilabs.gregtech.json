@@ -8,7 +8,7 @@
     "AccessibleDecompositionRecipeHandler",
     "AccessibleMaterialInfo",
     "AccessibleModHandler",
-    "FluidStorageKeyMixin",
+    "FluidStorageKeyAccessor",
     "GTRecipeInputMixin",
     "GTRecipeWrapperMixin",
     "IntCircuitIngredientMixin",
