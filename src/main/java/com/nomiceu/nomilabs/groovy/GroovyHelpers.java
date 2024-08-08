@@ -389,7 +389,7 @@ public class GroovyHelpers {
             return new CompositionBuilder(material);
         }
 
-        public static CompositionBuilder replaceDeomposition(MaterialStack material) {
+        public static CompositionBuilder replaceComposition(MaterialStack material) {
             return new CompositionBuilder(material.material);
         }
 
