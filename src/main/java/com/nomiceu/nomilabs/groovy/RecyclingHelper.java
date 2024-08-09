@@ -207,7 +207,8 @@ public class RecyclingHelper {
             }
         }
 
-        return changeStackRecycling(Collections.singletonList(output), foundRecipes.get(0).getInputs());
+        // Use RECIPE's OUTPUT, so we get the correct count
+        return changeStackRecycling(foundRecipes.get(0).getOutputs(), foundRecipes.get(0).getInputs());
     }
 
     private static IShapedRecipe validate(ResourceLocation name, ItemStack output, boolean validateOutput,
