@@ -10,7 +10,7 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.KeyBindingHelpers.*
 // IMPORTANT! This stops the script from crashing on servers!
 if (LabsSide.isDedicatedServer()) return
 
-// Change Default Sprint Keybind to 'W' (Same as forwards, essentially toggle-sprint)
+// Change Default Sprint Keybind to 'W' (Same as forwards, essentially auto-sprint)
 addOverride('key.sprint', Keyboard.KEY_W)
 
 // Change Default Advancements Keybind to None

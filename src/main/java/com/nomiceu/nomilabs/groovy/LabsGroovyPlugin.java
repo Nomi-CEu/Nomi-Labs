@@ -36,5 +36,6 @@ public class LabsGroovyPlugin implements GroovyPlugin {
 
         container.addProperty(LabsVirtualizedRegistries.REPLACE_RECYCLING_MANAGER);
         container.addProperty(LabsVirtualizedRegistries.REPLACE_DECOMP_MANAGER);
+        container.addProperty(LabsVirtualizedRegistries.KEYBIND_OVERRIDES_MANAGER);
     }
 }

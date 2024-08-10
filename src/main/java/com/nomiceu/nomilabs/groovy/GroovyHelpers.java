@@ -428,7 +428,7 @@ public class GroovyHelpers {
         }
 
         public static void addOverride(String id, KeyModifier modifier, int keyCode) {
-            KeyBindingHelper.addKeybindOverride(id, modifier, keyCode);
+            LabsVirtualizedRegistries.KEYBIND_OVERRIDES_MANAGER.addOverride(id, modifier, keyCode);
         }
     }
 
