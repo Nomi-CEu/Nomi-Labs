@@ -1,14 +1,14 @@
 package com.nomiceu.nomilabs.groovy;
 
 import static com.nomiceu.nomilabs.groovy.CompositionBuilder.CompositionSpecification;
-import static com.nomiceu.nomilabs.util.LabsGroovyHelper.LABS_GROOVY_RUNNING;
 import static com.nomiceu.nomilabs.groovy.KeyBindingHelper.KeybindOverrideSpecification;
+import static com.nomiceu.nomilabs.util.LabsGroovyHelper.LABS_GROOVY_RUNNING;
 
 import java.util.*;
 
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.client.settings.KeyModifier;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 
@@ -124,9 +124,10 @@ public class LabsVirtualizedRegistries {
 
         @Override
         public void onReload() {
-            restoreFromBackup().forEach((spec) -> KeyBindingHelper.addKeybindOverride(spec.getId(), spec.getModifier(), spec.getKeyCode()));
+            restoreFromBackup().forEach(
+                    (spec) -> KeyBindingHelper.addKeybindOverride(spec.getId(), spec.getModifier(), spec.getKeyCode()));
         }
-        
+
         public void addOverride(String id, KeyModifier modifier, int keyCode) {
             if (KeyBindingHelper.invalidID(id)) return;
             addBackup(KeyBindingHelper.getExisting(id));
@@ -135,6 +136,7 @@ public class LabsVirtualizedRegistries {
     }
 
     public static class RecyclingSpecification {
+
         private final ItemMeta itemMeta;
         private final ItemMaterialInfo info;
 

@@ -51,6 +51,7 @@ public class KeyBindingHelper {
     }
 
     public static class KeybindOverrideSpecification {
+
         private final String id;
         private final KeyModifier modifier;
         private final int keyCode;

@@ -43,4 +43,5 @@ public class LabsValues {
     public static final String TOP_ADDONS_MODID = "topaddons";
     public static final String PACK_MODE_MODID = "packmode";
     public static final String AE2_STUFF_MODID = "ae2stuff";
+    public static final String BOGOSORT_MODID = "bogosorter";
 }
