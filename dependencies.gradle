@@ -49,9 +49,9 @@ dependencies {
     implementation ("gregtech:gregtech:2.8.10-beta") {
         transitive = false
     } // Version 2.8.10
-    implementation ("gregicality:GregicalityMultiblocks:1.2.10") {
+    implementation ("gregicality:GregicalityMultiblocks:1.2.11") {
         transitive = false
-    } // Version 1.2.10
+    } // Version 1.2.11
 
     // Pack Mode (from CurseForge)
     implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
