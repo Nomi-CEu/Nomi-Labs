@@ -12,6 +12,7 @@
     "FluidStorageKeysMixin",
     "GTRecipeInputMixin",
     "GTRecipeWrapperMixin",
+    "GTTransferUtilsMixin",
     "IntCircuitIngredientMixin",
     "MaterialFlagsMixin",
     "MaterialMixin",
