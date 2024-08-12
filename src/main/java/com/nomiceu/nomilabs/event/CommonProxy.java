@@ -40,7 +40,7 @@ import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
 import com.nomiceu.nomilabs.groovy.NCActiveCoolerHelper;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
-import com.nomiceu.nomilabs.integration.top.TOPTooltipManager;
+import com.nomiceu.nomilabs.integration.top.LabsTOPManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
@@ -91,7 +91,7 @@ public class CommonProxy {
         LabsMetaTileEntities.preInit();
 
         if (LabsConfig.modIntegration.enableTOPIntegration && Loader.isModLoaded(LabsValues.TOP_MODID))
-            TOPTooltipManager.registerProviders();
+            LabsTOPManager.register();
 
         DataFixerHandler.preInit();
         FluidRegistryMixinHelper.preInit();

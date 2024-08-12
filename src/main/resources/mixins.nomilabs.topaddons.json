@@ -5,8 +5,11 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "AddonArchitectureCraftMixin"
+    "AddonArchitectureCraftMixin",
+    "AddonForgeMixin"
   ],
-  "client": [],
+  "client": [
+    "ElementTankGaugeMixin"
+  ],
   "server": []
 }

@@ -10,11 +10,14 @@ import com.nomiceu.nomilabs.LabsValues;
 import mcjty.theoneprobe.TheOneProbe;
 import mcjty.theoneprobe.api.*;
 
-public class TOPTooltipManager {
+public class LabsTOPManager {
 
-    public static void registerProviders() {
+    public static int FLUID_NAME_ELEMENT;
+
+    public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
         TOP.registerProvider(new TOPTooltipMessage());
+        FLUID_NAME_ELEMENT = TOP.registerElementFactory(LabsFluidNameElement::new);
     }
 
     public static class TOPTooltipMessage implements IProbeInfoProvider {
