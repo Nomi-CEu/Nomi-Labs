@@ -383,13 +383,6 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.disable_xp_scaling")
         public boolean disableXpScaling = false;
 
-        @Config.Comment({ "Whether to enable Syncing between Dimensions.",
-                "This means that changing difficulty, time, spawn point or other properties in one dimension will sync to all dimensions.",
-                "[default: false]" })
-        @Config.LangKey("config.nomilabs.advanced.sync_dim_properties")
-        @Config.RequiresWorldRestart
-        public boolean syncDimProperties = false;
-
         @Config.Comment({ "Amount of XP Per Level, for Linear XP Scaling.",
                 "Used for Linear XP Scaling in Actually Additions, EIO and Thermal Items/Machines.",
                 "Note that for Thermal, XP fixes are only applied for the Tome of Knowledge, not for any machines associated with Essence of Knowledge.",
