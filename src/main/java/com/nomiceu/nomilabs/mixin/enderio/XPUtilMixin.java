@@ -17,19 +17,19 @@ public class XPUtilMixin {
 
     @Inject(method = "calculateXPfromLevel", at = @At("HEAD"), cancellable = true)
     private static void calculateXpFromLevelLinear(int level, CallbackInfoReturnable<Long> cir) {
-        if (LabsConfig.advanced.aaEioLinearXp != 0 && level >= 0)
-            cir.setReturnValue(((long) LabsConfig.advanced.aaEioLinearXp * level));
+        if (LabsConfig.advanced.otherModsLinearXp != 0 && level >= 0)
+            cir.setReturnValue(((long) LabsConfig.advanced.otherModsLinearXp * level));
     }
 
     @Inject(method = "getLevelFromExp", at = @At("HEAD"), cancellable = true)
     private static void getLevelFromXpLinear(long exp, CallbackInfoReturnable<Integer> cir) {
-        if (LabsConfig.advanced.aaEioLinearXp != 0 && exp >= 0)
-            cir.setReturnValue((int) (exp / LabsConfig.advanced.aaEioLinearXp));
+        if (LabsConfig.advanced.otherModsLinearXp != 0 && exp >= 0)
+            cir.setReturnValue((int) (exp / LabsConfig.advanced.otherModsLinearXp));
     }
 
     @Inject(method = "getXpBarCapacity", at = @At("HEAD"), cancellable = true)
     private static void getLinearXPAmount(int level, CallbackInfoReturnable<Integer> cir) {
-        if (LabsConfig.advanced.aaEioLinearXp != 0 && level >= 0)
-            cir.setReturnValue(LabsConfig.advanced.aaEioLinearXp);
+        if (LabsConfig.advanced.otherModsLinearXp != 0 && level >= 0)
+            cir.setReturnValue(LabsConfig.advanced.otherModsLinearXp);
     }
 }

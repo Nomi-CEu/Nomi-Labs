@@ -391,14 +391,15 @@ public class LabsConfig {
         public boolean syncDimProperties = false;
 
         @Config.Comment({ "Amount of XP Per Level, for Linear XP Scaling.",
-                "Used for Linear XP Scaling in Actually Additions and EIO Machines.",
+                "Used for Linear XP Scaling in Actually Additions, EIO and Thermal Items/Machines.",
+                "Note that for Thermal, XP fixes are only applied for the Tome of Knowledge, not for any machines associated with Essence of Knowledge.",
                 "MUST be used in conjunction with UT's Linear XP Scaling Config, else weird issues may happen!",
                 "Enter a value of 0 for default.",
                 "[default: 0]" })
-        @Config.LangKey("config.nomilabs.advanced.aa_eio_linear_xp")
+        @Config.LangKey("config.nomilabs.advanced.other_mods_linear_xp")
         @Config.RequiresMcRestart
         @Config.RangeInt(min = 0)
-        public int aaEioLinearXp = 0;
+        public int otherModsLinearXp = 0;
 
         @Config.Comment({ "Whether to disable the Narrator.",
                 "Fixes Crashes in Arm Macs, in some very specific environments.",

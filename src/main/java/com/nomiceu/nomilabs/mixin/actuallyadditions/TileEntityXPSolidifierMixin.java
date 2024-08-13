@@ -17,19 +17,19 @@ public abstract class TileEntityXPSolidifierMixin {
 
     @Inject(method = "getExperienceForLevel", at = @At("HEAD"), cancellable = true)
     private static void getLinearXpAmountLevel(int level, CallbackInfoReturnable<Integer> cir) {
-        if (LabsConfig.advanced.aaEioLinearXp != 0 && level >= 0)
-            cir.setReturnValue(LabsConfig.advanced.aaEioLinearXp * level);
+        if (LabsConfig.advanced.otherModsLinearXp != 0 && level >= 0)
+            cir.setReturnValue(LabsConfig.advanced.otherModsLinearXp * level);
     }
 
     @Inject(method = "getLevelForExperience", at = @At("HEAD"), cancellable = true)
     private static void getLinearXPAmountXp(int experience, CallbackInfoReturnable<Integer> cir) {
-        if (LabsConfig.advanced.aaEioLinearXp != 0 && experience >= 0)
-            cir.setReturnValue(experience / LabsConfig.advanced.aaEioLinearXp);
+        if (LabsConfig.advanced.otherModsLinearXp != 0 && experience >= 0)
+            cir.setReturnValue(experience / LabsConfig.advanced.otherModsLinearXp);
     }
 
     @Inject(method = "getXpBarCapacity", at = @At("HEAD"), cancellable = true)
     private static void getLinearXPAmount(int level, CallbackInfoReturnable<Integer> cir) {
-        if (LabsConfig.advanced.aaEioLinearXp != 0 && level >= 0)
-            cir.setReturnValue(LabsConfig.advanced.aaEioLinearXp);
+        if (LabsConfig.advanced.otherModsLinearXp != 0 && level >= 0)
+            cir.setReturnValue(LabsConfig.advanced.otherModsLinearXp);
     }
 }

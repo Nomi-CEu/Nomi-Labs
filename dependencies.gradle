@@ -161,6 +161,12 @@ dependencies {
     // Inventory BogoSorter (from CurseForge)
     compileOnly rfg.deobf("curse.maven:inventory-bogosorter-632327:5162169") // Version 1.4.8
 
+    // Thermal Foundation (from CurseForge)
+    compileOnly "curse.maven:thermal-foundation-222880:2926428" // Version 2.6.7.1
+
+    // CoFH Core (compile time dep of Thermal Foundation) (from CurseForge)
+    compileOnly "curse.maven:cofh-core-69162:2920433" // Version 4.6.6.1
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -275,7 +281,7 @@ dependencies {
     }
 
     if (project.enable_thermal.toBoolean()) {
-        // Thermal Expansion and Deps (Thermal Foundation, Redstone Arsenal, CoFH World, CoFH Core), runtime only, used in excitation coil texture (from CurseForge)
+        // Thermal Expansion, Thermal Foundation, CoFH Core and Deps (Redstone Arsenal, CoFH World) (from CurseForge)
         runtimeOnly "curse.maven:thermal-expansion-69163:2926431" // Version 5.5.7.1
         runtimeOnly "curse.maven:thermal-foundation-222880:2926428" // Version 2.6.7.1
         runtimeOnly "curse.maven:redstone-arsenal-70631:2939416" // Version 2.6.6.1
