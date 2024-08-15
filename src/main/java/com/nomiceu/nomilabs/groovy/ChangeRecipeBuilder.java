@@ -62,6 +62,10 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         builder.EUt(originalRecipe.getEUt());
     }
 
+    public ChangeRecipeBuilder<R> copyOriginal() {
+        return new ChangeRecipeBuilder<>(originalRecipe, originalRecipeMap);
+    }
+
     public ChangeRecipeBuilder<R> builder(Consumer<R> builderChanger) {
         builderChanger.accept(builder);
         return this;
