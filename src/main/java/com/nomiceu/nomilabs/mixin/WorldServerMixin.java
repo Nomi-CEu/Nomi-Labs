@@ -7,11 +7,15 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Makes Beds Change Time in All Dimensions. (Required for actually changing the time)
+ * Makes Beds Change Time and Weather in All Dimensions.
+ * <p>
+ * Makes Beds work in Void Dim.
  */
 @Mixin(WorldServer.class)
 public class WorldServerMixin {
@@ -29,6 +33,13 @@ public class WorldServerMixin {
     private void changeTimeInAllDimensions(WorldServer instance, long time) {
         for (var world : server.worlds) {
             world.setWorldTime(time);
+        }
+    }
+
+    @Inject(method = "resetRainAndThunder", at = @At("HEAD"))
+    private void resetWeatherInAllDimensions(CallbackInfo ci) {
+        for (var world : server.worlds) {
+            world.provider.resetRainAndThunder();
         }
     }
 }
