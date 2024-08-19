@@ -7,19 +7,20 @@ import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
 import gregtech.api.fluids.FluidBuilder;
+import gregtech.api.fluids.attribute.FluidAttributes;
 import gregtech.api.unification.material.Material;
 
 public class LabsTaraniumLine {
 
     public static void initTaraniumLine() {
         HexafluorosilicicAcid = new Material.Builder(94, makeLabsName("hexafluorosilicic_acid"))
-                .liquid()
+                .liquid(new FluidBuilder().attribute(FluidAttributes.ACID))
                 .color(0xd00010)
                 .components(Hydrogen, 2, Silicon, 1, Fluorine, 6)
                 .build();
 
         DirtyHexafluorosilicicAcid = new Material.Builder(95, makeLabsName("dirty_hexafluorosilicic_acid"))
-                .liquid()
+                .liquid(new FluidBuilder().attribute(FluidAttributes.ACID))
                 .color(0xe00030)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Hydrogen, 2, Silicon, 1, Fluorine, 6, RareEarth, 1)
