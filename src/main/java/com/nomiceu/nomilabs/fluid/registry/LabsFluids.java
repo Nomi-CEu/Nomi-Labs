@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs.fluid.registry;
 
+import static gregtech.api.fluids.FluidConstants.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,21 +63,27 @@ public class LabsFluids {
 
     public static void preInit() {
         /* Radioactive Fluids */
-        URANIUM_233 = createFluid(new FluidBase("uranium233", 0xff187a30, 1024, 0));
-        PLUTONIUM_2 = createFluid(new FluidBase("plutonium2", 0xfff73663, 1024, 0));
+        URANIUM_233 = createFluid(new FluidBase("uranium233", 0xff187a30, 1024, 0, 1405));
+        PLUTONIUM_2 = createFluid(new FluidBase("plutonium2", 0xfff73663, 1024, 0, 913));
 
         /* Molten Empowered Fluids */
-        MOLTEN_EMPOWERED_RESTONIA = createFluid(new FluidBase("moltenempoweredrestonia", 0xffff0000, 10000, 15));
-        MOLTEN_EMPOWERED_PALIS = createFluid(new FluidBase("moltenempoweredpalis", 0xff0026ff, 10000, 15));
-        MOLTEN_EMPOWERED_ENORI = createFluid(new FluidBase("moltenempoweredenori", 0xffe6e6e6, 10000, 15));
-        MOLTEN_EMPOWERED_DIAMATINE = createFluid(new FluidBase("moltenempowereddiamatine", 0xff00fbff, 10000, 15));
-        MOLTEN_EMPOWERED_EMERADIC = createFluid(new FluidBase("moltenempoweredemeradic", 0xff00ff00, 10000, 15));
-        MOLTEN_EMPOWERED_VOID = createFluid(new FluidBase("moltenempoweredvoid", 0xff0e0e0e, 10000, 15));
+        MOLTEN_EMPOWERED_RESTONIA = createFluid(
+                new FluidBase("moltenempoweredrestonia", 0xffff0000, 10000, 15, SOLID_LIQUID_TEMPERATURE));
+        MOLTEN_EMPOWERED_PALIS = createFluid(
+                new FluidBase("moltenempoweredpalis", 0xff0026ff, 10000, 15, SOLID_LIQUID_TEMPERATURE));
+        MOLTEN_EMPOWERED_ENORI = createFluid(
+                new FluidBase("moltenempoweredenori", 0xffe6e6e6, 10000, 15, SOLID_LIQUID_TEMPERATURE));
+        MOLTEN_EMPOWERED_DIAMATINE = createFluid(
+                new FluidBase("moltenempowereddiamatine", 0xff00fbff, 10000, 15, SOLID_LIQUID_TEMPERATURE));
+        MOLTEN_EMPOWERED_EMERADIC = createFluid(
+                new FluidBase("moltenempoweredemeradic", 0xff00ff00, 10000, 15, SOLID_LIQUID_TEMPERATURE));
+        MOLTEN_EMPOWERED_VOID = createFluid(
+                new FluidBase("moltenempoweredvoid", 0xff0e0e0e, 10000, 15, SOLID_LIQUID_TEMPERATURE));
 
         /* Miscellaneous Fluids */
-        ELEMENTAL_REDUCTION = createFluid(new FluidBase("elementalreduction", 0xff588c5a, 2000, 7));
-        TOUGH_ALLOY = createFluid(new FluidBase("tough_alloy", 0xff10041c, 1024, 0));
-        MOLTEN_DARK_SOULARIUM = createFluid(new FluidBase("moltendarksoularium", 0xff422805, 1000, 0));
+        ELEMENTAL_REDUCTION = createFluid(new FluidBase("elementalreduction", 0xff588c5a, 2000, 7, ROOM_TEMPERATURE));
+        TOUGH_ALLOY = createFluid(new FluidBase("tough_alloy", 0xff10041c, 1024, 0, 1250));
+        MOLTEN_DARK_SOULARIUM = createFluid(new FluidBase("moltendarksoularium", 0xff422805, 1000, 0, 8600));
         register();
     }
 
