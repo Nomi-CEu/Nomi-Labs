@@ -109,7 +109,7 @@ public class MetaTileEntityGrowthChamber extends GCYMRecipeMapMultiblockControll
     @SideOnly(Side.CLIENT)
     @NotNull
     protected ICubeRenderer getFrontOverlay() {
-        return LabsTextures.GREENHOUSE_OVERLAY;
+        return LabsTextures.GROWTH_CHAMBER_OVERLAY;
     }
 
     @Override

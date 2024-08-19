@@ -9,7 +9,7 @@ import gregtech.client.renderer.texture.cube.SimpleOverlayRenderer;
 public class LabsTextures {
 
     /* Overlays (Machine) */
-    public static OrientedOverlayRenderer GREENHOUSE_OVERLAY;
+    public static OrientedOverlayRenderer GROWTH_CHAMBER_OVERLAY;
 
     /* Overlays (Casings) */
     public static SimpleOverlayRenderer MICROVERSE_CASING;
@@ -18,7 +18,7 @@ public class LabsTextures {
     public static TextureArea PROGRESS_BAR_ROCKET;
 
     public static void preInit() {
-        GREENHOUSE_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/greenhouse");
+        GROWTH_CHAMBER_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/growth_chamber");
         MICROVERSE_CASING = new SimpleOverlayRenderer("nomilabs:microverse_casing");
         PROGRESS_BAR_ROCKET = labsFullImage("textures/gui/progress_bar/progress_bar_rocket.png");
     }

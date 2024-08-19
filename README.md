@@ -22,7 +22,7 @@
   - Allow refreshing of GregTech CEu recycling recipes at any time, allowing for these to be changed with GroovyScript's reload feature
   - More planned!
 - Configs, allowing for disabling of different features, allowing for a wider range of usage
-- More to come, such as custom GT content, improved custom multiblocks, new multiblocks (a greenhouse, which alllows for better automation of plant-related materials over EIO Farmers, is already available), and more custom textures!
+- More to come, such as custom GT content, improved custom multiblocks, new multiblocks (a growth chamber, which allows for better automation of plant-related materials over EIO Farmers, is already available), and more custom textures!
 
 ## Translations
 Translations are offered for Nomi Labs, in a separate 'language pack'. This is available to download [here](https://nightly.link/Nomi-CEu/Nomi-CEu-Translations/workflows/pushbuildpack/main?preview) (download the 'nomi-labs' zip for Nomi Labs).
