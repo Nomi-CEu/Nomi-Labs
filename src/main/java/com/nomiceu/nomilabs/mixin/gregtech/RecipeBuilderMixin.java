@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
@@ -32,6 +34,9 @@ import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher;
 import gregtech.api.util.EnumValidationResult;
 
+/**
+ * Adds some util functions to Recipe Builders. Also fixes an issue with parallelizing recipes with non-cached inputs.
+ */
 @SuppressWarnings({ "unchecked", "DataFlowIssue" })
 @Mixin(value = RecipeBuilder.class, remap = false)
 public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
@@ -75,6 +80,20 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
 
     @Shadow
     protected GTRecipeCategory category;
+
+    @Redirect(method = "lambda$multiplyInputsAndOutputs$1",
+              at = @At(value = "INVOKE",
+                       target = "Lgregtech/api/recipes/ingredients/GTRecipeInput;withAmount(I)Lgregtech/api/recipes/ingredients/GTRecipeInput;"))
+    private static GTRecipeInput fixCopyingInputs(GTRecipeInput instance, int amount) {
+        return instance.copyWithAmount(amount);
+    }
+
+    @Redirect(method = "lambda$multiplyInputsAndOutputs$2",
+              at = @At(value = "INVOKE",
+                       target = "Lgregtech/api/recipes/ingredients/GTRecipeInput;withAmount(I)Lgregtech/api/recipes/ingredients/GTRecipeInput;"))
+    private static GTRecipeInput fixCopyingFluidInputs(GTRecipeInput instance, int amount) {
+        return instance.copyWithAmount(amount);
+    }
 
     @Unique
     @SuppressWarnings("unused")
