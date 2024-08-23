@@ -264,6 +264,15 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.jei_crafting_output_empty_line")
         public boolean addJEICraftingOutputEmptyLine = true;
 
+        @Config.Comment({
+                "Whether to enable Better Questing Fluid Task Fixes.",
+                "Fixes detection of Fluids in Stacked Fluid Containers, and in Simple Fluid Containers.",
+                "Causes over-consuming of fluids in Stacked Simple Fluid Containers, due to limitations with emptying them.",
+                "[default: true]",
+        })
+        @Config.LangKey("config.nomilabs.mod_integration.bqu_fluid_task_fixes")
+        public boolean enableBQuFluidTaskFixes = true;
+
         public static class EffortlessBuildingIntegration {
 
             @Config.Comment({ "Whether to enable Effortless Building Integration, which splits the parts of reach.",
