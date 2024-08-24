@@ -23,8 +23,8 @@ public class TileInvisECoreBlockLogic {
         Block block = Block.REGISTRY.getObject(new ResourceLocation(invis.blockName));
         IBlockState state;
         if (!block.equals(Blocks.AIR)) {
-            if (!((TileInvisECoreBlockState) invis).getDefault())
-                state = block.getStateFromMeta(((TileInvisECoreBlockState) invis).getMetadata());
+            if (!((TileInvisECoreBlockState) invis).labs$getDefault())
+                state = block.getStateFromMeta(((TileInvisECoreBlockState) invis).labs$getMetadata());
             else
                 state = block.getDefaultState();
 
@@ -37,10 +37,10 @@ public class TileInvisECoreBlockLogic {
     public static SPacketUpdateTileEntity getUpdatePacket(TileInvisECoreBlock invis) {
         NBTTagCompound compound = new NBTTagCompound();
         var invisState = (TileInvisECoreBlockState) invis;
-        if (invisState.getDefault())
+        if (invisState.labs$getDefault())
             compound.setString("BlockName", invis.blockName);
         else
-            compound.setString("BlockName", invis.blockName + " " + invisState.getMetadata());
+            compound.setString("BlockName", invis.blockName + " " + invisState.labs$getMetadata());
 
         invis.coreOffset.toNBT(compound);
         return new SPacketUpdateTileEntity(invis.getPos(), 0, compound);
@@ -51,20 +51,20 @@ public class TileInvisECoreBlockLogic {
         var invisState = (TileInvisECoreBlockState) invis;
         if (input.length != 2) {
             invis.blockName = input[0];
-            invisState.setIsDefault();
+            invisState.labs$setIsDefault();
         } else {
             invis.blockName = input[0];
-            invisState.setMetadata(Integer.parseInt(input[1]));
+            invisState.labs$setMetadata(Integer.parseInt(input[1]));
         }
         invis.coreOffset.fromNBT(pkt.getNbtCompound());
     }
 
     public static void writeExtraNBT(TileInvisECoreBlock invis, NBTTagCompound compound) {
         var invisState = (TileInvisECoreBlockState) invis;
-        if (invisState.getDefault())
+        if (invisState.labs$getDefault())
             compound.setString("BlockName", invis.blockName);
         else
-            compound.setString("BlockName", invis.blockName + " " + invisState.getMetadata());
+            compound.setString("BlockName", invis.blockName + " " + invisState.labs$getMetadata());
     }
 
     public static void readExtraNBT(TileInvisECoreBlock invis, NBTTagCompound compound) {
@@ -72,10 +72,10 @@ public class TileInvisECoreBlockLogic {
         var invisState = (TileInvisECoreBlockState) invis;
         if (input.length != 2) {
             invis.blockName = input[0];
-            invisState.setIsDefault();
+            invisState.labs$setIsDefault();
         } else {
             invis.blockName = input[0];
-            invisState.setMetadata(Integer.parseInt(input[1]));
+            invisState.labs$setMetadata(Integer.parseInt(input[1]));
         }
     }
 }

@@ -5,10 +5,10 @@ import java.util.List;
 
 import net.minecraftforge.fml.common.Loader;
 
+import com.nomiceu.nomilabs.LabsSounds;
+import com.nomiceu.nomilabs.LabsTextures;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.gregtech.LabsSounds;
-import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 import gregtech.api.gui.GuiTextures;

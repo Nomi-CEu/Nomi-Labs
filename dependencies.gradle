@@ -167,6 +167,12 @@ dependencies {
     // CoFH Core (compile time dep of Thermal Foundation) (from CurseForge)
     compileOnly "curse.maven:cofh-core-69162:2920433" // Version 4.6.6.1
 
+    // Betterer P2P (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:betterer-p2p-943734:4928154") // Version 1.3.2
+
+    // Forgelin (dep of Betterer P2P) (from CurseForge)
+    compileOnly "curse.maven:shadowfacts-forgelin-248453:2785465" // Version 1.8.4
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -207,6 +213,11 @@ dependencies {
 
     if (project.enable_nae2.toBoolean()) {
         runtimeOnly "curse.maven:nae2-884359:5380800" // Version 1.6.4
+    }
+
+    if (project.enable_better_p2p.toBoolean()) {
+        runtimeOnly "curse.maven:shadowfacts-forgelin-248453:2785465" // Version 1.8.4
+        runtimeOnly "curse.maven:betterer-p2p-943734:4928154" // Version 1.3.2
     }
 
     if (project.enable_dme.toBoolean()) {

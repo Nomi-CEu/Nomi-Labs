@@ -1,0 +1,22 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.betterp2p",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "CommonProxyMixin",
+    "GridServerCacheMixin",
+    "ServerRenameP2PTunnelMixin"
+  ],
+  "client": [
+    "ClientProxyMixin",
+    "GuiAdvancedMemoryCardKtAccessor",
+    "GuiAdvancedMemoryCardMixin",
+    "ModeWidgetButtonMixin",
+    "WidgetP2PColumnMixin",
+    "WidgetP2PDeviceMixin",
+    "WidgetTypeSelectorMixin"
+  ],
+  "server": []
+}

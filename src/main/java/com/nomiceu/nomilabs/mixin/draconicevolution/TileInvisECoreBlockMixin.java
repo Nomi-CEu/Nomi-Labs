@@ -20,29 +20,29 @@ import com.nomiceu.nomilabs.integration.draconicevolution.TileInvisECoreBlockSta
 public class TileInvisECoreBlockMixin implements TileInvisECoreBlockState {
 
     @Unique
-    boolean isDefault = true;
+    boolean labs$isDefault = true;
     @Unique
-    int metadata = 0;
+    int labs$metadata = 0;
 
     @Override
-    public boolean getDefault() {
-        return isDefault;
+    public boolean labs$getDefault() {
+        return labs$isDefault;
     }
 
     @Override
-    public void setIsDefault() {
-        this.isDefault = true;
-        this.metadata = 0;
+    public void labs$setIsDefault() {
+        this.labs$isDefault = true;
+        this.labs$metadata = 0;
     }
 
-    public int getMetadata() {
-        return metadata;
+    public int labs$getMetadata() {
+        return labs$metadata;
     }
 
     @Override
-    public void setMetadata(int metadata) {
-        this.metadata = metadata;
-        this.isDefault = false;
+    public void labs$setMetadata(int metadata) {
+        this.labs$metadata = metadata;
+        this.labs$isDefault = false;
     }
 
     @Inject(method = "revert", at = @At("HEAD"), cancellable = true)

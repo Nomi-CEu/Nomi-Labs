@@ -175,9 +175,9 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
                 invis.blockName = Objects.requireNonNull(states.getDefault().getBlock().getRegistryName()).toString();
                 TileInvisECoreBlockState invisState = (TileInvisECoreBlockState) invis;
                 if (BlockStates.statesEqual(states.getDefault(), states.getDefault().getBlock().getDefaultState())) {
-                    invisState.setIsDefault();
+                    invisState.labs$setIsDefault();
                 } else {
-                    invisState.setMetadata(states.getDefault().getBlock().getMetaFromState(states.getDefault()));
+                    invisState.labs$setMetadata(states.getDefault().getBlock().getMetaFromState(states.getDefault()));
                 }
                 invis.setController(core);
             }
@@ -280,11 +280,11 @@ public class BlockStateEnergyCoreStructure extends EnergyCoreStructure {
             if (invis.blockName
                     .equals(Objects.requireNonNull(states.getDefault().getBlock().getRegistryName()).toString())) {
                 TileInvisECoreBlockState invisState = (TileInvisECoreBlockState) invis;
-                if (invisState.getDefault()) {
+                if (invisState.labs$getDefault()) {
                     if (BlockStates.statesEqual(states.getDefault(), states.getDefault().getBlock().getDefaultState()))
                         return true;
                 } else if (states.getDefault().getBlock().getMetaFromState(states.getDefault()) ==
-                        invisState.getMetadata())
+                        invisState.labs$getMetadata())
                     return true;
             }
         }

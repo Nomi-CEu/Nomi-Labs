@@ -23,14 +23,14 @@ public class InvisECoreBlockLogic {
             if (!invis.blockName.isEmpty() && !player.capabilities.isCreativeMode) {
                 Block trueBlock = Block.REGISTRY.getObject(new ResourceLocation(invis.blockName));
                 if (!trueBlock.equals(Blocks.AIR)) {
-                    if (invisState.getDefault()) {
+                    if (invisState.labs$getDefault()) {
                         if (invis.blockName.equals("draconicevolution:particle_generator")) {
                             Block.spawnAsEntity(world, pos, new ItemStack(trueBlock, 1, 2));
                         } else {
                             Block.spawnAsEntity(world, pos, new ItemStack(trueBlock));
                         }
                     } else
-                        Block.spawnAsEntity(world, pos, new ItemStack(trueBlock, 1, invisState.getMetadata()));
+                        Block.spawnAsEntity(world, pos, new ItemStack(trueBlock, 1, invisState.labs$getMetadata()));
                 }
             }
 
@@ -59,10 +59,10 @@ public class InvisECoreBlockLogic {
 
             var invisState = (TileInvisECoreBlockState) invis;
 
-            if (invisState.getDefault())
+            if (invisState.labs$getDefault())
                 return new ItemStack(block);
             else
-                return new ItemStack(block, 1, invisState.getMetadata());
+                return new ItemStack(block, 1, invisState.labs$getMetadata());
         }
         return ItemStack.EMPTY;
     }

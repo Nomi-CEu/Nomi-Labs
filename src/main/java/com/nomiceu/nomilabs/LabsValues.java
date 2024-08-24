@@ -45,4 +45,5 @@ public class LabsValues {
     public static final String AE2_STUFF_MODID = "ae2stuff";
     public static final String BOGOSORT_MODID = "bogosorter";
     public static final String THERMAL_FOUNDATION_MODID = "thermalfoundation";
+    public static final String BETTER_P2P_MODID = "betterp2p";
 }

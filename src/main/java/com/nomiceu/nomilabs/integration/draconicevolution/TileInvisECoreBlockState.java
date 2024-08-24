@@ -2,17 +2,17 @@ package com.nomiceu.nomilabs.integration.draconicevolution;
 
 public interface TileInvisECoreBlockState {
 
-    boolean getDefault();
+    boolean labs$getDefault();
 
     /**
      * This should also set metadata to 0.
      */
-    void setIsDefault();
+    void labs$setIsDefault();
 
-    int getMetadata();
+    int labs$getMetadata();
 
     /**
      * This should also set default to false, if meta set is not 0 (legacy compat)
      */
-    void setMetadata(int metadata);
+    void labs$setMetadata(int metadata);
 }

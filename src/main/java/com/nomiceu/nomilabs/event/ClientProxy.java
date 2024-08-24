@@ -15,11 +15,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
+import com.nomiceu.nomilabs.LabsTextures;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
-import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
+import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
+import com.nomiceu.nomilabs.integration.betterp2p.ModeDescriptionsHandler;
 import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
@@ -78,6 +80,13 @@ public class ClientProxy {
     @SubscribeEvent
     public static void languageChanged(LabsResourcesRefreshedEvent event) {
         LabsTooltipHelper.onLanguageChange();
+
+        if (Loader.isModLoaded(LabsValues.BETTER_P2P_MODID)) {
+            // Make sure Modes is Loaded before Description Refresh
+            // Doesn't consume any resources or time if class already loaded
+            LabsBetterMemoryCardModes.preInit();
+            ModeDescriptionsHandler.refreshDescriptions();
+        }
     }
 
     @SubscribeEvent

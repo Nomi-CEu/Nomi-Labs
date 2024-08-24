@@ -20,9 +20,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.nomiceu.nomilabs.LabsTextures;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
-import com.nomiceu.nomilabs.gregtech.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.metatileentity.registry.LabsMetaTileEntities;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 

@@ -20,6 +20,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import com.cleanroommc.groovyscript.event.GsHandEvent;
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
+import com.nomiceu.nomilabs.LabsSounds;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
@@ -27,7 +28,6 @@ import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.dimension.LabsDimensions;
 import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
-import com.nomiceu.nomilabs.gregtech.LabsSounds;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.metatileentity.registry.LabsMetaTileEntities;
@@ -39,6 +39,7 @@ import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
 import com.nomiceu.nomilabs.groovy.NCActiveCoolerHelper;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
+import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.integration.top.LabsTOPManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
@@ -72,6 +73,9 @@ public class CommonProxy {
         if (Loader.isModLoaded(LabsValues.ARCHITECTURE_MODID) &&
                 LabsConfig.modIntegration.enableArchitectureCraftIntegration)
             LabsShapes.preInit();
+
+        if (Loader.isModLoaded(LabsValues.BETTER_P2P_MODID))
+            LabsBetterMemoryCardModes.preInit();
 
         LabsCreativeTabs.preInit();
 
