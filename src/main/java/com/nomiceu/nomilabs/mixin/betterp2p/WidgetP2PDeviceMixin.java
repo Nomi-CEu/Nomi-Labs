@@ -88,7 +88,8 @@ public abstract class WidgetP2PDeviceMixin implements ExtendedITypeReceiver {
             // and is bound to different frequency than selected
             info.getBindButton().enabled = info.getLoc() != getSelectedInfo().getLoc() &&
                     info.getFrequency() != (short) 0 &&
-                    info.getFrequency() != getSelectedInfo().getFrequency();
+                    info.getFrequency() != getSelectedInfo().getFrequency() &&
+                    info.getType() == getSelectedInfo().getType();
             info.getUnbindButton().enabled = false;
         }
     }
