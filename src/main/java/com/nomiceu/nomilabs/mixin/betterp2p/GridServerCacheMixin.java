@@ -98,7 +98,6 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
                             origInput.hasCustomInventoryName() ? origInput.getCustomInventoryName() : "");
                 }
             }
-
         }
 
         // Perform the link
