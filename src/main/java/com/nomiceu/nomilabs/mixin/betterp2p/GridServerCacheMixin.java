@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.mixin.betterp2p;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,7 @@ import appeng.me.GridAccessException;
 import appeng.me.cache.P2PCache;
 import appeng.parts.p2p.PartP2PTunnel;
 import appeng.util.Platform;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import kotlin.Pair;
 
 /**
@@ -92,11 +94,16 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
 
         var inputs = cache.getInputs(frequency, input.getClass());
         if (!inputs.isEmpty()) {
+            List<Supplier<PartP2PTunnel<?>>> toPerform = new ObjectArrayList<>();
             for (var origInput : inputs) {
                 if (origInput != input) {
-                    updateP2P(P2PLocationKt.toLoc(origInput), origInput, frequency, false,
-                            origInput.hasCustomInventoryName() ? origInput.getCustomInventoryName() : "");
+                    // Add to a 'To Perform' Queue, so we don't modify concurrently
+                    toPerform.add(() -> updateP2P(P2PLocationKt.toLoc(origInput), origInput, frequency, false,
+                            origInput.hasCustomInventoryName() ? origInput.getCustomInventoryName() : ""));
                 }
+            }
+            for (var perform : toPerform) {
+                perform.get();
             }
         }
 
