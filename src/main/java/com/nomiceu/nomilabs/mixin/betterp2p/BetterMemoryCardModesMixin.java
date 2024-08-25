@@ -36,7 +36,7 @@ public class BetterMemoryCardModesMixin {
             NomiLabs.LOGGER.debug("[BetterMemoryCardModes] Created Labs Order Cache: {}", LABS_ORDER_CACHE);
         }
 
-        //noinspection SuspiciousMethodCalls
+        // noinspection SuspiciousMethodCalls
         int current = LABS_ORDER_CACHE.inverse().get(this);
         int toGet = (reverse ? current - 1 : current + 1) % LABS_ORDER_CACHE.size();
         BetterMemoryCardModes result = LABS_ORDER_CACHE.get(toGet);
