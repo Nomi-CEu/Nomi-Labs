@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.nomiceu.nomilabs.mixinhelper.InfinitablePotionEffect;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 
 import gregtech.client.utils.TooltipHelper;
@@ -48,8 +49,9 @@ public class ItemExcitationCoil extends ItemBlock {
         ItemStack from = event.getFrom();
         ItemStack to = event.getTo();
         if (!to.isEmpty() && to.getItem() instanceof ItemExcitationCoil) {
-            event.getEntityLiving().addPotionEffect(
-                    new PotionEffect(MobEffects.NIGHT_VISION, 999999, 0, true, false));
+            PotionEffect effect = new PotionEffect(MobEffects.NIGHT_VISION, 32767, 0, true, false);
+            ((InfinitablePotionEffect) effect).labs$setInfinite();
+            event.getEntityLiving().addPotionEffect(effect);
         }
         if (!from.isEmpty() && from.getItem() instanceof ItemExcitationCoil) {
             event.getEntityLiving().removePotionEffect(MobEffects.NIGHT_VISION);

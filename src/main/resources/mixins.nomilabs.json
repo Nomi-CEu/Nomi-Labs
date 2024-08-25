@@ -12,6 +12,7 @@
     "GameDataMixin",
     "ItemStackMixin",
     "NarratorMixin",
+    "PotionEffectMixin",
     "SnapshotMixin",
     "WorldLoadHandler",
     "WorldServerMixin"
@@ -26,7 +27,8 @@
     "IntegratedServerMixin",
     "KeyBindingAccessor",
     "KeyBindingMixin",
-    "MinecraftMixin"
+    "MinecraftMixin",
+    "PotionEffectClientMixin"
   ],
   "server": [
     "DedicatedServerMixin"
