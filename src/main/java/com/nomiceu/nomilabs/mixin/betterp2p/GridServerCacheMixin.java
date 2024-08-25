@@ -3,7 +3,6 @@ package com.nomiceu.nomilabs.mixin.betterp2p;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -22,18 +21,14 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGridServerCache;
 import com.projecturanus.betterp2p.network.data.GridServerCache;
 import com.projecturanus.betterp2p.network.data.P2PLocation;
-import com.projecturanus.betterp2p.network.data.P2PLocationKt;
 import com.projecturanus.betterp2p.util.p2p.TunnelInfo;
 
 import appeng.api.config.SecurityPermissions;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.helpers.IInterfaceHost;
-import appeng.me.GridAccessException;
-import appeng.me.cache.P2PCache;
 import appeng.parts.p2p.PartP2PTunnel;
 import appeng.util.Platform;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import kotlin.Pair;
 
 /**
@@ -84,28 +79,6 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
                                  @Local(ordinal = 0) short frequency) {
         var input = listP2P.get(inputIndex);
         var output = listP2P.get(outputIndex);
-
-        P2PCache cache = null;
-        try {
-            cache = input.getProxy().getP2P();
-        } catch (GridAccessException e) {
-            throw new RuntimeException(e);
-        }
-
-        var inputs = cache.getInputs(frequency, input.getClass());
-        if (!inputs.isEmpty()) {
-            List<Supplier<PartP2PTunnel<?>>> toPerform = new ObjectArrayList<>();
-            for (var origInput : inputs) {
-                if (origInput != input) {
-                    // Add to a 'To Perform' Queue, so we don't modify concurrently
-                    toPerform.add(() -> updateP2P(P2PLocationKt.toLoc(origInput), origInput, frequency, false,
-                            origInput.hasCustomInventoryName() ? origInput.getCustomInventoryName() : ""));
-                }
-            }
-            for (var perform : toPerform) {
-                perform.get();
-            }
-        }
 
         // Perform the link
         var inputResult = updateP2P(inputIndex, input, frequency, false,
