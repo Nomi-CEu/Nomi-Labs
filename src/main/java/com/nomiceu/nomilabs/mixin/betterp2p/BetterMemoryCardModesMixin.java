@@ -12,7 +12,8 @@ import com.nomiceu.nomilabs.NomiLabs;
 import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
 
 /**
- * Makes Unbind always Appear Last in `.next` calls.
+ * Makes Unbind always appear Last in `.next` calls. Also removes 'Copy Input to Output',
+ * as it is redundant with 'Add as Output'.
  */
 @Mixin(value = BetterMemoryCardModes.class, remap = false)
 public class BetterMemoryCardModesMixin {
@@ -27,7 +28,7 @@ public class BetterMemoryCardModesMixin {
 
             var modes = BetterMemoryCardModes.values();
             for (var mode : modes) {
-                if (mode != BetterMemoryCardModes.UNBIND)
+                if (mode != BetterMemoryCardModes.UNBIND && mode != BetterMemoryCardModes.COPY)
                     LABS_ORDER_CACHE.put(LABS_ORDER_CACHE.size(), mode);
             }
 
@@ -37,7 +38,14 @@ public class BetterMemoryCardModesMixin {
         }
 
         // noinspection SuspiciousMethodCalls
-        int current = LABS_ORDER_CACHE.inverse().get(this);
+        Integer current = LABS_ORDER_CACHE.inverse().get(this);
+
+        if (current == null) {
+            NomiLabs.LOGGER.error("[BetterMemoryCardModes] Current Index returned null for Mode {}!", this);
+            NomiLabs.LOGGER.error("[BetterMemoryCardModes] This may simply be a legacy card, if mode was COPY.");
+            return;
+        }
+
         int toGet = (reverse ? current - 1 : current + 1) % LABS_ORDER_CACHE.size();
         BetterMemoryCardModes result = LABS_ORDER_CACHE.get(toGet);
 
