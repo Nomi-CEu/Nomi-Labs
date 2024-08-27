@@ -19,6 +19,8 @@
     "MaterialRecipeHandlerMixin",
     "MaterialStackMixin",
     "MetaItemsMixin",
+    "MetaTileEntityMEStockingBusMixin",
+    "MetaTileEntityMEStockingHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
     "MultiblockInfoCategoryMixin",
     "OreDictUnifierAccessor",
