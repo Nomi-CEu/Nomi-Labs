@@ -23,6 +23,7 @@
     "MetaTileEntityMEStockingHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
     "MultiblockInfoCategoryMixin",
+    "MultiMapMultiblockControllerMixin",
     "OreDictUnifierAccessor",
     "OverlayedItemHandlerMixin",
     "ProcessingArrayWorkableMixin",
