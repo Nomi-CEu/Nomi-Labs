@@ -26,6 +26,7 @@ import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.event.LabsResourcesRefreshedEvent;
+import com.nomiceu.nomilabs.mixinhelper.ResourcesObserver;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 /**
@@ -36,7 +37,8 @@ public class MinecraftMixin {
 
     @Inject(method = "refreshResources", at = @At("RETURN"))
     private void callResourcesRefreshedEvent(CallbackInfo ci) {
-        MinecraftForge.EVENT_BUS.post(new LabsResourcesRefreshedEvent());
+        if (ResourcesObserver.shouldCallEvent())
+            MinecraftForge.EVENT_BUS.post(new LabsResourcesRefreshedEvent());
     }
 
     @Redirect(method = "createDisplay",

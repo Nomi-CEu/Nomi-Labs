@@ -44,6 +44,7 @@ import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
 import com.nomiceu.nomilabs.integration.top.LabsTOPManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
+import com.nomiceu.nomilabs.mixinhelper.ResourcesObserver;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
 import com.nomiceu.nomilabs.recipe.HandFramingRecipe;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
@@ -110,6 +111,7 @@ public class CommonProxy {
         FluidRegistryMixinHelper.loadComplete();
 
         RecipeMapLogic.clearAll();
+        ResourcesObserver.onLoadComplete();
     }
 
     @SubscribeEvent
