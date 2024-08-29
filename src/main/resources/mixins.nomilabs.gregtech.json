@@ -22,6 +22,7 @@
     "MetaTileEntityMEStockingBusMixin",
     "MetaTileEntityMEStockingHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
+    "MultiblockDisplayTextBuilderMixin",
     "MultiblockInfoCategoryMixin",
     "MultiMapMultiblockControllerMixin",
     "OreDictUnifierAccessor",
