@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin;
+package com.nomiceu.nomilabs.mixin.vanilla;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;

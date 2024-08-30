@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Level;
 
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.mixin.AccessibleFluidRegistry;
+import com.nomiceu.nomilabs.mixin.vanilla.AccessibleFluidRegistry;
 
 public class FluidRegistryMixinHelper {
 

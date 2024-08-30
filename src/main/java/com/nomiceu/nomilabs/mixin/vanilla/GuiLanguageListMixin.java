@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin;
+package com.nomiceu.nomilabs.mixin.vanilla;
 
 import java.util.List;
 import java.util.Map;

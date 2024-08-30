@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin;
+package com.nomiceu.nomilabs.mixin.vanilla;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;

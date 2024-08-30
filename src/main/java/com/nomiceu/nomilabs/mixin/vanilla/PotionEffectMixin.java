@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin;
+package com.nomiceu.nomilabs.mixin.vanilla;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;

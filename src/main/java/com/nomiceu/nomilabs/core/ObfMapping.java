@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.launchwrapper.Launch;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
@@ -318,7 +318,7 @@ public class ObfMapping extends Remapper {
                 Resources.readLines(mappings[1].toURI().toURL(), Charsets.UTF_8, this);
                 Resources.readLines(mappings[2].toURI().toURL(), Charsets.UTF_8, this);
             } catch (IOException e) {
-                FMLLog.log.error("Could not instantiate Nomi Labs MCPRemapper", e);
+                LogManager.getLogger("LabsASM").error("Could not instantiate Nomi Labs MCPRemapper", e);
             }
         }
 

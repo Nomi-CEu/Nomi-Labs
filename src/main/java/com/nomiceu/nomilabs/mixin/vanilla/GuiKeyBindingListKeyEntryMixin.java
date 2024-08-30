@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin;
+package com.nomiceu.nomilabs.mixin.vanilla;
 
 import net.minecraft.client.gui.GuiKeyBindingList;
 import net.minecraft.client.settings.KeyBinding;

@@ -9,7 +9,7 @@ import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.groovy.mixinhelper.AccessibleKeyBinding;
-import com.nomiceu.nomilabs.mixin.KeyBindingAccessor;
+import com.nomiceu.nomilabs.mixin.vanilla.KeyBindingAccessor;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
 import com.nomiceu.nomilabs.util.LabsTranslate;

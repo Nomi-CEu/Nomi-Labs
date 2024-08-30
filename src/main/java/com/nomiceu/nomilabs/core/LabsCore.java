@@ -14,7 +14,8 @@ import zone.rong.mixinbooter.IEarlyMixinLoader;
 
 @IFMLLoadingPlugin.Name("LabsCore")
 @IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
-@IFMLLoadingPlugin.SortingIndex(1001)
+@IFMLLoadingPlugin.TransformerExclusions("com.nomiceu.nomilabs.core.")
+@IFMLLoadingPlugin.SortingIndex(-1001)
 public class LabsCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     @Override

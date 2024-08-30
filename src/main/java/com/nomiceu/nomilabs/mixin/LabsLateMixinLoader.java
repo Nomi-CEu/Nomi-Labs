@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.core;
+package com.nomiceu.nomilabs.mixin;
 
 import static com.nomiceu.nomilabs.NomiLabs.LOGGER;
 
@@ -17,7 +17,7 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 import zone.rong.mixinbooter.ILateMixinLoader;
 
 @SuppressWarnings("unused")
-public class LabsLateMixin implements ILateMixinLoader {
+public class LabsLateMixinLoader implements ILateMixinLoader {
 
     public static final Map<String, Boolean> modMixinsConfig = Stream.of(
             new AbstractMap.SimpleImmutableEntry<>(LabsValues.DRACONIC_MODID,

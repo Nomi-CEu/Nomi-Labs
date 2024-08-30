@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.minecraftforge.fml.common.FMLLog;
-
-import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -17,7 +15,6 @@ import org.objectweb.asm.tree.MethodNode;
 /**
  * @apiNote net.minecraftforge.fml.common.asm.transformers.SideTransformer.LambdaGatherer
  */
-@SuppressWarnings("deprecation")
 public class LambdaGatherer extends MethodVisitor {
 
     private static final Handle META_FACTORY = new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory",
@@ -68,7 +65,7 @@ public class LambdaGatherer extends MethodVisitor {
                     if (method.name.equals(dynamicLambdaHandle.getName()) &&
                             method.desc.equals(dynamicLambdaHandle.getDesc())) {
 
-                        FMLLog.log("LabsASM", Level.WARN, "Removing Method: %s.%s%s", classNode.name, method.name,
+                        LogManager.getLogger("LabsASM").warn("Removing Method: {}.{}{}", classNode.name, method.name,
                                 method.desc);
 
                         methods.remove();

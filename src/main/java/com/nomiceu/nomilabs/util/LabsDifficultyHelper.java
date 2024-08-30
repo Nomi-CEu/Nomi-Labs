@@ -15,12 +15,12 @@ public class LabsDifficultyHelper {
     public static EnumDifficulty getLockedDifficulty() {
         if (LabsModeHelper.isNormal()) {
             if (LabsConfig.advanced.difficultyOverrides.overrideDifficultyNormal)
-                return LabsConfig.advanced.difficultyOverrides.difficultyNormal;
+                return EnumDifficulty.byId(LabsConfig.advanced.difficultyOverrides.difficultyNormal);
             else return null;
         }
         if (LabsModeHelper.isExpert()) {
             if (LabsConfig.advanced.difficultyOverrides.overrideDifficultyExpert)
-                return LabsConfig.advanced.difficultyOverrides.difficultyExpert;
+                return EnumDifficulty.byId(LabsConfig.advanced.difficultyOverrides.difficultyExpert);
             else return null;
         }
         return null;

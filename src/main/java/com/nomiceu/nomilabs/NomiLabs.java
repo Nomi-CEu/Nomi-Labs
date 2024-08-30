@@ -36,6 +36,10 @@ public class NomiLabs {
 
     public static final Logger LOGGER = LogManager.getLogger(LabsValues.LABS_MODID);
 
+    public NomiLabs() {
+        FluidRegistry.enableUniversalBucket();
+    }
+
     @EventHandler
     public void onConstruction(FMLConstructionEvent event) {
         CommonProxy.onConstruction();
@@ -73,9 +77,5 @@ public class NomiLabs {
     @EventHandler
     public void serverStopped(FMLServerStoppedEvent event) {
         DataFixerHandler.close();
-    }
-
-    static {
-        FluidRegistry.enableUniversalBucket();
     }
 }

@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.config;
 
-import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.common.config.Config;
 
 import com.cleanroommc.configanytime.ConfigAnytime;
@@ -491,6 +490,8 @@ public class LabsConfig {
         public String[] ignoreBiomes = new String[0];
 
         @Config.Comment({ "List of Fields to be client side only, acting as @SideOnly(Side.CLIENT).",
+                "DOES NOT WORK WITH CLASSES FROM MINECRAFT OR FORGE!",
+                "Does not work with classes loaded before Nomi Labs' Static Init!",
                 "Do not change unless you know what you are doing!",
                 "Helps with fixing GrS errors Server Side.",
                 "Format: <CLASS>@<FIELD>",
@@ -503,6 +504,8 @@ public class LabsConfig {
         public String[] clientSideFields = new String[0];
 
         @Config.Comment({ "List of Methods to be client side only, acting as @SideOnly(Side.CLIENT).",
+                "DOES NOT WORK WITH CLASSES FROM MINECRAFT OR FORGE!",
+                "Does not work with classes loaded before Nomi Labs' Static Init!",
                 "Do not change unless you know what you are doing!",
                 "Helps with fixing GrS errors Server Side.",
                 "Format: <CLASS>@<METHOD>@<DESC>",
@@ -515,6 +518,8 @@ public class LabsConfig {
         public String[] clientSideMethods = new String[0];
 
         @Config.Comment({ "List of Fields to be server side only, acting as @SideOnly(Side.SERVER).",
+                "DOES NOT WORK WITH CLASSES FROM MINECRAFT OR FORGE!",
+                "Does not work with classes loaded before Nomi Labs' Static Init!",
                 "Do not change unless you know what you are doing!",
                 "Helps with fixing GrS errors Client Side.",
                 "Format: <CLASS>@<FIELD>",
@@ -527,6 +532,8 @@ public class LabsConfig {
         public String[] serverSideFields = new String[0];
 
         @Config.Comment({ "List of Methods to be server side only, acting as @SideOnly(Side.SERVER).",
+                "DOES NOT WORK WITH CLASSES FROM MINECRAFT OR FORGE!",
+                "Does not work with classes loaded before Nomi Labs' Static Init!",
                 "Do not change unless you know what you are doing!",
                 "Helps with fixing GrS errors Client Side.",
                 "Format: <CLASS>@<METHOD>@<DESC>",
@@ -714,17 +721,21 @@ public class LabsConfig {
 
             @Config.Comment({
                     "Difficulty (Locked) Override in Normal Mode. Does Not Apply if overrideDifficultyNormal is set to false!",
-                    "[default: NORMAL]" })
+                    "Ordinal of Difficulty. Peaceful = 0, Easy = 1, Normal = 2, Hard = 3.",
+                    "[default: 2]" })
             @Config.LangKey("config.nomilabs.advanced.difficulty.normal_override")
             @Config.RequiresWorldRestart
-            public EnumDifficulty difficultyNormal = EnumDifficulty.NORMAL;
+            @Config.RangeInt(min = 0, max = 3)
+            public int difficultyNormal = 2;
 
             @Config.Comment({
                     "Difficulty (Locked) Override in Expert Mode. Does Not Apply if overrideDifficultyExpert is set to false!",
-                    "[default: NORMAL]" })
+                    "Ordinal of Difficulty. Peaceful = 0, Easy = 1, Normal = 2, Hard = 3.",
+                    "[default: 2]" })
             @Config.LangKey("config.nomilabs.advanced.difficulty.expert_override")
             @Config.RequiresWorldRestart
-            public EnumDifficulty difficultyExpert = EnumDifficulty.NORMAL;
+            @Config.RangeInt(min = 0, max = 3)
+            public int difficultyExpert = 2;
         }
     }
 

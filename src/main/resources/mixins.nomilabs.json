@@ -1,5 +1,5 @@
 {
-  "package": "com.nomiceu.nomilabs.mixin",
+  "package": "com.nomiceu.nomilabs.mixin.vanilla",
   "refmap": "mixins.nomilabs.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
