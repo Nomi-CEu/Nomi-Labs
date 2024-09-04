@@ -1,12 +1,13 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
+import static com.nomiceu.nomilabs.groovy.ChangeRecipeBuilderCollection.fromStream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -21,6 +22,7 @@ import org.spongepowered.asm.mixin.Unique;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
 import com.nomiceu.nomilabs.groovy.ChangeRecipeBuilder;
+import com.nomiceu.nomilabs.groovy.ChangeRecipeBuilderCollection;
 import com.nomiceu.nomilabs.groovy.DummyChangeRecipeBuilder;
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
 
@@ -319,31 +321,32 @@ public abstract class VirtualizedRecipeMapMixin {
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(long voltage, List<ItemStack> items,
+                                                           List<FluidStack> fluids) {
         return changeByOutput(voltage, items, fluids, null, null);
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(List<ItemStack> items, List<FluidStack> fluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(List<ItemStack> items, List<FluidStack> fluids) {
         return changeByOutput(items, fluids, null, null);
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(GTRecipeCategory category, List<ItemStack> items,
-                                                         List<FluidStack> fluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(GTRecipeCategory category, List<ItemStack> items,
+                                                           List<FluidStack> fluids) {
         return changeByOutput(category, items, fluids, null, null);
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
-                                                         List<FluidStack> fluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
+                                                           List<FluidStack> fluids) {
         return changeByOutput(condition, items, fluids, null, null);
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
-                                                         List<ChancedItemOutput> chancedItems,
-                                                         List<ChancedFluidOutput> chancedFluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
+                                                           List<ChancedItemOutput> chancedItems,
+                                                           List<ChancedFluidOutput> chancedFluids) {
         List<Recipe> recipes = findByOutput(voltage, items, fluids, chancedItems, chancedFluids);
         if (recipes == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
@@ -353,25 +356,25 @@ public abstract class VirtualizedRecipeMapMixin {
                         .error()
                         .post();
             }
-            return Stream.of();
+            return new ChangeRecipeBuilderCollection<>();
         }
-        return recipes.stream().map((r) -> new ChangeRecipeBuilder<>(r, recipeMap));
+        return fromStream(recipes.stream().map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(List<ItemStack> items, List<FluidStack> fluids,
-                                                         List<ChancedItemOutput> chancedItems,
-                                                         List<ChancedFluidOutput> chancedFluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(List<ItemStack> items, List<FluidStack> fluids,
+                                                           List<ChancedItemOutput> chancedItems,
+                                                           List<ChancedFluidOutput> chancedFluids) {
         return changeByOutput((r) -> true, items, fluids, chancedItems, chancedFluids,
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
                         chancedItems, chancedFluids));
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(GTRecipeCategory category, List<ItemStack> items,
-                                                         List<FluidStack> fluids,
-                                                         List<ChancedItemOutput> chancedItems,
-                                                         List<ChancedFluidOutput> chancedFluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(GTRecipeCategory category, List<ItemStack> items,
+                                                           List<FluidStack> fluids,
+                                                           List<ChancedItemOutput> chancedItems,
+                                                           List<ChancedFluidOutput> chancedFluids) {
         return changeByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
                 chancedItems, chancedFluids,
                 String.format("category: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", category,
@@ -379,21 +382,21 @@ public abstract class VirtualizedRecipeMapMixin {
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
-                                                         List<FluidStack> fluids,
-                                                         List<ChancedItemOutput> chancedItems,
-                                                         List<ChancedFluidOutput> chancedFluids) {
+    public ChangeRecipeBuilderCollection<?> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
+                                                           List<FluidStack> fluids,
+                                                           List<ChancedItemOutput> chancedItems,
+                                                           List<ChancedFluidOutput> chancedFluids) {
         return changeByOutput(condition, items, fluids, chancedItems, chancedFluids,
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
                         chancedItems, chancedFluids));
     }
 
     @Unique
-    private Stream<ChangeRecipeBuilder<?>> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
-                                                          List<FluidStack> fluids,
-                                                          List<ChancedItemOutput> chancedItems,
-                                                          List<ChancedFluidOutput> chancedFluids,
-                                                          String components) {
+    private ChangeRecipeBuilderCollection<?> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
+                                                            List<FluidStack> fluids,
+                                                            List<ChancedItemOutput> chancedItems,
+                                                            List<ChancedFluidOutput> chancedFluids,
+                                                            String components) {
         List<Recipe> recipes = findByOutput(condition, items, fluids, chancedItems, chancedFluids);
         if (recipes == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
@@ -402,34 +405,34 @@ public abstract class VirtualizedRecipeMapMixin {
                         .error()
                         .post();
             }
-            return Stream.of();
+            return new ChangeRecipeBuilderCollection<>();
         }
-        return recipes.stream().map((r) -> new ChangeRecipeBuilder<>(r, recipeMap));
+        return fromStream(recipes.stream().map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeAllRecipes() {
+    public ChangeRecipeBuilderCollection<?> changeAllRecipes() {
         return changeAllRecipes((r) -> true);
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeAllRecipes(Predicate<Recipe> condition) {
-        return recipeMap.getRecipeList().stream()
+    public ChangeRecipeBuilderCollection<?> changeAllRecipes(Predicate<Recipe> condition) {
+        return fromStream(recipeMap.getRecipeList().stream()
                 .filter(condition)
-                .map((r) -> new ChangeRecipeBuilder<>(r, recipeMap));
+                .map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeAllRecipes(GTRecipeCategory category) {
+    public ChangeRecipeBuilderCollection<?> changeAllRecipes(GTRecipeCategory category) {
         return changeAllRecipes(category, (r) -> true);
     }
 
     @Unique
-    public Stream<ChangeRecipeBuilder<?>> changeAllRecipes(GTRecipeCategory category, Predicate<Recipe> condition) {
-        return recipeMap.getRecipesByCategory()
+    public ChangeRecipeBuilderCollection<?> changeAllRecipes(GTRecipeCategory category, Predicate<Recipe> condition) {
+        return fromStream(recipeMap.getRecipesByCategory()
                 .getOrDefault(category, new ArrayList<>()).stream()
                 .filter(condition)
-                .map((r) -> new ChangeRecipeBuilder<>(r, recipeMap));
+                .map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
     }
 
     @Unique
