@@ -7,7 +7,6 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.config.Configuration;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.core.util.Loader;
 import org.jetbrains.annotations.Nullable;
 
 import com.nomiceu.nomilabs.LabsValues;
@@ -43,8 +42,7 @@ public class LabsModeHelper {
         // (Just in Case, Prevent Load in Pre)
         try {
             // Prevent loading Static Init, use MC Mod Loader
-            var pmCfgClass = Class.forName("io.sommers.packmode.PMConfig", false,
-                    Loader.getClassLoader());
+            var pmCfgClass = Class.forName("io.sommers.packmode.PMConfig");
 
             var getPackModeMethod = pmCfgClass.getDeclaredMethod("getPackMode");
             var getCfgMethod = pmCfgClass.getDeclaredMethod("getConfiguration");
@@ -53,7 +51,7 @@ public class LabsModeHelper {
                 // If no config
                 return getModePre();
 
-            // Get Mode Normally (Pack Mode can change in-game)
+            // Get Mode Normally
             String mode = (String) getPackModeMethod.invoke(null);
             if (!checked) check(mode);
             return mode;
