@@ -3,6 +3,8 @@ package com.nomiceu.nomilabs.integration.top;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
@@ -59,8 +61,8 @@ public class LabsFluidNameElement implements IElement {
         return LabsTOPManager.FLUID_NAME_ELEMENT;
     }
 
-    public static String translateFluid(String fluidName, int amount, String packet) {
-        if (fluidName.isEmpty()) return fluidName; // Empty Tank
+    public static String translateFluid(@Nullable String fluidName, int amount, String packet) {
+        if (fluidName == null || fluidName.isEmpty()) return ""; // Empty Tank
 
         var fluid = FluidRegistry.getFluid(fluidName);
 
