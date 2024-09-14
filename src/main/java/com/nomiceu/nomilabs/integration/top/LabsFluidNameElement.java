@@ -60,6 +60,8 @@ public class LabsFluidNameElement implements IElement {
     }
 
     public static String translateFluid(String fluidName, int amount, String packet) {
+        if (fluidName.isEmpty()) return fluidName; // Empty Tank
+
         var fluid = FluidRegistry.getFluid(fluidName);
 
         // At least try and translate it if fluid is null
