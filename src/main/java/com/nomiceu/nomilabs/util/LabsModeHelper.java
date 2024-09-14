@@ -16,25 +16,18 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 public class LabsModeHelper {
 
     private static boolean checked = false;
+    private static boolean postInitPassed = false;
     @Nullable
     private static String modePreCache = null;
 
     public static boolean isNormal() {
-        if (!checked)
-            throw new IllegalStateException("Cannot access Pack Mode before Post Init or Labs Config Load!");
         return getMode().equals(LabsValues.NORMAL_MODE);
     }
 
     public static boolean isExpert() {
-        if (!checked)
-            throw new IllegalStateException("Cannot access Pack Mode before Post Init or Labs Config Load!");
         return getMode().equals(LabsValues.EXPERT_MODE);
     }
 
-    /**
-     * Used by Nomi-CEu Rich Presence.
-     */
-    @SuppressWarnings("unused")
     public static String getFormattedMode() {
         return StringUtils.capitalize(getMode());
     }
@@ -43,8 +36,11 @@ public class LabsModeHelper {
      * Get the Mode (at all times)
      */
     public static String getMode() {
+        if (!postInitPassed) return getModePre();
+
         // Reflection:
         // ClassNotFound Exception Thrown if PMConfig not loaded
+        // (Just in Case, Prevent Load in Pre)
         try {
             // Prevent loading Static Init, use MC Mod Loader
             var pmCfgClass = Class.forName("io.sommers.packmode.PMConfig", false,
@@ -64,7 +60,9 @@ public class LabsModeHelper {
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException |
                  InvocationTargetException e) {
             // PackMode not loaded
-            return getModePre();
+            // Throw, causes problems with cleanroom if we did this
+            throw new RuntimeException(
+                    "Tried to get mode when PMConfig class is not loaded! Fatal error, this should not happen! Report to Nomi-Labs devs!");
         }
     }
 
@@ -94,6 +92,10 @@ public class LabsModeHelper {
      */
     public static void check() {
         if (!checked) getMode(); // Will check, whether it uses getModePre or PMConfig.getPackMode
+    }
+
+    public static void onPostInit() {
+        postInitPassed = true;
     }
 
     private static void check(String mode) {

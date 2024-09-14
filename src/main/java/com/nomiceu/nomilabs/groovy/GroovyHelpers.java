@@ -18,6 +18,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -422,7 +423,9 @@ public class GroovyHelpers {
             return new ChancedFluidOutput(fluid, chance, chanceBoost);
         }
 
+        @Contract("_ -> new")
         public static GTRecipeInput toGtInput(IIngredient ingredient) {
+            // noinspection Contract
             return RecipeBuilderAccessor.ofGroovyIngredient(ingredient);
         }
     }

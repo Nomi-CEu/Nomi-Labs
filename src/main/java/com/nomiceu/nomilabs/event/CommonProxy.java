@@ -107,6 +107,10 @@ public class CommonProxy {
             LabsDimensions.register();
     }
 
+    public static void postInit() {
+        LabsModeHelper.onPostInit();
+    }
+
     public static void loadComplete() {
         FluidRegistryMixinHelper.loadComplete();
 
