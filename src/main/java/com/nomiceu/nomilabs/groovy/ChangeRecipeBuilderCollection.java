@@ -26,4 +26,9 @@ public class ChangeRecipeBuilderCollection<T extends RecipeBuilder<T>> extends O
         stream.forEach(collection::add);
         return collection;
     }
+
+    public ChangeRecipeBuilderCollection<T> with(ChangeRecipeBuilderCollection<T> other) {
+        addAll(other);
+        return this;
+    }
 }
