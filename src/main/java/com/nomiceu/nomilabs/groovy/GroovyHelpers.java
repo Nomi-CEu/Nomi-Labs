@@ -30,6 +30,7 @@ import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.mixin.gregtech.RecipeBuilderAccessor;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
@@ -40,6 +41,7 @@ import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
+import gregtech.api.recipes.ingredients.GTRecipeInput;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher;
 import gregtech.api.unification.material.Material;
@@ -418,6 +420,10 @@ public class GroovyHelpers {
 
         public static ChancedFluidOutput chanced(FluidStack fluid, int chance, int chanceBoost) {
             return new ChancedFluidOutput(fluid, chance, chanceBoost);
+        }
+
+        public static GTRecipeInput toGtInput(IIngredient ingredient) {
+            return RecipeBuilderAccessor.ofGroovyIngredient(ingredient);
         }
     }
 

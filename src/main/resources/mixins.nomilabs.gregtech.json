@@ -28,6 +28,7 @@
     "OreDictUnifierAccessor",
     "OverlayedItemHandlerMixin",
     "ProcessingArrayWorkableMixin",
+    "RecipeBuilderAccessor",
     "RecipeBuilderMixin",
     "RecipeMapMixin",
     "RecipeMixin",
