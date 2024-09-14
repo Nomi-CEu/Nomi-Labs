@@ -33,6 +33,7 @@
     "RecipeMapMixin",
     "RecipeMixin",
     "RecyclingRecipesMixin",
+    "TileEntityPipeBaseMixin",
     "VirtualizedRecipeMapMixin"
   ],
   "client": [],
