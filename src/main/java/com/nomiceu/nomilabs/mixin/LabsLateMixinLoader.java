@@ -50,7 +50,8 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             new AbstractMap.SimpleImmutableEntry<>(LabsValues.BOGOSORT_MODID, true),
             new AbstractMap.SimpleImmutableEntry<>(LabsValues.THERMAL_FOUNDATION_MODID, true),
             new AbstractMap.SimpleImmutableEntry<>(LabsValues.BQU_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.BETTER_P2P_MODID, true))
+            new AbstractMap.SimpleImmutableEntry<>(LabsValues.BETTER_P2P_MODID, true),
+            new AbstractMap.SimpleImmutableEntry<>(LabsValues.STORAGE_DRAWERS_MODID, true))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     @Override
