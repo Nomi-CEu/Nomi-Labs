@@ -126,6 +126,14 @@ config.nomilabs.advanced.difficulty.normal_override=Difficulty Override Normal
 config.nomilabs.advanced.difficulty.expert_override=Difficulty Override Expert
 
 # GUI
+# Custom Multi Warnings
+nomilabs.multiblock.output_full=Not Enough Space for Outputs!
+nomilabs.multiblock.recipe_voltage=Higher Voltage Required for Recipe!
+nomilabs.multiblock.cleanroom_needed=Recipe Requires Cleanroom!
+nomilabs.mulitblock.cleanroom_dirty=Cleanroom Dirty!
+nomilabs.multiblock.cleanroom_wrong=Wrong Cleanroom Type!
+
+# Other
 nomilabs.gui.recipes.tooltip.ct_recipe=CraftTweaker Created Recipe
 nomilabs.gui.recipes.tooltip.gs_recipe=GroovyScript Created Recipe
 
