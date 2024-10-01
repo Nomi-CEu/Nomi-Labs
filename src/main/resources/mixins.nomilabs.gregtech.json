@@ -20,6 +20,7 @@
     "MaterialRecipeHandlerMixin",
     "MaterialStackMixin",
     "MetaItemsMixin",
+    "MetaTileEntityCleanroomMixin",
     "MetaTileEntityMEStockingBusMixin",
     "MetaTileEntityMEStockingHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
