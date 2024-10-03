@@ -96,7 +96,7 @@ public class ClientProxy {
 
         int scroll = event.getDwheel();
         if (scroll == 0 || !LabsTooltipHelper.isShiftDown()) return;
-        byte offset = (byte) (scroll < 0 ? -1 : 1);
+        byte offset = (byte) (scroll < 0 ? 1 : -1);
 
         // Handle P2P Scroll
         Minecraft minecraft = Minecraft.getMinecraft();

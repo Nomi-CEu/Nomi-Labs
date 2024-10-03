@@ -115,7 +115,10 @@ public class LabsP2PCycleMessage implements IMessage {
                     NomiLabs.LOGGER.warn("{} ({}) tried to cycle {}", profile.getName(), profile.getId(), item);
                     return;
                 }
-                ItemStack next = getP2ps().inverse().get((getP2ps().get(held) + 1) % p2ps.size()).toStack();
+                int newValue = (getP2ps().get(held) + cycle.getOffset()) % p2ps.size();
+                if (newValue < 0) newValue += p2ps.size();
+
+                ItemStack next = getP2ps().inverse().get(newValue).toStack();
                 next.setCount(heldStack.getCount());
                 next.setTagCompound(heldStack.getTagCompound());
                 player.setHeldItem(cycle.getHand(), next);
