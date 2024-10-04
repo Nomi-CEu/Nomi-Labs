@@ -1,8 +1,7 @@
 import com.nomiceu.nomilabs.groovy.ShapedConversionRecipe
 import com.nomiceu.nomilabs.groovy.ShapedDummyRecipe
-import net.minecraft.nbt.NBTTagCompound
 
-import static com.nomiceu.nomilabs.groovy.GroovyHelpers.NBTClearingRecipeCreators.*
+import static com.nomiceu.nomilabs.groovy.GroovyHelpers.NBTClearingRecipeHelpers.*
 
 // Custom Recipe Classes. Goes in Post Init.
 
@@ -49,16 +48,7 @@ nbtClearingRecipe(item('forge:bucketfilled'), item('minecraft:bucket'))
 
 // Same Input/Output Item, Custom NBT Clearer
 nbtClearingRecipe(item('storagedrawers:basicdrawers'), {
-    if (it.tagCompound == null) return
-    var material = it.tagCompound.getString('material')
-
-    if (material.empty){
-        it.tagCompound = null
-        return
-    }
-    var newTag = new NBTTagCompound()
-    newTag.setString('material', material)
-    it.tagCompound = newTag
+    transferSubTags(it, 'material')
 })
 
 // Different Input/Output Item, Custom NBT Clearer

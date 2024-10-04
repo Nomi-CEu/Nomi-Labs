@@ -460,7 +460,7 @@ public class GroovyHelpers {
         }
     }
 
-    public static class NBTClearingRecipeCreators {
+    public static class NBTClearingRecipeHelpers {
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack item) {
             return nbtClearingRecipe(item, item, null);
@@ -490,6 +490,25 @@ public class GroovyHelpers {
             ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
             TooltipHelpers.addTooltip(input, NBTClearingRecipe.CAN_CLEAR_TOOLTIP);
             return recipe;
+        }
+
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Only tags provided will be transferred. All other tags will be deleted.
+         */
+        public static void transferSubTags(ItemStack orig, String... keys) {
+            var origCompound = orig.getTagCompound();
+            if (origCompound == null) return;
+
+            var tagCompound = new NBTTagCompound();
+            for (var key : keys) {
+                if (origCompound.hasKey(key))
+                    tagCompound.setTag(key, origCompound.getTag(key));
+            }
+
+            if (tagCompound.isEmpty()) orig.setTagCompound(null);
+            else orig.setTagCompound(tagCompound);
         }
     }
 }
