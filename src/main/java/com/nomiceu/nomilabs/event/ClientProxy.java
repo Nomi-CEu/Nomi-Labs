@@ -74,6 +74,7 @@ public class ClientProxy {
     @SubscribeEvent
     public static void addTooltipNormal(ItemTooltipEvent event) {
         TooltipAdder.addTooltipNormal(event.getToolTip(), event.getItemStack());
+        TooltipAdder.addTooltipClearing(event.getToolTip(), event.getItemStack(), event.getEntityPlayer());
     }
 
     @SubscribeEvent

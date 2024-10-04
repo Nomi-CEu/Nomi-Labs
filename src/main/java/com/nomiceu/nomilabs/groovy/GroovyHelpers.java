@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +30,8 @@ import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
+import com.cleanroommc.groovyscript.helper.recipe.RecipeName;
+import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
@@ -453,6 +457,39 @@ public class GroovyHelpers {
                     .collect(Collectors.toList())) {
                 ModSupport.DRACONIC_EVOLUTION.get().fusion.remove(recipe);
             }
+        }
+    }
+
+    public static class NBTClearingRecipeCreators {
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item) {
+            return nbtClearingRecipe(item, item, null);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer) {
+            return nbtClearingRecipe(item, item, clearer);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output) {
+            return nbtClearingRecipe(input, output, null);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
+                                                          @Nullable Consumer<ItemStack> clearer) {
+            ResourceLocation name = RecipeName.generateRl("nomilabs_nbt_clearing");
+
+            GroovyLog.Msg msg = GroovyLog.msg("Error adding Minecraft Shaped Crafting recipe '{}'", name).error()
+                    .add(IngredientHelper.isEmpty(input), () -> "Input must not be empty")
+                    .add(IngredientHelper.isEmpty(exampleOutput), () -> "Output must not be empty")
+                    .add(ReloadableRegistryManager.hasNonDummyRecipe(name),
+                            () -> "a recipe with that name already exists! Remove the recipe first");
+            if (msg.postIfNotEmpty()) return null;
+
+            var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
+            NBTClearingRecipe.NBT_CLEARERS.put(new ItemMeta(exampleOutput), new ItemMeta(input));
+            ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
+            TooltipHelpers.addTooltip(input, NBTClearingRecipe.CAN_CLEAR_TOOLTIP);
+            return recipe;
         }
     }
 }

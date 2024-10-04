@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Keyboard;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
+import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
@@ -26,6 +27,7 @@ public class LabsTooltipHelper {
 
     private static final Map<ItemMeta, List<LabsTranslate.Translatable>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static final Map<ItemMeta, List<String>> CACHED_TOOLTIPS = new Object2ObjectOpenHashMap<>();
+    public static String CACHED_NBT_CLEARER = NBTClearingRecipe.WARNING_TOOLTIP.translate();
 
     public static boolean isShiftDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
@@ -66,6 +68,7 @@ public class LabsTooltipHelper {
 
     public static void onLanguageChange() {
         CACHED_TOOLTIPS.clear();
+        CACHED_NBT_CLEARER = NBTClearingRecipe.WARNING_TOOLTIP.translate();
     }
 
     public static boolean shouldClear(ItemStack stack) {
