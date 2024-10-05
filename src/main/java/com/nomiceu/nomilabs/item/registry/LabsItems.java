@@ -187,6 +187,8 @@ public class LabsItems {
     public static ItemBase DENSE_HYDROGEN;
     public static ItemBase ULTRA_DENSE_HYDROGEN;
 
+    public static ItemBase INDUSTRIAL_REBREATHER_KIT;
+
     public static ItemBase MAGNETRON;
 
     public static ItemInfo INFO_ITEM;

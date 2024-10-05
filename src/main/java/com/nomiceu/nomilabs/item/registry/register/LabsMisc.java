@@ -36,6 +36,9 @@ public class LabsMisc {
         ULTRA_DENSE_HYDROGEN = createItem(
                 new ItemBase(makeLabsName("ultradensehydrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
 
+        INDUSTRIAL_REBREATHER_KIT = createItem(new ItemBase(makeLabsName("industrial_rebreather_kit"),
+                LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+
         MAGNETRON = createItem(new ItemBase(makeLabsName("magnetron"), LabsCreativeTabs.TAB_NOMI_LABS));
 
         // Custom model handling is in LabsItems
