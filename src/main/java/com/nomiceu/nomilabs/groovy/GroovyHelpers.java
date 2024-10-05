@@ -2,19 +2,19 @@ package com.nomiceu.nomilabs.groovy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.settings.KeyModifier;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
@@ -517,18 +517,86 @@ public class GroovyHelpers {
          * <p>
          * Only tags provided will be transferred. All other tags will be deleted.
          */
-        public static void transferSubTags(ItemStack orig, String... keys) {
-            var origCompound = orig.getTagCompound();
-            if (origCompound == null) return;
+        public static NBTTagCompound transferSubTags(ItemStack orig, String... keys) {
+            return transferSubTags(orig, null, keys);
+        }
 
-            var tagCompound = new NBTTagCompound();
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Only tags provided will be transferred. All other tags will be deleted.
+         */
+        public static NBTTagCompound transferSubTags(ItemStack orig, @Nullable NBTTagCompound existing,
+                                                     String... keys) {
+            var origCompound = orig.getTagCompound();
+            if (origCompound == null) return existing;
+
+            var tagCompound = existing == null ? new NBTTagCompound() : existing;
             for (var key : keys) {
                 if (origCompound.hasKey(key))
                     tagCompound.setTag(key, origCompound.getTag(key));
             }
 
-            if (tagCompound.isEmpty()) orig.setTagCompound(null);
-            else orig.setTagCompound(tagCompound);
+            return tagCompound;
+        }
+
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Tag provided at end of path will be transferred, if all tags along the path exist, and all, excluding the
+         * final tag, are tag compounds.
+         */
+        public static NBTTagCompound transferTagAtPath(ItemStack orig, String... path) {
+            return transferTagAtPath(orig, null, path);
+        }
+
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Tag provided at end of path will be transferred, if all tags along the path exist, and all, excluding the
+         * final tag, are tag compounds.
+         */
+        public static NBTTagCompound transferTagAtPath(ItemStack orig, @Nullable NBTTagCompound existing,
+                                                       String... path) {
+            var origCompound = orig.getTagCompound();
+            if (origCompound == null) return existing;
+
+            var linkedPath = new LinkedList<>(Arrays.asList(path));
+            NBTBase tag = findTagAtPath(origCompound, new LinkedList<>(linkedPath));
+
+            if (tag == null) return existing;
+            var compound = existing == null ? new NBTTagCompound() : existing;
+
+            addTagAtPath(compound, tag, linkedPath);
+
+            return compound;
+        }
+
+        private static void addTagAtPath(@NotNull NBTTagCompound compound, @NotNull NBTBase add,
+                                         LinkedList<String> path) {
+            if (path.isEmpty()) return;
+
+            String key = path.pollFirst();
+            if (path.isEmpty()) {
+                compound.setTag(key, add);
+                return;
+            }
+
+            NBTTagCompound next = compound.getCompoundTag(key);
+            addTagAtPath(next, add, path);
+            compound.setTag(key, next);
+        }
+
+        @Nullable
+        private static NBTBase findTagAtPath(@NotNull NBTTagCompound search, LinkedList<String> path) {
+            if (search.isEmpty() || path.isEmpty()) return null;
+
+            String key = path.pollFirst();
+            if (!search.hasKey(key)) return null;
+            if (path.isEmpty()) return search.getTag(key);
+
+            if (!search.hasKey(key, Constants.NBT.TAG_COMPOUND)) return null;
+            return findTagAtPath(search.getCompoundTag(key), path);
         }
     }
 }

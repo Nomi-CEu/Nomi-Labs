@@ -48,7 +48,10 @@ nbtClearingRecipe(item('forge:bucketfilled'), item('minecraft:bucket'))
 
 // Same Input/Output Item, Custom NBT Clearer
 nbtClearingRecipe(item('storagedrawers:basicdrawers'), {
-    transferSubTags(it, 'material')
+    var tag = transferSubTags(it, 'material') // Transfer material, saved generated tag
+    transferTagAtPath(it, tag, "tile", "Mat") // Transfer other stored material
+    transferTagAtPath(it, tag, "tile", "upgrades") // Transfer upgrades as well
+    it.tagCompound = tag // Remember to Save!
 })
 
 // Different Input/Output Item, Custom NBT Clearer
