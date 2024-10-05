@@ -548,7 +548,7 @@ public class GroovyHelpers {
 
             var tagCompound = existing == null ? new NBTTagCompound() : existing;
             for (var key : keys) {
-                if (origCompound.hasKey(key))
+                if (origCompound.hasKey(key) && !origCompound.getTag(key).isEmpty())
                     tagCompound.setTag(key, origCompound.getTag(key));
             }
 
@@ -579,7 +579,7 @@ public class GroovyHelpers {
             var linkedPath = new LinkedList<>(Arrays.asList(path));
             NBTBase tag = findTagAtPath(origCompound, new LinkedList<>(linkedPath));
 
-            if (tag == null) return existing;
+            if (tag == null || tag.isEmpty()) return existing;
             var compound = existing == null ? new NBTTagCompound() : existing;
 
             addTagAtPath(compound, tag, linkedPath);
@@ -598,7 +598,7 @@ public class GroovyHelpers {
             var linkedPath = new LinkedList<>(Arrays.asList("tile", "Upgrades"));
             NBTBase tag = findTagAtPath(origCompound, linkedPath);
 
-            if (!(tag instanceof NBTTagList)) return existing;
+            if (!(tag instanceof NBTTagList) || tag.isEmpty()) return existing;
             var compound = existing == null ? new NBTTagCompound() : existing;
 
             var storage = new NBTTagCompound();
