@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.settings.KeyModifier;
@@ -36,6 +37,7 @@ import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.mixin.gregtech.RecipeBuilderAccessor;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.ItemMeta;
@@ -582,6 +584,27 @@ public class GroovyHelpers {
 
             addTagAtPath(compound, tag, linkedPath);
 
+            return compound;
+        }
+
+        /**
+         * Only should be used for drawers (from Storage Drawers, Framed Compacting Drawers, GregTech Drawers, etc.).
+         * Makes use of custom Labs mixins and nbt, so that the drawer does not appear taped.
+         */
+        public static NBTTagCompound transferDrawerUpgradeData(ItemStack orig, @Nullable NBTTagCompound existing) {
+            var origCompound = orig.getTagCompound();
+            if (origCompound == null) return existing;
+
+            var linkedPath = new LinkedList<>(Arrays.asList("tile", "Upgrades"));
+            NBTBase tag = findTagAtPath(origCompound, linkedPath);
+
+            if (!(tag instanceof NBTTagList)) return existing;
+            var compound = existing == null ? new NBTTagCompound() : existing;
+
+            var storage = new NBTTagCompound();
+            storage.setTag("Upgrades", tag);
+
+            compound.setTag(CustomUpgradeHandler.CUSTOM_UPGRADES, storage);
             return compound;
         }
 
