@@ -1,7 +1,9 @@
 import com.nomiceu.nomilabs.groovy.ShapedConversionRecipe
 import com.nomiceu.nomilabs.groovy.ShapedDummyRecipe
+import net.minecraft.util.text.TextFormatting
 
 import static com.nomiceu.nomilabs.groovy.GroovyHelpers.NBTClearingRecipeHelpers.*
+import static com.nomiceu.nomilabs.groovy.GroovyHelpers.TranslationHelpers.*
 
 // Custom Recipe Classes. Goes in Post Init.
 
@@ -54,7 +56,12 @@ nbtClearingRecipe(item('storagedrawers:basicdrawers'), {
     it.tagCompound = tag // Remember to Save!
 })
 
-// Different Input/Output Item, Custom NBT Clearer
-nbtClearingRecipe(item('minecraft:water_bucket'), item('minecraft:bucket'), {
-    it.stackDisplayName = 'Old Water Bucket'
-})
+// Different Input/Output Item, Custom NBT Clearer, Custom CanClear/Warning Tooltips
+nbtClearingRecipe(item('minecraft:water_bucket'), item('minecraft:bucket'),
+        {
+            it.stackDisplayName = 'Old Water Bucket'
+        },
+        translatableLiteral('Great Water').addFormat(TextFormatting.AQUA),
+        translatableLiteral('Warning: Great Water?').addFormat(TextFormatting.RED)
+)
+

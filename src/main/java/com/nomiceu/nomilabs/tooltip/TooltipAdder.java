@@ -67,9 +67,9 @@ public class TooltipAdder {
         var resultItemMeta = new ItemMeta(resultStack);
         if (!NBTClearingRecipe.NBT_CLEARERS.containsKey(resultItemMeta)) return;
 
-        var inputItemMeta = NBTClearingRecipe.NBT_CLEARERS.get(resultItemMeta);
-        if (isNBTClearing(inv, inputItemMeta))
-            tooltip.add(LabsTooltipHelper.CACHED_NBT_CLEARER);
+        var pair = NBTClearingRecipe.NBT_CLEARERS.get(resultItemMeta);
+        if (isNBTClearing(inv, pair.getLeft()))
+            tooltip.add(LabsTooltipHelper.getTranslatedNBTClearer(resultItemMeta, pair));
     }
 
     private static boolean isNBTClearing(InventoryCrafting inv, ItemMeta inputItemMeta) {

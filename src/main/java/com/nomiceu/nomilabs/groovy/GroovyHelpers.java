@@ -20,6 +20,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -463,7 +464,7 @@ public class GroovyHelpers {
     public static class NBTClearingRecipeHelpers {
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack item) {
-            return nbtClearingRecipe(item, item, (Consumer<ItemStack>) null);
+            return nbtClearingRecipe(item, item, null);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer) {
@@ -471,12 +472,13 @@ public class GroovyHelpers {
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output) {
-            return nbtClearingRecipe(input, output, (Consumer<ItemStack>) null);
+            return nbtClearingRecipe(input, output, null);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
                                                           @Nullable Consumer<ItemStack> clearer) {
-            return nbtClearingRecipe(input, exampleOutput, clearer, NBTClearingRecipe.CAN_CLEAR_TOOLTIP);
+            return nbtClearingRecipe(input, exampleOutput, clearer, NBTClearingRecipe.CAN_CLEAR_TOOLTIP,
+                    NBTClearingRecipe.WARNING_TOOLTIP);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, LabsTranslate.Translatable tooltip) {
@@ -484,18 +486,21 @@ public class GroovyHelpers {
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer,
-                                                          LabsTranslate.Translatable tooltip) {
-            return nbtClearingRecipe(item, item, clearer, tooltip);
+                                                          LabsTranslate.Translatable canClearTooltip,
+                                                          LabsTranslate.Translatable warningTooltip) {
+            return nbtClearingRecipe(item, item, clearer, canClearTooltip, warningTooltip);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output,
-                                                          LabsTranslate.Translatable tooltip) {
-            return nbtClearingRecipe(input, output, null, tooltip);
+                                                          LabsTranslate.Translatable canClearTooltip,
+                                                          LabsTranslate.Translatable warningTooltip) {
+            return nbtClearingRecipe(input, output, null, canClearTooltip, warningTooltip);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
                                                           @Nullable Consumer<ItemStack> clearer,
-                                                          LabsTranslate.Translatable tooltip) {
+                                                          LabsTranslate.Translatable canClearTooltip,
+                                                          LabsTranslate.Translatable warningTooltip) {
             ResourceLocation name = RecipeName.generateRl("nomilabs_nbt_clearing");
 
             GroovyLog.Msg msg = GroovyLog.msg("Error adding Minecraft Shaped Crafting recipe '{}'", name).error()
@@ -513,9 +518,10 @@ public class GroovyHelpers {
             exampleOutput.setTagCompound(null);
 
             var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
-            NBTClearingRecipe.NBT_CLEARERS.put(new ItemMeta(exampleOutput), new ItemMeta(input));
+            NBTClearingRecipe.NBT_CLEARERS.put(new ItemMeta(exampleOutput),
+                    Pair.of(new ItemMeta(input), warningTooltip));
             ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
-            TooltipHelpers.addTooltip(input, tooltip);
+            TooltipHelpers.addTooltip(input, canClearTooltip);
             return recipe;
         }
 

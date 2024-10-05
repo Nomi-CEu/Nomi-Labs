@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Keyboard;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
-import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
@@ -27,7 +27,7 @@ public class LabsTooltipHelper {
 
     private static final Map<ItemMeta, List<LabsTranslate.Translatable>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static final Map<ItemMeta, List<String>> CACHED_TOOLTIPS = new Object2ObjectOpenHashMap<>();
-    public static String CACHED_NBT_CLEARER = NBTClearingRecipe.WARNING_TOOLTIP.translate();
+    private static final Map<ItemMeta, String> CACHED_NBT_WARNINGS = new Object2ObjectOpenHashMap<>();
 
     public static boolean isShiftDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
@@ -64,11 +64,12 @@ public class LabsTooltipHelper {
         CLEARED.clear();
         TOOLTIPS.clear();
         CACHED_TOOLTIPS.clear();
+        CACHED_NBT_WARNINGS.clear();
     }
 
     public static void onLanguageChange() {
         CACHED_TOOLTIPS.clear();
-        CACHED_NBT_CLEARER = NBTClearingRecipe.WARNING_TOOLTIP.translate();
+        CACHED_NBT_WARNINGS.clear();
     }
 
     public static boolean shouldClear(ItemStack stack) {
@@ -87,5 +88,15 @@ public class LabsTooltipHelper {
                 TOOLTIPS.get(itemMeta).stream().map(LabsTranslate.Translatable::translate)
                         .collect(Collectors.toList()));
         return CACHED_TOOLTIPS.get(itemMeta);
+    }
+
+    public static String getTranslatedNBTClearer(ItemMeta outputItemMeta,
+                                                 Pair<ItemMeta, LabsTranslate.Translatable> retrievedPair) {
+        if (CACHED_NBT_WARNINGS.containsKey(outputItemMeta)) return CACHED_NBT_WARNINGS.get(outputItemMeta);
+
+        var translated = retrievedPair.getRight().translate();
+
+        CACHED_NBT_WARNINGS.put(outputItemMeta, translated);
+        return translated;
     }
 }
