@@ -463,7 +463,7 @@ public class GroovyHelpers {
     public static class NBTClearingRecipeHelpers {
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack item) {
-            return nbtClearingRecipe(item, item, null);
+            return nbtClearingRecipe(item, item, (Consumer<ItemStack>) null);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer) {
@@ -471,11 +471,28 @@ public class GroovyHelpers {
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output) {
-            return nbtClearingRecipe(input, output, null);
+            return nbtClearingRecipe(input, output, (Consumer<ItemStack>) null);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
                                                           @Nullable Consumer<ItemStack> clearer) {
+            return nbtClearingRecipe(input, exampleOutput, clearer, NBTClearingRecipe.CAN_CLEAR_TOOLTIP);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, LabsTranslate.Translatable tooltip) {
+            return nbtClearingRecipe(item, item, null, tooltip);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer, LabsTranslate.Translatable tooltip) {
+            return nbtClearingRecipe(item, item, clearer, tooltip);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output, LabsTranslate.Translatable tooltip) {
+            return nbtClearingRecipe(input, output, null, tooltip);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
+                                                          @Nullable Consumer<ItemStack> clearer, LabsTranslate.Translatable tooltip) {
             ResourceLocation name = RecipeName.generateRl("nomilabs_nbt_clearing");
 
             GroovyLog.Msg msg = GroovyLog.msg("Error adding Minecraft Shaped Crafting recipe '{}'", name).error()
@@ -488,7 +505,7 @@ public class GroovyHelpers {
             var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
             NBTClearingRecipe.NBT_CLEARERS.put(new ItemMeta(exampleOutput), new ItemMeta(input));
             ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
-            TooltipHelpers.addTooltip(input, NBTClearingRecipe.CAN_CLEAR_TOOLTIP);
+            TooltipHelpers.addTooltip(input, tooltip);
             return recipe;
         }
 
