@@ -590,6 +590,13 @@ public class GroovyHelpers {
         /**
          * Only should be used for drawers (from Storage Drawers, Framed Compacting Drawers, GregTech Drawers, etc.).
          * Makes use of custom Labs mixins and nbt, so that the drawer does not appear taped.
+         * <p>
+         * Confirmed to Work on:
+         * <ul>
+         * <li>Storage Drawers: Wooden Drawers, Compacting Drawers, Framed Drawers</li>
+         * <li>GregTech Drawers: Rubber Wood Drawers, Treated Wood Drawers</li>
+         * <li>Framed Compacting Drawers: Framed Compacting Drawers</li>
+         * </ul>
          */
         public static NBTTagCompound transferDrawerUpgradeData(ItemStack orig, @Nullable NBTTagCompound existing) {
             var origCompound = orig.getTagCompound();

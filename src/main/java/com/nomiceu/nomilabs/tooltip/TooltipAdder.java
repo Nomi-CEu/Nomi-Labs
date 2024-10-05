@@ -20,9 +20,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.enderio.core.client.handlers.SpecialTooltipHandler;
+import com.jaquadro.minecraft.storagedrawers.item.ItemCompDrawers;
+import com.jaquadro.minecraft.storagedrawers.item.ItemDrawers;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
+import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.util.ItemMeta;
 
 import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
@@ -32,6 +35,13 @@ import crazypants.enderio.base.capacitor.CapacitorKey;
 public class TooltipAdder {
 
     public static void addTooltipNormal(List<String> tooltip, ItemStack stack) {
+        // Drawer Upgrade Notice
+        if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(CustomUpgradeHandler.CUSTOM_UPGRADES)) {
+            if (stack.getItem() instanceof ItemDrawers || stack.getItem() instanceof ItemCompDrawers)
+                tooltip.add(LabsTooltipHelper.DRAWER_UPDGRADE);
+        }
+
+        // Custom Tooltips
         if (LabsTooltipHelper.shouldClear(stack))
             tooltip.clear();
 

@@ -29,6 +29,8 @@ public class LabsTooltipHelper {
     private static final Map<ItemMeta, List<String>> CACHED_TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static final Map<ItemMeta, String> CACHED_NBT_WARNINGS = new Object2ObjectOpenHashMap<>();
 
+    public static String DRAWER_UPDGRADE = LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades");
+
     public static boolean isShiftDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     }
@@ -70,6 +72,7 @@ public class LabsTooltipHelper {
     public static void onLanguageChange() {
         CACHED_TOOLTIPS.clear();
         CACHED_NBT_WARNINGS.clear();
+        DRAWER_UPDGRADE = LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades");
     }
 
     public static boolean shouldClear(ItemStack stack) {
