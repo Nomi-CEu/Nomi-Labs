@@ -483,16 +483,19 @@ public class GroovyHelpers {
             return nbtClearingRecipe(item, item, null, tooltip);
         }
 
-        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer, LabsTranslate.Translatable tooltip) {
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer,
+                                                          LabsTranslate.Translatable tooltip) {
             return nbtClearingRecipe(item, item, clearer, tooltip);
         }
 
-        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output, LabsTranslate.Translatable tooltip) {
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output,
+                                                          LabsTranslate.Translatable tooltip) {
             return nbtClearingRecipe(input, output, null, tooltip);
         }
 
         public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
-                                                          @Nullable Consumer<ItemStack> clearer, LabsTranslate.Translatable tooltip) {
+                                                          @Nullable Consumer<ItemStack> clearer,
+                                                          LabsTranslate.Translatable tooltip) {
             ResourceLocation name = RecipeName.generateRl("nomilabs_nbt_clearing");
 
             GroovyLog.Msg msg = GroovyLog.msg("Error adding Minecraft Shaped Crafting recipe '{}'", name).error()
