@@ -63,7 +63,7 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
         }
 
         if (stack.isEmpty()) return ItemStack.EMPTY;
-        var display = new ItemStack(exampleOutput.getItem(), stack.getCount(), exampleOutput.getMetadata());
+        var display = new ItemStack(exampleOutput.getItem(), 1, exampleOutput.getMetadata());
         display.setTagCompound(stack.getTagCompound());
         nbtClearer.accept(display);
         return display;
@@ -86,10 +86,6 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     @Override
     @NotNull
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
-        NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
-        for (int i = 0; i < ret.size(); i++) {
-            ret.set(i, inv.getStackInSlot(i));
-        }
-        return ret;
+        return NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
     }
 }

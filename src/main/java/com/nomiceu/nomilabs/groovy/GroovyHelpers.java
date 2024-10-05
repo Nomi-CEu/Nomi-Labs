@@ -505,6 +505,13 @@ public class GroovyHelpers {
                             () -> "a recipe with that name already exists! Remove the recipe first");
             if (msg.postIfNotEmpty()) return null;
 
+            input = input.copy();
+            input.setCount(1);
+            input.setTagCompound(null);
+            exampleOutput = exampleOutput.copy();
+            exampleOutput.setCount(1);
+            exampleOutput.setTagCompound(null);
+
             var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
             NBTClearingRecipe.NBT_CLEARERS.put(new ItemMeta(exampleOutput), new ItemMeta(input));
             ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
