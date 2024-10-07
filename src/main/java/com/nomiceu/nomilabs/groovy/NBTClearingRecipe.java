@@ -10,7 +10,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,7 +21,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
     // Map of Output to Warning Tooltip + Input
-    public static final Map<ItemMeta, Pair<ItemMeta, LabsTranslate.Translatable>> NBT_CLEARERS = new Object2ObjectOpenHashMap<>();
+    public static final Map<ItemMeta, Map<ItemMeta, LabsTranslate.Translatable>> NBT_CLEARERS = new Object2ObjectOpenHashMap<>();
     public static final LabsTranslate.Translatable WARNING_TOOLTIP = new LabsTranslate.Translatable(
             "tooltip.nomilabs.recipe.clearing");
     public static final LabsTranslate.Translatable CAN_CLEAR_TOOLTIP = new LabsTranslate.Translatable(

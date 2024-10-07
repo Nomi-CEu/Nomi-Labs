@@ -5,6 +5,7 @@ import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,8 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.enderio.core.client.handlers.SpecialTooltipHandler;
@@ -77,19 +80,24 @@ public class TooltipAdder {
         var resultItemMeta = new ItemMeta(resultStack);
         if (!NBTClearingRecipe.NBT_CLEARERS.containsKey(resultItemMeta)) return;
 
-        var pair = NBTClearingRecipe.NBT_CLEARERS.get(resultItemMeta);
-        if (isNBTClearing(inv, pair.getLeft()))
-            tooltip.add(LabsTooltipHelper.getTranslatedNBTClearer(resultItemMeta, pair));
+        var inputTooltips = NBTClearingRecipe.NBT_CLEARERS.get(resultItemMeta);
+        var input = isNBTClearing(inv, inputTooltips);
+        if (input != null)
+            tooltip.add(LabsTooltipHelper.getTranslatedNBTClearer(resultItemMeta, input, inputTooltips.get(input)));
     }
 
-    private static boolean isNBTClearing(InventoryCrafting inv, ItemMeta inputItemMeta) {
-        boolean found = false;
+    @Nullable
+    private static ItemMeta isNBTClearing(InventoryCrafting inv, Map<ItemMeta, Translatable> pairs) {
+        ItemMeta found = null;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             var stack = inv.getStackInSlot(i);
             if (stack.isEmpty()) continue;
 
-            if (found || !inputItemMeta.compareWith(stack)) return false;
-            found = true;
+            if (found != null) return null;
+
+            var itemMeta = new ItemMeta(stack);
+            if (pairs.containsKey(itemMeta)) found = itemMeta;
+            else return null;
         }
         return found;
     }

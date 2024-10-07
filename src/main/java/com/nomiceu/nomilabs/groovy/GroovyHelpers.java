@@ -21,7 +21,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,6 +57,7 @@ import gregtech.api.util.GTUtility;
 import gregtech.client.utils.TooltipHelper;
 import gregtech.integration.groovy.VirtualizedRecipeMap;
 import groovy.lang.Closure;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 /**
  * The interface for groovy to interact with.
@@ -520,8 +520,9 @@ public class GroovyHelpers {
             exampleOutput.setTagCompound(null);
 
             var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
-            NBTClearingRecipe.NBT_CLEARERS.put(new ItemMeta(exampleOutput),
-                    Pair.of(new ItemMeta(input), warningTooltip));
+            NBTClearingRecipe.NBT_CLEARERS
+                    .computeIfAbsent(new ItemMeta(exampleOutput), (key) -> new Object2ObjectOpenHashMap<>())
+                    .put(new ItemMeta(input), warningTooltip);
             ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
             TooltipHelpers.addTooltip(input, canClearTooltip);
             return recipe;

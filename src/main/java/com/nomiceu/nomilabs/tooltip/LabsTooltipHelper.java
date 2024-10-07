@@ -27,7 +27,7 @@ public class LabsTooltipHelper {
 
     private static final Map<ItemMeta, List<LabsTranslate.Translatable>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static final Map<ItemMeta, List<String>> CACHED_TOOLTIPS = new Object2ObjectOpenHashMap<>();
-    private static final Map<ItemMeta, String> CACHED_NBT_WARNINGS = new Object2ObjectOpenHashMap<>();
+    private static final Map<Pair<ItemMeta, ItemMeta>, String> CACHED_NBT_WARNINGS = new Object2ObjectOpenHashMap<>();
 
     public static String DRAWER_UPDGRADE = LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades");
 
@@ -94,12 +94,14 @@ public class LabsTooltipHelper {
     }
 
     public static String getTranslatedNBTClearer(ItemMeta outputItemMeta,
-                                                 Pair<ItemMeta, LabsTranslate.Translatable> retrievedPair) {
-        if (CACHED_NBT_WARNINGS.containsKey(outputItemMeta)) return CACHED_NBT_WARNINGS.get(outputItemMeta);
+                                                 ItemMeta inputItemMeta,
+                                                 LabsTranslate.Translatable tr) {
+        if (CACHED_NBT_WARNINGS.containsKey(Pair.of(outputItemMeta, inputItemMeta)))
+            return CACHED_NBT_WARNINGS.get(Pair.of(outputItemMeta, inputItemMeta));
 
-        var translated = retrievedPair.getRight().translate();
+        var translated = tr.translate();
 
-        CACHED_NBT_WARNINGS.put(outputItemMeta, translated);
+        CACHED_NBT_WARNINGS.put(Pair.of(outputItemMeta, inputItemMeta), translated);
         return translated;
     }
 }
