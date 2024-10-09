@@ -6,6 +6,7 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
+import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.*;
 
 import com.nomiceu.nomilabs.config.LabsConfig;
@@ -52,6 +53,8 @@ public class LabsTransformer implements IClassTransformer, Opcodes {
 
             transformableClasses.add(parts[0]);
         }
+
+        LogManager.getLogger("LabsASM").debug("Computed Transformable Classes: {}", transformableClasses);
     }
 
     @Override
