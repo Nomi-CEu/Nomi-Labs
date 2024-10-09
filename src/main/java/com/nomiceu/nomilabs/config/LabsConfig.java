@@ -6,7 +6,7 @@ import com.cleanroommc.configanytime.ConfigAnytime;
 import com.nomiceu.nomilabs.LabsValues;
 
 @SuppressWarnings({ "CanBeFinal", "unused" })
-@Config(modid = LabsValues.LABS_MODID, category = "")
+@Config(modid = LabsValues.LABS_MODID, name = LabsValues.LABS_MODID, category = "")
 public class LabsConfig {
 
     @Config.Comment("Content Settings")
