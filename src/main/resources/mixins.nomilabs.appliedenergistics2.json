@@ -8,7 +8,11 @@
     "InscriberRecipeMixin"
   ],
   "client": [
-    "AEBaseGuiMixin"
+    "AEBaseGuiMixin",
+    "GuiFluidInterfaceConfigurationTerminalMixin",
+    "GuiFluidTerminalMixin",
+    "GuiInterfaceConfigurationTerminalMixin",
+    "GuiInterfaceTerminalMixin"
   ],
   "server": []
 }

@@ -272,6 +272,36 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.bqu_fluid_task_fixes")
         public boolean enableBQuFluidTaskFixes = true;
 
+        @Config.Comment("AE2 Terminal Options")
+        @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
+        @Config.Name("ae2 terminal options")
+        public final AE2TerminalOptions ae2TerminalOptions = new AE2TerminalOptions();
+
+        public static class AE2TerminalOptions {
+
+            @Config.Comment({ "Whether to Auto-Focus the Fluid Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.fluid")
+            public boolean autoFocusFluid = true;
+
+            @Config.Comment({ "Whether to Auto-Focus the Interface Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.interface")
+            public boolean autoFocusInterface = true;
+
+            @Config.Comment({ "Whether to Auto-Focus the Interface Configuration Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface")
+            public boolean autoFocusConfigInterface = true;
+
+            @Config.Comment({ "Whether to Auto-Focus the Fluid Interface Configuration Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_fluid_interface")
+            public boolean autoFocusConfigFluidInterface = true;
+
+            @Config.Comment({
+                    "Whether to Save Serach Strings in the Interface Configuration Terminals (Item and Fluid).",
+                    "Default AE2 Behaviour is to Save.", "[default: false]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save")
+            public boolean saveConfigInterfaceSearch = false;
+        }
+
         public static class EffortlessBuildingIntegration {
 
             @Config.Comment({ "Whether to enable Effortless Building Integration, which splits the parts of reach.",
