@@ -84,8 +84,6 @@ public class ClientProxy {
 
     @SubscribeEvent
     public static void languageChanged(LabsResourcesRefreshedEvent event) {
-        LabsTooltipHelper.onLanguageChange();
-
         if (Loader.isModLoaded(LabsValues.BETTER_P2P_MODID))
             ModeDescriptionsHandler.refreshDescriptions();
     }

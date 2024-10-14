@@ -41,13 +41,10 @@ public class TooltipAdder {
         // Drawer Upgrade Notice
         if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(CustomUpgradeHandler.CUSTOM_UPGRADES)) {
             if (stack.getItem() instanceof ItemDrawers || stack.getItem() instanceof ItemCompDrawers)
-                tooltip.add(LabsTooltipHelper.DRAWER_UPDGRADE);
+                tooltip.add(LabsTooltipHelper.DRAWER_UPDGRADE.translate());
         }
 
         // Custom Tooltips
-        if (LabsTooltipHelper.shouldClear(stack))
-            tooltip.clear();
-
         var groovyTooltips = LabsTooltipHelper.getTranslatableFromStack(stack);
         if (groovyTooltips != null)
             tooltip.addAll(groovyTooltips);
@@ -83,7 +80,7 @@ public class TooltipAdder {
         var inputTooltips = NBTClearingRecipe.NBT_CLEARERS.get(resultItemMeta);
         var input = isNBTClearing(inv, inputTooltips);
         if (input != null)
-            tooltip.add(LabsTooltipHelper.getTranslatedNBTClearer(resultItemMeta, input, inputTooltips.get(input)));
+            tooltip.add(inputTooltips.get(input).translate());
     }
 
     @Nullable

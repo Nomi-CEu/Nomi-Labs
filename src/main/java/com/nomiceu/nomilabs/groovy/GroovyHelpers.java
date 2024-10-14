@@ -112,10 +112,6 @@ public class GroovyHelpers {
             list.add(tr);
             LabsTooltipHelper.addTooltip(new ItemMeta(item), list);
         }
-
-        public static void clearTooltip(ItemStack item) {
-            LabsTooltipHelper.clearTooltip(new ItemMeta(item));
-        }
     }
 
     public static class SafeMethodHelpers {
