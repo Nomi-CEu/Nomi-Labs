@@ -156,6 +156,6 @@ public class BlockExcitationCoil extends BlockDirectional implements TOPInfoProv
     @Override
     @Nullable
     public List<String> getTOPMessage(IBlockState state) {
-        return ImmutableList.of(topTranslate("tooltip.nomilabs.general.crafting_component*}"));
+        return ImmutableList.of(topTranslate("tooltip.nomilabs.general.crafting_component"));
     }
 }

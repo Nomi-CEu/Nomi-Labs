@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.List;
 
+import com.nomiceu.nomilabs.NomiLabs;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
@@ -37,6 +38,7 @@ public class LabsTranslate {
                     fallbackTranslated = String.format(fallbackTranslated, params);
                 } catch (IllegalFormatException var5) {
                     fallbackTranslated = "Format error: " + fallbackTranslated;
+                    NomiLabs.LOGGER.error(var5);
                 }
             }
             return fallbackTranslated;
