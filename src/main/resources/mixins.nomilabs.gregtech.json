@@ -33,6 +33,8 @@
     "RecipeMapMixin",
     "RecipeMixin",
     "RecyclingRecipesMixin",
+    "SteamBoilerInfoProviderMixin",
+    "SteamBoilerMixin",
     "TileEntityPipeBaseMixin",
     "VirtualizedRecipeMapMixin"
   ],
