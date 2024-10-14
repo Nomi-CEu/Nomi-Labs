@@ -25,7 +25,7 @@ public class LabsTOPManager {
 
         @Override
         public String getID() {
-            return LabsValues.LABS_MODID + "top_tooltips";
+            return LabsValues.LABS_MODID + ":top_tooltips";
         }
 
         @Override

@@ -5,9 +5,10 @@ import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.List;
 
-import com.nomiceu.nomilabs.NomiLabs;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
+
+import com.nomiceu.nomilabs.NomiLabs;
 
 import gregtech.client.utils.TooltipHelper;
 import mcjty.theoneprobe.api.IProbeInfo;
