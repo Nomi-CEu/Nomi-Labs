@@ -38,6 +38,9 @@ public abstract class SteamBoilerMixin extends MetaTileEntity implements Accessi
     @Shadow
     private int fuelBurnTimeLeft;
 
+    @Shadow
+    public abstract int getMaxTemperate();
+
     /**
      * Mandatory Ignored Constructor
      */
@@ -53,7 +56,8 @@ public abstract class SteamBoilerMixin extends MetaTileEntity implements Accessi
                 timeBeforeCoolingDown = getCooldownInterval();
                 // boiler has no fuel now, so queue burning state update
                 wasBurningAndNeedsUpdate = true;
-            } else if (fuelBurnTimeLeft % 2 != 0) currentTemperature++;
+            } else if (fuelBurnTimeLeft % 2 != 0 && currentTemperature < getMaxTemperate())
+                currentTemperature++;
         }
     }
 
