@@ -22,6 +22,7 @@ import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.integration.betterp2p.ModeDescriptionsHandler;
 import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
+import com.nomiceu.nomilabs.integration.findme.FindMeKeybindRegister;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
 import com.nomiceu.nomilabs.network.LabsP2PCycleMessage;
@@ -57,6 +58,10 @@ public class ClientProxy {
                         "Failed to load EnderIO's KeyTracker Class! Overrides for Ender IO Keybindings may not be available!");
             }
         }
+
+        // Register Find Me's Fluid Keyubind
+        if (Loader.isModLoaded(LabsValues.FIND_ME_MODID))
+            FindMeKeybindRegister.register();
     }
 
     @SubscribeEvent

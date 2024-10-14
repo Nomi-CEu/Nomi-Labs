@@ -173,6 +173,9 @@ dependencies {
     // Forgelin (dep of Betterer P2P) (from CurseForge)
     compileOnly "curse.maven:shadowfacts-forgelin-248453:2785465" // Version 1.8.4
 
+    // FindMyItemsAndFluids (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:findmyitemsandfluids-610085:3748963") // Version 1.0.0
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -284,6 +287,10 @@ dependencies {
 
     if (project.enable_bogo.toBoolean()) {
         runtimeOnly "curse.maven:inventory-bogosorter-632327:5162169" // Version 1.4.8
+    }
+
+    if (project.enable_find.toBoolean()) {
+        runtimeOnly "curse.maven:findmyitemsandfluids-610085:3748963" // Version 1.0.0
     }
 
     if (project.enable_ender_storage.toBoolean()) {
