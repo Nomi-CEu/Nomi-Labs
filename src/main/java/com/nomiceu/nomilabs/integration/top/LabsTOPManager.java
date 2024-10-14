@@ -17,6 +17,7 @@ public class LabsTOPManager {
     public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
         TOP.registerProvider(new TOPTooltipMessage());
+        TOP.registerProvider(new SteamMachineInfoProvider());
         FLUID_NAME_ELEMENT = TOP.registerElementFactory(LabsFluidNameElement::new);
     }
 
