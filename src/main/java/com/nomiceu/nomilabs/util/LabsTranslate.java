@@ -9,6 +9,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
 import gregtech.client.utils.TooltipHelper;
+import mcjty.theoneprobe.api.IProbeInfo;
 
 @SuppressWarnings("unused")
 public class LabsTranslate {
@@ -78,6 +79,10 @@ public class LabsTranslate {
 
     public static Translatable translatableEmpty() {
         return new TranslatableLiteral("");
+    }
+
+    public static String topTranslate(String key) {
+        return IProbeInfo.STARTLOC + key + IProbeInfo.ENDLOC;
     }
 
     public static class Format {
@@ -152,6 +157,12 @@ public class LabsTranslate {
             return LabsTranslate.format(LabsTranslate.translate(key, params), format.toArray(new Format[0]));
         }
 
+        public String topVersion() {
+            if (format.isEmpty()) return topTranslate(key);
+
+            return LabsTranslate.format(topTranslate(key), format.toArray(new Format[0]));
+        }
+
         @Override
         public String toString() {
             return translate();
@@ -169,6 +180,13 @@ public class LabsTranslate {
 
         @Override
         protected String translateThis() {
+            if (format.isEmpty()) return key;
+
+            return LabsTranslate.format(key, format.toArray(new Format[0]));
+        }
+
+        @Override
+        public String topVersion() {
             if (format.isEmpty()) return key;
 
             return LabsTranslate.format(key, format.toArray(new Format[0]));

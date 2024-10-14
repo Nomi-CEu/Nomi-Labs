@@ -35,6 +35,7 @@
     "RecyclingRecipesMixin",
     "SteamBoilerInfoProviderMixin",
     "SteamBoilerMixin",
+    "SteamMetaTileEntityMixin",
     "TileEntityPipeBaseMixin",
     "VirtualizedRecipeMapMixin"
   ],

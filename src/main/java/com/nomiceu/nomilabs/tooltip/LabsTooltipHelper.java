@@ -17,7 +17,6 @@ import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import mcjty.theoneprobe.api.IProbeInfo;
 
 @SuppressWarnings("unused")
 @GroovyBlacklist
@@ -37,10 +36,6 @@ public class LabsTooltipHelper {
 
     public static boolean isCtrlDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-    }
-
-    public static String getTOPFormat(String str) {
-        return IProbeInfo.STARTLOC + str + IProbeInfo.ENDLOC;
     }
 
     /**

@@ -1,9 +1,7 @@
 package com.nomiceu.nomilabs.block;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -21,18 +19,21 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
+import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.items.toolitem.ToolClasses;
 
 public class BlockBase extends Block implements TOPInfoProvider {
 
-    private final String[] description;
+    @Nullable
+    private final LabsTranslate.Translatable[] description;
 
     public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound) {
-        this(rl, tab, material, sound, new String[0]);
+        this(rl, tab, material, sound, (LabsTranslate.Translatable) null);
     }
 
-    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, String... description) {
+    public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound,
+                     @Nullable LabsTranslate.Translatable... description) {
         this(rl, tab, material, sound, ToolClasses.PICKAXE, 1, description);
     }
 
@@ -45,11 +46,10 @@ public class BlockBase extends Block implements TOPInfoProvider {
      * @param sound        Sound
      * @param tool         Tool Type. Use {@link ToolClasses}
      * @param harvestLevel Harvest Level
-     * @param description  Description. Map of translation keys to formatting keys. Is of string to string so we can use
-     *                     GTFormatCodes
+     * @param description  Description.
      */
     public BlockBase(ResourceLocation rl, CreativeTabs tab, Material material, SoundType sound, String tool,
-                     int harvestLevel, String... description) {
+                     int harvestLevel, @Nullable LabsTranslate.Translatable... description) {
         super(material);
 
         this.setRegistryName(rl);
@@ -65,12 +65,16 @@ public class BlockBase extends Block implements TOPInfoProvider {
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
                                @NotNull ITooltipFlag flagIn) {
-        Collections.addAll(tooltip, description);
+        if (description == null) return;
+        Arrays.stream(description).filter(Objects::nonNull).map(LabsTranslate.Translatable::translate)
+                .forEach(tooltip::add);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @Nullable
     public List<String> getTOPMessage(IBlockState state) {
-        return new ArrayList<>(Arrays.asList(description));
+        if (description == null) return null;
+        return Arrays.stream(description).filter(Objects::nonNull).map(LabsTranslate.Translatable::topVersion)
+                .collect(Collectors.toList());
     }
 }

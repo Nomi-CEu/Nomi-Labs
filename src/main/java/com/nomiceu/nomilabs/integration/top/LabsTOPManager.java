@@ -33,6 +33,7 @@ public class LabsTOPManager {
             Block block = blockState.getBlock();
             if (block instanceof TOPInfoProvider infoProvider) {
                 var msg = infoProvider.getTOPMessage(blockState);
+                if (msg == null) return;
                 for (var text : msg) {
                     probeInfo.text(text);
                 }

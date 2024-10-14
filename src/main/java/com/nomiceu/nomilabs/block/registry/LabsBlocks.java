@@ -67,12 +67,12 @@ public class LabsBlocks {
         ULTIMATE_POWER_STORAGE = createBlock(
                 new BlockBase(makeLabsName("ultimate_power_storage"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON,
                         SoundType.METAL, ToolClasses.PICKAXE, 2,
-                        translate("tooltip.nomilabs.general.crafting_component")),
+                        translatable("tooltip.nomilabs.general.crafting_component")),
                 EnumRarity.EPIC, 1);
         ULTIMATE_GENERATOR = createBlock(
                 new BlockBase(makeLabsName("ultimate_generator"), LabsCreativeTabs.TAB_NOMI_LABS, Material.IRON,
                         SoundType.METAL, ToolClasses.PICKAXE, 2,
-                        translate("tooltip.nomilabs.general.crafting_component")),
+                        translatable("tooltip.nomilabs.general.crafting_component")),
                 EnumRarity.EPIC, 1);
 
         /* Misc Blocks */
