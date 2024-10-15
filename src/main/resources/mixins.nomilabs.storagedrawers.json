@@ -6,7 +6,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "DrawerAttributesMixin",
+    "IDrawerAttributesMixin",
     "ItemCompDrawersMixin",
+    "ItemDrawerKeyMixin",
     "ItemDrawersMixin"
   ],
   "client": [],
