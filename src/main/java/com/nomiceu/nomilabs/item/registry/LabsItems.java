@@ -191,6 +191,8 @@ public class LabsItems {
 
     public static ItemBase MAGNETRON;
 
+    public static ItemTinyCoke TINY_COKE;
+
     public static ItemInfo INFO_ITEM;
 
     public static ItemBase PULSATING_DUST;
