@@ -43,7 +43,6 @@ import com.nomiceu.nomilabs.remap.datafixer.walker.BlockEntityWalker;
 import com.nomiceu.nomilabs.remap.datafixer.walker.ChunkWalker;
 import com.nomiceu.nomilabs.remap.datafixer.walker.ItemStackWalker;
 
-import io.sommers.packmode.PMConfig;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
