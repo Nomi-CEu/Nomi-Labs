@@ -53,9 +53,6 @@ dependencies {
         transitive = false
     } // Version 1.2.11
 
-    // Pack Mode (from CurseForge)
-    implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
-
     // GroovyScript (from Cleanroom Maven)
     implementation ("com.cleanroommc:groovyscript:1.1.2") {
         transitive = false
