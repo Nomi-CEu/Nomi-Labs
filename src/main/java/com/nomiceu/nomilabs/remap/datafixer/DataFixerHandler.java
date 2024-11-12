@@ -27,7 +27,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.groovy.util.Arrays;
 
 import com.nomiceu.nomilabs.LabsValues;
