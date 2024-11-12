@@ -163,12 +163,6 @@ public class DataFixerHandler {
                 MessageType.CONFIRM,
                 Arrays.concat(Components.getIntro(), Components.getIntroAddition()));
 
-        if (modeNeeded) {
-            sendMessage(
-                    MessageType.CONFIRM,
-                    Components.getModeCheck(StringUtils.capitalize(PMConfig.getPackMode())));
-        }
-
         sendMessage(
                 MessageType.NOTIFY,
                 Components.getDoNotExit());
