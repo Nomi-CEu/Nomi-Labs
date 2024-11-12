@@ -59,9 +59,6 @@ public class DataFixerHandler {
     /* Fixes that should be logged */
     public static Map<IFixType, List<DataFix<?>>> neededNewFixes;
 
-    /* Whether Mode is needed for New Fixes */
-    public static boolean modeNeeded = false;
-
     /* Whether fix is available */
     private static boolean fixAvailable = false;
 
@@ -96,7 +93,6 @@ public class DataFixerHandler {
 
     public static void onWorldLoad(SaveHandler save) {
         checked = false;
-        modeNeeded = false;
         neededNewFixes = null;
         savedLabsVersion = null;
         fixAvailable = true;
@@ -226,7 +222,6 @@ public class DataFixerHandler {
             for (var fix : fixes) {
                 if (fix.validVersion.apply(DataFixerHandler.worldSavedData.savedFixVersion)) {
                     neededNewFixes.computeIfAbsent(fixType, (key) -> new ObjectArrayList<>()).add(fix);
-                    if (fix.needsMode) modeNeeded = true;
                     NomiLabs.LOGGER.info("- {}: {}", fix.name, fix.description);
                 }
             }
