@@ -25,7 +25,6 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.recipe.recipelogic.NaqRecipeLogic;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 import appeng.core.Api;
 import gregicality.multiblocks.api.render.GCYMTextures;

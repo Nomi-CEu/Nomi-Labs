@@ -407,15 +407,6 @@ public class LabsConfig {
 
     public static class Advanced {
 
-        @Config.Comment({ "Whether to allow other pack modes, other than 'normal' and 'expert'.",
-                "If this is set to false, the game will crash if other modes are found.",
-                "Only set this to false if you are sure of what you are doing.",
-                "Beware: many mode specific behaviours will break if other pack modes are used!",
-                "[default: false]" })
-        @Config.LangKey("config.nomilabs.advanced.allow_other_modes")
-        @Config.RequiresMcRestart
-        public boolean allowOtherPackModes = false;
-
         @Config.Comment({ "Whether to disable Anvil XP Scaling.",
                 "[default: false]" })
         @Config.LangKey("config.nomilabs.advanced.disable_xp_scaling")
@@ -582,7 +573,7 @@ public class LabsConfig {
         public LanguageModifyOption languageModifyOption = LanguageModifyOption.LABS;
 
         @Config.Comment({ "Whether to enable Substitutions for the Server Properties MOTD.",
-                "Substitutions: {version} for the Modpack Formatted Version (from 'nomilabs-version.cfg'), {mode} for the Modpack Formatted Mode (from LabsModeHelper & the PackMode Mod).",
+                "Substitutions: {version} for the Modpack Formatted Version (from 'nomilabs-version.cfg')",
                 "Note: Only the First Substitution in the String is Replaced!",
                 "[default: false]" })
         @Config.RequiresMcRestart
@@ -593,7 +584,7 @@ public class LabsConfig {
 
             @Config.Comment({ "Override for the Minecraft Window Title.",
                     "Leave Empty for the Default.",
-                    "Substitutions: {version} for the Modpack Formatted Version (from 'nomilabs-version.cfg'), {mode} for the Modpack Formatted Mode (from LabsModeHelper & the PackMode Mod).",
+                    "Substitutions: {version} for the Modpack Formatted Version (from 'nomilabs-version.cfg')",
                     "Note: Only the First Substitution in the String is Replaced!",
                     "[default: ]" })
             @Config.LangKey("config.nomilabs.advanced.window.window_title")

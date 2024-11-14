@@ -9,7 +9,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 import betterquesting.api.api.QuestingAPI;
 import betterquesting.questing.QuestDatabase;

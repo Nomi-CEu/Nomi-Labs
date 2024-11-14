@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.mixinhelper.DifficultySettableServer;
 import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 /**
  * Prevents Changing Difficulty when Labs Locked, and saves changed difficulties to server.properties on Dedicated

@@ -16,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ConditionalJEIMultiblock;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;

@@ -83,7 +83,6 @@ config.nomilabs.mod_integration.draconicevolution.fusion_charging_time=Fusion In
 
 config.nomilabs.advanced=Advanced Settings
 config.nomilabs.advanced.tooltip=Advanced Settings
-config.nomilabs.advanced.allow_other_modes=Allow Other Modes
 config.nomilabs.advanced.disable_xp_scaling=Disable Anvil XP Scaling
 config.nomilabs.advanced.other_mods_linear_xp=Misc Mod Linear XP Support
 config.nomilabs.advanced.disable_narrator=Disable Narrator

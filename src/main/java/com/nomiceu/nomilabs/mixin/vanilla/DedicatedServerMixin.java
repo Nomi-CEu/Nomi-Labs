@@ -25,7 +25,6 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.mixinhelper.DifficultySettableServer;
 import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 /**

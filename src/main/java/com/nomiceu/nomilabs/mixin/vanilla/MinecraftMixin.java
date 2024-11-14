@@ -27,7 +27,6 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.event.LabsResourcesRefreshedEvent;
 import com.nomiceu.nomilabs.mixinhelper.ResourcesObserver;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 /**
  * Allows Setting of Window Title and Icon. Also calls an event on Resources Reload.

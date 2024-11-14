@@ -53,7 +53,6 @@ import com.nomiceu.nomilabs.remap.Remapper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
 
 import gregtech.api.GregTechAPI;

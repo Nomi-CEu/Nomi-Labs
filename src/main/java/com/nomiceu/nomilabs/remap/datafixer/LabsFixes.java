@@ -25,7 +25,6 @@ import com.nomiceu.nomilabs.remap.LabsRemapHelper;
 import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.datafixer.storage.ItemStackLike;
 import com.nomiceu.nomilabs.remap.datafixer.types.LabsFixTypes;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
