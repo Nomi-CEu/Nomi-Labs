@@ -20,7 +20,6 @@
     "MaterialRecipeHandlerMixin",
     "MaterialStackMixin",
     "MetaItemsMixin",
-    "MetaTileEntityLargeBoilerMixin",
     "MetaTileEntityMEStockingBusMixin",
     "MetaTileEntityMEStockingHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
@@ -41,6 +40,8 @@
     "TileEntityPipeBaseMixin",
     "VirtualizedRecipeMapMixin"
   ],
-  "client": [],
+  "client": [
+    "MetaTileEntityLargeBoilerClientMixin"
+  ],
   "server": []
 }
