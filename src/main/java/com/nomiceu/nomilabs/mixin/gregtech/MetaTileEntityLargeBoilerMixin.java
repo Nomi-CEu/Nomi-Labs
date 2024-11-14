@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
  */
 @Mixin(value = MetaTileEntityLargeBoiler.class, remap = false)
 public class MetaTileEntityLargeBoilerMixin {
-    @Redirect(method = "addInformation", at = @At(value = "INVOKE", target = "Lgregtech/common/metatileentities/multi/BoilerType;runtimeBoost(I)I", remap = false), remap = true)
+    @Redirect(method = "addInformation", at = @At(value = "INVOKE", target = "Lgregtech/common/metatileentities/multi/BoilerType;runtimeBoost(I)I"))
     private int getNewRuntimeBoost(BoilerType instance, int ticks) {
         return instance.runtimeBoost(ticks * 10);
     }
