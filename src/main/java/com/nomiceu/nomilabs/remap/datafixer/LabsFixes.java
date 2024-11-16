@@ -523,20 +523,10 @@ public class LabsFixes {
         multiblockMetaRemap.put((short) 32000, (short) 32100); // Microverse 1
         multiblockMetaRemap.put((short) 32001, (short) 32101); // Microverse 2
         multiblockMetaRemap.put((short) 32002, (short) 32102); // Microverse 3
-        if (LabsModeHelper.isNormal()) {
-            multiblockMetaRemap.put((short) 32003, (short) 32103); // Creative Tank Provider
-            multiblockMetaRemap.put((short) 32004, (short) 32104); // Naq Reactor 1
-            multiblockMetaRemap.put((short) 32005, (short) 32105); // Naq Reactor 2
-            multiblockMetaRemap.put((short) 3100, (short) 32108); // DME Sim Chamber
-        }
-        // In case it is some other mode, check if it is expert. This is only done here, as this specifically modifies
-        // data.
-        if (LabsModeHelper.isExpert()) {
-            multiblockMetaRemap.put((short) 32003, (short) 32104); // Naq Reactor 1
-            multiblockMetaRemap.put((short) 32004, (short) 32105); // Naq Reactor 2
-            multiblockMetaRemap.put((short) 32005, (short) 32106); // Actualization Chamber
-            multiblockMetaRemap.put((short) 32006, (short) 32107); // Universal Crystallizer
-        }
+        multiblockMetaRemap.put((short) 32003, (short) 32104); // Naq Reactor 1
+        multiblockMetaRemap.put((short) 32004, (short) 32105); // Naq Reactor 2
+        multiblockMetaRemap.put((short) 32005, (short) 32106); // Actualization Chamber
+        multiblockMetaRemap.put((short) 32006, (short) 32107); // Universal Crystallizer
 
         multiblockMetaIdRemap = new Object2ObjectLinkedOpenHashMap<>();
         multiblockMetaIdRemap.put(

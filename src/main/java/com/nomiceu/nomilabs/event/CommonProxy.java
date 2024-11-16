@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.event;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -52,7 +53,6 @@ import com.nomiceu.nomilabs.remap.LabsRemappers;
 import com.nomiceu.nomilabs.remap.Remapper;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
-import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
 
 import gregtech.api.GregTechAPI;
@@ -69,8 +69,6 @@ public class CommonProxy {
     }
 
     public static void preInit() {
-        LabsModeHelper.check();
-
         if (Loader.isModLoaded(LabsValues.ARCHITECTURE_MODID) &&
                 LabsConfig.modIntegration.enableArchitectureCraftIntegration)
             LabsShapes.preInit();
@@ -107,9 +105,7 @@ public class CommonProxy {
             LabsDimensions.register();
     }
 
-    public static void postInit() {
-        LabsModeHelper.onPostInit();
-    }
+    public static void postInit() {}
 
     public static void loadComplete() {
         FluidRegistryMixinHelper.loadComplete();
@@ -164,11 +160,8 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void onWorldLoad(WorldEvent.Load event) {
-        var toLock = LabsDifficultyHelper.getLockedDifficulty();
-        if (toLock == null) return;
-
-        // Lock Difficulty
-        event.getWorld().getWorldInfo().setDifficulty(toLock);
+        // Lock Difficulty to peaceful (2)
+        event.getWorld().getWorldInfo().setDifficulty(EnumDifficulty.byId(2));
         event.getWorld().getWorldInfo().setDifficultyLocked(true);
     }
 

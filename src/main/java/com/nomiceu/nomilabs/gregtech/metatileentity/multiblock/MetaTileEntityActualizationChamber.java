@@ -102,6 +102,6 @@ public class MetaTileEntityActualizationChamber extends RecipeMapMultiblockContr
 
     @Override
     public boolean shouldShowInJEI() {
-        return LabsModeHelper.isExpert();
+        return true;
     }
 }

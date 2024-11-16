@@ -49,7 +49,7 @@ public class MinecraftMixin {
         if (LabsConfig.advanced.windowOverrides.windowTitleOverride.isEmpty()) Display.setTitle(title);
         else Display.setTitle(LabsConfig.advanced.windowOverrides.windowTitleOverride
                 .replace("{version}", LabsVersionConfig.formattedVersion)
-                .replace("{mode}", LabsModeHelper.getFormattedMode()));
+                .replace("{mode}", "Hog"));
     }
 
     @Inject(method = "setWindowIcon", at = @At("HEAD"), cancellable = true)

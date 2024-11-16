@@ -35,7 +35,7 @@ public class LabsRecipeMaps {
         }
 
         CREATIVE_TANK_RECIPES = new RecipeMap<>("creative_tank_provider", 2, 2, 0, 0, new SimpleRecipeBuilder(),
-                !(oldMultis() || LabsModeHelper.isNormal()))
+                !(oldMultis()))
                         .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1)
                         .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_2)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, ProgressWidget.MoveType.HORIZONTAL)
@@ -48,19 +48,19 @@ public class LabsRecipeMaps {
         }
 
         ACTUALIZATION_CHAMBER_RECIPES = new DownExpandingRecipeMap("actualization_chamber", 2, 20, 0, 0,
-                new SimpleRecipeBuilder(), !(oldMultis() || LabsModeHelper.isExpert()))
+                new SimpleRecipeBuilder(), false)
                         .setSlotOverlay(false, false, GuiTextures.MOLECULAR_OVERLAY_1).setSound(GTSoundEvents.MINER)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
 
         UNIVERSAL_CRYSTALIZER_RECIPES = new RecipeMap<>("universal_crystallizer", 9, 1, 1, 0, new SimpleRecipeBuilder(),
-                !(oldMultis() || LabsModeHelper.isExpert()))
+                false)
                         .setSlotOverlay(true, false, GuiTextures.CRYSTAL_OVERLAY).setSound(GTSoundEvents.COMPUTATION)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
 
         if (Loader.isModLoaded(LabsValues.DME_MODID))
             DME_SIM_CHAMBER_RECIPES = new RecipeMap<>("dme_sim_chamber", 2, 2, 0, 0,
                     new DMESimChamberRecipeMapBuilder(),
-                    !(oldMultis() || LabsModeHelper.isNormal()))
+                    !(oldMultis()))
                             .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY)
                             .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
                             .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER,

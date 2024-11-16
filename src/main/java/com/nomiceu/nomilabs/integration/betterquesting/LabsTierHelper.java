@@ -32,22 +32,9 @@ public class LabsTierHelper {
     private static Integer cacheID;
 
     public static void preInit() {
-        boolean normal = LabsModeHelper.isNormal();
-        if (!normal && !LabsModeHelper.isExpert()) {
-            if (LabsConfig.advanced.tierSettings.defaultMode ==
-                    LabsConfig.Advanced.TierSettings.DefaultModeType.NORMAL) {
-                normal = true;
-            }
-        }
-        if (normal) {
-            IDS = LabsConfig.advanced.tierSettings.normalModeQuestIds;
-            SLUGS = LabsConfig.advanced.tierSettings.normalModeSlugs;
-            NAMES = LabsConfig.advanced.tierSettings.normalModeFormatted;
-        } else {
-            IDS = LabsConfig.advanced.tierSettings.expertModeQuestIds;
-            SLUGS = LabsConfig.advanced.tierSettings.expertModeSlugs;
-            NAMES = LabsConfig.advanced.tierSettings.expertModeFormatted;
-        }
+        IDS = LabsConfig.advanced.tierSettings.expertModeQuestIds;
+        SLUGS = LabsConfig.advanced.tierSettings.expertModeSlugs;
+        NAMES = LabsConfig.advanced.tierSettings.expertModeFormatted;
         uuid = null;
         cacheID = null;
     }

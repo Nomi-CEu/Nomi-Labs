@@ -100,6 +100,6 @@ public class MetaTileEntityCreativeTankProvider extends RecipeMapMultiblockContr
 
     @Override
     public boolean shouldShowInJEI() {
-        return LabsModeHelper.isNormal();
+        return false;
     }
 }

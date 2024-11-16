@@ -461,11 +461,6 @@ public class LabsConfig {
         @Config.Name("minecraft window overrides")
         public final WindowOverrides windowOverrides = new WindowOverrides();
 
-        @Config.Comment({ "Overrides for the Minecraft Difficulty." })
-        @Config.LangKey("config.nomilabs.advanced.difficulty")
-        @Config.Name("minecraft difficulty overrides")
-        public final DifficultyOverrides difficultyOverrides = new DifficultyOverrides();
-
         @Config.Comment({ "List of Regex Patterns to ignore if they are included in the ITEM missing registry list.",
                 "Do not change unless you know what you are doing!",
                 "This can be very inefficient with lots of patterns and lots of missing registries. Try to condense it into one pattern!",
@@ -724,39 +719,6 @@ public class LabsConfig {
                     "[default: false]" })
             @Config.LangKey("config.nomilabs.advanced.controls_tooltips.show_class")
             public boolean showClass = false;
-        }
-
-        public static class DifficultyOverrides {
-
-            @Config.Comment({ "Whether to Override Difficulty in Normal Mode.",
-                    "[default: false]" })
-            @Config.LangKey("config.nomilabs.advanced.difficulty.enable_normal")
-            @Config.RequiresWorldRestart
-            public boolean overrideDifficultyNormal = false;
-
-            @Config.Comment({ "Whether to Override Difficulty in Expert Mode.",
-                    "[default: false]" })
-            @Config.LangKey("config.nomilabs.advanced.difficulty.enable_expert")
-            @Config.RequiresWorldRestart
-            public boolean overrideDifficultyExpert = false;
-
-            @Config.Comment({
-                    "Difficulty (Locked) Override in Normal Mode. Does Not Apply if overrideDifficultyNormal is set to false!",
-                    "Ordinal of Difficulty. Peaceful = 0, Easy = 1, Normal = 2, Hard = 3.",
-                    "[default: 2]" })
-            @Config.LangKey("config.nomilabs.advanced.difficulty.normal_override")
-            @Config.RequiresWorldRestart
-            @Config.RangeInt(min = 0, max = 3)
-            public int difficultyNormal = 2;
-
-            @Config.Comment({
-                    "Difficulty (Locked) Override in Expert Mode. Does Not Apply if overrideDifficultyExpert is set to false!",
-                    "Ordinal of Difficulty. Peaceful = 0, Easy = 1, Normal = 2, Hard = 3.",
-                    "[default: 2]" })
-            @Config.LangKey("config.nomilabs.advanced.difficulty.expert_override")
-            @Config.RequiresWorldRestart
-            @Config.RangeInt(min = 0, max = 3)
-            public int difficultyExpert = 2;
         }
     }
 

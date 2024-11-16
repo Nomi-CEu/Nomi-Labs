@@ -14,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.nomiceu.nomilabs.mixinhelper.DifficultySettableServer;
-import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
 
 /**
  * Prevents Changing Difficulty when Labs Locked, and saves changed difficulties to server.properties on Dedicated
@@ -33,31 +31,14 @@ public abstract class CommandDifficultyMixin extends CommandBase {
     @Inject(method = "execute", at = @At("HEAD"), cancellable = true)
     public void executeIfNotLocked(MinecraftServer server, ICommandSender sender, String[] args,
                                    CallbackInfo ci) throws CommandException {
-        var locked = LabsDifficultyHelper.getLockedDifficulty();
+        var locked = EnumDifficulty.byId(2);
 
-        if (locked != null) {
-            notifyCommandListener(sender, this, "command.nomilabs.difficulty.labs_locked_1",
-                    new TextComponentTranslation(locked.getTranslationKey())
-                            .setStyle(new Style().setColor(TextFormatting.DARK_AQUA)));
-            notifyCommandListener(sender, this, "command.nomilabs.difficulty.labs_locked_2",
-                    new TextComponentString(LabsModeHelper.getFormattedMode())
-                            .setStyle(new Style().setColor(TextFormatting.GOLD)));
-            ci.cancel();
-            return;
-        }
-
-        if (args.length == 0) {
-            throw new WrongUsageException("commands.difficulty.usage");
-        }
-
-        EnumDifficulty newDifficulty = getDifficultyFromCommand(args[0]);
-        if (server instanceof DifficultySettableServer diff)
-            diff.setDifficultyForAllWorldsAndSave(newDifficulty);
-        else
-            server.setDifficultyForAllWorlds(newDifficulty);
-
-        notifyCommandListener(sender, this, "commands.difficulty.success",
-                new TextComponentTranslation(newDifficulty.getTranslationKey()));
+        notifyCommandListener(sender, this, "command.nomilabs.difficulty.labs_locked_1",
+                new TextComponentTranslation(locked.getTranslationKey())
+                        .setStyle(new Style().setColor(TextFormatting.DARK_AQUA)));
+        notifyCommandListener(sender, this, "command.nomilabs.difficulty.labs_locked_2",
+                new TextComponentString("HOG")
+                        .setStyle(new Style().setColor(TextFormatting.GOLD)));
         ci.cancel();
     }
 }

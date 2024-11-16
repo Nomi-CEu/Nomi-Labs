@@ -133,6 +133,6 @@ public class MetaTileEntityDMESimChamber extends GCYMRecipeMapMultiblockControll
 
     @Override
     public boolean shouldShowInJEI() {
-        return LabsModeHelper.isNormal();
+        return false;
     }
 }

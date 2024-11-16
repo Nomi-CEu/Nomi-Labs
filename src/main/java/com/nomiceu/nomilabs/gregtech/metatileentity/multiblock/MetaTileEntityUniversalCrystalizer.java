@@ -170,6 +170,6 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
 
     @Override
     public boolean shouldShowInJEI() {
-        return LabsModeHelper.isExpert();
+        return true;
     }
 }

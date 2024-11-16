@@ -221,10 +221,7 @@ public abstract class MetaTileEntityNaquadahReactor extends FuelMultiblockContro
         @Override
         protected TraceabilityPredicate getCasingPredicateBottom() {
             Material material;
-            if (LabsModeHelper.isNormal())
-                material = Materials.RutheniumTriniumAmericiumNeutronate;
-            else
-                material = LabsMaterials.Taranium;
+            material = LabsMaterials.Taranium;
             return states(MetaBlocks.COMPRESSED.get(material).getBlock(material));
         }
 
