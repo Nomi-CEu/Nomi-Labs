@@ -1,9 +1,7 @@
 package com.nomiceu.nomilabs.recipe;
 
 import net.minecraft.init.Blocks;
-import net.minecraftforge.fml.common.Loader;
 
-import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 

@@ -3,11 +3,8 @@ package com.nomiceu.nomilabs.gregtech.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraftforge.fml.common.Loader;
-
 import com.nomiceu.nomilabs.LabsSounds;
 import com.nomiceu.nomilabs.LabsTextures;
-import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 
 import gregtech.api.gui.GuiTextures;
