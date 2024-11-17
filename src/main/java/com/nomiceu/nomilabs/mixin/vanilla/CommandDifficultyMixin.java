@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
 /**
  * Prevents Changing Difficulty when Labs Locked, and saves changed difficulties to server.properties on Dedicated
  * Servers.
