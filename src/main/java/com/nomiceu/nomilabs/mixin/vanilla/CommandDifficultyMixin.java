@@ -3,7 +3,6 @@ package com.nomiceu.nomilabs.mixin.vanilla;
 import net.minecraft.command.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
@@ -31,14 +30,12 @@ public abstract class CommandDifficultyMixin extends CommandBase {
     @Inject(method = "execute", at = @At("HEAD"), cancellable = true)
     public void executeIfNotLocked(MinecraftServer server, ICommandSender sender, String[] args,
                                    CallbackInfo ci) throws CommandException {
-        var locked = EnumDifficulty.byId(2);
+        var locked = EnumDifficulty.byId(0);
 
         notifyCommandListener(sender, this, "command.nomilabs.difficulty.labs_locked_1",
                 new TextComponentTranslation(locked.getTranslationKey())
                         .setStyle(new Style().setColor(TextFormatting.DARK_AQUA)));
-        notifyCommandListener(sender, this, "command.nomilabs.difficulty.labs_locked_2",
-                new TextComponentString("HOG")
-                        .setStyle(new Style().setColor(TextFormatting.GOLD)));
+        notifyCommandListener(sender, this, "command.nomilabs.difficulty.labs_locked_2");
         ci.cancel();
     }
 }

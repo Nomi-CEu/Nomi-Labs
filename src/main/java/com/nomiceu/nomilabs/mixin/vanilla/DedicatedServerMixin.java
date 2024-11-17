@@ -65,8 +65,7 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
         if (!LabsConfig.advanced.serverMotdSubstitutions) return;
 
         NomiLabs.LOGGER.info("Enabling Labs MOTD Substitutions...");
-        instance.setMOTD(s.replace("{version}", LabsVersionConfig.formattedVersion)
-                .replace("{mode}", "Hog"));
+        instance.setMOTD(s.replace("{version}", LabsVersionConfig.formattedVersion));
     }
 
     @SuppressWarnings("LoggingSimilarMessage")
@@ -83,7 +82,7 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
                     LabsTranslate.translate(EnumDifficulty.byId(savedDifficulty).getTranslationKey()),
                     LabsTranslate.translate(locked.getTranslationKey()));
 
-            NomiLabs.LOGGER.warn("This is because you are on HOGIFACTORY!");
+            NomiLabs.LOGGER.warn("This is because HOGifactory forces peaceful mode");
 
             NomiLabs.LOGGER.warn("-----------------------------------------------");
             NomiLabs.LOGGER.warn("===============================================");

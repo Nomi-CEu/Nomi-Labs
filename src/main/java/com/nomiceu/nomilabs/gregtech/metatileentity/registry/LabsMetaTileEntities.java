@@ -20,14 +20,11 @@ public class LabsMetaTileEntities {
     public static MetaTileEntityMicroverseProjector.Microverse2 MICROVERSE_2;
     public static MetaTileEntityMicroverseProjector.Microverse3 MICROVERSE_3;
 
-    public static MetaTileEntityCreativeTankProvider CREATIVE_TANK_PROVIDER;
-
     public static MetaTileEntityNaquadahReactor NAQ_REACTOR_1;
     public static MetaTileEntityNaquadahReactor NAQ_REACTOR_2;
 
     public static MetaTileEntityActualizationChamber ACTUALIZATION_CHAMBER;
     public static MetaTileEntityUniversalCrystalizer UNIVERSAL_CRYSTALIZER;
-    public static MetaTileEntityDMESimChamber DME_SIM_CHAMBER;
 
     public static void preInit() {
         if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
@@ -44,9 +41,6 @@ public class LabsMetaTileEntities {
         MICROVERSE_3 = MetaTileEntities.registerMetaTileEntity(32102,
                 new MetaTileEntityMicroverseProjector.Microverse3(LabsNames.makeLabsName("microverse_projector_3")));
 
-        CREATIVE_TANK_PROVIDER = MetaTileEntities.registerMetaTileEntity(32103,
-                new MetaTileEntityCreativeTankProvider(LabsNames.makeLabsName("creative_tank_provider")));
-
         NAQ_REACTOR_1 = MetaTileEntities.registerMetaTileEntity(32104,
                 new MetaTileEntityNaquadahReactor.NaquadahReactor1(LabsNames.makeLabsName("naquadah_reactor_1")));
         NAQ_REACTOR_2 = MetaTileEntities.registerMetaTileEntity(32105,
@@ -57,10 +51,6 @@ public class LabsMetaTileEntities {
 
         UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32107,
                 new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
-
-        if (Loader.isModLoaded(LabsValues.DME_MODID))
-            DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108,
-                    new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));
     }
 
     private static void initNew() {

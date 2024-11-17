@@ -565,7 +565,7 @@ item.nomilabs.industrial_rebreather_kit.name=Industrial Rebreather Kit
 #-----------------Commands-----------------#
 
 command.nomilabs.difficulty.labs_locked_1=§cThe difficulty of this world is locked to %s§c!
-command.nomilabs.difficulty.labs_locked_2=§cThis is because you are playing on %s §6Mode§c!
+command.nomilabs.difficulty.labs_locked_2=§cThis is because HOGifactory forces peaceful mode!
 
 #----------------Multiblocks----------------#
 
