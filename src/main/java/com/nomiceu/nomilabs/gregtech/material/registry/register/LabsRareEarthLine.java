@@ -24,7 +24,7 @@ public class LabsRareEarthLine {
                         .color(0x182100).iconSet(ROUGH)
                         .flags(DISABLE_DECOMPOSITION)
                         .build();
-        LeechedRareEarthOxide = new Material.Builder(120, makeLabsName("leeched_rare_earth_oxide")) // Hardmode
+        LeachedRareEarthOxide = new Material.Builder(120, makeLabsName("leached_rare_earth_oxide")) // Hardmode
                                                                                                     // Material
                 .dust()
                 .color(0x4c5632).iconSet(DULL)

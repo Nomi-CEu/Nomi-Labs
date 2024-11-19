@@ -128,7 +128,7 @@ public class LabsMaterials {
 
     public static Material RareEarthOxideConcentrate; // ID: 118; HM only
     public static Material RoastedRareEarthOxideConcentrate; // ID: 119; HM only
-    public static Material LeechedRareEarthOxide; // ID: 120; HM only
+    public static Material LeachedRareEarthOxide; // ID: 120; HM only
     public static Material TrivalentRareEarths; // ID: 121; HM only
     public static Material CeriumConcentrate; // ID: 122; HM only
     public static Material DissolvedCeriumConcentrate; // ID: 123; HM only
