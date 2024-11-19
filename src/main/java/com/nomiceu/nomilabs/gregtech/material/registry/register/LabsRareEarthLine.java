@@ -41,7 +41,7 @@ public class LabsRareEarthLine {
                 .flags(DISABLE_DECOMPOSITION)
                 .build();
         DissolvedCeriumConcentrate = new Material.Builder(123, makeLabsName("dissolved_cerium_concentrate")) // Hardmode
-                                                                                                            // Material
+                                                                                                             // Material
                 .liquid()
                 .color(0xc1796c)
                 .flags(DISABLE_DECOMPOSITION)
@@ -49,7 +49,7 @@ public class LabsRareEarthLine {
         VaporousNitricAcid = new Material.Builder(124, makeLabsName("vaporous_nitric_acid"))
                 .liquid(new FluidBuilder().temperature(356))
                 .color(0xeaf293)
-                .components(Hydrogen,1 ,Nitrogen,1 ,Oxygen,3)
+                .components(Hydrogen, 1, Nitrogen, 1, Oxygen, 3)
                 .build();
     }
 }
