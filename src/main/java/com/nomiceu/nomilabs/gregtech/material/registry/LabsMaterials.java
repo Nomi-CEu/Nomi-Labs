@@ -123,6 +123,18 @@ public class LabsMaterials {
     public static Material SodiumMethoxide; // ID: 93; HM only
 
     /**
+     * Rare Earth Line Materials
+     */
+
+    public static Material RareEarthOxideConcentrate; // ID: 118; HM only
+    public static Material RoastedRareEarthOxideConcentrate; // ID: 119; HM only
+    public static Material LeechedRareEarthOxide; // ID: 120; HM only
+    public static Material TrivalentRareEarths; // ID: 121; HM only
+    public static Material CeriumConcentrate; // ID: 122; HM only
+    public static Material DissolvedCeriumConcentrate; // ID: 123; HM only
+    public static Material VaporousNitricAcid; // ID: 124
+
+    /**
      * Microverse Materials
      */
     public static Material Microversium; // ID: 27
@@ -192,6 +204,9 @@ public class LabsMaterials {
 
         /* Platinum Line Materials */
         LabsPlatLine.initPlatLine();
+
+        /* Rare Earth Line Materials */
+        LabsRareEarthLine.initRareEarthLine();
 
         /* Microverse Materials */
         LabsMicroverse.initMicroverse();
