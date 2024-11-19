@@ -125,7 +125,6 @@ public class LabsMaterials {
     /**
      * Rare Earth Line Materials
      */
-
     public static Material RareEarthOxideConcentrate; // ID: 118; HM only
     public static Material RoastedRareEarthOxideConcentrate; // ID: 119; HM only
     public static Material LeachedRareEarthOxide; // ID: 120; HM only
