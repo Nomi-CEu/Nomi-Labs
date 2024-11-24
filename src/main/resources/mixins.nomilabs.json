@@ -11,7 +11,6 @@
     "ForgeRegistryMixin",
     "GameDataMixin",
     "ItemStackMixin",
-    "NarratorMixin",
     "PotionEffectMixin",
     "SnapshotMixin",
     "WorldLoadHandler",
