@@ -60,6 +60,7 @@ public class LabsFluids {
     public static Fluid ELEMENTAL_REDUCTION;
     public static Fluid TOUGH_ALLOY;
     public static Fluid MOLTEN_DARK_SOULARIUM;
+    public static Fluid BROMINE_GAS;
 
     public static void preInit() {
         /* Radioactive Fluids */
@@ -85,6 +86,7 @@ public class LabsFluids {
         TOUGH_ALLOY = createFluid(new FluidBase("tough_alloy", 0xff10041c, 1024, 0, 1250));
         MOLTEN_DARK_SOULARIUM = createFluid(new FluidBase("moltendarksoularium", 0xff422805, 1000, 0, 8600));
         register();
+        BROMINE_GAS = createFluid(new FluidBase("bromine_gas", 0xff500a0a, 2000, 5, ROOM_TEMPERATURE));
     }
 
     /* HELPER FUNCTIONS */
