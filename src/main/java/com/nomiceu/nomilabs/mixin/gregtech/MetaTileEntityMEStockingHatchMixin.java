@@ -9,14 +9,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.nomiceu.nomilabs.gregtech.mixinhelper.IRefreshBeforeConsumption;
+
 import gregtech.common.metatileentities.multi.multiblockpart.appeng.MetaTileEntityMEInputHatch;
 import gregtech.common.metatileentities.multi.multiblockpart.appeng.MetaTileEntityMEStockingHatch;
 
 /**
- * Fixes Duplication Glitch via Disconnecting from AE2.
+ * Fixes Duplication Glitches.
  */
 @Mixin(value = MetaTileEntityMEStockingHatch.class, remap = false)
-public abstract class MetaTileEntityMEStockingHatchMixin extends MetaTileEntityMEInputHatch {
+public abstract class MetaTileEntityMEStockingHatchMixin extends MetaTileEntityMEInputHatch
+                                                         implements IRefreshBeforeConsumption {
 
     @Shadow
     @Final
@@ -27,6 +30,9 @@ public abstract class MetaTileEntityMEStockingHatchMixin extends MetaTileEntityM
 
     @Shadow
     protected abstract void clearInventory(int startIndex);
+
+    @Shadow
+    protected abstract void refreshList();
 
     /**
      * Default Ignored Constructor
@@ -53,6 +59,14 @@ public abstract class MetaTileEntityMEStockingHatchMixin extends MetaTileEntityM
                 }
             }
             ci.cancel();
+        }
+    }
+
+    @Override
+    public void labs$refreshBeforeConsumption() {
+        if (isWorkingEnabled() && updateMEStatus()) {
+            if (autoPull) refreshList();
+            syncME();
         }
     }
 }
