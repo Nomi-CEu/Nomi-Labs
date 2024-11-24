@@ -16,7 +16,6 @@ import com.nomiceu.nomilabs.gregtech.mixinhelper.IRefreshBeforeConsumption;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockWithDisplayBase;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
-import gregtech.api.recipes.RecipeMap;
 
 /**
  * Part of <a href="https://github.com/GregTechCEu/GregTech/pull/2646">GTCEu #2646</a> impl.
@@ -44,13 +43,8 @@ public abstract class RecipeMapMultiblockControllerMixin extends MultiblockWithD
         }
     }
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void initRefresh(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap, CallbackInfo ci) {
-        labs$refreshBeforeConsumptions = new ArrayList<>();
-    }
-
     @Inject(method = "initializeAbilities", at = @At("RETURN"))
-    private void initRefresh(CallbackInfo ci) {
+    private void addToRefresh(CallbackInfo ci) {
         for (IMultiblockPart part : getMultiblockParts()) {
             if (part instanceof IRefreshBeforeConsumption refresh) {
                 labs$refreshBeforeConsumptions.add(refresh);
@@ -59,7 +53,11 @@ public abstract class RecipeMapMultiblockControllerMixin extends MultiblockWithD
     }
 
     @Inject(method = "resetTileAbilities", at = @At("RETURN"))
-    private void resetRefresh(CallbackInfo ci) {
-        labs$refreshBeforeConsumptions.clear();
+    private void initOrResetRefresh(CallbackInfo ci) {
+        // Init if null, reset if not
+        if (labs$refreshBeforeConsumptions == null)
+            labs$refreshBeforeConsumptions = new ArrayList<>();
+        else
+            labs$refreshBeforeConsumptions.clear();
     }
 }
