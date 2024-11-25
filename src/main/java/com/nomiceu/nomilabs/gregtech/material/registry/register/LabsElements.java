@@ -20,6 +20,11 @@ public class LabsElements {
     public static final Element Tn = Elements.add(43, 55, -1, null, "Taranium", "Tn", false);
 
     public static void init() {
+        Bromine = new Material.Builder(14, makeLabsName("bromine"))
+                .element(Br)
+                .liquid()
+                .color(0x500a0a).iconSet(BRIGHT)
+                .build();
         Draconium = new Material.Builder(1, makeLabsName("draconium"))
                 .ingot().liquid().ore()
                 .element(Dc)
@@ -58,10 +63,6 @@ public class LabsElements {
                         .blastStats(VA[ZPM], 1800)
                         .vacuumStats(VA[IV], 600))
                 .build();
-        Bromine = new Material.Builder(14, makeLabsName("bromine"))
-                .element(Br)
-                .liquid()
-                .color(0x500a0a).iconSet(BRIGHT)
-                .build();
+
     }
 }
