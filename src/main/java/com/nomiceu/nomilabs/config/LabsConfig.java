@@ -112,6 +112,14 @@ public class LabsConfig {
             public boolean enablePerfectGems = true;
 
             @Config.Comment({
+                    "Enable Custom GT Items.",
+                    "[default: true]"
+            })
+            @Config.LangKey("config.nomilabs.content.gt_content.items")
+            @Config.RequiresMcRestart
+            public boolean enableItems = true;
+
+            @Config.Comment({
                     "Enable Custom GT Blocks.",
                     "In Beta.",
                     "[default: false]"

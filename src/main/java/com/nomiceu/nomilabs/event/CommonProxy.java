@@ -29,6 +29,7 @@ import com.nomiceu.nomilabs.dimension.LabsDimensions;
 import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
+import com.nomiceu.nomilabs.gregtech.item.LabsMetaItems;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.metatileentity.registry.LabsMetaTileEntities;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.RecipeMapLogic;
@@ -88,6 +89,8 @@ public class CommonProxy {
         if (LabsConfig.content.customContent.enableFluids)
             LabsFluids.preInit();
 
+        if (LabsConfig.content.gtCustomContent.enableItems)
+            LabsMetaItems.preInit();
         if (LabsConfig.content.gtCustomContent.enableBlocks)
             LabsMetaBlocks.preInit();
 
