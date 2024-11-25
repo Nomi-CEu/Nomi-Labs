@@ -12,7 +12,8 @@ public class LabsSolidified {
         SOLIDIFIED_ARGON = createItem(new ItemBase(makeLabsName("solidifiedargon"), LabsCreativeTabs.TAB_NOMI_LABS));
         SOLIDIFIED_CHLORINE = createItem(
                 new ItemBase(makeLabsName("solidifiedchlorine"), LabsCreativeTabs.TAB_NOMI_LABS));
-        SOLIDIFIED_BROMINE = createItem(new ItemBase(makeLabsName("solidifiedbromine"), LabsCreativeTabs.TAB_NOMI_LABS));
+        SOLIDIFIED_BROMINE = createItem(
+                new ItemBase(makeLabsName("solidifiedbromine"), LabsCreativeTabs.TAB_NOMI_LABS));
         SOLIDIFIED_FLUORINE = createItem(
                 new ItemBase(makeLabsName("solidifiedfluorine"), LabsCreativeTabs.TAB_NOMI_LABS));
         SOLIDIFIED_HELIUM = createItem(new ItemBase(makeLabsName("solidifiedhelium"), LabsCreativeTabs.TAB_NOMI_LABS));

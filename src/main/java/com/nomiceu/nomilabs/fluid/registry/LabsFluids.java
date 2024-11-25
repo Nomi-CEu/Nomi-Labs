@@ -61,7 +61,6 @@ public class LabsFluids {
     public static Fluid TOUGH_ALLOY;
     public static Fluid MOLTEN_DARK_SOULARIUM;
 
-
     public static void preInit() {
         /* Radioactive Fluids */
         URANIUM_233 = createFluid(new FluidBase("uranium233", 0xff187a30, 1024, 0, 1405));
@@ -86,7 +85,6 @@ public class LabsFluids {
         TOUGH_ALLOY = createFluid(new FluidBase("tough_alloy", 0xff10041c, 1024, 0, 1250));
         MOLTEN_DARK_SOULARIUM = createFluid(new FluidBase("moltendarksoularium", 0xff422805, 1000, 0, 8600));
         register();
-
     }
 
     /* HELPER FUNCTIONS */

@@ -54,11 +54,6 @@
         "fluid": "tough_alloy"
       }
     }],
-    "bromine_gas": [{
-      "custom": {
-        "fluid": "bromine_gas"
-      }
-    }],
     "moltendarksoularium": [{
       "custom": {
         "fluid": "moltendarksoularium"
