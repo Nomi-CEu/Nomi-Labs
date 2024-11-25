@@ -58,6 +58,7 @@ public class LabsFluids {
      * Miscellaneous Fluids
      */
     public static Fluid ELEMENTAL_REDUCTION;
+    public static Fluid MINERAL_RICH_BRINE;
     public static Fluid TOUGH_ALLOY;
     public static Fluid MOLTEN_DARK_SOULARIUM;
 
@@ -82,6 +83,7 @@ public class LabsFluids {
 
         /* Miscellaneous Fluids */
         ELEMENTAL_REDUCTION = createFluid(new FluidBase("elementalreduction", 0xff588c5a, 2000, 7, ROOM_TEMPERATURE));
+        MINERAL_RICH_BRINE = createFluid(new FluidBase("mineralrichbrine", 0xffd3dea0, 2000, 7, ROOM_TEMPERATURE));
         TOUGH_ALLOY = createFluid(new FluidBase("tough_alloy", 0xff10041c, 1024, 0, 1250));
         MOLTEN_DARK_SOULARIUM = createFluid(new FluidBase("moltendarksoularium", 0xff422805, 1000, 0, 8600));
         register();
