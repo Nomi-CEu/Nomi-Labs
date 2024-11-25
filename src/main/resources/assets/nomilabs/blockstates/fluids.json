@@ -49,6 +49,11 @@
         "fluid": "elementalreduction"
       }
     }],
+    "mineralrichbrine": [{
+      "custom": {
+        "fluid": "mineralrichbrine"
+      }
+    }],
     "tough_alloy": [{
       "custom": {
         "fluid": "tough_alloy"
