@@ -24,7 +24,7 @@ public class LabsProperties {
         Californium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Einsteinium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Graphite.setProperty(PropertyKey.INGOT, new IngotProperty());
-        Bromine.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()))
+        Bromine.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
 
         Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Curium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
