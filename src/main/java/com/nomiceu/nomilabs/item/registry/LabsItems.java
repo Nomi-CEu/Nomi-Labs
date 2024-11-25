@@ -134,6 +134,7 @@ public class LabsItems {
      */
     public static ItemBase SOLIDIFIED_ARGON;
     public static ItemBase SOLIDIFIED_CHLORINE;
+    public static ItemBase SOLIDIFIED_BROMINE;
     public static ItemBase SOLIDIFIED_FLUORINE;
     public static ItemBase SOLIDIFIED_HELIUM;
     public static ItemBase SOLIDIFIED_HYDROGEN;
