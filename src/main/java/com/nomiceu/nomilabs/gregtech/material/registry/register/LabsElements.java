@@ -20,7 +20,7 @@ public class LabsElements {
     public static final Element Tn = Elements.add(43, 55, -1, null, "Taranium", "Tn", false);
 
     public static void init() {
-        Bromine = new Material.Builder(14, makeLabsName("bromine"))
+        Bromine = new Material.Builder(118, makeLabsName("bromine"))
                 .element(Br)
                 .liquid()
                 .color(0x500a0a).iconSet(BRIGHT)
