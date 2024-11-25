@@ -13,18 +13,14 @@ import gregtech.api.unification.material.properties.BlastProperty.GasTier;
 
 public class LabsElements {
     
-    public static final Element Br = Elements.add(35, 46, -1, null, "Bromine", "Br", false);
+ 
     public static final Element Nm = Elements.add(130, 234, -1, null, "Omnium", "Nm", false);
     public static final Element Dc = Elements.add(149, 264, -1, null, "Draconium", "Dc", false);
     public static final Element ADc = Elements.add(149, 264, -1, null, "AwakenedDraconium", "Dc*", false);
     public static final Element Tn = Elements.add(43, 55, -1, null, "Taranium", "Tn", false);
 
     public static void init() {
-        Bromine = new Material.Builder(118, makeLabsName("bromine"))
-                .liquid()
-                .element(Br)
-                .color(0x500a0a).iconSet(BRIGHT)
-                .build();
+        
         Draconium = new Material.Builder(1, makeLabsName("draconium"))
                 .ingot().liquid().ore()
                 .element(Dc)
