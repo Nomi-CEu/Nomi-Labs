@@ -21,8 +21,8 @@ public class LabsElements {
 
     public static void init() {
         Bromine = new Material.Builder(118, makeLabsName("bromine"))
-                .element(Br)
                 .liquid()
+                .element(Br)
                 .color(0x500a0a).iconSet(BRIGHT)
                 .build();
         Draconium = new Material.Builder(1, makeLabsName("draconium"))
