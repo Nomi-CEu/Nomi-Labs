@@ -44,15 +44,14 @@ public class CanEditChunkHelper {
         if (player.world == null) return false;
 
         var chunkPos = new ChunkPos(pos);
-        if ((player instanceof EntityPlayerMP && ClaimedChunks.isActive()) || cannotEditChunks.isEmpty() ||
-                !cannotEditChunks.containsKey(chunkPos))
+        Boolean editable = cannotEditChunks.get(chunkPos);
+        if ((player instanceof EntityPlayerMP && ClaimedChunks.isActive()) || editable == null)
             return ClaimedChunks.blockBlockEditing(player, pos, state);
 
         if (state == null) {
             state = player.world.getBlockState(pos);
         }
 
-        return !FTBUtilitiesPermissions.hasBlockEditingPermission(player, state.getBlock()) &&
-                cannotEditChunks.get(chunkPos);
+        return !FTBUtilitiesPermissions.hasBlockEditingPermission(player, state.getBlock()) && editable;
     }
 }
