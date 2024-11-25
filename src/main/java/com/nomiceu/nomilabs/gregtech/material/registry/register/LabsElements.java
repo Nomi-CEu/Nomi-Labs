@@ -12,7 +12,8 @@ import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.properties.BlastProperty.GasTier;
 
 public class LabsElements {
-
+    
+    public static final Element Br = Elements.add(35, 46, -1, null, "Bromine", "Br", false);
     public static final Element Nm = Elements.add(130, 234, -1, null, "Omnium", "Nm", false);
     public static final Element Dc = Elements.add(149, 264, -1, null, "Draconium", "Dc", false);
     public static final Element ADc = Elements.add(149, 264, -1, null, "AwakenedDraconium", "Dc*", false);
@@ -45,6 +46,7 @@ public class LabsElements {
                 .color(0x84053e).iconSet(SHINY)
                 .cableProperties(V[MAX], 64, 0, true)
                 .build();
+        
 
         Taranium = new Material.Builder(109, makeLabsName("taranium")) // Hardmode Material
                 .element(Tn)
@@ -55,6 +57,11 @@ public class LabsElements {
                         .temp(10800, GasTier.HIGHEST)
                         .blastStats(VA[ZPM], 1800)
                         .vacuumStats(VA[IV], 600))
+                .build();
+        Bromine = new Material.Builder(14, makeLabsName("bromine"))
+                .element(Br)
+                .liquid()
+                .color(0x500a0a).iconSet(BRIGHT)
                 .build();
     }
 }
