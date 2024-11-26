@@ -54,6 +54,11 @@
         "fluid": "mineralrichbrine"
       }
     }],
+      "depletedbrine": [{
+      "custom": {
+        "fluid": "depletedbrine"
+      }
+    }],
     "tough_alloy": [{
       "custom": {
         "fluid": "tough_alloy"
