@@ -49,21 +49,6 @@
         "fluid": "elementalreduction"
       }
     }],
-    "mineralrichbrine": [{
-      "custom": {
-        "fluid": "mineralrichbrine"
-      }
-    }],
-      "depletedbrine": [{
-      "custom": {
-        "fluid": "depletedbrine"
-      }
-    }],
-      "brominechlorinemixture": [{
-      "custom": {
-        "fluid": "brominechlorinemixture"
-      }
-    }],
     "tough_alloy": [{
       "custom": {
         "fluid": "tough_alloy"
