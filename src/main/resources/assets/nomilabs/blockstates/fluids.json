@@ -59,6 +59,11 @@
         "fluid": "depletedbrine"
       }
     }],
+      "brominewatermixture": [{
+      "custom": {
+        "fluid": "brominewatermixture"
+      }
+    }],
     "tough_alloy": [{
       "custom": {
         "fluid": "tough_alloy"
