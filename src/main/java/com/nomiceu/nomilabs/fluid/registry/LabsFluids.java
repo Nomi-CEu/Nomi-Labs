@@ -90,10 +90,12 @@ public class LabsFluids {
         ELEMENTAL_REDUCTION = createFluid(new FluidBase("elementalreduction", 0xff588c5a, 2000, 7, ROOM_TEMPERATURE));
         MINERAL_RICH_BRINE = createFluid(new FluidBase("mineralrichbrine", 0xffd3dea0, 2000, 7, ROOM_TEMPERATURE));
         DEPLETED_BRINE = createFluid(new FluidBase("depletedbrine", 0xffb4b57d, 2000, 7, ROOM_TEMPERATURE));
-        ALKALINE_BROMINE_SOLUTION = createFluid(new FluidBase("alkalinebrominesolution", 0xffd11a0d, 2000, 7, ROOM_TEMPERATURE));
+        ALKALINE_BROMINE_SOLUTION = createFluid(
+                new FluidBase("alkalinebrominesolution", 0xffd11a0d, 2000, 7, ROOM_TEMPERATURE));
         DEBROMINATED_WASTE = createFluid(new FluidBase("debrominatedwaste", 0xffd13b0d, 2000, 7, ROOM_TEMPERATURE));
         CRUDE_BROMINE = createFluid(new FluidBase("crudebromine", 0xffd64d22, 2000, 7, ROOM_TEMPERATURE));
-        BROMINE_CHLORINE_MIXTURE = createFluid(new FluidBase("brominechlorinemixture", 0xffff4f00, 2000, 7, ROOM_TEMPERATURE));
+        BROMINE_CHLORINE_MIXTURE = createFluid(
+                new FluidBase("brominechlorinemixture", 0xffff4f00, 2000, 7, ROOM_TEMPERATURE));
         TOUGH_ALLOY = createFluid(new FluidBase("tough_alloy", 0xff10041c, 1024, 0, 1250));
         MOLTEN_DARK_SOULARIUM = createFluid(new FluidBase("moltendarksoularium", 0xff422805, 1000, 0, 8600));
         register();
