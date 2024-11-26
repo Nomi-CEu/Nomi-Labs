@@ -178,15 +178,15 @@ fluid.moltenempowereddiamatine=Molten Empowered Diamatine Crystal
 fluid.moltenempoweredemeradic=Molten Empowered Emeradic Crystal
 fluid.moltenempoweredvoid=Molten Empowered Void Crystal
 
-fluid.elementalreduction=Elemental Reduction Fluid
-fluid.mineralrichbrine=Mineral Rich Brine
-fluid.brominechlorinemixture=Bromine Chlorine Vapor Mixture
-fluid.alkalinebrominesolution=Alkaline Bromine Solution
-fluid.debrominatedwaste=Debrominated Waste
-fluid.crudebromine=Crude Bromine
-fluid.depletedbrine=Depleted Brine
-fluid.tough_alloy=Tough Alloy
-fluid.moltendarksoularium=Molten Dark Soularium
+liquid.elementalreduction=Elemental Reduction Fluid
+liquid.mineralrichbrine=Mineral Rich Brine
+liquid.brominechlorinemixture=Bromine Chlorine Vapor Mixture
+liquid.alkalinebrominesolution=Alkaline Bromine Solution
+liquid.debrominatedwaste=Debrominated Waste
+liquid.crudebromine=Crude Bromine
+liquid.depletedbrine=Depleted Brine
+liquid.tough_alloy=Tough Alloy
+liquid.moltendarksoularium=Molten Dark Soularium
 
 # Data Fixers
 nomilabs.fixer.intro.1=This world must be remapped.
