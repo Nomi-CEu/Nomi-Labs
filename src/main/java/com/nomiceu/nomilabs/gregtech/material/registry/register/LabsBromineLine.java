@@ -38,7 +38,7 @@ public class LabsBromineLine {
                 .color(0xd64d22)
                 .build();
       
-        BromineChlorineMixture = new Material.Builder(205, makeLabsName("brominechlorinemixture")) // Hardmode Material
+        BromineChlorineMixture = new Material.Builder(205, makeLabsName("brominechlorinemixture"))
                 .liquid()
                 .color(0xff4f00)
                 .build();
