@@ -14,12 +14,12 @@ public class LabsBromineLine {
 
     public static void initBromineLine() {
         MineralRichBrine = new Material.Builder(200, makeLabsName("mineralrichbrine"))
-                .liquid(new FluidBuilder().attribute(FluidAttributes.LIQUID))
+                .liquid()
                 .color(0xd3dea0)
                 .build();
 
         DepletedBrine = new Material.Builder(201, makeLabsName("depletedbrine"))
-                .liquid(new FluidBuilder().attribute(FluidAttributes.ACID))
+                .liquid()
                 .color(0xb4b57d)
                 .build();
 
