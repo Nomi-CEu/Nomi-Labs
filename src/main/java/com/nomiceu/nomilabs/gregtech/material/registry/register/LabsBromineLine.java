@@ -6,8 +6,6 @@ import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
-import gregtech.api.fluids.FluidBuilder;
-import gregtech.api.fluids.attribute.FluidAttributes;
 import gregtech.api.unification.material.Material;
 
 public class LabsBromineLine {
@@ -23,12 +21,12 @@ public class LabsBromineLine {
                 .color(0xb4b57d)
                 .build();
 
-        AlkalineBromineSolution = new Material.Builder(202, makeLabsName("alkalinebrominesolution")) 
+        AlkalineBromineSolution = new Material.Builder(202, makeLabsName("alkalinebrominesolution"))
                 .liquid()
                 .color(0xd11a0d)
                 .build();
 
-        DebrominatedWaste = new Material.Builder(203, makeLabsName("debrominatedwaste")) 
+        DebrominatedWaste = new Material.Builder(203, makeLabsName("debrominatedwaste"))
                 .liquid()
                 .color(0xd13b0d)
                 .build();
@@ -37,11 +35,10 @@ public class LabsBromineLine {
                 .liquid()
                 .color(0xd64d22)
                 .build();
-      
+
         BromineChlorineMixture = new Material.Builder(205, makeLabsName("brominechlorinemixture"))
                 .liquid()
                 .color(0xff4f00)
                 .build();
-
     }
 }
