@@ -94,12 +94,12 @@ public class LabsMaterials {
     /**
      * Bromine Line Materials
      */
-    public static Material MineralRichBrine; // ID: 200;
-    public static Material DepletedBrine; // ID: 201;
-    public static Material AlkalineBromineSolution; // ID: 202;
-    public static Material DebrominatedWaste; // ID: 203;
+    public static Material MineralRichBrine; // ID: 200
+    public static Material DepletedBrine; // ID: 201
+    public static Material AlkalineBromineSolution; // ID: 202
+    public static Material DebrominatedWaste; // ID: 203
     public static Material CrudeBromine; // ID: 204; HM only
-    public static Material BromineChlorineMixture; // ID: 205;
+    public static Material BromineChlorineMixture; // ID: 205
 
     /**
      * Platinum Line Materials
