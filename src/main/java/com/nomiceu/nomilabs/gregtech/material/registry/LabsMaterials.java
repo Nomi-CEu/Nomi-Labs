@@ -212,7 +212,7 @@ public class LabsMaterials {
         LabsTaraniumLine.initTaraniumLine();
 
         /* Bromine Line Materials */
-        LabsBromineLine.initBromineLine()
+        LabsBromineLine.initBromineLine();
 
         /* Platinum Line Materials */
         LabsPlatLine.initPlatLine();
