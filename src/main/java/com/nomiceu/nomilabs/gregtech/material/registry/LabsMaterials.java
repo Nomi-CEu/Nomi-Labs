@@ -13,8 +13,8 @@ import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconSet;
 
 @SuppressWarnings("unused")
-    
 public class LabsMaterials {
+    
     /**
      * Deprecated Materials
      */
