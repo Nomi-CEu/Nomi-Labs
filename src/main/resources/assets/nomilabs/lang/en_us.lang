@@ -179,12 +179,6 @@ fluid.moltenempoweredemeradic=Molten Empowered Emeradic Crystal
 fluid.moltenempoweredvoid=Molten Empowered Void Crystal
 
 fluid.elementalreduction=Elemental Reduction Fluid
-nomilabs.material.mineralrichbrine=Mineral Rich Brine
-nomilabs.material.brominechlorinemixture=Bromine Chlorine Vapor Mixture
-nomilabs.material.alkalinebrominesolution=Alkaline Bromine Solution
-nomilabs.material.debrominatedwaste=Debrominated Waste
-nomilabs.material.crudebromine=Crude Bromine
-nomilabs.material.depletedbrine=Depleted Brine
 fluid.tough_alloy=Tough Alloy
 fluid.moltendarksoularium=Molten Dark Soularium
 
@@ -251,6 +245,12 @@ nomilabs.material.osmiridium_8020=Osmiridium 80/20
 nomilabs.material.iridosmine_8020=Iridosmine 80/20
 nomilabs.material.kaemanite=Kaemanite
 
+nomilabs.material.mineralrichbrine=Mineral Rich Brine
+nomilabs.material.brominechlorinemixture=Bromine Chlorine Vapor Mixture
+nomilabs.material.alkalinebrominesolution=Alkaline Bromine Solution
+nomilabs.material.debrominatedwaste=Debrominated Waste
+nomilabs.material.crudebromine=Crude Bromine
+nomilabs.material.depletedbrine=Depleted Brine
 nomilabs.material.tungsten_trioxide=Tungsten Trioxide
 nomilabs.material.beryllium_oxide=Beryllium Oxide
 nomilabs.material.niobium_pentoxide=Niobium Pentoxide
