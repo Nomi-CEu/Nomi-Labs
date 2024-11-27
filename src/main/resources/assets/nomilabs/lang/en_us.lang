@@ -179,12 +179,12 @@ fluid.moltenempoweredemeradic=Molten Empowered Emeradic Crystal
 fluid.moltenempoweredvoid=Molten Empowered Void Crystal
 
 fluid.elementalreduction=Elemental Reduction Fluid
-fluid.mineralrichbrine=Mineral Rich Brine
-fluid.brominechlorinemixture=Bromine Chlorine Vapor Mixture
-fluid.alkalinebrominesolution=Alkaline Bromine Solution
-fluid.debrominatedwaste=Debrominated Waste
-fluid.crudebromine=Crude Bromine
-fluid.depletedbrine=Depleted Brine
+nomilabs.material.mineralrichbrine=Mineral Rich Brine
+nomilabs.material.brominechlorinemixture=Bromine Chlorine Vapor Mixture
+nomilabs.material.alkalinebrominesolution=Alkaline Bromine Solution
+nomilabs.material.debrominatedwaste=Debrominated Waste
+nomilabs.material.crudebromine=Crude Bromine
+nomilabs.material.depletedbrine=Depleted Brine
 fluid.tough_alloy=Tough Alloy
 fluid.moltendarksoularium=Molten Dark Soularium
 
