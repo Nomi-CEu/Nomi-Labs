@@ -92,6 +92,16 @@ public class LabsMaterials {
     public static Material DioxygenDifluoride; // ID: 108; HM only
 
     /**
+     * Bromine Line Materials
+     */
+    public static Material MineralRichBrine; // ID: 200
+    public static Material DepletedBrine; // ID: 201
+    public static Material AlkalineBromineSolution; // ID: 202
+    public static Material DebrominatedWaste; // ID: 203
+    public static Material CrudeBromine; // ID: 204; HM only
+    public static Material BromineChlorineMixture; // ID: 205
+
+    /**
      * Platinum Line Materials
      */
     public static Material PlatinumMetallic; // ID: 67; HM only
@@ -200,6 +210,9 @@ public class LabsMaterials {
 
         /* Taranium Line Materials */
         LabsTaraniumLine.initTaraniumLine();
+
+        /* Bromine Line Materials */
+        LabsBromineLine.initBromineLine();
 
         /* Platinum Line Materials */
         LabsPlatLine.initPlatLine();
