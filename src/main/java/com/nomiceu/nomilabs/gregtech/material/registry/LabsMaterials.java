@@ -14,7 +14,6 @@ import gregtech.api.unification.material.info.MaterialIconSet;
 
 @SuppressWarnings("unused")
 public class LabsMaterials {
-
     /**
      * Deprecated Materials
      */
@@ -90,7 +89,7 @@ public class LabsMaterials {
     public static Material TritiumHydride; // ID: 106; HM only
     public static Material HeliumHydride; // ID: 107; HM only
     public static Material DioxygenDifluoride; // ID: 108; HM only
-    
+
     /**
      * Bromine Line Materials
      */
@@ -100,7 +99,7 @@ public class LabsMaterials {
     public static Material DebrominatedWaste; // ID: 203;
     public static Material CrudeBromine; // ID: 204; HM only
     public static Material BromineChlorineMixture; // ID: 205;
-    
+
     /**
      * Platinum Line Materials
      */
