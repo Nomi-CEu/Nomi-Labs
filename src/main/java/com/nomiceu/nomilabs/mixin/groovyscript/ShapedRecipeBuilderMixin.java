@@ -7,7 +7,9 @@ import net.minecraft.item.crafting.IRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
@@ -15,6 +17,7 @@ import com.cleanroommc.groovyscript.compat.vanilla.CraftingRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.AbstractCraftingRecipeBuilder;
 import com.nomiceu.nomilabs.groovy.mixinhelper.ShapedRecipeClassFunction;
 import com.nomiceu.nomilabs.groovy.mixinhelper.ShapedRecipeClassFunctionSimplified;
+import com.nomiceu.nomilabs.groovy.mixinhelper.StrictableRecipe;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 
@@ -23,7 +26,10 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBuilder.AbstractShaped<IRecipe> {
 
     @Unique
-    private ShapedRecipeClassFunction recipeClassFunction = null;
+    private ShapedRecipeClassFunction labs$recipeClassFunction = null;
+
+    @Unique
+    private boolean labs$isStrict = false;
 
     /**
      * Default Ignored Constructor
@@ -32,17 +38,35 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
         super(width, height);
     }
 
+    /**
+     * Makes recipes 'strict'. This means, in JEI, the list of 'matching stacks' will be displayed
+     * exactly as set, instead of expanding wildcards and removing duplicates.
+     */
+    @Unique
+    public CraftingRecipeBuilder.Shaped strictJEIHandling() {
+        labs$isStrict = true;
+        return (CraftingRecipeBuilder.Shaped) (Object) this;
+    }
+
+    @Inject(method = "register()Lnet/minecraft/item/crafting/IRecipe;", at = @At("RETURN"))
+    private void setStrict(CallbackInfoReturnable<IRecipe> cir) {
+        var val = cir.getReturnValue();
+        if (!(val instanceof StrictableRecipe strict)) return;
+
+        if (labs$isStrict) strict.labs$setStrict();
+    }
+
     @Unique
     public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunction recipeClassFunction) {
-        this.recipeClassFunction = recipeClassFunction;
+        this.labs$recipeClassFunction = recipeClassFunction;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
     @Unique
     public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunctionSimplified recipeClassFunction) {
-        this.recipeClassFunction = (output1, width1, height1, ingredients, _mirrored, _recipeFunction,
-                                    _recipeAction) -> recipeClassFunction.createRecipe(output1, width1, height1,
-                                            ingredients);
+        this.labs$recipeClassFunction = (output1, width1, height1, ingredients, _mirrored, _recipeFunction,
+                                         _recipeAction) -> recipeClassFunction.createRecipe(output1, width1, height1,
+                                                 ingredients);
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
@@ -54,10 +78,10 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
                                              List<String> list, String[] strings,
                                              Char2ObjectOpenHashMap<IIngredient> char2ObjectOpenHashMap,
                                              IRecipeCreator<?> recipeCreator) {
-        if (recipeClassFunction == null)
+        if (labs$recipeClassFunction == null)
             return validateShape(msg, list, strings, char2ObjectOpenHashMap, recipeCreator);
         return validateShape(msg, list, strings, char2ObjectOpenHashMap,
-                (width1, height1, ingredients) -> recipeClassFunction
+                (width1, height1, ingredients) -> labs$recipeClassFunction
                         .createRecipe(output, width1, height1, ingredients, mirrored, recipeFunction, recipeAction));
     }
 
@@ -67,8 +91,8 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
               require = 1)
     public Object registerWithClassFunction2(CraftingRecipeBuilder.Shaped instance, GroovyLog.Msg msg,
                                              List<List<IIngredient>> list, IRecipeCreator<?> recipeCreator) {
-        if (recipeClassFunction == null) return validateShape(msg, list, recipeCreator);
-        return validateShape(msg, list, (width1, height1, ingredients) -> recipeClassFunction
+        if (labs$recipeClassFunction == null) return validateShape(msg, list, recipeCreator);
+        return validateShape(msg, list, (width1, height1, ingredients) -> labs$recipeClassFunction
                 .createRecipe(output, width1, height1, ingredients, mirrored, recipeFunction, recipeAction));
     }
 }

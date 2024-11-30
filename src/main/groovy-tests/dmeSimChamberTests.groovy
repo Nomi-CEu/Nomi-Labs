@@ -1,10 +1,12 @@
+//MODS_LOADED: deepmoblearning
+
 import com.nomiceu.nomilabs.LabsValues
 import mustapelto.deepmoblearning.common.metadata.MetadataDataModel
 import mustapelto.deepmoblearning.common.metadata.MetadataManager
 import net.minecraftforge.fml.common.Loader
 
 // Demonstration of Dynamically Generated DME Sim Chamber Recipes. (Goes in Post Init)
-// DOES NOT WORK IF DME IS NOT INCLUDED IN LOAD!
+// WILL NOT LOAD IF DME IS NOT INCLUDED!
 
 def models = MetadataManager.dataModelMetadataList
 for (var model : models) {
