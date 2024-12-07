@@ -84,6 +84,9 @@ dependencies {
     // JEI Utilities
     runtimeOnly "curse.maven:jei-utilities-616190:4630499" // Version 0.2.12
 
+    // Actually Advanced Info
+    runtimeOnly "curse.maven:aainfo-573154:3627065" // Version 1.0.1
+
     /* -------------------------------- Soft Deps, Compile Time Declaration -------------------------------- */
 
     // Storage Drawers and Framed Compacting Drawers, used in Hand Framing Tool (from CurseForge)
