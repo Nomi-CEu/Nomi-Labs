@@ -192,6 +192,11 @@ public class GroovyHelpers {
             JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
         }
 
+        public static void addRecipeInputTooltip(ResourceLocation recipeName, int slotIndex,
+                                                 LabsTranslate.Translatable... tooltip) {
+            JEIPlugin.addGroovyRecipeInputTooltip(recipeName, slotIndex, tooltip);
+        }
+
         /* Hiding Ignore NBT */
         public static void hideItemIgnoreNBT(ItemStack stack) {
             JEIPlugin.hideItemNBTMatch(stack, (tag) -> true);

@@ -264,12 +264,12 @@ public class LabsConfig {
         public boolean enableTopAddonsIntegration = true;
 
         @Config.Comment({
-                "Whether to add a Empty Line between any Crafting Recipe Output Tooltips in JEI.",
-                "Examples of Crafting Recipe Output Tooltips are `Recipe By <MOD_ID>` and `Recipe ID: <RECIPE_ID>`.",
+                "Whether to add a Empty Line between any Ingredient Tooltips in JEI.",
+                "Examples of Ingredient Tooltips are `Recipe By <MOD_ID>`, `Recipe ID: <RECIPE_ID>`, and `Accepts any: <ORE_DICT>`.",
                 "[default: true]",
         })
-        @Config.LangKey("config.nomilabs.mod_integration.jei_crafting_output_empty_line")
-        public boolean addJEICraftingOutputEmptyLine = true;
+        @Config.LangKey("config.nomilabs.mod_integration.jei_ing_empty_line")
+        public boolean addJEIIngEmptyLine = true;
 
         @Config.Comment({
                 "Whether to enable Better Questing Fluid Task Fixes.",

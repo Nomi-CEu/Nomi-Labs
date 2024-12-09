@@ -65,3 +65,41 @@ addRecipeOutputTooltip(item('minecraft:gold_ingot'), resource('minecraft:gold_in
 
 // Add a translated crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild recipe name)
 addRecipeOutputTooltip(item('minecraft:iron_ingot'), resource('minecraft:iron_ingot_from_nuggets'), translatable('tooltip.nomilabs.universalnavigator.description'), translatable('tooltip.nomilabs.growth_chamber.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))
+
+// Use in a crafting shaped/shapeless builder
+crafting.shapedBuilder()
+    .output(item('minecraft:apple'))
+    .matrix('AAA', 'AAA', 'ABA')
+    .key('A', item('minecraft:diamond'))
+    .key('B', item('minecraft:apple'))
+    .setOutputTooltip(translatableLiteral('A Very Low Carrot Gold Ingot.').addFormat(TextFormatting.GOLD),
+            translatable('tooltip.nomilabs.growth_chamber.description'))
+    .register()
+
+/**
+ * Recipe Input Tooltips. These are tooltips that appear on CRAFTING TABLE recipes, on a specific registry name and index.
+ */
+
+// Similar outside of builder
+
+// In a crafting shaped/shapeless builder
+crafting.shapelessBuilder()
+    .output(item('minecraft:apple'))
+    .input(item('minecraft:diamond'), item('minecraft:apple'))
+    // You must specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
+    // E.g. slot 1 = 1st row, 2nd column
+    .setInputTooltip(1, translatableLiteral('Is a Gold Ingot.').addFormat(TextFormatting.GOLD),
+            translatable('tooltip.nomilabs.growth_chamber.description'))
+    .register()
+
+crafting.shapedBuilder()
+    .output(item('minecraft:apple'))
+    .matrix('AAA', 'ABA', 'ABA')
+    .key('A', item('minecraft:diamond'))
+    .key('B', item('minecraft:apple'))
+    // You must specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
+    // E.g. slot 4 = 2nd row, 2nd column
+    .setInputTooltip(4, translatableLiteral('Is a Gold Ingot?').addFormat(TextFormatting.GOLD),
+            translatable('tooltip.nomilabs.growth_chamber.description'))
+    .register()
+

@@ -15,12 +15,20 @@ import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.vanilla.CraftingRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.AbstractCraftingRecipeBuilder;
+import com.nomiceu.nomilabs.groovy.mixinhelper.RecipeTooltipAdder;
 import com.nomiceu.nomilabs.groovy.mixinhelper.ShapedRecipeClassFunction;
 import com.nomiceu.nomilabs.groovy.mixinhelper.ShapedRecipeClassFunctionSimplified;
 import com.nomiceu.nomilabs.groovy.mixinhelper.StrictableRecipe;
+import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 
+/**
+ * Allows for recipes to be 'strict'. This means, in JEI, the list of 'matching stacks' will be displayed
+ * exactly as set, instead of expanding wildcards and removing duplicates.
+ * <p>
+ * Also allows setting custom shaped class, and adding recipe input/output tooltips in JEI.
+ */
 @Mixin(value = CraftingRecipeBuilder.Shaped.class, remap = false)
 @SuppressWarnings("unused")
 public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBuilder.AbstractShaped<IRecipe> {
@@ -30,6 +38,12 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
 
     @Unique
     private boolean labs$isStrict = false;
+
+    @Unique
+    private LabsTranslate.Translatable[][] labs$inputTooltip = null;
+
+    @Unique
+    private LabsTranslate.Translatable[] labs$outputTooltip = null;
 
     /**
      * Default Ignored Constructor
@@ -70,6 +84,25 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
+    @Unique
+    public CraftingRecipeBuilder.Shaped setOutputTooltip(LabsTranslate.Translatable... tooltip) {
+        labs$outputTooltip = tooltip;
+        return (CraftingRecipeBuilder.Shaped) (Object) this;
+    }
+
+    @Unique
+    public CraftingRecipeBuilder.Shaped setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
+        if (slotIndex < 0 || slotIndex > 8) {
+            GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
+            return (CraftingRecipeBuilder.Shaped) (Object) this;
+        }
+
+        if (labs$inputTooltip == null) labs$inputTooltip = new LabsTranslate.Translatable[9][0];
+
+        labs$inputTooltip[slotIndex] = tooltip;
+        return (CraftingRecipeBuilder.Shaped) (Object) this;
+    }
+
     @Redirect(method = "register()Lnet/minecraft/item/crafting/IRecipe;",
               at = @At(value = "INVOKE",
                        target = "Lcom/cleanroommc/groovyscript/compat/vanilla/CraftingRecipeBuilder$Shaped;validateShape(Lcom/cleanroommc/groovyscript/api/GroovyLog$Msg;Ljava/util/List;[Ljava/lang/String;Lit/unimi/dsi/fastutil/chars/Char2ObjectOpenHashMap;Lcom/cleanroommc/groovyscript/registry/AbstractCraftingRecipeBuilder$IRecipeCreator;)Ljava/lang/Object;"),
@@ -94,5 +127,10 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
         if (labs$recipeClassFunction == null) return validateShape(msg, list, recipeCreator);
         return validateShape(msg, list, (width1, height1, ingredients) -> labs$recipeClassFunction
                 .createRecipe(output, width1, height1, ingredients, mirrored, recipeFunction, recipeAction));
+    }
+
+    @Inject(method = "register()Lnet/minecraft/item/crafting/IRecipe;", at = @At("TAIL"))
+    private void addRecipeTooltips(CallbackInfoReturnable<IRecipe> cir) {
+        RecipeTooltipAdder.addTooltips(name, output, labs$inputTooltip, labs$outputTooltip);
     }
 }

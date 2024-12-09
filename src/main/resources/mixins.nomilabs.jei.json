@@ -9,6 +9,8 @@
     "IngredientInfoRecipeMixin",
     "RecipeCategoryTabMixin"
   ],
-  "client": [],
+  "client": [
+    "GuiIngredientMixin"
+  ],
   "server": []
 }
