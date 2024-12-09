@@ -24,10 +24,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.event.LabsResourcesRefreshedEvent;
 import com.nomiceu.nomilabs.mixinhelper.ResourcesObserver;
-import com.nomiceu.nomilabs.util.LabsModeHelper;
+import com.nomiceu.nomilabs.util.LabsDisplayHelper;
 
 /**
  * Allows Setting of Window Title and Icon. Also calls an event on Resources Reload.
@@ -48,9 +47,7 @@ public class MinecraftMixin {
               require = 1)
     private void setCustomTitle(String title) {
         if (LabsConfig.advanced.windowOverrides.windowTitleOverride.isEmpty()) Display.setTitle(title);
-        else Display.setTitle(LabsConfig.advanced.windowOverrides.windowTitleOverride
-                .replace("{version}", LabsVersionConfig.formattedVersion)
-                .replace("{mode}", LabsModeHelper.getFormattedMode()));
+        else Display.setTitle(LabsDisplayHelper.getWindowTitle());
     }
 
     @Inject(method = "setWindowIcon", at = @At("HEAD"), cancellable = true)
