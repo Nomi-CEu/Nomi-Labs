@@ -37,6 +37,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             .put(LabsValues.CONTROLLING_MODID, true)
             .put(LabsValues.DEFAULT_WORLD_GEN_MODID,
                     LabsConfig.modIntegration.enableDefaultWorldGenIntegration)
+            .put(LabsValues.DME_MODID, true)
             .put(LabsValues.FTB_UTILS_MODID,
                     LabsConfig.modIntegration.enableFTBUtilsIntegration)
             .put(LabsValues.TOP_ADDONS_MODID,
