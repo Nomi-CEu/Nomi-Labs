@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,7 +23,9 @@ import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
+import com.nomiceu.nomilabs.integration.deepmobevolution.DMEJEIExclusion;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 
@@ -59,7 +62,14 @@ public class JEIPlugin implements IModPlugin {
     private static IIngredientRegistry itemRegistry;
 
     @Override
-    public void register(IModRegistry registry) {
+    public void register(@NotNull IModRegistry registry) {
+        /* DME Custom JEI Exclusion Handler (Impl DME#39) */
+        if (Loader.isModLoaded(LabsValues.DME_MODID)) {
+            registry.addAdvancedGuiHandlers(
+                    new DMEJEIExclusion.MachineGuiExclusion(),
+                    new DMEJEIExclusion.TrialGuiExclusion());
+        }
+
         var jeiHelpers = registry.getJeiHelpers();
         itemRegistry = registry.getIngredientRegistry();
 
