@@ -55,16 +55,22 @@ addDescription(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.grow
  */
 
 // Add a crafting recipe output tooltip for a stack
-addRecipeOutputTooltip(item('minecraft:gold_ingot'), translatableLiteral('A Very Low Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
+addRecipeOutputTooltip(item('minecraft:gold_ingot'),
+        translatableLiteral('A Very Low Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
 
 // Add a translated crafting recipe output tooltip for a stack
-addRecipeOutputTooltip(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.growth_chamber.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))
+addRecipeOutputTooltip(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.growth_chamber.description'),
+        translatable('tooltip.nomilabs.dme_sim_chamber.description'))
 
 // Add a crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild recipe name)
-addRecipeOutputTooltip(item('minecraft:gold_ingot'), resource('minecraft:gold_ingot_from_block'), translatableLiteral('A Very High Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
+addRecipeOutputTooltip(item('minecraft:gold_ingot'), 'minecraft:gold_ingot_from_block',
+        translatableLiteral('A Very High Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
 
 // Add a translated crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild recipe name)
-addRecipeOutputTooltip(item('minecraft:iron_ingot'), resource('minecraft:iron_ingot_from_nuggets'), translatable('tooltip.nomilabs.universalnavigator.description'), translatable('tooltip.nomilabs.growth_chamber.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))
+addRecipeOutputTooltip(item('minecraft:iron_ingot'), 'minecraft:iron_ingot_from_nuggets',
+        translatable('tooltip.nomilabs.universalnavigator.description'),
+        translatable('tooltip.nomilabs.growth_chamber.description'),
+        translatable('tooltip.nomilabs.dme_sim_chamber.description'))
 
 // Use in a crafting shaped/shapeless builder
 crafting.shapedBuilder()

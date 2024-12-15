@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.cleanroommc.groovyscript.helper.GroovyHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -192,9 +193,25 @@ public class GroovyHelpers {
             JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
         }
 
+        public static void addRecipeOutputTooltip(ItemStack stack, String recipeName,
+                                                  LabsTranslate.Translatable... tooltip) {
+            if (recipeName.contains(":"))
+                JEIPlugin.addGroovyRecipeOutputTooltip(stack, new ResourceLocation(recipeName), tooltip);
+            else
+                JEIPlugin.addGroovyRecipeOutputTooltip(stack, new ResourceLocation(GroovyHelper.getPackId(), recipeName), tooltip);
+        }
+
         public static void addRecipeInputTooltip(ResourceLocation recipeName, int slotIndex,
                                                  LabsTranslate.Translatable... tooltip) {
             JEIPlugin.addGroovyRecipeInputTooltip(recipeName, slotIndex, tooltip);
+        }
+
+        public static void addRecipeInputTooltip(String recipeName, int slotIndex,
+                                                 LabsTranslate.Translatable... tooltip) {
+            if (recipeName.contains(":"))
+                JEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(recipeName), slotIndex, tooltip);
+            else
+                JEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName), slotIndex, tooltip);
         }
 
         /* Hiding Ignore NBT */
