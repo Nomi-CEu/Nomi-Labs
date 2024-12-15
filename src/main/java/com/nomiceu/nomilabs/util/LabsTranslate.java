@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
@@ -68,7 +70,7 @@ public class LabsTranslate {
     }
 
     public static String format(String str, Format... formats) {
-        return String.join("", Arrays.stream(formats).map((format) -> format.format).toArray(String[]::new)) + str +
+        return String.join("", Arrays.stream(formats).map(Format::getFormat).toArray(String[]::new)) + str +
                 TextFormatting.RESET;
     }
 
@@ -90,18 +92,28 @@ public class LabsTranslate {
 
     public static class Format {
 
-        public final String format;
+        private final String format;
 
-        private Format(String format) {
+        // Stored as instance so colors can be updated per call
+        @Nullable
+        private final TooltipHelper.GTFormatCode gtCode;
+
+        private Format(String format, @Nullable TooltipHelper.GTFormatCode gtCode) {
             this.format = format;
+            this.gtCode = gtCode;
         }
 
         public static Format of(TextFormatting format) {
-            return new Format(format.toString());
+            return new Format(format.toString(), null);
         }
 
         public static Format of(TooltipHelper.GTFormatCode format) {
-            return new Format(format.toString());
+            return new Format(format.toString(), format);
+        }
+
+        public String getFormat() {
+            if (gtCode != null) return gtCode.toString();
+            return format;
         }
     }
 

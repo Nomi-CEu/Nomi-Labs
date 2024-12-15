@@ -86,7 +86,9 @@ crafting.shapedBuilder()
  * Recipe Input Tooltips. These are tooltips that appear on CRAFTING TABLE recipes, on a specific registry name and index.
  */
 
-// Similar outside of builder
+// Outside of builder
+addRecipeInputTooltip('gregtech:block_decompress_aluminium', 4,
+        translatableLiteral("This is consumed!!!").addFormat(TooltipHelper.BLINKING_CYAN))
 
 // In a crafting shaped/shapeless builder
 crafting.shapelessBuilder()
