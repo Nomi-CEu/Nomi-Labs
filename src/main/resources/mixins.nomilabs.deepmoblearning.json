@@ -7,9 +7,6 @@
   "mixins": [
     "DataModelHelperAccessor"
   ],
-  "client": [
-    "GuiMachineMixin",
-    "GuiSimulationChamberMixin"
-  ],
+  "client": [],
   "server": []
 }
