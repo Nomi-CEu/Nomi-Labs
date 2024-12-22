@@ -114,7 +114,7 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:nae2-884359:5380800") // Version 1.6.4
 
     // DeepMobEvolution, Used in DME Sim Chamber (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:dme-737252:5043404") // Version 1.2.2
+    compileOnly rfg.deobf("curse.maven:dme-737252:5985530") // Version 1.2.3
 
     // Extended Crafting, Used in Naquadah Reactors (Nomifactory Fork Used) (from CurseForge)
     compileOnly rfg.deobf("curse.maven:extended-crafting-nomifactory-edition-398267:4592627") // Version 1.7.0.6
@@ -229,7 +229,7 @@ dependencies {
     if (project.enable_dme.toBoolean()) {
         // Dep: Patchouli
         runtimeOnly "curse.maven:patchouli-306770:3162874" // Version 1.0-23.6
-        runtimeOnly "curse.maven:dme-737252:5043404" // Version 1.2.2
+        runtimeOnly "curse.maven:dme-737252:5985530" // Version 1.2.3
     }
 
     if (project.enable_extended_crafting.toBoolean()) {
