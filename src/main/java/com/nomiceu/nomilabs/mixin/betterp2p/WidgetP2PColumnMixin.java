@@ -20,7 +20,7 @@ import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
 import kotlin.jvm.functions.Function0;
 
 /**
- * Trims text before renaming, handles add as input/output.
+ * Trims text before renaming, handles add as input/output, properly refreshes renames in gui.
  */
 @Mixin(value = WidgetP2PColumn.class, remap = false)
 public class WidgetP2PColumnMixin {
@@ -40,6 +40,15 @@ public class WidgetP2PColumnMixin {
     @Inject(method = "finishRename", at = @At("HEAD"))
     private void trimText(CallbackInfo ci) {
         renameBar.setText(renameBar.getText().trim());
+    }
+
+    @Inject(method = "finishRename",
+            at = @At(value = "INVOKE",
+                     target = "Lnet/minecraftforge/fml/common/network/simpleimpl/SimpleNetworkWrapper;sendToServer(Lnet/minecraftforge/fml/common/network/simpleimpl/IMessage;)V",
+                     shift = At.Shift.AFTER),
+            require = 1)
+    private void refreshRenameInGui(CallbackInfo ci) {
+        renameBar.info.setName(renameBar.getText());
     }
 
     @Inject(method = "onBindButtonClicked", at = @At("HEAD"), cancellable = true)
