@@ -16,12 +16,12 @@ public class LabsBetterMemoryCardModes {
     public static final Map<BetterMemoryCardModes, Integer> LABS_ADDED_MODES = new Object2ObjectOpenHashMap<>();
 
     public static final BetterMemoryCardModes ADD_AS_INPUT = addMode(0, "ADD_AS_INPUT",
-            "nomilabs.gui.advanced_memory_card.mode.add_input",
+            "gui.advanced_memory_card.mode.add_as_input",
             "nomilabs.gui.advanced_memory_card.mode.add_input.desc.1",
             "nomilabs.gui.advanced_memory_card.mode.add_input.desc.2");
 
     public static final BetterMemoryCardModes ADD_AS_OUTPUT = addMode(1, "ADD_AS_OUTPUT",
-            "nomilabs.gui.advanced_memory_card.mode.add_output",
+            "gui.advanced_memory_card.mode.add_as_output",
             "nomilabs.gui.advanced_memory_card.mode.add_output.desc.1",
             "nomilabs.gui.advanced_memory_card.mode.add_output.desc.2");
 
