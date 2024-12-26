@@ -8,12 +8,14 @@
     "BetterMemoryCardModesMixin",
     "CommonProxyMixin",
     "GridServerCacheMixin",
+    "InfoListMixin",
     "ServerRenameP2PTunnelMixin"
   ],
   "client": [
     "ClientProxyMixin",
     "GuiAdvancedMemoryCardKtAccessor",
     "GuiAdvancedMemoryCardMixin",
+    "InfoWrapperMixin",
     "ModeWidgetButtonMixin",
     "RenderHandlerMixin",
     "WidgetP2PColumnMixin",

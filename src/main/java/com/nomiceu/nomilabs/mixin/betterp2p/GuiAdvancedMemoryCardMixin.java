@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs.mixin.betterp2p;
 
+import net.minecraft.client.gui.GuiScreen;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -9,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGuiAdvancedMemoryCard;
+import com.nomiceu.nomilabs.integration.betterp2p.AccessibleInfoList;
 import com.nomiceu.nomilabs.integration.betterp2p.LabsClientCache;
 import com.projecturanus.betterp2p.client.gui.GuiAdvancedMemoryCard;
 import com.projecturanus.betterp2p.client.gui.InfoList;
@@ -19,10 +22,11 @@ import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
 import kotlin.Pair;
 
 /**
- * Allows accessing needed functions and fields. Also fills up LabsClientCache.
+ * Allows accessing needed functions and fields, and initializes playerPos field in InfoList. Also fills up
+ * LabsClientCache.
  */
 @Mixin(value = GuiAdvancedMemoryCard.class, remap = false)
-public abstract class GuiAdvancedMemoryCardMixin implements AccessibleGuiAdvancedMemoryCard {
+public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements AccessibleGuiAdvancedMemoryCard {
 
     @Shadow
     private BetterMemoryCardModes mode;
@@ -63,6 +67,11 @@ public abstract class GuiAdvancedMemoryCardMixin implements AccessibleGuiAdvance
     @Unique
     public void labs$closeTypeSelector() {
         typeSelector.setVisible(false);
+    }
+
+    @Inject(method = "initGui", at = @At("HEAD"))
+    private void setupInfoListPlayerPos(CallbackInfo ci) {
+        ((AccessibleInfoList) (Object) infos).labs$setPlayerPos(mc.player.getPositionVector());
     }
 
     @Inject(method = "refreshOverlay", at = @At("HEAD"))

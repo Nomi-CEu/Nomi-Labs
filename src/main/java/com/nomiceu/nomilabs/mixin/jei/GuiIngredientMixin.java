@@ -23,7 +23,7 @@ public class GuiIngredientMixin<T> {
 
     @Inject(method = "drawTooltip",
             at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z"),
-            locals = LocalCapture.CAPTURE_FAILHARD)
+            locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void addNewLine(Minecraft minecraft, int xOffset, int yOffset, int mouseX, int mouseY, T value,
                             CallbackInfo ci, @Local List<String> tooltip) {
         if (LabsConfig.modIntegration.addJEIIngEmptyLine)
