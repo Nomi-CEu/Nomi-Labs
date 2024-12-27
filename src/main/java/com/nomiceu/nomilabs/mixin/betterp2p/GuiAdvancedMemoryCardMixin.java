@@ -69,7 +69,7 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         typeSelector.setVisible(false);
     }
 
-    @Inject(method = "initGui", at = @At("HEAD"))
+    @Inject(method = "initGui", at = @At("HEAD"), remap = true)
     private void setupInfoListPlayerPos(CallbackInfo ci) {
         ((AccessibleInfoList) (Object) infos).labs$setPlayerPos(mc.player.getPositionVector());
     }
