@@ -61,7 +61,7 @@ public abstract class WidgetP2PDeviceMixin implements ExtendedITypeReceiver {
         if (hasSelected && getSelectedInfo().getLoc() == info.getLoc()) {
             GuiScreen.drawRect(x, y, x + P2PEntryConstants.WIDTH, y + P2PEntryConstants.HEIGHT,
                     P2PEntryConstants.SELECTED_COLOR);
-        } else if (info.getError()) {
+        } else if (info.getError() || info.getFrequency() == 0) {
             // P2P output without an input, or unbound
             GuiScreen.drawRect(x, y, x + P2PEntryConstants.WIDTH, y + P2PEntryConstants.HEIGHT,
                     P2PEntryConstants.ERROR_COLOR);
