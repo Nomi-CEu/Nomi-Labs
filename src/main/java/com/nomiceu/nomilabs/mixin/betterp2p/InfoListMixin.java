@@ -28,6 +28,7 @@ import com.projecturanus.betterp2p.network.data.P2PLocation;
 
 /**
  * Handles updating infos' distance to player, and allows for custom sorting.
+ * Improves handling of scrollbar after refresh, reload, or refilter.
  */
 @Mixin(value = InfoList.class, remap = false)
 public abstract class InfoListMixin implements AccessibleInfoList {
@@ -57,16 +58,51 @@ public abstract class InfoListMixin implements AccessibleInfoList {
         calcDistFor(masterMap.values());
     }
 
+    @Unique
+    @Override
+    public void labs$properlyResetScrollbar(WidgetScrollBar scrollBar, int numEntries) {
+        // numEntries is the amount of entries visible
+        // So we subtract from the total size (if 16 entries, but 5 are visible, we only need 11 scrolls)
+        var size = Math.max(0, labs$getThis().getFiltered().size() - numEntries);
+        // pageSize seems to be unused, or set to either 1 or 23
+        scrollBar.setRange(0, size, 23);
+
+        // Reset scroll position
+        scrollBar.setCurrentScroll(0);
+    }
+
     @Inject(method = "rebuild", at = @At("HEAD"))
     private void calcDistanceInRebuild(Collection<InfoWrapper> updateList, WidgetScrollBar scrollbar, int numEntries,
                                        CallbackInfo ci) {
         calcDistFor(updateList);
     }
 
+    @Inject(method = "rebuild",
+            at = @At(value = "INVOKE",
+                     target = "Lcom/projecturanus/betterp2p/client/gui/widget/WidgetScrollBar;setRange(III)V"),
+            require = 1,
+            cancellable = true)
+    private void replaceOldRebuildScrollbar(Collection<InfoWrapper> updateList, WidgetScrollBar scrollbar,
+                                            int numEntries, CallbackInfo ci) {
+        ci.cancel();
+        labs$properlyResetScrollbar(scrollbar, numEntries);
+    }
+
     @Inject(method = "update", at = @At("HEAD"))
     private void calcDistanceInUpdate(Collection<InfoWrapper> updateList, WidgetScrollBar scrollbar, int numEntries,
                                       CallbackInfo ci) {
         calcDistFor(updateList);
+    }
+
+    @Inject(method = "update",
+            at = @At(value = "INVOKE",
+                     target = "Lcom/projecturanus/betterp2p/client/gui/widget/WidgetScrollBar;setRange(III)V"),
+            require = 1,
+            cancellable = true)
+    private void replaceOldUpdateScrollbar(Collection<InfoWrapper> updateList, WidgetScrollBar scrollbar,
+                                           int numEntries, CallbackInfo ci) {
+        ci.cancel();
+        labs$properlyResetScrollbar(scrollbar, numEntries);
     }
 
     @Unique

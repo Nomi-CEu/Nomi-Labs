@@ -16,6 +16,8 @@ import com.nomiceu.nomilabs.integration.betterp2p.LabsClientCache;
 import com.projecturanus.betterp2p.client.gui.GuiAdvancedMemoryCard;
 import com.projecturanus.betterp2p.client.gui.InfoList;
 import com.projecturanus.betterp2p.client.gui.InfoWrapper;
+import com.projecturanus.betterp2p.client.gui.widget.GuiScale;
+import com.projecturanus.betterp2p.client.gui.widget.WidgetScrollBar;
 import com.projecturanus.betterp2p.client.gui.widget.WidgetTypeSelector;
 import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
 
@@ -44,6 +46,13 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     @Shadow
     @Final
     private InfoList infos;
+
+    @Shadow
+    @Final
+    private WidgetScrollBar scrollBar;
+
+    @Shadow
+    private GuiScale scale;
 
     @Override
     @Unique
@@ -74,6 +83,33 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         ((AccessibleInfoList) (Object) infos).labs$setPlayerPos(mc.player.getPositionVector());
     }
 
+    @Inject(method = "initGui", at = @At("TAIL"), remap = true)
+    private void properlySetScrollbarInit(CallbackInfo ci) {
+        labs$properlyResetScrollbar();
+    }
+
+    @Inject(method = "mouseClicked",
+            at = @At(value = "INVOKE",
+                     target = "Lcom/projecturanus/betterp2p/client/gui/InfoList;refilter()V",
+                     shift = At.Shift.AFTER,
+                     remap = false),
+            require = 1,
+            remap = true)
+    private void properlyResetScrollbarFilterClear(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
+        labs$properlyResetScrollbar();
+    }
+
+    @Inject(method = "keyTyped",
+            at = @At(value = "INVOKE",
+                     target = "Lcom/projecturanus/betterp2p/client/gui/InfoList;refilter()V",
+                     shift = At.Shift.AFTER,
+                     remap = false),
+            require = 1,
+            remap = true)
+    private void properlyResetScrollbarFilterTyped(char typedChar, int keyCode, CallbackInfo ci) {
+        labs$properlyResetScrollbar();
+    }
+
     @Inject(method = "refreshOverlay", at = @At("HEAD"))
     private void fillLabsCache(CallbackInfo ci) {
         LabsClientCache.inputLoc.clear();
@@ -91,5 +127,11 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
                         info.getLoc()))
                 .forEach(pair -> pair.getFirst()
                         .add(new Pair<>(pair.getSecond().getPos(), pair.getSecond().getFacing())));
+    }
+
+    @Unique
+    private void labs$properlyResetScrollbar() {
+        ((AccessibleInfoList) (Object) infos).labs$properlyResetScrollbar(scrollBar,
+                scale.getSize().invoke(height - 75));
     }
 }
