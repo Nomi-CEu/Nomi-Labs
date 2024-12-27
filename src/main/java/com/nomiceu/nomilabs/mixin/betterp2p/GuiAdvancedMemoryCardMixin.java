@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.mixin.betterp2p;
 
 import net.minecraft.client.gui.GuiScreen;
 
+import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,7 +26,7 @@ import kotlin.Pair;
 
 /**
  * Allows accessing needed functions and fields, and initializes playerPos field in InfoList. Also fills up
- * LabsClientCache.
+ * LabsClientCache, calls proper resetting of scrollbar in custom places, and allows arrows to scroll.
  */
 @Mixin(value = GuiAdvancedMemoryCard.class, remap = false)
 public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements AccessibleGuiAdvancedMemoryCard {
@@ -97,6 +98,19 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
             remap = true)
     private void properlyResetScrollbarFilterClear(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
         labs$properlyResetScrollbar();
+    }
+
+    @Inject(method = "keyTyped", at = @At("HEAD"), cancellable = true, remap = true)
+    private void allowArrowScroll(char typedChar, int keyCode, CallbackInfo ci) {
+        if (keyCode == Keyboard.KEY_UP) {
+            scrollBar.wheel(1);
+            ci.cancel();
+            return;
+        }
+        if (keyCode == Keyboard.KEY_DOWN) {
+            scrollBar.wheel(-1);
+            ci.cancel();
+        }
     }
 
     @Inject(method = "keyTyped",
