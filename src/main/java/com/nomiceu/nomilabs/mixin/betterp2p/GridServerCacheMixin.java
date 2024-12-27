@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import appeng.me.GridAccessException;
-import appeng.me.cache.helpers.TunnelCollection;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -29,6 +27,8 @@ import appeng.api.config.SecurityPermissions;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.helpers.IInterfaceHost;
+import appeng.me.GridAccessException;
+import appeng.me.cache.helpers.TunnelCollection;
 import appeng.parts.p2p.PartP2PTunnel;
 import appeng.util.Platform;
 import kotlin.Pair;
@@ -60,7 +60,8 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
     protected abstract void handleInterface(IInterfaceHost oldIn, IInterfaceHost oldOut, IInterfaceHost newIn,
                                             IInterfaceHost newOut, List<ItemStack> drops);
 
-    @Shadow protected abstract PartP2PTunnel<?> changeP2PType(PartP2PTunnel<?> tunnel, TunnelInfo newType);
+    @Shadow
+    protected abstract PartP2PTunnel<?> changeP2PType(PartP2PTunnel<?> tunnel, TunnelInfo newType);
 
     @Inject(method = "changeP2PType", at = @At("RETURN"), cancellable = true)
     private void restoreName(PartP2PTunnel<?> tunnel, TunnelInfo newType,
@@ -92,7 +93,8 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
 
         try {
             TunnelCollection<?> inputs = tunnel.getProxy().getP2P().getInputs(tunnel.getFrequency(), tunnel.getClass());
-            TunnelCollection<?> outputs = tunnel.getProxy().getP2P().getOutputs(tunnel.getFrequency(), tunnel.getClass());
+            TunnelCollection<?> outputs = tunnel.getProxy().getP2P().getOutputs(tunnel.getFrequency(),
+                    tunnel.getClass());
 
             for (var input : inputs) {
                 changeP2PType(input, newType);
