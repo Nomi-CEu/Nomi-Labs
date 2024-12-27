@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import appeng.me.GridAccessException;
+import appeng.me.cache.helpers.TunnelCollection;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -33,6 +35,7 @@ import kotlin.Pair;
 
 /**
  * Implements the logic of the new modes and switching output/input.
+ * Fixes changing type and binding with multiple inputs.
  */
 @Mixin(value = GridServerCache.class, remap = false)
 public abstract class GridServerCacheMixin implements AccessibleGridServerCache {
@@ -57,6 +60,8 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
     protected abstract void handleInterface(IInterfaceHost oldIn, IInterfaceHost oldOut, IInterfaceHost newIn,
                                             IInterfaceHost newOut, List<ItemStack> drops);
 
+    @Shadow protected abstract PartP2PTunnel<?> changeP2PType(PartP2PTunnel<?> tunnel, TunnelInfo newType);
+
     @Inject(method = "changeP2PType", at = @At("RETURN"), cancellable = true)
     private void restoreName(PartP2PTunnel<?> tunnel, TunnelInfo newType,
                              CallbackInfoReturnable<PartP2PTunnel<?>> cir) {
@@ -67,6 +72,39 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
         cir.setReturnValue(result);
     }
 
+    @Inject(method = "changeAllP2Ps", at = @At("HEAD"), cancellable = true)
+    private void properlyChangeAllP2PTypes(P2PLocation p2p, TunnelInfo newType, CallbackInfoReturnable<Boolean> cir) {
+        PartP2PTunnel<?> tunnel = listP2P.get(p2p);
+
+        if (tunnel == null) {
+            cir.setReturnValue(false);
+            return;
+        }
+
+        changeP2PType(tunnel, newType);
+
+        if (tunnel.getFrequency() == 0 || !tunnel.isActive()) {
+            // Unbound or Inactive
+            // Can't rebind same frequency if inactive, as not registered in ae2 handling
+            cir.setReturnValue(true);
+            return;
+        }
+
+        try {
+            TunnelCollection<?> inputs = tunnel.getProxy().getP2P().getInputs(tunnel.getFrequency(), tunnel.getClass());
+            TunnelCollection<?> outputs = tunnel.getProxy().getP2P().getOutputs(tunnel.getFrequency(), tunnel.getClass());
+
+            for (var input : inputs) {
+                changeP2PType(input, newType);
+            }
+
+            for (var output : outputs) {
+                changeP2PType(output, newType);
+            }
+        } catch (GridAccessException ignored) {}
+        cir.setReturnValue(true);
+    }
+
     @Inject(method = "linkP2P",
             at = @At(value = "INVOKE",
                      target = "Lappeng/me/cache/P2PCache;getInputs(SLjava/lang/Class;)Lappeng/me/cache/helpers/TunnelCollection;",
@@ -74,7 +112,7 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
             locals = LocalCapture.CAPTURE_FAILEXCEPTION,
             require = 1,
             cancellable = true)
-    private void properlyLinkP2p(P2PLocation inputIndex, P2PLocation outputIndex,
+    private void properlyLinkP2P(P2PLocation inputIndex, P2PLocation outputIndex,
                                  CallbackInfoReturnable<Pair<PartP2PTunnel<?>, PartP2PTunnel<?>>> cir,
                                  @Local(ordinal = 0) short frequency) {
         var input = listP2P.get(inputIndex);
