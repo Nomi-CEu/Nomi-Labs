@@ -3,8 +3,9 @@ package com.nomiceu.nomilabs.integration.betterp2p;
 import java.util.Comparator;
 import java.util.function.Function;
 
-import com.projecturanus.betterp2p.client.gui.InfoWrapper;
 import org.apache.commons.lang3.StringUtils;
+
+import com.projecturanus.betterp2p.client.gui.InfoWrapper;
 
 public enum SortModes {
 
