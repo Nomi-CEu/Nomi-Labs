@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.mixin.betterp2p;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 
+import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -129,7 +130,7 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
         hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.pos",
                 info.getPos().getX(), info.getPos().getY(), info.getPos().getZ()));
         hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.side",
-                info.getFacing().getName()));
+                StringUtils.capitalize(info.getFacing().getName2())));
         hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.dim", info.getDim()));
 
         // ME Tunnel Specific
