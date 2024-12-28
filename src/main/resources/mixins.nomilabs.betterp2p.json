@@ -20,6 +20,7 @@
     "RenderHandlerMixin",
     "WidgetP2PColumnMixin",
     "WidgetP2PDeviceMixin",
+    "WidgetScrollBarMixin",
     "WidgetTypeSelectorMixin"
   ],
   "server": []
