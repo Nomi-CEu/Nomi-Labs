@@ -49,12 +49,13 @@ public class LabsP2PChangeTypeMessage implements IMessage {
             PlayerRequest state = ModNetwork.INSTANCE.getPlayerState().get(ctx.getServerHandler().player.getUniqueID());
             if (state == null) return null;
 
-            PartP2PTunnel<?> result = ((AccessibleGridServerCache) (Object) state.getGridCache())
-                    .labs$changeIsInput(message.location, message.isInput);
-
-            if (result != null) {
-                ModNetwork.INSTANCE.requestP2PUpdate(ctx.getServerHandler().player);
-            }
+            ctx.getServerHandler().server.addScheduledTask(() -> {
+                PartP2PTunnel<?> result = ((AccessibleGridServerCache) (Object) state.getGridCache())
+                        .labs$changeIsInput(message.location, message.isInput);
+                if (result != null) {
+                    ModNetwork.INSTANCE.requestP2PUpdate(ctx.getServerHandler().player);
+                }
+            });
             return null;
         }
     }

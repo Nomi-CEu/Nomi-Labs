@@ -80,12 +80,11 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
             return;
         }
 
-        changeP2PType(tunnel, newType);
-
-        if (tunnel.getFrequency() == 0 || !tunnel.isActive()) {
+        if (tunnel.getFrequency() == 0) {
             // Unbound or Inactive
             // Can't rebind same frequency if inactive, as not registered in ae2 handling
-            cir.setReturnValue(true);
+            var result = changeP2PType(tunnel, newType);
+            cir.setReturnValue(result != null);
             return;
         }
 
@@ -94,12 +93,17 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
             TunnelCollection<?> outputs = tunnel.getProxy().getP2P().getOutputs(tunnel.getFrequency(),
                     tunnel.getClass());
 
-            for (var input : inputs) {
-                changeP2PType(input, newType);
-            }
+            // Add all parts to a new list, so we don't CME
+            List<PartP2PTunnel<?>> toModify = new ArrayList<>();
+            inputs.forEach(toModify::add);
+            outputs.forEach(toModify::add);
 
-            for (var output : outputs) {
-                changeP2PType(output, newType);
+            for (var modify : toModify) {
+                var result = changeP2PType(modify, newType);
+                if (result == null) {
+                    cir.setReturnValue(false);
+                    return;
+                }
             }
         } catch (GridAccessException ignored) {}
         cir.setReturnValue(true);
