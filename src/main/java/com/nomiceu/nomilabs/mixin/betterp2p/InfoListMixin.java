@@ -90,17 +90,20 @@ public abstract class InfoListMixin implements AccessibleInfoList {
             }
 
             // Search for same freq, and opposite output state (output search for input, etc.)
-            info.setError(!labs$has(info.getFrequency(), !info.getOutput()));
+            int connections = labs$amount(info.getFrequency(), !info.getOutput());
+            info.setError(connections == 0);
+            ((AccessibleInfoWrapper) (Object) info).labs$setConnectionAmt(connections);
         }
     }
 
     @Unique
-    private boolean labs$has(int freq, boolean isOutput) {
+    private int labs$amount(int freq, boolean isOutput) {
+        int amount = 0;
         for (InfoWrapper info : labs$getThis().getSorted()) {
             if (info.getFrequency() == freq && info.getOutput() == isOutput)
-                return true;
+                amount++;
         }
-        return false;
+        return amount;
     }
 
     @Inject(method = "refresh",

@@ -7,4 +7,6 @@ public interface AccessibleInfoWrapper {
     void labs$calculateDistance(Vec3d playerPos);
 
     double labs$getDistance();
+
+    void labs$setConnectionAmt(int amt);
 }

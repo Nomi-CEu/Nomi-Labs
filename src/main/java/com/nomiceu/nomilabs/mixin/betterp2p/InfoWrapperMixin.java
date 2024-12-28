@@ -3,10 +3,7 @@ package com.nomiceu.nomilabs.mixin.betterp2p;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,9 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleInfoWrapper;
 import com.nomiceu.nomilabs.util.LabsTranslate;
+import com.projecturanus.betterp2p.BetterP2P;
 import com.projecturanus.betterp2p.client.gui.InfoWrapper;
 import com.projecturanus.betterp2p.network.data.P2PInfo;
 import com.projecturanus.betterp2p.network.data.P2PLocation;
+import com.projecturanus.betterp2p.util.p2p.TunnelInfo;
 
 /**
  * Allows saving of each P2P's distance to the player, and improves display of frequencies.
@@ -30,6 +29,14 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
 
     @Shadow
     private short frequency;
+
+    @Shadow
+    @Final
+    @Mutable
+    private String description;
+
+    @Unique
+    private int labs$connectionInfoIndex = 0;
 
     @Unique
     private double labs$distanceToPlayer = 0.0;
@@ -69,12 +76,79 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
         labs$distanceToPlayer = Math.round(distance * 10) / 10.0;
     }
 
+    @Unique
+    @Override
+    public void labs$setConnectionAmt(int amt) {
+        var hover = labs$getThis().getHoverInfo();
+        if (hover.size() > labs$connectionInfoIndex)
+            hover.remove(labs$connectionInfoIndex);
+
+        StringBuilder builder = new StringBuilder("nomilabs.gui.advanced_memory_card.hover_info.connections.");
+        if (labs$getThis().getOutput())
+            builder.append("output.");
+        else
+            builder.append("input.");
+
+        switch (amt) {
+            case 0 -> builder.append("none");
+            case 1 -> builder.append("one");
+            default -> builder.append("multi");
+        }
+
+        hover.add(LabsTranslate.translate(builder.toString(), amt));
+    }
+
+    @Inject(method = "setFrequency", at = @At("HEAD"), cancellable = true)
+    private void cancelChangeTooltip(short value, CallbackInfo ci) {
+        // In the actual method, hoverInfo's bound/unbound state is updated
+        // But this shouldn't happen in the first place
+        frequency = value;
+        ci.cancel();
+    }
+
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void provideChannelInfo(P2PInfo info, CallbackInfo ci) {
+        // Change existing description (allow localization)
+        TunnelInfo p2pType = BetterP2P.proxy.getP2PFromIndex(info.getType());
+        if (p2pType == null) return; // This should never happen
+
+        description = LabsTranslate.translate("nomilabs.gui.advanced_memory_card.info.type", p2pType.getDispName(),
+                LabsTranslate.translate(info.getOutput() ? "gui.advanced_memory_card.p2p_status.output" :
+                        "gui.advanced_memory_card.p2p_status.input"));
+
+        // Custom Hover Info
+        var hover = labs$getThis().getHoverInfo();
+        hover.clear();
+
+        // Title
+        hover.add(LabsTranslate.translate("nomilabs.gui.advanced_memory_card.hover_info.title",
+                p2pType.getDispName()));
+
+        // General Information
+        hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.pos",
+                info.getPos().getX(), info.getPos().getY(), info.getPos().getZ()));
+        hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.side",
+                info.getFacing().getName()));
+        hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.dim", info.getDim()));
+
+        // ME Tunnel Specific
         var channels = labs$getThis().getChannels();
         if (channels != null)
-            // Index 0-3: Default Info, 4+, Bound/Unbound, Offline/Online
-            labs$getThis().getHoverInfo().add(4, TextFormatting.LIGHT_PURPLE + channels);
+            labs$getThis().getHoverInfo().add(TextFormatting.LIGHT_PURPLE + channels);
+
+        // State
+        if (frequency == 0) {
+            hover.add(TextFormatting.RED + LabsTranslate.translate("gui.advanced_memory_card.p2p_status.unbound"));
+        } else {
+            hover.add(TextFormatting.GREEN + LabsTranslate.translate("gui.advanced_memory_card.p2p_status.bound"));
+        }
+
+        if (!info.getHasChannel()) {
+            hover.add("§c" + LabsTranslate.translate("gui.advanced_memory_card.p2p_status.offline"));
+        }
+
+        // Init connection index, so we can update it when check applied
+        labs$connectionInfoIndex = hover.size();
     }
 
     @Inject(method = "getFreqDisplay", at = @At("HEAD"), cancellable = true)
