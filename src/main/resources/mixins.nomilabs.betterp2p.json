@@ -20,6 +20,7 @@
     "InfoListMixin",
     "InfoWrapperMixin",
     "ModeWidgetButtonMixin",
+    "RefreshWidgetButtonMixin",
     "RenderHandlerMixin",
     "WidgetP2PColumnMixin",
     "WidgetP2PDeviceMixin",
