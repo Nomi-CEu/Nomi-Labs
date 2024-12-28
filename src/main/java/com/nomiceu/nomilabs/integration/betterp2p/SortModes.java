@@ -54,6 +54,11 @@ public enum SortModes {
                 if (a.getFrequency() == 0) return -1;
                 if (b.getFrequency() == 0) return 1;
 
+                // Errors next
+                if (a.getError()) return -1;
+                if (b.getError()) return 1;
+
+                // Else, sort by frequency
                 return b.getFrequency() - a.getFrequency();
             }
 

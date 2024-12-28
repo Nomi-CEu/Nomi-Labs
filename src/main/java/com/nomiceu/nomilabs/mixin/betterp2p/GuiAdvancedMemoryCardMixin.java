@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGuiAdvancedMemoryCard;
@@ -26,7 +27,8 @@ import kotlin.Pair;
 
 /**
  * Allows accessing needed functions and fields, and initializes playerPos field in InfoList. Also fills up
- * LabsClientCache, calls proper resetting of scrollbar in custom places, and allows arrows to scroll.
+ * LabsClientCache, cancels existing checks for invalid setups (moved to infoList, right before sorting),
+ * calls proper resetting of scrollbar in custom places, and allows arrows to scroll.
  */
 @Mixin(value = GuiAdvancedMemoryCard.class, remap = false)
 public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements AccessibleGuiAdvancedMemoryCard {
@@ -88,6 +90,26 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     private void properlySetScrollbarInit(CallbackInfo ci) {
         labs$properlyResetScrollbar();
     }
+
+    @Redirect(method = "initGui",
+              at = @At(value = "INVOKE",
+                       target = "Lcom/projecturanus/betterp2p/client/gui/GuiAdvancedMemoryCard;checkInfo()V",
+                       remap = false),
+              require = 1,
+              remap = true)
+    private void cancelExistingChecksInit(GuiAdvancedMemoryCard instance) {}
+
+    @Redirect(method = "refreshInfo",
+              at = @At(value = "INVOKE",
+                       target = "Lcom/projecturanus/betterp2p/client/gui/GuiAdvancedMemoryCard;checkInfo()V"),
+              require = 1)
+    private void cancelExistingChecksRefresh(GuiAdvancedMemoryCard instance) {}
+
+    @Redirect(method = "updateInfo",
+              at = @At(value = "INVOKE",
+                       target = "Lcom/projecturanus/betterp2p/client/gui/GuiAdvancedMemoryCard;checkInfo()V"),
+              require = 1)
+    private void cancelExistingChecksUpdate(GuiAdvancedMemoryCard instance) {}
 
     @Inject(method = "mouseClicked",
             at = @At(value = "INVOKE",

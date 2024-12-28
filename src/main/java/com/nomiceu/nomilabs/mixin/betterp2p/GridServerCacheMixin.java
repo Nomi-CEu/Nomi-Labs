@@ -15,9 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGridServerCache;
 import com.projecturanus.betterp2p.network.data.GridServerCache;
 import com.projecturanus.betterp2p.network.data.P2PLocation;
@@ -109,16 +107,25 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
 
     @Inject(method = "linkP2P",
             at = @At(value = "INVOKE",
-                     target = "Lappeng/me/cache/P2PCache;getInputs(SLjava/lang/Class;)Lappeng/me/cache/helpers/TunnelCollection;",
-                     ordinal = 0),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+                     target = "Lappeng/parts/p2p/PartP2PTunnel;getFrequency()S"),
             require = 1,
             cancellable = true)
     private void properlyLinkP2P(P2PLocation inputIndex, P2PLocation outputIndex,
-                                 CallbackInfoReturnable<Pair<PartP2PTunnel<?>, PartP2PTunnel<?>>> cir,
-                                 @Local(ordinal = 0) short frequency) {
+                                 CallbackInfoReturnable<Pair<PartP2PTunnel<?>, PartP2PTunnel<?>>> cir) {
         var input = listP2P.get(inputIndex);
         var output = listP2P.get(outputIndex);
+
+        var frequency = input.getFrequency();
+        try {
+            if (frequency == 0 || input.isOutput()) {
+                // Generate new frequency
+                // Use AE2's way instead of Better P2P's way
+                frequency = input.getProxy().getP2P().newFrequency();
+            }
+        } catch (GridAccessException e) {
+            cir.setReturnValue(null);
+            return;
+        }
 
         // Perform the link
         var inputResult = updateP2P(inputIndex, input, frequency, false,

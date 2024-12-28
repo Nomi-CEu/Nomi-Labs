@@ -10,14 +10,16 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleInfoWrapper;
+import com.nomiceu.nomilabs.util.LabsTranslate;
 import com.projecturanus.betterp2p.client.gui.InfoWrapper;
 import com.projecturanus.betterp2p.network.data.P2PInfo;
 import com.projecturanus.betterp2p.network.data.P2PLocation;
 
 /**
- * Allows saving of each P2P's distance to the player.
+ * Allows saving of each P2P's distance to the player, and improves display of frequencies.
  */
 @Mixin(value = InfoWrapper.class, remap = false)
 public class InfoWrapperMixin implements AccessibleInfoWrapper {
@@ -25,6 +27,9 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
     @Shadow
     @Final
     private P2PLocation loc;
+
+    @Shadow
+    private short frequency;
 
     @Unique
     private double labs$distanceToPlayer = 0.0;
@@ -70,6 +75,21 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
         if (channels != null)
             // Index 0-3: Default Info, 4+, Bound/Unbound, Offline/Online
             labs$getThis().getHoverInfo().add(4, TextFormatting.LIGHT_PURPLE + channels);
+    }
+
+    @Inject(method = "getFreqDisplay", at = @At("HEAD"), cancellable = true)
+    private void getLabsFreqDisplay(CallbackInfoReturnable<String> cir) {
+        // Use AE2's Method
+        StringBuilder builder = new StringBuilder();
+        builder.append(LabsTranslate.translate("item.advanced_memory_card.selected"))
+                .append(" ");
+
+        if (frequency == 0)
+            builder.append(LabsTranslate.translate("gui.advanced_memory_card.desc.not_set"));
+        else
+            builder.append(String.format("%04X", frequency));
+
+        cir.setReturnValue(builder.toString());
     }
 
     @Unique

@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
@@ -21,8 +20,7 @@ import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
 import kotlin.jvm.functions.Function0;
 
 /**
- * Trims text before renaming, handles add as input/output, properly refreshes renames in gui,
- * properly searches for inputs/outputs.
+ * Trims text before renaming, handles add as input/output, properly refreshes renames in gui.
  */
 @Mixin(value = WidgetP2PColumn.class, remap = false)
 public class WidgetP2PColumnMixin {
@@ -38,28 +36,6 @@ public class WidgetP2PColumnMixin {
     @Shadow
     @Final
     private IGuiTextField renameBar;
-
-    @Inject(method = "findInput", at = @At("HEAD"), cancellable = true)
-    private void findInputInAll(Short frequency, CallbackInfoReturnable<InfoWrapper> cir) {
-        for (InfoWrapper info : infos.getSorted()) {
-            if (info.getFrequency() == frequency && !info.getOutput()) {
-                cir.setReturnValue(info);
-                return;
-            }
-        }
-        cir.setReturnValue(null);
-    }
-
-    @Inject(method = "findOutput", at = @At("HEAD"), cancellable = true)
-    private void findOutputInAll(Short frequency, CallbackInfoReturnable<InfoWrapper> cir) {
-        for (InfoWrapper info : infos.getSorted()) {
-            if (info.getFrequency() == frequency && info.getOutput()) {
-                cir.setReturnValue(info);
-                return;
-            }
-        }
-        cir.setReturnValue(null);
-    }
 
     @Inject(method = "finishRename", at = @At("HEAD"))
     private void trimText(CallbackInfo ci) {
