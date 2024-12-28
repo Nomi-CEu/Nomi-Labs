@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.function.Function;
 
 import com.projecturanus.betterp2p.client.gui.InfoWrapper;
+import org.apache.commons.lang3.StringUtils;
 
 public enum SortModes {
 
@@ -49,17 +50,23 @@ public enum SortModes {
 
                 if (b.getFrequency() == selected.getFrequency()) return 1;
             }
+
             if (a.getFrequency() != b.getFrequency()) {
                 // Unbound first
                 if (a.getFrequency() == 0) return -1;
                 if (b.getFrequency() == 0) return 1;
 
-                // Errors next
-                if (a.getError()) return -1;
+                // Errors next, also sorted by frequency (display)
+                if (a.getError()) {
+                    if (b.getError()) {
+                        return StringUtils.compare(a.getFreqDisplay(), b.getFreqDisplay());
+                    }
+                    return -1;
+                }
                 if (b.getError()) return 1;
 
-                // Else, sort by frequency
-                return b.getFrequency() - a.getFrequency();
+                // Else, sort by frequency (display)
+                return StringUtils.compare(a.getFreqDisplay(), b.getFreqDisplay());
             }
 
             return compareTypeThenDist(a, b);
