@@ -84,10 +84,11 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
             hover.remove(labs$connectionInfoIndex);
 
         StringBuilder builder = new StringBuilder("nomilabs.gui.advanced_memory_card.hover_info.connections.");
+        // Opposite type
         if (labs$getThis().getOutput())
-            builder.append("output.");
-        else
             builder.append("input.");
+        else
+            builder.append("output.");
 
         switch (amt) {
             case 0 -> builder.append("none");
