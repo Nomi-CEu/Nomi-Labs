@@ -12,13 +12,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGuiAdvancedMemoryCard;
-import com.nomiceu.nomilabs.integration.betterp2p.AccessibleInfoList;
-import com.nomiceu.nomilabs.integration.betterp2p.LabsClientCache;
+import com.nomiceu.nomilabs.integration.betterp2p.*;
 import com.projecturanus.betterp2p.client.gui.GuiAdvancedMemoryCard;
 import com.projecturanus.betterp2p.client.gui.InfoList;
 import com.projecturanus.betterp2p.client.gui.InfoWrapper;
 import com.projecturanus.betterp2p.client.gui.widget.GuiScale;
+import com.projecturanus.betterp2p.client.gui.widget.WidgetButton;
 import com.projecturanus.betterp2p.client.gui.widget.WidgetScrollBar;
 import com.projecturanus.betterp2p.client.gui.widget.WidgetTypeSelector;
 import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
@@ -57,6 +56,19 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     @Shadow
     private GuiScale scale;
 
+    @Shadow
+    @Final
+    private WidgetButton refreshButton;
+
+    @Shadow
+    private int guiLeft;
+
+    @Shadow
+    private int guiTop;
+
+    @Shadow
+    protected abstract void refreshOverlay();
+
     @Override
     @Unique
     public BetterMemoryCardModes labs$getMode() {
@@ -81,14 +93,36 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         typeSelector.setVisible(false);
     }
 
+    @Override
+    @Unique
+    public void labs$changeSort(boolean forwards) {
+        labs$getAccessibleInfo().labs$changeSortMode(forwards);
+        infos.resort();
+        infos.refilter();
+        refreshOverlay();
+    }
+
+    @Override
+    @Unique
+    public SortModes labs$getSortMode() {
+        return labs$getAccessibleInfo().labs$getSortMode();
+    }
+
     @Inject(method = "initGui", at = @At("HEAD"), remap = true)
-    private void setupInfoListPlayerPos(CallbackInfo ci) {
-        ((AccessibleInfoList) (Object) infos).labs$setPlayerPos(mc.player.getPositionVector());
+    private void setup(CallbackInfo ci) {
+        labs$getAccessibleInfo().labs$setPlayerPos(mc.player.getPositionVector());
+        labs$getAccessibleInfo().labs$setSortMode(LabsClientCache.sortMode);
     }
 
     @Inject(method = "initGui", at = @At("TAIL"), remap = true)
-    private void properlySetScrollbarInit(CallbackInfo ci) {
+    private void handleEndInit(CallbackInfo ci) {
         labs$properlyResetScrollbar();
+        // Refresh button position: 1 button below normal
+        refreshButton.setPosition(guiLeft - 32, guiTop + 130);
+
+        // Add sort change button
+        buttonList.add(new SortWidgetButton((GuiAdvancedMemoryCard) (Object) this,
+                guiLeft - 32, guiTop + 98, 32, 32));
     }
 
     @Redirect(method = "initGui",
@@ -165,9 +199,19 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
                         .add(new Pair<>(pair.getSecond().getPos(), pair.getSecond().getFacing())));
     }
 
+    @Inject(method = "onGuiClosed", at = @At("HEAD"))
+    private void save(CallbackInfo ci) {
+        LabsClientCache.sortMode = labs$getAccessibleInfo().labs$getSortMode();
+    }
+
     @Unique
     private void labs$properlyResetScrollbar() {
-        ((AccessibleInfoList) (Object) infos).labs$properlyResetScrollbar(scrollBar,
+        labs$getAccessibleInfo().labs$properlyResetScrollbar(scrollBar,
                 scale.getSize().invoke(height - 75));
+    }
+
+    @Unique
+    private AccessibleInfoList labs$getAccessibleInfo() {
+        return ((AccessibleInfoList) (Object) infos);
     }
 }

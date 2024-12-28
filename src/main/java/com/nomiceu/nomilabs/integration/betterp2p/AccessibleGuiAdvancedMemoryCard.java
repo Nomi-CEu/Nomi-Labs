@@ -11,4 +11,8 @@ public interface AccessibleGuiAdvancedMemoryCard {
     void labs$syncMemoryInfo();
 
     void labs$closeTypeSelector();
+
+    void labs$changeSort(boolean forwards);
+
+    SortModes labs$getSortMode();
 }

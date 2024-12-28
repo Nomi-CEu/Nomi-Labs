@@ -8,6 +8,15 @@ import gregtech.client.renderer.texture.cube.SimpleOverlayRenderer;
 
 public class LabsTextures {
 
+    /* Constants */
+    public static int P2P_SIZE = 32;
+
+    public static String P2P_SORTING_LOC = "textures/gui/advanced_memory_card/sorting_modes.png";
+    public static int P2P_SORTING_AMT = 3;
+
+    public static String P2P_CUSTOM_LOC = "textures/gui/advanced_memory_card/custom_modes.png";
+    public static int P2P_CUSTOM_AMT = 2;
+
     /* Overlays (Machine) */
     public static OrientedOverlayRenderer GROWTH_CHAMBER_OVERLAY;
 
@@ -18,6 +27,7 @@ public class LabsTextures {
     public static TextureArea PROGRESS_BAR_ROCKET;
 
     /* Gui Textures */
+    public static TextureArea[] P2P_SORTING_MODES;
     public static TextureArea[] P2P_CUSTOM_MODES;
     public static TextureArea P2P_INPUT_ICON;
     public static TextureArea P2P_OUTPUT_ICON;
@@ -27,17 +37,23 @@ public class LabsTextures {
         MICROVERSE_CASING = new SimpleOverlayRenderer("nomilabs:microverse_casing");
         PROGRESS_BAR_ROCKET = labsFullImage("textures/gui/progress_bar/progress_bar_rocket.png");
 
-        var imageSizeX = 64;
-        var imageSizeY = 32;
-        var imageLoc = "textures/gui/advanced_memory_card/custom_modes.png";
-        var spriteSize = 32;
-        P2P_CUSTOM_MODES = new TextureArea[] {
-                labsAreaImage(imageLoc, imageSizeX, imageSizeY, 0, 0, spriteSize, spriteSize),
-                labsAreaImage(imageLoc, imageSizeX, imageSizeY, spriteSize, 0, spriteSize, spriteSize),
-        };
+        P2P_SORTING_MODES = labsAreasImageHorizontal(P2P_SORTING_LOC, P2P_SIZE, P2P_SIZE, P2P_SORTING_AMT);
+        P2P_CUSTOM_MODES = labsAreasImageHorizontal(P2P_CUSTOM_LOC, P2P_SIZE, P2P_SIZE, P2P_CUSTOM_AMT);
 
         P2P_INPUT_ICON = labsFullImage("textures/gui/advanced_memory_card/input.png");
         P2P_OUTPUT_ICON = labsFullImage("textures/gui/advanced_memory_card/output.png");
+    }
+
+    /**
+     * Returns an array of all texture areas, that are stacked horizontally, in an image.
+     */
+    public static TextureArea[] labsAreasImageHorizontal(String imageLoc, int iconSizeX, int iconSizeY, int amt) {
+        TextureArea[] areas = new TextureArea[amt];
+        for (int i = 0; i < amt; i++) {
+            areas[i] = labsAreaImage(imageLoc, iconSizeX * amt, iconSizeY,
+                    i * iconSizeX, 0, iconSizeX, iconSizeY);
+        }
+        return areas;
     }
 
     /**

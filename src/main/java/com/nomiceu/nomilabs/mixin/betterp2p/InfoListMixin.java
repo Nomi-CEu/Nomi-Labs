@@ -52,6 +52,33 @@ public abstract class InfoListMixin implements AccessibleInfoList {
     private Vec3d labs$playerPos;
 
     @Unique
+    private SortModes labs$sortMode = SortModes.DEFAULT;
+
+    @Unique
+    @Override
+    public void labs$setSortMode(SortModes mode) {
+        this.labs$sortMode = mode;
+    }
+
+    @Unique
+    @Override
+    public SortModes labs$getSortMode() {
+        return labs$sortMode;
+    }
+
+    @Unique
+    @Override
+    public void labs$changeSortMode(boolean forwards) {
+        int newModeOrdinal = labs$sortMode.ordinal() + (forwards ? 1 : -1);
+        int maxSize = SortModes.values().length;
+
+        if (newModeOrdinal < 0) newModeOrdinal = maxSize - 1;
+        else newModeOrdinal = newModeOrdinal % maxSize;
+
+        labs$sortMode = SortModes.values()[newModeOrdinal];
+    }
+
+    @Unique
     @Override
     public void labs$setPlayerPos(Vec3d pos) {
         labs$playerPos = pos;
@@ -165,7 +192,7 @@ public abstract class InfoListMixin implements AccessibleInfoList {
 
     @Inject(method = "resort", at = @At("HEAD"), cancellable = true)
     private void customSortLogic(CallbackInfo ci) {
-        labs$getThis().getSorted().sort(SortModes.DEFAULT.getComp(getSelectedInfo()));
+        labs$getThis().getSorted().sort(labs$sortMode.getComp(getSelectedInfo()));
         ci.cancel();
     }
 

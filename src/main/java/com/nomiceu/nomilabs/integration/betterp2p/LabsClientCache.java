@@ -12,4 +12,5 @@ public class LabsClientCache {
 
     public static final List<Pair<BlockPos, EnumFacing>> inputLoc = new ObjectArrayList<>();
     public static final List<Pair<BlockPos, EnumFacing>> outputLoc = new ObjectArrayList<>();
+    public static SortModes sortMode = SortModes.DEFAULT;
 }

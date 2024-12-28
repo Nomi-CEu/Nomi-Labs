@@ -9,4 +9,10 @@ public interface AccessibleInfoList {
     void labs$setPlayerPos(Vec3d pos);
 
     void labs$properlyResetScrollbar(WidgetScrollBar scrollBar, int numEntries);
+
+    void labs$setSortMode(SortModes mode);
+
+    SortModes labs$getSortMode();
+
+    void labs$changeSortMode(boolean forwards);
 }
