@@ -81,8 +81,8 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
         }
 
         if (tunnel.getFrequency() == 0) {
-            // Unbound or Inactive
-            // Can't rebind same frequency if inactive, as not registered in ae2 handling
+            // Unbound
+            // Just change this P2P
             var result = changeP2PType(tunnel, newType);
             cir.setReturnValue(result != null);
             return;
@@ -97,6 +97,10 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
             List<PartP2PTunnel<?>> toModify = new ArrayList<>();
             inputs.forEach(toModify::add);
             outputs.forEach(toModify::add);
+
+            // Bound P2Ps, to a frequency with no other P2Ps
+            if (toModify.isEmpty())
+                toModify.add(tunnel);
 
             for (var modify : toModify) {
                 var result = changeP2PType(modify, newType);
