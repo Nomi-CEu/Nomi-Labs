@@ -206,11 +206,17 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
 
     @Inject(method = "refreshOverlay", at = @At("HEAD"))
     private void fillLabsCache(CallbackInfo ci) {
+        LabsClientCache.selectedIsOutput = getSelectedInfo().getOutput();
+
+        // Reset time
+        LabsClientCache.lastSelectedRenderChange = System.currentTimeMillis();
+        LabsClientCache.renderingSelected = true;
+
         LabsClientCache.inputLoc.clear();
         LabsClientCache.outputLoc.clear();
 
         var selected = getSelectedInfo();
-        if (selected == null) return;
+        if (selected == null || selected.getFrequency() == 0) return;
 
         infos.getSorted().stream()
                 .filter(info -> info.getFrequency() == selected.getFrequency())

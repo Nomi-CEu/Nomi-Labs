@@ -285,6 +285,25 @@ public class LabsConfig {
         @Config.Name("ae2 terminal options")
         public final AE2TerminalOptions ae2TerminalOptions = new AE2TerminalOptions();
 
+        @Config.Comment("Better P2P Options")
+        @Config.LangKey("config.nomilabs.mod_integration.better_p2p")
+        @Config.Name("better p2p options")
+        public final BetterP2POptions betterP2POptions = new BetterP2POptions();
+
+        public static class BetterP2POptions {
+
+            @Config.Comment({ "Whether to highlight the Selected P2P by blinking, instead of with green.",
+                    "Allows players to see whether the Selected P2P is Input or Output, but is less visible.",
+                    "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.better_p2p.blink")
+            public boolean blinkP2P = true;
+
+            @Config.Comment({ "Blink speed of Selected P2P in milliseconds.", "[default: 500]" })
+            @Config.LangKey("config.nomilabs.mod_integration.better_p2p.blink_speed")
+            @Config.RangeInt(min = 0)
+            public int blinkSpeed = 500;
+        }
+
         public static class AE2TerminalOptions {
 
             @Config.Comment({ "Whether to Auto-Focus the Fluid Terminal.", "[default: true]" })
