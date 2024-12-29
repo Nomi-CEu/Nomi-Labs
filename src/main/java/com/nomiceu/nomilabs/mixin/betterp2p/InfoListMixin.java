@@ -55,6 +55,9 @@ public abstract class InfoListMixin implements AccessibleInfoList {
     private SortModes labs$sortMode = SortModes.DEFAULT;
 
     @Unique
+    private boolean labs$sortReversed = false;
+
+    @Unique
     @Override
     public void labs$setSortMode(SortModes mode) {
         this.labs$sortMode = mode;
@@ -76,6 +79,18 @@ public abstract class InfoListMixin implements AccessibleInfoList {
         else newModeOrdinal = newModeOrdinal % maxSize;
 
         labs$sortMode = SortModes.values()[newModeOrdinal];
+    }
+
+    @Unique
+    @Override
+    public boolean labs$getSortReversed() {
+        return labs$sortReversed;
+    }
+
+    @Unique
+    @Override
+    public void labs$setSortReversed(boolean reversed) {
+        this.labs$sortReversed = reversed;
     }
 
     @Unique
@@ -192,7 +207,10 @@ public abstract class InfoListMixin implements AccessibleInfoList {
 
     @Inject(method = "resort", at = @At("HEAD"), cancellable = true)
     private void customSortLogic(CallbackInfo ci) {
-        labs$getThis().getSorted().sort(labs$sortMode.getComp(getSelectedInfo()));
+        var sorter = labs$sortMode.getComp(getSelectedInfo());
+        if (labs$sortReversed) sorter = sorter.reversed();
+
+        labs$getThis().getSorted().sort(sorter);
         ci.cancel();
     }
 
@@ -209,6 +227,9 @@ public abstract class InfoListMixin implements AccessibleInfoList {
             return;
         }
 
+        var sorter = labs$sortMode.getComp(getSelectedInfo());
+        if (labs$sortReversed) sorter = sorter.reversed();
+
         filter.updateFilter(toSearch.toLowerCase());
         labs$getThis().setFiltered(labs$getThis().getSorted().stream()
                 .filter(info -> {
@@ -218,7 +239,7 @@ public abstract class InfoListMixin implements AccessibleInfoList {
                         if (!entry.getKey().getFilter().invoke(info, entry.getValue())) return false;
                     }
                     return true;
-                }).sorted(SortModes.DEFAULT.getComp(getSelectedInfo()))
+                }).sorted(sorter)
                 .collect(Collectors.toList()));
     }
 

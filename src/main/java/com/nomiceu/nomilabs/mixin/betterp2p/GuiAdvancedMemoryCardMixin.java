@@ -116,6 +116,21 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         return labs$getAccessibleInfo().labs$getSortMode();
     }
 
+    @Override
+    @Unique
+    public void labs$swapSortReversed() {
+        labs$getAccessibleInfo().labs$setSortReversed(!labs$getSortReversed());
+        infos.resort();
+        infos.refilter();
+        refreshOverlay();
+    }
+
+    @Override
+    @Unique
+    public boolean labs$getSortReversed() {
+        return labs$getAccessibleInfo().labs$getSortReversed();
+    }
+
     @Inject(method = "getSortRules", at = @At("HEAD"), cancellable = true)
     private void getCustomSortRules(CallbackInfoReturnable<List<String>> cir) {
         cir.setReturnValue(ImmutableList.of(
@@ -136,17 +151,23 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     private void setup(CallbackInfo ci) {
         labs$getAccessibleInfo().labs$setPlayerPos(mc.player.getPositionVector());
         labs$getAccessibleInfo().labs$setSortMode(LabsClientCache.sortMode);
+        labs$getAccessibleInfo().labs$setSortReversed(LabsClientCache.sortReversed);
     }
 
     @Inject(method = "initGui", at = @At("TAIL"), remap = true)
     private void handleEndInit(CallbackInfo ci) {
         labs$properlyResetScrollbar();
-        // Refresh button position: 1 button below normal
-        refreshButton.setPosition(guiLeft - 32, guiTop + 130);
 
-        // Add sort change button
-        buttonList.add(new SortWidgetButton((GuiAdvancedMemoryCard) (Object) this,
+        // Refresh button position: below all
+        refreshButton.setPosition(guiLeft - 32, guiTop + 162);
+
+        // Add sort change button, above type button
+        buttonList.add(new SortModeWidgetButton((GuiAdvancedMemoryCard) (Object) this,
                 guiLeft - 32, guiTop + 98, 32, 32));
+
+        // Add sort direction button, below type button
+        buttonList.add(new SortDirectionWidgetButton((GuiAdvancedMemoryCard) (Object) this,
+                guiLeft - 32, guiTop + 130, 32, 32));
     }
 
     @Redirect(method = "initGui",
@@ -231,7 +252,8 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
 
     @Inject(method = "onGuiClosed", at = @At("HEAD"))
     private void save(CallbackInfo ci) {
-        LabsClientCache.sortMode = labs$getAccessibleInfo().labs$getSortMode();
+        LabsClientCache.sortMode = labs$getSortMode();
+        LabsClientCache.sortReversed = labs$getSortReversed();
     }
 
     @Unique

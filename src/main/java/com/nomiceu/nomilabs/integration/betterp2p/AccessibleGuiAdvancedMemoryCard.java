@@ -15,4 +15,8 @@ public interface AccessibleGuiAdvancedMemoryCard {
     void labs$changeSort(boolean forwards);
 
     SortModes labs$getSortMode();
+
+    void labs$swapSortReversed();
+
+    boolean labs$getSortReversed();
 }

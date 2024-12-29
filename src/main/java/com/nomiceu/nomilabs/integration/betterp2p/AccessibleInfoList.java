@@ -15,4 +15,8 @@ public interface AccessibleInfoList {
     SortModes labs$getSortMode();
 
     void labs$changeSortMode(boolean forwards);
+
+    boolean labs$getSortReversed();
+
+    void labs$setSortReversed(boolean reversed);
 }

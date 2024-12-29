@@ -10,9 +10,9 @@ import com.nomiceu.nomilabs.LabsTextures;
 import com.projecturanus.betterp2p.client.gui.GuiAdvancedMemoryCard;
 import com.projecturanus.betterp2p.client.gui.widget.WidgetButton;
 
-public class SortWidgetButton extends WidgetButton {
+public class SortModeWidgetButton extends WidgetButton {
 
-    public SortWidgetButton(@NotNull GuiAdvancedMemoryCard gui, int x, int y, int width, int height) {
+    public SortModeWidgetButton(@NotNull GuiAdvancedMemoryCard gui, int x, int y, int width, int height) {
         super(gui, x, y, width, height);
 
         setHoverText(ImmutableList.of(getAccessibleGui().labs$getSortMode().getName()));
@@ -34,7 +34,7 @@ public class SortWidgetButton extends WidgetButton {
         drawBG(tessellator, mouseX, mouseY, partial);
 
         // Button Icon
-        LabsTextures.P2P_SORTING_MODES[getAccessibleGui().labs$getSortMode().ordinal()]
+        LabsTextures.P2P_SORTING_ICONS[getAccessibleGui().labs$getSortMode().ordinal()]
                 .draw(x + 1.0, y + 1.0, width - 2, height - 2);
     }
 
