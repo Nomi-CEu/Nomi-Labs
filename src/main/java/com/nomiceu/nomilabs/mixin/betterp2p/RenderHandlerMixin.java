@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.mixin.betterp2p;
 
+import java.awt.*;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,15 @@ import kotlin.Pair;
 @Mixin(value = RenderHandler.class, remap = false)
 public class RenderHandlerMixin {
 
+    @Unique
+    private static final Color labs$selected = new Color(0x45DA75);
+
+    @Unique
+    private static final Color labs$input = new Color(0x6D9CF8);
+
+    @Unique
+    private static final Color labs$output = new Color(0xECB36C);
+
     /**
      * Replace original outline handler.
      */
@@ -52,7 +62,7 @@ public class RenderHandlerMixin {
                     .of(new Pair<>(cache.getSelectedPosition(), cache.getSelectedFacing()));
 
             if (!blinkSelected)
-                OutlineRenderer.renderOutlinesWithFacing(evt, player, selectedList, 0x45, 0xDA, 0x75);
+                labs$renderOutline(evt, player, selectedList, labs$selected);
             else {
                 // Flip should render if needed
                 long time = System.currentTimeMillis();
@@ -63,15 +73,21 @@ public class RenderHandlerMixin {
 
                 if (LabsClientCache.renderingSelected) {
                     if (LabsClientCache.selectedIsOutput)
-                        OutlineRenderer.renderOutlinesWithFacing(evt, player, selectedList, 0xec, 0xb3, 0x6c);
+                        labs$renderOutline(evt, player, selectedList, labs$output);
                     else
-                        OutlineRenderer.renderOutlinesWithFacing(evt, player, selectedList, 0x6d, 0x9c, 0xf8);
+                        labs$renderOutline(evt, player, selectedList, labs$input);
                 }
             }
         }
 
-        OutlineRenderer.renderOutlinesWithFacing(evt, player, LabsClientCache.inputLoc, 0x6d, 0x9c, 0xf8);
-        OutlineRenderer.renderOutlinesWithFacing(evt, player, LabsClientCache.outputLoc, 0xec, 0xb3, 0x6c);
+        labs$renderOutline(evt, player, LabsClientCache.inputLoc, labs$input);
+        labs$renderOutline(evt, player, LabsClientCache.outputLoc, labs$output);
+    }
+
+    @Unique
+    private static void labs$renderOutline(RenderWorldLastEvent evt, EntityPlayer player,
+                                           List<Pair<BlockPos, EnumFacing>> info, Color color) {
+        OutlineRenderer.renderOutlinesWithFacing(evt, player, info, color.getRed(), color.getGreen(), color.getBlue());
     }
 
     @Unique
