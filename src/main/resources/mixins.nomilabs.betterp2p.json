@@ -17,6 +17,7 @@
     "ClientProxyMixin",
     "GuiAdvancedMemoryCardKtAccessor",
     "GuiAdvancedMemoryCardMixin",
+    "InfoFilterMixin",
     "InfoListMixin",
     "InfoWrapperMixin",
     "ModeWidgetButtonMixin",

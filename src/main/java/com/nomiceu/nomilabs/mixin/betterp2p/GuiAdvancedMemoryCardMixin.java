@@ -1,5 +1,10 @@
 package com.nomiceu.nomilabs.mixin.betterp2p;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.*;
+import static net.minecraft.util.text.TextFormatting.*;
+
+import java.util.List;
+
 import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.input.Keyboard;
@@ -11,7 +16,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.integration.betterp2p.*;
 import com.projecturanus.betterp2p.client.gui.GuiAdvancedMemoryCard;
 import com.projecturanus.betterp2p.client.gui.InfoList;
@@ -25,9 +32,10 @@ import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
 import kotlin.Pair;
 
 /**
- * Allows accessing needed functions and fields, and initializes playerPos field in InfoList. Also fills up
- * LabsClientCache, cancels existing checks for invalid setups (moved to infoList, right before sorting),
- * calls proper resetting of scrollbar in custom places, and allows arrows to scroll.
+ * Allows accessing needed functions and fields, initializes playerPos field in InfoList, fills up
+ * LabsClientCache, cancels existing checks for invalid setups (moved to InfoList, right before sorting),
+ * calls proper resetting of scrollbar in custom places, allows for custom filtering hover text,
+ * and allow using arrow keys to scroll.
  */
 @Mixin(value = GuiAdvancedMemoryCard.class, remap = false)
 public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements AccessibleGuiAdvancedMemoryCard {
@@ -106,6 +114,22 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     @Unique
     public SortModes labs$getSortMode() {
         return labs$getAccessibleInfo().labs$getSortMode();
+    }
+
+    @Inject(method = "getSortRules", at = @At("HEAD"), cancellable = true)
+    private void getCustomSortRules(CallbackInfoReturnable<List<String>> cir) {
+        cir.setReturnValue(ImmutableList.of(
+                format(translate("nomilabs.gui.advanced_memory_card.filter.title"), BOLD, UNDERLINE),
+                "<name>§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.name"),
+                "§9@in§7 - " + translate("gui.advanced_memory_card.sortinfo2"),
+                "§6@out§7 - " + translate("gui.advanced_memory_card.sortinfo3"),
+                "§a@b§7 - " + translate("gui.advanced_memory_card.sortinfo4"),
+                "§c@u§7 - " + translate("gui.advanced_memory_card.sortinfo5"),
+                "§b@distless=<distance>§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.distless"),
+                "§d@distmore=<distance>§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.distmore"),
+                "§e@type=<type1>;<type2>;...§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.type"),
+                "",
+                translateFormat("nomilabs.gui.advanced_memory_card.filter.end", GRAY)));
     }
 
     @Inject(method = "initGui", at = @At("HEAD"), remap = true)

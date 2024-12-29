@@ -51,10 +51,20 @@ public class LabsTranslate {
     }
 
     /**
-     * Only GT Format Code version is available.<br>
-     * If need Text Formatting format, place it in lang.
+     * Generally, if need Text Formatting format, place it in lang.
      */
+    public static String translateFormat(String key, TextFormatting format, Object... params) {
+        return format(translate(key, params), format);
+    }
+
     public static String translateFormat(String key, TooltipHelper.GTFormatCode format, Object... params) {
+        return format(translate(key, params), format);
+    }
+
+    /**
+     * Generally, if need Text Formatting format, place it in lang.
+     */
+    public static String translateFormat(String key, Format format, Object... params) {
         return format(translate(key, params), format);
     }
 

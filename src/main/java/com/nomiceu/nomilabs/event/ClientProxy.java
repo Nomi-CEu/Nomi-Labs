@@ -20,6 +20,7 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
+import com.nomiceu.nomilabs.integration.betterp2p.LabsFilters;
 import com.nomiceu.nomilabs.integration.betterp2p.ModeDescriptionsHandler;
 import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
 import com.nomiceu.nomilabs.integration.findme.FindMeKeybindRegister;
@@ -62,6 +63,10 @@ public class ClientProxy {
         // Register Find Me's Fluid Keyubind
         if (Loader.isModLoaded(LabsValues.FIND_ME_MODID))
             FindMeKeybindRegister.register();
+
+        // Register Better P2P Custom Filters
+        if (Loader.isModLoaded(LabsValues.BETTER_P2P_MODID))
+            LabsFilters.postInit();
     }
 
     @SubscribeEvent
