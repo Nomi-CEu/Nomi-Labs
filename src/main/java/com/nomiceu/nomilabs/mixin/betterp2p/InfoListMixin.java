@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleInfoList;
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleInfoWrapper;
 import com.nomiceu.nomilabs.integration.betterp2p.SortModes;
+import com.projecturanus.betterp2p.client.gui.Filter;
 import com.projecturanus.betterp2p.client.gui.InfoFilter;
 import com.projecturanus.betterp2p.client.gui.InfoList;
 import com.projecturanus.betterp2p.client.gui.InfoWrapper;
@@ -236,6 +237,13 @@ public abstract class InfoListMixin implements AccessibleInfoList {
                     if (getSelectedInfo() != null && info.getLoc().equals(getSelectedInfo().getLoc())) return true;
 
                     for (var entry : filter.getActiveFilters().entrySet()) {
+                        // Special Case: Bound
+                        // Check for Errors as well as Unbound
+                        if (entry.getKey() == Filter.BOUND) {
+                            return info.getFrequency() != 0 && !info.getError();
+                        }
+
+                        // Normal Filter
                         if (!entry.getKey().getFilter().invoke(info, entry.getValue())) return false;
                     }
                     return true;
