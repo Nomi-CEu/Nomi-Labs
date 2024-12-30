@@ -14,7 +14,7 @@ public enum SortModes {
     DISTANCE("nomilabs.gui.advanced_memory_card.sort.distance", wrapComp(SortModes::compareDistThenName)),
     NAME("nomilabs.gui.advanced_memory_card.sort.name", wrapComp((a, b) -> {
         if (a.getName().equals(b.getName())) return compareTypeThenDist(a, b, false);
-        return StringUtils.compare(a.getName(), b.getName());
+        return StringUtils.compareIgnoreCase(a.getName(), b.getName());
     }));
 
     private final String translationKey;
@@ -78,14 +78,14 @@ public enum SortModes {
                 // Errors next, also sorted by frequency (display)
                 if (a.getError()) {
                     if (b.getError()) {
-                        return StringUtils.compare(a.getFreqDisplay(), b.getFreqDisplay());
+                        return StringUtils.compareIgnoreCase(a.getFreqDisplay(), b.getFreqDisplay());
                     }
                     return -1;
                 }
                 if (b.getError()) return 1;
 
                 // Else, sort by frequency (display)
-                return StringUtils.compare(a.getFreqDisplay(), b.getFreqDisplay());
+                return StringUtils.compareIgnoreCase(a.getFreqDisplay(), b.getFreqDisplay());
             }
 
             return compareTypeThenDist(a, b, true);
@@ -104,7 +104,7 @@ public enum SortModes {
         double distA = getDistance(a);
         double distB = getDistance(b);
 
-        if (distA == distB) return StringUtils.compare(a.getName(), b.getName());
+        if (distA == distB) return StringUtils.compareIgnoreCase(a.getName(), b.getName());
         return Double.compare(distA, distB);
     }
 
