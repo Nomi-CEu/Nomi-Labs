@@ -162,12 +162,10 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         refreshButton.setPosition(guiLeft - 32, guiTop + 162);
 
         // Add sort change button, above type button
-        buttonList.add(new SortModeWidgetButton((GuiAdvancedMemoryCard) (Object) this,
-                guiLeft - 32, guiTop + 98, 32, 32));
+        buttonList.add(new SortModeWidgetButton(labs$getThis(), guiLeft - 32, guiTop + 98, 32, 32));
 
         // Add sort direction button, below type button
-        buttonList.add(new SortDirectionWidgetButton((GuiAdvancedMemoryCard) (Object) this,
-                guiLeft - 32, guiTop + 130, 32, 32));
+        buttonList.add(new SortDirectionWidgetButton(labs$getThis(), guiLeft - 32, guiTop + 130, 32, 32));
     }
 
     @Redirect(method = "initGui",
@@ -231,13 +229,15 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         LabsClientCache.outputLoc.clear();
 
         var selected = getSelectedInfo();
-        if (selected == null || selected.getFrequency() == 0) return;
+        if (selected == null) return;
 
         LabsClientCache.selectedIsOutput = getSelectedInfo().getOutput();
 
         // Reset time
         LabsClientCache.lastSelectedRenderChange = System.currentTimeMillis();
         LabsClientCache.renderingSelected = true;
+
+        if (selected.getFrequency() == 0) return;
 
         infos.getSorted().stream()
                 .filter(info -> info.getFrequency() == selected.getFrequency())
@@ -265,5 +265,10 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     @Unique
     private AccessibleInfoList labs$getAccessibleInfo() {
         return ((AccessibleInfoList) (Object) infos);
+    }
+
+    @Unique
+    private GuiAdvancedMemoryCard labs$getThis() {
+        return (GuiAdvancedMemoryCard) (Object) this;
     }
 }
