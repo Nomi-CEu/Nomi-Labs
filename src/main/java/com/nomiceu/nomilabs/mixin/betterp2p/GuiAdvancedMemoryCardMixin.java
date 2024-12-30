@@ -250,7 +250,7 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
                         .add(new Pair<>(pair.getSecond().getPos(), pair.getSecond().getFacing())));
     }
 
-    @Inject(method = "onGuiClosed", at = @At("HEAD"))
+    @Inject(method = "onGuiClosed", at = @At("HEAD"), remap = true)
     private void save(CallbackInfo ci) {
         LabsClientCache.sortMode = labs$getSortMode();
         LabsClientCache.sortReversed = labs$getSortReversed();
