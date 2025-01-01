@@ -5,6 +5,7 @@ import static net.minecraft.util.text.TextFormatting.*;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.input.Keyboard;
@@ -28,6 +29,7 @@ import com.projecturanus.betterp2p.client.gui.widget.WidgetButton;
 import com.projecturanus.betterp2p.client.gui.widget.WidgetScrollBar;
 import com.projecturanus.betterp2p.client.gui.widget.WidgetTypeSelector;
 import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
+import com.projecturanus.betterp2p.network.packet.S2COpenGui;
 
 import kotlin.Pair;
 
@@ -76,6 +78,12 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
 
     @Shadow
     protected abstract void refreshOverlay();
+
+    @Unique
+    private SortModeWidgetButton labs$sortModeButton;
+
+    @Unique
+    private SortDirectionWidgetButton labs$sortDirectionButton;
 
     @Override
     @Unique
@@ -147,11 +155,19 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
                 translateFormat("nomilabs.gui.advanced_memory_card.filter.end", GRAY)));
     }
 
-    @Inject(method = "initGui", at = @At("HEAD"), remap = true)
-    private void setup(CallbackInfo ci) {
-        labs$getAccessibleInfo().labs$setPlayerPos(mc.player.getPositionVector());
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void setup(S2COpenGui msg, CallbackInfo ci) {
+        labs$getAccessibleInfo().labs$setPlayerPos(Minecraft.getMinecraft().player.getPositionVector());
         labs$getAccessibleInfo().labs$setSortMode(LabsClientCache.sortMode);
         labs$getAccessibleInfo().labs$setSortReversed(LabsClientCache.sortReversed);
+
+        labs$sortModeButton = new SortModeWidgetButton(labs$getThis(), 0, 0, 32, 32);
+        labs$sortDirectionButton = new SortDirectionWidgetButton(labs$getThis(), 0, 0, 32, 32);
+    }
+
+    @Inject(method = "initGui", at = @At("HEAD"), remap = true)
+    private void clearExistingButtons(CallbackInfo ci) {
+        buttonList.clear();
     }
 
     @Inject(method = "initGui", at = @At("TAIL"), remap = true)
@@ -162,10 +178,12 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         refreshButton.setPosition(guiLeft - 32, guiTop + 162);
 
         // Add sort change button, above type button
-        buttonList.add(new SortModeWidgetButton(labs$getThis(), guiLeft - 32, guiTop + 98, 32, 32));
+        labs$sortModeButton.setPosition(guiLeft - 32, guiTop + 98);
+        buttonList.add(labs$sortModeButton);
 
         // Add sort direction button, below type button
-        buttonList.add(new SortDirectionWidgetButton(labs$getThis(), guiLeft - 32, guiTop + 130, 32, 32));
+        labs$sortDirectionButton.setPosition(guiLeft - 32, guiTop + 130);
+        buttonList.add(labs$sortDirectionButton);
     }
 
     @Redirect(method = "initGui",
