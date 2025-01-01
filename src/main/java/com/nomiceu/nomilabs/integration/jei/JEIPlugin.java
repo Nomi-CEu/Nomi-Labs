@@ -23,6 +23,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
+import com.nomiceu.nomilabs.groovy.mixinhelper.LabsJEIApplied;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 
@@ -72,6 +73,9 @@ public class JEIPlugin implements IModPlugin {
         GROOVY_DESCRIPTIONS.forEach(((key, value) -> addDescription(tempMap, key, (list) -> list.addAll(value))));
         tempMap.forEach(((itemTagMeta, strings) -> registry.addIngredientInfo(itemTagMeta.toStack(), VanillaTypes.ITEM,
                 strings.stream().map(Translatable::translate).collect(Collectors.joining("\n\n")))));
+
+        // GrS JEI Fix
+        LabsJEIApplied.afterRegisterApplied = false;
     }
 
     @Override
@@ -79,6 +83,9 @@ public class JEIPlugin implements IModPlugin {
         // Remove Info Item from JEI
         itemRegistry.removeIngredientsAtRuntime(VanillaTypes.ITEM,
                 Collections.singletonList(new ItemStack(LabsItems.INFO_ITEM)));
+
+        // GrS JEI Fix
+        LabsJEIApplied.afterRuntimeApplied = false;
     }
 
     /* Hiding Helpers */
