@@ -280,6 +280,16 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.bqu_fluid_task_fixes")
         public boolean enableBQuFluidTaskFixes = true;
 
+        @Config.Comment({
+                "Whether to make the Actually Additions Laser Relays take all GT Screwdrivers as the configuration tool.",
+                "Note that compasses will still work if this config is true! Change the Actually Additions config to change that behaviour!",
+                "Changing it to gregtech:screwdriver instead of minecraft:compass is recommended.",
+                "You wil also have to add a lang key for the tooltip.",
+                "[default: false]"
+        })
+        @Config.LangKey("config.nomilabs.mod_integration.screwdrive_aa_relays")
+        public boolean gtScrewdriveAARelays = false;
+
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
         @Config.Name("ae2 terminal options")
