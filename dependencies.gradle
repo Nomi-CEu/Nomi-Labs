@@ -42,7 +42,9 @@ dependencies {
 
     // CCL, CT dep for GT (from GTCEu Maven)
     // Included to allow compiling of certain Draconic Evolution Mixin Classes, and as transitive deps
-    implementation ("codechicken:codechickenlib:3.2.3.358") // Version 3.2.3.358
+    implementation ("codechicken:codechickenlib:3.2.3.358") {
+        transitive = false
+    } // Version 3.2.3.358
 
     // GT and GCYM, pretty much the 'core' of this coremod (from GTCEu Maven)
     // GT Has Mixins! CHECK MIXINS FOR COMPAT AFTER UPDATING!
@@ -62,7 +64,17 @@ dependencies {
     } // Version 1.1.3
 
     // Config Anytime (from Cleanroom Maven)
-    implementation ('com.cleanroommc:configanytime:3.0') // Version 3.0
+    implementation ('com.cleanroommc:configanytime:3.0') {
+        transitive = false
+    } // Version 3.0
+
+    // Had Enough Items
+    implementation ('mezz:jei:4.26.2') {
+        transitive = false
+    } // Version 4.26.2
+
+    // The One Probe
+    implementation rfg.deobf('curse.maven:top-245211:2667280') // Version 1.4.28
 
 
     /* -------------------------------- Compile Time Only Deps -------------------------------- */
