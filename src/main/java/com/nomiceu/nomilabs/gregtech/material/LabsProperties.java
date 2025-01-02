@@ -32,6 +32,14 @@ public class LabsProperties {
         Einsteinium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         NetherStar.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
 
+        // Add liquid version of Nitrogen
+        Nitrogen.getProperty(PropertyKey.FLUID).enqueueRegistration(FluidStorageKeys.LIQUID,
+                new FluidBuilder()
+                        .temperature(77)
+                        .color(0x008D8F)
+                        .name("liquid_nitrogen")
+                        .translation("gregtech.fluid.liquid_generic"));
+
         // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
         // We don't have Thaumcraft. Add it back. (Part 2)
         Cinnabar.setProperty(PropertyKey.GEM, new GemProperty());
