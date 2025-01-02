@@ -9,7 +9,6 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,9 +34,7 @@ import com.nomiceu.nomilabs.util.ItemMeta;
  * Every texture is registered, in case something in that registry, not in that config, is enabled.
  * Nothing happens if each classes registries are empty.
  */
-@Mod.EventBusSubscriber(value = Side.CLIENT, modid = LabsValues.LABS_MODID)
 @SideOnly(Side.CLIENT)
-@SuppressWarnings("unused")
 public class ClientProxy {
 
     public static void earlyPreInit() {

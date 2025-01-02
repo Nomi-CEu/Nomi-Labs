@@ -42,6 +42,12 @@ public class NomiLabs {
 
     @EventHandler
     public void onConstruction(FMLConstructionEvent event) {
+        MinecraftForge.EVENT_BUS.register(this);
+
+        if (LabsSide.isClient()) {
+            MinecraftForge.EVENT_BUS.register(ClientProxy.class);
+        }
+        MinecraftForge.EVENT_BUS.register(CommonProxy.class);
         CommonProxy.onConstruction();
     }
 
