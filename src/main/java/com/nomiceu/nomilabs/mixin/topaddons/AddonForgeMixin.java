@@ -14,11 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.metatileentity.SimpleMachineMetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
+import gregtech.api.recipes.RecipeMap;
 import io.github.drmanganese.topaddons.addons.AddonForge;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -58,6 +61,26 @@ public class AddonForgeMixin {
 
     @Inject(method = "addProbeInfo",
             at = @At(value = "INVOKE",
+                     target = "Lnet/minecraft/world/World;getTileEntity(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/tileentity/TileEntity;",
+                     remap = true),
+            require = 1,
+            remap = false)
+    private void storeInputAmt(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world,
+                               IBlockState blockState, IProbeHitData data, CallbackInfo ci,
+                               @Share("labs$gtInputAmt") LocalIntRef inputAmt) {
+        TileEntity tile = world.getTileEntity(data.getPos());
+        inputAmt.set(0);
+
+        if (tile instanceof IGregTechTileEntity gt &&
+                gt.getMetaTileEntity() instanceof SimpleMachineMetaTileEntity simple) {
+            RecipeMap<?> recipeMap = simple.getRecipeMap();
+            if (recipeMap != null)
+                inputAmt.set(recipeMap.getMaxFluidInputs());
+        }
+    }
+
+    @Inject(method = "addProbeInfo",
+            at = @At(value = "INVOKE",
                      target = "Lnet/minecraftforge/fluids/capability/IFluidTankProperties;getContents()Lnet/minecraftforge/fluids/FluidStack;",
                      ordinal = 0),
             require = 1,
@@ -65,15 +88,13 @@ public class AddonForgeMixin {
     private void gtTankNames(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world,
                              IBlockState blockState, IProbeHitData data, CallbackInfo ci,
                              @Local int i,
-                             @Local(ordinal = 1) LocalRef<String> tankName) {
+                             @Local(ordinal = 1) LocalRef<String> tankName,
+                             @Share("labs$gtInputAmt") LocalIntRef inputAmt) {
         TileEntity tile = world.getTileEntity(data.getPos());
 
         if (tile instanceof IGregTechTileEntity gt &&
                 gt.getMetaTileEntity() instanceof SimpleMachineMetaTileEntity simple) {
-            int inputAmt = simple.getRecipeMap().getMaxFluidInputs();
-            int outputAmt = simple.getRecipeMap().getMaxFluidOutputs();
-
-            if (i > inputAmt - 1)
+            if (i > inputAmt.get() - 1)
                 tankName.set(LabsTranslate.translate("topaddons.fluid_display.tank.display.output"));
             else
                 tankName.set(LabsTranslate.translate("topaddons.fluid_display.tank.display.input"));
