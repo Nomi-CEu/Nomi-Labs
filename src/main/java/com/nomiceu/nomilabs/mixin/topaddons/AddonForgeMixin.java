@@ -92,8 +92,7 @@ public class AddonForgeMixin {
                              @Share("labs$gtInputAmt") LocalIntRef inputAmt) {
         TileEntity tile = world.getTileEntity(data.getPos());
 
-        if (tile instanceof IGregTechTileEntity gt &&
-                gt.getMetaTileEntity() instanceof SimpleMachineMetaTileEntity simple) {
+        if (tile instanceof IGregTechTileEntity gt && gt.getMetaTileEntity() instanceof SimpleMachineMetaTileEntity) {
             if (i > inputAmt.get() - 1)
                 tankName.set(LabsTranslate.translate("topaddons.fluid_display.tank.display.output"));
             else
