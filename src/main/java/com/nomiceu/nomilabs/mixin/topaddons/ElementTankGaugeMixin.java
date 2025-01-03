@@ -52,10 +52,6 @@ public class ElementTankGaugeMixin {
 
     @Shadow
     @Final
-    private int color2;
-
-    @Shadow
-    @Final
     private boolean sneaking;
 
     @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
