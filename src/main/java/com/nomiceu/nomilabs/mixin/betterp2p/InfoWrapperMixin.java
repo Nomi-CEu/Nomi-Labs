@@ -2,8 +2,10 @@ package com.nomiceu.nomilabs.mixin.betterp2p;
 
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.DimensionManager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -43,6 +45,12 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
     private double labs$distanceToPlayer = 0.0;
 
     @Unique
+    private boolean labs$differentDim = false;
+
+    @Unique
+    private String labs$dimensionName = null;
+
+    @Unique
     @Override
     public double labs$getDistance() {
         return labs$distanceToPlayer;
@@ -50,7 +58,30 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
 
     @Unique
     @Override
-    public void labs$calculateDistance(Vec3d playerPos) {
+    public boolean labs$isDifferentDim() {
+        return labs$differentDim;
+    }
+
+    @Unique
+    @Override
+    public String labs$getDimensionName() {
+        if (labs$dimensionName != null)
+            return labs$dimensionName;
+
+        labs$dimensionName = DimensionManager.getProviderType(loc.getDim()).getName().replace("_", " ");
+        labs$dimensionName = WordUtils.capitalizeFully(labs$dimensionName);
+        return labs$dimensionName;
+    }
+
+    @Unique
+    @Override
+    public void labs$calculateDistance(Vec3d playerPos, int playerDim) {
+        if (loc.getDim() != playerDim) {
+            labs$differentDim = true;
+            labs$distanceToPlayer = 0.0;
+            return;
+        }
+
         // Change X, Y and Z Positions Based on Facing
 
         // Add 0.5 (middle of block)
@@ -131,7 +162,9 @@ public class InfoWrapperMixin implements AccessibleInfoWrapper {
                 info.getPos().getX(), info.getPos().getY(), info.getPos().getZ()));
         hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.side",
                 StringUtils.capitalize(info.getFacing().getName2())));
-        hover.add(TextFormatting.YELLOW + LabsTranslate.translate("gui.advanced_memory_card.dim", info.getDim()));
+        hover.add(TextFormatting.YELLOW +
+                LabsTranslate.translate("nomilabs.gui.advanced_memory_card.hover_info.dim",
+                        labs$getDimensionName(), loc.getDim()));
 
         // ME Tunnel Specific
         var channels = labs$getThis().getChannels();

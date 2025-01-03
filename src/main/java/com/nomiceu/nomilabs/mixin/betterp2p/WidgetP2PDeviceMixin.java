@@ -90,11 +90,18 @@ public abstract class WidgetP2PDeviceMixin implements ExtendedITypeReceiver {
                      target = "Lcom/projecturanus/betterp2p/client/gui/widget/WidgetP2PDevice;updateButtonVisibility()V"),
             require = 1)
     private void renderDistance(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-        var accessibleInfo = ((AccessibleInfoWrapper) (Object) labs$getThis().getInfoSupplier().invoke());
-        // noinspection DataFlowIssue
-        gui.mc.fontRenderer.drawString(LabsTranslate.translate("nomilabs.gui.advanced_memory_card.info.dist",
-                accessibleInfo.labs$getDistance()),
-                x + P2PEntryConstants.LEFT_ALIGN, y + 33, 0);
+        var info = labs$getThis().getInfoSupplier().invoke();
+        var accessible = ((AccessibleInfoWrapper) (Object) info);
+        String distString;
+
+        if (accessible.labs$isDifferentDim())
+            distString = LabsTranslate.translate("nomilabs.gui.advanced_memory_card.info.dim",
+                    accessible.labs$getDimensionName(), info.getLoc().getDim());
+        else
+            distString = LabsTranslate.translate("nomilabs.gui.advanced_memory_card.info.dist",
+                    accessible.labs$getDistance());
+
+        gui.mc.fontRenderer.drawString(distString, x + P2PEntryConstants.LEFT_ALIGN, y + 33, 0);
     }
 
     @Inject(method = "updateButtonVisibility", at = @At("TAIL"))

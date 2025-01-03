@@ -53,6 +53,9 @@ public abstract class InfoListMixin implements AccessibleInfoList {
     private Vec3d labs$playerPos;
 
     @Unique
+    private int labs$playerDim;
+
+    @Unique
     private SortModes labs$sortMode = SortModes.DEFAULT;
 
     @Unique
@@ -96,8 +99,9 @@ public abstract class InfoListMixin implements AccessibleInfoList {
 
     @Unique
     @Override
-    public void labs$setPlayerPos(Vec3d pos) {
+    public void labs$setPlayerPos(Vec3d pos, int dim) {
         labs$playerPos = pos;
+        labs$playerDim = dim;
         labs$calcDistFor(masterMap.values());
     }
 
@@ -117,7 +121,7 @@ public abstract class InfoListMixin implements AccessibleInfoList {
     @Unique
     private void labs$calcDistFor(Iterable<InfoWrapper> infos) {
         for (InfoWrapper info : infos) {
-            ((AccessibleInfoWrapper) (Object) info).labs$calculateDistance(labs$playerPos);
+            ((AccessibleInfoWrapper) (Object) info).labs$calculateDistance(labs$playerPos, labs$playerDim);
         }
     }
 

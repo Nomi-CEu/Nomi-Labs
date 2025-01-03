@@ -6,7 +6,7 @@ import com.projecturanus.betterp2p.client.gui.widget.WidgetScrollBar;
 
 public interface AccessibleInfoList {
 
-    void labs$setPlayerPos(Vec3d pos);
+    void labs$setPlayerPos(Vec3d pos, int dim);
 
     void labs$properlyResetScrollbar(WidgetScrollBar scrollBar, int numEntries);
 

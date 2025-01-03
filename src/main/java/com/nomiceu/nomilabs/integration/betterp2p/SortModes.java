@@ -96,19 +96,33 @@ public enum SortModes {
         if (a.getOutput() != b.getOutput()) return a.getOutput() ? 1 : -1; // Inputs First
 
         if (!compareNameBackup)
-            return Double.compare(getDistance(a), getDistance(b)); // Furthest Last
+            return compareDistance(a, b); // Furthest Last
         return compareDistThenName(a, b);
     }
 
     private static int compareDistThenName(InfoWrapper a, InfoWrapper b) {
-        double distA = getDistance(a);
-        double distB = getDistance(b);
+        int compDist = compareDistance(a, b);
 
-        if (distA == distB) return StringUtils.compareIgnoreCase(a.getName(), b.getName());
-        return Double.compare(distA, distB);
+        if (compDist == 0) return StringUtils.compareIgnoreCase(a.getName(), b.getName());
+        return compDist;
     }
 
-    private static double getDistance(InfoWrapper info) {
-        return ((AccessibleInfoWrapper) (Object) (info)).labs$getDistance();
+    /**
+     * Compares distance, but checks for different dimensions first.
+     */
+    private static int compareDistance(InfoWrapper a, InfoWrapper b) {
+        if (getAccess(a).labs$isDifferentDim()) {
+            if (getAccess(b).labs$isDifferentDim())
+                return Integer.compare(a.getLoc().getDim(), b.getLoc().getDim());
+            return 1; // Different Dimensions Last
+        }
+        if (getAccess(b).labs$isDifferentDim())
+            return -1; // Different Dimensions Last
+
+        return Double.compare(getAccess(a).labs$getDistance(), getAccess(b).labs$getDistance());
+    }
+
+    private static AccessibleInfoWrapper getAccess(InfoWrapper info) {
+        return ((AccessibleInfoWrapper) (Object) (info));
     }
 }

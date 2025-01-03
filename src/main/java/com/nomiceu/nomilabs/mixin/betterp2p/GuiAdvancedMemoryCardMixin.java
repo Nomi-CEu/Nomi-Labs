@@ -157,7 +157,9 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void setup(S2COpenGui msg, CallbackInfo ci) {
-        labs$getAccessibleInfo().labs$setPlayerPos(Minecraft.getMinecraft().player.getPositionVector());
+        // Cannot use gui.mc at this point
+        var player = Minecraft.getMinecraft().player;
+        labs$getAccessibleInfo().labs$setPlayerPos(player.getPositionVector(), player.dimension);
         labs$getAccessibleInfo().labs$setSortMode(LabsClientCache.sortMode);
         labs$getAccessibleInfo().labs$setSortReversed(LabsClientCache.sortReversed);
 
