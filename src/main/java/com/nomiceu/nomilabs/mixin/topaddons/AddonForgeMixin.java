@@ -6,7 +6,11 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import io.github.drmanganese.topaddons.addons.AddonForge;
 
@@ -35,5 +39,10 @@ public class AddonForgeMixin {
                        target = "Lnet/minecraftforge/fluids/Fluid;getLocalizedName(Lnet/minecraftforge/fluids/FluidStack;)Ljava/lang/String;"))
     private String useUnlocalizedName3(Fluid instance, FluidStack stack) {
         return FluidRegistry.getFluidName(instance);
+    }
+
+    @ModifyConstant(method = "addProbeInfo", constant = @Constant(stringValue = "Tank"))
+    private String localizedTank(String constant) {
+        return LabsTranslate.translate("topaddons.fluid_display.tank.display.default");
     }
 }
