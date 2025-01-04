@@ -24,6 +24,11 @@ public class LabsConfig {
     @Config.Name("mod integration")
     public static ModIntegration modIntegration = new ModIntegration();
 
+    @Config.Comment("The One Probe Settings")
+    @Config.LangKey("config.nomilabs.top")
+    @Config.Name("top settings")
+    public static TheOneProbeSettings topSettings = new TheOneProbeSettings();
+
     @Config.Comment("Advanced Settings")
     @Config.LangKey("config.nomilabs.advanced")
     @Config.Name("advanced")
@@ -180,6 +185,25 @@ public class LabsConfig {
             FAST_DISCARDED_TREE,
             DISCARDED_TREE,
         }
+    }
+
+    public static class TheOneProbeSettings {
+
+        @Config.Comment({
+                "Mode to enable Labs' RF Provider. Behaviour is the same as TOP's, but allows for rearranging the RF bar.",
+                "You will have to set TOP's 'RF Mode' to 0.",
+                "0: Disable, 1: Show as Bar, 2: Show as Text",
+                "[default: 0]" })
+        @Config.LangKey("config.nomilabs.top.rf_provider")
+        @Config.RangeInt(min = 0, max = 2)
+        public int rfProviderMode = 0;
+
+        @Config.Comment({
+                "Enable Display of GT Recipe Outputs in TOP.",
+                "[default: true]"
+        })
+        @Config.LangKey("config.nomilabs.top.gt_recipe_output")
+        public boolean enableGTRecipeOutput = true;
     }
 
     public static class ModIntegration {

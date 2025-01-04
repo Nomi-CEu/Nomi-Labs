@@ -15,6 +15,7 @@ public class LabsTOPManager {
 
     public static int FLUID_NAME_ELEMENT;
     public static int CUSTOM_NAME_ELEMENT;
+    public static int FLUID_STACK_ELEMENT;
 
     public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
@@ -25,12 +26,17 @@ public class LabsTOPManager {
 
         // GT TOP Integration
         TOP.registerProvider(new SteamMachineInfoProvider());
+        TOP.registerProvider(new RecipeOutputsProvider());
 
         // Labs TOP Integration
         TOP.registerProvider(new TOPTooltipMessage());
 
+        // General TOP Integration
+        TOP.registerProvider(new LabsRFInfoProvider());
+
         FLUID_NAME_ELEMENT = TOP.registerElementFactory(LabsFluidNameElement::new);
         CUSTOM_NAME_ELEMENT = TOP.registerElementFactory(CustomNameElement::new);
+        FLUID_STACK_ELEMENT = TOP.registerElementFactory(LabsFluidStackElement::new);
     }
 
     public static class TOPTooltipMessage implements IProbeInfoProvider {

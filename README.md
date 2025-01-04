@@ -37,6 +37,7 @@ This mod requires [GregTech CEu](https://github.com/GregTechCEu/GregTech). Other
 
 ## Credits:
 - [GTCEu Buildscripts](https://github.com/GregTechCEu/Buildscripts) for the amazing buildscripts
+- [GregicProbeCEu](https://github.com/Supernoobv/GregicProbeCEu) for base FluidStack element and base recipe outputs implementation (integrated in Labs for localization and display improvements and easier future GT porting)
 - [Actually Additions](https://github.com/Ellpeck/ActuallyAdditions) for part of the custom fluid code
 - [Content Tweaker](https://github.com/CraftTweaker/ContentTweaker) for base textures of custom fluids
 - [Nomifactory](https://github.com/Nomifactory/Nomifactory) for textures of items, blocks, base code, and the original pack
