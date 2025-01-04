@@ -1,0 +1,12 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.biomesoplenty",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockBOPPlantMixin"
+  ],
+  "client": [],
+  "server": []
+}
