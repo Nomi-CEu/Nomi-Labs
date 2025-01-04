@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.integration.top.LabsFluidNameElement;
+import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.util.TextFormattingUtil;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
@@ -92,7 +93,7 @@ public class ElementTankGaugeMixin {
             ElementTextRender.render(labs$getCapacityInfo(), x + 3, y + 2);
             ElementTextRender.render(labs$getTankFluidTitle(), x + 1, y + 14);
         } else {
-            drawSmallText(x + 2, y + 2, tankName, 0xffffffff);
+            drawSmallText(x + 2, y + 2, labs$getTranslatedTankName(), 0xffffffff);
         }
 
         ci.cancel();
@@ -117,9 +118,14 @@ public class ElementTankGaugeMixin {
     private String labs$getTankFluidTitle() {
         if (labs$tankFluidTitle != null) return labs$tankFluidTitle;
 
-        labs$tankFluidTitle = tankName + ": " +
+        labs$tankFluidTitle = labs$getTranslatedTankName() + ": " +
                 LabsFluidNameElement.translateFluid(fluidName, amount, "ElementTankGauge");
         return labs$tankFluidTitle;
+    }
+
+    @Unique
+    private String labs$getTranslatedTankName() {
+        return LabsTranslate.translate(tankName);
     }
 
     @Unique

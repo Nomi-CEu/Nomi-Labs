@@ -17,7 +17,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.metatileentity.SimpleMachineMetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
@@ -56,7 +55,8 @@ public class AddonForgeMixin {
 
     @ModifyConstant(method = "addProbeInfo", constant = @Constant(stringValue = "Tank"))
     private String localizedTank(String constant) {
-        return LabsTranslate.translate("topaddons.fluid_display.tank.display.default");
+        String langKey = "topaddons.fluid_display.tank.display.default";
+        return langKey;
     }
 
     @Inject(method = "addProbeInfo",
@@ -94,9 +94,9 @@ public class AddonForgeMixin {
 
         if (tile instanceof IGregTechTileEntity gt && gt.getMetaTileEntity() instanceof SimpleMachineMetaTileEntity) {
             if (i > inputAmt.get() - 1)
-                tankName.set(LabsTranslate.translate("topaddons.fluid_display.tank.display.output"));
+                tankName.set("topaddons.fluid_display.tank.display.output");
             else
-                tankName.set(LabsTranslate.translate("topaddons.fluid_display.tank.display.input"));
+                tankName.set("topaddons.fluid_display.tank.display.input");
         }
     }
 }
