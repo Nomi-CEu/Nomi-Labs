@@ -184,22 +184,18 @@ public class GroovyHelpers {
             LabsJEIPlugin.addGroovyDescription(stack, description);
         }
 
-        public static void addRecipeOutputTooltip(ItemStack stack, LabsTranslate.Translatable... tooltip) {
-            LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
-        }
-
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
-            LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
+            LabsJEIPlugin.addGroovyRecipeOutputTooltip(recipeName, tooltip);
         }
 
-        public static void addRecipeOutputTooltip(ItemStack stack, String recipeName,
+        public static void addRecipeOutputTooltip(String recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
             if (recipeName.contains(":"))
-                LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack, new ResourceLocation(recipeName), tooltip);
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(new ResourceLocation(recipeName), tooltip);
             else
-                LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack,
-                        new ResourceLocation(GroovyHelper.getPackId(), recipeName), tooltip);
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
+                        tooltip);
         }
 
         public static void addRecipeInputTooltip(ResourceLocation recipeName, int slotIndex,

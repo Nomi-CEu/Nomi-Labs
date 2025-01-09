@@ -61,7 +61,7 @@ public class CraftingRecipeCategoryMixin {
 
         boolean showAdvanced = Minecraft.getMinecraft().gameSettings.advancedItemTooltips || GuiScreen.isShiftKeyDown();
 
-        var outputTooltip = LabsJEIPlugin.getRecipeOutputTooltip(stack, registryName);
+        var outputTooltip = LabsJEIPlugin.getRecipeOutputTooltip(registryName);
         if (LabsConfig.modIntegration.addJEIIngEmptyLine &&
                 (modIdDifferent || showAdvanced || !outputTooltip.isEmpty()))
             tooltip.add("");

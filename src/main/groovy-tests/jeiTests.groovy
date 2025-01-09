@@ -50,31 +50,16 @@ addDescription(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.grow
 overrideRecipeCatalysts('minecraft.crafting', item('minecraft:crafting_table'), item('minecraft:apple'))
 
 /*
- * Recipe Output Tooltips. These are tooltips that appear on CRAFTING TABLE recipes that output that stack.
+ * Recipe Output Tooltips. These are tooltips that appear on CRAFTING TABLE recipes, on a specific registry name.
  *
  * They appear BEFORE `Recipe By <MODID>` Tooltips, and AFTER any item tooltips.
  *
- * You can either PROVIDE or NOT PROVIDE a Resource Location of the Recipe Name. If you PROVIDE, that provided tooltip has
- * a higher priority than tooltip of the same stack, but without Recipe Name provided.
+ * You MUST provide a Resource Location of the Recipe Name.
  */
 
-// Add a crafting recipe output tooltip for a stack
-addRecipeOutputTooltip(item('minecraft:gold_ingot'),
-        translatableLiteral('A Very Low Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
-
-// Add a translated crafting recipe output tooltip for a stack
-addRecipeOutputTooltip(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.growth_chamber.description'),
-        translatable('tooltip.nomilabs.dme_sim_chamber.description'))
-
-// Add a crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild recipe name)
-addRecipeOutputTooltip(item('minecraft:gold_ingot'), 'minecraft:gold_ingot_from_block',
+// Add a crafting recipe output tooltip
+addRecipeOutputTooltip('minecraft:gold_ingot_from_block',
         translatableLiteral('A Very High Carrot Gold Ingot.').addFormat(TextFormatting.GOLD))
-
-// Add a translated crafting recipe output tooltip for a specific recipe for a stack (Higher Priority than wild recipe name)
-addRecipeOutputTooltip(item('minecraft:iron_ingot'), 'minecraft:iron_ingot_from_nuggets',
-        translatable('tooltip.nomilabs.universalnavigator.description'),
-        translatable('tooltip.nomilabs.growth_chamber.description'),
-        translatable('tooltip.nomilabs.dme_sim_chamber.description'))
 
 // Use in a crafting shaped/shapeless builder
 crafting.shapedBuilder()
@@ -82,12 +67,16 @@ crafting.shapedBuilder()
     .matrix('AAA', 'AAA', 'ABA')
     .key('A', item('minecraft:diamond'))
     .key('B', item('minecraft:apple'))
-    .setOutputTooltip(translatableLiteral('A Very Low Carrot Gold Ingot.').addFormat(TextFormatting.GOLD),
+    .setOutputTooltip(translatableLiteral('A Very Low Carot Gold Ingot. Oops, I meant Carrot!').addFormat(TextFormatting.GOLD),
             translatable('tooltip.nomilabs.growth_chamber.description'))
     .register()
 
 /**
  * Recipe Input Tooltips. These are tooltips that appear on CRAFTING TABLE recipes, on a specific registry name and index.
+ *
+ * They appear AFTER any item tooltips.
+ *
+ * You MUST provide a Resource Location of the Recipe Name, and the index of the input.
  */
 
 // Outside of builder

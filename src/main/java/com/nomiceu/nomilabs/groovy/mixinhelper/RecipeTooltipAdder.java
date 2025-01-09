@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.groovy.mixinhelper;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
@@ -8,7 +7,7 @@ import com.nomiceu.nomilabs.util.LabsTranslate;
 
 public class RecipeTooltipAdder {
 
-    public static void addTooltips(ResourceLocation rl, ItemStack recipeOutput,
+    public static void addTooltips(ResourceLocation rl,
                                    LabsTranslate.Translatable[][] inputTooltip,
                                    LabsTranslate.Translatable[] outputTooltip) {
         if (inputTooltip != null) {
@@ -19,6 +18,6 @@ public class RecipeTooltipAdder {
             }
         }
         if (outputTooltip != null)
-            LabsJEIPlugin.addGroovyRecipeOutputTooltip(recipeOutput, rl, outputTooltip);
+            LabsJEIPlugin.addGroovyRecipeOutputTooltip(rl, outputTooltip);
     }
 }
