@@ -45,6 +45,10 @@ addDescription(item('minecraft:apple'), translatableLiteral('An Ordinary Apple..
 // Add a translated description page for a stack
 addDescription(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.growth_chamber.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))
 
+// Adding Catalyst Overrides (Bar on the Left, saying what can be used to do a recipe)
+// Example for Crafting Table:
+overrideRecipeCatalysts('minecraft.crafting', item('minecraft:crafting_table'), item('minecraft:apple'))
+
 /*
  * Recipe Output Tooltips. These are tooltips that appear on CRAFTING TABLE recipes that output that stack.
  *

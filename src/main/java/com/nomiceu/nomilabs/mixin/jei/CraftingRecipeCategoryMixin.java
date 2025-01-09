@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.util.LabsSide;
 
 import mezz.jei.plugins.vanilla.crafting.CraftingRecipeCategory;
@@ -45,7 +45,7 @@ public class CraftingRecipeCategoryMixin {
             int index = slotIndex - craftInputSlot1;
             if (index < 0 || index > 8) return;
 
-            var inputTooltip = JEIPlugin.getRecipeInputTooltip(registryName, index);
+            var inputTooltip = LabsJEIPlugin.getRecipeInputTooltip(registryName, index);
             if (LabsConfig.modIntegration.addJEIIngEmptyLine && !inputTooltip.isEmpty())
                 tooltip.add("");
             tooltip.addAll(inputTooltip);
@@ -61,7 +61,7 @@ public class CraftingRecipeCategoryMixin {
 
         boolean showAdvanced = Minecraft.getMinecraft().gameSettings.advancedItemTooltips || GuiScreen.isShiftKeyDown();
 
-        var outputTooltip = JEIPlugin.getRecipeOutputTooltip(stack, registryName);
+        var outputTooltip = LabsJEIPlugin.getRecipeOutputTooltip(stack, registryName);
         if (LabsConfig.modIntegration.addJEIIngEmptyLine &&
                 (modIdDifferent || showAdvanced || !outputTooltip.isEmpty()))
             tooltip.add("");

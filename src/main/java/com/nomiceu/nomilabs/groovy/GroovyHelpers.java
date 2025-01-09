@@ -36,7 +36,7 @@ import com.cleanroommc.groovyscript.helper.recipe.RecipeName;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.mixin.gregtech.RecipeBuilderAccessor;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
@@ -181,48 +181,48 @@ public class GroovyHelpers {
 
         /* Description + Tooltip */
         public static void addDescription(ItemStack stack, LabsTranslate.Translatable... description) {
-            JEIPlugin.addGroovyDescription(stack, description);
+            LabsJEIPlugin.addGroovyDescription(stack, description);
         }
 
         public static void addRecipeOutputTooltip(ItemStack stack, LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
+            LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
         }
 
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
+            LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
         }
 
         public static void addRecipeOutputTooltip(ItemStack stack, String recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
             if (recipeName.contains(":"))
-                JEIPlugin.addGroovyRecipeOutputTooltip(stack, new ResourceLocation(recipeName), tooltip);
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack, new ResourceLocation(recipeName), tooltip);
             else
-                JEIPlugin.addGroovyRecipeOutputTooltip(stack,
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(stack,
                         new ResourceLocation(GroovyHelper.getPackId(), recipeName), tooltip);
         }
 
         public static void addRecipeInputTooltip(ResourceLocation recipeName, int slotIndex,
                                                  LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeInputTooltip(recipeName, slotIndex, tooltip);
+            LabsJEIPlugin.addGroovyRecipeInputTooltip(recipeName, slotIndex, tooltip);
         }
 
         public static void addRecipeInputTooltip(String recipeName, int slotIndex,
                                                  LabsTranslate.Translatable... tooltip) {
             if (recipeName.contains(":"))
-                JEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(recipeName), slotIndex, tooltip);
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(recipeName), slotIndex, tooltip);
             else
-                JEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
                         slotIndex, tooltip);
         }
 
         /* Hiding Ignore NBT */
         public static void hideItemIgnoreNBT(ItemStack stack) {
-            JEIPlugin.hideItemNBTMatch(stack, (tag) -> true);
+            LabsJEIPlugin.hideItemNBTMatch(stack, (tag) -> true);
         }
 
         public static void removeAndHideItemIgnoreNBT(ItemStack stack) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, (tag) -> true);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, (tag) -> true);
         }
 
         public static void yeetItemIgnoreNBT(ItemStack stack) {
@@ -231,15 +231,20 @@ public class GroovyHelpers {
 
         /* Hiding NBT Match */
         public static void hideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.hideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.hideItemNBTMatch(stack, condition);
         }
 
         public static void removeAndHideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
         }
 
         public static void yeetItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+        }
+
+        /* Recipe Catalyst Override */
+        public static void overrideRecipeCatalysts(String category, Object... catalysts) {
+            LabsJEIPlugin.addRecipeCatalystOverride(category, catalysts);
         }
     }
 

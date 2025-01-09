@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
 import com.nomiceu.nomilabs.groovy.mixinhelper.LabsJEIApplied;
+import com.nomiceu.nomilabs.integration.jei.mixinhelper.AccessibleModRegistry;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 
@@ -38,7 +39,7 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 @mezz.jei.api.JEIPlugin
 @SuppressWarnings("unused")
 @GroovyBlacklist
-public class JEIPlugin implements IModPlugin {
+public class LabsJEIPlugin implements IModPlugin {
 
     private static final ResourceLocation WILDCARD_LOCATION = new ResourceLocation("*", "*");
 
@@ -56,6 +57,7 @@ public class JEIPlugin implements IModPlugin {
     private static Map<ResourceLocation, List<Translatable>[]> COMPILED_RECIPE_INPUT_TOOLTIPS = null;
 
     private static final List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> IGNORE_NBT_HIDE = new ArrayList<>();
+    private static final Map<String, List<Object>> CATALYST_OVERRIDE = new Object2ObjectOpenHashMap<>();
 
     private static IIngredientRegistry itemRegistry;
 
@@ -76,6 +78,12 @@ public class JEIPlugin implements IModPlugin {
 
         // GrS JEI Fix
         LabsJEIApplied.afterRegisterApplied = false;
+    }
+
+    public static void afterModRegisters(IModRegistry registry) {
+        for (var override : CATALYST_OVERRIDE.entrySet()) {
+            ((AccessibleModRegistry) registry).labs$replaceRecipeCatalyst(override.getKey(), override.getValue());
+        }
     }
 
     @Override
@@ -232,11 +240,18 @@ public class JEIPlugin implements IModPlugin {
         return tooltips.stream().map(Translatable::translate).collect(Collectors.toList());
     }
 
+    public static void addRecipeCatalystOverride(String category, Object... catalyst) {
+        List<Object> result = new ArrayList<>();
+        Collections.addAll(result, catalyst);
+        CATALYST_OVERRIDE.put(category, result);
+    }
+
     public static void onReload() {
         GROOVY_DESCRIPTIONS.clear();
         GROOVY_RECIPE_OUTPUT_TOOLTIPS.clear();
         GROOVY_RECIPE_INPUT_TOOLTIPS.clear();
         IGNORE_NBT_HIDE.clear();
+        CATALYST_OVERRIDE.clear();
         COMPILED_RECIPE_OUTPUT_TOOLTIPS = null;
         COMPILED_RECIPE_INPUT_TOOLTIPS = null;
     }
