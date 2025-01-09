@@ -212,6 +212,20 @@ public class GroovyHelpers {
                         slotIndex, tooltip);
         }
 
+        public static void addRecipeInputTooltip(ResourceLocation recipeName,
+                                                 LabsTranslate.Translatable... tooltip) {
+            for (int i = 0; i < 9; i++)
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(recipeName, i, tooltip);
+        }
+
+        public static void addRecipeInputTooltip(String recipeName,
+                                                 LabsTranslate.Translatable... tooltip) {
+            if (recipeName.contains(":"))
+                addRecipeInputTooltip(new ResourceLocation(recipeName), tooltip);
+            else
+                addRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName), tooltip);
+        }
+
         /* Hiding Ignore NBT */
         public static void hideItemIgnoreNBT(ItemStack stack) {
             LabsJEIPlugin.hideItemNBTMatch(stack, (tag) -> true);

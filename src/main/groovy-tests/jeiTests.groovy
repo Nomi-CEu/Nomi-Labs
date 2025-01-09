@@ -76,20 +76,26 @@ crafting.shapedBuilder()
  *
  * They appear AFTER any item tooltips.
  *
- * You MUST provide a Resource Location of the Recipe Name, and the index of the input.
+ * You MUST provide a Resource Location of the Recipe Name. You MAY provide an index of the input.
+ * If you do not provide an index, it will be applied to ALL INPUTS!
  */
 
 // Outside of builder
+// Specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
+// E.g. slot 4 = 2nd row, 2nd column
 addRecipeInputTooltip('gregtech:block_decompress_aluminium', 4,
         translatableLiteral("This is consumed!!!").addFormat(TooltipHelper.BLINKING_CYAN))
+
+// Outside of builder, no index (applied to all inputs)
+addRecipeInputTooltip('gregtech:block_compress_aluminium',
+        translatableLiteral("This is consumed???").addFormat(TooltipHelper.BLINKING_CYAN))
 
 // In a crafting shaped/shapeless builder
 crafting.shapelessBuilder()
     .output(item('minecraft:apple'))
     .input(item('minecraft:diamond'), item('minecraft:apple'))
-    // You must specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
-    // E.g. slot 1 = 1st row, 2nd column
-    .setInputTooltip(1, translatableLiteral('Is a Gold Ingot.').addFormat(TextFormatting.GOLD),
+    // No index, applied to all inputs
+    .setInputTooltip(translatableLiteral('Is a Gold Ingot. 100% Pure Quality.').addFormat(TextFormatting.GOLD),
             translatable('tooltip.nomilabs.growth_chamber.description'))
     .register()
 
@@ -98,9 +104,13 @@ crafting.shapedBuilder()
     .matrix('AAA', 'ABA', 'ABA')
     .key('A', item('minecraft:diamond'))
     .key('B', item('minecraft:apple'))
-    // You must specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
+    // Specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
+    // E.g. slot 1 = 1st row, 2nd column
+    .setInputTooltip(1, translatableLiteral('Is a Gold Ingot?? No.').addFormat(TextFormatting.GOLD),
+            translatable('tooltip.nomilabs.growth_chamber.description'))
+    // Specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
     // E.g. slot 4 = 2nd row, 2nd column
-    .setInputTooltip(4, translatableLiteral('Is a Gold Ingot?').addFormat(TextFormatting.GOLD),
+    .setInputTooltip(4, translatableLiteral('Is a Gold Ingot? Perhaps.').addFormat(TextFormatting.GOLD),
             translatable('tooltip.nomilabs.growth_chamber.description'))
     .register()
 
