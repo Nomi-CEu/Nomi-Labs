@@ -2,8 +2,8 @@
 <h1 align="center">Nomi Labs</h1>
 <p align="center"><b><i>The coremod for <a href="https://github.com/Nomi-CEu/Nomi-CEu"> Nomifactory CEu</a>, providing custom GT changes, items, recipe changes, and more!</i></b></p>
 <h1 align="center">
-    <a href="https://github.com/Nomi-CEu/Nomi-Labs/issues"><img src="https://img.shields.io/github/issues/Nomi-CEu/Nomi-Labs?style=for-the-badge&color=orange" alt="Issues"></a>
-    <a href="https://github.com/Nomi-CEu/Nomi-Labs/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Nomi-CEu/Nomi-Labs?style=for-the-badge" alt="License"></a>
+    <a href="https://github.com/Nomi-CEu/Nomi-Labs/"><img src="https://img.shields.io/github/stars/Nomi-CEu/Nomi-Labs?style=for-the-badge&logo=github&logoColor=white" alt="Stars"></a>
+    <a href="https://nightly.link/Nomi-CEu/Nomi-Labs/workflows/build/main/Built%20Jars"><img src="https://img.shields.io/github/last-commit/Nomi-CEu/Nomi-Labs/main?style=for-the-badge&logo=githubactions&logoColor=white&label=Nightly%20Builds&color=%238a67ab" alt="Builds"></a>
     <a href="https://discord.com/invite/zwQzqP8b6q"><img src="https://img.shields.io/discord/927050775073534012?color=5464ec&label=Discord&style=for-the-badge" alt="Discord"></a>
     <br>
     <a href="https://www.curseforge.com/minecraft/mc-mods/nomi-labs"><img src="https://cf.way2muchnoise.eu/932060.svg?badge_style=for_the_badge" alt="CurseForge"></a>
