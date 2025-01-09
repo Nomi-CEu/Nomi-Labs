@@ -39,6 +39,7 @@ import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
 import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
 import com.nomiceu.nomilabs.groovy.NCActiveCoolerHelper;
+import com.nomiceu.nomilabs.groovy.mixinhelper.CraftingOutputCache;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
 import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
@@ -226,5 +227,9 @@ public class CommonProxy {
         if (Loader.isModLoaded(LabsValues.NUCLEARCRAFT_MODID)) {
             NCActiveCoolerHelper.afterScriptLoad();
         }
+
+        if (LabsConfig.groovyScriptSettings.craftingOutputCacheMode ==
+                LabsConfig.GroovyScriptSettings.CraftingOutputCacheMode.DISCARDED)
+            CraftingOutputCache.cache = null;
     }
 }

@@ -185,6 +185,22 @@ public class LabsConfig {
             FAST_DISCARDED_TREE,
             DISCARDED_TREE,
         }
+
+        @Config.Comment({ "Mode to Use for Crafting Output Cache.",
+                "DISABLED keeps the default behaviour of searching through all Crafting Recipes.",
+                "DISCARDED or SAVED caches outputs of recipes. This cache is used when removing/replacing by output, with an ItemStack.",
+                "This causes two changes in behaviour: Output Removing/Replacing no longer removes GroovyScript added recipes, and Output Removing/Replacing only matches based on item and meta, ignoring NBT.",
+                "If the NBT tag is desired to be matched, a non-ItemStack IIngredient should be used for output searching.",
+                "DISCARDED discards the cache after script loading, saving memory during gameplay. SAVED keeps the cache during gameplay, removing the need to rebuild the cache for reloading.",
+                "[default: DISABLED]" })
+        @Config.LangKey("config.nomilabs.groovy.crafting_output_cache")
+        public CraftingOutputCacheMode craftingOutputCacheMode = CraftingOutputCacheMode.DISABLED;
+
+        public enum CraftingOutputCacheMode {
+            DISABLED,
+            DISCARDED,
+            SAVED
+        }
     }
 
     public static class TheOneProbeSettings {
