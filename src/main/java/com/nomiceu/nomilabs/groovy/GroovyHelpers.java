@@ -261,15 +261,24 @@ public class GroovyHelpers {
     public static class MaterialHelpers {
 
         public static void hideMaterial(Material material) {
+            hideMaterial(material, true);
+        }
+
+        public static void hideMaterial(Material material, boolean inclBucket) {
             MaterialHelper.forMaterialItem(material,
-                    (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)));
+                    (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)), inclBucket);
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
                     .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
         }
 
         public static void removeAndHideMaterial(Material material) {
+            removeAndHideMaterial(material, true);
+        }
+
+        public static void removeAndHideMaterial(Material material, boolean inclBucket) {
             MaterialHelper.forMaterialItem(material,
-                    (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)));
+                    (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)),
+                    inclBucket);
             // Normal Hiding for Fluids, they don't have recipes
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
                     .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
@@ -279,16 +288,29 @@ public class GroovyHelpers {
             removeAndHideMaterial(material);
         }
 
-        public static void forMaterial(Material material, Closure<ItemStack> itemAction, Closure<Fluid> fluidAction) {
-            forMaterialItem(material, itemAction);
+        public static void yeetMaterial(Material material, boolean inclBucket) {
+            removeAndHideMaterial(material, inclBucket);
+        }
+
+        public static void forMaterial(Material material, Closure<Void> itemAction, Closure<Void> fluidAction) {
+            forMaterial(material, itemAction, fluidAction, true);
+        }
+
+        public static void forMaterial(Material material, Closure<Void> itemAction, Closure<Void> fluidAction,
+                                       boolean inclBucket) {
+            forMaterialItem(material, itemAction, inclBucket);
             forMaterialFluid(material, fluidAction);
         }
 
-        public static void forMaterialItem(Material material, Closure<ItemStack> action) {
-            MaterialHelper.forMaterialItem(material, (stack) -> ClosureHelper.call(action, stack));
+        public static void forMaterialItem(Material material, Closure<Void> action) {
+            forMaterialItem(material, action, true);
         }
 
-        public static void forMaterialFluid(Material material, Closure<Fluid> action) {
+        public static void forMaterialItem(Material material, Closure<Void> action, boolean inclBucket) {
+            MaterialHelper.forMaterialItem(material, (stack) -> ClosureHelper.call(action, stack), inclBucket);
+        }
+
+        public static void forMaterialFluid(Material material, Closure<Void> action) {
             MaterialHelper.forMaterialFluid(material, (fluid) -> ClosureHelper.call(action, fluid));
         }
 
