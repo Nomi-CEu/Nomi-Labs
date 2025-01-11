@@ -59,7 +59,10 @@ public class MaterialHelper {
         forItems(ImmutableList.of(OrePrefix.block, OrePrefix.frameGt), MaterialItemBlock.class);
 
         // Ores (Processing Intermediates, like Crushed and Crushed Purified, are Meta Items)
-        StoneType.STONE_TYPE_REGISTRY.forEach((type) -> forItems(type.processingPrefix, OreItemBlock.class));
+        StoneType.STONE_TYPE_REGISTRY.forEach((type) -> {
+            if (type.shouldBeDroppedAsItem)
+                forItems(type.processingPrefix, OreItemBlock.class);
+        });
 
         /* Buckets */
         if (!material.hasFluid() || !inclBucket) return;
