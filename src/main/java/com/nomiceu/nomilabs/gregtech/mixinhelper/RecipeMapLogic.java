@@ -25,6 +25,8 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class RecipeMapLogic {
 
+    private static boolean outputBranchesCleared = false;
+
     private static final WeakHashMap<AbstractMapIngredient, WeakReference<AbstractMapIngredient>> outputRoot = new WeakHashMap<>();
 
     private static final WeakHashMap<AbstractMapIngredient, WeakReference<AbstractMapIngredient>> fluidOutputRoot = new WeakHashMap<>();
@@ -47,6 +49,7 @@ public class RecipeMapLogic {
                 LabsConfig.groovyScriptSettings.gtRecipeSearchMode ==
                         LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH) {
             NomiLabs.LOGGER.info("Clearing Output Branches and Output Maps...");
+            outputBranchesCleared = true;
             OutputBranch.clearAll();
             outputRoot.clear();
             fluidOutputRoot.clear();
@@ -57,7 +60,7 @@ public class RecipeMapLogic {
 
     public static void add(@NotNull Recipe recipe, @NotNull OutputBranch branch) {
         if (LabsConfig.groovyScriptSettings.gtRecipeSearchMode ==
-                LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH)
+                LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH || outputBranchesCleared)
             return;
         var list = getOutputFromRecipe(recipe);
         recurseOutputTreeAdd(recipe, list, branch, 0, 0);
@@ -91,7 +94,7 @@ public class RecipeMapLogic {
 
     public static void remove(@NotNull Recipe recipe, @NotNull OutputBranch branch) {
         if (LabsConfig.groovyScriptSettings.gtRecipeSearchMode ==
-                LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH)
+                LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH || outputBranchesCleared)
             return;
         var list = getOutputFromRecipe(recipe);
         recurseOutputTreeRemove(recipe, list, branch);
@@ -181,9 +184,7 @@ public class RecipeMapLogic {
         var list = prepareOutputFind(items, fluids, chancedItems, chancedFluids);
         if (list == null) return null;
         if (LabsConfig.groovyScriptSettings.gtRecipeSearchMode ==
-                LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH ||
-                (!map.getRecipesByCategory().isEmpty() && branch.isEmpty())) // If Has Recipes, but Output Branch has
-                                                                             // been Cleared (DISCARDED_TREE)
+                LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH || outputBranchesCleared)
             return linearFind(map, list, predicate);
         return recurseOutputTreeFindRecipe(list, branch, predicate);
     }
