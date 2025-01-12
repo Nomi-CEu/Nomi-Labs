@@ -49,8 +49,9 @@ public class LabsCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     @Override
     public List<String> getMixinConfigs() {
         return ImmutableList.of(
-                "mixins.nomilabs.json",
-                "mixins." + LabsValues.LABS_MODID + "." + devIdentifier + ".json");
+                "mixins." + LabsValues.LABS_MODID + ".json",
+                "mixins." + LabsValues.LABS_MODID + "." + devIdentifier + ".json",
+                "mixins." + LabsValues.LABS_MODID + ".earlygroovy.json");
     }
 
     @Override

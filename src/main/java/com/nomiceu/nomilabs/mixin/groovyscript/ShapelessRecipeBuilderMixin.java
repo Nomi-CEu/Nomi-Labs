@@ -70,6 +70,13 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
+    @Unique
+    public CraftingRecipeBuilder.Shapeless setInputTooltip(LabsTranslate.Translatable... tooltip) {
+        for (int i = 0; i < 9; i++)
+            setInputTooltip(i, tooltip);
+        return (CraftingRecipeBuilder.Shapeless) (Object) this;
+    }
+
     @Inject(method = "register()Lnet/minecraft/item/crafting/IRecipe;", at = @At("RETURN"))
     private void setStrict(CallbackInfoReturnable<IRecipe> cir) {
         var val = cir.getReturnValue();
@@ -80,6 +87,6 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
 
     @Inject(method = "register()Lnet/minecraft/item/crafting/IRecipe;", at = @At("TAIL"))
     private void addRecipeTooltips(CallbackInfoReturnable<IRecipe> cir) {
-        RecipeTooltipAdder.addTooltips(name, output, labs$inputTooltip, labs$outputTooltip);
+        RecipeTooltipAdder.addTooltips(name, labs$inputTooltip, labs$outputTooltip);
     }
 }

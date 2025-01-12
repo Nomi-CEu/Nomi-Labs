@@ -11,7 +11,9 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,9 +30,10 @@ import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 import gregtech.api.util.ValidationResult;
+import gregtech.integration.groovy.VirtualizedRecipeMap;
 
 /**
- * Allows for lookup with outputs.
+ * Allows for lookup with outputs. Allows accessing Virtualized Recipe Map.
  * <p>
  * Precaution to make sure only Recycling Recipes are added during recycling recipe reloading.<br>
  * This is because Arc Smelting sometimes generates non-recycling recipes.
@@ -38,6 +41,9 @@ import gregtech.api.util.ValidationResult;
 @Mixin(value = RecipeMap.class, remap = false)
 public abstract class RecipeMapMixin implements AccessibleRecipeMap {
 
+    @Shadow
+    @Final
+    private Object grsVirtualizedRecipeMap;
     @Unique
     private final OutputBranch outputLookup = new OutputBranch();
 
@@ -109,5 +115,11 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
             // there is not enough voltage to consider the recipe valid
             return recipe.getEUt() <= voltage;
         });
+    }
+
+    @Unique
+    @SuppressWarnings("unused")
+    public VirtualizedRecipeMap getVirtualized() {
+        return (VirtualizedRecipeMap) grsVirtualizedRecipeMap;
     }
 }

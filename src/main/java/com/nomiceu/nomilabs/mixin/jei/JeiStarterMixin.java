@@ -15,6 +15,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.groovy.mixinhelper.LabsJEIApplied;
+import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.integration.jei.SavedJEIValues;
 
 import mezz.jei.api.IJeiRuntime;
@@ -33,6 +34,8 @@ import mezz.jei.startup.ModRegistry;
  * instead of before ProgressManager.pop(). This can happen due to HEI's new 'Progress Bar' config.
  * <p>
  * Also allows for 'fast' reloading of JEI, reusing the existing Ingredient Filter, Search Trees and Bookmarks Data.
+ * <p>
+ * Also provides a proper loading time for Labs' Recipe Catalyst Override.
  */
 @Mixin(value = JeiStarter.class, remap = false)
 public class JeiStarterMixin {
@@ -65,6 +68,8 @@ public class JeiStarterMixin {
 
     @Inject(method = "registerPlugins", at = @At("TAIL"))
     private static void handleAfterRegister(List<IModPlugin> plugins, ModRegistry modRegistry, CallbackInfo ci) {
+        LabsJEIPlugin.afterModRegisters(modRegistry);
+
         if (LabsJEIApplied.afterRegisterApplied) {
             NomiLabs.LOGGER.info("[GrS + JEI] After Register Applied Correctly.");
             return;

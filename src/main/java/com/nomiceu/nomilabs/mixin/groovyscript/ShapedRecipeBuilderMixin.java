@@ -131,6 +131,6 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
 
     @Inject(method = "register()Lnet/minecraft/item/crafting/IRecipe;", at = @At("TAIL"))
     private void addRecipeTooltips(CallbackInfoReturnable<IRecipe> cir) {
-        RecipeTooltipAdder.addTooltips(name, output, labs$inputTooltip, labs$outputTooltip);
+        RecipeTooltipAdder.addTooltips(name, labs$inputTooltip, labs$outputTooltip);
     }
 }

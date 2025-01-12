@@ -36,7 +36,7 @@ import com.cleanroommc.groovyscript.helper.recipe.RecipeName;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.mixin.gregtech.RecipeBuilderAccessor;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
@@ -181,48 +181,58 @@ public class GroovyHelpers {
 
         /* Description + Tooltip */
         public static void addDescription(ItemStack stack, LabsTranslate.Translatable... description) {
-            JEIPlugin.addGroovyDescription(stack, description);
-        }
-
-        public static void addRecipeOutputTooltip(ItemStack stack, LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
+            LabsJEIPlugin.addGroovyDescription(stack, description);
         }
 
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
+            LabsJEIPlugin.addGroovyRecipeOutputTooltip(recipeName, tooltip);
         }
 
-        public static void addRecipeOutputTooltip(ItemStack stack, String recipeName,
+        public static void addRecipeOutputTooltip(String recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
             if (recipeName.contains(":"))
-                JEIPlugin.addGroovyRecipeOutputTooltip(stack, new ResourceLocation(recipeName), tooltip);
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(new ResourceLocation(recipeName), tooltip);
             else
-                JEIPlugin.addGroovyRecipeOutputTooltip(stack,
-                        new ResourceLocation(GroovyHelper.getPackId(), recipeName), tooltip);
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
+                        tooltip);
         }
 
         public static void addRecipeInputTooltip(ResourceLocation recipeName, int slotIndex,
                                                  LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeInputTooltip(recipeName, slotIndex, tooltip);
+            LabsJEIPlugin.addGroovyRecipeInputTooltip(recipeName, slotIndex, tooltip);
         }
 
         public static void addRecipeInputTooltip(String recipeName, int slotIndex,
                                                  LabsTranslate.Translatable... tooltip) {
             if (recipeName.contains(":"))
-                JEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(recipeName), slotIndex, tooltip);
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(recipeName), slotIndex, tooltip);
             else
-                JEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
                         slotIndex, tooltip);
+        }
+
+        public static void addRecipeInputTooltip(ResourceLocation recipeName,
+                                                 LabsTranslate.Translatable... tooltip) {
+            for (int i = 0; i < 9; i++)
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(recipeName, i, tooltip);
+        }
+
+        public static void addRecipeInputTooltip(String recipeName,
+                                                 LabsTranslate.Translatable... tooltip) {
+            if (recipeName.contains(":"))
+                addRecipeInputTooltip(new ResourceLocation(recipeName), tooltip);
+            else
+                addRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName), tooltip);
         }
 
         /* Hiding Ignore NBT */
         public static void hideItemIgnoreNBT(ItemStack stack) {
-            JEIPlugin.hideItemNBTMatch(stack, (tag) -> true);
+            LabsJEIPlugin.hideItemNBTMatch(stack, (tag) -> true);
         }
 
         public static void removeAndHideItemIgnoreNBT(ItemStack stack) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, (tag) -> true);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, (tag) -> true);
         }
 
         public static void yeetItemIgnoreNBT(ItemStack stack) {
@@ -231,30 +241,44 @@ public class GroovyHelpers {
 
         /* Hiding NBT Match */
         public static void hideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.hideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.hideItemNBTMatch(stack, condition);
         }
 
         public static void removeAndHideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
         }
 
         public static void yeetItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+        }
+
+        /* Recipe Catalyst Override */
+        public static void overrideRecipeCatalysts(String category, Object... catalysts) {
+            LabsJEIPlugin.addRecipeCatalystOverride(category, catalysts);
         }
     }
 
     public static class MaterialHelpers {
 
         public static void hideMaterial(Material material) {
+            hideMaterial(material, true);
+        }
+
+        public static void hideMaterial(Material material, boolean inclBucket) {
             MaterialHelper.forMaterialItem(material,
-                    (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)));
+                    (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)), inclBucket);
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
                     .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
         }
 
         public static void removeAndHideMaterial(Material material) {
+            removeAndHideMaterial(material, true);
+        }
+
+        public static void removeAndHideMaterial(Material material, boolean inclBucket) {
             MaterialHelper.forMaterialItem(material,
-                    (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)));
+                    (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)),
+                    inclBucket);
             // Normal Hiding for Fluids, they don't have recipes
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
                     .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
@@ -264,16 +288,29 @@ public class GroovyHelpers {
             removeAndHideMaterial(material);
         }
 
-        public static void forMaterial(Material material, Closure<ItemStack> itemAction, Closure<Fluid> fluidAction) {
-            forMaterialItem(material, itemAction);
+        public static void yeetMaterial(Material material, boolean inclBucket) {
+            removeAndHideMaterial(material, inclBucket);
+        }
+
+        public static void forMaterial(Material material, Closure<Void> itemAction, Closure<Void> fluidAction) {
+            forMaterial(material, itemAction, fluidAction, true);
+        }
+
+        public static void forMaterial(Material material, Closure<Void> itemAction, Closure<Void> fluidAction,
+                                       boolean inclBucket) {
+            forMaterialItem(material, itemAction, inclBucket);
             forMaterialFluid(material, fluidAction);
         }
 
-        public static void forMaterialItem(Material material, Closure<ItemStack> action) {
-            MaterialHelper.forMaterialItem(material, (stack) -> ClosureHelper.call(action, stack));
+        public static void forMaterialItem(Material material, Closure<Void> action) {
+            forMaterialItem(material, action, true);
         }
 
-        public static void forMaterialFluid(Material material, Closure<Fluid> action) {
+        public static void forMaterialItem(Material material, Closure<Void> action, boolean inclBucket) {
+            MaterialHelper.forMaterialItem(material, (stack) -> ClosureHelper.call(action, stack), inclBucket);
+        }
+
+        public static void forMaterialFluid(Material material, Closure<Void> action) {
             MaterialHelper.forMaterialFluid(material, (fluid) -> ClosureHelper.call(action, fluid));
         }
 

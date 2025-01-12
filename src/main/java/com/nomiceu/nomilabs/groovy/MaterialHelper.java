@@ -37,7 +37,7 @@ public class MaterialHelper {
     private static Material material;
     private static Consumer<ItemStack> action;
 
-    public static void forMaterialItem(Material material, Consumer<ItemStack> action) {
+    public static void forMaterialItem(Material material, Consumer<ItemStack> action, boolean inclBucket) {
         MaterialHelper.material = material;
         MaterialHelper.action = action;
 
@@ -59,10 +59,13 @@ public class MaterialHelper {
         forItems(ImmutableList.of(OrePrefix.block, OrePrefix.frameGt), MaterialItemBlock.class);
 
         // Ores (Processing Intermediates, like Crushed and Crushed Purified, are Meta Items)
-        StoneType.STONE_TYPE_REGISTRY.forEach((type) -> forItems(type.processingPrefix, OreItemBlock.class));
+        StoneType.STONE_TYPE_REGISTRY.forEach((type) -> {
+            if (type.shouldBeDroppedAsItem)
+                forItems(type.processingPrefix, OreItemBlock.class);
+        });
 
         /* Buckets */
-        if (!material.hasFluid()) return;
+        if (!material.hasFluid() || !inclBucket) return;
         FluidStorageKeyAccessor.getKeys().values().forEach((key) -> {
             var fluid = material.getFluid(key);
             if (fluid == null || ForgeModContainer.getInstance().universalBucket == null) return;
