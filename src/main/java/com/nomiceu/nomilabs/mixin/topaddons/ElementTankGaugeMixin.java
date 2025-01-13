@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.integration.top.LabsFluidNameElement;
+import com.nomiceu.nomilabs.integration.top.LabsFluidStackElement;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.util.TextFormattingUtil;
@@ -77,48 +79,28 @@ public class ElementTankGaugeMixin {
 
     @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
     private void newRenderLogic(int x, int y, CallbackInfo ci) {
-        boolean hasFluid = capacity > 0 && amount > 0;
+        boolean hasFluid = capacity > 0 && amount > 0 && fluidName != null && !fluidName.isEmpty();
         boolean expand = sneaking && hasFluid;
         int barHeight = expand ? 12 : 8;
+
+        ci.cancel();
 
         // Update sprite if needed
         if (hasFluid && labs$sprite == null) {
             Fluid fluid = FluidRegistry.getFluid(fluidName);
-            if (fluid != null) {
-                labs$sprite = Minecraft.getMinecraft().getTextureMapBlocks()
-                        .getAtlasSprite(fluid.getStill().toString());
-            }
+            if (fluid == null)
+                NomiLabs.LOGGER.error("Received Fluid Info Packet ElementTankGauge with Unknown Fluid {}!", fluidName);
+            else
+                labs$sprite = LabsFluidStackElement.getFluidAtlasSprite(fluid.getStill().toString());
         }
 
         // Box
         int borderColor = hasFluid ? color2 : 0xff969696;
         RenderHelper.drawThickBeveledBox(x, y, x + 100, y + barHeight, 1, borderColor, borderColor, 0x44969696);
 
-        // Render fluid
+        // Render fluid (Adaptation of RenderUtil#drawFluidForGui)
         if (hasFluid && labs$sprite != null) {
-            GlStateManager.enableBlend();
-            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
-            RenderUtil.setGlColorFromInt(color1, 0xFF);
-
-            final int scaledAmount = (int) ((long) amount * 98 / capacity);
-
-            final int xTileCount = scaledAmount / 16;
-            final int xRemainder = scaledAmount - xTileCount * 16;
-
-            for (int xTile = 0; xTile <= xTileCount; xTile++) {
-                int width = xTile == xTileCount ? xRemainder : 16;
-                int fluidX = x + 1 + (xTile + 1) * 16 - 16;
-                if (width > 0) {
-                    int maskTop = 16 - barHeight + 2;
-                    int maskRight = 16 - width;
-
-                    RenderUtil.drawFluidTexture(fluidX, y - 16 + barHeight - 1, labs$sprite, maskTop, maskRight,
-                            0.0);
-                }
-            }
-
-            GlStateManager.disableBlend();
+            labs$renderFluidTexture(x, y, barHeight);
         }
 
         for (int i = 1; i < 10; i++) {
@@ -132,8 +114,6 @@ public class ElementTankGaugeMixin {
         } else {
             drawSmallText(x + 2, y + 2, labs$getTranslatedTankName(), 0xffffffff);
         }
-
-        ci.cancel();
     }
 
     @Inject(method = "getWidth", at = @At("HEAD"), cancellable = true)
@@ -149,6 +129,33 @@ public class ElementTankGaugeMixin {
             cir.setReturnValue(25);
         else
             cir.setReturnValue(8);
+    }
+
+    @Unique
+    private void labs$renderFluidTexture(int x, int y, int barHeight) {
+        GlStateManager.enableBlend();
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
+        RenderUtil.setGlColorFromInt(color1, 0xFF);
+
+        int scaledAmount = (int) ((long) amount * 98 / capacity);
+
+        int xTileCount = scaledAmount / 16;
+        int xRemainder = scaledAmount - xTileCount * 16;
+
+        for (int xTile = 0; xTile <= xTileCount; xTile++) {
+            int width = xTile == xTileCount ? xRemainder : 16;
+            int fluidX = x + 1 + (xTile + 1) * 16 - 16;
+            if (width > 0) {
+                int maskTop = 16 - barHeight + 2;
+                int maskRight = 16 - width;
+
+                RenderUtil.drawFluidTexture(fluidX, y - 16 + barHeight - 1, labs$sprite, maskTop, maskRight,
+                        0.0);
+            }
+        }
+
+        GlStateManager.disableBlend();
     }
 
     @Unique
