@@ -194,9 +194,6 @@ dependencies {
     // FindMyItemsAndFluids (from CurseForge)
     compileOnly rfg.deobf("curse.maven:findmyitemsandfluids-610085:3748963") // Version 1.0.0
 
-    // Biomes o Plenty (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:biomes-o-plenty-220318:2842510") // Version 7.0.1.2444
-
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -330,9 +327,5 @@ dependencies {
 
     if (project.enable_mouse_tweaks.toBoolean()) {
         runtimeOnly "curse.maven:mouse-tweaks-461660:4661407" // Mouse Tweaks Unofficial, Version 3.1.4
-    }
-
-    if (project.enable_biomes_o_plenty.toBoolean()) {
-        runtimeOnly "curse.maven:biomes-o-plenty-220318:2842510" // Version 7.0.1.2444
     }
 }
