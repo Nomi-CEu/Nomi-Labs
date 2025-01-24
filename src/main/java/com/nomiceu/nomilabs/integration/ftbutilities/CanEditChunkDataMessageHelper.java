@@ -58,7 +58,7 @@ public class CanEditChunkDataMessageHelper {
     /**
      * Reflection to see whether a chunk is editable by the player.
      * Equal to `getChunk(new ChunkDimPos(posX, posZ, dim)).getTeam().hasStatus(instance.universe.getPlayer(player),
-     * chunk.getData().getAttackEntitiesStatus())`
+     * chunk.getData().getEditBlocksStatus())`
      */
     private static boolean playerCanEdit(int posX, int posZ, int dim, EntityPlayerMP player) {
         var chunk = getChunk(posX, posZ, dim);
@@ -155,7 +155,6 @@ public class CanEditChunkDataMessageHelper {
             var claimedChunksClass = Class.forName("com.feed_the_beast.ftbutilities.data.ClaimedChunks");
             var getChunkMethod = claimedChunksClass.getDeclaredMethod("getChunk", chunkDimPosClass);
 
-            // noinspection JavaReflectionInvocation
             return (ClaimedChunk) getChunkMethod.invoke(instance, chunkDimPosClass.cast(obj));
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException |
                  InstantiationException e) {

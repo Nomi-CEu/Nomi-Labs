@@ -25,7 +25,7 @@ import com.nomiceu.nomilabs.integration.ftbutilities.network.DisplayGameOverlayM
 public class FTBUtilitiesPlayerEventHandlerMixin {
 
     @Unique
-    private static boolean cancelledMainHandPlace = false;
+    private static boolean labs$cancelledMainHand = false;
 
     /* New Logic */
 
@@ -34,13 +34,14 @@ public class FTBUtilitiesPlayerEventHandlerMixin {
     private static void handleAndCancelPlace(PlayerInteractEvent.RightClickBlock event, CallbackInfo ci) {
         var stack = event.getEntityPlayer().getHeldItem(event.getHand());
         var item = stack.getItem();
+        var world = event.getWorld();
         var pos = event.getPos();
 
         if (event.getHand() == EnumHand.MAIN_HAND)
-            cancelledMainHandPlace = false;
+            labs$cancelledMainHand = false;
         // Off Hand is always called after main hand
-        else if (event.getHand() == EnumHand.OFF_HAND && cancelledMainHandPlace) {
-            cancelledMainHandPlace = false;
+        else if (event.getHand() == EnumHand.OFF_HAND && labs$cancelledMainHand) {
+            labs$cancelledMainHand = false;
             event.setCanceled(true);
             ci.cancel();
             return;
@@ -50,7 +51,7 @@ public class FTBUtilitiesPlayerEventHandlerMixin {
             return;
 
         // Offset Pos if Needed
-        if (event.getFace() != null && !itemBlock.getBlock().isReplaceable(event.getWorld(), pos))
+        if (event.getFace() != null && !world.getBlockState(pos).getBlock().isReplaceable(world, pos))
             pos = pos.offset(event.getFace());
 
         if (!CanEditChunkHelper.cannotEditChunk(event.getEntityPlayer(),
@@ -58,7 +59,7 @@ public class FTBUtilitiesPlayerEventHandlerMixin {
             return;
 
         event.setCanceled(true);
-        cancelledMainHandPlace = true;
+        labs$cancelledMainHand = true;
 
         if (!event.getWorld().isRemote)
             DisplayGameOverlayMessageHelper.sendMessageOrDisplay(event.getEntityPlayer(),
