@@ -43,6 +43,7 @@
     "SteamBoilerMixin",
     "SteamMetaTileEntityMixin",
     "TileEntityPipeBaseMixin",
+    "ToolEventHandlersMixin",
     "VirtualizedRecipeMapMixin"
   ],
   "client": [
