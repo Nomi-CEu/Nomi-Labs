@@ -46,7 +46,6 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             .put(LabsValues.AE2_MODID, true)
             .put(LabsValues.ENDER_IO_MODID, true)
             .put(LabsValues.AA_MODID, true)
-            .put(LabsValues.BOGOSORT_MODID, true)
             .put(LabsValues.THERMAL_FOUNDATION_MODID, true)
             .put(LabsValues.BQU_MODID, true)
             .put(LabsValues.BETTER_P2P_MODID, true)

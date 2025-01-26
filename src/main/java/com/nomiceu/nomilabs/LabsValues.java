@@ -43,7 +43,6 @@ public class LabsValues {
     public static final String TOP_ADDONS_MODID = "topaddons";
     public static final String PACK_MODE_MODID = "packmode";
     public static final String AE2_STUFF_MODID = "ae2stuff";
-    public static final String BOGOSORT_MODID = "bogosorter";
     public static final String THERMAL_FOUNDATION_MODID = "thermalfoundation";
     public static final String BETTER_P2P_MODID = "betterp2p";
     public static final String FIND_ME_MODID = "findme";
