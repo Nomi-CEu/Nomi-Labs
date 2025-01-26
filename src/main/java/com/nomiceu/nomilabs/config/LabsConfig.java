@@ -340,6 +340,44 @@ public class LabsConfig {
         @Config.Name("better p2p options")
         public final BetterP2POptions betterP2POptions = new BetterP2POptions();
 
+        @Config.Comment("Solar Flux Performance Options")
+        @Config.LangKey("config.nomilabs.mod_integration.solar_flux")
+        @Config.Name("solar flux performance options")
+        public final SolarFluxPerformanceOptions solarFluxPerformanceOptions = new SolarFluxPerformanceOptions();
+
+        public static class SolarFluxPerformanceOptions {
+
+            @Config.Comment({ "Whether to enable Solar Flux Performance Optimizations.",
+                    "This caches TE entries, upgrade and charger states, and improves autobalancing logic.",
+                    "None of the below options work if this config is disabled.",
+                    "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.solar_flux.enable")
+            @Config.RequiresMcRestart
+            public boolean enableSolarFluxPerformance = true;
+
+            @Config.Comment({ "Frequency to perform auto balancing between solars.",
+                    "The higher this value, the better the performance of solar grids.",
+                    "If you experience issues with grids not balancing fast enough to achieve max transfer, decrease this value.",
+                    "Solar Flux vanilla is 1 tick.",
+                    "[default: 10]" })
+            @Config.LangKey("config.nomilabs.mod_integration.solar_flux.auto_balancing_freq")
+            @Config.RangeInt(min = 1)
+            public int autoBalancingFrequency = 10;
+
+            @Config.Comment({
+                    "Whether to enable 'extra balancing' if needed, during solar auto push energy operations.",
+                    "This may reduce performance, but can improve extraction rates.",
+                    "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.solar_flux.extra_balancing")
+            public boolean extraBalancing = true;
+
+            @Config.Comment({ "Maximum extra balancing to perform in a single tick.",
+                    "[default: 1]" })
+            @Config.LangKey("config.nomilabs.mod_integration.solar_flux.extra_balancing_amount")
+            @Config.RangeInt(min = 0)
+            public int extraBalancingAmount = 1;
+        }
+
         public static class BetterP2POptions {
 
             @Config.Comment({ "Whether to highlight the Selected P2P by blinking, instead of with green.",

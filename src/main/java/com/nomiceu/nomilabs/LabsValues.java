@@ -47,4 +47,5 @@ public class LabsValues {
     public static final String BETTER_P2P_MODID = "betterp2p";
     public static final String FIND_ME_MODID = "findme";
     public static final String REDSTONE_FLUX_MODID = "redstoneflux";
+    public static final String SOLAR_FLUX_MODID = "solarflux";
 }

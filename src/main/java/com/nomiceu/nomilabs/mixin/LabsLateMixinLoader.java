@@ -50,6 +50,8 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             .put(LabsValues.BQU_MODID, true)
             .put(LabsValues.BETTER_P2P_MODID, true)
             .put(LabsValues.STORAGE_DRAWERS_MODID, true)
+            .put(LabsValues.SOLAR_FLUX_MODID,
+                    LabsConfig.modIntegration.solarFluxPerformanceOptions.enableSolarFluxPerformance)
             .build();
 
     @Override

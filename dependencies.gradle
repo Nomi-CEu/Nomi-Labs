@@ -191,6 +191,9 @@ dependencies {
     // FindMyItemsAndFluids (from CurseForge)
     compileOnly rfg.deobf("curse.maven:findmyitemsandfluids-610085:3748963") // Version 1.0.0
 
+    // Solar Flux Reborn (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:solar-flux-reborn-246974:3050838") // Version 12.4.11
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -320,5 +323,9 @@ dependencies {
 
     if (project.enable_mouse_tweaks.toBoolean()) {
         runtimeOnly "curse.maven:mouse-tweaks-461660:4661407" // Mouse Tweaks Unofficial, Version 3.1.4
+    }
+
+    if (project.enable_solar.toBoolean()) {
+        runtimeOnly "curse.maven:solar-flux-reborn-246974:3050838" // Version 12.4.11
     }
 }
