@@ -6,10 +6,12 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BlockLaserRelayMixin",
+    "ItemPhantomConnectorMixin",
     "TileEntityXPSolidifierMixin"
   ],
   "client": [
-    "BlockLaserRelayClientMixin"
+    "BlockLaserRelayClientMixin",
+    "BlockPhantomClientMixin"
   ],
   "server": []
 }
