@@ -719,6 +719,7 @@ public class LabsConfig {
             @Config.Comment({ "Override for the Minecraft Window Logo (16x).",
                     "This should be a Path, Relative to the Base Instance Folder.",
                     "16x, 32x and 256x must be set for logo overrides to apply!",
+                    "Substitutions: {mode} for the Modpack Mode (from LabsModeHelper & the PackMode Mod).",
                     "Leave Empty for the Default.",
                     "[default: ]" })
             @Config.LangKey("config.nomilabs.advanced.window.window_logo_16x")
@@ -728,6 +729,7 @@ public class LabsConfig {
             @Config.Comment({ "Override for the Minecraft Window Logo (32x).",
                     "This should be a Path, Relative to the Base Instance Folder.",
                     "16x, 32x and 256x must be set for logo overrides to apply!",
+                    "Substitutions: {mode} for the Modpack Mode (from LabsModeHelper & the PackMode Mod).",
                     "Leave Empty for the Default.",
                     "[default: ]" })
             @Config.LangKey("config.nomilabs.advanced.window.window_logo_32x")
@@ -737,6 +739,7 @@ public class LabsConfig {
             @Config.Comment({ "Override for the Minecraft Window Logo (256x).",
                     "This should be a Path, Relative to the Base Instance Folder.",
                     "16x, 32x and 256x must be set for logo overrides to apply!",
+                    "Substitutions: {mode} for the Modpack Mode (from LabsModeHelper & the PackMode Mod).",
                     "Leave Empty for the Default.",
                     "[default: ]" })
             @Config.LangKey("config.nomilabs.advanced.window.window_logo_256x")

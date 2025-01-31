@@ -52,10 +52,12 @@ public class MinecraftMixin {
 
     @Inject(method = "setWindowIcon", at = @At("HEAD"), cancellable = true)
     public void setCustomWindowIcon(CallbackInfo ci) {
-        var x16 = LabsConfig.advanced.windowOverrides.windowLogo16xOverride;
-        var x32 = LabsConfig.advanced.windowOverrides.windowLogo32xOverride;
-        var x256 = LabsConfig.advanced.windowOverrides.windowLogo256xOverride;
+        var x16 = LabsDisplayHelper.formatImagePath(LabsConfig.advanced.windowOverrides.windowLogo16xOverride);
+        var x32 = LabsDisplayHelper.formatImagePath(LabsConfig.advanced.windowOverrides.windowLogo32xOverride);
+        var x256 = LabsDisplayHelper.formatImagePath(LabsConfig.advanced.windowOverrides.windowLogo256xOverride);
         if (x16.isEmpty() || x32.isEmpty() || x256.isEmpty()) return;
+
+        NomiLabs.LOGGER.info("Replacing Window Icons: 16x: {}, 32x: {}, 256x: {}.", x16, x32, x256);
 
         // From Random Patches (See Below)
         // https://github.com/TheRandomLabs/RandomPatches/blob/1.12/src/main/java/com/therandomlabs/randompatches/client/WindowIconHandler.java
@@ -71,14 +73,14 @@ public class MinecraftMixin {
             if (osX) {
                 stream256 = new FileInputStream(x256);
                 Display.setIcon(new ByteBuffer[] {
-                        readImageToBuffer(stream16, 16),
-                        readImageToBuffer(stream32, 32),
-                        readImageToBuffer(stream256, 256)
+                        labs$readImageToBuffer(stream16, 16),
+                        labs$readImageToBuffer(stream32, 32),
+                        labs$readImageToBuffer(stream256, 256)
                 });
             } else {
                 Display.setIcon(new ByteBuffer[] {
-                        readImageToBuffer(stream16, 16),
-                        readImageToBuffer(stream32, 32)
+                        labs$readImageToBuffer(stream16, 16),
+                        labs$readImageToBuffer(stream32, 32)
                 });
             }
         } catch (IOException ex) {
@@ -99,7 +101,7 @@ public class MinecraftMixin {
      * "https://github.com/TheRandomLabs/RandomPatches/blob/1.12/src/main/java/com/therandomlabs/randompatches/client/WindowIconHandler.java">RandomPatches</a>.
      */
     @Unique
-    private static ByteBuffer readImageToBuffer(InputStream stream, int dimensions)
+    private static ByteBuffer labs$readImageToBuffer(InputStream stream, int dimensions)
                                                                                     throws IOException {
         BufferedImage image = ImageIO.read(stream);
 
