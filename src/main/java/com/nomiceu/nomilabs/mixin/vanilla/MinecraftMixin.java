@@ -102,7 +102,7 @@ public class MinecraftMixin {
      */
     @Unique
     private static ByteBuffer labs$readImageToBuffer(InputStream stream, int dimensions)
-                                                                                    throws IOException {
+                                                                                         throws IOException {
         BufferedImage image = ImageIO.read(stream);
 
         if (image.getWidth() != dimensions || image.getHeight() != dimensions) {
