@@ -53,7 +53,7 @@ public abstract class BlockPhantomClientMixin {
         // Connection Status
         if (!phantom.hasBoundPosition()) {
             y = labs$draw(font, increaseBy, x, y, "aa.gui.hover.phantom.not_connected");
-            labs$drawSplit(font, maxWidth, x, y, "aa,gui.hover.phantom.not_connected.info");
+            labs$drawSplit(font, maxWidth, x, y, "aa.gui.hover.phantom.not_connected.info");
             return;
         }
 
