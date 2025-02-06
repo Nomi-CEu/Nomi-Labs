@@ -22,6 +22,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.nomiceu.nomilabs.integration.actuallyadditions.AccessibleTileEntityPhantomface;
+
 import de.ellpeck.actuallyadditions.api.tile.IPhantomTile;
 import de.ellpeck.actuallyadditions.mod.blocks.BlockPhantom;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -57,7 +59,8 @@ public abstract class BlockPhantomClientMixin {
             return;
         }
 
-        if (phantom.isBoundThingInRange()) {
+        if (((phantom instanceof AccessibleTileEntityPhantomface access) && access.labs$boundValid()) ||
+                phantom.isBoundThingInRange()) {
             y = labs$draw(font, increaseBy, x, y, "aa.gui.hover.phantom.connected");
         } else {
             y = labs$draw(font, increaseBy, x, y, "aa.gui.hover.phantom.connected_failed");
