@@ -52,6 +52,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             .put(LabsValues.STORAGE_DRAWERS_MODID, true)
             .put(LabsValues.SOLAR_FLUX_MODID,
                     LabsConfig.modIntegration.solarFluxPerformanceOptions.enableSolarFluxPerformance)
+            .put(LabsValues.ARMOR_PLUS_MODID, true)
             .build();
 
     @Override

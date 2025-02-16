@@ -330,6 +330,12 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.screwdrive_aa_relays")
         public boolean gtScrewdriveAARelays = false;
 
+        @Config.Comment({
+                "Whether to disable drops of Armor Plus Fragments from the Ender Dragon, Wither and Elder Guardian.",
+                "[default: false]" })
+        @Config.LangKey("config.nomilabs.mod_integration.disable_armor_plus_frag_drops")
+        public boolean disableArmorPlusFragDrops = false;
+
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
         @Config.Name("ae2 terminal options")

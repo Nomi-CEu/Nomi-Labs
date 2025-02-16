@@ -48,4 +48,5 @@ public class LabsValues {
     public static final String FIND_ME_MODID = "findme";
     public static final String REDSTONE_FLUX_MODID = "redstoneflux";
     public static final String SOLAR_FLUX_MODID = "solarflux";
+    public static final String ARMOR_PLUS_MODID = "armorplus";
 }
