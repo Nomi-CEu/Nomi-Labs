@@ -711,6 +711,12 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.server_motd_substitutions")
         public boolean serverMotdSubstitutions = false;
 
+        @Config.Comment({ "Name of server when displaying welcome messages. Only applies to Dedicated Servers.",
+                "[default: Minecraft]" })
+        @Config.RequiresMcRestart
+        @Config.LangKey("config.nomilabs.advanced.server_welcome_name")
+        public String serverWelcomeName = "Minecraft";
+
         public static class WindowOverrides {
 
             @Config.Comment({ "Override for the Minecraft Window Title.",
