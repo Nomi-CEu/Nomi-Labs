@@ -717,6 +717,11 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.server_welcome_name")
         public String serverWelcomeName = "Minecraft";
 
+        @Config.Comment({ "Whether mode check fail message should link to the Nomi-CEu GitHub page.",
+                "[default: false]" })
+        @Config.LangKey("config.nomilabs.advanced.mode_check_nomi_ceu")
+        public boolean modeCheckNomiCeuLink = false;
+
         public static class WindowOverrides {
 
             @Config.Comment({ "Override for the Minecraft Window Title.",

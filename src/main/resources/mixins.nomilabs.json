@@ -8,6 +8,8 @@
     "AccessibleFluidRegistry",
     "CommandDifficultyMixin",
     "FluidRegistryMixin",
+    "FMLHandshakeMessageModListMixin",
+    "FMLNetworkHandlerMixin",
     "ForgeRegistryMixin",
     "GameDataMixin",
     "ItemStackMixin",
