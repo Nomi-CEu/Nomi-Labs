@@ -16,6 +16,9 @@ public class LabsTOPManager {
     public static int FLUID_NAME_ELEMENT;
     public static int CUSTOM_NAME_ELEMENT;
     public static int FLUID_STACK_ELEMENT;
+    public static int CHANCED_ITEM_STACK_ELEMENT;
+    public static int CHANCED_FLUID_STACK_ELEMENT;
+    public static int CHANCED_FLUID_NAME_ELEMENT;
 
     public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
@@ -37,6 +40,9 @@ public class LabsTOPManager {
         FLUID_NAME_ELEMENT = TOP.registerElementFactory(LabsFluidNameElement::new);
         CUSTOM_NAME_ELEMENT = TOP.registerElementFactory(CustomNameElement::new);
         FLUID_STACK_ELEMENT = TOP.registerElementFactory(LabsFluidStackElement::new);
+        CHANCED_ITEM_STACK_ELEMENT = TOP.registerElementFactory(LabsChancedItemStackElement::new);
+        CHANCED_FLUID_STACK_ELEMENT = TOP.registerElementFactory(LabsChancedFluidStackElement::new);
+        CHANCED_FLUID_NAME_ELEMENT = TOP.registerElementFactory(LabsChancedFluidNameElement::new);
     }
 
     public static class TOPTooltipMessage implements IProbeInfoProvider {

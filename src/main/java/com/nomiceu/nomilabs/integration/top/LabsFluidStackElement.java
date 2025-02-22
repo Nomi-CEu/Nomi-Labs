@@ -58,8 +58,8 @@ public class LabsFluidStackElement implements IElement {
             String format = TextFormattingUtil.formatLongToCompactString(amount) + "L";
             minecraft.fontRenderer.drawStringWithShadow(
                     format,
-                    (x + 16) * 2 - minecraft.fontRenderer.getStringWidth(format),
-                    (y + 16) * 2 - minecraft.fontRenderer.FONT_HEIGHT,
+                    (x + 17) * 2 - 1 - minecraft.fontRenderer.getStringWidth(format),
+                    (y + 17) * 2 - 1 - minecraft.fontRenderer.FONT_HEIGHT,
                     0xFFFFFF);
             GlStateManager.popMatrix();
         }

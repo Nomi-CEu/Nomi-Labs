@@ -5,6 +5,8 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 public interface AccessibleAbstractRecipeLogic {
 
     List<ItemStack> labs$getOutputs();
@@ -12,4 +14,12 @@ public interface AccessibleAbstractRecipeLogic {
     List<FluidStack> labs$getFluidOutputs();
 
     int labs$getEUt();
+
+    int labs$getNonChancedItemAmt();
+
+    List<Pair<ItemStack, Integer>> labs$getChancedItemOutputs();
+
+    int labs$getNonChancedFluidAmt();
+
+    List<Pair<FluidStack, Integer>> labs$getChancedFluidOutputs();
 }

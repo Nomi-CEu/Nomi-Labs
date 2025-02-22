@@ -1,16 +1,23 @@
 package com.nomiceu.nomilabs.integration.top;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.function.Function;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import com.nomiceu.nomilabs.LabsValues;
@@ -24,6 +31,7 @@ import gregtech.api.capability.IWorkable;
 import gregtech.integration.theoneprobe.provider.CapabilityInfoProvider;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.apiimpl.elements.ElementItemStack;
 import mcjty.theoneprobe.apiimpl.styles.ItemStyle;
 import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 import mcjty.theoneprobe.config.Config;
@@ -31,6 +39,7 @@ import mcjty.theoneprobe.config.Config;
 public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
     private static final int AMT_IN_ROW = 10;
+    private static final DecimalFormat format = new DecimalFormat("#.#");
 
     @Override
     public String getID() {
@@ -52,12 +61,13 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
         // Generators, Ignore
         if (recipe.labs$getEUt() < 0) return;
 
-        var outputs = getUniqueItems(recipe.labs$getOutputs());
-        var fluidOutputs = getUniqueFluids(recipe.labs$getFluidOutputs());
+        var itemFluidLists = createItemFluidElementLists(recipe);
+        var items = itemFluidLists.getLeft();
+        var fluids = itemFluidLists.getRight();
 
-        if (outputs.isEmpty() && fluidOutputs.isEmpty()) return;
+        if (items.isEmpty() && fluids.isEmpty()) return;
 
-        boolean showDetailed = outputs.size() + fluidOutputs.size() <= Config.showItemDetailThresshold &&
+        boolean showDetailed = items.size() + fluids.size() <= Config.showItemDetailThresshold &&
                 player.isSneaking();
         IProbeInfo mainPanel = info.vertical()
                 .text(LabsTranslate.topTranslate("nomilabs.top.recipe_outputs"))
@@ -65,64 +75,98 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
                         .spacing(5));
 
         if (showDetailed) {
-            for (var entry : outputs.entrySet()) {
-                ItemStack stack = entry.getKey().toStack(entry.getValue());
+            for (var entry : items) {
                 mainPanel.horizontal(new LayoutStyle().spacing(10).alignment(ElementAlignment.ALIGN_CENTER))
-                        .item(stack, new ItemStyle().width(16).height(16))
-                        .text(TextStyleClass.INFO + stack.getDisplayName());
+                        .element(entry.getValue())
+                        .text(TextStyleClass.INFO + entry.getKey());
             }
 
-            for (var entry : fluidOutputs.entrySet()) {
-                FluidStack stack = new FluidStack(entry.getKey(), entry.getValue());
+            for (var entry : fluids) {
                 mainPanel.horizontal(new LayoutStyle().spacing(10).alignment(ElementAlignment.ALIGN_CENTER))
-                        .element(new LabsFluidStackElement(stack))
-                        .element(new LabsFluidNameElement(stack, false));
+                        .element(entry.getValue())
+                        .element(entry.getKey());
             }
             return;
         }
 
         // If outputs and fluid outputs are both of size 1, show on same row instead of over two rows
-        boolean condense = outputs.size() == 1 && fluidOutputs.size() == 1;
+        boolean condense = items.size() == 1 && fluids.size() == 1;
         IProbeInfo sharedHorizontal = null;
 
         if (condense)
             sharedHorizontal = createHorizontalLayout(mainPanel);
 
-        if (!outputs.isEmpty()) {
+        if (!items.isEmpty()) {
             IProbeInfo panel;
             if (condense)
                 panel = sharedHorizontal;
             else
                 panel = createHorizontalLayout(mainPanel);
 
-            addOutputs(outputs, (meta, amt) -> panel.item(meta.toStack(amt), new ItemStyle().width(16).height(16)));
+            addOutputs(items, panel, Pair::getValue);
         }
 
-        if (!fluidOutputs.isEmpty()) {
+        if (!fluids.isEmpty()) {
             IProbeInfo panel;
             if (condense)
                 panel = sharedHorizontal;
             else
                 panel = createHorizontalLayout(mainPanel);
 
-            addOutputs(fluidOutputs,
-                    (fluid, amount) -> panel.element(new LabsFluidStackElement(new FluidStack(fluid, amount))));
+            addOutputs(fluids, panel, Pair::getValue);
         }
     }
 
-    private <T> void addOutputs(Map<T, Integer> outputs, BiConsumer<T, Integer> addToPanel) {
+    public static String formatChance(int chance) {
+        return format.format(chance / 100.0) + "%";
+    }
+
+    private <T> void addOutputs(List<T> list, IProbeInfo panel, Function<T, IElement> getElement) {
         int idx = 0;
 
-        for (var output : outputs.entrySet()) {
+        for (var entry : list) {
             if (idx >= AMT_IN_ROW) break;
 
-            addToPanel.accept(output.getKey(), output.getValue());
+            panel.element(getElement.apply(entry));
             idx++;
         }
     }
 
     private IProbeInfo createHorizontalLayout(IProbeInfo mainPanel) {
         return mainPanel.horizontal(new LayoutStyle().spacing(4));
+    }
+
+    private Pair<List<Pair<String, ElementItemStack>>, List<Pair<LabsFluidNameElement, LabsFluidStackElement>>> createItemFluidElementLists(AccessibleAbstractRecipeLogic recipe) {
+        // Items
+        var outputs = getUniqueItems(recipe.labs$getOutputs().subList(0, recipe.labs$getNonChancedItemAmt()));
+        IItemStyle style = new ItemStyle().width(16).height(16);
+        List<Pair<String, ElementItemStack>> items = new ArrayList<>();
+
+        for (var output : outputs.entrySet()) {
+            ItemStack stack = output.getKey().toStack(output.getValue());
+            items.add(Pair.of(stack.getDisplayName(), new ElementItemStack(stack, style)));
+        }
+
+        for (var chanced : recipe.labs$getChancedItemOutputs()) {
+            String display = chanced.getKey().getDisplayName() + " (" + formatChance(chanced.getValue()) + ")";
+            items.add(Pair.of(display, new LabsChancedItemStackElement(chanced.getKey(), chanced.getValue(), style)));
+        }
+
+        // Fluids
+        var fluidOutputs = getUniqueFluids(
+                recipe.labs$getFluidOutputs().subList(0, recipe.labs$getNonChancedFluidAmt()));
+        List<Pair<LabsFluidNameElement, LabsFluidStackElement>> fluids = new ArrayList<>();
+
+        for (var output : fluidOutputs.entrySet()) {
+            FluidStack stack = new FluidStack(output.getKey(), output.getValue());
+            fluids.add(Pair.of(new LabsFluidNameElement(stack, false), new LabsFluidStackElement(stack)));
+        }
+
+        for (var chanced : recipe.labs$getChancedFluidOutputs()) {
+            fluids.add(Pair.of(new LabsChancedFluidNameElement(chanced.getKey(), chanced.getValue(), false),
+                    new LabsChancedFluidStackElement(chanced.getKey(), chanced.getValue())));
+        }
+        return Pair.of(items, fluids);
     }
 
     private Map<ItemMeta, Integer> getUniqueItems(List<ItemStack> stacks) {
@@ -153,5 +197,26 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
         }
 
         return map;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void renderChance(int chance, int x, int y) {
+        GlStateManager.disableLighting();
+        GlStateManager.disableDepth();
+        GlStateManager.disableBlend();
+
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(0.5f, 0.5f, 1);
+        Minecraft mc = Minecraft.getMinecraft();
+
+        String chanceTxt = formatChance(chance);
+        mc.fontRenderer.drawStringWithShadow(chanceTxt, (x + 17) * 2 - 1 - mc.fontRenderer.getStringWidth(chanceTxt),
+                y * 2, 0xffffffff);
+
+        GlStateManager.popMatrix();
+
+        GlStateManager.enableLighting();
+        GlStateManager.enableDepth();
+        GlStateManager.enableBlend();
     }
 }
