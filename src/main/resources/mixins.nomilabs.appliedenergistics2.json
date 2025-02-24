@@ -6,6 +6,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "AEBaseTileBlockMixin",
+    "AppEngNetworkInventoryMixin",
+    "DualityInterfaceMixin",
+    "FluidHandlerAdapterInventoryCacheMixin",
     "InscriberRecipeMixin"
   ],
   "client": [

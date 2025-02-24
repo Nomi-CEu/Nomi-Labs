@@ -118,9 +118,10 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:chisel-235279:2915375") // Version 1.0.2.45
 
     // AE2, Used in Naquadah Reactors (AE2 Unofficial Extended Life used) (from CurseForge)
-    // This Mod has a Temporary Mixin to fix a Bug, which may be fixed in a Later Version!
-    // Check/Remove the mixin after updating!
-    compileOnly rfg.deobf("curse.maven:ae2-extended-life-570458:5378163") // Version 0.56.5
+    // This Mod has several temporary mixins to fix bugs, which may be fixed in a later version!
+    // Check/Remove the mixins after updating!
+    // After an update, this mod may be able use the GTCEu maven!
+    compileOnly rfg.deobf("curse.maven:ae2-extended-life-570458:5411078") // Version 0.56.6
 
     // NAE2, Used in P2P Shift Scrolling (from CurseForge)
     compileOnly rfg.deobf("curse.maven:nae2-884359:5380800") // Version 1.6.4
@@ -232,7 +233,7 @@ dependencies {
     }
 
     if (project.enable_ae2.toBoolean()) {
-        runtimeOnly "curse.maven:ae2-extended-life-570458:5378163" // Version 0.56.5
+        runtimeOnly "curse.maven:ae2-extended-life-570458:5411078" // Version 0.56.6
     }
 
     if (project.enable_nae2.toBoolean()) {
