@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.mixin.gregtech;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Final;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleAbstractRecipeLogic;
 
 import gregtech.api.capability.impl.AbstractRecipeLogic;
@@ -64,12 +66,12 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
 
     @Shadow
     protected int recipeEUt;
-
-    @Shadow
-    @Final
-    private RecipeMap<?> recipeMap;
     @Shadow
     protected int progressTime;
+
+    @Shadow
+    public abstract @Nullable RecipeMap<?> getRecipeMap();
+
     /**
      * List of non-chanced item outputs.The actual non-chanced item outputs are taken from the item outputs saved list,
      * taking the first n elements.
@@ -106,12 +108,22 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
     @Unique
     @Override
     public List<ItemStack> labs$getOutputs() {
+        if (itemOutputs == null) {
+            NomiLabs.LOGGER.error("Item Outputs List for Recipe Logic {} of Recipe Map {} is null!",
+                    getClass().getName(), getRecipeMap().getUnlocalizedName());
+            return new ArrayList<>();
+        }
         return itemOutputs;
     }
 
     @Unique
     @Override
     public List<FluidStack> labs$getFluidOutputs() {
+        if (fluidOutputs == null) {
+            NomiLabs.LOGGER.error("Fluid Outputs List for Recipe Logic {} of Recipe Map {} is null!",
+                    getClass().getName(), getRecipeMap().getUnlocalizedName());
+            return new ArrayList<>();
+        }
         return fluidOutputs;
     }
 
@@ -130,6 +142,11 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
     @Unique
     @Override
     public List<Pair<ItemStack, Integer>> labs$getChancedItemOutputs() {
+        if (labs$chancedItemOutputs == null) {
+            NomiLabs.LOGGER.error("Chanced Item Outputs List for Recipe Logic {} of Recipe Map {} is null!",
+                    getClass().getName(), getRecipeMap().getUnlocalizedName());
+            return new ArrayList<>();
+        }
         return labs$chancedItemOutputs;
     }
 
@@ -142,6 +159,11 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
     @Unique
     @Override
     public List<Pair<FluidStack, Integer>> labs$getChancedFluidOutputs() {
+        if (labs$chancedFluidOutputs == null) {
+            NomiLabs.LOGGER.error("Chanced Fluid Outputs List for Recipe Logic {} of Recipe Map {} is null!",
+                    getClass().getName(), getRecipeMap().getUnlocalizedName());
+            return new ArrayList<>();
+        }
         return labs$chancedFluidOutputs;
     }
 
@@ -160,10 +182,11 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
         labs$nonChancedItemAmt = recipe.getOutputs().size();
         labs$nonChancedFluidAmt = recipe.getFluidOutputs().size();
 
-        labs$chancedItemOutputs = labs$fillChancedOutputsMap(recipe.getChancedOutputs(), recipeMap.getChanceFunction(),
+        labs$chancedItemOutputs = labs$fillChancedOutputsMap(recipe.getChancedOutputs(),
+                getRecipeMap().getChanceFunction(),
                 recipeTier, machineTier);
         labs$chancedFluidOutputs = labs$fillChancedOutputsMap(recipe.getChancedFluidOutputs(),
-                recipeMap.getChanceFunction(),
+                getRecipeMap().getChanceFunction(),
                 recipeTier, machineTier);
     }
 
@@ -211,22 +234,23 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
         nbt.setInteger(LABS_NON_CHANCED_ITEM_AMT_KEY, labs$nonChancedItemAmt);
         nbt.setInteger(LABS_NON_CHANCED_FLUID_AMT_KEY, labs$nonChancedFluidAmt);
 
-        var items = new NBTTagList();
-        for (var entry : labs$chancedItemOutputs) {
-            var tag = new NBTTagCompound();
-            entry.getKey().writeToNBT(tag);
-            tag.setInteger(LABS_CHANCE_KEY, entry.getValue());
-            items.appendTag(tag);
-        }
-        nbt.setTag(LABS_CHANCED_ITEM_OUTPUTS_KEY, items);
+        labs$addChancedToTag(nbt, LABS_CHANCED_ITEM_OUTPUTS_KEY, labs$chancedItemOutputs,
+                (entry) -> entry.getKey().writeToNBT(new NBTTagCompound()), Pair::getValue);
+        labs$addChancedToTag(nbt, LABS_CHANCED_FLUID_OUTPUTS_KEY, labs$chancedFluidOutputs,
+                (entry) -> entry.getKey().writeToNBT(new NBTTagCompound()), Pair::getValue);
+    }
 
-        var fluids = new NBTTagList();
-        for (var entry : labs$chancedFluidOutputs) {
-            var tag = new NBTTagCompound();
-            entry.getKey().writeToNBT(tag);
-            tag.setInteger(LABS_CHANCE_KEY, entry.getValue());
-            fluids.appendTag(tag);
+    @Unique
+    private <T> void labs$addChancedToTag(NBTTagCompound nbt, String key, List<T> list,
+                                          Function<T, NBTTagCompound> createTag, Function<T, Integer> getChance) {
+        if (list == null) return;
+
+        var entries = new NBTTagList();
+        for (var entry : list) {
+            NBTTagCompound tag = createTag.apply(entry);
+            tag.setInteger(LABS_CHANCE_KEY, getChance.apply(entry));
+            entries.appendTag(tag);
         }
-        nbt.setTag(LABS_CHANCED_FLUID_OUTPUTS_KEY, fluids);
+        nbt.setTag(key, entries);
     }
 }

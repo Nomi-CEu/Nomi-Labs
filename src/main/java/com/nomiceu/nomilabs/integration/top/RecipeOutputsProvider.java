@@ -12,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -138,7 +137,14 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
     private Pair<List<Pair<String, ElementItemStack>>, List<Pair<LabsFluidNameElement, LabsFluidStackElement>>> createItemFluidElementLists(AccessibleAbstractRecipeLogic recipe) {
         // Items
-        var outputs = getUniqueItems(recipe.labs$getOutputs().subList(0, recipe.labs$getNonChancedItemAmt()));
+        var outputs = getUnique(recipe.labs$getOutputs().subList(0, recipe.labs$getNonChancedItemAmt()),
+                ItemStack::isEmpty, ItemMeta::new, ItemStack::getCount);
+
+        var chancedOutputs = getUnique(recipe.labs$getChancedItemOutputs(),
+                (chanced) -> chanced.getKey().isEmpty() || chanced.getValue() == 0,
+                (chanced) -> Pair.of(new ItemMeta(chanced.getKey()), chanced.getValue()),
+                (chanced) -> chanced.getKey().getCount());
+
         IItemStyle style = new ItemStyle().width(16).height(16);
         List<Pair<String, ElementItemStack>> items = new ArrayList<>();
 
@@ -147,14 +153,21 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
             items.add(Pair.of(stack.getDisplayName(), new ElementItemStack(stack, style)));
         }
 
-        for (var chanced : recipe.labs$getChancedItemOutputs()) {
-            String display = chanced.getKey().getDisplayName() + " (" + formatChance(chanced.getValue()) + ")";
-            items.add(Pair.of(display, new LabsChancedItemStackElement(chanced.getKey(), chanced.getValue(), style)));
+        for (var chanced : chancedOutputs.entrySet()) {
+            ItemStack stack = chanced.getKey().getKey().toStack(chanced.getValue());
+            String display = stack.getDisplayName() + " (" + formatChance(chanced.getKey().getValue()) + ")";
+            items.add(Pair.of(display, new LabsChancedItemStackElement(stack, chanced.getKey().getValue(), style)));
         }
 
         // Fluids
-        var fluidOutputs = getUniqueFluids(
-                recipe.labs$getFluidOutputs().subList(0, recipe.labs$getNonChancedFluidAmt()));
+        var fluidOutputs = getUnique(recipe.labs$getFluidOutputs().subList(0, recipe.labs$getNonChancedFluidAmt()),
+                (stack) -> stack.amount == 0, FluidStack::getFluid, (stack) -> stack.amount);
+
+        var chancedFluidOutputs = getUnique(recipe.labs$getChancedFluidOutputs(),
+                (chanced) -> chanced.getKey().amount == 0 || chanced.getValue() == 0,
+                (chanced) -> Pair.of(chanced.getKey().getFluid(), chanced.getValue()),
+                (chanced) -> chanced.getKey().amount);
+
         List<Pair<LabsFluidNameElement, LabsFluidStackElement>> fluids = new ArrayList<>();
 
         for (var output : fluidOutputs.entrySet()) {
@@ -162,37 +175,24 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
             fluids.add(Pair.of(new LabsFluidNameElement(stack, false), new LabsFluidStackElement(stack)));
         }
 
-        for (var chanced : recipe.labs$getChancedFluidOutputs()) {
-            fluids.add(Pair.of(new LabsChancedFluidNameElement(chanced.getKey(), chanced.getValue(), false),
-                    new LabsChancedFluidStackElement(chanced.getKey(), chanced.getValue())));
+        for (var chanced : chancedFluidOutputs.entrySet()) {
+            FluidStack stack = new FluidStack(chanced.getKey().getKey(), chanced.getValue());
+            fluids.add(Pair.of(new LabsChancedFluidNameElement(stack, chanced.getKey().getValue(), false),
+                    new LabsChancedFluidStackElement(stack, chanced.getKey().getValue())));
         }
         return Pair.of(items, fluids);
     }
 
-    private Map<ItemMeta, Integer> getUniqueItems(List<ItemStack> stacks) {
-        Map<ItemMeta, Integer> map = new Object2ObjectLinkedOpenHashMap<>();
+    private <T, K> Map<K, Integer> getUnique(List<T> stacks, Function<T, Boolean> emptyCheck, Function<T, K> getKey,
+                                             Function<T, Integer> getCount) {
+        Map<K, Integer> map = new Object2ObjectLinkedOpenHashMap<>();
 
-        for (var stack : stacks) {
-            if (stack.isEmpty()) continue;
+        for (T stack : stacks) {
+            if (emptyCheck.apply(stack)) continue;
 
-            map.compute(new ItemMeta(stack), (meta, count) -> {
+            map.compute(getKey.apply(stack), (key, count) -> {
                 if (count == null) count = 0;
-                return count + stack.getCount();
-            });
-        }
-
-        return map;
-    }
-
-    private Map<Fluid, Integer> getUniqueFluids(List<FluidStack> stacks) {
-        Map<Fluid, Integer> map = new Object2ObjectLinkedOpenHashMap<>();
-
-        for (var stack : stacks) {
-            if (stack.amount == 0) continue;
-
-            map.compute(stack.getFluid(), (meta, amount) -> {
-                if (amount == null) amount = 0;
-                return amount + stack.amount;
+                return count + getCount.apply(stack);
             });
         }
 
