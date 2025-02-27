@@ -26,6 +26,7 @@
     "MetaTileEntityMEStockingHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
     "MetaValueItemMixin",
+    "MinerLogicMixin",
     "MultiblockDisplayTextBuilderMixin",
     "MultiblockInfoCategoryMixin",
     "MultiblockRecipeLogicMixin",
