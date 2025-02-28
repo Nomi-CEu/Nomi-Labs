@@ -45,7 +45,8 @@
     "SteamMetaTileEntityMixin",
     "TileEntityPipeBaseMixin",
     "ToolEventHandlersMixin",
-    "VirtualizedRecipeMapMixin"
+    "VirtualizedRecipeMapMixin",
+    "WidgetProspectingMapMixin"
   ],
   "client": [
     "MetaTileEntityLargeBoilerClientMixin"
