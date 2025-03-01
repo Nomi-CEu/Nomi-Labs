@@ -90,6 +90,8 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
 
             NomiLabs.LOGGER.warn("-----------------------------------------------");
             NomiLabs.LOGGER.warn("===============================================");
+            settings.setProperty("difficulty", locked.getId());
+            settings.saveProperties();
         }
     }
 
