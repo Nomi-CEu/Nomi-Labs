@@ -83,7 +83,7 @@ public abstract class RenderDescriptionPart {
 
         @Override
         public void render() {
-            fontRenderer().drawStringWithShadow(text, x, y, interactive.color().getRGB());
+            fontRenderer().drawString(text, x, y, interactive.color().getRGB());
         }
 
         @Override
