@@ -48,7 +48,7 @@ public abstract class GuiLanguageListMixin {
     protected void cancelElementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY, CallbackInfo ci) {
         if (LabsConfig.advanced.languageModifyOption == LabsConfig.Advanced.LanguageModifyOption.NONE) return;
         Language language = languageMap.get(langCodeList.get(slotIndex));
-        ((AccessibleGuiLanguage) this$0).getLanguageManager().setCurrentLanguage(language);
+        ((AccessibleGuiLanguage) this$0).labs$getLanguageManager().setCurrentLanguage(language);
         ci.cancel();
     }
 }

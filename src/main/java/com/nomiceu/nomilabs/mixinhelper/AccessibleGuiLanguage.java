@@ -4,5 +4,5 @@ import net.minecraft.client.resources.LanguageManager;
 
 public interface AccessibleGuiLanguage {
 
-    LanguageManager getLanguageManager();
+    LanguageManager labs$getLanguageManager();
 }
