@@ -48,6 +48,7 @@ import com.nomiceu.nomilabs.groovy.mixinhelper.CraftingOutputCache;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
 import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
+import com.nomiceu.nomilabs.integration.nae2.AE2FCIntegration;
 import com.nomiceu.nomilabs.integration.top.LabsTOPManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
@@ -119,6 +120,9 @@ public class CommonProxy {
 
     public static void postInit() {
         LabsModeHelper.onPostInit();
+
+        if (Loader.isModLoaded(LabsValues.NAE2_MODID) && Loader.isModLoaded(LabsValues.AE2FC_MODID))
+            AE2FCIntegration.postInit();
     }
 
     public static void loadComplete() {

@@ -198,6 +198,9 @@ dependencies {
     // Armor Plus (from CurseForge)
     compileOnly rfg.deobf("curse.maven:armor-plus-237366:2803109") // Version 11.25.1.62
 
+    // AE2 Fluid Crafting Rework (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // Version 2.6.6-r
+
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
         runtimeOnly "curse.maven:redstone-flux-270789:2920436" // Version 2.1.1.1
@@ -238,6 +241,10 @@ dependencies {
 
     if (project.enable_nae2.toBoolean()) {
         runtimeOnly "curse.maven:nae2-884359:5380800" // Version 1.6.4
+    }
+
+    if (project.enable_ae2fc.toBoolean()) {
+        runtimeOnly "curse.maven:ae2-fluid-crafting-rework-623955:5751930" // Version 2.6.6-r
     }
 
     if (project.enable_better_p2p.toBoolean()) {
