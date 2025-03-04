@@ -1,2 +1,5 @@
 #-----------------Meta Items-----------------#
 metaitem.bronze_cell.name=%s Bronze Cell
+
+#-----------------GUI-----------------#
+gregtech.gui.muffler.notify_change=Muffler hatches no longer generate ashes in Nomi-CEu due to lag concerns.
