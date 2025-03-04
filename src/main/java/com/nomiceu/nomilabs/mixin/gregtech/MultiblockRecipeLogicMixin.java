@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.mixin.gregtech;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.gregtech.mixinhelper.IRefreshBeforeConsumption;
@@ -36,4 +37,20 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
         ((IRefreshBeforeConsumption) metaTileEntity).labs$refreshBeforeConsumption();
         return super.prepareRecipe(recipe);
     }
+
+    /**
+     * Remove Muffler Logic
+     */
+    @Redirect(
+            method = "completeRecipe()V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lgregtech/api/capability/impl/MultiblockRecipeLogic;performMufflerOperations()V"
+            )
+    )
+    private void removeMufflerMechanic(MultiblockRecipeLogic instance) {
+        // Do nothing
+    }
 }
+
+
