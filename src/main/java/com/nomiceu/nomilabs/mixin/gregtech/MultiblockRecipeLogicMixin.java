@@ -1,6 +1,9 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
+import com.nomiceu.nomilabs.config.LabsConfig;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -27,6 +30,8 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
         super(tileEntity, recipeMap);
     }
 
+    @Shadow protected abstract void performMufflerOperations();
+
     @Inject(method = "prepareRecipeDistinct", at = @At("HEAD"))
     private void refresh(Recipe recipe, CallbackInfoReturnable<Boolean> cir) {
         ((IRefreshBeforeConsumption) metaTileEntity).labs$refreshBeforeConsumption();
@@ -41,12 +46,13 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
     /**
      * Remove Muffler Logic
      */
-    @Redirect(
-              method = "completeRecipe()V",
-              at = @At(
-                       value = "INVOKE",
-                       target = "Lgregtech/api/capability/impl/MultiblockRecipeLogic;performMufflerOperations()V"))
-    private void removeMufflerMechanic(MultiblockRecipeLogic instance) {
-        // Do nothing
+    @Overwrite
+    protected void completeRecipe() {
+        // Call the superclass implementation.
+        super.completeRecipe();
+        // Conditionally perform muffler operations.
+        if (!LabsConfig.modIntegration.enableDummyMufflers) {
+            performMufflerOperations();
+        }
     }
 }
