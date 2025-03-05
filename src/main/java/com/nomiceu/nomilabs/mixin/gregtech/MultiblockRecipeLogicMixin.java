@@ -44,7 +44,10 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
     }
 
     /**
-     * Remove Muffler Logic
+     * @reason Conditionally skip the muffler operations based on the LabsConfig setting.
+     *         When dummy mufflers are enabled, we don't call performMufflerOperations().
+     *         This is because mufflers cause a lot of lag, for little to no benefit.
+     * @author D-Alessian
      */
     @Overwrite
     protected void completeRecipe() {
