@@ -42,15 +42,11 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
      * Remove Muffler Logic
      */
     @Redirect(
-            method = "completeRecipe()V",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lgregtech/api/capability/impl/MultiblockRecipeLogic;performMufflerOperations()V"
-            )
-    )
+              method = "completeRecipe()V",
+              at = @At(
+                       value = "INVOKE",
+                       target = "Lgregtech/api/capability/impl/MultiblockRecipeLogic;performMufflerOperations()V"))
     private void removeMufflerMechanic(MultiblockRecipeLogic instance) {
         // Do nothing
     }
 }
-
-

@@ -1,16 +1,18 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
-import gregtech.api.gui.widgets.ImageWidget;
-import gregtech.api.gui.widgets.SimpleTextWidget;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import gregtech.api.gui.ModularUI;
+
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.IUIHolder;
-import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;
+import gregtech.api.gui.ModularUI;
+import gregtech.api.gui.widgets.ImageWidget;
+import gregtech.api.gui.widgets.SimpleTextWidget;
 import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMufflerHatch;
-import net.minecraft.entity.player.EntityPlayer;
+import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;
 
 @Mixin(value = MetaTileEntityMufflerHatch.class, remap = false)
 public abstract class MetaTileEntityMufflerHatchMixin extends MetaTileEntityMultiblockPart {
@@ -32,8 +34,7 @@ public abstract class MetaTileEntityMufflerHatchMixin extends MetaTileEntityMult
                 .widget(new ImageWidget(92, 16, 16, 16, GuiTextures.INFO_ICON))
                 .widget(
                         new SimpleTextWidget(100, 60, "gregtech.gui.muffler.notify_change", 0x555555, () -> "")
-                                .setWidth(180)
-                );
+                                .setWidth(180));
         return builder.build(holder, entityPlayer);
     }
 }
