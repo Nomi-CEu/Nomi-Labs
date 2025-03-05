@@ -1,14 +1,13 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
-import com.nomiceu.nomilabs.config.LabsConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.IRefreshBeforeConsumption;
 
 import gregtech.api.capability.impl.AbstractRecipeLogic;
@@ -30,7 +29,8 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
         super(tileEntity, recipeMap);
     }
 
-    @Shadow protected abstract void performMufflerOperations();
+    @Shadow
+    protected abstract void performMufflerOperations();
 
     @Inject(method = "prepareRecipeDistinct", at = @At("HEAD"))
     private void refresh(Recipe recipe, CallbackInfoReturnable<Boolean> cir) {
