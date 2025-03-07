@@ -339,7 +339,7 @@ public class LabsConfig {
         @Config.Comment({
                 "Enable Dummy Muffler hatches.",
                 "Makes muffler hatches not produce ash anymore.",
-                "This improves performance when high parallel multiblocks with mufflers trying to calculate the ash.",
+                "This improves performance when multiblocks try to calculate ash output. This is especially useful for high parallels.",
                 "[default: false]"
         })
         @Config.LangKey("config.nomilabs.content.gt_content.dummy_muffler_hatches")
