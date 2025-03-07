@@ -24,6 +24,7 @@
     "MetaItemsMixin",
     "MetaTileEntityMEStockingBusMixin",
     "MetaTileEntityMEStockingHatchMixin",
+    "MetaTileEntityMufflerHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
     "MetaValueItemMixin",
     "MinerLogicMixin",

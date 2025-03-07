@@ -336,6 +336,16 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.disable_armor_plus_frag_drops")
         public boolean disableArmorPlusFragDrops = false;
 
+        @Config.Comment({
+                "Enable Dummy Muffler hatches.",
+                "Makes muffler hatches not produce ash anymore.",
+                "This improves performance when multiblocks try to calculate ash output. This is especially useful for high parallels.",
+                "[default: false]"
+        })
+        @Config.LangKey("config.nomilabs.content.gt_content.dummy_muffler_hatches")
+        @Config.RequiresMcRestart
+        public boolean enableDummyMufflers = false;
+
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
         @Config.Name("ae2 terminal options")
