@@ -539,6 +539,7 @@ item.nomilabs.cloth.name=Cloth
 item.nomilabs.thermalcloth.name=Thermal Cloth
 item.nomilabs.smallgearextrudershape.name=Extruder Shape (Small Gear)
 item.nomilabs.creativeportabletankmold.name=Creative Quantum Tank Data
+item.nomilabs.creativecomputationmold.name=Creative Computation Hatch Data
 item.nomilabs.magnetron.name=Magnetron
 
 item.nomilabs.conductivewire.name=Conductive Iron Wire

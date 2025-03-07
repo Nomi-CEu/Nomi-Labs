@@ -163,6 +163,7 @@ public class LabsItems {
      */
     public static ItemBase HEART_OF_THE_UNIVERSE;
     public static ItemBase CREATIVE_TANK_MOLD;
+    public static ItemBase CREATIVE_COMPUTATION_MOLD;
     public static ItemBase EXOTIC_MATERIALS_CATALYST;
     public static ItemBase ETERNAL_CATALYST;
     public static ItemBase ULTIMATE_GEM;
