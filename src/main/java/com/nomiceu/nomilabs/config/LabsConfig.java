@@ -339,12 +339,12 @@ public class LabsConfig {
         @Config.Comment({
                 "Enable Dummy Muffler hatches.",
                 "Makes muffler hatches not produce ash anymore.",
-                "This fixes potential lag when there is a high parallel on a multiblocks trying to calculate the ash.",
-                "[default: true]"
+                "This improves performance when high parallel multiblocks with mufflers trying to calculate the ash.",
+                "[default: false]"
         })
         @Config.LangKey("config.nomilabs.content.gt_content.dummy_muffler_hatches")
         @Config.RequiresMcRestart
-        public boolean enableDummyMufflers = true;
+        public boolean enableDummyMufflers = false;
 
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")

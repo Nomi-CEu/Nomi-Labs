@@ -17,25 +17,31 @@ import gregtech.api.gui.widgets.SimpleTextWidget;
 import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMufflerHatch;
 import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;
 
+/**
+ * Change the muffler GUI to clarify that it is a dummy muffler, and will not generate any ashes.
+ */
 @Mixin(value = MetaTileEntityMufflerHatch.class, remap = false)
 public abstract class MetaTileEntityMufflerHatchMixin extends MetaTileEntityMultiblockPart {
 
-    // The mixin must provide a constructor matching the superclass.
-    protected MetaTileEntityMufflerHatchMixin(ResourceLocation metaTileEntityId, int tier) {
+    /**
+     * Mandatory Ignored Constructor
+     */
+    private MetaTileEntityMufflerHatchMixin(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, tier);
     }
 
     @Inject(method = "createUI(Lnet/minecraft/entity/player/EntityPlayer;)Lgregtech/api/gui/ModularUI;",
             at = @At("HEAD"),
             cancellable = true)
-    private void onCreateUI(EntityPlayer entityPlayer, CallbackInfoReturnable<ModularUI> cir) {
-        if (LabsConfig.modIntegration.enableDummyMufflers) {
-            ModularUI.Builder builder = ModularUI.builder(GuiTextures.BORDERED_BACKGROUND, 200, 100)
-                    .widget(new ImageWidget(92, 16, 16, 16, GuiTextures.INFO_ICON))
-                    .widget(
-                            new SimpleTextWidget(100, 60, "gregtech.gui.muffler.notify_change", 0x555555, () -> "")
-                                    .setWidth(180));
-            cir.setReturnValue(builder.build(getHolder(), entityPlayer));
+    private void setMufflerUI(EntityPlayer entityPlayer, CallbackInfoReturnable<ModularUI> cir) {
+        if (!LabsConfig.modIntegration.enableDummyMufflers) {
+            return;
         }
+        ModularUI.Builder builder = ModularUI.builder(GuiTextures.BORDERED_BACKGROUND, 200, 100)
+                .widget(new ImageWidget(92, 16, 16, 16, GuiTextures.INFO_ICON))
+                .widget(
+                        new SimpleTextWidget(100, 60, "nomilabs.gui.dummy_muffler", 0x555555, () -> "")
+                                .setWidth(180));
+        cir.setReturnValue(builder.build(getHolder(), entityPlayer));
     }
 }
