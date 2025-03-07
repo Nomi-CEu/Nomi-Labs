@@ -18,7 +18,7 @@ import gregtech.api.recipes.RecipeMap;
 /**
  * Part of <a href="https://github.com/GregTechCEu/GregTech/pull/2646">GTCEu #2646</a> impl.
  * <p>
- * Also intercepts and cancels the muffler hatches recipe logic from running.
+ * Also cancels the muffler hatch operations.
  */
 @Mixin(value = MultiblockRecipeLogic.class, remap = false)
 public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
