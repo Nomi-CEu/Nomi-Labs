@@ -11,7 +11,6 @@ import com.nomiceu.nomilabs.mixinhelper.GuiCustomConfirmOpenLink;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import betterquesting.api2.client.gui.controls.io.ValueFuncIO;
-import betterquesting.api2.client.gui.resources.colors.GuiColorPulse;
 import betterquesting.api2.client.gui.resources.colors.GuiColorStatic;
 import betterquesting.api2.client.gui.resources.colors.GuiColorTransition;
 import betterquesting.api2.client.gui.resources.colors.IGuiColor;
@@ -51,9 +50,9 @@ public abstract class InteractiveState {
 
     public static class InteractiveCopy extends InteractiveState {
 
-        public static final GuiColorPulse DEFAULT_COLOR = new GuiColorPulse(0x3CB371, 0x98FB98, 2.0F, 1.0F);
+        public static final GuiColorStatic DEFAULT_COLOR = new GuiColorStatic(0x98FB98);
         public static final GuiColorStatic OVER_COLOR = new GuiColorStatic(0xff55ff);
-        public static final float TRANSITION_TIME = 250.0F;
+        public static final float TRANSITION_TIME = 150.0F;
         public static final int DISPLAY_COPIED_TIME = 1000;
 
         protected final GuiColorTransition color;
@@ -133,7 +132,7 @@ public abstract class InteractiveState {
 
     public static class InteractiveLink extends InteractiveCopy {
 
-        public static final GuiColorPulse DEFAULT_COLOR = new GuiColorPulse(0x87ceeb, 0x6495ed, 2.0F, 1.0F);
+        public static final GuiColorStatic DEFAULT_COLOR = new GuiColorStatic(0x87ceeb);
 
         public InteractiveLink(String toCopy, boolean disabled) {
             super(toCopy, disabled, DEFAULT_COLOR, OVER_COLOR);
