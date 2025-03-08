@@ -112,13 +112,15 @@ public class WidgetProspectingMapMixin {
             return instance.add(e);
         }
 
-        OreData data = labs$nameToData.get(str.split(" --- ")[0]);
+        String[] splitStr = str.split(" --- ");
+        OreData data = labs$nameToData.get(splitStr[0]);
         if (data == null) {
-            NomiLabs.LOGGER.error("[ProspectorMixin] Could not find Y data for name {}!", str.split(" --- ")[0]);
+            NomiLabs.LOGGER.error("[ProspectorMixin] Could not find Y data for name {}!", splitStr[0]);
             return instance.add(e);
         }
 
-        return instance.add((E) (str + String.format(" (y: %s - %s)", data.minY(), data.maxY())));
+        return instance.add((E) (String.format("%s --- §e%s§r (y: §c%s - %s§r)", splitStr[0], splitStr[1], data.minY(),
+                data.maxY())));
     }
 
     /* Waypoint Y Handling */
