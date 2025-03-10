@@ -342,7 +342,7 @@ public class LabsConfig {
                 "This improves performance when multiblocks try to calculate ash output. This is especially useful for high parallels.",
                 "[default: false]"
         })
-        @Config.LangKey("config.nomilabs.content.gt_content.dummy_muffler_hatches")
+        @Config.LangKey("config.nomilabs.mod_integration.dummy_muffler_hatches")
         @Config.RequiresMcRestart
         public boolean enableDummyMufflers = false;
 
