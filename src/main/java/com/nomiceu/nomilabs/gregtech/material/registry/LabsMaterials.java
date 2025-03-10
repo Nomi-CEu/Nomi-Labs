@@ -9,6 +9,7 @@ import com.nomiceu.nomilabs.gregtech.material.LabsProperties;
 import com.nomiceu.nomilabs.gregtech.material.registry.register.*;
 
 import gregtech.api.GregTechAPI;
+import gregtech.api.unification.material.MarkerMaterial;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialIconSet;
 
@@ -167,6 +168,12 @@ public class LabsMaterials {
     public static Material DraconicSuperconductor; // ID: 28
     public static Material KaptonK; // ID: 50; HM only
 
+    /**
+     * Marker Materials
+     */
+    public static MarkerMaterial DILITHIUM;
+    public static MarkerMaterial BLACK_QUARTZ;
+
     public static void init() {
         /* Deprecated Materials */
         Infinity = new Material.Builder(26, makeLabsName("infinity"))
@@ -204,6 +211,9 @@ public class LabsMaterials {
 
         /* Endgame Materials */
         LabsEndgame.initEndgame();
+
+        /* Marker Materials */
+        LabsMarkers.initMarkers();
 
         /* Fallback Material */
         GregTechAPI.materialManager.getRegistry(LabsValues.LABS_MODID)
