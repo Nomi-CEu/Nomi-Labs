@@ -20,10 +20,13 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.OreData;
 
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.common.terminal.app.prospector.ProspectingTexture;
+import gregtech.common.terminal.app.prospector.ProspectorMode;
+import gregtech.common.terminal.app.prospector.widget.WidgetOreList;
 import gregtech.common.terminal.app.prospector.widget.WidgetProspectingMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
@@ -36,11 +39,19 @@ public class WidgetProspectingMapMixin {
     @Shadow
     private ProspectingTexture texture;
 
+    @Shadow
+    private boolean darkMode;
     @Unique
     private OreData labs$hoveredOreData = null;
 
     @Unique
     private Map<String, OreData> labs$nameToData = new Object2ObjectOpenHashMap<>();
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void defaultDark(int xPosition, int yPosition, int chunkRadius, WidgetOreList widgetOreList,
+                             ProspectorMode mode, int scanTick, CallbackInfo ci) {
+        darkMode = LabsConfig.modIntegration.defaultDarkMode;
+    }
 
     /* Calculation of Ore Height */
 

@@ -346,6 +346,14 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean enableDummyMufflers = false;
 
+        @Config.Comment({ "Make Prospector default to Dark Mode.",
+                "Improves visibility of light ores, and dark ores are still visible.",
+                "Coal Ore has visibility problems if this option is turned on, but it is the only ore, compared to many light ores.",
+                "Note that while light/dark mode is togglable in terminal, it is not with the item.",
+                "[default: true]" })
+        @Config.LangKey("config.nomilabs.mod_integration.prospector_dark")
+        public boolean defaultDarkMode = true;
+
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
         @Config.Name("ae2 terminal options")
