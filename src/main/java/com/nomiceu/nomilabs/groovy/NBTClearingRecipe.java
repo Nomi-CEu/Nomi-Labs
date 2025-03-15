@@ -54,7 +54,7 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     @Override
     @NotNull
     public ItemStack getCraftingResult(@NotNull InventoryCrafting inv) {
-        if (nbtClearer == null) return exampleOutput;
+        if (nbtClearer == null) return exampleOutput.copy();
 
         var stack = ItemStack.EMPTY;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
