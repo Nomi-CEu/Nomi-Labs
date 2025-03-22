@@ -1,13 +1,12 @@
 package com.nomiceu.nomilabs.tooltip;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 
 import com.jaquadro.minecraft.storagedrawers.item.ItemCompDrawers;
@@ -17,46 +16,95 @@ import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
+import eutros.framedcompactdrawers.item.ItemControllerCustom;
+import eutros.framedcompactdrawers.item.ItemSlaveCustom;
+
 public class DrawerTooltipAdder {
 
     public static void addDrawerInfo(List<String> tooltip, ItemStack stack) {
-        if (!(stack.getItem() instanceof ItemDrawers || stack.getItem() instanceof ItemCompDrawers))
+        // Add tooltip if drawers, compacting drawers,
+        // but not controller or slave (which inherits from ItemCustomDrawers)
+        if (!(stack.getItem() instanceof ItemDrawers || stack.getItem() instanceof ItemCompDrawers) ||
+                stack.getItem() instanceof ItemControllerCustom || stack.getItem() instanceof ItemSlaveCustom)
             return;
 
         NBTTagCompound nbt = stack.getTagCompound();
         if (nbt == null) return;
 
-        // Drawer Stored Notice
+        boolean shouldPrintShiftMsg = false;
+
+        // Main Tooltip Handling
         if (nbt.hasKey("tile")) {
-            addDrawerStoredInfo(tooltip, nbt);
-            return;
+            shouldPrintShiftMsg = addDrawerTileInfo(tooltip, nbt);
+        } else if (nbt.hasKey(CustomUpgradeHandler.CUSTOM_UPGRADES)) {
+            shouldPrintShiftMsg = addDrawerUpgradeInfo(tooltip, nbt);
         }
 
-        // Drawer Upgrade Notice
-        if (nbt.hasKey(CustomUpgradeHandler.CUSTOM_UPGRADES)) {
-            addDrawerUpgradeInfo(tooltip, nbt);
+        // Shift Info Handling
+        if (shouldPrintShiftMsg) {
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.shift"));
         }
     }
 
-    private static void addDrawerStoredInfo(List<String> tooltip, NBTTagCompound compound) {
-        NBTBase drawers = compound.getCompoundTag("tile").getTag("Drawers");
-        // noinspection ConstantValue Drawers might be null if drawers key is missing, according to my understanding
-        if (drawers == null || drawers.isEmpty()) return;
+    private static boolean addDrawerTileInfo(List<String> tooltip, NBTTagCompound compound) {
+        if (!tooltip.isEmpty()) {
+            // Clear old stored info tooltip
+            String target = TextFormatting.YELLOW + LabsTranslate.translate("storagedrawers.drawers.sealed");
+            List<String> removed = new ArrayList<>();
+            for (int i = tooltip.size() - 1; i >= 0; i--) {
+                String line = tooltip.remove(i);
+                if (line.equals(target)) {
+                    break;
+                }
 
-        if (!LabsTooltipHelper.isShiftDown()) {
-            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.stored_info"));
-            return;
+                removed.add(line);
+            }
+
+            if (!removed.isEmpty()) {
+                for (int i = removed.size() - 1; i >= 0; i--) {
+                    tooltip.add(removed.get(i));
+                }
+            }
         }
 
-        addDrawerUpgrades(tooltip, compound.getCompoundTag("tile").getTagList("Upgrades", Constants.NBT.TAG_COMPOUND));
+        return addDrawerStoredInfo(tooltip, compound) || addDrawerTileUpgradeInfo(tooltip, compound);
+    }
+
+    private static boolean addDrawerTileUpgradeInfo(List<String> tooltip, NBTTagCompound compound) {
+        NBTTagList upgrades = compound.getCompoundTag("tile").getTagList("Upgrades", Constants.NBT.TAG_COMPOUND);
+
+        if (upgrades.isEmpty()) return false;
+
+        tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades"));
+        if (!LabsTooltipHelper.isShiftDown()) return true;
+        addDrawerUpgrades(tooltip, upgrades);
+        return false;
+    }
+
+    private static boolean addDrawerStoredInfo(List<String> tooltip, NBTTagCompound compound) {
+        NBTBase drawers = compound.getCompoundTag("tile").getTag("Drawers");
+        // noinspection ConstantValue Drawers might be null if drawers key is missing, according to my understanding
+        if (drawers == null || drawers.isEmpty()) return false;
+
+        // Special case for drawer lists: it can contain (empty) NBT Tag Compound
+        if (drawers instanceof NBTTagList list && list.get(0).isEmpty()) return false;
+        // Special case for drawer compounds: count can be 0
+        else if (drawers instanceof NBTTagCompound comp && comp.getInteger("Count") <= 0) return false;
+
+        tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.stored"));
+        if (!LabsTooltipHelper.isShiftDown())
+            return true;
+
         if (drawers instanceof NBTTagCompound comp)
             addCompactingDrawerStored(tooltip, comp);
         else if (drawers instanceof NBTTagList list)
             addNormalDrawerStored(tooltip, list);
-        // What?
         else
+            // What?
             NomiLabs.LOGGER.fatal("Unknown stored drawer info of type: {} ({})", drawers.getId(),
                     drawers.getClass().getName());
+
+        return false;
     }
 
     private static void addNormalDrawerStored(List<String> tooltip, NBTTagList drawers) {
@@ -91,16 +139,18 @@ public class DrawerTooltipAdder {
         }
     }
 
-    private static void addDrawerUpgradeInfo(List<String> tooltip, NBTTagCompound compound) {
+    private static boolean addDrawerUpgradeInfo(List<String> tooltip, NBTTagCompound compound) {
         tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades"));
-        if (!LabsTooltipHelper.isShiftDown()) {
-            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades_info"));
-            return;
-        }
 
         NBTTagList list = compound.getCompoundTag(CustomUpgradeHandler.CUSTOM_UPGRADES).getTagList("Upgrades",
                 Constants.NBT.TAG_COMPOUND);
+        if (list.isEmpty()) return false;
+
+        if (!LabsTooltipHelper.isShiftDown())
+            return true;
+
         addDrawerUpgrades(tooltip, list);
+        return false;
     }
 
     private static void addDrawerUpgrades(List<String> tooltip, NBTTagList list) {
@@ -117,7 +167,7 @@ public class DrawerTooltipAdder {
         }
 
         for (var upgrade : upgrades.entrySet()) {
-            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.item_upgrade",
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.item",
                     upgrade.getKey().toStack().getDisplayName(), upgrade.getValue()));
         }
     }
