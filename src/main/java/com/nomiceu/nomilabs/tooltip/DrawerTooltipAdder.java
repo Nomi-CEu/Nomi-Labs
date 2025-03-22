@@ -67,7 +67,10 @@ public class DrawerTooltipAdder {
             }
         }
 
-        return addDrawerStoredInfo(tooltip, compound) || addDrawerTileUpgradeInfo(tooltip, compound);
+        boolean result;
+        result = addDrawerTileUpgradeInfo(tooltip, compound);
+        result = addDrawerStoredInfo(tooltip, compound) || result;
+        return result;
     }
 
     private static boolean addDrawerTileUpgradeInfo(List<String> tooltip, NBTTagCompound compound) {
@@ -75,8 +78,12 @@ public class DrawerTooltipAdder {
 
         if (upgrades.isEmpty()) return false;
 
-        tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades"));
-        if (!LabsTooltipHelper.isShiftDown()) return true;
+        if (!LabsTooltipHelper.isShiftDown()) {
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades"));
+            return true;
+        } else
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades_active"));
+
         addDrawerUpgrades(tooltip, upgrades);
         return false;
     }
@@ -91,9 +98,11 @@ public class DrawerTooltipAdder {
         // Special case for drawer compounds: count can be 0
         else if (drawers instanceof NBTTagCompound comp && comp.getInteger("Count") <= 0) return false;
 
-        tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.stored"));
-        if (!LabsTooltipHelper.isShiftDown())
+        if (!LabsTooltipHelper.isShiftDown()) {
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.stored"));
             return true;
+        } else
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.stored_active"));
 
         if (drawers instanceof NBTTagCompound comp)
             addCompactingDrawerStored(tooltip, comp);
@@ -140,14 +149,16 @@ public class DrawerTooltipAdder {
     }
 
     private static boolean addDrawerUpgradeInfo(List<String> tooltip, NBTTagCompound compound) {
-        tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades"));
-
         NBTTagList list = compound.getCompoundTag(CustomUpgradeHandler.CUSTOM_UPGRADES).getTagList("Upgrades",
                 Constants.NBT.TAG_COMPOUND);
         if (list.isEmpty()) return false;
 
-        if (!LabsTooltipHelper.isShiftDown())
+        if (!LabsTooltipHelper.isShiftDown()) {
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades"));
             return true;
+        } else {
+            tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.upgrades_active"));
+        }
 
         addDrawerUpgrades(tooltip, list);
         return false;
