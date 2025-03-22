@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -27,14 +28,15 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     public static final LabsTranslate.Translatable CAN_CLEAR_TOOLTIP = new LabsTranslate.Translatable(
             "tooltip.nomilabs.item.can_clear");
 
+    private final ItemMeta singleInput;
+    private final ItemMeta exampleOutput;
+
     @Nullable
     private final Consumer<ItemStack> nbtClearer;
-    private final ItemStack singleInput;
-    private final ItemStack exampleOutput;
 
     public NBTClearingRecipe(ItemStack input, ItemStack exampleOutput, @Nullable Consumer<ItemStack> nbtClearer) {
-        this.singleInput = input;
-        this.exampleOutput = exampleOutput;
+        this.singleInput = new ItemMeta(input);
+        this.exampleOutput = new ItemMeta(exampleOutput);
         this.nbtClearer = nbtClearer;
     }
 
@@ -42,10 +44,10 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     public boolean matches(@NotNull InventoryCrafting inv, @NotNull World worldIn) {
         boolean found = false;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
-            var stack = inv.getStackInSlot(i);
+            ItemStack stack = inv.getStackInSlot(i);
             if (stack.isEmpty()) continue;
 
-            if (found || !ItemMeta.compare(inv.getStackInSlot(i), singleInput)) return false;
+            if (found || !singleInput.compareWith(inv.getStackInSlot(i))) return false;
             found = true;
         }
         return found;
@@ -54,7 +56,7 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     @Override
     @NotNull
     public ItemStack getCraftingResult(@NotNull InventoryCrafting inv) {
-        if (nbtClearer == null) return exampleOutput.copy();
+        if (nbtClearer == null) return exampleOutput.toStack();
 
         var stack = ItemStack.EMPTY;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
@@ -63,8 +65,12 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
         }
 
         if (stack.isEmpty()) return ItemStack.EMPTY;
-        var display = new ItemStack(exampleOutput.getItem(), 1, exampleOutput.getMetadata());
-        display.setTagCompound(stack.getTagCompound());
+        var display = exampleOutput.toStack();
+
+        NBTTagCompound origTag = stack.getTagCompound();
+        if (origTag != null)
+            display.setTagCompound(origTag.copy());
+
         nbtClearer.accept(display);
         return display;
     }
@@ -77,7 +83,7 @@ public class NBTClearingRecipe extends IForgeRegistryEntry.Impl<IRecipe> impleme
     @Override
     @NotNull
     public ItemStack getRecipeOutput() {
-        return exampleOutput;
+        return exampleOutput.toStack();
     }
 
     /**

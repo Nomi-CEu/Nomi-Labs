@@ -47,6 +47,7 @@ crafting.shapedBuilder()
 
 // Examples: NBT Clearing
 // Note that provided OUTPUT must match the output item in ALL CASES for that recipe!
+// Note that provided Inputs/Outputs' NBT will be IGNORED! If Output must have X NBT, add such in the Clearer Logic.
 // Simplest Form, Same Item for Input and Output
 if (Loader.isModLoaded(LabsValues.STORAGE_DRAWERS_MODID))
     nbtClearingRecipe(item('storagedrawers:compdrawers'))
