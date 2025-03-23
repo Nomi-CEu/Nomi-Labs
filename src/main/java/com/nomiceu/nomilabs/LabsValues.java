@@ -18,6 +18,7 @@ public class LabsValues {
     public static final String MBT_MODID = "mbt";
     public static final String MULTIBLOCK_TWEAKER_MODID = "multiblocktweaker";
     public static final String GREGTECH_MODID = "gregtech";
+    public static final String GCYM_MODID = "gcym";
     public static final String GROOVY_MODID = "groovyscript";
     public static final String TOP_MODID = "theoneprobe";
     public static final String ENDER_STORAGE_MODID = "enderstorage";

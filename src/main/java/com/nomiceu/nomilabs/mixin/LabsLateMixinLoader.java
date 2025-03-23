@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.mixin;
 
+import static com.nomiceu.nomilabs.LabsValues.*;
 import static com.nomiceu.nomilabs.NomiLabs.LOGGER;
 
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.stream.Collectors;
 import net.minecraftforge.fml.common.Loader;
 
 import com.google.common.collect.ImmutableMap;
-import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 
 import zone.rong.mixinbooter.ILateMixinLoader;
@@ -19,45 +19,46 @@ import zone.rong.mixinbooter.ILateMixinLoader;
 public class LabsLateMixinLoader implements ILateMixinLoader {
 
     public static final Map<String, Boolean> modMixinsConfig = new ImmutableMap.Builder<String, Boolean>()
-            .put(LabsValues.DRACONIC_MODID,
+            .put(DRACONIC_MODID,
                     LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration)
-            .put(LabsValues.NUCLEARCRAFT_MODID,
+            .put(NUCLEARCRAFT_MODID,
                     LabsConfig.modIntegration.enableNuclearCraftIntegration)
-            .put(LabsValues.XU2_MODID,
+            .put(XU2_MODID,
                     LabsConfig.modIntegration.enableExtraUtils2Integration)
-            .put(LabsValues.GREGTECH_MODID, true)
-            .put(LabsValues.JEI_MODID, true)
-            .put(LabsValues.ROCKETRY_MODID,
+            .put(GREGTECH_MODID, true)
+            .put(JEI_MODID, true)
+            .put(ROCKETRY_MODID,
                     LabsConfig.modIntegration.enableAdvancedRocketryIntegration)
-            .put(LabsValues.ARCHITECTURE_MODID,
+            .put(ARCHITECTURE_MODID,
                     LabsConfig.modIntegration.enableArchitectureCraftIntegration)
-            .put(LabsValues.EFFORTLESS_MODID,
+            .put(EFFORTLESS_MODID,
                     LabsConfig.modIntegration.effortlessBuildingIntegration.enableEffortlessBuildingIntegration)
-            .put(LabsValues.GROOVY_MODID, true)
-            .put(LabsValues.CONTROLLING_MODID, true)
-            .put(LabsValues.DEFAULT_WORLD_GEN_MODID,
+            .put(GROOVY_MODID, true)
+            .put(CONTROLLING_MODID, true)
+            .put(DEFAULT_WORLD_GEN_MODID,
                     LabsConfig.modIntegration.enableDefaultWorldGenIntegration)
-            .put(LabsValues.DME_MODID, true)
-            .put(LabsValues.FTB_UTILS_MODID,
+            .put(DME_MODID, true)
+            .put(FTB_UTILS_MODID,
                     LabsConfig.modIntegration.enableFTBUtilsIntegration)
-            .put(LabsValues.TOP_ADDONS_MODID,
+            .put(TOP_ADDONS_MODID,
                     LabsConfig.modIntegration.enableTopAddonsIntegration)
-            .put(LabsValues.TOP_MODID, true)
-            .put(LabsValues.AE2_MODID, true)
-            .put(LabsValues.ENDER_IO_MODID, true)
-            .put(LabsValues.AA_MODID, true)
-            .put(LabsValues.THERMAL_FOUNDATION_MODID, true)
-            .put(LabsValues.BQU_MODID, true)
-            .put(LabsValues.BETTER_P2P_MODID, true)
-            .put(LabsValues.STORAGE_DRAWERS_MODID, true)
-            .put(LabsValues.SOLAR_FLUX_MODID,
+            .put(TOP_MODID, true)
+            .put(AE2_MODID, true)
+            .put(ENDER_IO_MODID, true)
+            .put(AA_MODID, true)
+            .put(THERMAL_FOUNDATION_MODID, true)
+            .put(BQU_MODID, true)
+            .put(BETTER_P2P_MODID, true)
+            .put(STORAGE_DRAWERS_MODID, true)
+            .put(SOLAR_FLUX_MODID,
                     LabsConfig.modIntegration.solarFluxPerformanceOptions.enableSolarFluxPerformance)
-            .put(LabsValues.ARMOR_PLUS_MODID, true)
+            .put(ARMOR_PLUS_MODID, true)
+            .put(GCYM_MODID, true)
             .build();
 
     @Override
     public List<String> getMixinConfigs() {
-        return modMixinsConfig.keySet().stream().map(mod -> "mixins." + LabsValues.LABS_MODID + "." + mod + ".json")
+        return modMixinsConfig.keySet().stream().map(mod -> "mixins." + LABS_MODID + "." + mod + ".json")
                 .collect(Collectors.toList());
     }
 
@@ -71,7 +72,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             return true;
         }
 
-        if (!Objects.equals(parts[1], LabsValues.LABS_MODID)) {
+        if (!Objects.equals(parts[1], LABS_MODID)) {
             LOGGER.error("Non Nomi-Labs Mixin Found in Mixin Queue. This is probably an error. Skipping...");
             LOGGER.error("Mixin Config: {}", mixinConfig);
             return true;
