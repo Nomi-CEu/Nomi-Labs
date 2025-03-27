@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 import net.minecraft.client.gui.FontRenderer;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.ImmutableList;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -85,7 +87,7 @@ public abstract class DescriptionPart {
 
         @Override
         public RenderDescriptionPart toRender(int x, int y, int end) {
-            String sub = text.substring(0, end);
+            String sub = StringUtils.stripEnd(text.substring(0, end), "\n\r");
             return new RenderDescriptionText(sub, fontRenderer().getStringWidth(sub), x, y);
         }
 
@@ -137,7 +139,7 @@ public abstract class DescriptionPart {
 
         @Override
         public RenderDescriptionPart toRender(int x, int y, int end) {
-            String sub = display.substring(0, end);
+            String sub = StringUtils.stripEnd(display.substring(0, end), "\n\r");
             return new RenderDescriptionInteractive(sub, fontRenderer().getStringWidth(sub), x, y, state);
         }
 
