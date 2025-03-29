@@ -50,7 +50,7 @@ public class LabsElements {
                 .ingot().liquid()
                 .element(Tc)
                 .color(0xcadce2).iconSet(SHINY)
-                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_DUST, GENERATE_BOLT_SCREW, GENERATE_FOIL)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
                 .cableProperties(V[UHV], 8, 0, true)
                 .build();
 
