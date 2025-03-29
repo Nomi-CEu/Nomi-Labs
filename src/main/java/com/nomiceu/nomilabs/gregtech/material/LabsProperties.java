@@ -17,6 +17,7 @@ public class LabsProperties {
     public static void propertyChanges() {
         // Rhodium Sulfate gets Dust Property from adding it as an ore byproduct of Darmstadtite in LabsMicroverse
 
+        Technetium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Lutetium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Neptunium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Curium.setProperty(PropertyKey.INGOT, new IngotProperty());
@@ -25,6 +26,7 @@ public class LabsProperties {
         Einsteinium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Graphite.setProperty(PropertyKey.INGOT, new IngotProperty());
 
+        Technetium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Bromine.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Curium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
@@ -71,6 +73,7 @@ public class LabsProperties {
         BlueSteel.addFlags(GENERATE_FRAME);
         Ultimet.addFlags(GENERATE_FRAME);
         Tritanium.addFlags(GENERATE_DENSE, GENERATE_SPRING);
+        Technetium.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE, GENERATE_BOLT_SCREW)
 
         // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
         // We don't have Thaumcraft. Add it back. (Part 2)
