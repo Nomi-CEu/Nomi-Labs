@@ -17,7 +17,6 @@ public class LabsProperties {
     public static void propertyChanges() {
         // Rhodium Sulfate gets Dust Property from adding it as an ore byproduct of Darmstadtite in LabsMicroverse
 
-        Technetium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Lutetium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Neptunium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Curium.setProperty(PropertyKey.INGOT, new IngotProperty());
@@ -26,7 +25,6 @@ public class LabsProperties {
         Einsteinium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Graphite.setProperty(PropertyKey.INGOT, new IngotProperty());
 
-        Technetium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Bromine.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Curium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
