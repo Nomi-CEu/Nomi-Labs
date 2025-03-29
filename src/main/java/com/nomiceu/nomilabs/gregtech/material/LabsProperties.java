@@ -73,7 +73,7 @@ public class LabsProperties {
         BlueSteel.addFlags(GENERATE_FRAME);
         Ultimet.addFlags(GENERATE_FRAME);
         Tritanium.addFlags(GENERATE_DENSE, GENERATE_SPRING);
-        Technetium.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE, GENERATE_BOLT_SCREW)
+        
 
         // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
         // We don't have Thaumcraft. Add it back. (Part 2)
