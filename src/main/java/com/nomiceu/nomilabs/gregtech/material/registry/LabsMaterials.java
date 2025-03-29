@@ -27,6 +27,7 @@ public class LabsMaterials {
     public static Material AwakenedDraconium; // ID: 2
     public static Material Omnium; // ID: 4
     public static Material Taranium; // ID: 109; HM only
+    public static Material Technetium; // ID: 20
 
     /**
      * Chemical Materials
@@ -187,7 +188,7 @@ public class LabsMaterials {
     public static Material CrystalMatrix; // ID: 23
     public static Material DraconicSuperconductor; // ID: 28
     public static Material KaptonK; // ID: 50; HM only
-
+    
     public static void init() {
         /* Deprecated Materials */
         Infinity = new Material.Builder(26, makeLabsName("infinity"))
