@@ -51,7 +51,7 @@ public class LabsElements {
                 .element(Tc)
                 .color(0xcadce2).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
-                .cableProperties(V[UHV], 8, 0, true)
+                .cableProperties(V[UHV], 2, 0, true)
                 .build();
 
         Taranium = new Material.Builder(109, makeLabsName("taranium")) // Hardmode Material
