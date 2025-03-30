@@ -188,7 +188,7 @@ public class LabsMaterials {
     public static Material CrystalMatrix; // ID: 23
     public static Material DraconicSuperconductor; // ID: 28
     public static Material KaptonK; // ID: 50; HM only
-    
+
     public static void init() {
         /* Deprecated Materials */
         Infinity = new Material.Builder(26, makeLabsName("infinity"))
