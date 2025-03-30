@@ -28,7 +28,7 @@ jobs:
         run: ./gradlew :spotlessApply
  
       - name: Build Project
-        run: ./gradlew build
+        run: ./gradlew build --refresh-dependencies
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
