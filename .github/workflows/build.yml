@@ -2,6 +2,7 @@
 name: Build Nomi Labs
 on:
   push:
+  pull_request:
   workflow_dispatch:
 
 concurrency:
@@ -22,9 +23,6 @@ jobs:
 
       - name: Setup Build
         uses: ./.github/actions/build_setup
-
-      - name: Spotless
-        run: ./gradlew :spotlessApply
 
       - name: Build Project
         run: ./gradlew build
