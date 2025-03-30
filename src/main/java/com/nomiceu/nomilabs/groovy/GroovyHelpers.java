@@ -2,22 +2,26 @@ package com.nomiceu.nomilabs.groovy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.settings.KeyModifier;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,10 +30,15 @@ import com.brandon3055.draconicevolution.lib.RecipeManager;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
+import com.cleanroommc.groovyscript.helper.GroovyHelper;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
+import com.cleanroommc.groovyscript.helper.recipe.RecipeName;
+import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.cleanroommc.groovyscript.sandbox.ClosureHelper;
 import com.nomiceu.nomilabs.LabsValues;
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
+import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
+import com.nomiceu.nomilabs.mixin.gregtech.RecipeBuilderAccessor;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
@@ -40,6 +49,7 @@ import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
+import gregtech.api.recipes.ingredients.GTRecipeInput;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher;
 import gregtech.api.unification.material.Material;
@@ -48,6 +58,7 @@ import gregtech.api.util.GTUtility;
 import gregtech.client.utils.TooltipHelper;
 import gregtech.integration.groovy.VirtualizedRecipeMap;
 import groovy.lang.Closure;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 /**
  * The interface for groovy to interact with.
@@ -101,10 +112,6 @@ public class GroovyHelpers {
             List<LabsTranslate.Translatable> list = new ArrayList<>();
             list.add(tr);
             LabsTooltipHelper.addTooltip(new ItemMeta(item), list);
-        }
-
-        public static void clearTooltip(ItemStack item) {
-            LabsTooltipHelper.clearTooltip(new ItemMeta(item));
         }
     }
 
@@ -174,25 +181,58 @@ public class GroovyHelpers {
 
         /* Description + Tooltip */
         public static void addDescription(ItemStack stack, LabsTranslate.Translatable... description) {
-            JEIPlugin.addGroovyDescription(stack, description);
-        }
-
-        public static void addRecipeOutputTooltip(ItemStack stack, LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeOutputTooltip(stack, tooltip);
+            LabsJEIPlugin.addGroovyDescription(stack, description);
         }
 
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
-            JEIPlugin.addGroovyRecipeOutputTooltip(stack, recipeName, tooltip);
+            LabsJEIPlugin.addGroovyRecipeOutputTooltip(recipeName, tooltip);
+        }
+
+        public static void addRecipeOutputTooltip(String recipeName,
+                                                  LabsTranslate.Translatable... tooltip) {
+            if (recipeName.contains(":"))
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(new ResourceLocation(recipeName), tooltip);
+            else
+                LabsJEIPlugin.addGroovyRecipeOutputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
+                        tooltip);
+        }
+
+        public static void addRecipeInputTooltip(ResourceLocation recipeName, int slotIndex,
+                                                 LabsTranslate.Translatable... tooltip) {
+            LabsJEIPlugin.addGroovyRecipeInputTooltip(recipeName, slotIndex, tooltip);
+        }
+
+        public static void addRecipeInputTooltip(String recipeName, int slotIndex,
+                                                 LabsTranslate.Translatable... tooltip) {
+            if (recipeName.contains(":"))
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(recipeName), slotIndex, tooltip);
+            else
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName),
+                        slotIndex, tooltip);
+        }
+
+        public static void addRecipeInputTooltip(ResourceLocation recipeName,
+                                                 LabsTranslate.Translatable... tooltip) {
+            for (int i = 0; i < 9; i++)
+                LabsJEIPlugin.addGroovyRecipeInputTooltip(recipeName, i, tooltip);
+        }
+
+        public static void addRecipeInputTooltip(String recipeName,
+                                                 LabsTranslate.Translatable... tooltip) {
+            if (recipeName.contains(":"))
+                addRecipeInputTooltip(new ResourceLocation(recipeName), tooltip);
+            else
+                addRecipeInputTooltip(new ResourceLocation(GroovyHelper.getPackId(), recipeName), tooltip);
         }
 
         /* Hiding Ignore NBT */
         public static void hideItemIgnoreNBT(ItemStack stack) {
-            JEIPlugin.hideItemNBTMatch(stack, (tag) -> true);
+            LabsJEIPlugin.hideItemNBTMatch(stack, (tag) -> true);
         }
 
         public static void removeAndHideItemIgnoreNBT(ItemStack stack) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, (tag) -> true);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, (tag) -> true);
         }
 
         public static void yeetItemIgnoreNBT(ItemStack stack) {
@@ -201,30 +241,44 @@ public class GroovyHelpers {
 
         /* Hiding NBT Match */
         public static void hideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.hideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.hideItemNBTMatch(stack, condition);
         }
 
         public static void removeAndHideItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
         }
 
         public static void yeetItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
-            JEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+            LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
+        }
+
+        /* Recipe Catalyst Override */
+        public static void overrideRecipeCatalysts(String category, Object... catalysts) {
+            LabsJEIPlugin.addRecipeCatalystOverride(category, catalysts);
         }
     }
 
     public static class MaterialHelpers {
 
         public static void hideMaterial(Material material) {
+            hideMaterial(material, true);
+        }
+
+        public static void hideMaterial(Material material, boolean inclBucket) {
             MaterialHelper.forMaterialItem(material,
-                    (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)));
+                    (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)), inclBucket);
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
                     .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
         }
 
         public static void removeAndHideMaterial(Material material) {
+            removeAndHideMaterial(material, true);
+        }
+
+        public static void removeAndHideMaterial(Material material, boolean inclBucket) {
             MaterialHelper.forMaterialItem(material,
-                    (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)));
+                    (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)),
+                    inclBucket);
             // Normal Hiding for Fluids, they don't have recipes
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
                     .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
@@ -234,16 +288,29 @@ public class GroovyHelpers {
             removeAndHideMaterial(material);
         }
 
-        public static void forMaterial(Material material, Closure<ItemStack> itemAction, Closure<Fluid> fluidAction) {
-            forMaterialItem(material, itemAction);
+        public static void yeetMaterial(Material material, boolean inclBucket) {
+            removeAndHideMaterial(material, inclBucket);
+        }
+
+        public static void forMaterial(Material material, Closure<Void> itemAction, Closure<Void> fluidAction) {
+            forMaterial(material, itemAction, fluidAction, true);
+        }
+
+        public static void forMaterial(Material material, Closure<Void> itemAction, Closure<Void> fluidAction,
+                                       boolean inclBucket) {
+            forMaterialItem(material, itemAction, inclBucket);
             forMaterialFluid(material, fluidAction);
         }
 
-        public static void forMaterialItem(Material material, Closure<ItemStack> action) {
-            MaterialHelper.forMaterialItem(material, (stack) -> ClosureHelper.call(action, stack));
+        public static void forMaterialItem(Material material, Closure<Void> action) {
+            forMaterialItem(material, action, true);
         }
 
-        public static void forMaterialFluid(Material material, Closure<Fluid> action) {
+        public static void forMaterialItem(Material material, Closure<Void> action, boolean inclBucket) {
+            MaterialHelper.forMaterialItem(material, (stack) -> ClosureHelper.call(action, stack), inclBucket);
+        }
+
+        public static void forMaterialFluid(Material material, Closure<Void> action) {
             MaterialHelper.forMaterialFluid(material, (fluid) -> ClosureHelper.call(action, fluid));
         }
 
@@ -419,6 +486,12 @@ public class GroovyHelpers {
         public static ChancedFluidOutput chanced(FluidStack fluid, int chance, int chanceBoost) {
             return new ChancedFluidOutput(fluid, chance, chanceBoost);
         }
+
+        @Contract("_ -> new")
+        public static GTRecipeInput toGtInput(IIngredient ingredient) {
+            // noinspection Contract
+            return RecipeBuilderAccessor.ofGroovyIngredient(ingredient);
+        }
     }
 
     public static class KeyBindingHelpers {
@@ -444,6 +517,187 @@ public class GroovyHelpers {
                     .collect(Collectors.toList())) {
                 ModSupport.DRACONIC_EVOLUTION.get().fusion.remove(recipe);
             }
+        }
+    }
+
+    public static class NBTClearingRecipeHelpers {
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item) {
+            return nbtClearingRecipe(item, item, null);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer) {
+            return nbtClearingRecipe(item, item, clearer);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output) {
+            return nbtClearingRecipe(input, output, null);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
+                                                          @Nullable Consumer<ItemStack> clearer) {
+            return nbtClearingRecipe(input, exampleOutput, clearer, NBTClearingRecipe.CAN_CLEAR_TOOLTIP,
+                    NBTClearingRecipe.WARNING_TOOLTIP);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, LabsTranslate.Translatable tooltip) {
+            return nbtClearingRecipe(item, item, null, tooltip);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack item, @Nullable Consumer<ItemStack> clearer,
+                                                          LabsTranslate.Translatable canClearTooltip,
+                                                          LabsTranslate.Translatable warningTooltip) {
+            return nbtClearingRecipe(item, item, clearer, canClearTooltip, warningTooltip);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack output,
+                                                          LabsTranslate.Translatable canClearTooltip,
+                                                          LabsTranslate.Translatable warningTooltip) {
+            return nbtClearingRecipe(input, output, null, canClearTooltip, warningTooltip);
+        }
+
+        public static NBTClearingRecipe nbtClearingRecipe(ItemStack input, ItemStack exampleOutput,
+                                                          @Nullable Consumer<ItemStack> clearer,
+                                                          LabsTranslate.Translatable canClearTooltip,
+                                                          LabsTranslate.Translatable warningTooltip) {
+            ResourceLocation name = RecipeName.generateRl("nomilabs_nbt_clearing");
+
+            GroovyLog.Msg msg = GroovyLog.msg("Error adding Minecraft Shaped Crafting recipe '{}'", name).error()
+                    .add(IngredientHelper.isEmpty(input), () -> "Input must not be empty")
+                    .add(IngredientHelper.isEmpty(exampleOutput), () -> "Output must not be empty")
+                    .add(ReloadableRegistryManager.hasNonDummyRecipe(name),
+                            () -> "a recipe with that name already exists! Remove the recipe first");
+            if (msg.postIfNotEmpty()) return null;
+
+            input = input.copy();
+            input.setCount(1);
+            input.setTagCompound(null);
+            exampleOutput = exampleOutput.copy();
+            exampleOutput.setCount(1);
+            exampleOutput.setTagCompound(null);
+
+            var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
+            NBTClearingRecipe.NBT_CLEARERS
+                    .computeIfAbsent(new ItemMeta(exampleOutput), (key) -> new Object2ObjectOpenHashMap<>())
+                    .put(new ItemMeta(input), warningTooltip);
+            ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
+            TooltipHelpers.addTooltip(input, canClearTooltip);
+            return recipe;
+        }
+
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Only tags provided will be transferred. All other tags will be deleted.
+         */
+        public static NBTTagCompound transferSubTags(ItemStack orig, String... keys) {
+            return transferSubTags(orig, null, keys);
+        }
+
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Only tags provided will be transferred. All other tags will be deleted.
+         */
+        public static NBTTagCompound transferSubTags(ItemStack orig, @Nullable NBTTagCompound existing,
+                                                     String... keys) {
+            var origCompound = orig.getTagCompound();
+            if (origCompound == null) return existing;
+
+            var tagCompound = existing == null ? new NBTTagCompound() : existing;
+            for (var key : keys) {
+                if (origCompound.hasKey(key) && !origCompound.getTag(key).isEmpty())
+                    tagCompound.setTag(key, origCompound.getTag(key));
+            }
+
+            return tagCompound;
+        }
+
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Tag provided at end of path will be transferred, if all tags along the path exist, and all, excluding the
+         * final tag, are tag compounds.
+         */
+        public static NBTTagCompound transferTagAtPath(ItemStack orig, String... path) {
+            return transferTagAtPath(orig, null, path);
+        }
+
+        /**
+         * The original ItemStack will be modified. No new ItemSTack will be created.
+         * <p>
+         * Tag provided at end of path will be transferred, if all tags along the path exist, and all, excluding the
+         * final tag, are tag compounds.
+         */
+        public static NBTTagCompound transferTagAtPath(ItemStack orig, @Nullable NBTTagCompound existing,
+                                                       String... path) {
+            var origCompound = orig.getTagCompound();
+            if (origCompound == null) return existing;
+
+            var linkedPath = new LinkedList<>(Arrays.asList(path));
+            NBTBase tag = findTagAtPath(origCompound, new LinkedList<>(linkedPath));
+
+            if (tag == null || tag.isEmpty()) return existing;
+            var compound = existing == null ? new NBTTagCompound() : existing;
+
+            addTagAtPath(compound, tag, linkedPath);
+
+            return compound;
+        }
+
+        /**
+         * Only should be used for drawers (from Storage Drawers, Framed Compacting Drawers, GregTech Drawers, etc.).
+         * Makes use of custom Labs mixins and nbt, so that the drawer does not appear taped.
+         * <p>
+         * Confirmed to Work on:
+         * <ul>
+         * <li>Storage Drawers: Wooden Drawers, Compacting Drawers, Framed Drawers</li>
+         * <li>GregTech Drawers: Rubber Wood Drawers, Treated Wood Drawers</li>
+         * <li>Framed Compacting Drawers: Framed Compacting Drawers</li>
+         * </ul>
+         */
+        public static NBTTagCompound transferDrawerUpgradeData(ItemStack orig, @Nullable NBTTagCompound existing) {
+            var origCompound = orig.getTagCompound();
+            if (origCompound == null) return existing;
+
+            var linkedPath = new LinkedList<>(Arrays.asList("tile", "Upgrades"));
+            NBTBase tag = findTagAtPath(origCompound, linkedPath);
+
+            if (!(tag instanceof NBTTagList) || tag.isEmpty()) return existing;
+            var compound = existing == null ? new NBTTagCompound() : existing;
+
+            var storage = new NBTTagCompound();
+            storage.setTag("Upgrades", tag);
+
+            compound.setTag(CustomUpgradeHandler.CUSTOM_UPGRADES, storage);
+            return compound;
+        }
+
+        private static void addTagAtPath(@NotNull NBTTagCompound compound, @NotNull NBTBase add,
+                                         LinkedList<String> path) {
+            if (path.isEmpty()) return;
+
+            String key = path.pollFirst();
+            if (path.isEmpty()) {
+                compound.setTag(key, add);
+                return;
+            }
+
+            NBTTagCompound next = compound.getCompoundTag(key);
+            addTagAtPath(next, add, path);
+            compound.setTag(key, next);
+        }
+
+        @Nullable
+        private static NBTBase findTagAtPath(@NotNull NBTTagCompound search, LinkedList<String> path) {
+            if (search.isEmpty() || path.isEmpty()) return null;
+
+            String key = path.pollFirst();
+            if (!search.hasKey(key)) return null;
+            if (path.isEmpty()) return search.getTag(key);
+
+            if (!search.hasKey(key, Constants.NBT.TAG_COMPOUND)) return null;
+            return findTagAtPath(search.getCompoundTag(key), path);
         }
     }
 }

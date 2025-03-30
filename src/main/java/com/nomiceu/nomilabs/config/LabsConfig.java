@@ -6,7 +6,7 @@ import com.cleanroommc.configanytime.ConfigAnytime;
 import com.nomiceu.nomilabs.LabsValues;
 
 @SuppressWarnings({ "CanBeFinal", "unused" })
-@Config(modid = LabsValues.LABS_MODID, category = "")
+@Config(modid = LabsValues.LABS_MODID, name = LabsValues.LABS_MODID, category = "")
 public class LabsConfig {
 
     @Config.Comment("Content Settings")
@@ -23,6 +23,11 @@ public class LabsConfig {
     @Config.LangKey("config.nomilabs.mod_integration")
     @Config.Name("mod integration")
     public static ModIntegration modIntegration = new ModIntegration();
+
+    @Config.Comment("The One Probe Settings")
+    @Config.LangKey("config.nomilabs.top")
+    @Config.Name("top settings")
+    public static TheOneProbeSettings topSettings = new TheOneProbeSettings();
 
     @Config.Comment("Advanced Settings")
     @Config.LangKey("config.nomilabs.advanced")
@@ -112,6 +117,14 @@ public class LabsConfig {
             public boolean enablePerfectGems = true;
 
             @Config.Comment({
+                    "Enable Custom GT Items.",
+                    "[default: true]"
+            })
+            @Config.LangKey("config.nomilabs.content.gt_content.items")
+            @Config.RequiresMcRestart
+            public boolean enableItems = true;
+
+            @Config.Comment({
                     "Enable Custom GT Blocks.",
                     "In Beta.",
                     "[default: false]"
@@ -172,6 +185,41 @@ public class LabsConfig {
             FAST_DISCARDED_TREE,
             DISCARDED_TREE,
         }
+
+        @Config.Comment({ "Mode to Use for Crafting Output Cache.",
+                "DISABLED keeps the default behaviour of searching through all Crafting Recipes.",
+                "DISCARDED or SAVED caches outputs of recipes. This cache is used when removing/replacing by output, with an ItemStack.",
+                "This causes two changes in behaviour: Output Removing/Replacing no longer removes GroovyScript added recipes, and Output Removing/Replacing only matches based on item and meta, ignoring NBT.",
+                "If the NBT tag is desired to be matched, a non-ItemStack IIngredient should be used for output searching.",
+                "DISCARDED discards the cache after script loading, saving memory during gameplay. SAVED keeps the cache during gameplay, removing the need to rebuild the cache for reloading.",
+                "[default: DISABLED]" })
+        @Config.LangKey("config.nomilabs.groovy.crafting_output_cache")
+        public CraftingOutputCacheMode craftingOutputCacheMode = CraftingOutputCacheMode.DISABLED;
+
+        public enum CraftingOutputCacheMode {
+            DISABLED,
+            DISCARDED,
+            SAVED
+        }
+    }
+
+    public static class TheOneProbeSettings {
+
+        @Config.Comment({
+                "Mode to enable Labs' RF Provider. Behaviour is the same as TOP's, but allows for rearranging the RF bar.",
+                "You will have to set TOP's 'RF Mode' to 0.",
+                "0: Disable, 1: Show as Bar, 2: Show as Text",
+                "[default: 0]" })
+        @Config.LangKey("config.nomilabs.top.rf_provider")
+        @Config.RangeInt(min = 0, max = 2)
+        public int rfProviderMode = 0;
+
+        @Config.Comment({
+                "Enable Display of GT Recipe Outputs in TOP.",
+                "[default: true]"
+        })
+        @Config.LangKey("config.nomilabs.top.gt_recipe_output")
+        public boolean enableGTRecipeOutput = true;
     }
 
     public static class ModIntegration {
@@ -256,12 +304,12 @@ public class LabsConfig {
         public boolean enableTopAddonsIntegration = true;
 
         @Config.Comment({
-                "Whether to add a Empty Line between any Crafting Recipe Output Tooltips in JEI.",
-                "Examples of Crafting Recipe Output Tooltips are `Recipe By <MOD_ID>` and `Recipe ID: <RECIPE_ID>`.",
+                "Whether to add a Empty Line between any Ingredient Tooltips in JEI.",
+                "Examples of Ingredient Tooltips are `Recipe By <MOD_ID>`, `Recipe ID: <RECIPE_ID>`, and `Accepts any: <ORE_DICT>`.",
                 "[default: true]",
         })
-        @Config.LangKey("config.nomilabs.mod_integration.jei_crafting_output_empty_line")
-        public boolean addJEICraftingOutputEmptyLine = true;
+        @Config.LangKey("config.nomilabs.mod_integration.jei_ing_empty_line")
+        public boolean addJEIIngEmptyLine = true;
 
         @Config.Comment({
                 "Whether to enable Better Questing Fluid Task Fixes.",
@@ -271,6 +319,65 @@ public class LabsConfig {
         })
         @Config.LangKey("config.nomilabs.mod_integration.bqu_fluid_task_fixes")
         public boolean enableBQuFluidTaskFixes = true;
+
+        @Config.Comment({
+                "Whether to make the Actually Additions Laser Relays take all GT Screwdrivers as the configuration tool.",
+                "Note that compasses will still work if this config is true! Change the Actually Additions config to change that behaviour!",
+                "Changing it to gregtech:screwdriver instead of minecraft:compass is recommended.",
+                "You wil also have to add a lang key for the tooltip.",
+                "[default: false]"
+        })
+        @Config.LangKey("config.nomilabs.mod_integration.screwdrive_aa_relays")
+        public boolean gtScrewdriveAARelays = false;
+
+        @Config.Comment("AE2 Terminal Options")
+        @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
+        @Config.Name("ae2 terminal options")
+        public final AE2TerminalOptions ae2TerminalOptions = new AE2TerminalOptions();
+
+        @Config.Comment("Better P2P Options")
+        @Config.LangKey("config.nomilabs.mod_integration.better_p2p")
+        @Config.Name("better p2p options")
+        public final BetterP2POptions betterP2POptions = new BetterP2POptions();
+
+        public static class BetterP2POptions {
+
+            @Config.Comment({ "Whether to highlight the Selected P2P by blinking, instead of with green.",
+                    "Allows players to see whether the Selected P2P is Input or Output, but is less visible.",
+                    "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.better_p2p.blink")
+            public boolean blinkP2P = true;
+
+            @Config.Comment({ "Blink speed of Selected P2P in milliseconds.", "[default: 500]" })
+            @Config.LangKey("config.nomilabs.mod_integration.better_p2p.blink_speed")
+            @Config.RangeInt(min = 0)
+            public int blinkSpeed = 500;
+        }
+
+        public static class AE2TerminalOptions {
+
+            @Config.Comment({ "Whether to Auto-Focus the Fluid Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.fluid")
+            public boolean autoFocusFluid = true;
+
+            @Config.Comment({ "Whether to Auto-Focus the Interface Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.interface")
+            public boolean autoFocusInterface = true;
+
+            @Config.Comment({ "Whether to Auto-Focus the Interface Configuration Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface")
+            public boolean autoFocusConfigInterface = true;
+
+            @Config.Comment({ "Whether to Auto-Focus the Fluid Interface Configuration Terminal.", "[default: true]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_fluid_interface")
+            public boolean autoFocusConfigFluidInterface = true;
+
+            @Config.Comment({
+                    "Whether to Save Serach Strings in the Interface Configuration Terminals (Item and Fluid).",
+                    "Default AE2 Behaviour is to Save.", "[default: false]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save")
+            public boolean saveConfigInterfaceSearch = false;
+        }
 
         public static class EffortlessBuildingIntegration {
 
@@ -403,7 +510,8 @@ public class LabsConfig {
         public int otherModsLinearXp = 0;
 
         @Config.Comment({ "Whether to disable the Narrator.",
-                "Fixes Crashes in Arm Macs, in some very specific environments.",
+                "Fixes crashes in Arm Macs, in some development environments.",
+                "This config does nothing outside of deobfuscated environments!",
                 "If your game is crashing, try enabling this!",
                 "[default: false]" })
         @Config.LangKey("config.nomilabs.advanced.disable_narrator")

@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.nomiceu.nomilabs.command.LabsReloadCommand;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.event.ClientProxy;
 import com.nomiceu.nomilabs.event.CommonProxy;
@@ -42,6 +43,12 @@ public class NomiLabs {
 
     @EventHandler
     public void onConstruction(FMLConstructionEvent event) {
+        MinecraftForge.EVENT_BUS.register(this);
+
+        if (LabsSide.isClient()) {
+            MinecraftForge.EVENT_BUS.register(ClientProxy.class);
+        }
+        MinecraftForge.EVENT_BUS.register(CommonProxy.class);
         CommonProxy.onConstruction();
     }
 
@@ -65,6 +72,7 @@ public class NomiLabs {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+        CommonProxy.postInit();
         if (LabsSide.isClient())
             ClientProxy.postInit();
     }
@@ -72,6 +80,11 @@ public class NomiLabs {
     @EventHandler
     public void loadComplete(FMLLoadCompleteEvent event) {
         CommonProxy.loadComplete();
+    }
+
+    @EventHandler
+    public void serverLoad(FMLServerStartingEvent event) {
+        event.registerServerCommand(new LabsReloadCommand());
     }
 
     @EventHandler

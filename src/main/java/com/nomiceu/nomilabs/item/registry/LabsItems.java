@@ -134,6 +134,7 @@ public class LabsItems {
      */
     public static ItemBase SOLIDIFIED_ARGON;
     public static ItemBase SOLIDIFIED_CHLORINE;
+    public static ItemBase SOLIDIFIED_BROMINE;
     public static ItemBase SOLIDIFIED_FLUORINE;
     public static ItemBase SOLIDIFIED_HELIUM;
     public static ItemBase SOLIDIFIED_HYDROGEN;
@@ -162,6 +163,7 @@ public class LabsItems {
      */
     public static ItemBase HEART_OF_THE_UNIVERSE;
     public static ItemBase CREATIVE_TANK_MOLD;
+    public static ItemBase CREATIVE_COMPUTATION_MOLD;
     public static ItemBase EXOTIC_MATERIALS_CATALYST;
     public static ItemBase ETERNAL_CATALYST;
     public static ItemBase ULTIMATE_GEM;
@@ -187,7 +189,11 @@ public class LabsItems {
     public static ItemBase DENSE_HYDROGEN;
     public static ItemBase ULTRA_DENSE_HYDROGEN;
 
+    public static ItemBase INDUSTRIAL_REBREATHER_KIT;
+
     public static ItemBase MAGNETRON;
+
+    public static ItemTinyCoke TINY_COKE;
 
     public static ItemInfo INFO_ITEM;
 

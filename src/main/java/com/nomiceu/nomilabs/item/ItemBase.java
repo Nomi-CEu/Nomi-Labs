@@ -1,7 +1,8 @@
 package com.nomiceu.nomilabs.item;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,10 +18,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.nomiceu.nomilabs.util.LabsTranslate;
+
 public class ItemBase extends Item {
 
     private final IRarity rarity;
-    private final String[] description;
+    @Nullable
+    private final LabsTranslate.Translatable[] description;
 
     public ItemBase(ResourceLocation rl, CreativeTabs tab) {
         this(rl, tab, EnumRarity.COMMON, 64);
@@ -31,7 +35,7 @@ public class ItemBase extends Item {
     }
 
     public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize) {
-        this(rl, tab, rarity, stackSize, new String[0]);
+        this(rl, tab, rarity, stackSize, (LabsTranslate.Translatable) null);
     }
 
     /**
@@ -44,7 +48,7 @@ public class ItemBase extends Item {
      * @param description Description. Localized.
      */
     public ItemBase(ResourceLocation rl, CreativeTabs tab, @NotNull IRarity rarity, int stackSize,
-                    String... description) {
+                    LabsTranslate.Translatable... description) {
         setRegistryName(rl);
         setCreativeTab(tab);
         setMaxStackSize(stackSize);
@@ -62,6 +66,8 @@ public class ItemBase extends Item {
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, @Nullable World world, @NotNull List<String> tooltip,
                                @NotNull ITooltipFlag flagIn) {
-        Collections.addAll(tooltip, description);
+        if (description == null) return;
+        Arrays.stream(description).filter(Objects::nonNull).map(LabsTranslate.Translatable::translate)
+                .forEach(tooltip::add);
     }
 }

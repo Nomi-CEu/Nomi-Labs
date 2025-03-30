@@ -1,8 +1,9 @@
 package com.nomiceu.nomilabs.tooltip;
 
+import static com.nomiceu.nomilabs.util.LabsTranslate.Translatable;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
@@ -15,17 +16,14 @@ import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import mcjty.theoneprobe.api.IProbeInfo;
 
 @SuppressWarnings("unused")
 @GroovyBlacklist
 public class LabsTooltipHelper {
 
-    private static final Set<ItemMeta> CLEARED = new ObjectOpenHashSet<>();
+    private static final Map<ItemMeta, List<Translatable>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
-    private static final Map<ItemMeta, List<LabsTranslate.Translatable>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
-    private static final Map<ItemMeta, List<String>> CACHED_TOOLTIPS = new Object2ObjectOpenHashMap<>();
+    public static Translatable DRAWER_UPDGRADE = LabsTranslate.translatable("tooltip.nomilabs.drawers.upgrades");
 
     public static boolean isShiftDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
@@ -33,19 +31,6 @@ public class LabsTooltipHelper {
 
     public static boolean isCtrlDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-    }
-
-    public static String getTOPFormat(String str) {
-        return IProbeInfo.STARTLOC + str + IProbeInfo.ENDLOC;
-    }
-
-    /**
-     * For use in GroovyScript ONLY.
-     * <p>
-     * If you want to add a tooltip in Labs, add a function to {@link TooltipAdder}.
-     */
-    public static void clearTooltip(ItemMeta itemMeta) {
-        CLEARED.add(itemMeta);
     }
 
     /**
@@ -59,17 +44,7 @@ public class LabsTooltipHelper {
     }
 
     public static void clearAll() {
-        CLEARED.clear();
         TOOLTIPS.clear();
-        CACHED_TOOLTIPS.clear();
-    }
-
-    public static void onLanguageChange() {
-        CACHED_TOOLTIPS.clear();
-    }
-
-    public static boolean shouldClear(ItemStack stack) {
-        return CLEARED.contains(new ItemMeta(stack));
     }
 
     @Nullable
@@ -78,11 +53,7 @@ public class LabsTooltipHelper {
         ItemMeta itemMeta = new ItemMeta(stack);
         if (!TOOLTIPS.containsKey(itemMeta)) return null;
 
-        if (CACHED_TOOLTIPS.containsKey(itemMeta)) return CACHED_TOOLTIPS.get(itemMeta);
-
-        CACHED_TOOLTIPS.put(itemMeta,
-                TOOLTIPS.get(itemMeta).stream().map(LabsTranslate.Translatable::translate)
-                        .collect(Collectors.toList()));
-        return CACHED_TOOLTIPS.get(itemMeta);
+        return TOOLTIPS.get(itemMeta).stream().map(LabsTranslate.Translatable::translate)
+                .collect(Collectors.toList());
     }
 }

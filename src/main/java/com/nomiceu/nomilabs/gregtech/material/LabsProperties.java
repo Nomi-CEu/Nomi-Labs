@@ -25,12 +25,21 @@ public class LabsProperties {
         Einsteinium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Graphite.setProperty(PropertyKey.INGOT, new IngotProperty());
 
+        Bromine.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Curium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Berkelium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Californium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Einsteinium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         NetherStar.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+
+        // Add liquid version of Nitrogen
+        Nitrogen.getProperty(PropertyKey.FLUID).enqueueRegistration(FluidStorageKeys.LIQUID,
+                new FluidBuilder()
+                        .temperature(77)
+                        .color(0x008D8F)
+                        .name("liquid_nitrogen")
+                        .translation("gregtech.fluid.liquid_generic"));
 
         // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
         // We don't have Thaumcraft. Add it back. (Part 2)
@@ -62,6 +71,7 @@ public class LabsProperties {
         BlueSteel.addFlags(GENERATE_FRAME);
         Ultimet.addFlags(GENERATE_FRAME);
         Tritanium.addFlags(GENERATE_DENSE, GENERATE_SPRING);
+        
 
         // Cinnabar Got its Gems Removed for future Thaumcraft Compat.
         // We don't have Thaumcraft. Add it back. (Part 2)

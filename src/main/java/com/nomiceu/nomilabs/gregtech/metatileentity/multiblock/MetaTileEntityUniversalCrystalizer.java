@@ -70,7 +70,7 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
                 .aisle("XXXSXXX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XGGGGGX", "XXXXXXX")
                 .where('S', selfPredicate())
                 .where('X', getCasingPredicateMain()
-                        .setMinGlobalLimited(80)
+                        .setMinGlobalLimited(60)
                         .or(autoAbilities()))
                 .where('#', air())
                 .where('F', getCasingPredicateFrame())

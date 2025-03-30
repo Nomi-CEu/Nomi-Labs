@@ -48,12 +48,14 @@ public class LabsP2PAddAsInputMessage implements IMessage {
             PlayerRequest state = ModNetwork.INSTANCE.getPlayerState().get(ctx.getServerHandler().player.getUniqueID());
             if (state == null) return null;
 
-            boolean result = ((AccessibleGridServerCache) (Object) state.getGridCache())
-                    .labs$addInput(message.location, message.sourceFrequency);
+            ctx.getServerHandler().server.addScheduledTask(() -> {
+                boolean result = ((AccessibleGridServerCache) (Object) state.getGridCache())
+                        .labs$addInput(message.location, message.sourceFrequency);
 
-            if (result) {
-                ModNetwork.INSTANCE.requestP2PUpdate(ctx.getServerHandler().player);
-            }
+                if (result) {
+                    ModNetwork.INSTANCE.requestP2PUpdate(ctx.getServerHandler().player);
+                }
+            });
             return null;
         }
     }

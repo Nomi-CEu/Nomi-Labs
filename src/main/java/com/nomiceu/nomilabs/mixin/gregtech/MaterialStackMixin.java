@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -69,4 +70,12 @@ public abstract class MaterialStackMixin implements IIngredient {
     public IResourceStack multiply(Number num) {
         return (IResourceStack) copy(num.longValue());
     }
+
+    @Override
+    public @Nullable String getMark() {
+        return null;
+    }
+
+    @Override
+    public void setMark(String mark) {}
 }

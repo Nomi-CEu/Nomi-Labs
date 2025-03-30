@@ -2,15 +2,14 @@ package com.nomiceu.nomilabs.mixin;
 
 import static com.nomiceu.nomilabs.NomiLabs.LOGGER;
 
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import net.minecraftforge.fml.common.Loader;
 
+import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 
@@ -19,39 +18,41 @@ import zone.rong.mixinbooter.ILateMixinLoader;
 @SuppressWarnings("unused")
 public class LabsLateMixinLoader implements ILateMixinLoader {
 
-    public static final Map<String, Boolean> modMixinsConfig = Stream.of(
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.DRACONIC_MODID,
-                    LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.NUCLEARCRAFT_MODID,
-                    LabsConfig.modIntegration.enableNuclearCraftIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.XU2_MODID,
-                    LabsConfig.modIntegration.enableExtraUtils2Integration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.GREGTECH_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.JEI_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.ROCKETRY_MODID,
-                    LabsConfig.modIntegration.enableAdvancedRocketryIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.ARCHITECTURE_MODID,
-                    LabsConfig.modIntegration.enableArchitectureCraftIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.EFFORTLESS_MODID,
-                    LabsConfig.modIntegration.effortlessBuildingIntegration.enableEffortlessBuildingIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.GROOVY_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.CONTROLLING_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.DEFAULT_WORLD_GEN_MODID,
-                    LabsConfig.modIntegration.enableDefaultWorldGenIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.DME_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.FTB_UTILS_MODID,
-                    LabsConfig.modIntegration.enableFTBUtilsIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.TOP_ADDONS_MODID,
-                    LabsConfig.modIntegration.enableTopAddonsIntegration),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.TOP_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.AE2_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.ENDER_IO_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.AA_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.BOGOSORT_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.THERMAL_FOUNDATION_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.BQU_MODID, true),
-            new AbstractMap.SimpleImmutableEntry<>(LabsValues.BETTER_P2P_MODID, true))
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    public static final Map<String, Boolean> modMixinsConfig = new ImmutableMap.Builder<String, Boolean>()
+            .put(LabsValues.DRACONIC_MODID,
+                    LabsConfig.modIntegration.draconicEvolutionIntegration.enableDraconicEvolutionIntegration)
+            .put(LabsValues.NUCLEARCRAFT_MODID,
+                    LabsConfig.modIntegration.enableNuclearCraftIntegration)
+            .put(LabsValues.XU2_MODID,
+                    LabsConfig.modIntegration.enableExtraUtils2Integration)
+            .put(LabsValues.GREGTECH_MODID, true)
+            .put(LabsValues.JEI_MODID, true)
+            .put(LabsValues.ROCKETRY_MODID,
+                    LabsConfig.modIntegration.enableAdvancedRocketryIntegration)
+            .put(LabsValues.ARCHITECTURE_MODID,
+                    LabsConfig.modIntegration.enableArchitectureCraftIntegration)
+            .put(LabsValues.EFFORTLESS_MODID,
+                    LabsConfig.modIntegration.effortlessBuildingIntegration.enableEffortlessBuildingIntegration)
+            .put(LabsValues.GROOVY_MODID, true)
+            .put(LabsValues.CONTROLLING_MODID, true)
+            .put(LabsValues.DEFAULT_WORLD_GEN_MODID,
+                    LabsConfig.modIntegration.enableDefaultWorldGenIntegration)
+            .put(LabsValues.DME_MODID, true)
+            .put(LabsValues.FTB_UTILS_MODID,
+                    LabsConfig.modIntegration.enableFTBUtilsIntegration)
+            .put(LabsValues.TOP_ADDONS_MODID,
+                    LabsConfig.modIntegration.enableTopAddonsIntegration)
+            .put(LabsValues.TOP_MODID, true)
+            .put(LabsValues.AE2_MODID, true)
+            .put(LabsValues.ENDER_IO_MODID, true)
+            .put(LabsValues.AA_MODID, true)
+            .put(LabsValues.BOGOSORT_MODID, true)
+            .put(LabsValues.THERMAL_FOUNDATION_MODID, true)
+            .put(LabsValues.BQU_MODID, true)
+            .put(LabsValues.BETTER_P2P_MODID, true)
+            .put(LabsValues.STORAGE_DRAWERS_MODID, true)
+            .put(LabsValues.BIOMES_O_PLENTY_MODID, true)
+            .build();
 
     @Override
     public List<String> getMixinConfigs() {

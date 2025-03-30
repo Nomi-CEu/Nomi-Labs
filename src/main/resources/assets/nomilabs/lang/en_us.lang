@@ -30,6 +30,7 @@ config.nomilabs.content.gt_content=Custom GT Content Settings
 config.nomilabs.content.gt_content.tooltip=Custom GT Content Settings
 config.nomilabs.content.gt_content.materials=Enable Custom GT Materials
 config.nomilabs.content.gt_content.perfect_gems=Enable Perfect Gems
+config.nomilabs.content.gt_content.items=Enable Custom GT Items
 config.nomilabs.content.gt_content.blocks=Enable Custom GT Blocks
 config.nomilabs.content.gt_content.old_multiblocks=Enable Old Multiblocks
 config.nomilabs.content.gt_content.new_multiblocks=Enable New Multiblocks
@@ -46,8 +47,9 @@ config.nomilabs.mod_integration.ender_storage=Enable Ender Storage Integration
 config.nomilabs.mod_integration.ender_io=Enable Ender IO Integration
 config.nomilabs.mod_integration.ftb_utils=Enable FTB Utilities Integration
 config.nomilabs.mod_integration.top_addons=Enable TOP Addons Integration
-config.nomilabs.mod_integration.jei_crafting_output_empty_line=Add JEI Crafting Output Tooltip Empty Line
+config.nomilabs.mod_integration.jei_ing_empty_line=Add JEI Ingredient Tooltip Empty Line
 config.nomilabs.mod_integration.bqu_fluid_task_fixes=Enable BQu Fluid Task Fixes
+config.nomilabs.mod_integration.screwdrive_aa_relays=Allow GT Screwdrivers for AA Laser Relays
 
 config.nomilabs.mod_integration.effortlessbuilding=Effortless Building Integration Settings
 config.nomilabs.mod_integration.effortlessbuilding.enable=Enable Effortless Building Integration
@@ -62,10 +64,27 @@ config.nomilabs.mod_integration.effortlessbuilding.blocks.2=Max Blocks Placed (2
 config.nomilabs.mod_integration.effortlessbuilding.blocks.3=Max Blocks Placed (3 Upgrades)
 config.nomilabs.mod_integration.effortlessbuilding.blocks.creative=Max Blocks Placed (Creative)
 
+config.nomilabs.mod_integration.ae2_terminal=AE2 Terminal Options
+config.nomilabs.mod_integration.ae2_terminal.fluid=Fluid Terminal Auto-Focusing
+config.nomilabs.mod_integration.ae2_terminal.interface=Interface Terminal Auto-Focusing
+config.nomilabs.mod_integration.ae2_terminal.cfg_interface=Interface Configuration Terminal Auto-Focusing
+config.nomilabs.mod_integration.ae2_terminal.cfg_fluid_interface=Fluid Interface Configuration Terminal Auto-Focusing
+config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save=Save Interface Configuration Terminal Searches
+
+config.nomilabs.mod_integration.better_p2p=Better P2P Options
+config.nomilabs.mod_integration.better_p2p.blink=Blink Selected P2P
+config.nomilabs.mod_integration.better_p2p.blink_speed=Blink Selected P2P Speed
+
 config.nomilabs.groovy=GroovyScript Extensions and Script Helper Settings
 config.nomilabs.groovy.tooltip=GroovyScript Extensions and Script Helper Settings
 config.nomilabs.groovy.hand=Enable GroovyScript Hand Command Additions
 config.nomilabs.groovy.recipe_search_mode=GregTech Recipe Output Search Mode
+config.nomilabs.groovy.crafting_output_cache=Crafting Output Cache Mode
+
+config.nomilabs.top=The One Probe Settings
+config.nomilabs.top.tooltip=The One Probe Settings
+config.nomilabs.top.rf_provider=Labs RF Provider Mode
+config.nomilabs.top.gt_recipe_output=Show GT Machine Recipe Outputs
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
 config.nomilabs.mod_integration.draconicevolution.tooltip=Draconic Evolution Integration Settings
@@ -79,7 +98,7 @@ config.nomilabs.advanced.tooltip=Advanced Settings
 config.nomilabs.advanced.allow_other_modes=Allow Other Modes
 config.nomilabs.advanced.disable_xp_scaling=Disable Anvil XP Scaling
 config.nomilabs.advanced.other_mods_linear_xp=Misc Mod Linear XP Support
-config.nomilabs.advanced.disable_narrator=Disable Narrator
+config.nomilabs.advanced.disable_narrator=[DEV ONLY] Disable Narrator
 config.nomilabs.advanced.enable_nomi_ceu_data_fixes=Enable Nomi-CEu Specific Data Fixes
 config.nomilabs.advanced.ignore_items=ITEM Missing Registry Ignore List
 config.nomilabs.advanced.ignore_blocks=BLOCK Missing Registry Ignore List
@@ -126,6 +145,13 @@ config.nomilabs.advanced.difficulty.normal_override=Difficulty Override Normal
 config.nomilabs.advanced.difficulty.expert_override=Difficulty Override Expert
 
 # GUI
+nomilabs.top.steam_heating_up=Heating Up:
+nomilabs.top.steam_cooling_down=Cooling Down
+nomilabs.top.steam_venting_stuck.1=Steam Vent Blocked!
+nomilabs.top.steam_venting_stuck.2=Use a Wrench to Change Vent Direction!
+
+nomilabs.top.recipe_outputs=Producing:
+
 nomilabs.gui.recipes.tooltip.ct_recipe=CraftTweaker Created Recipe
 nomilabs.gui.recipes.tooltip.gs_recipe=GroovyScript Created Recipe
 
@@ -147,11 +173,46 @@ nomilabs.gui.better_p2p.input=Input
 nomilabs.gui.better_p2p.output=Output
 nomilabs.gui.better_p2p.error.same_output=P2P is already an {}.
 
-nomilabs.gui.advanced_memory_card.mode.add_input=Add as Input
+nomilabs.gui.advanced_memory_card.button.refresh=Refresh List
+
+nomilabs.gui.advanced_memory_card.info.dist=Distance: %sm
+nomilabs.gui.advanced_memory_card.info.dim=In Dim: %s (%s)
+nomilabs.gui.advanced_memory_card.info.type=Type: %s - %s
+
+nomilabs.gui.advanced_memory_card.hover_info.title=§bP2P - %s
+nomilabs.gui.advanced_memory_card.hover_info.dim=Dim: %s (%s)
+
+nomilabs.gui.advanced_memory_card.hover_info.connections.input.none=§cNo Inputs
+nomilabs.gui.advanced_memory_card.hover_info.connections.input.one=§a1 Input
+nomilabs.gui.advanced_memory_card.hover_info.connections.input.multi=§b%s Inputs
+
+nomilabs.gui.advanced_memory_card.hover_info.connections.output.none=§cNo Outputs
+nomilabs.gui.advanced_memory_card.hover_info.connections.output.one=§a1 Output
+nomilabs.gui.advanced_memory_card.hover_info.connections.output.multi=§b%s Outputs
+
+nomilabs.gui.advanced_memory_card.filter.title=Filtering Tags:
+nomilabs.gui.advanced_memory_card.filter.input=Show Inputs Only
+nomilabs.gui.advanced_memory_card.filter.output=Show Outputs Only
+nomilabs.gui.advanced_memory_card.filter.bound=Show Bound and Valid Only
+nomilabs.gui.advanced_memory_card.filter.unbound=Show Unbound or Invalid Only
+nomilabs.gui.advanced_memory_card.filter.distless=Set a Maximum Distance
+nomilabs.gui.advanced_memory_card.filter.distmore=Set a Minimum Distance
+nomilabs.gui.advanced_memory_card.filter.type=Filter by Type
+nomilabs.gui.advanced_memory_card.filter.name=Filter by Name
+nomilabs.gui.advanced_memory_card.filter.end=Tags are Separated by Spaces.
+
+nomilabs.gui.advanced_memory_card.sort.default=Sorting Mode: §bDefault
+nomilabs.gui.advanced_memory_card.sort.distance=Sorting Mode: §bDistance
+nomilabs.gui.advanced_memory_card.sort.name=Sorting Mode: §bName
+
+nomilabs.gui.advanced_memory_card.sort_direction.normal=Sorting Order: §bNormal
+nomilabs.gui.advanced_memory_card.sort_direction.reversed=Sorting Order: §dReversed
+
+gui.advanced_memory_card.mode.add_as_input=Current Mode: Add as Input
 nomilabs.gui.advanced_memory_card.mode.add_input.desc.1=Before binding, the §aselected P2P§7 has its connections removed.
 nomilabs.gui.advanced_memory_card.mode.add_input.desc.2=The §aselected P2P§7 is set as an §9input§7, with the §bbind target's§7 frequency.
 
-nomilabs.gui.advanced_memory_card.mode.add_output=Add as Output
+gui.advanced_memory_card.mode.add_as_output=Current Mode: Add as Output
 nomilabs.gui.advanced_memory_card.mode.add_output.desc.1=Before binding, the §aselected P2P§7 has its connections removed.
 nomilabs.gui.advanced_memory_card.mode.add_output.desc.2=The §aselected P2P§7 is set as an §6output§7, with the §bbind target's§7 frequency.
 
@@ -233,6 +294,13 @@ nomilabs.material.osmiridium_8020=Osmiridium 80/20
 nomilabs.material.iridosmine_8020=Iridosmine 80/20
 nomilabs.material.kaemanite=Kaemanite
 
+nomilabs.material.technetium=Technetium
+nomilabs.material.mineralrichbrine=Mineral Rich Brine
+nomilabs.material.brominechlorinemixture=Bromine Chlorine Vapor Mixture
+nomilabs.material.alkalinebrominesolution=Alkaline Bromine Solution
+nomilabs.material.debrominatedwaste=Debrominated Waste
+nomilabs.material.crudebromine=Crude Bromine
+nomilabs.material.depletedbrine=Depleted Brine
 nomilabs.material.tungsten_trioxide=Tungsten Trioxide
 nomilabs.material.beryllium_oxide=Beryllium Oxide
 nomilabs.material.niobium_pentoxide=Niobium Pentoxide
@@ -319,6 +387,29 @@ nomilabs.material.rhodium_salt_solution=Rhodium Salt Solution
 nomilabs.material.methyl_formate=Methyl Formate
 nomilabs.material.formic_acid=Formic Acid
 nomilabs.material.sodium_methoxide=Sodium Methoxide
+
+nomilabs.material.vaporous_nitric_acid=Vaporous Nitric Acid
+nomilabs.material.rare_earth_oxide_concentrate Dust=Rare Earth Oxide Concentrate
+item.nomilabs.material.rare_earth_oxide_concentrate.dust=Rare Earth Oxide Concentrate
+item.nomilabs.material.rare_earth_oxide_concentrate.dustSmall=Small Pile of Rare Earth Oxide Concentrate
+item.nomilabs.material.rare_earth_oxide_concentrate.dustTiny=Tiny Pile of Rare Earth Oxide Concentrate
+nomilabs.material.roasted_rare_earth_oxide_concentrate=Roasted Rare Earth Oxide Concentrate
+item.nomilabs.material.roasted_rare_earth_oxide_concentrate.dust=Roasted Rare Earth Oxide Concentrate
+item.nomilabs.material.roasted_rare_earth_oxide_concentrate.dustSmall=Small Pile of Roasted Rare Earth Oxide Concentrate
+item.nomilabs.material.roasted_rare_earth_oxide_concentrate.dustTiny=Tiny Pile of Roasted Rare Earth Oxide Concentrate
+nomilabs.material.leached_rare_earth_oxide=Leached Rare Earth Oxide
+item.nomilabs.material.leached_rare_earth_oxide.dust=Leached Rare Earth Oxide
+item.nomilabs.material.leached_rare_earth_oxide.dustSmall=Tiny Pile of Leached Rare Earth Oxide
+item.nomilabs.material.leached_rare_earth_oxide.dustTiny=Tiny Pile of Leached Rare Earth Oxide
+nomilabs.material.trivalent_rare_earths=Trivalent Rare Earths
+item.nomilabs.material.trivalent_rare_earths.dust=Trivalent Rare Earths
+item.nomilabs.material.trivalent_rare_earths.dustSmall=Small Pile of Trivalent Rare Earths
+item.nomilabs.material.trivalent_rare_earths.dustTiny=Tiny Pile of Trivalent Rare Earths
+nomilabs.material.cerium_concentrate=Cerium Concentrate
+item.nomilabs.material.cerium_concentrate.dust=Cerium Concentrate
+item.nomilabs.material.cerium_concentrate.dustSmall=Small Pile of Cerium Concentrate
+item.nomilabs.material.cerium_concentrate.dustTiny=Tiny Pile of Cerium Concentrate
+nomilabs.material.dissolved_cerium_concentrate=Dissolved Cerium Concentrate
 
 nomilabs.material.hexafluorosilicic_acid=Hexafluorosilicic Acid
 nomilabs.material.dirty_hexafluorosilicic_acid=Dirty Hexafluorosilicic Acid
@@ -449,6 +540,7 @@ item.nomilabs.cloth.name=Cloth
 item.nomilabs.thermalcloth.name=Thermal Cloth
 item.nomilabs.smallgearextrudershape.name=Extruder Shape (Small Gear)
 item.nomilabs.creativeportabletankmold.name=Creative Quantum Tank Data
+item.nomilabs.creativecomputationmold.name=Creative Computation Hatch Data
 item.nomilabs.magnetron.name=Magnetron
 
 item.nomilabs.conductivewire.name=Conductive Iron Wire
@@ -478,6 +570,7 @@ item.nomilabs.helium3rover.name=Helium-3 Rover
 
 item.nomilabs.solidifiedargon.name=Solidified Argon
 item.nomilabs.solidifiedchlorine.name=Solidified Chlorine
+item.nomilabs.solidifiedbromine.name=Solidified Bromine
 item.nomilabs.solidifiedfluorine.name=Solidified Fluorine
 item.nomilabs.solidifiedhelium.name=Solidified Helium
 item.nomilabs.solidifiedhydrogen.name=Solidified Hydrogen
@@ -543,10 +636,13 @@ item.nomilabs.hand_framing_tool.desc4=If you wish to frame the tool in a Craftin
 item.nomilabs.hand_framing_tool.desc5=Then, once the tool is framed, right clicking any drawers in-world will frame them.
 item.nomilabs.hand_framing_tool.desc6=When right clicking any wood-type drawers in world, they will also be turned into framed drawers.
 
+item.nomilabs.tiny_coke.name=Tiny Coke
 item.nomilabs.info_item.name=Information
 
 item.nomilabs.pulsatingdust.name=Pulsating Dust
 item.nomilabs.pulsatingmesh.name=Pulsating Mesh
+
+item.nomilabs.industrial_rebreather_kit.name=Industrial Rebreather Kit
 
 #-----------------Commands-----------------#
 
@@ -586,8 +682,12 @@ tooltip.nomilabs.general.press_ctrl_for_usages=Press [Ctrl] for More Usages.
 tooltip.nomilabs.general.press_shift_for_info=Press [Shift] for More Info.
 tooltip.nomilabs.general.press_ctrl_for_info=Press [Ctrl] for More Info.
 tooltip.nomilabs.general.crafting_component=§7Crafting Component Only.§r
+tooltip.nomilabs.item.can_clear=Place in Crafting Grid to §eClear Contents§r!
+tooltip.nomilabs.recipe.clearing=§cAll Contents Will be Voided!§r
 
 # Items
+tooltip.nomilabs.drawers.upgrades=§eUpgrades sealed within§r
+
 tooltip.nomilabs.excitationcoil.description=§7Crafting Component Only... Except:§r
 tooltip.nomilabs.excitationcoil.placeable=§7Placeable!§r
 tooltip.nomilabs.excitationcoil.wearable=§7Wearable on your head!§r
@@ -630,6 +730,8 @@ tooltip.nomilabs.info.ae2-stuff.2=§6Please use AE2 Pattern Terminals instead.§
 tooltip.nomilabs.info.ae2-stuff.3=§eAll Existing Items §l(including in Patterns),§r
 tooltip.nomilabs.info.ae2-stuff.4=§eBlocks, and usages in Recipes,§r
 tooltip.nomilabs.info.ae2-stuff.5=§ehave been replaced by AE2 Interfaces.§r
+
+tooltip.nomilabs.tiny_fuels=Smelts Exactly One Item in a Furnace!
 
 # Multiblocks
 tooltip.nomilabs.microverse_projector_1.description=§8A machine capable of stabilizing projection into microverses for basic micro miner missions.§r

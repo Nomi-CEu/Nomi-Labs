@@ -12,7 +12,6 @@ import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -29,6 +28,7 @@ import com.nomiceu.nomilabs.dimension.LabsDimensions;
 import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
+import com.nomiceu.nomilabs.gregtech.item.LabsMetaItems;
 import com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials;
 import com.nomiceu.nomilabs.gregtech.metatileentity.registry.LabsMetaTileEntities;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.RecipeMapLogic;
@@ -37,10 +37,12 @@ import com.nomiceu.nomilabs.gregtech.prefix.LabsOrePrefix;
 import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.gregtech.recipe.PerfectGemsCutterRecipes;
 import com.nomiceu.nomilabs.groovy.GroovyScriptHandManager;
+import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
 import com.nomiceu.nomilabs.groovy.NCActiveCoolerHelper;
+import com.nomiceu.nomilabs.groovy.mixinhelper.CraftingOutputCache;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.integration.top.LabsTOPManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
@@ -60,8 +62,6 @@ import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.event.MaterialRegistryEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
 
-@Mod.EventBusSubscriber(modid = LabsValues.LABS_MODID)
-@SuppressWarnings("unused")
 public class CommonProxy {
 
     public static void onConstruction() {
@@ -87,6 +87,8 @@ public class CommonProxy {
         if (LabsConfig.content.customContent.enableFluids)
             LabsFluids.preInit();
 
+        if (LabsConfig.content.gtCustomContent.enableItems)
+            LabsMetaItems.preInit();
         if (LabsConfig.content.gtCustomContent.enableBlocks)
             LabsMetaBlocks.preInit();
 
@@ -105,6 +107,10 @@ public class CommonProxy {
 
         if (LabsConfig.content.customContent.enableVoidDimension)
             LabsDimensions.register();
+    }
+
+    public static void postInit() {
+        LabsModeHelper.onPostInit();
     }
 
     public static void loadComplete() {
@@ -207,8 +213,9 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void onScriptReload(ScriptRunEvent.Pre event) {
-        JEIPlugin.onReload();
+        LabsJEIPlugin.onReload();
         LabsTooltipHelper.clearAll();
+        NBTClearingRecipe.NBT_CLEARERS.clear();
 
         if (Loader.isModLoaded(LabsValues.NUCLEARCRAFT_MODID)) {
             NCActiveCoolerHelper.onReload();
@@ -220,5 +227,9 @@ public class CommonProxy {
         if (Loader.isModLoaded(LabsValues.NUCLEARCRAFT_MODID)) {
             NCActiveCoolerHelper.afterScriptLoad();
         }
+
+        if (LabsConfig.groovyScriptSettings.craftingOutputCacheMode ==
+                LabsConfig.GroovyScriptSettings.CraftingOutputCacheMode.DISCARDED)
+            CraftingOutputCache.cache = null;
     }
 }

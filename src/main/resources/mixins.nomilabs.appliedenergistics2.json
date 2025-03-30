@@ -5,10 +5,15 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AEBaseTileBlockMixin",
     "InscriberRecipeMixin"
   ],
   "client": [
-    "AEBaseGuiMixin"
+    "AEBaseGuiMixin",
+    "GuiFluidInterfaceConfigurationTerminalMixin",
+    "GuiFluidTerminalMixin",
+    "GuiInterfaceConfigurationTerminalMixin",
+    "GuiInterfaceTerminalMixin"
   ],
   "server": []
 }

@@ -9,7 +9,6 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,8 +19,10 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
+import com.nomiceu.nomilabs.integration.betterp2p.LabsFilters;
 import com.nomiceu.nomilabs.integration.betterp2p.ModeDescriptionsHandler;
 import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
+import com.nomiceu.nomilabs.integration.findme.FindMeKeybindRegister;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
 import com.nomiceu.nomilabs.network.LabsP2PCycleMessage;
@@ -33,9 +34,7 @@ import com.nomiceu.nomilabs.util.ItemMeta;
  * Every texture is registered, in case something in that registry, not in that config, is enabled.
  * Nothing happens if each classes registries are empty.
  */
-@Mod.EventBusSubscriber(value = Side.CLIENT, modid = LabsValues.LABS_MODID)
 @SideOnly(Side.CLIENT)
-@SuppressWarnings("unused")
 public class ClientProxy {
 
     public static void earlyPreInit() {
@@ -57,6 +56,14 @@ public class ClientProxy {
                         "Failed to load EnderIO's KeyTracker Class! Overrides for Ender IO Keybindings may not be available!");
             }
         }
+
+        // Register Find Me's Fluid Keyubind
+        if (Loader.isModLoaded(LabsValues.FIND_ME_MODID))
+            FindMeKeybindRegister.register();
+
+        // Register Better P2P Custom Filters
+        if (Loader.isModLoaded(LabsValues.BETTER_P2P_MODID))
+            LabsFilters.postInit();
     }
 
     @SubscribeEvent
@@ -74,12 +81,11 @@ public class ClientProxy {
     @SubscribeEvent
     public static void addTooltipNormal(ItemTooltipEvent event) {
         TooltipAdder.addTooltipNormal(event.getToolTip(), event.getItemStack());
+        TooltipAdder.addTooltipClearing(event.getToolTip(), event.getItemStack(), event.getEntityPlayer());
     }
 
     @SubscribeEvent
     public static void languageChanged(LabsResourcesRefreshedEvent event) {
-        LabsTooltipHelper.onLanguageChange();
-
         if (Loader.isModLoaded(LabsValues.BETTER_P2P_MODID))
             ModeDescriptionsHandler.refreshDescriptions();
     }
@@ -96,7 +102,7 @@ public class ClientProxy {
 
         int scroll = event.getDwheel();
         if (scroll == 0 || !LabsTooltipHelper.isShiftDown()) return;
-        byte offset = (byte) (scroll < 0 ? -1 : 1);
+        byte offset = (byte) (scroll < 0 ? 1 : -1);
 
         // Handle P2P Scroll
         Minecraft minecraft = Minecraft.getMinecraft();

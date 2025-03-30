@@ -1,6 +1,10 @@
+//MODS_LOADED: nuclearcraft
+
 import com.nomiceu.nomilabs.groovy.NCActiveCoolerHelper
 
 import static nc.enumm.MetaEnums.CoolerType.*
+
+// Does not load if NuclearCraft is not loaded!
 
 /**
  * Change a NuclearCraft Active Cooler Recipe.<br>

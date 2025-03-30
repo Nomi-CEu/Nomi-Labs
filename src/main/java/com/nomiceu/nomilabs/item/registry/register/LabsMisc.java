@@ -11,6 +11,7 @@ import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.item.ItemBase;
 import com.nomiceu.nomilabs.item.ItemInfo;
 import com.nomiceu.nomilabs.item.ItemSmore;
+import com.nomiceu.nomilabs.item.ItemTinyCoke;
 
 public class LabsMisc {
 
@@ -36,7 +37,12 @@ public class LabsMisc {
         ULTRA_DENSE_HYDROGEN = createItem(
                 new ItemBase(makeLabsName("ultradensehydrogen"), LabsCreativeTabs.TAB_NOMI_LABS));
 
+        INDUSTRIAL_REBREATHER_KIT = createItem(new ItemBase(makeLabsName("industrial_rebreather_kit"),
+                LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
+
         MAGNETRON = createItem(new ItemBase(makeLabsName("magnetron"), LabsCreativeTabs.TAB_NOMI_LABS));
+
+        TINY_COKE = createItem(new ItemTinyCoke(makeLabsName("tiny_coke"), LabsCreativeTabs.TAB_NOMI_LABS));
 
         // Custom model handling is in LabsItems
         INFO_ITEM = createItemWithoutModelHandling(new ItemInfo(makeLabsName("info_item"), EnumRarity.EPIC));

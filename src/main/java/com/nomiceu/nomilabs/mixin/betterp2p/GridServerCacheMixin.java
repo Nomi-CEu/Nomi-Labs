@@ -15,9 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGridServerCache;
 import com.projecturanus.betterp2p.network.data.GridServerCache;
 import com.projecturanus.betterp2p.network.data.P2PLocation;
@@ -27,12 +25,15 @@ import appeng.api.config.SecurityPermissions;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.helpers.IInterfaceHost;
+import appeng.me.GridAccessException;
+import appeng.me.cache.helpers.TunnelCollection;
 import appeng.parts.p2p.PartP2PTunnel;
 import appeng.util.Platform;
 import kotlin.Pair;
 
 /**
  * Implements the logic of the new modes and switching output/input.
+ * Fixes changing type and binding with multiple inputs.
  */
 @Mixin(value = GridServerCache.class, remap = false)
 public abstract class GridServerCacheMixin implements AccessibleGridServerCache {
@@ -57,6 +58,9 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
     protected abstract void handleInterface(IInterfaceHost oldIn, IInterfaceHost oldOut, IInterfaceHost newIn,
                                             IInterfaceHost newOut, List<ItemStack> drops);
 
+    @Shadow
+    protected abstract PartP2PTunnel<?> changeP2PType(PartP2PTunnel<?> tunnel, TunnelInfo newType);
+
     @Inject(method = "changeP2PType", at = @At("RETURN"), cancellable = true)
     private void restoreName(PartP2PTunnel<?> tunnel, TunnelInfo newType,
                              CallbackInfoReturnable<PartP2PTunnel<?>> cir) {
@@ -67,18 +71,69 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
         cir.setReturnValue(result);
     }
 
+    @Inject(method = "changeAllP2Ps", at = @At("HEAD"), cancellable = true)
+    private void properlyChangeAllP2PTypes(P2PLocation p2p, TunnelInfo newType, CallbackInfoReturnable<Boolean> cir) {
+        PartP2PTunnel<?> tunnel = listP2P.get(p2p);
+
+        if (tunnel == null) {
+            cir.setReturnValue(false);
+            return;
+        }
+
+        if (tunnel.getFrequency() == 0) {
+            // Unbound
+            // Just change this P2P
+            var result = changeP2PType(tunnel, newType);
+            cir.setReturnValue(result != null);
+            return;
+        }
+
+        try {
+            TunnelCollection<?> inputs = tunnel.getProxy().getP2P().getInputs(tunnel.getFrequency(), tunnel.getClass());
+            TunnelCollection<?> outputs = tunnel.getProxy().getP2P().getOutputs(tunnel.getFrequency(),
+                    tunnel.getClass());
+
+            // Add all parts to a new list, so we don't CME
+            List<PartP2PTunnel<?>> toModify = new ArrayList<>();
+            inputs.forEach(toModify::add);
+            outputs.forEach(toModify::add);
+
+            // Bound P2Ps, to a frequency with no other P2Ps
+            if (toModify.isEmpty())
+                toModify.add(tunnel);
+
+            for (var modify : toModify) {
+                var result = changeP2PType(modify, newType);
+                if (result == null) {
+                    cir.setReturnValue(false);
+                    return;
+                }
+            }
+        } catch (GridAccessException ignored) {}
+        cir.setReturnValue(true);
+    }
+
     @Inject(method = "linkP2P",
             at = @At(value = "INVOKE",
-                     target = "Lappeng/me/cache/P2PCache;getInputs(SLjava/lang/Class;)Lappeng/me/cache/helpers/TunnelCollection;",
-                     ordinal = 0),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION,
+                     target = "Lappeng/parts/p2p/PartP2PTunnel;getFrequency()S"),
             require = 1,
             cancellable = true)
-    private void properlyLinkP2p(P2PLocation inputIndex, P2PLocation outputIndex,
-                                 CallbackInfoReturnable<Pair<PartP2PTunnel<?>, PartP2PTunnel<?>>> cir,
-                                 @Local(ordinal = 0) short frequency) {
+    private void properlyLinkP2P(P2PLocation inputIndex, P2PLocation outputIndex,
+                                 CallbackInfoReturnable<Pair<PartP2PTunnel<?>, PartP2PTunnel<?>>> cir) {
         var input = listP2P.get(inputIndex);
         var output = listP2P.get(outputIndex);
+
+        var frequency = input.getFrequency();
+        try {
+            if (frequency == 0 || input.isOutput()) {
+                // Generate new frequency
+                // Use AE2's way instead of Better P2P's way
+                frequency = input.getProxy().getP2P().newFrequency();
+            }
+        } catch (GridAccessException e) {
+            cir.setReturnValue(null);
+            return;
+        }
 
         // Perform the link
         var inputResult = updateP2P(inputIndex, input, frequency, false,

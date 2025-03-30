@@ -5,8 +5,12 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "CraftingRecipeMixin",
+    "InfoParserOreDictMixin",
     "IngredientMixin",
-    "ShapedRecipeBuilderMixin"
+    "JEIPluginMixin",
+    "ShapedRecipeBuilderMixin",
+    "ShapelessRecipeBuilderMixin"
   ],
   "client": [],
   "server": []

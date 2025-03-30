@@ -19,10 +19,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.integration.top.TOPInfoProvider;
@@ -155,8 +154,8 @@ public class BlockExcitationCoil extends BlockDirectional implements TOPInfoProv
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @Nullable
     public List<String> getTOPMessage(IBlockState state) {
-        return ImmutableList.of(translate("tooltip.nomilabs.general.crafting_component"));
+        return ImmutableList.of(topTranslate("tooltip.nomilabs.general.crafting_component"));
     }
 }

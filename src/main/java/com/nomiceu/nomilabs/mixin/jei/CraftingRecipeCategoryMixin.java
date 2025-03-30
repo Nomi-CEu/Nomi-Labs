@@ -15,13 +15,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.integration.jei.JEIPlugin;
+import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.util.LabsSide;
 
 import mezz.jei.plugins.vanilla.crafting.CraftingRecipeCategory;
 
 /**
- * Allows adding Custom Recipe Output Tooltips, and adds a new line before any recipe output tooltip (including `Recipe
+ * Allows adding Custom Recipe Input and Output Tooltips, and adds a new line before any recipe output tooltip
+ * (including `Recipe
  * By <modid>`)
  */
 @Mixin(value = CraftingRecipeCategory.class, remap = false)
@@ -31,10 +32,26 @@ public class CraftingRecipeCategoryMixin {
     @Final
     private static int craftOutputSlot;
 
+    @Shadow
+    @Final
+    private static int craftInputSlot1;
+
     @Inject(method = "lambda$setRecipe$0", at = @At("HEAD"))
-    private static void addRecipeOutputTooltip(ResourceLocation registryName, int slotIndex, boolean input,
-                                               ItemStack stack, List<String> tooltip, CallbackInfo ci) {
-        if (LabsSide.isServer() || slotIndex != craftOutputSlot) return;
+    private static void addRecipeIngredientTooltips(ResourceLocation registryName, int slotIndex, boolean input,
+                                                    ItemStack stack, List<String> tooltip, CallbackInfo ci) {
+        if (LabsSide.isServer()) return;
+
+        if (slotIndex != craftOutputSlot) {
+            int index = slotIndex - craftInputSlot1;
+            if (index < 0 || index > 8) return;
+
+            var inputTooltip = LabsJEIPlugin.getRecipeInputTooltip(registryName, index);
+            if (LabsConfig.modIntegration.addJEIIngEmptyLine && !inputTooltip.isEmpty())
+                tooltip.add("");
+            tooltip.addAll(inputTooltip);
+            return;
+        }
+
         boolean modIdDifferent = false;
         ResourceLocation itemRegistryName = stack.getItem().getRegistryName();
         if (itemRegistryName != null) {
@@ -44,8 +61,8 @@ public class CraftingRecipeCategoryMixin {
 
         boolean showAdvanced = Minecraft.getMinecraft().gameSettings.advancedItemTooltips || GuiScreen.isShiftKeyDown();
 
-        var outputTooltip = JEIPlugin.getRecipeOutputTooltip(stack, registryName);
-        if (LabsConfig.modIntegration.addJEICraftingOutputEmptyLine &&
+        var outputTooltip = LabsJEIPlugin.getRecipeOutputTooltip(registryName);
+        if (LabsConfig.modIntegration.addJEIIngEmptyLine &&
                 (modIdDifferent || showAdvanced || !outputTooltip.isEmpty()))
             tooltip.add("");
         tooltip.addAll(outputTooltip);

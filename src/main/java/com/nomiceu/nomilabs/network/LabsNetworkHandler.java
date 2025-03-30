@@ -29,6 +29,10 @@ public class LabsNetworkHandler {
             registerMessage(4, LabsP2PAddAsInputMessage.MessageHandler.class, LabsP2PAddAsInputMessage.class);
             registerMessage(5, LabsP2PAddAsOutputMessage.MessageHandler.class, LabsP2PAddAsOutputMessage.class);
         }
+
+        registerMessage(6, LabsLangReloadMessage.MessageHandler.class, LabsLangReloadMessage.class);
+        registerMessage(7, LabsFastReloadMessage.MessageHandler.class, LabsFastReloadMessage.class);
+        registerMessage(8, LabsNoJeiReloadMessage.MessageHandler.class, LabsNoJeiReloadMessage.class);
     }
 
     @SuppressWarnings("SameParameterValue")

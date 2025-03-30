@@ -2,12 +2,13 @@ package com.nomiceu.nomilabs.item.registry.register;
 
 import static com.nomiceu.nomilabs.item.registry.LabsItems.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
-import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
+import static com.nomiceu.nomilabs.util.LabsTranslate.translatable;
 
 import net.minecraft.item.EnumRarity;
 
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.item.ItemBase;
+import com.nomiceu.nomilabs.util.LabsTranslate;
 
 public class LabsMicroMiners {
 
@@ -20,7 +21,7 @@ public class LabsMicroMiners {
                 new ItemBase(makeLabsName("warpengine"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
         UNIVERSAL_NAVIGATOR = createItem(
                 new ItemBase(makeLabsName("universalnavigator"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 64,
-                        translate("tooltip.nomilabs.universalnavigator.description")));
+                        translatable("tooltip.nomilabs.universalnavigator.description")));
         QUANTUM_FLUXED_ETERNIUM_PLATING = createItem(new ItemBase(makeLabsName("quantumfluxedeterniumplating"),
                 LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC));
         T1_GUIDANCE = createItem(
@@ -36,41 +37,41 @@ public class LabsMicroMiners {
     public static void initMicroMiners() {
         T1_SHIP = createItem(
                 new ItemBase(makeLabsName("tieroneship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16,
-                        translate("tooltip.nomilabs.tieroneship.description")));
+                        translatable("tooltip.nomilabs.tieroneship.description")));
         T2_SHIP = createItem(
                 new ItemBase(makeLabsName("tiertwoship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16,
-                        translate("tooltip.nomilabs.tiertwoship.description")));
+                        translatable("tooltip.nomilabs.tiertwoship.description")));
         T3_SHIP = createItem(
                 new ItemBase(makeLabsName("tierthreeship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16,
-                        translate("tooltip.nomilabs.tierthreeship.description")));
+                        translatable("tooltip.nomilabs.tierthreeship.description")));
         T4_SHIP = createItem(
                 new ItemBase(makeLabsName("tierfourship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.UNCOMMON, 16,
-                        translate("tooltip.nomilabs.tierfourship.description")));
+                        translatable("tooltip.nomilabs.tierfourship.description")));
         T4_HALF_SHIP = createItem(new ItemBase(makeLabsName("tierfourandhalfship"), LabsCreativeTabs.TAB_NOMI_LABS,
                 EnumRarity.UNCOMMON, 16,
-                translate("tooltip.nomilabs.tierfourandhalfship.description")));
+                translatable("tooltip.nomilabs.tierfourandhalfship.description")));
         T5_SHIP = createItem(
                 new ItemBase(makeLabsName("tierfiveship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE, 16,
-                        translate("tooltip.nomilabs.tierfiveship.description")));
+                        translatable("tooltip.nomilabs.tierfiveship.description")));
         T6_SHIP = createItem(
                 new ItemBase(makeLabsName("tiersixship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE, 16,
-                        translate("tooltip.nomilabs.tiersixship.description")));
+                        translatable("tooltip.nomilabs.tiersixship.description")));
         T7_SHIP = createItem(
                 new ItemBase(makeLabsName("tiersevenship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE, 16,
-                        translate("tooltip.nomilabs.tiersevenship.description")));
+                        translatable("tooltip.nomilabs.tiersevenship.description")));
         T8_SHIP = createItem(
                 new ItemBase(makeLabsName("tiereightship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16,
-                        translate("tooltip.nomilabs.tiereightship.description")));
+                        translatable("tooltip.nomilabs.tiereightship.description")));
         T8_HALF_SHIP = createItem(
                 new ItemBase(makeLabsName("tiereightandhalfship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16,
-                        translate("tooltip.nomilabs.tiereightandhalfship.description")));
+                        translatable("tooltip.nomilabs.tiereightandhalfship.description")));
         T9_SHIP = createItem(
                 new ItemBase(makeLabsName("tiernineship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16,
-                        translate("tooltip.nomilabs.tiernineship.description")));
+                        translatable("tooltip.nomilabs.tiernineship.description")));
         T10_SHIP = createItem(
                 new ItemBase(makeLabsName("tiertenship"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 16,
-                        translate("tooltip.nomilabs.tiertenship.description1"),
-                        translate("tooltip.nomilabs.tiertenship.description2")));
+                        translatable("tooltip.nomilabs.tiertenship.description1"),
+                        translatable("tooltip.nomilabs.tiertenship.description2")));
     }
 
     public static void initStabilizedMicroMiners() {
@@ -133,17 +134,17 @@ public class LabsMicroMiners {
                 getStabilizedMatterDesc()));
     }
 
-    private static String[] getStabilizedMinerDesc() {
-        return new String[] {
-                translate("tooltip.stabilized_miners.description1"),
-                translate("tooltip.stabilized_miners.description2")
+    private static LabsTranslate.Translatable[] getStabilizedMinerDesc() {
+        return new LabsTranslate.Translatable[] {
+                translatable("tooltip.stabilized_miners.description1"),
+                translatable("tooltip.stabilized_miners.description2")
         };
     }
 
-    private static String[] getStabilizedMatterDesc() {
-        return new String[] {
-                translate("tooltip.stabilized_matters.description1"),
-                translate("tooltip.stabilized_matters.description2")
+    private static LabsTranslate.Translatable[] getStabilizedMatterDesc() {
+        return new LabsTranslate.Translatable[] {
+                translatable("tooltip.stabilized_matters.description1"),
+                translatable("tooltip.stabilized_matters.description2")
         };
     }
 }

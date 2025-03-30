@@ -16,13 +16,15 @@ public class LabsEndgame {
                 new ItemBase(makeLabsName("heartofauniverse"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
         CREATIVE_TANK_MOLD = createItem(new ItemBase(makeLabsName("creativeportabletankmold"),
                 LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+        CREATIVE_COMPUTATION_MOLD = createItem(new ItemBase(makeLabsName("creativecomputationmold"),
+                LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
         EXOTIC_MATERIALS_CATALYST = createItem(
                 new ItemBase(makeLabsName("exoticmaterialscatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
         ETERNAL_CATALYST = createItem(
                 new ItemBase(makeLabsName("eternalcatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 64,
-                        translate("tooltip.nomilabs.eternalcatalyst.description")));
+                        translatable("tooltip.nomilabs.eternalcatalyst.description")));
         ULTIMATE_GEM = createItem(
                 new ItemBase(makeLabsName("ultimate_gem"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1,
-                        translate("tooltip.nomilabs.general.crafting_component")));
+                        translatable("tooltip.nomilabs.general.crafting_component")));
     }
 }

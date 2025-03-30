@@ -42,7 +42,11 @@ public class ItemMeta {
     }
 
     public ItemStack toStack() {
-        return new ItemStack(item, 1, meta);
+        return toStack(1);
+    }
+
+    public ItemStack toStack(int amount) {
+        return new ItemStack(item, amount, meta);
     }
 
     public Item getItem() {

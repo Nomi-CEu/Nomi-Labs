@@ -27,6 +27,7 @@ public class LabsMaterials {
     public static Material AwakenedDraconium; // ID: 2
     public static Material Omnium; // ID: 4
     public static Material Taranium; // ID: 109; HM only
+    public static Material Technetium; // ID: 20
 
     /**
      * Chemical Materials
@@ -92,6 +93,16 @@ public class LabsMaterials {
     public static Material DioxygenDifluoride; // ID: 108; HM only
 
     /**
+     * Bromine Line Materials
+     */
+    public static Material MineralRichBrine; // ID: 200
+    public static Material DepletedBrine; // ID: 201
+    public static Material AlkalineBromineSolution; // ID: 202
+    public static Material DebrominatedWaste; // ID: 203
+    public static Material CrudeBromine; // ID: 204; HM only
+    public static Material BromineChlorineMixture; // ID: 205
+
+    /**
      * Platinum Line Materials
      */
     public static Material PlatinumMetallic; // ID: 67; HM only
@@ -121,6 +132,17 @@ public class LabsMaterials {
     public static Material MethylFormate; // ID: 91; HM only
     public static Material FormicAcid; // ID: 92; HM only
     public static Material SodiumMethoxide; // ID: 93; HM only
+
+    /**
+     * Rare Earth Line Materials
+     */
+    public static Material RareEarthOxideConcentrate; // ID: 118; HM only
+    public static Material RoastedRareEarthOxideConcentrate; // ID: 119; HM only
+    public static Material LeachedRareEarthOxide; // ID: 120; HM only
+    public static Material TrivalentRareEarths; // ID: 121; HM only
+    public static Material CeriumConcentrate; // ID: 122; HM only
+    public static Material DissolvedCeriumConcentrate; // ID: 123; HM only
+    public static Material VaporousNitricAcid; // ID: 124
 
     /**
      * Microverse Materials
@@ -166,7 +188,7 @@ public class LabsMaterials {
     public static Material CrystalMatrix; // ID: 23
     public static Material DraconicSuperconductor; // ID: 28
     public static Material KaptonK; // ID: 50; HM only
-
+    
     public static void init() {
         /* Deprecated Materials */
         Infinity = new Material.Builder(26, makeLabsName("infinity"))
@@ -190,8 +212,14 @@ public class LabsMaterials {
         /* Taranium Line Materials */
         LabsTaraniumLine.initTaraniumLine();
 
+        /* Bromine Line Materials */
+        LabsBromineLine.initBromineLine();
+
         /* Platinum Line Materials */
         LabsPlatLine.initPlatLine();
+
+        /* Rare Earth Line Materials */
+        LabsRareEarthLine.initRareEarthLine();
 
         /* Microverse Materials */
         LabsMicroverse.initMicroverse();
