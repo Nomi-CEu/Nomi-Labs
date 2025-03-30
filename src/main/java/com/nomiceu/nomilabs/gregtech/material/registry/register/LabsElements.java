@@ -6,6 +6,7 @@ import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
+import gregtech.api.fluids.FluidBuilder;
 import gregtech.api.unification.Element;
 import gregtech.api.unification.Elements;
 import gregtech.api.unification.material.Material;
@@ -47,7 +48,7 @@ public class LabsElements {
                 .cableProperties(V[MAX], 64, 0, true)
                 .build();
         Technetium = new Material.Builder(20, makeLabsName("technetium"))
-                .ingot().liquid()
+                .ingot().liquid(new FluidBuilder().temperature(2500))
                 .element(Tc)
                 .color(0xcadce2).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
