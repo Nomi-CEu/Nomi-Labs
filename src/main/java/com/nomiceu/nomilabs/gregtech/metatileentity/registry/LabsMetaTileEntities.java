@@ -28,6 +28,7 @@ public class LabsMetaTileEntities {
     public static MetaTileEntityActualizationChamber ACTUALIZATION_CHAMBER;
     public static MetaTileEntityUniversalCrystalizer UNIVERSAL_CRYSTALIZER;
     public static MetaTileEntityDMESimChamber DME_SIM_CHAMBER;
+    public static MetaTileEntityCyclotron CYCLOTRON;
 
     public static void preInit() {
         if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
@@ -58,6 +59,8 @@ public class LabsMetaTileEntities {
         UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32107,
                 new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
 
+        CYCLOTRON = MetaTileEntities.registerMetaTileEntity(32110,
+                new MetaTileEntityCyclotron(LabsNames.makeLabsName("cyclotron")));
         if (Loader.isModLoaded(LabsValues.DME_MODID))
             DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108,
                     new MetaTileEntityDMESimChamber(LabsNames.makeLabsName("dme_sim_chamber")));

@@ -27,6 +27,7 @@ public class LabsRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> UNIVERSAL_CRYSTALIZER_RECIPES;
     public static RecipeMap<DMESimChamberRecipeMapBuilder> DME_SIM_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GROWTH_CHAMBER_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> CYCLOTRON_RECIPES;
 
     public static void preInit() {
         MICROVERSE_RECIPES = new ArrayList<>();
@@ -44,9 +45,14 @@ public class LabsRecipeMaps {
 
         NAQUADAH_REACTOR_RECIPES = new ArrayList<>();
 
+
         for (int i = 0; i < 2; i++) {
             NAQUADAH_REACTOR_RECIPES.add(i, createNaqRecipeMap(i + 1));
         }
+        CYCLOTRON_RECIPES = new RecipeMap<>("cyclotron", 1, 1, 1, 0, new SimpleRecipeBuilder(), !(newMultis() || LabsModeHelper.isNormal()))
+                .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION_HEAT, ProgressWidget.MoveType.HORIZONTAL);
+
 
         ACTUALIZATION_CHAMBER_RECIPES = new DownExpandingRecipeMap("actualization_chamber", 2, 20, 0, 0,
                 new SimpleRecipeBuilder(), !(oldMultis() || LabsModeHelper.isExpert()))
@@ -90,6 +96,7 @@ public class LabsRecipeMaps {
                 .setSlotOverlay(true, true, GuiTextures.ATOMIC_OVERLAY_1)
                 .setSound(GTSoundEvents.TURBINE);
     }
+
 
     public static boolean oldMultis() {
         return LabsConfig.content.gtCustomContent.enableOldMultiblocks;
