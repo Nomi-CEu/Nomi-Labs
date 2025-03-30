@@ -47,9 +47,9 @@ public class LabsElements {
                 .cableProperties(V[MAX], 64, 0, true)
                 .build();
         Technetium = new Material.Builder(20, makeLabsName("technetium"))
-                .ingot().liquid()
+                .ingot().liquid(temperature(2500))
                 .element(Tc)
-                .temperature(2500)
+                
                 .color(0xcadce2).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
                 .cableProperties(V[UHV], 2, 0, true)
