@@ -8,6 +8,7 @@ import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 
 import gregtech.api.GTValues;
+import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
@@ -55,6 +56,11 @@ public class LabsTestRecipes {
                 .output(Blocks.LOG, 128)
                 .buildAndRegister();
 
+        LabsRecipeMaps.CYCLOTRON_RECIPES.recipeBuilder().duration(600).EUt(GTValues.VA[GTValues.UHV])
+                .inputs(OreDictUnifier.get(OrePrefix.foil, Materials.Molybdenum))
+                .fluidInputs(Materials.Hydrogen.getFluid(1000))
+                .output(MetaItem.getByNameOrId("foilTechnetium"))
+                .buildAndRegister();
         if (Loader.isModLoaded(LabsValues.DME_MODID)) {
             LabsRecipeMaps.DME_SIM_CHAMBER_RECIPES.recipeBuilder().duration(1200).EUt(40)
                     .dataItem(DMLRegistry.getDataModels().iterator().next(), 1)
