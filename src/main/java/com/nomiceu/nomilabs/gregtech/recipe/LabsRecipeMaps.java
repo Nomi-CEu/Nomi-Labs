@@ -51,7 +51,8 @@ public class LabsRecipeMaps {
         CYCLOTRON_RECIPES = new RecipeMap<>("cyclotron", 1, 1, 1, 0, new SimpleRecipeBuilder(),
                 !(newMultis() || LabsModeHelper.isNormal()))
                         .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
-                        .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION_HEAT, ProgressWidget.MoveType.HORIZONTAL);
+                        .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION_HEAT, ProgressWidget.MoveType.HORIZONTAL)
+                        .setSound(GTSoundEvents.SCIENCE);
 
         ACTUALIZATION_CHAMBER_RECIPES = new DownExpandingRecipeMap("actualization_chamber", 2, 20, 0, 0,
                 new SimpleRecipeBuilder(), !(oldMultis() || LabsModeHelper.isExpert()))
