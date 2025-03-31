@@ -32,7 +32,7 @@ mods.gregtech.sifter.recipeBuilder()
 mods.gregtech.cyclotron.recipeBuilder()
         .inputs(ore('foilMolybdenum'))
         .fluidInputs(fluid('hydrogen') * 1000)
-        .outputs(ore('foilTechnetium'))
+        .outputs(item('nomilabs:meta_foil', 20))
         .EUt(VA[UHV]).duration(600)
         .buildAndRegister()
 
