@@ -52,7 +52,7 @@ public class MetaTileEntityCyclotron extends GCYMRecipeMapMultiblockController i
         return FactoryBlockPattern.start()
                 .aisle("#####", "XXXXX", "XSSSX", "XFFFX", "XSSSX", "XXXXX", "#####")
                 .aisle("#XXX#", "XCCCX", "SCCCS", "FFFFF", "SCCCS", "XCCCX", "#XXX#")
-                .aisle("#XXX#", "XC#CX", "SC#CS", "FF#FF", "SC#CS", "XC#CX", "#XXX#")
+                .aisle("#XXX#", "XC#CX", "SC#CS", "FFAFF", "SC#CS", "XC#CX", "#XXX#")
                 .aisle("#XXX#", "XCCCX", "SCCCS", "FFFFF", "SCCCS", "XCCCX", "#XXX#")
                 .aisle("#####", "XXXXX", "XSSSX", "XFFFX", "XSSSX", "XXXXX", "#####")
                 .where('A', selfPredicate())
