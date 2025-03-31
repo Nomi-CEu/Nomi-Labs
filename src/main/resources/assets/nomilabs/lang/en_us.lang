@@ -661,6 +661,7 @@ nomilabs.machine.naquadah_reactor_2.name=Naquadah Reactor II
 nomilabs.machine.actualization_chamber.name=Actualization Chamber
 nomilabs.machine.universal_crystallizer.name=Universal Crystallizer
 nomilabs.machine.dme_sim_chamber.name=DME Simulation Supercomputer
+nomilabs.machine.cyclotron.name=Cyclotron
 
 # Recipe Maps
 recipemap.microverse_projector_1.name=Mission (MK I)
@@ -672,6 +673,7 @@ recipemap.naquadah_reactor_2.name=Naquadah Decay (Mk II)
 recipemap.actualization_chamber.name=Actualization
 recipemap.universal_crystallizer.name=Crystallization
 recipemap.dme_sim_chamber.name=Simulation
+recipemap.cyclotron.name=Cyclotronizing
 
 
 #----------------Tooltips----------------#
