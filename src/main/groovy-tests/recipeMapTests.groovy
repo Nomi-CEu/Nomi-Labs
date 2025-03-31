@@ -29,6 +29,13 @@ mods.gregtech.sifter.recipeBuilder()
         .EUt(VA[LV]).duration(30)
         .buildAndRegister()
 
+mods.gregtech.cyclotron.recipeBuilder()
+        .inputs(ore('foilMolybdenum'))
+        .fluidInputs(fluid('hydrogen') * 1000)
+        .outputs(ore('foilTechnetium'))
+        .EUt(VA[UHV]).duration(600)
+        .buildAndRegister()
+
 mods.gregtech.sifter.recipeBuilder()
         .inputs(item('minecraft:stick'))
         .outputs(item('minecraft:apple') * 64)
