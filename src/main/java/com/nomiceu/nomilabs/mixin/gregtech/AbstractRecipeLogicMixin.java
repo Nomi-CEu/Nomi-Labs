@@ -38,7 +38,10 @@ import gregtech.api.recipes.chance.output.ChancedOutputList;
 import gregtech.api.recipes.chance.output.ChancedOutputLogic;
 
 /**
- * Allows accessing outputs/fluid outputs.
+ * Allows accessing outputs/fluid outputs, chanced outputs/fluid outputs, and clearing of recipe cache.
+ * <p>
+ * Used by TOP Integration and {@link MultiMapMultiblockControllerMixin}.
+ * Unless labelled otherwise, all unique fields and methods are for use in TOP integration.
  */
 @Mixin(value = AbstractRecipeLogic.class, remap = false)
 public abstract class AbstractRecipeLogicMixin extends MTETrait implements AccessibleAbstractRecipeLogic {
@@ -66,11 +69,15 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
 
     @Shadow
     protected int recipeEUt;
+
     @Shadow
     protected int progressTime;
 
     @Shadow
     public abstract @Nullable RecipeMap<?> getRecipeMap();
+
+    @Shadow
+    protected Recipe previousRecipe;
 
     /**
      * List of non-chanced item outputs.The actual non-chanced item outputs are taken from the item outputs saved list,
@@ -259,5 +266,12 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
             entries.appendTag(tag);
         }
         nbt.setTag(key, entries);
+    }
+
+    /* For MultiMapRecipeControllerMixin */
+    @Unique
+    @Override
+    public void labs$clearRecipeCache() {
+        previousRecipe = null;
     }
 }

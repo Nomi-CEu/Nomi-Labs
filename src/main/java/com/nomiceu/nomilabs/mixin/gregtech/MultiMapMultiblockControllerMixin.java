@@ -8,6 +8,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleAbstractRecipeLogic;
+
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.metatileentity.multiblock.MultiMapMultiblockController;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
@@ -46,6 +48,14 @@ public abstract class MultiMapMultiblockControllerMixin extends RecipeMapMultibl
 
     @Inject(method = "setRecipeMapIndex", at = @At("RETURN"))
     private void forceRecheck(int index, CallbackInfo ci) {
-        if (!getWorld().isRemote) recipeMapWorkable.forceRecipeRecheck();
+        if (!getWorld().isRemote) {
+            // We only want to do this if we aren't running a recipe,
+            // Otherwise recipe voiding could happen.
+            if (recipeMapWorkable.getProgress() <= 0)
+                recipeMapWorkable.forceRecipeRecheck();
+            else
+                // Remove recipe cache to prevent re-running of curr recipe
+                ((AccessibleAbstractRecipeLogic) recipeMapWorkable).labs$clearRecipeCache();
+        }
     }
 }

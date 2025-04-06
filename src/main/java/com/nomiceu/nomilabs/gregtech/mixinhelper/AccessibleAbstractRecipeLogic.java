@@ -24,4 +24,7 @@ public interface AccessibleAbstractRecipeLogic {
     int labs$getNonChancedFluidAmt();
 
     List<Pair<FluidStack, Integer>> labs$getChancedFluidOutputs();
+
+    /* For MultiMapRecipeControllerMixin */
+    void labs$clearRecipeCache();
 }
