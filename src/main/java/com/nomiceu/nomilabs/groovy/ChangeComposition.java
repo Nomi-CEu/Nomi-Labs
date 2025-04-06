@@ -55,10 +55,10 @@ public class ChangeComposition {
         var mat = (AccessibleMaterial) spec.material;
 
         // Replace Chemical Formula and components
-        mat.setComponents(mat.getOriginalComponents(), true);
+        mat.labs$setComponents(mat.labs$getOriginalComponents(), true);
 
         // Remove New Generated Recipes & Restore Old Recipes
-        for (var entry : mat.getOriginalRecipes().entrySet()) {
+        for (var entry : mat.labs$getOriginalRecipes().entrySet()) {
             entry.getKey().remove(spec.material);
             if (entry.getValue() == null) continue;
             for (var recipe : entry.getValue()) {
@@ -88,8 +88,8 @@ public class ChangeComposition {
 
                     var mat = (AccessibleMaterial) material;
                     // Temp Set Components so the handler makes correct recipe
-                    mat.setComponents(spec.components);
-                    mat.recalculateDecompositionType();
+                    mat.labs$setComponents(spec.components);
+                    mat.labs$recalculateDecompositionType();
 
                     NomiLabs.LOGGER.debug("Adding Decomp Recipes for {}...", material.getRegistryName());
                     OrePrefix prefix = material.hasProperty(PropertyKey.DUST) ? OrePrefix.dust : null;
@@ -122,7 +122,7 @@ public class ChangeComposition {
 
                     var mat = (AccessibleMaterial) material;
                     // Temp Set Components so the handler makes correct recipe
-                    mat.setComponents(spec.components);
+                    mat.labs$setComponents(spec.components);
 
                     NomiLabs.LOGGER.debug("Adding ABS Recipes for {}...", material.getRegistryName());
                     ABSRecipeReplacer.REPLACE_PRODUCER.produce(material, material.getProperty(PropertyKey.BLAST));
@@ -180,9 +180,9 @@ public class ChangeComposition {
             var spec = iter.next();
             var mat = (AccessibleMaterial) spec.material;
             if (spec.changeChemicalFormula)
-                mat.setComponents(spec.components, true);
+                mat.labs$setComponents(spec.components, true);
             else
-                mat.setComponents(mat.getOriginalComponents());
+                mat.labs$setComponents(mat.labs$getOriginalComponents());
         }
     }
 
@@ -197,7 +197,7 @@ public class ChangeComposition {
         var recipe = map.find(itemInput.isEmpty() ? Collections.emptyList() : Collections.singletonList(itemInput),
                 fluidInput == null ? Collections.emptyList() : Collections.singletonList(fluidInput),
                 (recipe1) -> true);
-        ((AccessibleMaterial) input).setOriginalRecipes(type,
+        ((AccessibleMaterial) input).labs$setOriginalRecipes(type,
                 recipe == null ? Collections.emptyList() : Collections.singletonList(recipe));
         if (recipe == null) return;
         NomiLabs.LOGGER.debug("Removing Decomp Recipe for {} @ {} in recipe map {}.",
@@ -214,7 +214,7 @@ public class ChangeComposition {
         var recipes = ((AccessibleRecipeMap) GCYMRecipeMaps.ALLOY_BLAST_RECIPES)
                 .findByOutput(Collections.emptyList(), Collections.singletonList(new FluidStack(fluid, 1)),
                         Collections.emptyList(), Collections.emptyList(), (r) -> true);
-        ((AccessibleMaterial) input).setOriginalRecipes(CompositionRecipeType.ALLOY_BLAST,
+        ((AccessibleMaterial) input).labs$setOriginalRecipes(CompositionRecipeType.ALLOY_BLAST,
                 recipes == null ? Collections.emptyList() : recipes);
         if (recipes == null) return;
         for (var recipe : recipes) {
@@ -230,7 +230,7 @@ public class ChangeComposition {
                 .findByOutput(Collections.singletonList(OreDictUnifier.get(OrePrefix.dust, input)),
                         Collections.emptyList(),
                         Collections.emptyList(), Collections.emptyList(), (r) -> true);
-        ((AccessibleMaterial) input).setOriginalRecipes(CompositionRecipeType.MIXER,
+        ((AccessibleMaterial) input).labs$setOriginalRecipes(CompositionRecipeType.MIXER,
                 recipes == null ? Collections.emptyList() : recipes);
         if (recipes == null) return null;
         for (var recipe : recipes) {

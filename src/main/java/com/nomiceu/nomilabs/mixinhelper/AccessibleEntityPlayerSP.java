@@ -4,5 +4,5 @@ import net.minecraft.client.gui.GuiIngame;
 
 public interface AccessibleEntityPlayerSP {
 
-    GuiIngame getGuiIngame();
+    GuiIngame labs$getGuiIngame();
 }

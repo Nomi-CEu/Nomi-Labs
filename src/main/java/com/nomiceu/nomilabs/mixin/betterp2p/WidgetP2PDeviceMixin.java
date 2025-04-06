@@ -120,8 +120,9 @@ public abstract class WidgetP2PDeviceMixin implements ExtendedITypeReceiver {
         }
     }
 
+    @Unique
     @Override
-    public void acceptIsInput(boolean isInput) {
+    public void labs$acceptIsInput(boolean isInput) {
         var info = labs$getThis().getInfoSupplier().invoke();
         if (info != null) {
             LabsNetworkHandler.NETWORK_HANDLER.sendToServer(new LabsP2PChangeTypeMessage(info.getLoc(), isInput));

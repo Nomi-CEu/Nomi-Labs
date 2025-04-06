@@ -46,18 +46,21 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
      * exactly as set, instead of expanding wildcards and removing duplicates.
      */
     @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     public CraftingRecipeBuilder.Shapeless strictJEIHandling() {
         labs$isStrict = true;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
     @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     public CraftingRecipeBuilder.Shapeless setOutputTooltip(LabsTranslate.Translatable... tooltip) {
         labs$outputTooltip = tooltip;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
     @Unique
+    @SuppressWarnings({ "UnusedReturnValue", "AddedMixinMembersNamePattern" })
     public CraftingRecipeBuilder.Shapeless setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
         if (slotIndex < 0 || slotIndex > 8) {
             GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
@@ -71,6 +74,7 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
     }
 
     @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     public CraftingRecipeBuilder.Shapeless setInputTooltip(LabsTranslate.Translatable... tooltip) {
         for (int i = 0; i < 9; i++)
             setInputTooltip(i, tooltip);

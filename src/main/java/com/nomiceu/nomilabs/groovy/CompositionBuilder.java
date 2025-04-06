@@ -54,7 +54,7 @@ public class CompositionBuilder {
     }
 
     public CompositionBuilder reloadComponents() {
-        components = ((AccessibleMaterial) material).getOriginalComponents();
+        components = ((AccessibleMaterial) material).labs$getOriginalComponents();
         return this;
     }
 

@@ -21,7 +21,7 @@ public class IntCircuitIngredientMixin implements AccessibleIntCircuitIngredient
 
     @Override
     @Unique
-    public int getMeta() {
+    public int labs$getMeta() {
         return matchingConfigurations;
     }
 }

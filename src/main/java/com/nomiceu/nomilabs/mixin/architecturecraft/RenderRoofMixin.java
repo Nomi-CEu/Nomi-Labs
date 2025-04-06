@@ -65,25 +65,25 @@ public abstract class RenderRoofMixin extends RenderShape {
     }
 
     @Unique
-    private Map<Integer, Runnable> getRenderMap() {
+    private Map<Integer, Runnable> labs$getRenderMap() {
         if (ID_TO_RENDER_MAP != null) return ID_TO_RENDER_MAP;
 
         ID_TO_RENDER_MAP = new HashMap<>();
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_A1.id, this::renderSlopeA1);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_A2.id, this::renderSlopeA2);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_B1.id, this::renderSlopeB1);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_B2.id, this::renderSlopeB2);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_B3.id, this::renderSlopeB3);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C1.id, this::renderSlopeC1);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C2.id, this::renderSlopeC2);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C3.id, this::renderSlopeC3);
-        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C4.id, this::renderSlopeC4);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_A1.id, this::labs$renderSlopeA1);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_A2.id, this::labs$renderSlopeA2);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_B1.id, this::labs$renderSlopeB1);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_B2.id, this::labs$renderSlopeB2);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_B3.id, this::labs$renderSlopeB3);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C1.id, this::labs$renderSlopeC1);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C2.id, this::labs$renderSlopeC2);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C3.id, this::labs$renderSlopeC3);
+        ID_TO_RENDER_MAP.put(LabsShapes.SLOPE_TILE_C4.id, this::labs$renderSlopeC4);
         return ID_TO_RENDER_MAP;
     }
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void renderCustomSlopes(CallbackInfo ci) {
-        var map = getRenderMap();
+        var map = labs$getRenderMap();
         var id = te.getShape().id;
         if (!map.containsKey(id)) return;
         map.get(id).run();
@@ -92,141 +92,141 @@ public abstract class RenderRoofMixin extends RenderShape {
 
     // -------------------------------------------------------------------------------------
     @Unique
-    protected void renderSlopeA1() {
-        renderVariableSlope(1.0, 0.5);
+    protected void labs$renderSlopeA1() {
+        labs$renderVariableSlope(1.0, 0.5);
 
-        renderVariableFaceLeft(0, 0.5);
-        renderVariableTriangleLeft(0.5, 0.5);
+        labs$renderVariableFaceLeft(0, 0.5);
+        labs$renderVariableTriangleLeft(0.5, 0.5);
 
-        renderVariableFaceRight(0, 0.5);
-        renderVariableTriangleRight(0.5, 0.5);
+        labs$renderVariableFaceRight(0, 0.5);
+        labs$renderVariableTriangleRight(0.5, 0.5);
 
-        renderVariableFrontFace(0.5);
-
-        bottomQuad();
-        backQuad();
-    }
-
-    @Unique
-    protected void renderSlopeA2() {
-        renderVariableSlope(0.5, 0);
-
-        renderVariableTriangleLeft(0, 0.5);
-
-        renderVariableTriangleRight(0, 0.5);
-
-        bottomQuad();
-        renderVariableBackFace(0.5);
-    }
-
-    @Unique
-    protected void renderSlopeB1() {
-        renderVariableSlope(1.0, 0.66666);
-
-        renderVariableFaceLeft(0, 0.66666);
-        renderVariableTriangleLeft(0.66666, 0.33333);
-
-        renderVariableFaceRight(0, 0.66666);
-        renderVariableTriangleRight(0.66666, 0.33333);
-
-        renderVariableFrontFace(0.66666);
+        labs$renderVariableFrontFace(0.5);
 
         bottomQuad();
         backQuad();
     }
 
     @Unique
-    protected void renderSlopeB2() {
-        renderVariableSlope(0.66666, 0.33333);
+    protected void labs$renderSlopeA2() {
+        labs$renderVariableSlope(0.5, 0);
 
-        renderVariableFaceLeft(0, 0.33333);
-        renderVariableTriangleLeft(0.33333, 0.33333);
+        labs$renderVariableTriangleLeft(0, 0.5);
 
-        renderVariableFaceRight(0, 0.33333);
-        renderVariableTriangleRight(0.33333, 0.33333);
-
-        renderVariableFrontFace(0.33333);
+        labs$renderVariableTriangleRight(0, 0.5);
 
         bottomQuad();
-        renderVariableBackFace(0.66666);
+        labs$renderVariableBackFace(0.5);
     }
 
     @Unique
-    protected void renderSlopeB3() {
-        renderVariableSlope(0.33333, 0);
+    protected void labs$renderSlopeB1() {
+        labs$renderVariableSlope(1.0, 0.66666);
 
-        renderVariableTriangleLeft(0, 0.33333);
+        labs$renderVariableFaceLeft(0, 0.66666);
+        labs$renderVariableTriangleLeft(0.66666, 0.33333);
 
-        renderVariableTriangleRight(0, 0.33333);
+        labs$renderVariableFaceRight(0, 0.66666);
+        labs$renderVariableTriangleRight(0.66666, 0.33333);
 
-        bottomQuad();
-        renderVariableBackFace(0.33333);
-    }
-
-    @Unique
-    protected void renderSlopeC1() {
-        renderVariableSlope(1, 0.75);
-
-        renderVariableFaceLeft(0, 0.75);
-        renderVariableTriangleLeft(0.75, 0.25);
-
-        renderVariableFaceRight(0, 0.75);
-        renderVariableTriangleRight(0.75, 0.25);
-
-        renderVariableFrontFace(0.75);
+        labs$renderVariableFrontFace(0.66666);
 
         bottomQuad();
         backQuad();
     }
 
     @Unique
-    protected void renderSlopeC2() {
-        renderVariableSlope(0.75, 0.50);
+    protected void labs$renderSlopeB2() {
+        labs$renderVariableSlope(0.66666, 0.33333);
 
-        renderVariableFaceLeft(0, 0.50);
-        renderVariableTriangleLeft(0.50, 0.25);
+        labs$renderVariableFaceLeft(0, 0.33333);
+        labs$renderVariableTriangleLeft(0.33333, 0.33333);
 
-        renderVariableFaceRight(0, 0.50);
-        renderVariableTriangleRight(0.50, 0.25);
+        labs$renderVariableFaceRight(0, 0.33333);
+        labs$renderVariableTriangleRight(0.33333, 0.33333);
 
-        renderVariableFrontFace(0.50);
+        labs$renderVariableFrontFace(0.33333);
 
         bottomQuad();
-        renderVariableBackFace(0.75);
+        labs$renderVariableBackFace(0.66666);
     }
 
     @Unique
-    protected void renderSlopeC3() {
-        renderVariableSlope(0.50, 0.25);
+    protected void labs$renderSlopeB3() {
+        labs$renderVariableSlope(0.33333, 0);
 
-        renderVariableFaceLeft(0, 0.25);
-        renderVariableTriangleLeft(0.25, 0.25);
+        labs$renderVariableTriangleLeft(0, 0.33333);
 
-        renderVariableFaceRight(0, 0.25);
-        renderVariableTriangleRight(0.25, 0.25);
-
-        renderVariableFrontFace(0.25);
+        labs$renderVariableTriangleRight(0, 0.33333);
 
         bottomQuad();
-        renderVariableBackFace(0.50);
+        labs$renderVariableBackFace(0.33333);
     }
 
     @Unique
-    protected void renderSlopeC4() {
-        renderVariableSlope(0.25, 0);
+    protected void labs$renderSlopeC1() {
+        labs$renderVariableSlope(1, 0.75);
 
-        renderVariableTriangleLeft(0, 0.25);
+        labs$renderVariableFaceLeft(0, 0.75);
+        labs$renderVariableTriangleLeft(0.75, 0.25);
 
-        renderVariableTriangleRight(0, 0.25);
+        labs$renderVariableFaceRight(0, 0.75);
+        labs$renderVariableTriangleRight(0.75, 0.25);
+
+        labs$renderVariableFrontFace(0.75);
 
         bottomQuad();
-        renderVariableBackFace(0.25);
+        backQuad();
+    }
+
+    @Unique
+    protected void labs$renderSlopeC2() {
+        labs$renderVariableSlope(0.75, 0.50);
+
+        labs$renderVariableFaceLeft(0, 0.50);
+        labs$renderVariableTriangleLeft(0.50, 0.25);
+
+        labs$renderVariableFaceRight(0, 0.50);
+        labs$renderVariableTriangleRight(0.50, 0.25);
+
+        labs$renderVariableFrontFace(0.50);
+
+        bottomQuad();
+        labs$renderVariableBackFace(0.75);
+    }
+
+    @Unique
+    protected void labs$renderSlopeC3() {
+        labs$renderVariableSlope(0.50, 0.25);
+
+        labs$renderVariableFaceLeft(0, 0.25);
+        labs$renderVariableTriangleLeft(0.25, 0.25);
+
+        labs$renderVariableFaceRight(0, 0.25);
+        labs$renderVariableTriangleRight(0.25, 0.25);
+
+        labs$renderVariableFrontFace(0.25);
+
+        bottomQuad();
+        labs$renderVariableBackFace(0.50);
+    }
+
+    @Unique
+    protected void labs$renderSlopeC4() {
+        labs$renderVariableSlope(0.25, 0);
+
+        labs$renderVariableTriangleLeft(0, 0.25);
+
+        labs$renderVariableTriangleRight(0, 0.25);
+
+        bottomQuad();
+        labs$renderVariableBackFace(0.25);
     }
 
     // -------------------------------------------------------------------------------------
 
     @Unique
-    protected void renderVariableSlope(double start, double end) {
+    protected void labs$renderVariableSlope(double start, double end) {
         beginNegZSlope();
         // Front slope
         beginQuad();
@@ -238,7 +238,7 @@ public abstract class RenderRoofMixin extends RenderShape {
     }
 
     @Unique
-    protected void renderVariableTriangleLeft(double offset, double height) {
+    protected void labs$renderVariableTriangleLeft(double offset, double height) {
         beginPosXFace();
         beginTriangle();
         vertex(1, offset + height, 1, 0, 0);
@@ -248,7 +248,7 @@ public abstract class RenderRoofMixin extends RenderShape {
     }
 
     @Unique
-    protected void renderVariableTriangleRight(double offset, double height) {
+    protected void labs$renderVariableTriangleRight(double offset, double height) {
         beginNegXFace();
         beginTriangle();
         vertex(0, offset + height, 1, 1, 0);
@@ -259,7 +259,7 @@ public abstract class RenderRoofMixin extends RenderShape {
 
     @SuppressWarnings("SameParameterValue")
     @Unique
-    protected void renderVariableFaceLeft(double offset, double height) {
+    protected void labs$renderVariableFaceLeft(double offset, double height) {
         beginNegXFace();
         beginQuad();
         vertex(0, offset + height, 0, 0, 1 - height);
@@ -271,7 +271,7 @@ public abstract class RenderRoofMixin extends RenderShape {
 
     @SuppressWarnings("SameParameterValue")
     @Unique
-    protected void renderVariableFaceRight(double offset, double height) {
+    protected void labs$renderVariableFaceRight(double offset, double height) {
         beginPosXFace();
         beginQuad();
         vertex(1, offset + height, 1, 0, 1 - height);
@@ -282,7 +282,7 @@ public abstract class RenderRoofMixin extends RenderShape {
     }
 
     @Unique
-    protected void renderVariableFrontFace(double height) {
+    protected void labs$renderVariableFrontFace(double height) {
         beginNegZFace();
         beginQuad();
         vertex(1, height, 0, 0, 1 - height);
@@ -293,7 +293,7 @@ public abstract class RenderRoofMixin extends RenderShape {
     }
 
     @Unique
-    protected void renderVariableBackFace(double height) {
+    protected void labs$renderVariableBackFace(double height) {
         beginPosZFace();
         beginQuad();
         vertex(0, height, 1, 0, 1 - height);

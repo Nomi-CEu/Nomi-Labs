@@ -6,9 +6,9 @@ import net.minecraft.util.ResourceLocation;
 
 public interface RemappableSnapshot {
 
-    void addRemapped(int id, ResourceLocation key);
+    void labs$addRemapped(int id, ResourceLocation key);
 
-    void addAllRemapped(Map<Integer, ResourceLocation> map);
+    void labs$addAllRemapped(Map<Integer, ResourceLocation> map);
 
-    void loadToRegistry(RemappableForgeRegistry reg);
+    void labs$loadToRegistry(RemappableForgeRegistry reg);
 }

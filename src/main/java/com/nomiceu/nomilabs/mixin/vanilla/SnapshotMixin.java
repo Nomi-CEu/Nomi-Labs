@@ -25,7 +25,7 @@ import com.nomiceu.nomilabs.mixinhelper.RemappableSnapshot;
 public class SnapshotMixin implements RemappableSnapshot {
 
     @Unique
-    public Map<Integer, ResourceLocation> remapped = Maps.newHashMap();
+    public Map<Integer, ResourceLocation> labs$remapped = Maps.newHashMap();
 
     @Unique
     private static final String REMAPPED_KEY = "remapped";
@@ -34,7 +34,7 @@ public class SnapshotMixin implements RemappableSnapshot {
     public void saveRemapped(CallbackInfoReturnable<NBTTagCompound> cir) {
         NBTTagCompound data = cir.getReturnValue();
         NBTTagList remapList = new NBTTagList();
-        remapped.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(e -> {
+        labs$remapped.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(e -> {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setInteger("K", e.getKey());
             tag.setString("V", e.getValue().toString());
@@ -49,25 +49,26 @@ public class SnapshotMixin implements RemappableSnapshot {
         NBTTagList list = nbt.getTagList(REMAPPED_KEY, Constants.NBT.TAG_COMPOUND);
         list.forEach(e -> {
             NBTTagCompound comp = (NBTTagCompound) e;
-            ((RemappableSnapshot) ret).addRemapped(comp.getInteger("K"), new ResourceLocation(comp.getString("V")));
+            ((RemappableSnapshot) ret).labs$addRemapped(comp.getInteger("K"),
+                    new ResourceLocation(comp.getString("V")));
         });
     }
 
     @Override
     @Unique
-    public void addRemapped(int id, ResourceLocation key) {
-        remapped.put(id, key);
+    public void labs$addRemapped(int id, ResourceLocation key) {
+        labs$remapped.put(id, key);
     }
 
     @Override
     @Unique
-    public void addAllRemapped(Map<Integer, ResourceLocation> map) {
-        remapped.putAll(map);
+    public void labs$addAllRemapped(Map<Integer, ResourceLocation> map) {
+        labs$remapped.putAll(map);
     }
 
     @Override
     @Unique
-    public void loadToRegistry(RemappableForgeRegistry reg) {
-        remapped.forEach(reg::addRemapped);
+    public void labs$loadToRegistry(RemappableForgeRegistry reg) {
+        labs$remapped.forEach(reg::labs$addRemapped);
     }
 }

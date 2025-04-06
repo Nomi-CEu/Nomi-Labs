@@ -34,7 +34,7 @@ public class CoolerTypeMixin implements AccessibleCoolerType {
 
     @Override
     @Unique
-    public String getOriginalFluidName() {
+    public String labs$getOriginalFluidName() {
         return fluidName;
     }
 }

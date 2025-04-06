@@ -33,6 +33,6 @@ public class GameDataMixin {
                                                Map<ResourceLocation, Integer> missing, ResourceLocation name,
                                                ForgeRegistry.Snapshot snap, Class<?> regType, CallbackInfo ci,
                                                @Local(ordinal = 1) ForgeRegistry<?> newRegistry) {
-        ((RemappableSnapshot) snap).loadToRegistry((RemappableForgeRegistry) newRegistry);
+        ((RemappableSnapshot) snap).labs$loadToRegistry((RemappableForgeRegistry) newRegistry);
     }
 }

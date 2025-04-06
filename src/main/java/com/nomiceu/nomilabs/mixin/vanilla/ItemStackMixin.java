@@ -31,27 +31,27 @@ public class ItemStackMixin {
     }
 
     @Unique
-    @SuppressWarnings("unused")
+    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
     public List<OreDictIngredient> getAllOreDicts() {
-        return getOreDictNames().stream()
+        return labs$getOreDictNames().stream()
                 .map(OreDictIngredient::new)
                 .collect(Collectors.toList());
     }
 
     @Unique
+    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
+    public void removeAllOreDicts() {
+        var stack = (ItemStack) (Object) this;
+        labs$getOreDictNames().forEach((name) -> VanillaModule.oreDict.remove(name, stack));
+    }
+
+    @Unique
     @GroovyBlacklist
-    private List<String> getOreDictNames() {
+    private List<String> labs$getOreDictNames() {
         var stack = (ItemStack) (Object) this;
         var ids = OreDictionary.getOreIDs(stack);
         return Arrays.stream(ids)
                 .mapToObj(OreDictionary::getOreName)
                 .collect(Collectors.toList());
-    }
-
-    @Unique
-    @SuppressWarnings("unused")
-    public void removeAllOreDicts() {
-        var stack = (ItemStack) (Object) this;
-        getOreDictNames().forEach((name) -> VanillaModule.oreDict.remove(name, stack));
     }
 }

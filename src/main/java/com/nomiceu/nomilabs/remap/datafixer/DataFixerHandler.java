@@ -253,12 +253,12 @@ public class DataFixerHandler {
         idToBlockMap = registry.getKeys().stream()
                 .collect(Collectors.toMap(registry::getID, Function.identity()));
         var remReg = (RemappableForgeRegistry) registry;
-        if (!remReg.getRemapped().isEmpty()) {
+        if (!remReg.labs$getRemapped().isEmpty()) {
             NomiLabs.LOGGER.debug("Map Before Adding Remapped IDs:");
             NomiLabs.LOGGER.debug(idToBlockMap);
             NomiLabs.LOGGER.debug("Adding Block Remapped IDs:");
-            NomiLabs.LOGGER.debug(remReg.getRemapped());
-            idToBlockMap.putAll(remReg.getRemapped());
+            NomiLabs.LOGGER.debug(remReg.labs$getRemapped());
+            idToBlockMap.putAll(remReg.labs$getRemapped());
         }
 
         NomiLabs.LOGGER.debug("Generated Id to Block Map!");

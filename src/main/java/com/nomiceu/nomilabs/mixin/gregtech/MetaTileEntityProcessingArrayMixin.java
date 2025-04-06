@@ -33,7 +33,7 @@ public abstract class MetaTileEntityProcessingArrayMixin extends RecipeMapMultib
     public void setCleanroom(ICleanroomProvider provider) {
         super.setCleanroom(provider);
         if (recipeMapWorkable instanceof AccessibleProcessingArrayWorkable apw) {
-            apw.setCleanroomForMTE(provider);
+            apw.labs$setCleanroomForMTE(provider);
         }
     }
 }
