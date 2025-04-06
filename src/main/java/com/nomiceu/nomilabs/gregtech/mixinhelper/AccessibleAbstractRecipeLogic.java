@@ -9,6 +9,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public interface AccessibleAbstractRecipeLogic {
 
+    boolean labs$isValidForOutputTop();
+
     List<ItemStack> labs$getOutputs();
 
     List<FluidStack> labs$getFluidOutputs();

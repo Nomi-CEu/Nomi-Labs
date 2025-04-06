@@ -57,8 +57,8 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
         if (capability.getProgress() <= 0 || (!(capability instanceof AccessibleAbstractRecipeLogic recipe))) return;
 
-        // Generators, Ignore
-        if (recipe.labs$getEUt() < 0) return;
+        // Invalid machines, ignore
+        if (!recipe.labs$isValidForOutputTop()) return;
 
         var itemFluidLists = createItemFluidElementLists(recipe);
         var items = itemFluidLists.getLeft();

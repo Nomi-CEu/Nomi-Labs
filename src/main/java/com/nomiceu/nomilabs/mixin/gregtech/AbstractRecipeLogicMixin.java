@@ -107,6 +107,13 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
 
     @Unique
     @Override
+    public boolean labs$isValidForOutputTop() {
+        // Filters out weird machines like generators and boilers, and prevents NPEs
+        return labs$getEUt() >= 0 && getRecipeMap() != null;
+    }
+
+    @Unique
+    @Override
     public List<ItemStack> labs$getOutputs() {
         if (itemOutputs == null) {
             NomiLabs.LOGGER.error("Item Outputs List for Recipe Logic {} of Recipe Map {} is null!",
