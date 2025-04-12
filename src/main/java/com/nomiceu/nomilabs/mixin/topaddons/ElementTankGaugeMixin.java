@@ -8,8 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.integration.top.LabsFluidNameElement;
 import com.nomiceu.nomilabs.integration.top.LabsFluidStackElement;
 import com.nomiceu.nomilabs.util.LabsTranslate;
@@ -29,7 +26,7 @@ import mcjty.theoneprobe.apiimpl.client.ElementTextRender;
 import mcjty.theoneprobe.rendering.RenderHelper;
 
 /**
- * Fixes Localization of Fluid Names. (Client Only)
+ * Fixes Localization of Fluid Names, and improves rendering. (Client Only)
  */
 @Mixin(value = ElementTankGauge.class, remap = false)
 public class ElementTankGaugeMixin {
@@ -79,19 +76,15 @@ public class ElementTankGaugeMixin {
 
     @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
     private void newRenderLogic(int x, int y, CallbackInfo ci) {
-        boolean hasFluid = capacity > 0 && amount > 0 && fluidName != null && !fluidName.isEmpty();
-        boolean expand = sneaking && hasFluid;
+        boolean hasFluid = labs$hasFluid();
+        boolean expand = labs$shouldExpand();
         int barHeight = expand ? 12 : 8;
 
         ci.cancel();
 
         // Update sprite if needed
         if (hasFluid && labs$sprite == null) {
-            Fluid fluid = FluidRegistry.getFluid(fluidName);
-            if (fluid == null)
-                NomiLabs.LOGGER.error("Received Fluid Info Packet ElementTankGauge with Unknown Fluid {}!", fluidName);
-            else
-                labs$sprite = LabsFluidStackElement.getFluidAtlasSprite(fluid.getStill().toString());
+            labs$sprite = LabsFluidStackElement.getFluidAtlasSprite("ElementTankGuage", fluidName);
         }
 
         // Box
@@ -118,17 +111,27 @@ public class ElementTankGaugeMixin {
 
     @Inject(method = "getWidth", at = @At("HEAD"), cancellable = true)
     private void newWidthLogic(CallbackInfoReturnable<Integer> cir) {
-        if (sneaking && capacity > 0 && amount > 0)
+        if (labs$shouldExpand())
             cir.setReturnValue(
                     Math.max(100, Minecraft.getMinecraft().fontRenderer.getStringWidth(labs$getTankFluidTitle())));
     }
 
     @Inject(method = "getHeight", at = @At("HEAD"), cancellable = true)
     private void newHeightLogic(CallbackInfoReturnable<Integer> cir) {
-        if (sneaking && !fluidName.isEmpty())
+        if (labs$shouldExpand())
             cir.setReturnValue(25);
         else
             cir.setReturnValue(8);
+    }
+
+    @Unique
+    private boolean labs$shouldExpand() {
+        return sneaking && labs$hasFluid();
+    }
+
+    @Unique
+    private boolean labs$hasFluid() {
+        return capacity > 0 && fluidName != null && !fluidName.isEmpty();
     }
 
     @Unique

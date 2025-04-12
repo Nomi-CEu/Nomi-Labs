@@ -55,8 +55,7 @@ public class AddonForgeMixin {
 
     @ModifyConstant(method = "addProbeInfo", constant = @Constant(stringValue = "Tank"))
     private String localizedTank(String constant) {
-        String langKey = "topaddons.fluid_display.tank.display.default";
-        return langKey;
+        return "topaddons.fluid_display.tank.display.default";
     }
 
     @Inject(method = "addProbeInfo",
