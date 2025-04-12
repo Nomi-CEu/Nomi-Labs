@@ -24,8 +24,10 @@
     "MetaItemsMixin",
     "MetaTileEntityMEStockingBusMixin",
     "MetaTileEntityMEStockingHatchMixin",
+    "MetaTileEntityMufflerHatchMixin",
     "MetaTileEntityProcessingArrayMixin",
     "MetaValueItemMixin",
+    "MinerLogicMixin",
     "MultiblockDisplayTextBuilderMixin",
     "MultiblockInfoCategoryMixin",
     "MultiblockRecipeLogicMixin",
@@ -43,7 +45,9 @@
     "SteamBoilerMixin",
     "SteamMetaTileEntityMixin",
     "TileEntityPipeBaseMixin",
-    "VirtualizedRecipeMapMixin"
+    "ToolEventHandlersMixin",
+    "VirtualizedRecipeMapMixin",
+    "WidgetProspectingMapMixin"
   ],
   "client": [
     "MetaTileEntityLargeBoilerClientMixin"

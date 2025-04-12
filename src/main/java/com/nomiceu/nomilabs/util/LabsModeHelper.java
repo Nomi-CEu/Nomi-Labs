@@ -28,7 +28,11 @@ public class LabsModeHelper {
     }
 
     public static String getFormattedMode() {
-        return StringUtils.capitalize(getMode());
+        return formatMode(getMode());
+    }
+
+    public static String formatMode(String mode) {
+        return StringUtils.capitalize(mode);
     }
 
     /**

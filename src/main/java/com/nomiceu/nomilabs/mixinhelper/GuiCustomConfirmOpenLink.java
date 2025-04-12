@@ -1,11 +1,13 @@
 package com.nomiceu.nomilabs.mixinhelper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,8 +15,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.nomiceu.nomilabs.NomiLabs;
+
 @SideOnly(Side.CLIENT)
 public class GuiCustomConfirmOpenLink extends GuiScreen {
+
+    private final GuiScreen parent;
 
     private final String titleText;
 
@@ -29,18 +35,12 @@ public class GuiCustomConfirmOpenLink extends GuiScreen {
 
     private final List<String> listLines;
 
-    private final GuiYesNoCallback parentScreen;
-    private final int parentButtonClickedId;
-
     private static final int CONFIRM_ID = 0;
     private static final int COPY_ID = 2;
     private static final int CANCEL_ID = 1;
 
-    public GuiCustomConfirmOpenLink(GuiYesNoCallback parentScreen, String linkText, @Nullable String noteText,
-                                    int parentButtonClickedId) {
-        this.parentScreen = parentScreen;
-        this.parentButtonClickedId = parentButtonClickedId;
-
+    public GuiCustomConfirmOpenLink(GuiScreen parent, String linkText, @Nullable String noteText) {
+        this.parent = parent;
         this.titleText = TextFormatting.BOLD + I18n.format("chat.link.confirmTrusted");
 
         this.confirmButtonText = I18n.format("chat.link.open");
@@ -72,10 +72,14 @@ public class GuiCustomConfirmOpenLink extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if (button.id == 2)
+        if (button.id == COPY_ID)
             setClipboardString(linkText);
 
-        parentScreen.confirmClicked(button.id == 0, parentButtonClickedId);
+        if (button.id == CONFIRM_ID) {
+            openLink(linkText);
+        }
+
+        mc.displayGuiScreen(parent);
     }
 
     @Override
@@ -93,5 +97,17 @@ public class GuiCustomConfirmOpenLink extends GuiScreen {
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    public static void openLink(String url) {
+        try {
+            Class<?> desktopClass = Class.forName("java.awt.Desktop");
+            Object desktopObj = desktopClass.getMethod("getDesktop").invoke(null);
+            desktopClass.getMethod("browse", URI.class).invoke(desktopObj, new URI(url));
+        } catch (URISyntaxException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
+                 NoSuchMethodException e) {
+            NomiLabs.LOGGER.error("Failed to Open Link!");
+            NomiLabs.LOGGER.throwing(e);
+        }
     }
 }

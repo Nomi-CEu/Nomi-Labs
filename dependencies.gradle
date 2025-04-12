@@ -118,9 +118,10 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:chisel-235279:2915375") // Version 1.0.2.45
 
     // AE2, Used in Naquadah Reactors (AE2 Unofficial Extended Life used) (from CurseForge)
-    // This Mod has a Temporary Mixin to fix a Bug, which may be fixed in a Later Version!
-    // Check/Remove the mixin after updating!
-    compileOnly rfg.deobf("curse.maven:ae2-extended-life-570458:5378163") // Version 0.56.5
+    // This Mod has several temporary mixins to fix bugs, which may be fixed in a later version!
+    // Check/Remove the mixins after updating!
+    // After an update, this mod may be able use the GTCEu maven!
+    compileOnly rfg.deobf("curse.maven:ae2-extended-life-570458:5411078") // Version 0.56.6
 
     // NAE2, Used in P2P Shift Scrolling (from CurseForge)
     compileOnly rfg.deobf("curse.maven:nae2-884359:5380800") // Version 1.6.4
@@ -176,9 +177,6 @@ dependencies {
     // Top Addons (from CurseForge)
     compileOnly rfg.deobf("curse.maven:top-addons-247111:2887479") // Version 1.13.0
 
-    // Inventory BogoSorter (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:inventory-bogosorter-632327:5162169") // Version 1.4.8
-
     // Thermal Foundation (from CurseForge)
     compileOnly "curse.maven:thermal-foundation-222880:2926428" // Version 2.6.7.1
 
@@ -194,8 +192,14 @@ dependencies {
     // FindMyItemsAndFluids (from CurseForge)
     compileOnly rfg.deobf("curse.maven:findmyitemsandfluids-610085:3748963") // Version 1.0.0
 
-    // Biomes o Plenty (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:biomes-o-plenty-220318:2842510") // Version 7.0.1.2444
+    // Solar Flux Reborn (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:solar-flux-reborn-246974:3050838") // Version 12.4.11
+
+    // Armor Plus (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:armor-plus-237366:2803109") // Version 11.25.1.62
+
+    // AE2 Fluid Crafting Rework (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // Version 2.6.6-r
 
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
@@ -232,11 +236,15 @@ dependencies {
     }
 
     if (project.enable_ae2.toBoolean()) {
-        runtimeOnly "curse.maven:ae2-extended-life-570458:5378163" // Version 0.56.5
+        runtimeOnly "curse.maven:ae2-extended-life-570458:5411078" // Version 0.56.6
     }
 
     if (project.enable_nae2.toBoolean()) {
         runtimeOnly "curse.maven:nae2-884359:5380800" // Version 1.6.4
+    }
+
+    if (project.enable_ae2fc.toBoolean()) {
+        runtimeOnly "curse.maven:ae2-fluid-crafting-rework-623955:5751930" // Version 2.6.6-r
     }
 
     if (project.enable_better_p2p.toBoolean()) {
@@ -306,10 +314,6 @@ dependencies {
         runtimeOnly "curse.maven:actually-additions-228404:3117927" // Version r152
     }
 
-    if (project.enable_bogo.toBoolean()) {
-        runtimeOnly "curse.maven:inventory-bogosorter-632327:5162169" // Version 1.4.8
-    }
-
     if (project.enable_find.toBoolean()) {
         runtimeOnly "curse.maven:findmyitemsandfluids-610085:3748963" // Version 1.0.0
     }
@@ -332,7 +336,13 @@ dependencies {
         runtimeOnly "curse.maven:mouse-tweaks-461660:4661407" // Mouse Tweaks Unofficial, Version 3.1.4
     }
 
-    if (project.enable_biomes_o_plenty.toBoolean()) {
-        runtimeOnly "curse.maven:biomes-o-plenty-220318:2842510" // Version 7.0.1.2444
+    if (project.enable_solar.toBoolean()) {
+        runtimeOnly "curse.maven:solar-flux-reborn-246974:3050838" // Version 12.4.11
+    }
+
+    if (project.enable_armor_plus.toBoolean()) {
+        // The Dragon Lib, runtime dep (from CurseForge)
+        runtimeOnly "curse.maven:the-dragon-lib-248055:2580332" // Version 5.3.0
+        runtimeOnly "curse.maven:armor-plus-237366:2803109" // Version 11.25.1.62
     }
 }

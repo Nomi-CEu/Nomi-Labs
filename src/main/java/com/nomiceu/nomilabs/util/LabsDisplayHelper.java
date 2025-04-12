@@ -10,4 +10,8 @@ public class LabsDisplayHelper {
                 .replace("{version}", LabsVersionConfig.formattedVersion)
                 .replace("{mode}", LabsModeHelper.getFormattedMode());
     }
+
+    public static String formatImagePath(String path) {
+        return path.replace("{mode}", LabsModeHelper.getMode());
+    }
 }

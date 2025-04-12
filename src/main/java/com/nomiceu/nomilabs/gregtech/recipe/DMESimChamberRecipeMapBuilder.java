@@ -17,6 +17,7 @@ import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher;
 import gregtech.api.recipes.ingredients.nbtmatch.NBTTagType;
 import gregtech.api.util.EnumValidationResult;
+import mustapelto.deepmoblearning.common.metadata.MetadataManager;
 import mustapelto.deepmoblearning.common.util.DataModelHelper;
 
 public class DMESimChamberRecipeMapBuilder extends RecipeBuilder<DMESimChamberRecipeMapBuilder> {
@@ -51,11 +52,21 @@ public class DMESimChamberRecipeMapBuilder extends RecipeBuilder<DMESimChamberRe
         setDataItem = true;
         var data = new DMEDataPropertyData(dataItem, tier);
         applyProperty(DMEDataProperty.getInstance(), data);
+
         var stack = new ItemStack(dataItem);
         DataModelHelper.setTierLevel(stack, tier);
+
         var input = new GTRecipeItemInput(stack);
-        input.setNBTMatchingCondition(NBTMatcher.EQUAL_TO,
-                NBTCondition.create(NBTTagType.INT, DataModelHelper.NBT_TIER, (long) tier));
+
+        // If tier is minimum tier, allow empty tag OR equal tag
+        if (MetadataManager.isMinDataModelTier(tier)) {
+            input.setNBTMatchingCondition(EQUAL_TO_OR_NO_KEY,
+                    NBTCondition.create(NBTTagType.INT, DataModelHelper.NBT_TIER, (long) tier));
+        } else {
+            input.setNBTMatchingCondition(NBTMatcher.EQUAL_TO,
+                    NBTCondition.create(NBTTagType.INT, DataModelHelper.NBT_TIER, (long) tier));
+        }
+
         notConsumable(input);
         return this;
     }
@@ -84,4 +95,17 @@ public class DMESimChamberRecipeMapBuilder extends RecipeBuilder<DMESimChamberRe
         }
         return this;
     }
+
+    // Returns true if tag is empty or doesn't have the key, otherwise performs NBTMatcher#EQUAL_TO.
+    private static final NBTMatcher EQUAL_TO_OR_NO_KEY = (tag, condition) -> {
+        // Bad Input
+        if (condition == null || condition.tagType == null)
+            return false;
+
+        // Empty Tag: Allowed
+        if (!NBTMatcher.hasKey(tag, condition.nbtKey, condition.tagType.typeId))
+            return true;
+
+        return NBTMatcher.EQUAL_TO.evaluate(tag, condition);
+    };
 }

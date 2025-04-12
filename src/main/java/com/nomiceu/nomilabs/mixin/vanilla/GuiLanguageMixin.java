@@ -1,9 +1,5 @@
 package com.nomiceu.nomilabs.mixin.vanilla;
 
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import net.minecraft.client.gui.*;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.Language;
@@ -21,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.mixinhelper.AccessibleGuiLanguage;
 import com.nomiceu.nomilabs.mixinhelper.GuiCustomConfirmOpenLink;
@@ -46,10 +41,10 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
     private static final String TRANSLATIONS_DOWNLOAD = "https://nightly.link/Nomi-CEu/Nomi-CEu-Translations/workflows/pushbuildpack/main?preview";
 
     @Unique
-    private String downloadPackNote;
+    private String labs$downloadPackNote;
 
     @Unique
-    private Language previousLang;
+    private Language labs$previousLang;
 
     @Shadow
     private GuiOptionButton forceUnicodeFontBtn;
@@ -71,7 +66,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
     @Inject(method = "<init>", at = @At("TAIL"))
     public void savePreviousLang(GuiScreen screen, GameSettings gameSettingsObj, LanguageManager manager,
                                  CallbackInfo ci) {
-        previousLang = manager.getCurrentLanguage();
+        labs$previousLang = manager.getCurrentLanguage();
     }
 
     @Inject(method = "initGui", at = @At("TAIL"))
@@ -84,9 +79,10 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
                 I18n.format("nomilabs.gui.language.download")));
         addButton(new GuiOptionButton(SHOW_GH_BTN_ID, width / 2 - 155, height - 56,
                 I18n.format("nomilabs.gui.language.gh")));
-        downloadPackNote = LabsConfig.advanced.languageModifyOption == LabsConfig.Advanced.LanguageModifyOption.LABS ?
-                I18n.format("nomilabs.gui.language.download.note.labs") :
-                I18n.format("nomilabs.gui.language.download.note.nomi");
+        labs$downloadPackNote = LabsConfig.advanced.languageModifyOption ==
+                LabsConfig.Advanced.LanguageModifyOption.LABS ?
+                        I18n.format("nomilabs.gui.language.download.note.labs") :
+                        I18n.format("nomilabs.gui.language.download.note.nomi");
     }
 
     @Inject(method = "drawScreen",
@@ -115,7 +111,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
             case 6: // Done Button
                 var language = languageManager.getCurrentLanguage();
                 var code = language.getLanguageCode();
-                if (code.equals(previousLang.getLanguageCode())) break;
+                if (code.equals(labs$previousLang.getLanguageCode())) break;
 
                 game_settings_3.language = code;
                 FMLClientHandler.instance().refreshResources(VanillaResourceType.LANGUAGES);
@@ -128,42 +124,18 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
                 ci.cancel();
                 break;
             case DOWNLOAD_PACK_BTN_ID:
-                mc.displayGuiScreen(new GuiCustomConfirmOpenLink(this, TRANSLATIONS_DOWNLOAD, downloadPackNote,
-                        DOWNLOAD_PACK_BTN_ID));
+                mc.displayGuiScreen(new GuiCustomConfirmOpenLink(this, TRANSLATIONS_DOWNLOAD, labs$downloadPackNote));
                 ci.cancel();
                 break;
             case SHOW_GH_BTN_ID:
-                mc.displayGuiScreen(new GuiCustomConfirmOpenLink(this, TRANSLATIONS_GH, null, SHOW_GH_BTN_ID));
+                mc.displayGuiScreen(new GuiCustomConfirmOpenLink(this, TRANSLATIONS_GH, null));
                 ci.cancel();
                 break;
         }
     }
 
     @Override
-    public LanguageManager getLanguageManager() {
+    public LanguageManager labs$getLanguageManager() {
         return languageManager;
-    }
-
-    @Override
-    public void confirmClicked(boolean result, int id) {
-        if (LabsConfig.advanced.languageModifyOption == LabsConfig.Advanced.LanguageModifyOption.NONE) return;
-        String url = switch (id) {
-            case DOWNLOAD_PACK_BTN_ID -> TRANSLATIONS_DOWNLOAD;
-            case SHOW_GH_BTN_ID -> TRANSLATIONS_GH;
-            default -> "";
-        };
-
-        if (result) {
-            try {
-                Class<?> desktopClass = Class.forName("java.awt.Desktop");
-                Object desktopObj = desktopClass.getMethod("getDesktop").invoke(null);
-                desktopClass.getMethod("browse", URI.class).invoke(desktopObj, new URI(url));
-            } catch (URISyntaxException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
-                     NoSuchMethodException e) {
-                NomiLabs.LOGGER.error("Failed to Open Link!");
-                NomiLabs.LOGGER.throwing(e);
-            }
-        }
-        this.mc.displayGuiScreen(this);
     }
 }

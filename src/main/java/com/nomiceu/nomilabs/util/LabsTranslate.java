@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.util.text.translation.I18n;
 
 import com.nomiceu.nomilabs.NomiLabs;
@@ -166,6 +166,13 @@ public class LabsTranslate {
             return this;
         }
 
+        /**
+         * Note that the returned component is unstyled.
+         */
+        public ITextComponent toTextComp() {
+            return new TextComponentTranslation(key, params);
+        }
+
         public String translate() {
             String translated = translateThis();
 
@@ -201,6 +208,11 @@ public class LabsTranslate {
 
         public TranslatableLiteral(String text) {
             super(text);
+        }
+
+        @Override
+        public ITextComponent toTextComp() {
+            return new TextComponentString(key);
         }
 
         @Override

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import appeng.client.gui.AEBaseGui;
 
 /**
- * Fixes Mouse Tweaks Interactions in Terminals, for AE2 v0.56.5.
+ * Fixes Mouse Tweaks Interactions in Terminals, for AE2 v0.56.6.
  */
 @Mixin(value = AEBaseGui.class, remap = false)
 public abstract class AEBaseGuiMixin extends GuiContainer {

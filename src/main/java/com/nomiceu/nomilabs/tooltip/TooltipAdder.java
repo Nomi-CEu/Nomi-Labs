@@ -4,9 +4,7 @@ import static com.nomiceu.nomilabs.util.LabsTranslate.*;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerPlayer;
@@ -23,12 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.enderio.core.client.handlers.SpecialTooltipHandler;
-import com.jaquadro.minecraft.storagedrawers.item.ItemCompDrawers;
-import com.jaquadro.minecraft.storagedrawers.item.ItemDrawers;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
-import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.util.ItemMeta;
 
 import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
@@ -38,11 +33,9 @@ import crazypants.enderio.base.capacitor.CapacitorKey;
 public class TooltipAdder {
 
     public static void addTooltipNormal(List<String> tooltip, ItemStack stack) {
-        // Drawer Upgrade Notice
-        if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(CustomUpgradeHandler.CUSTOM_UPGRADES)) {
-            if (stack.getItem() instanceof ItemDrawers || stack.getItem() instanceof ItemCompDrawers)
-                tooltip.add(LabsTooltipHelper.DRAWER_UPDGRADE.translate());
-        }
+        // Add Info about Drawers (Contents/Upgrades)
+        if (Loader.isModLoaded(LabsValues.STORAGE_DRAWERS_MODID))
+            DrawerTooltipAdder.addDrawerInfo(tooltip, stack);
 
         // Custom Tooltips
         var groovyTooltips = LabsTooltipHelper.getTranslatableFromStack(stack);
@@ -104,13 +97,8 @@ public class TooltipAdder {
         if (stack.hasCapability(CapabilityCapacitorData.getCapNN(), null)) {
             if (!SpecialTooltipHandler.showAdvancedTooltips()) return;
 
-            var cap = Objects.requireNonNull(stack.getCapability(CapabilityCapacitorData.getCapNN(), null)); // Null
-                                                                                                             // shouldn't
-                                                                                                             // happen,
-                                                                                                             // as
-                                                                                                             // hasCapability
-                                                                                                             // returned
-                                                                                                             // true
+            // Null shouldn't happen, as hasCapability returned true
+            var cap = Objects.requireNonNull(stack.getCapability(CapabilityCapacitorData.getCapNN(), null));
             var level = cap.getUnscaledValue(CapacitorKey.NO_POWER);
 
             var formatter = new DecimalFormat("0.##"); // Format Levels to two decimal places (or less, this also

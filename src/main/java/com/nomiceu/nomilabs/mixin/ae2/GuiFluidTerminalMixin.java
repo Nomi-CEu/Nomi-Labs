@@ -15,7 +15,7 @@ import appeng.client.gui.widgets.MEGuiTextField;
 import appeng.fluids.client.gui.GuiFluidTerminal;
 
 /**
- * Allows Auto-Focusing Fluid Terminal.A
+ * Allows Auto-Focusing Fluid Terminal.
  */
 @Mixin(value = GuiFluidTerminal.class, remap = false)
 public abstract class GuiFluidTerminalMixin extends AEBaseGui {

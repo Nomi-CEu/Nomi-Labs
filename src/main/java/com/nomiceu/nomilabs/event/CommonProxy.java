@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.event;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -11,9 +12,11 @@ import net.minecraftforge.event.RegistryEvent.MissingMappings;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -21,8 +24,10 @@ import com.cleanroommc.groovyscript.event.GsHandEvent;
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
 import com.nomiceu.nomilabs.LabsSounds;
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.block.registry.LabsBlocks;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.config.LabsVersionConfig;
 import com.nomiceu.nomilabs.creativetab.registry.LabsCreativeTabs;
 import com.nomiceu.nomilabs.dimension.LabsDimensions;
 import com.nomiceu.nomilabs.fluid.FluidRegistryMixinHelper;
@@ -43,6 +48,7 @@ import com.nomiceu.nomilabs.groovy.mixinhelper.CraftingOutputCache;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
 import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
+import com.nomiceu.nomilabs.integration.nae2.AE2FCIntegration;
 import com.nomiceu.nomilabs.integration.top.LabsTOPManager;
 import com.nomiceu.nomilabs.item.ItemExcitationCoil;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
@@ -56,6 +62,7 @@ import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.LabsDifficultyHelper;
 import com.nomiceu.nomilabs.util.LabsModeHelper;
 import com.nomiceu.nomilabs.util.LabsNames;
+import com.nomiceu.nomilabs.util.LabsSide;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.event.MaterialEvent;
@@ -63,6 +70,8 @@ import gregtech.api.unification.material.event.MaterialRegistryEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
 
 public class CommonProxy {
+
+    public static boolean serverStartedMsg = false;
 
     public static void onConstruction() {
         LabsNetworkHandler.onConstruction();
@@ -111,6 +120,9 @@ public class CommonProxy {
 
     public static void postInit() {
         LabsModeHelper.onPostInit();
+
+        if (Loader.isModLoaded(LabsValues.NAE2_MODID) && Loader.isModLoaded(LabsValues.AE2FC_MODID))
+            AE2FCIntegration.postInit();
     }
 
     public static void loadComplete() {
@@ -172,6 +184,22 @@ public class CommonProxy {
         // Lock Difficulty
         event.getWorld().getWorldInfo().setDifficulty(toLock);
         event.getWorld().getWorldInfo().setDifficultyLocked(true);
+    }
+
+    @SubscribeEvent
+    public static void onTickEnd(TickEvent.ServerTickEvent event) {
+        if (serverStartedMsg || !LabsSide.isDedicatedServer() || event.phase != TickEvent.Phase.END)
+            return;
+
+        serverStartedMsg = true;
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        NomiLabs.LOGGER.info("=========================================================");
+        NomiLabs.LOGGER.info("{} Server Successfully Started!", LabsConfig.advanced.serverWelcomeName);
+        NomiLabs.LOGGER.info(" - Pack Version: {}", LabsVersionConfig.formattedVersion);
+        NomiLabs.LOGGER.info(" - Mode: {}", LabsModeHelper.getFormattedMode());
+        NomiLabs.LOGGER.info(" - Port: {}", server.getServerPort());
+        NomiLabs.LOGGER.info("Players Can Now Join!");
+        NomiLabs.LOGGER.info("=========================================================");
     }
 
     @SubscribeEvent

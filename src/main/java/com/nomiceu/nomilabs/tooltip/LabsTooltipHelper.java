@@ -23,8 +23,6 @@ public class LabsTooltipHelper {
 
     private static final Map<ItemMeta, List<Translatable>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
-    public static Translatable DRAWER_UPDGRADE = LabsTranslate.translatable("tooltip.nomilabs.drawers.upgrades");
-
     public static boolean isShiftDown() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     }

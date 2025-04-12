@@ -5,6 +5,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,17 +42,8 @@ public class LabsFluidStackElement implements IElement {
 
     @Override
     public void render(int x, int y) {
-        String actualLocation = location;
-
-        // Gregtech fluids added by GRS do this for some reason
-        // As a consequence the fluid texture from /dull will not show up on anything from GRS.
-        if (location.contains("material_sets/fluid/") && (location.contains("/gas") || location.contains("/plasma"))) {
-            actualLocation = location.replace("material_sets/fluid/", "material_sets/dull/");
-        }
-
-        if (sprite == null) {
-            sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(actualLocation);
-        }
+        if (sprite == null)
+            sprite = getFluidAtlasSprite(location);
 
         GlStateManager.enableBlend();
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -65,8 +58,8 @@ public class LabsFluidStackElement implements IElement {
             String format = TextFormattingUtil.formatLongToCompactString(amount) + "L";
             minecraft.fontRenderer.drawStringWithShadow(
                     format,
-                    (x + 16) * 2 - minecraft.fontRenderer.getStringWidth(format),
-                    (y + 16) * 2 - minecraft.fontRenderer.FONT_HEIGHT,
+                    (x + 17) * 2 - 1 - minecraft.fontRenderer.getStringWidth(format),
+                    (y + 17) * 2 - 1 - minecraft.fontRenderer.FONT_HEIGHT,
                     0xFFFFFF);
             GlStateManager.popMatrix();
         }
@@ -94,5 +87,19 @@ public class LabsFluidStackElement implements IElement {
     @Override
     public int getID() {
         return LabsTOPManager.FLUID_STACK_ELEMENT;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static TextureAtlasSprite getFluidAtlasSprite(String stillLocation) {
+        String actualLocation = stillLocation;
+
+        // Gregtech fluids added by GRS do this for some reason
+        // As a consequence the fluid texture from /dull will not show up on anything from GRS.
+        if (stillLocation.contains("material_sets/fluid/") &&
+                (stillLocation.contains("/gas") || stillLocation.contains("/plasma"))) {
+            actualLocation = stillLocation.replace("material_sets/fluid/", "material_sets/dull/");
+        }
+
+        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(actualLocation);
     }
 }

@@ -50,6 +50,9 @@ config.nomilabs.mod_integration.top_addons=Enable TOP Addons Integration
 config.nomilabs.mod_integration.jei_ing_empty_line=Add JEI Ingredient Tooltip Empty Line
 config.nomilabs.mod_integration.bqu_fluid_task_fixes=Enable BQu Fluid Task Fixes
 config.nomilabs.mod_integration.screwdrive_aa_relays=Allow GT Screwdrivers for AA Laser Relays
+config.nomilabs.mod_integration.disable_armor_plus_frag_drops=Disable Armor Plus Fragment Drops
+config.nomilabs.mod_integration.dummy_muffler_hatches=Enable Dummy Muffler Hatches
+config.nomilabs.mod_integration.prospector_dark=Default Prospector Dark Mode
 
 config.nomilabs.mod_integration.effortlessbuilding=Effortless Building Integration Settings
 config.nomilabs.mod_integration.effortlessbuilding.enable=Enable Effortless Building Integration
@@ -74,6 +77,12 @@ config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save=Save Interface C
 config.nomilabs.mod_integration.better_p2p=Better P2P Options
 config.nomilabs.mod_integration.better_p2p.blink=Blink Selected P2P
 config.nomilabs.mod_integration.better_p2p.blink_speed=Blink Selected P2P Speed
+
+config.nomilabs.mod_integration.solar_flux=Solar Flux Performance Options
+config.nomilabs.mod_integration.solar_flux.enable=Enable Solar Flux Performance Improvements
+config.nomilabs.mod_integration.solar_flux.auto_balancing_freq=Auto Balancing Frequency
+config.nomilabs.mod_integration.solar_flux.extra_balancing=Enable Extra Balancing
+config.nomilabs.mod_integration.solar_flux.extra_balancing_amount=Max Extra Balancing Amount
 
 config.nomilabs.groovy=GroovyScript Extensions and Script Helper Settings
 config.nomilabs.groovy.tooltip=GroovyScript Extensions and Script Helper Settings
@@ -113,6 +122,8 @@ config.nomilabs.advanced.client_side_fields=Client Side ONLY Fields
 config.nomilabs.advanced.client_side_methods=Client Side ONLY Methods
 config.nomilabs.advanced.server_side_fields=Server Side ONLY Fields
 config.nomilabs.advanced.server_side_methods=Server Side ONLY Methods
+config.nomilabs.advanced.server_welcome_name=Server Welcome Name
+config.nomilabs.advanced.mode_check_nomi_ceu=Mode Check Nomi-CEu Link
 
 config.nomilabs.advanced.tiers=Quest Tier Detector Settings
 config.nomilabs.advanced.tiers.normal_qb_ids=Normal Mode Quest IDs
@@ -169,6 +180,10 @@ nomilabs.gui.language_jei.desc.2=However, Reloading JEI will take a §ccouple se
 
 nomilabs.gui.top_override.fluid=Fluid: %s
 
+nomilabs.gui.bqu.custom.copy.tooltip=Click to Copy
+nomilabs.gui.bqu.custom.copied.tooltip=§eCopied to Clipboard!§r
+nomilabs.gui.bqu.custom.link.tooltip=Click to Open Link
+
 nomilabs.gui.better_p2p.input=Input
 nomilabs.gui.better_p2p.output=Output
 nomilabs.gui.better_p2p.error.same_output=P2P is already an {}.
@@ -215,6 +230,8 @@ nomilabs.gui.advanced_memory_card.mode.add_input.desc.2=The §aselected P2P§7 i
 gui.advanced_memory_card.mode.add_as_output=Current Mode: Add as Output
 nomilabs.gui.advanced_memory_card.mode.add_output.desc.1=Before binding, the §aselected P2P§7 has its connections removed.
 nomilabs.gui.advanced_memory_card.mode.add_output.desc.2=The §aselected P2P§7 is set as an §6output§7, with the §bbind target's§7 frequency.
+
+nomilabs.gui.dummy_muffler=Muffler hatches no longer generate ashes to improve performance. You can enable this again in config.
 
 # Custom Fluids
 fluid.uranium233=Uranium 233
@@ -688,7 +705,12 @@ tooltip.nomilabs.item.can_clear=Place in Crafting Grid to §eClear Contents§r!
 tooltip.nomilabs.recipe.clearing=§cAll Contents Will be Voided!§r
 
 # Items
-tooltip.nomilabs.drawers.upgrades=§eUpgrades sealed within§r
+tooltip.nomilabs.drawers.item=§f- %s x%s§r
+tooltip.nomilabs.drawers.stored=§eItems Sealed Within§r
+tooltip.nomilabs.drawers.upgrades=§dUpgrades Sealed Within§r
+tooltip.nomilabs.drawers.stored_active=§eItems Sealed Within:§r
+tooltip.nomilabs.drawers.upgrades_active=§dUpgrades Sealed Within:§r
+tooltip.nomilabs.drawers.shift=§bHold [Shift] to See Sealed Contents§r
 
 tooltip.nomilabs.excitationcoil.description=§7Crafting Component Only... Except:§r
 tooltip.nomilabs.excitationcoil.placeable=§7Placeable!§r
