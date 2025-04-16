@@ -8,6 +8,8 @@
     "AdvancedRocketryMixin",
     "PlanetEventHandlerMixin"
   ],
-  "client": [],
+  "client": [
+    "RenderPlanetarySkyMixin"
+  ],
   "server": []
 }
