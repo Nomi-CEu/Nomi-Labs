@@ -1,0 +1,13 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.advancedrocketry.prerework",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "AdvancedRocketryMixin",
+    "PlanetEventHandlerMixin"
+  ],
+  "client": [],
+  "server": []
+}

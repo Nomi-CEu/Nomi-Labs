@@ -264,11 +264,11 @@ public class LabsConfig {
         public final DraconicEvolutionIntegration draconicEvolutionIntegration = new DraconicEvolutionIntegration();
 
         @Config.Comment({
-                "Whether to enable Advanced Rocketry Integration, which fixes Advanced Rocketry registering items for Fluid Blocks.",
-                "[default: true]" })
+                "Whether to enable Advanced Rocketry Integration, which applies fixes only relevant to OLD versions of AdvancedRocketry.",
+                "[default: false]" })
         @Config.LangKey("config.nomilabs.mod_integration.advanced_rocketry")
         @Config.RequiresMcRestart
-        public boolean enableAdvancedRocketryIntegration = true;
+        public boolean enableAdvancedRocketryIntegration = false;
 
         @Config.Comment({
                 "Whether to enable ArchitectureCraft Integration, which adds new slope variants, improves the GUI of the Sawbench, fixes the Sawbench Particle Texture, and fixes Shapes' Harvest Tools and Levels in The One Probe.",

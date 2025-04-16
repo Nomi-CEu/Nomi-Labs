@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin.advancedrocketry;
+package com.nomiceu.nomilabs.mixin.advancedrocketry.prerework;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
