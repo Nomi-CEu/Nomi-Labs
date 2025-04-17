@@ -21,7 +21,7 @@ import appeng.api.storage.data.IItemList;
 import appeng.fluids.util.AEFluidStack;
 
 /**
- * Implements <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/483/files">AE2 #483</a> for v0.56.6.
+ * Implements <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/483">AE2 #483</a> for v0.56.5.
  */
 @Mixin(targets = "appeng.fluids.parts.FluidHandlerAdapter$InventoryCache", remap = false)
 public class FluidHandlerAdapterInventoryCacheMixin {

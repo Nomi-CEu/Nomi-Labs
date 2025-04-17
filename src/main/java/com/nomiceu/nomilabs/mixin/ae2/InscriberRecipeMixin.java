@@ -21,7 +21,7 @@ import appeng.api.features.InscriberProcessType;
 import appeng.core.features.registries.inscriber.InscriberRecipe;
 
 /**
- * Fixes Inscriber Recipes, In GroovyScript, for AE2 v0.56.6.
+ * Fixes Inscriber Recipes, In GroovyScript, for AE2 v0.56.5.
  */
 @Mixin(value = InscriberRecipe.class, remap = false)
 public class InscriberRecipeMixin {
