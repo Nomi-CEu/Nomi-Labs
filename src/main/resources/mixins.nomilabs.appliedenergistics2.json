@@ -13,11 +13,15 @@
   ],
   "client": [
     "AEBaseGuiMixin",
+    "AEGuiHandlerMixin",
     "GuiFluidInterfaceConfigurationTerminalMixin",
+    "GuiFluidSlotMixin",
+    "GuiFluidTankMixin",
     "GuiFluidTerminalMixin",
     "GuiInterfaceConfigurationTerminalMixin",
     "GuiInterfaceMixin",
-    "GuiInterfaceTerminalMixin"
+    "GuiInterfaceTerminalMixin",
+    "SlotFluidMEMixin"
   ],
   "server": []
 }
