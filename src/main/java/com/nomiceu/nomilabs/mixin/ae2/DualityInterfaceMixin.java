@@ -2,6 +2,8 @@ package com.nomiceu.nomilabs.mixin.ae2;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 
@@ -29,7 +31,8 @@ import appeng.util.inv.IAEAppEngInventory;
 
 /**
  * Implements <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/448">AE2 #448</a> and its later hotfix PRs,
- * as well as <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/507">AE2 #507</a>
+ * as well as <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/507">AE2 #507</a> and
+ * <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/522">AE2 #522</a>
  * to v0.56.5.
  */
 @Mixin(value = DualityInterface.class, remap = false)
@@ -98,6 +101,16 @@ public class DualityInterfaceMixin {
                 unlockStack.setStackSize(remainingAmount);
             }
         }
+    }
+
+    @Redirect(method = "getTermName",
+              at = @At(value = "INVOKE",
+                       target = "Lnet/minecraft/item/Item;getItemStackDisplayName(Lnet/minecraft/item/ItemStack;)Ljava/lang/String;",
+                       remap = true),
+              require = 1,
+              remap = false)
+    private String useUnlocalized(Item instance, ItemStack stack) {
+        return instance.getTranslationKey(stack);
     }
 
     @Unique

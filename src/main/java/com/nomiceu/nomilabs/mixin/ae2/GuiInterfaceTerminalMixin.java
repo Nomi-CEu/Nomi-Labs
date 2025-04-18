@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nomiceu.nomilabs.LabsValues;
@@ -25,13 +26,18 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 import appeng.client.gui.AEBaseGui;
 import appeng.client.gui.implementations.GuiInterfaceTerminal;
 import appeng.client.gui.widgets.MEGuiTooltipTextField;
+import appeng.client.me.ClientDCInternalInv;
 
 /**
  * Focuses the Interface Terminal on entry, so that keybinds (like Bogosort Cfg Keybind) doesn't register. Allows repeat
  * keyboard events. Fixes PMT Buttons.
+ * Applies <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/522">AE2 #522</a> for v0.56.5.
  */
 @Mixin(value = GuiInterfaceTerminal.class, remap = false)
 public abstract class GuiInterfaceTerminalMixin extends AEBaseGui {
+
+    @Unique
+    private static final String LABS$MOLECULAR_ASSEMBLER = "tile.appliedenergistics2.molecular_assembler";
 
     @Shadow
     @Final
@@ -85,6 +91,20 @@ public abstract class GuiInterfaceTerminalMixin extends AEBaseGui {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             NomiLabs.LOGGER.fatal("[GuiInterfaceTerminalMixin] Failed to add PMT Buttons!");
         }
+    }
+
+    @Redirect(method = "refreshList",
+              at = @At(value = "INVOKE",
+                       target = "Lappeng/client/me/ClientDCInternalInv;getName()Ljava/lang/String;",
+                       ordinal = 1))
+    private String compareWithUnlocalized(ClientDCInternalInv instance) {
+        return ((ClientDCInternalInvAccessor) instance).labs$getUnlocalizedName();
+    }
+
+    @Redirect(method = "refreshList",
+              at = @At(value = "INVOKE", target = "Ljava/lang/String;contains(Ljava/lang/CharSequence;)Z", ordinal = 1))
+    private boolean compareWithMolecularUnlocalized(String instance, CharSequence charSequence) {
+        return instance.equals(LABS$MOLECULAR_ASSEMBLER);
     }
 
     @Unique

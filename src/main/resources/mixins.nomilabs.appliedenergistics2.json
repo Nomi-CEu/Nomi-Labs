@@ -16,6 +16,7 @@
   "client": [
     "AEBaseGuiMixin",
     "AEGuiHandlerMixin",
+    "ClientDCInternalInvAccessor",
     "GuiFluidInterfaceConfigurationTerminalMixin",
     "GuiFluidSlotMixin",
     "GuiFluidTankMixin",
