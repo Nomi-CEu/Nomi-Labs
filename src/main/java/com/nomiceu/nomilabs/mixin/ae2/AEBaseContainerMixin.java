@@ -9,9 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -55,31 +53,33 @@ public abstract class AEBaseContainerMixin extends Container {
     }
 
     /**
-     * @author IntegerLimit
-     * @reason The fix (<a href=
-     *         "https://github.com/AE2-UEL/Applied-Energistics-2/commit/7baf538a7684cadffc012c2dc580ee52c84d552a">AE2
-     *         7baf538</a>) is very inconvenient, because it takes place in a loop. Just override the whole thing...
+     * The fix
+     * (<a href="https://github.com/AE2-UEL/Applied-Energistics-2/commit/7baf538a7684cadffc012c2dc580ee52c84d552a">AE2
+     * 7baf538</a>) is very inconvenient, because it takes place in a loop. Just override the whole thing...
      */
-    @Overwrite
-    @NotNull
-    public ItemStack transferStackInSlot(@NotNull EntityPlayer p, int idx) {
+    @Inject(method = "transferStackInSlot", at = @At("HEAD"), cancellable = true, remap = true)
+    public void transferStackInSlotNew(EntityPlayer p, int idx, CallbackInfoReturnable<ItemStack> cir) {
         if (LabsSide.isClient()) {
-            return ItemStack.EMPTY;
+            cir.setReturnValue(ItemStack.EMPTY);
+            return;
         }
 
         AppEngSlot clickSlot = (AppEngSlot) inventorySlots.get(idx); // require AE SLots!
 
         if (clickSlot instanceof SlotDisabled || clickSlot instanceof SlotInaccessible) {
-            return ItemStack.EMPTY;
+            cir.setReturnValue(ItemStack.EMPTY);
+            return;
         }
         if (clickSlot == null || !clickSlot.getHasStack()) {
             updateSlot(clickSlot);
-            return ItemStack.EMPTY;
+            cir.setReturnValue(ItemStack.EMPTY);
+            return;
         }
         ItemStack tis = clickSlot.getStack();
 
         if (tis.isEmpty()) {
-            return ItemStack.EMPTY;
+            cir.setReturnValue(ItemStack.EMPTY);
+            return;
         }
 
         IItemDefinition expansionCard = AEApi.instance().definitions().materials().cardPatternExpansion();
@@ -98,7 +98,8 @@ public abstract class AEBaseContainerMixin extends Container {
                 if ((Object) this instanceof ContainerInterface && expansionCard.isSameAs(tis) &&
                         (casted = (ContainerInterface) (Object) this).getPatternUpgrades() ==
                                 casted.availableUpgrades() - 1) {
-                    return ItemStack.EMPTY; // Don't insert more pattern expansions than maximum useful
+                    cir.setReturnValue(ItemStack.EMPTY); // Don't insert more pattern expansions than maximum useful
+                    return;
                 }
 
                 // target slots in the container...
@@ -165,7 +166,9 @@ public abstract class AEBaseContainerMixin extends Container {
                         {
                             if (d instanceof SlotRestrictedInput && ((SlotRestrictedInput) d).getPlaceableItemType() ==
                                     SlotRestrictedInput.PlacableItemType.ENCODED_PATTERN) {
-                                return ItemStack.EMPTY; // don't insert duplicate encoded patterns to interfaces
+                                cir.setReturnValue(ItemStack.EMPTY); // don't insert duplicate encoded patterns to
+                                                                     // interfaces
+                                return;
                             }
 
                             int maxSize;
@@ -195,7 +198,8 @@ public abstract class AEBaseContainerMixin extends Container {
 
                                 updateSlot(clickSlot);
                                 updateSlot(d);
-                                return ItemStack.EMPTY;
+                                cir.setReturnValue(ItemStack.EMPTY);
+                                return;
                             } else {
                                 updateSlot(d);
                             }
@@ -233,7 +237,8 @@ public abstract class AEBaseContainerMixin extends Container {
 
                             updateSlot(clickSlot);
                             updateSlot(d);
-                            return ItemStack.EMPTY;
+                            cir.setReturnValue(ItemStack.EMPTY);
+                            return;
                         } else {
                             updateSlot(d);
 
@@ -255,6 +260,6 @@ public abstract class AEBaseContainerMixin extends Container {
         clickSlot.putStack(!tis.isEmpty() ? tis : ItemStack.EMPTY);
 
         updateSlot(clickSlot);
-        return ItemStack.EMPTY;
+        cir.setReturnValue(ItemStack.EMPTY);
     }
 }
