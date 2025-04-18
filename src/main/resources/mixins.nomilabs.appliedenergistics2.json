@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AEBasePartMixin",
     "ContainerInterfaceMixin",
     "DualityFluidInterfaceMixin",
     "DualityInterfaceMixin",
@@ -21,6 +22,7 @@
     "GuiInterfaceConfigurationTerminalMixin",
     "GuiInterfaceMixin",
     "GuiInterfaceTerminalMixin",
+    "GuiOreDictStorageBusMixin",
     "SlotFluidMEMixin"
   ],
   "server": []
