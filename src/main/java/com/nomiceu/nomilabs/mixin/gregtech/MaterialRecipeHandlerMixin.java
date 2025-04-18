@@ -23,18 +23,18 @@ public class MaterialRecipeHandlerMixin {
               at = @At(value = "INVOKE",
                        target = "Lgregtech/api/recipes/ModHandler;addShapedRecipe(Ljava/lang/String;Lnet/minecraft/item/ItemStack;[Ljava/lang/Object;)V"))
     private static void addDisassemblingRecipeSmall(String regName, ItemStack result, Object[] recipe) {
-        addDisassemblingRecipe(regName, result, recipe);
+        labs$addDisassemblingRecipe(regName, result, recipe);
     }
 
     @Redirect(method = "processTinyDust",
               at = @At(value = "INVOKE",
                        target = "Lgregtech/api/recipes/ModHandler;addShapedRecipe(Ljava/lang/String;Lnet/minecraft/item/ItemStack;[Ljava/lang/Object;)V"))
     private static void addDisassemblingRecipeTiny(String regName, ItemStack result, Object[] recipe) {
-        addDisassemblingRecipe(regName, result, recipe);
+        labs$addDisassemblingRecipe(regName, result, recipe);
     }
 
     @Unique
-    private static void addDisassemblingRecipe(String regName, ItemStack result, Object[] recipe) {
+    private static void labs$addDisassemblingRecipe(String regName, ItemStack result, Object[] recipe) {
         if (!regName.contains("_dust_disassembling_")) {
             ModHandler.addShapedRecipe(regName, result, recipe);
             return;

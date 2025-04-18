@@ -19,7 +19,7 @@ public abstract class GTRecipeInputMixin implements AccessibleGTRecipeInput {
 
     @Override
     @Unique
-    public GTRecipeInput accessibleCopy() {
+    public GTRecipeInput labs$accessibleCopy() {
         return copy();
     }
 }
