@@ -1,17 +1,31 @@
 package com.nomiceu.nomilabs.mixin.ae2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.nomiceu.nomilabs.util.LabsSide;
+
+import appeng.api.AEApi;
+import appeng.api.definitions.IItemDefinition;
+import appeng.client.me.SlotME;
 import appeng.container.AEBaseContainer;
-import appeng.container.slot.SlotDisabled;
+import appeng.container.implementations.ContainerInterface;
+import appeng.container.slot.*;
+import appeng.util.Platform;
 
 /**
  * Applies
@@ -23,6 +37,12 @@ import appeng.container.slot.SlotDisabled;
 @Mixin(value = AEBaseContainer.class, remap = false)
 public abstract class AEBaseContainerMixin extends Container {
 
+    @Shadow
+    protected abstract void updateSlot(Slot clickSlot);
+
+    @Shadow
+    protected abstract ItemStack transferStackToContainer(ItemStack input);
+
     @Inject(method = "slotClick", at = @At("HEAD"), cancellable = true, remap = true)
     private void checkDisabled(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player,
                                CallbackInfoReturnable<ItemStack> cir) {
@@ -32,5 +52,209 @@ public abstract class AEBaseContainerMixin extends Container {
                 cir.setReturnValue(ItemStack.EMPTY);
             }
         }
+    }
+
+    /**
+     * @author IntegerLimit
+     * @reason The fix (<a href=
+     *         "https://github.com/AE2-UEL/Applied-Energistics-2/commit/7baf538a7684cadffc012c2dc580ee52c84d552a">AE2
+     *         7baf538</a>) is very inconvenient, because it takes place in a loop. Just override the whole thing...
+     */
+    @Overwrite
+    @NotNull
+    public ItemStack transferStackInSlot(@NotNull EntityPlayer p, int idx) {
+        if (LabsSide.isClient()) {
+            return ItemStack.EMPTY;
+        }
+
+        AppEngSlot clickSlot = (AppEngSlot) inventorySlots.get(idx); // require AE SLots!
+
+        if (clickSlot instanceof SlotDisabled || clickSlot instanceof SlotInaccessible) {
+            return ItemStack.EMPTY;
+        }
+        if (clickSlot == null || !clickSlot.getHasStack()) {
+            updateSlot(clickSlot);
+            return ItemStack.EMPTY;
+        }
+        ItemStack tis = clickSlot.getStack();
+
+        if (tis.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        IItemDefinition expansionCard = AEApi.instance().definitions().materials().cardPatternExpansion();
+        ContainerInterface casted;
+
+        List<Slot> selectedSlots = new ArrayList<>();
+
+        /*
+         * Gather a list of valid destinations.
+         */
+        if (clickSlot.isPlayerSide()) {
+            tis = transferStackToContainer(tis);
+
+            if (!tis.isEmpty()) {
+                // noinspection ConstantValue
+                if ((Object) this instanceof ContainerInterface && expansionCard.isSameAs(tis) &&
+                        (casted = (ContainerInterface) (Object) this).getPatternUpgrades() ==
+                                casted.availableUpgrades() - 1) {
+                    return ItemStack.EMPTY; // Don't insert more pattern expansions than maximum useful
+                }
+
+                // target slots in the container...
+                for (Object inventorySlot : inventorySlots) {
+                    AppEngSlot cs = (AppEngSlot) inventorySlot;
+
+                    if (!(cs.isPlayerSide()) && !(cs instanceof SlotFake) && !(cs instanceof SlotCraftingMatrix)) {
+                        if (cs.isItemValid(tis)) {
+                            selectedSlots.add(cs);
+                        }
+                    }
+                }
+            }
+        } else {
+            tis = tis.copy();
+
+            // target slots in the container...
+            for (Object inventorySlot : inventorySlots) {
+                AppEngSlot cs = (AppEngSlot) inventorySlot;
+
+                if ((cs.isPlayerSide()) && !(cs instanceof SlotFake) && !(cs instanceof SlotCraftingMatrix)) {
+                    if (cs.isItemValid(tis)) {
+                        selectedSlots.add(cs);
+                    }
+                }
+            }
+        }
+
+        /*
+         * Handle Fake Slot Shift clicking.
+         */
+        if (selectedSlots.isEmpty() && clickSlot.isPlayerSide()) {
+            if (!tis.isEmpty()) {
+                // target slots in the container...
+                for (Object inventorySlot : inventorySlots) {
+                    AppEngSlot cs = (AppEngSlot) inventorySlot;
+                    ItemStack destination = cs.getStack();
+
+                    if (!(cs.isPlayerSide()) && cs instanceof SlotFake) {
+                        if (Platform.itemComparisons().isSameItem(destination, tis)) {
+                            break;
+                        } else if (destination.isEmpty()) {
+                            cs.putStack(tis.copy());
+                            updateSlot(cs);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!tis.isEmpty()) {
+            // find partials..
+            for (Slot d : selectedSlots) {
+                if (d instanceof SlotDisabled || d instanceof SlotME) {
+                    continue;
+                }
+
+                if (d.isItemValid(tis)) {
+                    if (d.getHasStack()) {
+                        ItemStack t = d.getStack().copy();
+
+                        if (Platform.itemComparisons().isSameItem(tis, t)) // t.isItemEqual(tis))
+                        {
+                            if (d instanceof SlotRestrictedInput && ((SlotRestrictedInput) d).getPlaceableItemType() ==
+                                    SlotRestrictedInput.PlacableItemType.ENCODED_PATTERN) {
+                                return ItemStack.EMPTY; // don't insert duplicate encoded patterns to interfaces
+                            }
+
+                            int maxSize;
+                            if (d instanceof SlotOversized slotOversized) {
+                                maxSize = slotOversized.getSlotStackLimit();
+                            } else {
+                                maxSize = Math.min(tis.getMaxStackSize(), d.getSlotStackLimit());
+                            }
+
+                            int placeAble = maxSize - t.getCount();
+                            if (placeAble <= 0) {
+                                continue;
+                            }
+
+                            if (tis.getCount() < placeAble) {
+                                placeAble = tis.getCount();
+                            }
+
+                            t.setCount(t.getCount() + placeAble);
+                            tis.setCount(tis.getCount() - placeAble);
+
+                            d.putStack(t);
+
+                            if (tis.getCount() <= 0) {
+                                clickSlot.putStack(ItemStack.EMPTY);
+                                d.onSlotChanged();
+
+                                updateSlot(clickSlot);
+                                updateSlot(d);
+                                return ItemStack.EMPTY;
+                            } else {
+                                updateSlot(d);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // any match..
+            for (Slot d : selectedSlots) {
+                if (d instanceof SlotDisabled || d instanceof SlotME) {
+                    continue;
+                }
+
+                if (d.isItemValid(tis)) {
+                    if (!d.getHasStack()) {
+                        int maxSize;
+                        if (d instanceof SlotOversized slotOversized) {
+                            maxSize = slotOversized.getSlotStackLimit();
+                        } else {
+                            maxSize = Math.min(tis.getMaxStackSize(), d.getSlotStackLimit());
+                        }
+
+                        ItemStack tmp = tis.copy();
+                        if (tmp.getCount() > maxSize) {
+                            tmp.setCount(maxSize);
+                        }
+
+                        tis.setCount(tis.getCount() - tmp.getCount());
+                        d.putStack(tmp);
+
+                        if (tis.getCount() <= 0) {
+                            clickSlot.putStack(ItemStack.EMPTY);
+                            d.onSlotChanged();
+
+                            updateSlot(clickSlot);
+                            updateSlot(d);
+                            return ItemStack.EMPTY;
+                        } else {
+                            updateSlot(d);
+
+                            // noinspection ConstantValue
+                            if ((d instanceof SlotRestrictedInput && ((SlotRestrictedInput) d).getPlaceableItemType() ==
+                                    SlotRestrictedInput.PlacableItemType.ENCODED_PATTERN) ||
+                                    ((Object) this instanceof ContainerInterface && expansionCard.isSameAs(tis) &&
+                                            (casted = (ContainerInterface) (Object) this).getPatternUpgrades() ==
+                                                    casted.availableUpgrades() - 1)) {
+                                break; // Only insert one pattern when shift-clicking into interfaces, and don't insert
+                                       // more pattern expansions than maximum useful
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        clickSlot.putStack(!tis.isEmpty() ? tis : ItemStack.EMPTY);
+
+        updateSlot(clickSlot);
+        return ItemStack.EMPTY;
     }
 }
