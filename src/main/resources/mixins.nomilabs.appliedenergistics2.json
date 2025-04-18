@@ -22,7 +22,9 @@
     "GuiInterfaceConfigurationTerminalMixin",
     "GuiInterfaceMixin",
     "GuiInterfaceTerminalMixin",
+    "GuiMEPortableFluidCellMixin",
     "GuiOreDictStorageBusMixin",
+    "GuiRenamerMixin",
     "SlotFluidMEMixin"
   ],
   "server": []
