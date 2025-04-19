@@ -65,6 +65,7 @@ import com.nomiceu.nomilabs.util.LabsNames;
 import com.nomiceu.nomilabs.util.LabsSide;
 
 import gregtech.api.GregTechAPI;
+import gregtech.api.recipes.ingredients.GTRecipeOreInput;
 import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.event.MaterialRegistryEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
@@ -259,5 +260,16 @@ public class CommonProxy {
         if (LabsConfig.groovyScriptSettings.craftingOutputCacheMode ==
                 LabsConfig.GroovyScriptSettings.CraftingOutputCacheMode.DISCARDED)
             CraftingOutputCache.cache = null;
+
+        // GrS reloads oredict caches depending on load state.
+        // Labs always fits the state with GrS and JEI loaded (due to deps), meaning that oredict caches are refreshed
+        // ONLY on JEI plugin register.
+        // However, that event appears not to take place on dedicated servers, hence breaking oredicts there.
+        // Reload caches on GrS script load ONLY ON dedicated servers.
+        if (LabsSide.isDedicatedServer()) {
+            NomiLabs.LOGGER.info("Fixing GT Ore Dict Caches... (DEDICATED SERVER ONLY)");
+            // noinspection UnstableApiUsage
+            GTRecipeOreInput.refreshStackCache();
+        }
     }
 }
