@@ -21,7 +21,8 @@ import appeng.api.storage.data.IItemList;
 import appeng.fluids.util.AEFluidStack;
 
 /**
- * Implements <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/483">AE2 #483</a> for v0.56.5.
+ * Implements <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/483">AE2 #483</a> and <a
+ * href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/557"AE2 #557</a> for v0.56.5.
  */
 @Mixin(targets = "appeng.fluids.parts.FluidHandlerAdapter$InventoryCache", remap = false)
 public class FluidHandlerAdapterInventoryCacheMixin {
@@ -46,7 +47,8 @@ public class FluidHandlerAdapterInventoryCacheMixin {
 
         for (IFluidTankProperties tankProperty : tankProperties) {
             var contents = tankProperty.getContents();
-            if (mode != StorageFilter.EXTRACTABLE_ONLY || this.fluidHandler.drain(contents, false) != null) {
+            if (mode != StorageFilter.EXTRACTABLE_ONLY ||
+                    (contents != null && fluidHandler.drain(contents, false) != null)) {
                 currentlyOnStorage.add(AEFluidStack.fromFluidStack(contents));
             }
         }
