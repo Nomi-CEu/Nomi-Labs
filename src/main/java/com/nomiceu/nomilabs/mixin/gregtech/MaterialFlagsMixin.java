@@ -24,7 +24,7 @@ public class MaterialFlagsMixin implements AccessibleMaterialFlags {
 
     @Override
     @Unique
-    public void removeFlags(MaterialFlag... toRemove) {
+    public void labs$removeFlags(MaterialFlag... toRemove) {
         for (var flag : toRemove) {
             flags.remove(flag);
         }
