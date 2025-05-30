@@ -5,18 +5,32 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "AEBaseTileBlockMixin",
-    "AppEngNetworkInventoryMixin",
+    "AEBaseContainerMixin",
+    "AEBasePartMixin",
+    "ContainerInterfaceMixin",
+    "DualityFluidInterfaceMixin",
     "DualityInterfaceMixin",
     "FluidHandlerAdapterInventoryCacheMixin",
-    "InscriberRecipeMixin"
+    "InscriberRecipeMixin",
+    "NetworkInventoryHandlerMixin"
   ],
   "client": [
     "AEBaseGuiMixin",
+    "AEGuiHandlerMixin",
+    "ClientDCInternalInvAccessor",
     "GuiFluidInterfaceConfigurationTerminalMixin",
+    "GuiFluidSlotMixin",
+    "GuiFluidTankMixin",
     "GuiFluidTerminalMixin",
     "GuiInterfaceConfigurationTerminalMixin",
-    "GuiInterfaceTerminalMixin"
+    "GuiInterfaceMixin",
+    "GuiInterfaceTerminalMixin",
+    "GuiMEMonitorableMixin",
+    "GuiMEPortableCellMixin",
+    "GuiMEPortableFluidCellMixin",
+    "GuiOreDictStorageBusMixin",
+    "GuiRenamerMixin",
+    "SlotFluidMEMixin"
   ],
   "server": []
 }

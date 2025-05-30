@@ -1,12 +1,12 @@
 {
-  "package": "com.nomiceu.nomilabs.mixin.advancedrocketry",
+  "package": "com.nomiceu.nomilabs.mixin.nae2",
   "refmap": "mixins.nomilabs.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
-  "client": [
-    "KeyBindingsMixin"
+  "mixins": [
+    "DisassembleRecipeMixin"
   ],
+  "client": [],
   "server": []
 }

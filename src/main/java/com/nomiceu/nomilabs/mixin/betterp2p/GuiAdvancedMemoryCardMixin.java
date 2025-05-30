@@ -37,7 +37,7 @@ import kotlin.Pair;
  * Allows accessing needed functions and fields, initializes playerPos field in InfoList, fills up
  * LabsClientCache, cancels existing checks for invalid setups (moved to InfoList, right before sorting),
  * calls proper resetting of scrollbar in custom places, allows for custom filtering hover text,
- * and allow using arrow keys to scroll.
+ * and allow using arrow keys to scroll. Also, allows repeat keyboard events.
  */
 @Mixin(value = GuiAdvancedMemoryCard.class, remap = false)
 public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements AccessibleGuiAdvancedMemoryCard {
@@ -170,6 +170,7 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     @Inject(method = "initGui", at = @At("HEAD"), remap = true)
     private void clearExistingButtons(CallbackInfo ci) {
         buttonList.clear();
+        Keyboard.enableRepeatEvents(true);
     }
 
     @Inject(method = "initGui", at = @At("TAIL"), remap = true)
@@ -274,6 +275,7 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     private void save(CallbackInfo ci) {
         LabsClientCache.sortMode = labs$getSortMode();
         LabsClientCache.sortReversed = labs$getSortReversed();
+        Keyboard.enableRepeatEvents(false);
     }
 
     @Unique

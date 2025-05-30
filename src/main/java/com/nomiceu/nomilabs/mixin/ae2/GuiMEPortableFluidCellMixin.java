@@ -9,36 +9,34 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.nomiceu.nomilabs.config.LabsConfig;
-
-import appeng.client.gui.AEBaseGui;
+import appeng.client.gui.AEBaseMEGui;
 import appeng.client.gui.widgets.MEGuiTextField;
-import appeng.fluids.client.gui.GuiFluidTerminal;
+import appeng.fluids.client.gui.GuiMEPortableFluidCell;
 
 /**
- * Allows Auto-Focusing Fluid Terminal. Allows Repeat Keyboard Events.
+ * Auto focuses the search field, and enables repeat keyboard events.
  */
-@Mixin(value = GuiFluidTerminal.class, remap = false)
-public abstract class GuiFluidTerminalMixin extends AEBaseGui {
+@Mixin(value = GuiMEPortableFluidCell.class, remap = false)
+public abstract class GuiMEPortableFluidCellMixin extends AEBaseMEGui {
 
     @Shadow
     private MEGuiTextField searchField;
 
     /**
-     * Default Ignored Constructor
+     * Mandatory Ignored Constructor
      */
-    public GuiFluidTerminalMixin(Container container) {
+    private GuiMEPortableFluidCellMixin(Container container) {
         super(container);
     }
 
     @Inject(method = "initGui", at = @At("RETURN"), remap = true)
-    private void focusGui(CallbackInfo ci) {
-        searchField.setFocused(LabsConfig.modIntegration.ae2TerminalOptions.autoFocusFluid);
+    private void handleInit(CallbackInfo ci) {
         Keyboard.enableRepeatEvents(true);
+        searchField.setFocused(true);
     }
 
-    @Inject(method = "onGuiClosed", at = @At("HEAD"), remap = true)
-    private void disableRepeat(CallbackInfo ci) {
+    @Override
+    public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
 }

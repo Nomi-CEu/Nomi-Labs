@@ -4,11 +4,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.nomiceu.nomilabs.NomiLabs;
 
 import gregtech.api.util.TextFormattingUtil;
 import gregtech.client.utils.RenderUtil;
@@ -22,20 +27,22 @@ import mcjty.theoneprobe.network.NetworkTools;
  */
 public class LabsFluidStackElement implements IElement {
 
-    private final String location;
+    private final String fluidName;
     private final int color;
     private final int amount;
 
+    @Nullable
     private TextureAtlasSprite sprite = null;
 
     public LabsFluidStackElement(@NotNull FluidStack stack) {
-        this.location = stack.getFluid().getStill(stack).toString();
+        // Save the fluidName, not the location, as that may need to be calculated on client
+        this.fluidName = FluidRegistry.getFluidName(stack.getFluid());
         this.color = stack.getFluid().getColor(stack);
         this.amount = stack.amount;
     }
 
     public LabsFluidStackElement(@NotNull ByteBuf buf) {
-        this.location = NetworkTools.readStringUTF8(buf);
+        this.fluidName = NetworkTools.readStringUTF8(buf);
         this.color = buf.readInt();
         this.amount = buf.readInt();
     }
@@ -43,13 +50,15 @@ public class LabsFluidStackElement implements IElement {
     @Override
     public void render(int x, int y) {
         if (sprite == null)
-            sprite = getFluidAtlasSprite(location);
+            sprite = getFluidAtlasSprite("LabsFluidStackElement", fluidName);
 
         GlStateManager.enableBlend();
-        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        if (sprite != null) {
+            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        RenderUtil.setGlColorFromInt(color, 0xFF);
-        RenderUtil.drawFluidTexture(x + 1, y - 1, sprite, 2, 2, 0);
+            RenderUtil.setGlColorFromInt(color, 0xFF);
+            RenderUtil.drawFluidTexture(x + 1, y - 1, sprite, 2, 2, 0);
+        }
 
         if (amount > 0) {
             GlStateManager.pushMatrix();
@@ -79,7 +88,7 @@ public class LabsFluidStackElement implements IElement {
 
     @Override
     public void toBytes(@NotNull ByteBuf buf) {
-        NetworkTools.writeStringUTF8(buf, location);
+        NetworkTools.writeStringUTF8(buf, fluidName);
         buf.writeInt(color);
         buf.writeInt(amount);
     }
@@ -90,14 +99,21 @@ public class LabsFluidStackElement implements IElement {
     }
 
     @SideOnly(Side.CLIENT)
-    public static TextureAtlasSprite getFluidAtlasSprite(String stillLocation) {
-        String actualLocation = stillLocation;
+    @Nullable
+    public static TextureAtlasSprite getFluidAtlasSprite(String packet, String fluidName) {
+        Fluid fluid = FluidRegistry.getFluid(fluidName);
+        if (fluid == null) {
+            NomiLabs.LOGGER.error("Received Fluid Info Packet {} with Unknown Fluid {}!", packet, fluidName);
+            return null;
+        }
+
+        String actualLocation = fluid.getStill().toString();
 
         // Gregtech fluids added by GRS do this for some reason
         // As a consequence the fluid texture from /dull will not show up on anything from GRS.
-        if (stillLocation.contains("material_sets/fluid/") &&
-                (stillLocation.contains("/gas") || stillLocation.contains("/plasma"))) {
-            actualLocation = stillLocation.replace("material_sets/fluid/", "material_sets/dull/");
+        if (actualLocation.contains("material_sets/fluid/") &&
+                (actualLocation.contains("/gas") || actualLocation.contains("/plasma"))) {
+            actualLocation = actualLocation.replace("material_sets/fluid/", "material_sets/dull/");
         }
 
         return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(actualLocation);
