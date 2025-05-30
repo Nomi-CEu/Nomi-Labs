@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs.recipe;
 
+import static com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES;
+
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Loader;
 
@@ -8,7 +10,6 @@ import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 
 import gregtech.api.GTValues;
-import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
@@ -51,7 +52,7 @@ public class LabsTestRecipes {
                 .output(Blocks.LOG, 128)
                 .buildAndRegister();
 
-        LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES.recipeBuilder().duration(1200).EUt(40)
+        UNIVERSAL_CRYSTALIZER_RECIPES.recipeBuilder().duration(1200).EUt(40)
                 .input(Blocks.SAPLING).circuitMeta(1)
                 .output(Blocks.LOG, 128)
                 .buildAndRegister();
