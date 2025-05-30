@@ -1,0 +1,13 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.gcym",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MetaTileEntityAlloyBlastSmelterMixin",
+    "MetaTileEntityLargeDistilleryMixin"
+  ],
+  "client": [],
+  "server": []
+}
