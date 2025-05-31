@@ -60,7 +60,7 @@ public class LabsTestRecipes {
         LabsRecipeMaps.CYCLOTRON_RECIPES.recipeBuilder().duration(600).EUt(GTValues.VA[GTValues.UHV])
                 .inputs(OreDictUnifier.get(OrePrefix.foil, Materials.Molybdenum))
                 .fluidInputs(Materials.Hydrogen.getFluid(1000))
-                .output(OreDictUnifier.get(OrePrefix.foil, Materials.Technetium))
+                .outputs(OreDictUnifier.get(OrePrefix.foil, Materials.Technetium))
                 .buildAndRegister();
         if (Loader.isModLoaded(LabsValues.DME_MODID)) {
             LabsRecipeMaps.DME_SIM_CHAMBER_RECIPES.recipeBuilder().duration(1200).EUt(40)
