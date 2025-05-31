@@ -29,7 +29,7 @@ mods.gregtech.sifter.recipeBuilder()
         .EUt(VA[LV]).duration(30)
         .buildAndRegister()
 
-mods.gregtech.cyclotron.recipeBuilder()
+recipemap('cyclotron').recipeBuilder()
         .inputs(ore('foilMolybdenum'))
         .fluidInputs(fluid('hydrogen') * 1000)
         .outputs(item('nomilabs:meta_foil', 20))
