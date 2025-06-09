@@ -30,17 +30,15 @@ import crazypants.enderio.api.capacitor.CapabilityCapacitorData;
 import crazypants.enderio.base.capacitor.CapacitorKey;
 
 @SideOnly(Side.CLIENT)
-public class TooltipAdder {
+public class TooltipChanger {
 
     public static void addTooltipNormal(List<String> tooltip, ItemStack stack) {
         // Add Info about Drawers (Contents/Upgrades)
         if (Loader.isModLoaded(LabsValues.STORAGE_DRAWERS_MODID))
             DrawerTooltipAdder.addDrawerInfo(tooltip, stack);
 
-        // Custom Tooltips
-        var groovyTooltips = LabsTooltipHelper.getTranslatableFromStack(stack);
-        if (groovyTooltips != null)
-            tooltip.addAll(groovyTooltips);
+        // Groovy Tooltips
+        LabsTooltipHelper.modifyTooltip(tooltip, stack);
 
         // Add Information of EIO Capacitors' Levels
         if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID) && LabsConfig.modIntegration.enableEnderIOIntegration)
