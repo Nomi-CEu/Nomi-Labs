@@ -18,6 +18,7 @@
     "AEBaseGuiMixin",
     "AEGuiHandlerMixin",
     "ClientDCInternalInvAccessor",
+    "GuiCraftConfirmMixin",
     "GuiFluidInterfaceConfigurationTerminalMixin",
     "GuiFluidSlotMixin",
     "GuiFluidTankMixin",
