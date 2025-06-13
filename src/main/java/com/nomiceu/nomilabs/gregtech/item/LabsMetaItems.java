@@ -7,6 +7,7 @@ import gregtech.api.items.metaitem.MetaItem;
 public class LabsMetaItems {
 
     public static MetaItem<?>.MetaValueItem BRONZE_CELL;
+    public static MetaItem<?>.MetaValueItem GOLD_CELL;
 
     public static void preInit() {
         LabsMetaItem metaItem = new LabsMetaItem();

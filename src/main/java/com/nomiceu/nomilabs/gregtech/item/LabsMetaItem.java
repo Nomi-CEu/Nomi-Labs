@@ -25,5 +25,13 @@ public class LabsMetaItem extends StandardMetaItem {
                         new BucketItemFluidContainer())
                 .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Bronze, M * 4)))
                 .setCreativeTabs(LabsCreativeTabs.TAB_NOMI_LABS);
+        GOLD_CELL = addItem(1, "gold_cell")
+                .addComponents(
+                        new FilteredFluidStats(8000,
+                                Materials.Gold.getProperty(PropertyKey.FLUID_PIPE).getMaxFluidTemperature(),
+                                true, true, false, false, true),
+                        new BucketItemFluidContainer())
+                .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Gold, M * 4)))
+                .setCreativeTabs(LabsCreativeTabs.TAB_NOMI_LABS);
     }
 }
