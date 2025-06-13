@@ -46,7 +46,13 @@ public class BetterMemoryCardModesMixin {
             return;
         }
 
-        int toGet = (reverse ? current - 1 : current + 1) % LABS_ORDER_CACHE.size();
+        int toGet;
+        if (reverse) {
+            if (current == 0) toGet = LABS_ORDER_CACHE.size() - 1;
+            else toGet = current - 1;
+        } else
+            toGet = (current + 1) % LABS_ORDER_CACHE.size();
+
         BetterMemoryCardModes result = LABS_ORDER_CACHE.get(toGet);
 
         if (result != null)
