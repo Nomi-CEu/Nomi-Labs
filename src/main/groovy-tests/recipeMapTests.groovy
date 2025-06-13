@@ -32,7 +32,7 @@ mods.gregtech.sifter.recipeBuilder()
 recipemap('cyclotron').recipeBuilder()
         .inputs(item('nomilabs:meta_foil', 64))
         .fluidInputs(fluid('hydrogen') * 1000)
-        .outputs(item('nomilabs:meta_foil', 20))
+        .outputs(item('gregtech:meta_foil', 20))
         .EUt(VA[UHV]).duration(600)
         .buildAndRegister()
 
