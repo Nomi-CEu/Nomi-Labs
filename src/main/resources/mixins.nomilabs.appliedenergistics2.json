@@ -12,7 +12,8 @@
     "DualityInterfaceMixin",
     "FluidHandlerAdapterInventoryCacheMixin",
     "InscriberRecipeMixin",
-    "NetworkInventoryHandlerMixin"
+    "NetworkInventoryHandlerMixin",
+    "PartBasicStateMixin"
   ],
   "client": [
     "AEBaseGuiMixin",
