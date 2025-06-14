@@ -2,9 +2,7 @@ package com.nomiceu.nomilabs.gregtech.metatileentity.singleblock;
 
 import java.util.function.Supplier;
 
-import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 import net.minecraft.entity.player.EntityPlayer;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -13,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-
+import com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps;
 
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.IVertexOperation;
@@ -29,10 +27,8 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.SimpleMachineMetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.texture.Textures;
-
 
 public class MetaTileEntityDecayBox extends SimpleMachineMetaTileEntity {
 
@@ -116,7 +112,7 @@ public class MetaTileEntityDecayBox extends SimpleMachineMetaTileEntity {
     private class DecayLogic extends RecipeLogicEnergy {
 
         public DecayLogic(MetaTileEntity tileEntity, RecipeMap<?> recipeMap,
-                            Supplier<IEnergyContainer> energyContainer) {
+                          Supplier<IEnergyContainer> energyContainer) {
             super(tileEntity, recipeMap, energyContainer);
         }
     }

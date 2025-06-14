@@ -57,9 +57,9 @@ public class LabsRecipeMaps {
                         .setSound(GTSoundEvents.COMPRESSOR);
         DECAY_RECIPES = new RecipeMap<>("decay_box", 1, 1, 0, 0, new SimpleRecipeBuilder(),
                 !(newMultis() || LabsModeHelper.isNormal()))
-                    .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
-                   .setProgressBar(GuiTextures.ARROW_DOUBLE, ProgressWidget.MoveType.HORIZONTAL)
-                   .setSound(GTSoundEvents.COMPRESSOR);
+                        .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
+                        .setProgressBar(GuiTextures.ARROW_DOUBLE, ProgressWidget.MoveType.HORIZONTAL)
+                        .setSound(GTSoundEvents.COMPRESSOR);
         PARTICLE_ACCELERATOR_RECIPES = new RecipeMap<>("particle_accelerator", 1, 1, 1, 0, new SimpleRecipeBuilder(),
                 !(newMultis() || LabsModeHelper.isNormal()))
                         .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
