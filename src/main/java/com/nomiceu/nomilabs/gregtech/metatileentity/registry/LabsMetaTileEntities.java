@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.gregtech.metatileentity.registry;
 
-import gregtech.api.GTValues;
 import net.minecraftforge.fml.common.Loader;
 
 import com.nomiceu.nomilabs.LabsValues;
@@ -9,6 +8,7 @@ import com.nomiceu.nomilabs.gregtech.metatileentity.multiblock.*;
 import com.nomiceu.nomilabs.gregtech.metatileentity.singleblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 
+import gregtech.api.GTValues;
 import gregtech.common.metatileentities.MetaTileEntities;
 
 /**
@@ -90,8 +90,6 @@ public class LabsMetaTileEntities {
                 new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.ZPM));
         DECAY_BOX_UV = MetaTileEntities.registerMetaTileEntity(32119,
                 new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.UV));
-
-
 
         if (Loader.isModLoaded(LabsValues.DME_MODID))
             DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108,
