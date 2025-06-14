@@ -23,6 +23,7 @@ import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.enderio.core.client.handlers.SpecialTooltipHandler;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.groovy.GroovyTooltipChanger;
 import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
 import com.nomiceu.nomilabs.util.ItemMeta;
 
@@ -38,7 +39,7 @@ public class TooltipChanger {
             DrawerTooltipAdder.addDrawerInfo(tooltip, stack);
 
         // Groovy Tooltips
-        LabsTooltipHelper.modifyTooltip(tooltip, stack);
+        GroovyTooltipChanger.modifyTooltip(tooltip, stack);
 
         // Add Information of EIO Capacitors' Levels
         if (Loader.isModLoaded(LabsValues.ENDER_IO_MODID) && LabsConfig.modIntegration.enableEnderIOIntegration)
