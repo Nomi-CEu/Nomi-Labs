@@ -29,6 +29,7 @@ public class LabsRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> GROWTH_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> PARTICLE_ACCELERATOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> CYCLOTRON_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> DECAY_RECIPES;
 
     public static void preInit() {
         MICROVERSE_RECIPES = new ArrayList<>();
@@ -54,6 +55,11 @@ public class LabsRecipeMaps {
                         .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
                         .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION_HEAT, ProgressWidget.MoveType.HORIZONTAL)
                         .setSound(GTSoundEvents.COMPRESSOR);
+        DECAY_RECIPES = new RecipeMap<>("decay_box", 1, 1, 0, 0, new SimpleRecipeBuilder(),
+                !(newMultis() || LabsModeHelper.isNormal()))
+                    .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
+                   .setProgressBar(GuiTextures.ARROW_DOUBLE, ProgressWidget.MoveType.HORIZONTAL)
+                   .setSound(GTSoundEvents.COMPRESSOR);
         PARTICLE_ACCELERATOR_RECIPES = new RecipeMap<>("particle_accelerator", 1, 1, 1, 0, new SimpleRecipeBuilder(),
                 !(newMultis() || LabsModeHelper.isNormal()))
                         .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_1).setSound(GTSoundEvents.COMPUTATION)
