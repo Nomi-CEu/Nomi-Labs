@@ -63,6 +63,7 @@ public class LabsProperties {
         Electrum.addFlags(GENERATE_GEAR);
         Neutronium.addFlags(GENERATE_ROUND);
         Titanium.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
+        Neodymium.addFlags(GENERATE_FOIL);
         StainlessSteel.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
         NaquadahEnriched.addFlags(GENERATE_BOLT_SCREW);
         Naquadria.addFlags(GENERATE_BOLT_SCREW);
