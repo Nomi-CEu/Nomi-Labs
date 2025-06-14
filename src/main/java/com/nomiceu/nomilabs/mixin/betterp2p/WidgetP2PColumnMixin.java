@@ -172,10 +172,10 @@ public abstract class WidgetP2PColumnMixin {
 
         if (currentMode == LabsBetterMemoryCardModes.ADD_AS_INPUT)
             LabsNetworkHandler.NETWORK_HANDLER
-                    .sendToServer(new LabsP2PAddAsInputMessage(infos.getSelectedInfo().getLoc(), info.getFrequency()));
+                    .sendToServer(new LabsP2PAddAsInputMessage(infos.getSelectedInfo().getLoc(), info.getLoc()));
         else if (currentMode == LabsBetterMemoryCardModes.ADD_AS_OUTPUT)
             LabsNetworkHandler.NETWORK_HANDLER
-                    .sendToServer(new LabsP2PAddAsOutputMessage(infos.getSelectedInfo().getLoc(), info.getFrequency()));
+                    .sendToServer(new LabsP2PAddAsOutputMessage(infos.getSelectedInfo().getLoc(), info.getLoc()));
         ci.cancel();
     }
 

@@ -14,29 +14,29 @@ import io.netty.buffer.ByteBuf;
 
 public class LabsP2PAddAsInputMessage implements IMessage {
 
-    private P2PLocation location;
-    private short sourceFrequency;
+    private P2PLocation toAdd;
+    private P2PLocation toBind;
 
     public LabsP2PAddAsInputMessage() {
-        location = null;
-        sourceFrequency = 0;
+        toAdd = null;
+        toBind = null;
     }
 
-    public LabsP2PAddAsInputMessage(P2PLocation location, short sourceFrequency) {
-        this.location = location;
-        this.sourceFrequency = sourceFrequency;
+    public LabsP2PAddAsInputMessage(P2PLocation toAdd, P2PLocation toBind) {
+        this.toAdd = toAdd;
+        this.toBind = toBind;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        location = P2PLocationKt.readP2PLocation(buf);
-        sourceFrequency = buf.readShort();
+        toAdd = P2PLocationKt.readP2PLocation(buf);
+        toBind = P2PLocationKt.readP2PLocation(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        P2PLocationKt.writeP2PLocation(buf, location);
-        buf.writeShort(sourceFrequency);
+        P2PLocationKt.writeP2PLocation(buf, toAdd);
+        P2PLocationKt.writeP2PLocation(buf, toBind);
     }
 
     public static class MessageHandler implements IMessageHandler<LabsP2PAddAsInputMessage, IMessage> {
@@ -50,7 +50,7 @@ public class LabsP2PAddAsInputMessage implements IMessage {
 
             ctx.getServerHandler().server.addScheduledTask(() -> {
                 boolean result = ((AccessibleGridServerCache) (Object) state.getGridCache())
-                        .labs$addInput(message.location, message.sourceFrequency);
+                        .labs$addInput(message.toAdd, message.toBind);
 
                 if (result) {
                     ModNetwork.INSTANCE.requestP2PUpdate(ctx.getServerHandler().player);

@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGridServerCache;
+import com.projecturanus.betterp2p.BetterP2P;
 import com.projecturanus.betterp2p.network.data.GridServerCache;
 import com.projecturanus.betterp2p.network.data.P2PLocation;
 import com.projecturanus.betterp2p.util.p2p.TunnelInfo;
@@ -173,29 +174,37 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
 
     @Override
     @Unique
-    public boolean labs$addInput(P2PLocation key, short sourceFrequency) {
-        return labs$addAs(key, sourceFrequency, true);
+    public boolean labs$addInput(P2PLocation toAdd, P2PLocation toBind) {
+        return labs$addAs(toAdd, toBind, true);
     }
 
     @Override
     @Unique
-    public boolean labs$addOutput(P2PLocation key, short sourceFrequency) {
-        return labs$addAs(key, sourceFrequency, false);
+    public boolean labs$addOutput(P2PLocation toAdd, P2PLocation toBind) {
+        return labs$addAs(toAdd, toBind, false);
     }
 
     /**
      * Shared Logic
      */
     @Unique
-    private boolean labs$addAs(P2PLocation key, short sourceFrequency, boolean isInput) {
+    private boolean labs$addAs(P2PLocation toAdd, P2PLocation toBind, boolean isInput) {
         if (grid instanceof ISecurityGrid securityGrid &&
                 !securityGrid.hasPermission(player, SecurityPermissions.BUILD)) {
             return false;
         }
-        var p2p = listP2P.get(key);
-        if (p2p == null) return false;
+        var toAddP2P = listP2P.get(toAdd);
+        var toBindP2P = listP2P.get(toBind);
+        if (toAddP2P == null || toBindP2P == null) return false;
 
-        return updateP2P(key, p2p, sourceFrequency, !isInput,
-                p2p.hasCustomInventoryName() ? p2p.getCustomInventoryName() : "") != null;
+        // Update Type
+        if (toAddP2P.getClass() != toBindP2P.getClass()) {
+            toAddP2P = changeP2PType(toAddP2P, BetterP2P.proxy.getP2PFromClass(toBindP2P.getClass()));
+
+            if (toAddP2P == null) return false;
+        }
+
+        return updateP2P(toAdd, toAddP2P, toBindP2P.getFrequency(), !isInput,
+                toAddP2P.hasCustomInventoryName() ? toAddP2P.getCustomInventoryName() : "") != null;
     }
 }
