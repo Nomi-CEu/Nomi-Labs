@@ -30,6 +30,14 @@ public class ItemMeta {
         return Objects.hash(item, meta);
     }
 
+    @Override
+    public String toString() {
+        return "ItemMeta{" +
+                "item=" + item +
+                ", meta=" + meta +
+                '}';
+    }
+
     public boolean compareWith(ItemStack other) {
         return item == other.getItem() && meta == other.getMetadata();
     }

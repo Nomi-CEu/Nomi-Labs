@@ -69,9 +69,9 @@ dependencies {
     } // Version 3.0
 
     // Had Enough Items
-    implementation ('mezz:jei:4.26.2') {
+    implementation ('mezz:jei:4.28.0') {
         transitive = false
-    } // Version 4.26.2
+    } // Version 4.28.0
 
     // The One Probe
     implementation rfg.deobf('curse.maven:top-245211:2667280') // Version 1.4.28
@@ -200,6 +200,10 @@ dependencies {
 
     // AE2 Fluid Crafting Rework (from CurseForge)
     compileOnly rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // Version 2.6.6-r
+
+    // Sonar Core (from CurseForge)
+    // Only used because we have to manually copy GrS JEI reload code
+    compileOnly "curse.maven:sonar-core-239418:2645156" // Version 5.0.19
 
     /* -------------------------------- Soft Deps, Multiple Runtime Declaration -------------------------------- */
     if (project.enable_draconic.toBoolean() || project.enable_thermal.toBoolean()) {
@@ -344,5 +348,10 @@ dependencies {
         // The Dragon Lib, runtime dep (from CurseForge)
         runtimeOnly "curse.maven:the-dragon-lib-248055:2580332" // Version 5.3.0
         runtimeOnly "curse.maven:armor-plus-237366:2803109" // Version 11.25.1.62
+    }
+
+    // Only used because we have to manually copy GrS JEI reload code
+    if (project.enable_sonar_core.toBoolean()) {
+        runtimeOnly "curse.maven:sonar-core-239418:2645156" // Version 5.0.19
     }
 }
