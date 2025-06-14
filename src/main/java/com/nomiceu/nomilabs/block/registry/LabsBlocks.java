@@ -47,7 +47,7 @@ public class LabsBlocks {
 
     /* Misc Blocks */
     public static BlockBase MICROVERSE_CASING;
-    public static Blockbase ACCELERATION_COIL;
+    public static BlockBase ACCELERATION_COIL;
 
     /* Custom Behaviour Blocks */
     public static BlockExcitationCoil EXCITATION_COIL;
