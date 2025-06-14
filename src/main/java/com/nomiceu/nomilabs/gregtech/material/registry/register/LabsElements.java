@@ -19,6 +19,7 @@ public class LabsElements {
     public static final Element ADc = Elements.add(149, 264, -1, null, "AwakenedDraconium", "Dc*", false);
     public static final Element Tn = Elements.add(43, 55, -1, null, "Taranium", "Tn", false);
     public static final Element Tc = Elements.add(43, 56, -1, null, "Technetium", "Tc", false);
+    public static final Element Pm = Elements.add(61, 84, -1, null, "Prometheum", "Pm", false);
 
     public static void init() {
         Draconium = new Material.Builder(1, makeLabsName("draconium"))
@@ -50,6 +51,13 @@ public class LabsElements {
         Technetium = new Material.Builder(20, makeLabsName("technetium"))
                 .ingot().liquid(new FluidBuilder().temperature(2500))
                 .element(Tc)
+                .color(0xcadce2).iconSet(SHINY)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
+                .cableProperties(V[UHV], 2, 0, true)
+                .build();
+        Promethium = new Material.Builder(20, makeLabsName("prometheum"))
+                .ingot().liquid(new FluidBuilder().temperature(2500))
+                .element(Pm)
                 .color(0xcadce2).iconSet(SHINY)
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
                 .cableProperties(V[UHV], 2, 0, true)

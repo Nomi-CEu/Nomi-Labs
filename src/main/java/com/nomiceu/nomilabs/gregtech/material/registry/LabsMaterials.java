@@ -29,6 +29,7 @@ public class LabsMaterials {
     public static Material Omnium; // ID: 4
     public static Material Taranium; // ID: 109; HM only
     public static Material Technetium; // ID: 20
+    public static Material Promethium; // ID: 120
 
     /**
      * Chemical Materials
