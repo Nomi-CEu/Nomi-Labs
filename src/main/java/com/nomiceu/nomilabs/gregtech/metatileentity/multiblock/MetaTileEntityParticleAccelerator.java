@@ -88,7 +88,7 @@ public class MetaTileEntityParticleAccelerator extends GCYMRecipeMapMultiblockCo
     }
 
     protected TraceabilityPredicate getCasingPredicateAcceleration() {
-        return states(LabsBlocks.ACCELERATION_COIL);
+        return states(LabsBlocks.ACCELERATION_COIL.getDefaultState());
     }
 
     protected TraceabilityPredicate getCasingPredicateFusion() {

@@ -27,6 +27,7 @@ public class LabsRecipeMaps {
     public static RecipeMap<SimpleRecipeBuilder> UNIVERSAL_CRYSTALIZER_RECIPES;
     public static RecipeMap<DMESimChamberRecipeMapBuilder> DME_SIM_CHAMBER_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> GROWTH_CHAMBER_RECIPES;
+    public static RecipeMap<SimpleRecipeBuilder> PARTICLE_ACCELERATOR_RECIPES;
     public static RecipeMap<SimpleRecipeBuilder> CYCLOTRON_RECIPES;
 
     public static void preInit() {
