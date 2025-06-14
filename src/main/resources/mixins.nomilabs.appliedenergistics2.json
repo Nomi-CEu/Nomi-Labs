@@ -13,7 +13,8 @@
     "FluidHandlerAdapterInventoryCacheMixin",
     "InscriberRecipeMixin",
     "NetworkInventoryHandlerMixin",
-    "PartBasicStateMixin"
+    "PartBasicStateMixin",
+    "SlotRestrictedInputMixin"
   ],
   "client": [
     "AEBaseGuiMixin",
