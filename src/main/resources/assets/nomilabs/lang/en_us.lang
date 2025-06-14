@@ -658,6 +658,7 @@ item.nomilabs.info_item.name=Information
 
 item.nomilabs.pulsatingdust.name=Pulsating Dust
 item.nomilabs.pulsatingmesh.name=Pulsating Mesh
+item.nomilabs.acceleration_coil.name=Acceleration Coil
 
 item.nomilabs.industrial_rebreather_kit.name=Industrial Rebreather Kit
 
@@ -679,6 +680,7 @@ nomilabs.machine.actualization_chamber.name=Actualization Chamber
 nomilabs.machine.universal_crystallizer.name=Universal Crystallizer
 nomilabs.machine.dme_sim_chamber.name=DME Simulation Supercomputer
 nomilabs.machine.cyclotron.name=Cyclotron
+nomilabs.machine.particle_accelerator.name=Particle Accelerator
 
 # Recipe Maps
 recipemap.microverse_projector_1.name=Mission (MK I)
@@ -691,6 +693,7 @@ recipemap.actualization_chamber.name=Actualization
 recipemap.universal_crystallizer.name=Crystallization
 recipemap.dme_sim_chamber.name=Simulation
 recipemap.cyclotron.name=Cyclotronizing
+recipemap.particle_accelerator.name=Particle Accelerating
 
 
 #----------------Tooltips----------------#
@@ -770,4 +773,5 @@ tooltip.nomilabs.actualization_chamber.description=§8A powerful machine that ha
 tooltip.nomilabs.universal_crystallizer.description=§8An immense device, capable of turning raw materials into complex matters.§r
 tooltip.nomilabs.universal_crystallizer.description_laser=Can use §bLaser Hatches§r
 tooltip.nomilabs.dme_sim_chamber.description=§8A high powered simulation device, capable of performing more complex simulations faster than ever.§r
+tooltip.nomilabs.cyclotron.description=§8A powerful accelerator that bombards materials with particles to transmute them.§r
 tooltip.nomilabs.growth_chamber.description=§8A high powered UV ray chamber, capable of mass-growing even the most incomprehensible plants.§r
