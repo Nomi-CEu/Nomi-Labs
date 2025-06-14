@@ -39,7 +39,6 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.mixin.gregtech.RecipeBuilderAccessor;
-import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 import com.nomiceu.nomilabs.util.ItemMeta;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
@@ -104,22 +103,23 @@ public class GroovyHelpers {
     public static class TooltipHelpers {
 
         public static void addTooltip(ItemStack item, List<LabsTranslate.Translatable> tr) {
-            LabsTooltipHelper.addTooltip(new ItemMeta(item), tr);
+            GroovyTooltipChanger.addOperation(new ItemMeta(item), tooltip -> {
+                for (var t : tr) {
+                    tooltip.add(t.translate());
+                }
+            });
         }
 
         public static void addTooltip(ItemStack item, LabsTranslate.Translatable tr) {
-            // Don't use Collections.singletonList, as other elements may need to be added
-            List<LabsTranslate.Translatable> list = new ArrayList<>();
-            list.add(tr);
-            LabsTooltipHelper.addTooltip(new ItemMeta(item), list);
+            GroovyTooltipChanger.addOperation(new ItemMeta(item), tooltip -> tooltip.add(tr.translate()));
         }
 
         public static void clearTooltip(ItemStack item) {
-            clearSomeTooltip(item, -1);
+            GroovyTooltipChanger.addOperation(new ItemMeta(item), List::clear);
         }
 
-        public static void clearSomeTooltip(ItemStack item, int amt) {
-            LabsTooltipHelper.removeTooltip(new ItemMeta(item), amt);
+        public static void customHandleTooltip(ItemStack item, Consumer<List<String>> op) {
+            GroovyTooltipChanger.addOperation(new ItemMeta(item), op);
         }
     }
 
