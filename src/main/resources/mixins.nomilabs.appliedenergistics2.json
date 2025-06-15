@@ -33,6 +33,7 @@
     "GuiMEPortableFluidCellMixin",
     "GuiOreDictStorageBusMixin",
     "GuiRenamerMixin",
+    "ItemEncodedPatternModelMixin",
     "SlotFluidMEMixin"
   ],
   "server": []
