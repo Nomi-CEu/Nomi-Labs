@@ -55,7 +55,7 @@ public class LabsElements {
                 .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
                 .cableProperties(V[UHV], 2, 0, true)
                 .build();
-        Promethium = new Material.Builder(120, makeLabsName("prometheum"))
+        Promethium = new Material.Builder(125, makeLabsName("prometheum"))
                 .ingot().liquid(new FluidBuilder().temperature(2500))
                 .element(Pm)
                 .color(0xcadce2).iconSet(SHINY)
