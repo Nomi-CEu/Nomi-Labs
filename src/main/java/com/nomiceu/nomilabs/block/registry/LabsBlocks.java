@@ -79,6 +79,8 @@ public class LabsBlocks {
         /* Misc Blocks */
         MICROVERSE_CASING = createBlock(new BlockBase(makeLabsName("microverse_casing"), LabsCreativeTabs.TAB_NOMI_LABS,
                 Material.ROCK, SoundType.STONE, ToolClasses.WRENCH, 2), EnumRarity.COMMON, 64);
+        ACCELERATION_COIL = createBlock(new BlockBase(makeLabsName("acceleration_coil"), LabsCreativeTabs.TAB_NOMI_LABS,
+                Material.ROCK, SoundType.STONE, ToolClasses.WRENCH, 2), EnumRarity.COMMON, 64);
 
         /* Custom Behaviour Blocks */
         EXCITATION_COIL = createBlockWithItem(
