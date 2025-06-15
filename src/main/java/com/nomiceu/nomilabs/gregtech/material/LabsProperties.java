@@ -25,6 +25,7 @@ public class LabsProperties {
         Einsteinium.setProperty(PropertyKey.INGOT, new IngotProperty());
         Graphite.setProperty(PropertyKey.INGOT, new IngotProperty());
 
+        Bromine.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Neptunium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Curium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Berkelium.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
@@ -62,6 +63,7 @@ public class LabsProperties {
         Electrum.addFlags(GENERATE_GEAR);
         Neutronium.addFlags(GENERATE_ROUND);
         Titanium.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
+        Neodymium.addFlags(GENERATE_FOIL);
         StainlessSteel.addFlags(GENERATE_FOIL, GENERATE_FINE_WIRE);
         NaquadahEnriched.addFlags(GENERATE_BOLT_SCREW);
         Naquadria.addFlags(GENERATE_BOLT_SCREW);
