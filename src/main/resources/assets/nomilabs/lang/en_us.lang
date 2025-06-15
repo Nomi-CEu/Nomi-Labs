@@ -689,6 +689,14 @@ nomilabs.machine.actualization_chamber.name=Actualization Chamber
 nomilabs.machine.universal_crystallizer.name=Universal Crystallizer
 nomilabs.machine.dme_sim_chamber.name=DME Simulation Supercomputer
 nomilabs.machine.cyclotron.name=Cyclotron
+nomilabs.decay_box_lv.name = Basic Decay Box
+nomilabs.decay_box_mv.name = Advanced Decay Box
+nomilabs.decay_box_hv.name = Advanced Decay Box II
+nomilabs.decay_box_ev.name = Advanced Decay Box III
+nomilabs.decay_box_iv.name = Elite Decay Box
+nomilabs.decay_box_luv.name = Elite Decay Box II
+nomilabs.decay_box_zpm.name = Elite Decay Box III
+nomilabs.decay_box_uv.name = Ultimate Decay Box
 nomilabs.machine.particle_accelerator.name=Particle Accelerator
 
 # Recipe Maps
