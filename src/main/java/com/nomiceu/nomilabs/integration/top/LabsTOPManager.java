@@ -19,6 +19,7 @@ public class LabsTOPManager {
     public static int CHANCED_ITEM_STACK_ELEMENT;
     public static int CHANCED_FLUID_STACK_ELEMENT;
     public static int CHANCED_FLUID_NAME_ELEMENT;
+    public static int QUANTUM_LINK_CONNECTION_ELEMENT;
 
     public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
@@ -30,6 +31,10 @@ public class LabsTOPManager {
         // GT TOP Integration
         TOP.registerProvider(new SteamMachineInfoProvider());
         TOP.registerProvider(new RecipeOutputsProvider());
+
+        // AE2 TOP Integration
+        if (Loader.isModLoaded(LabsValues.AE2_MODID))
+            TOP.registerProvider(new LabsQuantumLinkChamberProvider());
 
         // Labs TOP Integration
         TOP.registerProvider(new TOPTooltipMessage());
@@ -43,6 +48,9 @@ public class LabsTOPManager {
         CHANCED_ITEM_STACK_ELEMENT = TOP.registerElementFactory(LabsChancedItemStackElement::new);
         CHANCED_FLUID_STACK_ELEMENT = TOP.registerElementFactory(LabsChancedFluidStackElement::new);
         CHANCED_FLUID_NAME_ELEMENT = TOP.registerElementFactory(LabsChancedFluidNameElement::new);
+        if (Loader.isModLoaded(LabsValues.AE2_MODID))
+            QUANTUM_LINK_CONNECTION_ELEMENT = TOP
+                    .registerElementFactory(LabsQuantumLinkChamberProvider.ConnectionInfoElement::new);
     }
 
     public static class TOPTooltipMessage implements IProbeInfoProvider {
