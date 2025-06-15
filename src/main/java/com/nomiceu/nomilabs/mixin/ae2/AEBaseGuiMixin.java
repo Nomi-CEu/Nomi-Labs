@@ -21,11 +21,13 @@ import appeng.client.gui.AEBaseGui;
 import appeng.client.gui.widgets.ITooltip;
 import appeng.container.AEBaseContainer;
 import appeng.container.slot.AppEngSlot;
+import appeng.items.misc.ItemEncodedPattern;
 
 /**
  * Fixes Mouse Tweaks Interactions in Terminals, for AE2 v0.56.5.
  * Implements <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/507">AE2 #507</a> for v0.56.5.
  * Fixes issues with using hotbar keys on disabled slots.
+ * Fixes Blank Encoded Patterns rendering as nothing.
  */
 @Mixin(value = AEBaseGui.class, remap = false)
 public abstract class AEBaseGuiMixin extends GuiContainer {
@@ -94,5 +96,17 @@ public abstract class AEBaseGuiMixin extends GuiContainer {
                 cir.setReturnValue(false);
             }
         }
+    }
+
+    @Inject(method = "drawSlot",
+            at = @At(value = "INVOKE",
+                     target = "Lappeng/items/misc/ItemEncodedPattern;getOutput(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/item/ItemStack;",
+                     remap = false,
+                     shift = At.Shift.AFTER),
+            remap = true,
+            require = 1)
+    private void drawBlankEncodedPattern(Slot s, CallbackInfo ci, @Local ItemEncodedPattern pattern) {
+        if (pattern.getOutput(s.getStack()).isEmpty())
+            super.drawSlot(s);
     }
 }
