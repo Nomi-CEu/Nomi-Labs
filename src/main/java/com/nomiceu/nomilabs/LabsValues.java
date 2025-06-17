@@ -24,6 +24,7 @@ public class LabsValues {
     public static final String ENDER_STORAGE_MODID = "enderstorage";
     public static final String EXTENDED_CRAFTING_MODID = "extendedcrafting";
     public static final String AE2_MODID = "appliedenergistics2";
+    public static final String AE2_STUFF_MODID = "ae2stuff";
     public static final String NAE2_MODID = "nae2";
     public static final String AE2FC_MODID = "ae2fc";
     public static final String CHISEL_MODID = "chisel";
@@ -44,7 +45,6 @@ public class LabsValues {
     public static final String FTB_UTILS_MODID = "ftbutilities";
     public static final String TOP_ADDONS_MODID = "topaddons";
     public static final String PACK_MODE_MODID = "packmode";
-    public static final String AE2_STUFF_MODID = "ae2stuff";
     public static final String THERMAL_FOUNDATION_MODID = "thermalfoundation";
     public static final String BETTER_P2P_MODID = "betterp2p";
     public static final String FIND_ME_MODID = "findme";

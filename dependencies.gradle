@@ -126,6 +126,16 @@ dependencies {
     // NAE2, Used in P2P Shift Scrolling (from CurseForge)
     compileOnly rfg.deobf("curse.maven:nae2-884359:5380800") // Version 1.6.4
 
+    // AE2 Stuff Unofficial & BdLib Dep (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:bdlib-70496:4675629") // Version 1.14.4.1
+    compileOnly rfg.deobf("curse.maven:ae2-stuff-unofficial-951064:5002181") // Version 0.9
+
+    // AE2 Fluid Crafting Rework (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // Version 2.6.6-r
+
+    // Betterer P2P (from CurseForge)
+    compileOnly rfg.deobf("curse.maven:betterer-p2p-943734:4928154") // Version 1.3.2
+
     // DeepMobEvolution, Used in DME Sim Chamber (from CurseForge)
     compileOnly rfg.deobf("curse.maven:dme-737252:5985530") // Version 1.2.3
 
@@ -183,9 +193,6 @@ dependencies {
     // CoFH Core (compile time dep of Thermal Foundation) (from CurseForge)
     compileOnly "curse.maven:cofh-core-69162:2920433" // Version 4.6.6.1
 
-    // Betterer P2P (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:betterer-p2p-943734:4928154") // Version 1.3.2
-
     // Forgelin (dep of Betterer P2P) (from CurseForge)
     compileOnly "curse.maven:shadowfacts-forgelin-248453:2785465" // Version 1.8.4
 
@@ -197,9 +204,6 @@ dependencies {
 
     // Armor Plus (from CurseForge)
     compileOnly rfg.deobf("curse.maven:armor-plus-237366:2803109") // Version 11.25.1.62
-
-    // AE2 Fluid Crafting Rework (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // Version 2.6.6-r
 
     // Sonar Core (from CurseForge)
     // Only used because we have to manually copy GrS JEI reload code
@@ -245,6 +249,11 @@ dependencies {
 
     if (project.enable_nae2.toBoolean()) {
         runtimeOnly "curse.maven:nae2-884359:5380800" // Version 1.6.4
+    }
+
+    if (project.enable_ae2stuff.toBoolean()) {
+        runtimeOnly "curse.maven:bdlib-70496:4675629" // Version 1.14.4.1
+        runtimeOnly "curse.maven:ae2-stuff-unofficial-951064:5002181" // Version 0.9
     }
 
     if (project.enable_ae2fc.toBoolean()) {

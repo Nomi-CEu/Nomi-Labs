@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs.integration.jei;
 
+import static appeng.items.misc.ItemCrystalSeed.*;
+import static com.nomiceu.nomilabs.integration.jei.CrystalGrowthRecipeHandler.*;
 import static com.nomiceu.nomilabs.util.LabsTranslate.Translatable;
 
 import java.util.*;
@@ -7,10 +9,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.bdew.ae2stuff.machines.grower.BlockGrower;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -20,18 +26,23 @@ import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.ImmutableList;
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
 import com.nomiceu.nomilabs.groovy.mixinhelper.LabsJEIApplied;
 import com.nomiceu.nomilabs.integration.jei.mixinhelper.AccessibleModRegistry;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 
+import appeng.api.AEApi;
+import appeng.api.definitions.IDefinitions;
+import appeng.api.definitions.IMaterials;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.VanillaTypes;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 
 @mezz.jei.api.JEIPlugin
@@ -58,9 +69,20 @@ public class LabsJEIPlugin implements IModPlugin {
     private static IIngredientRegistry itemRegistry;
 
     @Override
+    public void registerCategories(@NotNull IRecipeCategoryRegistration registry) {
+        if (Loader.isModLoaded(LabsValues.AE2_STUFF_MODID)) {
+            registry.addRecipeCategories(new CrystalGrowthCategory(registry.getJeiHelpers().getGuiHelper()));
+        }
+    }
+
+    @Override
     public void register(IModRegistry registry) {
         var jeiHelpers = registry.getJeiHelpers();
         itemRegistry = registry.getIngredientRegistry();
+
+        if (Loader.isModLoaded(LabsValues.AE2_STUFF_MODID)) {
+            registerCrystalGrowthRecipes(registry);
+        }
 
         // JEI does not recognise Custom Recipe Classes on its own
         registry.handleRecipes(PartialRecipe.class, recipe -> new PartialRecipeWrapper(jeiHelpers, recipe),
@@ -74,6 +96,61 @@ public class LabsJEIPlugin implements IModPlugin {
 
         // GrS JEI Fix
         LabsJEIApplied.afterRegisterApplied = false;
+    }
+
+    public static void registerCrystalGrowthRecipes(IModRegistry registry) {
+        // Register Recipe Handling & Icon/Catalyst
+        registry.handleRecipes(CrystalGrowthRecipe.class, new CrystalGrowthRecipeHandler(), CrystalGrowthCategory.UID);
+
+        // Reference the original block object by calling default state and then getting block
+        // Should be fast, since all used methods are cached
+        registry.addRecipeCatalyst(new ItemStack(BlockGrower.getDefaultState().getBlock()), CrystalGrowthCategory.UID);
+
+        // Register Recipes
+        List<CrystalGrowthRecipe> recipes = new ArrayList<>(4);
+
+        IDefinitions definitions = AEApi.instance().definitions();
+        IMaterials materials = AEApi.instance().definitions().materials();
+
+        Optional<ItemStack> fluix = materials.fluixCrystal().maybeStack(2);
+        Optional<ItemStack> certus = materials.certusQuartzCrystal().maybeStack(1);
+
+        if (fluix.isPresent() && certus.isPresent()) {
+            recipes.add(createRecipe(ImmutableList.of(
+                    certus.get(),
+                    new ItemStack(Items.QUARTZ),
+                    new ItemStack(Items.REDSTONE)), fluix.get()));
+        }
+
+        Optional<Item> seed = definitions.items().crystalSeed().maybeItem();
+
+        if (seed.isPresent()) {
+            Item seedItem = seed.get();
+
+            Optional<ItemStack> pureCertus = materials.purifiedCertusQuartzCrystal().maybeStack(1);
+            pureCertus.ifPresent(itemStack -> recipes.add(
+                    createRecipe(ImmutableList.of(setSeedProgress(seedItem, CERTUS)), itemStack)));
+
+            Optional<ItemStack> pureNether = materials.purifiedNetherQuartzCrystal().maybeStack(1);
+            pureNether.ifPresent(itemStack -> recipes.add(
+                    createRecipe(ImmutableList.of(setSeedProgress(seedItem, NETHER)), itemStack)));
+
+            Optional<ItemStack> pureFluix = materials.purifiedFluixCrystal().maybeStack(1);
+            pureFluix.ifPresent(itemStack -> recipes.add(
+                    createRecipe(ImmutableList.of(setSeedProgress(seedItem, FLUIX)), itemStack)));
+        }
+
+        registry.addRecipes(recipes, CrystalGrowthCategory.UID);
+    }
+
+    public static ItemStack setSeedProgress(Item seed, int progress) {
+        var stack = new ItemStack(seed, 1, progress);
+
+        var tag = new NBTTagCompound();
+        tag.setInteger("progress", progress);
+        stack.setTagCompound(tag);
+
+        return stack;
     }
 
     public static void afterModRegisters(IModRegistry registry) {

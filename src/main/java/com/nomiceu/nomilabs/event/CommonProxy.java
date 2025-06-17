@@ -46,6 +46,7 @@ import com.nomiceu.nomilabs.groovy.GroovyTooltipChanger;
 import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
 import com.nomiceu.nomilabs.groovy.NCActiveCoolerHelper;
 import com.nomiceu.nomilabs.groovy.mixinhelper.CraftingOutputCache;
+import com.nomiceu.nomilabs.integration.ae2stuff.AE2StuffToolChanges;
 import com.nomiceu.nomilabs.integration.architecturecraft.LabsShapes;
 import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
 import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
@@ -121,6 +122,10 @@ public class CommonProxy {
 
     public static void postInit() {
         LabsModeHelper.onPostInit();
+
+        // Fix AE2Stuff Tools
+        if (Loader.isModLoaded(LabsValues.AE2_STUFF_MODID))
+            AE2StuffToolChanges.apply();
 
         if (Loader.isModLoaded(LabsValues.NAE2_MODID) && Loader.isModLoaded(LabsValues.AE2FC_MODID))
             AE2FCIntegration.postInit();
