@@ -23,6 +23,7 @@
     "MaterialStackMixin",
     "MetaItem1Mixin",
     "MetaItemsMixin",
+    "MetaTileEntityCreativeTankMixin",
     "MetaTileEntityMEStockingBusMixin",
     "MetaTileEntityMEStockingHatchMixin",
     "MetaTileEntityMufflerHatchMixin",
