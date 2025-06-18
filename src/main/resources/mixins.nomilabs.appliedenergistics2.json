@@ -7,14 +7,20 @@
   "mixins": [
     "AEBaseContainerMixin",
     "AEBasePartMixin",
+    "AEItemStackMixin",
+    "AESharedItemStackMixin",
+    "ContainerInterfaceConfigurationTerminalMixin",
     "ContainerInterfaceMixin",
+    "ContainerInterfaceTerminalMixin",
     "DualityFluidInterfaceMixin",
     "DualityInterfaceMixin",
     "FluidHandlerAdapterInventoryCacheMixin",
     "InscriberRecipeMixin",
     "NetworkInventoryHandlerMixin",
+    "PacketJEIRecipeMixin",
     "PartBasicStateMixin",
-    "SlotRestrictedInputMixin"
+    "SlotRestrictedInputMixin",
+    "ToolColorApplicatorMixin"
   ],
   "client": [
     "AEBaseGuiMixin",
