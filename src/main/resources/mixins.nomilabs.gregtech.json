@@ -29,6 +29,7 @@
     "MetaTileEntityMufflerHatchMixin",
     "MetaTileEntityObjectHolderAccessor",
     "MetaTileEntityProcessingArrayMixin",
+    "MetaTileEntityQuantumTankMixin",
     "MetaValueItemMixin",
     "MinerLogicMixin",
     "MultiblockDisplayTextBuilderMixin",

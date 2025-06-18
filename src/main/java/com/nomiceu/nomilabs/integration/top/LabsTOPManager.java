@@ -31,6 +31,7 @@ public class LabsTOPManager {
         // GT TOP Integration
         TOP.registerProvider(new SteamMachineInfoProvider());
         TOP.registerProvider(new RecipeOutputsProvider());
+        TOP.registerProvider(new CreativeTankInfoProvider());
 
         // AE2 TOP Integration
         if (Loader.isModLoaded(LabsValues.AE2_MODID))

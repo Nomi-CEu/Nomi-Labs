@@ -2,14 +2,16 @@ package com.nomiceu.nomilabs.integration.top;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.netty.buffer.ByteBuf;
 
 public class LabsChancedFluidNameElement extends LabsFluidNameElement {
 
     private final int chance;
 
-    public LabsChancedFluidNameElement(FluidStack fluid, int chance, boolean showLang) {
-        super(fluid, showLang);
+    public LabsChancedFluidNameElement(FluidStack fluid, int chance, @Nullable String lang) {
+        super(fluid, lang);
         this.chance = chance;
     }
 

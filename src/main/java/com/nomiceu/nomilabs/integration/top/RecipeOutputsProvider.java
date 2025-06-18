@@ -172,12 +172,12 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
         for (var output : fluidOutputs.entrySet()) {
             FluidStack stack = new FluidStack(output.getKey(), output.getValue());
-            fluids.add(Pair.of(new LabsFluidNameElement(stack, false), new LabsFluidStackElement(stack)));
+            fluids.add(Pair.of(new LabsFluidNameElement(stack, null), new LabsFluidStackElement(stack)));
         }
 
         for (var chanced : chancedFluidOutputs.entrySet()) {
             FluidStack stack = new FluidStack(chanced.getKey().getKey(), chanced.getValue());
-            fluids.add(Pair.of(new LabsChancedFluidNameElement(stack, chanced.getKey().getValue(), false),
+            fluids.add(Pair.of(new LabsChancedFluidNameElement(stack, chanced.getKey().getValue(), null),
                     new LabsChancedFluidStackElement(stack, chanced.getKey().getValue())));
         }
         return Pair.of(items, fluids);

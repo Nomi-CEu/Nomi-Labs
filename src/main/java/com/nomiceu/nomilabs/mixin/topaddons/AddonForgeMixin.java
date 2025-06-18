@@ -7,6 +7,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -17,7 +19,9 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.nomiceu.nomilabs.integration.top.CustomFluidTankProvider;
 
+import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.SimpleMachineMetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.recipes.RecipeMap;
@@ -27,7 +31,8 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
 /**
- * Fixes Localization of Fluid Names.
+ * Fixes Localization of Fluid Names, adds custom Tank Names for MTE Input/Output.
+ * Allows for custom fluid tank handling through {@link CustomFluidTankProvider}.
  */
 @Mixin(value = AddonForge.class, remap = false)
 public class AddonForgeMixin {
@@ -97,5 +102,29 @@ public class AddonForgeMixin {
             else
                 tankName.set("topaddons.fluid_display.tank.display.input");
         }
+    }
+
+    @Redirect(method = "addProbeInfo",
+              at = @At(value = "INVOKE",
+                       target = "Lnet/minecraftforge/fluids/capability/IFluidHandler;getTankProperties()[Lnet/minecraftforge/fluids/capability/IFluidTankProperties;"),
+              require = 1)
+    private IFluidTankProperties[] customTankProperties(IFluidHandler instance, @Local TileEntity te) {
+        if (instance == null) return new IFluidTankProperties[0];
+
+        if (te instanceof CustomFluidTankProvider provider) {
+            IFluidTankProperties[] tanks = provider.labs$getOverrideTanks();
+            if (tanks != null) return tanks;
+            return instance.getTankProperties();
+        }
+
+        if (te instanceof IGregTechTileEntity gt) {
+            MetaTileEntity mte = gt.getMetaTileEntity();
+            if (mte instanceof CustomFluidTankProvider provider) {
+                IFluidTankProperties[] tanks = provider.labs$getOverrideTanks();
+                if (tanks != null) return tanks;
+            }
+        }
+
+        return instance.getTankProperties();
     }
 }
