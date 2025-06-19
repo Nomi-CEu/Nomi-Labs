@@ -6,6 +6,7 @@ import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
+import gregtech.api.fluids.FluidBuilder;
 import gregtech.api.unification.Element;
 import gregtech.api.unification.Elements;
 import gregtech.api.unification.material.Material;
@@ -17,6 +18,8 @@ public class LabsElements {
     public static final Element Dc = Elements.add(149, 264, -1, null, "Draconium", "Dc", false);
     public static final Element ADc = Elements.add(149, 264, -1, null, "AwakenedDraconium", "Dc*", false);
     public static final Element Tn = Elements.add(43, 55, -1, null, "Taranium", "Tn", false);
+    public static final Element Tc = Elements.add(43, 56, -1, null, "Technetium", "Tc", false);
+    public static final Element Pm = Elements.add(61, 84, -1, null, "Prometheum", "Pm", false);
 
     public static void init() {
         Draconium = new Material.Builder(1, makeLabsName("draconium"))
@@ -27,7 +30,7 @@ public class LabsElements {
                         .temp(6800, GasTier.HIGHER)
                         .blastStats(VA[LuV], 1800)
                         .vacuumStats(VA[EV], 600))
-                .cableProperties(V[UV], 1, 0, true)
+                .cableProperties(V[UV], 8, 0, true)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_GEAR, GENERATE_DENSE)
                 .build();
 
@@ -44,6 +47,20 @@ public class LabsElements {
                 .element(Nm)
                 .color(0x84053e).iconSet(SHINY)
                 .cableProperties(V[MAX], 64, 0, true)
+                .build();
+        Technetium = new Material.Builder(20, makeLabsName("technetium"))
+                .ingot().liquid(new FluidBuilder().temperature(2500))
+                .element(Tc)
+                .color(0xcadce2).iconSet(SHINY)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
+                .cableProperties(V[UHV], 2, 0, true)
+                .build();
+        Promethium = new Material.Builder(125, makeLabsName("prometheum"))
+                .ingot().liquid(new FluidBuilder().temperature(2500))
+                .element(Pm)
+                .color(0xcadce2).iconSet(SHINY)
+                .flags(GENERATE_PLATE, GENERATE_ROD, GENERATE_BOLT_SCREW, GENERATE_FOIL)
+                .cableProperties(V[UHV], 2, 0, true)
                 .build();
 
         Taranium = new Material.Builder(109, makeLabsName("taranium")) // Hardmode Material
