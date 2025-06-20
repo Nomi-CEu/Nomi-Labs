@@ -20,8 +20,8 @@ public class CrystalGrowthCategory implements IRecipeCategory<CrystalGrowthRecip
     public static final String UID = LabsValues.AE2_STUFF_MODID + ":crystal_growth_chamber";
 
     // Fill the middle slot first
-    private static final int SLOT_INPUT_TOP = 1;
     private static final int SLOT_INPUT_MIDDLE = 0;
+    private static final int SLOT_INPUT_TOP = 1;
     private static final int SLOT_INPUT_BOTTOM = 2;
     private static final int SLOT_OUTPUT = 3;
 
@@ -71,8 +71,8 @@ public class CrystalGrowthCategory implements IRecipeCategory<CrystalGrowthRecip
                           @NotNull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
 
-        itemStacks.init(SLOT_INPUT_TOP, true, 0, 0);
         itemStacks.init(SLOT_INPUT_MIDDLE, true, 0, 23);
+        itemStacks.init(SLOT_INPUT_TOP, true, 0, 0);
         itemStacks.init(SLOT_INPUT_BOTTOM, true, 0, 46);
         itemStacks.init(SLOT_OUTPUT, false, 75, 23);
 
