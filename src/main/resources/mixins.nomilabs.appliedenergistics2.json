@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractPartEncoderMixin",
     "AEBaseContainerMixin",
     "AEBasePartMixin",
     "AEItemStackMixin",
@@ -12,13 +13,16 @@
     "ContainerInterfaceConfigurationTerminalMixin",
     "ContainerInterfaceMixin",
     "ContainerInterfaceTerminalMixin",
+    "ContainerPatternEncoderMixin",
     "DualityFluidInterfaceMixin",
     "DualityInterfaceMixin",
     "FluidHandlerAdapterInventoryCacheMixin",
     "InscriberRecipeMixin",
     "NetworkInventoryHandlerMixin",
     "PacketJEIRecipeMixin",
+    "PacketValueConfigMixin",
     "PartBasicStateMixin",
+    "RecipeTransferHandlerMixin",
     "SlotRestrictedInputMixin",
     "ToolColorApplicatorMixin"
   ],
@@ -38,6 +42,7 @@
     "GuiMEPortableCellMixin",
     "GuiMEPortableFluidCellMixin",
     "GuiOreDictStorageBusMixin",
+    "GuiPatternTermMixin",
     "GuiRenamerMixin",
     "ItemEncodedPatternModelMixin",
     "SlotFluidMEMixin"
