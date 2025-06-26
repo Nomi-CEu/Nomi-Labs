@@ -20,7 +20,7 @@ import appeng.parts.reporting.AbstractPartEncoder;
 public class AbstractPartEncoderMixin implements InclNonConsumeSettable {
 
     @Unique
-    private boolean labs$inclNonConsume;
+    private boolean labs$inclNonConsume = true;
 
     @Inject(method = "readFromNBT", at = @At("RETURN"))
     private void readNonConsume(NBTTagCompound data, CallbackInfo ci) {
