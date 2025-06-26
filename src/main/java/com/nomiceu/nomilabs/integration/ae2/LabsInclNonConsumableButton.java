@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs.integration.ae2;
 
+import java.io.IOException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,6 +13,9 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import appeng.client.gui.widgets.ITooltip;
+import appeng.core.AELog;
+import appeng.core.sync.network.NetworkHandler;
+import appeng.core.sync.packets.PacketValueConfig;
 
 public class LabsInclNonConsumableButton extends GuiButton implements ITooltip {
 
@@ -37,6 +42,25 @@ public class LabsInclNonConsumableButton extends GuiButton implements ITooltip {
                 LabsTranslate.translate("gui.appliedenergistics2.non_consume.enable.2");
         descDisable = LabsTranslate.translate("gui.appliedenergistics2.non_consume.disable.1") + "\n" +
                 LabsTranslate.translate("gui.appliedenergistics2.non_consume.disable.2");
+    }
+
+    public static void handleButtonPress(GuiButton btn, LabsInclNonConsumableButton labs$inclNonConsume,
+                                         InclNonConsumeSettable inventorySlots) {
+        if (labs$inclNonConsume == btn) {
+            labs$inclNonConsume.toggle();
+
+            // Client Sync
+            inventorySlots
+                    .labs$setInclNonConsume(labs$inclNonConsume.isInclNonConsume());
+
+            // Server Sync
+            try {
+                NetworkHandler.instance().sendToServer(
+                        new PacketValueConfig("Labs$NonConsume", labs$inclNonConsume.isInclNonConsume() ? "1" : "0"));
+            } catch (IOException e) {
+                AELog.error(e);
+            }
+        }
     }
 
     public void setInclNonConsume(boolean inclNonConsume) {

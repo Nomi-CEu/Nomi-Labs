@@ -3,9 +3,7 @@ package com.nomiceu.nomilabs.mixin.ae2;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,19 +13,14 @@ import com.nomiceu.nomilabs.integration.ae2.InclNonConsumeSettable;
 import com.nomiceu.nomilabs.integration.ae2.LabsInclNonConsumableButton;
 
 import appeng.api.storage.ITerminalHost;
+import appeng.client.gui.implementations.GuiExpandedProcessingPatternTerm;
 import appeng.client.gui.implementations.GuiMEMonitorable;
-import appeng.client.gui.implementations.GuiPatternTerm;
-import appeng.container.implementations.ContainerPatternEncoder;
 
 /**
  * Adds the labs non-consume button to AE2.
  */
-@Mixin(value = GuiPatternTerm.class, remap = false)
-public class GuiPatternTermMixin extends GuiMEMonitorable {
-
-    @Shadow
-    @Final
-    private ContainerPatternEncoder container;
+@Mixin(value = GuiExpandedProcessingPatternTerm.class, remap = false)
+public class GuiExpandedProcessingPatternTermMixin extends GuiMEMonitorable {
 
     @Unique
     private LabsInclNonConsumableButton labs$inclNonConsume;
@@ -35,13 +28,14 @@ public class GuiPatternTermMixin extends GuiMEMonitorable {
     /**
      * Mandatory Ignored Constructor
      */
-    private GuiPatternTermMixin(InventoryPlayer inventoryPlayer, ITerminalHost te) {
+    private GuiExpandedProcessingPatternTermMixin(InventoryPlayer inventoryPlayer, ITerminalHost te) {
         super(inventoryPlayer, te);
     }
 
     @Inject(method = "initGui", at = @At("RETURN"), remap = true)
     private void initCustomButton(CallbackInfo ci) {
-        labs$inclNonConsume = new LabsInclNonConsumableButton(guiLeft + 84, guiTop + ySize - 163);
+        labs$inclNonConsume = new LabsInclNonConsumableButton(guiLeft + 74, guiTop + ySize - 153);
+        labs$inclNonConsume.visible = true;
         buttonList.add(labs$inclNonConsume);
     }
 
@@ -52,16 +46,12 @@ public class GuiPatternTermMixin extends GuiMEMonitorable {
             require = 1,
             remap = true)
     private void checkCustomButton(GuiButton btn, CallbackInfo ci) {
-        LabsInclNonConsumableButton.handleButtonPress(btn, labs$inclNonConsume, (InclNonConsumeSettable) container);
+        LabsInclNonConsumableButton.handleButtonPress(btn, labs$inclNonConsume,
+                (InclNonConsumeSettable) inventorySlots);
     }
 
     @Inject(method = "drawFG", at = @At("HEAD"))
     private void syncNonConsume(int offsetX, int offsetY, int mouseX, int mouseY, CallbackInfo ci) {
-        if (container.isCraftingMode())
-            labs$inclNonConsume.visible = false;
-        else {
-            labs$inclNonConsume.visible = true;
-            labs$inclNonConsume.setInclNonConsume(((InclNonConsumeSettable) container).labs$inclNonConsume());
-        }
+        labs$inclNonConsume.setInclNonConsume(((InclNonConsumeSettable) inventorySlots).labs$inclNonConsume());
     }
 }
