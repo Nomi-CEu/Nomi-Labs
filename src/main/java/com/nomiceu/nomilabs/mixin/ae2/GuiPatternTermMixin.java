@@ -11,8 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.nomiceu.nomilabs.integration.ae2.InclNonConsumableButton;
+import com.nomiceu.nomilabs.integration.ae2.InclNonConsumeButtonDisplay;
 import com.nomiceu.nomilabs.integration.ae2.InclNonConsumeSettable;
-import com.nomiceu.nomilabs.integration.ae2.LabsInclNonConsumableButton;
 
 import appeng.api.storage.ITerminalHost;
 import appeng.client.gui.implementations.GuiMEMonitorable;
@@ -23,14 +24,14 @@ import appeng.container.implementations.ContainerPatternEncoder;
  * Adds the labs non-consume button to AE2.
  */
 @Mixin(value = GuiPatternTerm.class, remap = false)
-public class GuiPatternTermMixin extends GuiMEMonitorable {
+public class GuiPatternTermMixin extends GuiMEMonitorable implements InclNonConsumeButtonDisplay {
 
     @Shadow
     @Final
     private ContainerPatternEncoder container;
 
     @Unique
-    private LabsInclNonConsumableButton labs$inclNonConsume;
+    private InclNonConsumableButton labs$inclNonConsume;
 
     /**
      * Mandatory Ignored Constructor
@@ -41,7 +42,7 @@ public class GuiPatternTermMixin extends GuiMEMonitorable {
 
     @Inject(method = "initGui", at = @At("RETURN"), remap = true)
     private void initCustomButton(CallbackInfo ci) {
-        labs$inclNonConsume = new LabsInclNonConsumableButton(guiLeft + 84, guiTop + ySize - 163);
+        labs$inclNonConsume = new InclNonConsumableButton(guiLeft + 84, guiTop + ySize - 163);
         buttonList.add(labs$inclNonConsume);
     }
 
@@ -52,7 +53,7 @@ public class GuiPatternTermMixin extends GuiMEMonitorable {
             require = 1,
             remap = true)
     private void checkCustomButton(GuiButton btn, CallbackInfo ci) {
-        LabsInclNonConsumableButton.handleButtonPress(btn, labs$inclNonConsume, (InclNonConsumeSettable) container);
+        labs$inclButtonPress(btn, (InclNonConsumeSettable) container);
     }
 
     @Inject(method = "drawFG", at = @At("HEAD"))
@@ -63,5 +64,11 @@ public class GuiPatternTermMixin extends GuiMEMonitorable {
             labs$inclNonConsume.visible = true;
             labs$inclNonConsume.setInclNonConsume(((InclNonConsumeSettable) container).labs$inclNonConsume());
         }
+    }
+
+    @Unique
+    @Override
+    public InclNonConsumableButton labs$inclNonConsumeButton() {
+        return labs$inclNonConsume;
     }
 }

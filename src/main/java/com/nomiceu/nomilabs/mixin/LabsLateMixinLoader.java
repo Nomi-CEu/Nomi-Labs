@@ -45,6 +45,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.enableTopAddonsIntegration)
             .put(TOP_MODID, true)
             .put(AE2_MODID, true)
+            .put(AE2FC_MODID, true)
             .put(NAE2_MODID, true)
             .put(ENDER_IO_MODID, true)
             .put(AA_MODID, true)

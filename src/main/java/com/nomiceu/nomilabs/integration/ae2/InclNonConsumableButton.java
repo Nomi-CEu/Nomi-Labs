@@ -1,7 +1,5 @@
 package com.nomiceu.nomilabs.integration.ae2;
 
-import java.io.IOException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,11 +11,8 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import appeng.client.gui.widgets.ITooltip;
-import appeng.core.AELog;
-import appeng.core.sync.network.NetworkHandler;
-import appeng.core.sync.packets.PacketValueConfig;
 
-public class LabsInclNonConsumableButton extends GuiButton implements ITooltip {
+public class InclNonConsumableButton extends GuiButton implements ITooltip {
 
     private static final ResourceLocation AE2_ICONS = new ResourceLocation(LabsValues.AE2_MODID,
             "textures/guis/states.png");
@@ -27,40 +22,37 @@ public class LabsInclNonConsumableButton extends GuiButton implements ITooltip {
     private static final int IDX_ENABLE = 0;
     private static final int IDX_DISABLE = 1;
 
+    private boolean ae2fc;
     private boolean inclNonConsume;
 
     private final String title;
     private final String descEnable;
     private final String descDisable;
+    private final String descEnableAe2Fc;
+    private final String descDisableAe2Fc;
 
-    public LabsInclNonConsumableButton(int x, int y) {
+    public InclNonConsumableButton(int x, int y) {
         super(0, x, y, 8, 8, "");
+        ae2fc = false;
         inclNonConsume = true;
 
         title = LabsTranslate.translate("gui.appliedenergistics2.non_consume");
+
         descEnable = LabsTranslate.translate("gui.appliedenergistics2.non_consume.enable.1") + "\n" +
                 LabsTranslate.translate("gui.appliedenergistics2.non_consume.enable.2");
         descDisable = LabsTranslate.translate("gui.appliedenergistics2.non_consume.disable.1") + "\n" +
                 LabsTranslate.translate("gui.appliedenergistics2.non_consume.disable.2");
+
+        descEnableAe2Fc = LabsTranslate.translate("gui.appliedenergistics2.non_consume.enable.1") +
+                LabsTranslate.translate("gui.appliedenergistics2.non_consume.append.ae2fc") + "\n" +
+                LabsTranslate.translate("gui.appliedenergistics2.non_consume.enable.2");
+        descDisableAe2Fc = LabsTranslate.translate("gui.appliedenergistics2.non_consume.disable.1") +
+                LabsTranslate.translate("gui.appliedenergistics2.non_consume.append.ae2fc") + "\n" +
+                LabsTranslate.translate("gui.appliedenergistics2.non_consume.disable.2");
     }
 
-    public static void handleButtonPress(GuiButton btn, LabsInclNonConsumableButton labs$inclNonConsume,
-                                         InclNonConsumeSettable inventorySlots) {
-        if (labs$inclNonConsume == btn) {
-            labs$inclNonConsume.toggle();
-
-            // Client Sync
-            inventorySlots
-                    .labs$setInclNonConsume(labs$inclNonConsume.isInclNonConsume());
-
-            // Server Sync
-            try {
-                NetworkHandler.instance().sendToServer(
-                        new PacketValueConfig("Labs$NonConsume", labs$inclNonConsume.isInclNonConsume() ? "1" : "0"));
-            } catch (IOException e) {
-                AELog.error(e);
-            }
-        }
+    public void setAe2Fc() {
+        ae2fc = true;
     }
 
     public void setInclNonConsume(boolean inclNonConsume) {
@@ -100,7 +92,9 @@ public class LabsInclNonConsumableButton extends GuiButton implements ITooltip {
 
     @Override
     public String getMessage() {
-        return title + "\n" + (inclNonConsume ? descEnable : descDisable);
+        return title + "\n" + (inclNonConsume ?
+                (ae2fc ? descEnableAe2Fc : descEnable) :
+                (ae2fc ? descDisableAe2Fc : descDisable));
     }
 
     @Override

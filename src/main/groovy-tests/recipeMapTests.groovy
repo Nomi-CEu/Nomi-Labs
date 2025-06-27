@@ -151,6 +151,9 @@ mods.gregtech.macerator.changeByInput([metaitem('plant_ball') * 2], null)
 mods.gregtech.assembler.changeByOutput([item('minecraft:iron_bars') * 4], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeCircuitMeta { meta -> meta * 2 }
+            .builder { RecipeBuilder recipe ->
+                recipe.notConsumable(fluid('water') * 1000)
+            }
             .replaceAndRegister()
     }
 
