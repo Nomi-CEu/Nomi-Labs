@@ -54,7 +54,7 @@ public abstract class ContainerPatternEncoderMixin implements InclNonConsumeSett
 
     @Override
     public void labs$setInclNonConsume(boolean inclNonConsume) {
-        this.labs$inclNonConsume = inclNonConsume;
+        labs$inclNonConsume = inclNonConsume;
         if (getPart() != null && (getPart() instanceof InclNonConsumeSettable set)) {
             set.labs$setInclNonConsume(inclNonConsume);
         } else if (iGuiItemObject != null) {

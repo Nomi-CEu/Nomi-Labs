@@ -5,14 +5,19 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ContainerUltimateEncoderMixin",
     "ExtendedFluidPatternTerminalRTHMixin",
+    "FluidPatternEncoderRTHMixin",
     "FluidPatternTerminalRTHMixin",
     "RecipeTransferBuilderMixin",
+    "TileUltimateEncoderMixin",
+    "UltimateEncoderRTHMixin",
     "WirelessFluidPatternTerminalRTHMixin"
   ],
   "client": [
     "GuiExtendedFluidPatternTerminalMixin",
     "GuiFluidPatternTerminalMixin",
+    "GuiUltimateEncoderMixin",
     "GuiWirelessFluidPatternTerminalMixin"
   ],
   "server": []
