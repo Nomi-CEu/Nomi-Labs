@@ -47,7 +47,7 @@ public class KeyBindingHelper {
 
     public static void addKeybindOverride(String id, KeyModifier modifier, int keyCode) {
         ((AccessibleKeyBinding) KeyBindingAccessor.getKeybindRegistry().get(id))
-                .setDefaultKeyModifierAndCode(modifier, keyCode);
+                .labs$setDefaultKeyModifierAndCode(modifier, keyCode);
     }
 
     public static class KeybindOverrideSpecification {

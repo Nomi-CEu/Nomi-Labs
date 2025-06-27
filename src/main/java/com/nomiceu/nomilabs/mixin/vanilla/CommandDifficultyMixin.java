@@ -53,7 +53,7 @@ public abstract class CommandDifficultyMixin extends CommandBase {
 
         EnumDifficulty newDifficulty = getDifficultyFromCommand(args[0]);
         if (server instanceof DifficultySettableServer diff)
-            diff.setDifficultyForAllWorldsAndSave(newDifficulty);
+            diff.labs$setDifficultyForAllWorldsAndSave(newDifficulty);
         else
             server.setDifficultyForAllWorlds(newDifficulty);
 

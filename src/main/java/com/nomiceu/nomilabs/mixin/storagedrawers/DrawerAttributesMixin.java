@@ -19,7 +19,7 @@ public class DrawerAttributesMixin extends BasicDrawerAttributes implements Refr
     TileEntityDrawers this$0;
 
     @Override
-    public void refreshAfterDrawerKey() {
+    public void labs$refreshAfterDrawerKey() {
         if (this$0.getGroup() instanceof FractionalDrawerGroup frac) {
             // Custom Handling
             for (int i = 0; i < frac.getDrawerCount(); i++) {
