@@ -38,7 +38,7 @@ public class RecipeTransferHandlerMixin {
                                                                                                                    @Local(argsOnly = true) IRecipeLayout layout) {
         var ing = original.call(instance);
 
-        if (!(container instanceof ContainerPatternEncoder encoder) || encoder.isCraftingMode()) return ing;
+        if (!(container instanceof ContainerPatternEncoder encoder)) return ing;
         if (((InclNonConsumeSettable) encoder).labs$inclNonConsume()) return ing;
 
         if (!(layout instanceof RecipeLayoutAccessor accessor)) return ing;
