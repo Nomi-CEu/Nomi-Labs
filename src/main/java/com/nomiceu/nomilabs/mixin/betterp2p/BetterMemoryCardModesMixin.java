@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.integration.betterp2p.LabsBetterMemoryCardModes;
 import com.projecturanus.betterp2p.item.BetterMemoryCardModes;
 
 /**
@@ -26,15 +27,11 @@ public class BetterMemoryCardModesMixin {
         if (LABS_ORDER_CACHE == null) {
             LABS_ORDER_CACHE = HashBiMap.create();
 
-            var modes = BetterMemoryCardModes.values();
-            for (var mode : modes) {
-                if (mode != BetterMemoryCardModes.UNBIND && mode != BetterMemoryCardModes.COPY)
-                    LABS_ORDER_CACHE.put(LABS_ORDER_CACHE.size(), mode);
-            }
-
-            LABS_ORDER_CACHE.put(LABS_ORDER_CACHE.size(), BetterMemoryCardModes.UNBIND);
-
-            NomiLabs.LOGGER.debug("[BetterMemoryCardModes] Created Labs Order Cache: {}", LABS_ORDER_CACHE);
+            LABS_ORDER_CACHE.put(0, LabsBetterMemoryCardModes.ADD_AS_INPUT);
+            LABS_ORDER_CACHE.put(1, LabsBetterMemoryCardModes.ADD_AS_OUTPUT);
+            LABS_ORDER_CACHE.put(2, BetterMemoryCardModes.INPUT);
+            LABS_ORDER_CACHE.put(3, BetterMemoryCardModes.OUTPUT);
+            LABS_ORDER_CACHE.put(4, BetterMemoryCardModes.UNBIND);
         }
 
         // noinspection SuspiciousMethodCalls

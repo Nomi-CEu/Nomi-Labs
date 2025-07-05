@@ -8,6 +8,7 @@
     "BetterMemoryCardModesMixin",
     "CommonProxyMixin",
     "GridServerCacheMixin",
+    "ItemAdvancedMemoryCardMixin",
     "ServerLinkP2PHandlerMixin",
     "ServerRenameP2PTunnelMixin",
     "ServerTypeChangeHandlerMixin",
