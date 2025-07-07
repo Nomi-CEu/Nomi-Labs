@@ -5,18 +5,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Tag to Release.
+        description: Tag to Release. Should be in format 'vx.x.x-stable', 'vx.x.x-beta' or 'vx.x.x-alpha'.
         required: true
         type: string
-      release_type:
-        description: The Release Type.
-        required: true
-        type: choice
-        default: 'release'
-        options:
-          - 'release'
-          - 'beta'
-          - 'alpha'
       deploy_to_gh:
         description: Whether to deploy to GitHub Releases.
         required: true
@@ -28,14 +19,44 @@ on:
         type: boolean
         default: true
 
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+-stable
+      - v[0-9]+.[0-9]+.[0-9]+-beta
+      - v[0-9]+.[0-9]+.[0-9]+-alpha
+
 env:
-  RELEASE_TYPE: ${{ inputs.release_type }}
+  TAG: ${{ inputs.tag }}
+  PRE_RELEASE: false
+  CF_RELEASE_TYPE: "release"
 
 jobs:
+  setupEnvVariables:
+    name: Setup Environment Variables
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Tag for Push
+        if: ${{ github.event_name == 'push' }}
+        run: echo "TAG=${{ github.ref_name }}" >> "$GITHUB_ENV"
+
+      # Skip Stable Checking; Is Default
+      - name: Set Release Type (Beta)
+        if: ${{ endsWith(env.TAG, '-beta') }}
+        run: |
+          echo "PRE_RELEASE=true" >> "$GITHUB_ENV"
+          echo "CF_RELEASE_TYPE=beta" >> "$GITHUB_ENV"
+
+      - name: Set Release Type (Alpha)
+        if: ${{ endsWith(env.TAG, '-alpha') }}
+        run: |
+          echo "PRE_RELEASE=true" >> "$GITHUB_ENV"
+          echo "CF_RELEASE_TYPE=alpha" >> "$GITHUB_ENV"
+
   publishGithub:
-    name: Publish to GitHub Releases (${{ inputs.tag }})
+    name: Publish to GitHub Releases (${{ env.TAG }})
     runs-on: ubuntu-latest
     if: ${{ inputs.deploy_to_gh }}
+    needs: setupEnvVariables
 
     steps:
       - name: Get Token
@@ -49,7 +70,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.tag }}
+          ref: ${{ env.TAG }}
           fetch-depth: 0
 
       - name: Setup Build
@@ -61,7 +82,7 @@ jobs:
       - name: Generate Changelog
         run: ./gradlew generateChangelog
         env:
-          GITHUB_TAG: ${{ inputs.tag }}
+          GITHUB_TAG: ${{ env.TAG }}
 
       - name: Publish to GitHub
         uses: softprops/action-gh-release@v2
@@ -69,28 +90,61 @@ jobs:
           files: "build/libs/*.jar"
           body_path: "build/changelog.md"
           token: ${{ steps.token.outputs.token }}
-          tag_name: ${{ inputs.tag }}
-          prerelease: ${{ inputs.release_type != 'release' }}
+          tag_name: ${{ env.TAG }}
+          prerelease: ${{ env.PRE_RELEASE }}
           fail_on_unmatched_files: true
 
   publishCurseForge:
-    name: Publish to CurseForge (${{ inputs.tag }})
+    name: Publish to CurseForge (${{ env.TAG }})
     runs-on: ubuntu-latest
     if: ${{ inputs.deploy_to_cf }}
+    needs: setupEnvVariables
+    outputs:
+      id: ${{ steps.publish.outputs.main_file_id }}
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.tag }}
+          ref: ${{ env.TAG }}
           fetch-depth: 0
 
       - name: Setup Build
         uses: ./.github/actions/build_setup
 
       - name: Publish to CurseForge
+        id: publish
         env:
           CURSEFORGE_API_KEY: "${{ secrets.CURSEFORGE_API_KEY }}"
-          RELEASE_TYPE: "${{ env.RELEASE_TYPE }}"
-          GITHUB_TAG: ${{ inputs.tag }}
+          RELEASE_TYPE: "${{ env.CF_RELEASE_TYPE }}"
+          GITHUB_TAG: ${{ env.TAG }}
         run: ./gradlew curseforge
+
+  notifyNomiCEu:
+    name: Notify Nomi-CEu (${{ env.TAG }})
+    runs-on: ubuntu-latest
+    needs: publishCurseForge
+    steps:
+      - name: Get Token
+        id: token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_KEY }}
+          owner: Nomi-CEu
+
+      - name: Dispatch Workflow
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ steps.token.outputs.token }}
+          # A Javascript Function Body to send the Workflow Dispatch Event.
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: "Nomi-CEu", 
+              repo: "Nomi-CEu",
+              event_type: "labs_released",
+              client_payload: {
+                ver: "${{ env.TAG }}",
+                id: "${{ needs.publishCurseForge.outputs.id }}"
+              },
+            });
