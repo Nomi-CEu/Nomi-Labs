@@ -25,20 +25,21 @@ on:
       - v[0-9]+.[0-9]+.[0-9]+-beta
       - v[0-9]+.[0-9]+.[0-9]+-alpha
 
-env:
-  TAG: ${{ inputs.tag }}
-  PRE_RELEASE: false
-  CF_RELEASE_TYPE: "release"
-
 jobs:
   setupEnvVariables:
-    name: Setup Environment Variables
+    name: Determine Values
     runs-on: ubuntu-latest
     # Must be a 'lightweight' tag push, on the last commit of main branch.
     # See https://git-scm.com/book/en/v2/Git-Basics-Tagging for 'lightweight' tags.
-    if: ${{ !(github.event_name == 'push' && github.event.base_ref != 'refs/heads/main') && github.repository_owner == 'Nomi-CEu' }}
+    if: ${{ github.repository_owner == 'Nomi-CEu' }}
+    env:
+      TAG: ${{ inputs.tag }}
+      PRE_RELEASE: false
+      CF_RELEASE_TYPE: "release"
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
+      pre_release: ${{ steps.tag.outputs.pre_release }}
+      cf_release_type: ${{ steps.tag.outputs.cf_release_type }}
     steps:
       - name: Set Tag for Push
         if: ${{ github.event_name == 'push' }}
@@ -57,9 +58,12 @@ jobs:
           echo "PRE_RELEASE=true" >> "$GITHUB_ENV"
           echo "CF_RELEASE_TYPE=alpha" >> "$GITHUB_ENV"
 
-      - name: Output Tag for Job Name Usage
+      - name: Output Env for Jobs
         id: tag
-        run: echo "tag=${{ env.TAG }}" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "tag=${{ env.TAG }}" >> "$GITHUB_OUTPUT"
+          echo "pre_release=${{ env.PRE_RELEASE }}" >> "$GITHUB_OUTPUT"
+          echo "cf_release_type=${{ env.CF_RELEASE_TYPE }}" >> "$GITHUB_OUTPUT"
 
   publishGithub:
     name: Publish to GitHub Releases (${{ needs.setupEnvVariables.outputs.tag }})
@@ -79,7 +83,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.TAG }}
+          ref: ${{ needs.setupEnvVariables.outputs.tag }}
           fetch-depth: 0
 
       - name: Setup Build
@@ -91,7 +95,7 @@ jobs:
       - name: Generate Changelog
         run: ./gradlew generateChangelog
         env:
-          GITHUB_TAG: ${{ env.TAG }}
+          GITHUB_TAG: ${{ needs.setupEnvVariables.outputs.tag }}
 
       - name: Publish to GitHub
         uses: softprops/action-gh-release@v2
@@ -99,8 +103,8 @@ jobs:
           files: "build/libs/*.jar"
           body_path: "build/changelog.md"
           token: ${{ steps.token.outputs.token }}
-          tag_name: ${{ env.TAG }}
-          prerelease: ${{ env.PRE_RELEASE }}
+          tag_name: ${{ needs.setupEnvVariables.outputs.tag }}
+          prerelease: ${{ needs.setupEnvVariables.outputs.pre_release }}
           fail_on_unmatched_files: true
 
   publishCurseForge:
@@ -115,7 +119,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.TAG }}
+          ref: ${{ needs.setupEnvVariables.outputs.tag }}
           fetch-depth: 0
 
       - name: Setup Build
@@ -125,8 +129,8 @@ jobs:
         id: publish
         env:
           CURSEFORGE_API_KEY: "${{ secrets.CURSEFORGE_API_KEY }}"
-          RELEASE_TYPE: "${{ env.CF_RELEASE_TYPE }}"
-          GITHUB_TAG: ${{ env.TAG }}
+          RELEASE_TYPE: "${{ needs.setupEnvVariables.outputs.cf_release_type }}"
+          GITHUB_TAG: ${{ needs.setupEnvVariables.outputs.tag }}
         run: ./gradlew curseforge
 
   notifyNomiCEu:
@@ -153,7 +157,7 @@ jobs:
               repo: "Nomi-CEu",
               event_type: "labs_released",
               client_payload: {
-                ver: "${{ env.TAG }}",
+                ver: "${{ needs.setupEnvVariables.outputs.tag }}",
                 id: "${{ needs.publishCurseForge.outputs.id }}"
               },
             });
