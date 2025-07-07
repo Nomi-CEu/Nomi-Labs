@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     # Must be a 'lightweight' tag push, on the last commit of main branch.
     # See https://git-scm.com/book/en/v2/Git-Basics-Tagging for 'lightweight' tags.
-    if: ${{ github.event_name != 'push' || github.event.base_ref == 'refs/heads/main' }}
+    if: ${{ !(github.event_name == 'push' && github.event.base_ref != 'refs/heads/main') && github.repository_owner == 'Nomi-CEu' }}
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
     steps:
