@@ -56,7 +56,7 @@ jobs:
 
       - name: Output Tag for Job Name Usage
         id: tag
-        run: echo "tag=${{ env.tag }}" >> "$GITHUB_OUTPUT"
+        run: echo "tag=${{ env.TAG }}" >> "$GITHUB_OUTPUT"
 
   publishGithub:
     name: Publish to GitHub Releases (${{ needs.setupEnvVariables.tag }})
