@@ -34,6 +34,8 @@ jobs:
   setupEnvVariables:
     name: Setup Environment Variables
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ env.TAG }}
     steps:
       - name: Set Tag for Push
         if: ${{ github.event_name == 'push' }}
@@ -53,7 +55,7 @@ jobs:
           echo "CF_RELEASE_TYPE=alpha" >> "$GITHUB_ENV"
 
   publishGithub:
-    name: Publish to GitHub Releases (${{ env.TAG }})
+    name: Publish to GitHub Releases (${{ needs.setupEnvVariables.tag }})
     runs-on: ubuntu-latest
     if: ${{ inputs.deploy_to_gh }}
     needs: setupEnvVariables
@@ -95,7 +97,7 @@ jobs:
           fail_on_unmatched_files: true
 
   publishCurseForge:
-    name: Publish to CurseForge (${{ env.TAG }})
+    name: Publish to CurseForge (${{ needs.setupEnvVariables.tag }})
     runs-on: ubuntu-latest
     if: ${{ inputs.deploy_to_cf }}
     needs: setupEnvVariables
@@ -121,9 +123,9 @@ jobs:
         run: ./gradlew curseforge
 
   notifyNomiCEu:
-    name: Notify Nomi-CEu (${{ env.TAG }})
+    name: Notify Nomi-CEu (${{ needs.setupEnvVariables.tag }})
     runs-on: ubuntu-latest
-    needs: publishCurseForge
+    needs: [setupEnvVariables, publishCurseForge]
     steps:
       - name: Get Token
         id: token
