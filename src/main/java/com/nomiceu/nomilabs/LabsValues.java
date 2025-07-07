@@ -51,4 +51,5 @@ public class LabsValues {
     public static final String REDSTONE_FLUX_MODID = "redstoneflux";
     public static final String SOLAR_FLUX_MODID = "solarflux";
     public static final String ARMOR_PLUS_MODID = "armorplus";
+    public static final String PA_EX_CRAFTING_MODID = "packagedexcrafting";
 }

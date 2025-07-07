@@ -1,0 +1,14 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.packagedexcrafting",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "RecipeTypeAdvancedMixin",
+    "RecipeTypeEliteMixin",
+    "RecipeTypeUltimateMixin"
+  ],
+  "client": [],
+  "server": []
+}

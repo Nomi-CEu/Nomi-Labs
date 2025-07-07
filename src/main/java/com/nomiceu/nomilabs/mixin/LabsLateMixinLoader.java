@@ -57,6 +57,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.solarFluxPerformanceOptions.enableSolarFluxPerformance)
             .put(ARMOR_PLUS_MODID, true)
             .put(GCYM_MODID, true)
+            .put(PA_EX_CRAFTING_MODID, LabsConfig.modIntegration.paExCraftingStrictMode)
             .build();
 
     public static final Map<Pair<String, String>, Boolean> specialMixinsConfig = ImmutableMap.of(

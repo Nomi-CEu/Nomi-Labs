@@ -354,6 +354,13 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.prospector_dark")
         public boolean defaultDarkMode = true;
 
+        @Config.Comment({ "Make PackagedExCrafting's JEI Importing 'Strict', as in",
+                "only recipes from the exact same tier of table are able to be imported.",
+                "By default, it is in 'Valid' mode, or where recipes from any tier below can be imported.",
+                "[default: false]" })
+        @Config.LangKey("config.nomilabs.mod_integration.pa_ex_crafting_strict_mode")
+        public boolean paExCraftingStrictMode = false;
+
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
         @Config.Name("ae2 terminal options")
