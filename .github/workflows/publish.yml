@@ -59,7 +59,7 @@ jobs:
         run: echo "tag=${{ env.TAG }}" >> "$GITHUB_OUTPUT"
 
   publishGithub:
-    name: Publish to GitHub Releases (${{ needs.setupEnvVariables.tag }})
+    name: Publish to GitHub Releases (${{ needs.setupEnvVariables.outputs.tag }})
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || inputs.deploy_to_gh }}
     needs: setupEnvVariables
@@ -101,7 +101,7 @@ jobs:
           fail_on_unmatched_files: true
 
   publishCurseForge:
-    name: Publish to CurseForge (${{ needs.setupEnvVariables.tag }})
+    name: Publish to CurseForge (${{ needs.setupEnvVariables.outputs.tag }})
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || inputs.deploy_to_cf }}
     needs: setupEnvVariables
@@ -127,7 +127,7 @@ jobs:
         run: ./gradlew curseforge
 
   notifyNomiCEu:
-    name: Notify Nomi-CEu (${{ needs.setupEnvVariables.tag }})
+    name: Notify Nomi-CEu (${{ needs.setupEnvVariables.outputs.tag }})
     runs-on: ubuntu-latest
     needs: [setupEnvVariables, publishCurseForge]
     steps:
