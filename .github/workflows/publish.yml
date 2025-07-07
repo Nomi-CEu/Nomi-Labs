@@ -35,7 +35,7 @@ jobs:
     name: Setup Environment Variables
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ env.TAG }}
+      tag: ${{ steps.tag.outputs.tag }}
     steps:
       - name: Set Tag for Push
         if: ${{ github.event_name == 'push' }}
@@ -54,10 +54,14 @@ jobs:
           echo "PRE_RELEASE=true" >> "$GITHUB_ENV"
           echo "CF_RELEASE_TYPE=alpha" >> "$GITHUB_ENV"
 
+      - name: Output Tag for Job Name Usage
+        id: tag
+        run: echo "tag=${{ env.tag }}" >> "$GITHUB_OUTPUT"
+
   publishGithub:
     name: Publish to GitHub Releases (${{ needs.setupEnvVariables.tag }})
     runs-on: ubuntu-latest
-    if: ${{ inputs.deploy_to_gh }}
+    if: ${{ github.event_name == 'push' || inputs.deploy_to_gh }}
     needs: setupEnvVariables
 
     steps:
@@ -99,7 +103,7 @@ jobs:
   publishCurseForge:
     name: Publish to CurseForge (${{ needs.setupEnvVariables.tag }})
     runs-on: ubuntu-latest
-    if: ${{ inputs.deploy_to_cf }}
+    if: ${{ github.event_name == 'push' || inputs.deploy_to_cf }}
     needs: setupEnvVariables
     outputs:
       id: ${{ steps.publish.outputs.main_file_id }}
