@@ -442,7 +442,7 @@ public class LabsConfig {
             public boolean autoFocusConfigFluidInterface = true;
 
             @Config.Comment({
-                    "Whether to Save Serach Strings in the Interface Configuration Terminals (Item and Fluid).",
+                    "Whether to Save Search Strings in the Interface Configuration Terminals (Item and Fluid).",
                     "Default AE2 Behaviour is to Save.", "[default: false]" })
             @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save")
             public boolean saveConfigInterfaceSearch = false;
