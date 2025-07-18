@@ -190,6 +190,9 @@ dependencies {
     // Top Addons (from CurseForge)
     compileOnly rfg.deobf("curse.maven:top-addons-247111:2887479") // Version 1.13.0
 
+    // Thermal Expansion (from CurseForge)
+    compileOnly "curse.maven:thermal-expansion-69163:2926431" // Version 5.5.7.1
+
     // Thermal Foundation (from CurseForge)
     compileOnly "curse.maven:thermal-foundation-222880:2926428" // Version 2.6.7.1
 

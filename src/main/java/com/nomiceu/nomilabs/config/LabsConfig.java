@@ -220,6 +220,14 @@ public class LabsConfig {
         })
         @Config.LangKey("config.nomilabs.top.gt_recipe_output")
         public boolean enableGTRecipeOutput = true;
+
+        @Config.Comment({
+                "Always display expanded view of tanks, when number of tanks is less than or equal to this threshold.",
+                "Set to 0 to only display expanded view when sneaking.",
+                "[default: 2]"
+        })
+        @Config.LangKey("config.nomilabs.top.expand_view_tank_threshold")
+        public int expandViewTankThreshold = 2;
     }
 
     public static class ModIntegration {

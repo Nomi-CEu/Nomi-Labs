@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMetaTileEntityQuantumTank;
 import com.nomiceu.nomilabs.integration.top.CustomFluidTankProvider;
 
 import gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank;
@@ -18,7 +19,8 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank;
  * Provides locked fluid info to TOP.
  */
 @Mixin(value = MetaTileEntityQuantumTank.class, remap = false)
-public abstract class MetaTileEntityQuantumTankMixin implements CustomFluidTankProvider {
+public abstract class MetaTileEntityQuantumTankMixin implements CustomFluidTankProvider,
+                                                     AccessibleMetaTileEntityQuantumTank {
 
     @Shadow
     protected abstract boolean isLocked();
@@ -44,5 +46,10 @@ public abstract class MetaTileEntityQuantumTankMixin implements CustomFluidTankP
         fluidToUse.amount = 0;
 
         return new FluidTankProperties[] { new FluidTankProperties(fluidToUse, maxFluidCapacity) };
+    }
+
+    @Override
+    public boolean labs$isLocked() {
+        return isLocked() && lockedFluid != null && fluidTank != null;
     }
 }
