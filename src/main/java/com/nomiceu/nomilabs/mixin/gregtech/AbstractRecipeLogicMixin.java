@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleAbstractRecipeLogic;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.ParallelizedChancedOutputList;
 
 import gregtech.api.capability.impl.AbstractRecipeLogic;
 import gregtech.api.metatileentity.MTETrait;
@@ -211,7 +212,14 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
         List<Pair<T, Integer>> result = new ArrayList<>();
         if (list.getChancedEntries().isEmpty()) return result;
 
-        for (var entry : list.getChancedEntries()) {
+        List<? extends ChancedOutput<T>> entries;
+        // Special case for our parallel logic
+        if (list instanceof ParallelizedChancedOutputList<T, ? extends ChancedOutput<T>>parallel)
+            entries = parallel.getTrueValues();
+        else
+            entries = list.getChancedEntries();
+
+        for (var entry : entries) {
             result.add(Pair.of(entry.getIngredient(), Math.min(ChancedOutputLogic.getMaxChancedValue(),
                     ChancedOutputLogic.getChance(entry, function, recipeTier, machineTier))));
         }

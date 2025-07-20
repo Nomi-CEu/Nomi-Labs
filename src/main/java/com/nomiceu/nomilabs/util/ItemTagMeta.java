@@ -37,7 +37,11 @@ public class ItemTagMeta extends ItemMeta {
     }
 
     public ItemStack toStack() {
-        var stack = super.toStack();
+        return toStack(1);
+    }
+
+    public ItemStack toStack(int amt) {
+        var stack = super.toStack(amt);
         if (tag != null) stack.setTagCompound(tag);
         return stack;
     }

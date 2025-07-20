@@ -755,6 +755,17 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.advanced.mode_check_nomi_ceu")
         public boolean modeCheckNomiCeuLink = false;
 
+        @Config.Comment({
+                "At which parallel threshold to enable the custom binomial chance logic instead of re-rolling random generators, for GT Parallel Chanced Outputs calculations.",
+                "Performance tests show this threshold the optimal values to be around 16-24.",
+                "Binomial logic is a lot faster at higher parallelization, but uses slightly more memory.",
+                "A value of 0 will indicate to always use binomial logic.",
+                "[default: 20]"
+        })
+        @Config.LangKey("config.nomilabs.content.gt_content.binomial_threshold")
+        @Config.RangeInt(min = 0)
+        public int binomialThreshold = 20;
+
         public static class WindowOverrides {
 
             @Config.Comment({ "Override for the Minecraft Window Title.",
