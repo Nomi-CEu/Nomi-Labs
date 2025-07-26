@@ -33,32 +33,32 @@ public class LabsThermal {
                 .components(Ardite, 4, Cobalt, 4, Mana, 1)
                 .build();
 
-        Signalum = new Material.Builder(10, makeLabsName("signalum"))
-                .ingot()
-                .liquid()
-                .color(0xff7f0f).iconSet(SHINY)
-                .blast(builder -> builder
-                        .temp(4000, GasTier.MID)
-                        .blastStats(VA[IV], 1400)
-                        .vacuumStats(VA[HV], 500))
-                .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_GEAR)
-                .components(AnnealedCopper, 4, Ardite, 2, RedAlloy, 2)
-                .cableProperties(V[LuV], 1, 0, true)
-                .itemPipeProperties(512, 64)
-                .build();
-
         Lumium = new Material.Builder(17, makeLabsName("lumium"))
                 .ingot()
                 .liquid()
                 .color(0xf6ff99).iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_FINE_WIRE)
                 .blast(builder -> builder
-                        .temp(4500, GasTier.MID)
+                        .temp(4000, GasTier.MID)
+                        .blastStats(VHA[IV], 800)
+                        .vacuumStats(VHA[HV], 300))
+                .components(TinAlloy, 4, SterlingSilver, 2)
+                .cableProperties(V[IV], 4, 0, true)
+                .fluidPipeProperties(4500, 256, true, true, true, false)
+                .build();
+
+        Signalum = new Material.Builder(10, makeLabsName("signalum"))
+                .ingot()
+                .liquid()
+                .color(0xff7f0f).iconSet(SHINY)
+                .blast(builder -> builder
+                        .temp(4500, GasTier.HIGHER)
                         .blastStats(VA[IV], 1600)
                         .vacuumStats(VA[HV], 600))
-                .components(TinAlloy, 4, SterlingSilver, 2)
-                .cableProperties(V[IV], 1, 0, true)
-                .fluidPipeProperties(4500, 256, true, true, true, false)
+                .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_GEAR)
+                .components(AnnealedCopper, 4, Ardite, 2, RedAlloy, 2)
+                .cableProperties(V[LuV], 4, 0, true)
+                .itemPipeProperties(512, 64)
                 .build();
 
         Enderium = new Material.Builder(18, makeLabsName("enderium"))
@@ -71,7 +71,7 @@ public class LabsThermal {
                         .blastStats(VA[LuV], 1600)
                         .vacuumStats(VA[EV], 600))
                 .components(Lead, 4, Platinum, 2, BlueSteel, 1, Osmium, 1)
-                .cableProperties(V[ZPM], 1, 0, true)
+                .cableProperties(V[ZPM], 8, 0, true)
                 .build();
 
         ElectrumFlux = new Material.Builder(19, makeLabsName("electrum_flux"))
