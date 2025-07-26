@@ -23,7 +23,7 @@ public class LabsChancedItemStackElement extends ElementItemStack {
     @Override
     public void render(int x, int y) {
         super.render(x, y);
-        RecipeOutputsProvider.renderChance(chance, x, y);
+        LabsTOPUtils.renderChance(chance, x, y);
     }
 
     @Override

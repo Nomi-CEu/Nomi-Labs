@@ -22,7 +22,7 @@ public class LabsChancedFluidNameElement extends LabsFluidNameElement {
 
     @Override
     public String getTranslated() {
-        return super.getTranslated() + " (" + RecipeOutputsProvider.formatChance(chance) + ")";
+        return super.getTranslated() + " (" + LabsTOPUtils.formatChance(chance) + ")";
     }
 
     @Override

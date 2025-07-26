@@ -1,20 +1,15 @@
 package com.nomiceu.nomilabs.integration.top;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
@@ -34,12 +29,10 @@ import mcjty.theoneprobe.apiimpl.elements.ElementItemStack;
 import mcjty.theoneprobe.apiimpl.styles.ItemStyle;
 import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 import mcjty.theoneprobe.config.Config;
-import mcjty.theoneprobe.rendering.RenderHelper;
 
 public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
     private static final int AMT_IN_ROW = 10;
-    private static final DecimalFormat format = new DecimalFormat("#.#");
 
     @Override
     public String getID() {
@@ -117,10 +110,6 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
         }
     }
 
-    public static String formatChance(int chance) {
-        return format.format(chance / 100.0) + "%";
-    }
-
     private <T> void addOutputs(List<T> list, IProbeInfo panel, Function<T, IElement> getElement) {
         int idx = 0;
 
@@ -156,7 +145,8 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
         for (var chanced : chancedOutputs.entrySet()) {
             ItemStack stack = chanced.getKey().getKey().toStack(chanced.getValue());
-            String display = stack.getDisplayName() + " (" + formatChance(chanced.getKey().getValue()) + ")";
+            String display = stack.getDisplayName() + " (" + LabsTOPUtils.formatChance(chanced.getKey().getValue()) +
+                    ")";
             items.add(Pair.of(display, new LabsChancedItemStackElement(stack, chanced.getKey().getValue(), style)));
         }
 
@@ -198,18 +188,5 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
         }
 
         return map;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void renderChance(int chance, int x, int y) {
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(0.5f, 0.5f, 1);
-        Minecraft mc = Minecraft.getMinecraft();
-
-        String chanceTxt = formatChance(chance);
-        RenderHelper.renderText(mc, (x + 17) * 2 - 1 - mc.fontRenderer.getStringWidth(chanceTxt),
-                y * 2, chanceTxt);
-
-        GlStateManager.popMatrix();
     }
 }

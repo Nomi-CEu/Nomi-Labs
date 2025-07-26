@@ -1,5 +1,8 @@
 package com.nomiceu.nomilabs.integration.top;
 
+import java.util.Map;
+import java.util.function.Function;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -8,12 +11,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMetaTileEntityQuantumTank;
-import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import cofh.thermalexpansion.block.storage.TileTank;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -50,18 +53,20 @@ public class LabsTankInfoProvider implements IProbeInfoProvider {
         IFluidHandler cap = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
         if (cap == null) return;
 
-        // Locked Tank Display
-        if (isTankLocked(tile)) {
-            info.text(LabsTranslate.topTranslate("nomilabs.gui.top.tank.locked"));
-        }
+        // Name Logic
+        Function<Integer, String> name = null;
 
         // GT Machine Compat
-        int inputAmt = 0;
         if (tile instanceof IGregTechTileEntity gt &&
                 gt.getMetaTileEntity() instanceof SimpleMachineMetaTileEntity simple) {
             RecipeMap<?> recipeMap = simple.getRecipeMap();
-            if (recipeMap != null)
-                inputAmt = recipeMap.getMaxFluidInputs();
+            if (recipeMap != null) {
+                name = (i) -> (i > recipeMap.getMaxFluidInputs() - 1) ?
+                        "nomilabs.gui.top.tank.output" : "nomilabs.gui.top.tank.input";
+            }
+        } else if (Loader.isModLoaded(LabsValues.TOP_ADDONS_MODID) && getNameMap().containsKey(tile.getClass())) {
+            String[] names = getNameMap().get(tile.getClass());
+            name = (i) -> names[i];
         }
 
         // Handle Custom Tank Properties
@@ -77,32 +82,26 @@ public class LabsTankInfoProvider implements IProbeInfoProvider {
         // Default Tank Properties
         if (tanks == null) tanks = cap.getTankProperties();
 
-        boolean expandedView = mode == ProbeMode.EXTENDED ||
-                tanks.length <= LabsConfig.topSettings.expandViewTankThreshold;
+        // Calculate Display Preferences
+        boolean expanded = mode == ProbeMode.EXTENDED || tanks.length <= LabsConfig.topSettings.expandViewTankThreshold;
+        boolean locked = isTankLocked(tile);
 
         for (int i = 0; i < tanks.length; i++) {
             IFluidTankProperties tank = tanks[i];
 
-            // Name Handling
-            String tankName = "nomilabs.gui.top.tank.default";
-            if (Names.tankNamesMap.containsKey(tile.getClass()))
-                tankName = Names.tankNamesMap.get(tile.getClass())[i];
-            else if (inputAmt != 0) {
-                if (i > inputAmt - 1)
-                    tankName = "nomilabs.gui.top.tank.output";
-                else
-                    tankName = "nomilabs.gui.top.tank.input";
-            }
-
-            info.element(new LabsTankGaugeElement(tank.getContents(), tankName, tank.getCapacity(), expandedView));
+            String tankName = (name != null) ? name.apply(i) : "nomilabs.gui.top.tank.default";
+            info.element(new LabsTankGaugeElement(tank.getContents(), tankName, tank.getCapacity(), expanded, locked));
         }
     }
 
+    private Map<Class<? extends TileEntity>, String[]> getNameMap() {
+        return Names.tankNamesMap;
+    }
+
     public boolean isTankLocked(TileEntity tile) {
-        // Thermal Portable
-        if (tile instanceof TileTank tank) {
-            return tank.isLocked();
-        }
+        // Thermal Portable (seperated, as thermal is a soft dep)
+        if (Loader.isModLoaded(LabsValues.THERMAL_EXPANSION_MODID) && isThermalTankLocked(tile))
+            return true;
 
         // GT Super/Quantum
         if (tile instanceof IGregTechTileEntity gt) {
@@ -112,6 +111,13 @@ public class LabsTankInfoProvider implements IProbeInfoProvider {
             }
         }
 
+        return false;
+    }
+
+    private boolean isThermalTankLocked(TileEntity tile) {
+        if (tile instanceof TileTank tank) {
+            return tank.isLocked();
+        }
         return false;
     }
 }

@@ -193,9 +193,8 @@ nomilabs.gui.language_jei.desc.2=However, Reloading JEI will take a §ccouple se
 
 nomilabs.gui.top_override.fluid=Fluid: %s
 
-nomilabs.gui.top.tank.locked=§cTank Locked§r
-
 nomilabs.gui.top.tank.default=Tank
+nomilabs.gui.top.tank.empty=(Empty)
 nomilabs.gui.top.tank.input=Input
 nomilabs.gui.top.tank.output=Output
 
