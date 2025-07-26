@@ -1261,6 +1261,13 @@ if (cfApiKey.isPresent() || deploymentDebug.toBoolean()) {
                 if (stepSummary.isPresent()) {
                     file(stepSummary.get()).write(summary)
                 }
+
+                /* NOMI LABS CUSTOM: IMPORTANT: RETAIN AFTER BUILDSCRIPT UPDATE */
+                def ghOutput = providers.environmentVariable("GITHUB_OUTPUT")
+                if (ghOutput.isPresent() && !list.isEmpty()) {
+                    file(ghOutput.get()).write("main_file_id=${list[0].getCurseFileId()}")
+                }
+                /* END NOMI LABS CUSTOM */
             }
         }
     }

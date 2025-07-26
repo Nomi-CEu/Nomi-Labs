@@ -18,13 +18,14 @@ public class LabsFluidNameElement implements IElement {
 
     private final String fluidName;
     private final int amount;
-    private final boolean showLang;
+    @Nullable
+    private final String lang;
     private final String translatedName;
 
-    public LabsFluidNameElement(FluidStack fluid, boolean showLang) {
+    public LabsFluidNameElement(FluidStack fluid, @Nullable String lang) {
         this.fluidName = fluid.getFluid().getName();
         this.amount = fluid.amount;
-        this.showLang = showLang;
+        this.lang = lang;
 
         // Temp Translated Name, for usage if needed
         this.translatedName = fluid.getUnlocalizedName();
@@ -33,7 +34,10 @@ public class LabsFluidNameElement implements IElement {
     public LabsFluidNameElement(ByteBuf byteBuf) {
         this.fluidName = NetworkTools.readStringUTF8(byteBuf);
         this.amount = byteBuf.readInt();
-        this.showLang = byteBuf.readBoolean();
+        if (byteBuf.readBoolean())
+            this.lang = NetworkTools.readStringUTF8(byteBuf);
+        else
+            this.lang = null;
         this.translatedName = translateFluid(fluidName, amount, "LabsFluidNameElement");
     }
 
@@ -51,7 +55,9 @@ public class LabsFluidNameElement implements IElement {
     public void toBytes(ByteBuf byteBuf) {
         NetworkTools.writeStringUTF8(byteBuf, fluidName);
         byteBuf.writeInt(amount);
-        byteBuf.writeBoolean(showLang);
+        byteBuf.writeBoolean(lang != null);
+        if (lang != null)
+            NetworkTools.writeStringUTF8(byteBuf, lang);
     }
 
     @Override
@@ -65,8 +71,8 @@ public class LabsFluidNameElement implements IElement {
     }
 
     public String getTranslated() {
-        if (showLang)
-            return LabsTranslate.translate("nomilabs.gui.top_override.fluid", translatedName);
+        if (lang != null)
+            return LabsTranslate.translate(lang, translatedName);
         else
             return translatedName;
     }

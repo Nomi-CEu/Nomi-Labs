@@ -34,6 +34,7 @@ import mcjty.theoneprobe.apiimpl.elements.ElementItemStack;
 import mcjty.theoneprobe.apiimpl.styles.ItemStyle;
 import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 import mcjty.theoneprobe.config.Config;
+import mcjty.theoneprobe.rendering.RenderHelper;
 
 public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
@@ -172,12 +173,12 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
         for (var output : fluidOutputs.entrySet()) {
             FluidStack stack = new FluidStack(output.getKey(), output.getValue());
-            fluids.add(Pair.of(new LabsFluidNameElement(stack, false), new LabsFluidStackElement(stack)));
+            fluids.add(Pair.of(new LabsFluidNameElement(stack, null), new LabsFluidStackElement(stack)));
         }
 
         for (var chanced : chancedFluidOutputs.entrySet()) {
             FluidStack stack = new FluidStack(chanced.getKey().getKey(), chanced.getValue());
-            fluids.add(Pair.of(new LabsChancedFluidNameElement(stack, chanced.getKey().getValue(), false),
+            fluids.add(Pair.of(new LabsChancedFluidNameElement(stack, chanced.getKey().getValue(), null),
                     new LabsChancedFluidStackElement(stack, chanced.getKey().getValue())));
         }
         return Pair.of(items, fluids);
@@ -201,22 +202,14 @@ public class RecipeOutputsProvider extends CapabilityInfoProvider<IWorkable> {
 
     @SideOnly(Side.CLIENT)
     public static void renderChance(int chance, int x, int y) {
-        GlStateManager.disableLighting();
-        GlStateManager.disableDepth();
-        GlStateManager.disableBlend();
-
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.5f, 0.5f, 1);
         Minecraft mc = Minecraft.getMinecraft();
 
         String chanceTxt = formatChance(chance);
-        mc.fontRenderer.drawStringWithShadow(chanceTxt, (x + 17) * 2 - 1 - mc.fontRenderer.getStringWidth(chanceTxt),
-                y * 2, 0xffffffff);
+        RenderHelper.renderText(mc, (x + 17) * 2 - 1 - mc.fontRenderer.getStringWidth(chanceTxt),
+                y * 2, chanceTxt);
 
         GlStateManager.popMatrix();
-
-        GlStateManager.enableLighting();
-        GlStateManager.enableDepth();
-        GlStateManager.enableBlend();
     }
 }

@@ -27,7 +27,7 @@ public class DefaultProbeInfoProviderMixin {
                                          int maxContents, CallbackInfo ci) {
         int contents = fluidStack == null ? 0 : fluidStack.amount;
         if (fluidStack != null) {
-            probeInfo.element(new LabsFluidNameElement(fluidStack, true));
+            probeInfo.element(new LabsFluidNameElement(fluidStack, "nomilabs.gui.top_override.fluid"));
         }
         if (config.getTankMode() == 1) {
             probeInfo.progress(contents, maxContents,

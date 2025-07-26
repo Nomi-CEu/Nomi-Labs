@@ -4,7 +4,6 @@ import com.nomiceu.nomilabs.groovy.ChangeRecipeBuilder
 
 import gregtech.api.recipes.RecipeBuilder
 import gregtech.api.recipes.RecipeMaps
-import gregtech.api.recipes.chance.output.impl.ChancedItemOutput
 import gregtech.api.recipes.ingredients.nbtmatch.NBTCondition
 import gregtech.api.recipes.ingredients.nbtmatch.NBTMatcher
 import gregtech.api.recipes.recipeproperties.CleanroomProperty
@@ -24,10 +23,10 @@ import static gregtech.api.GTValues.*
 
 // Building Test Recipes
 mods.gregtech.sifter.recipeBuilder()
-        .inputs(metaitem('nomilabs:dustImpureOsmiridium8020'))
-        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
-        .EUt(VA[LV]).duration(30)
-        .buildAndRegister()
+    .inputs(metaitem('nomilabs:dustImpureOsmiridium8020'))
+    .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+    .EUt(VA[LV]).duration(30)
+    .buildAndRegister()
 
 mods.gregtech.cyclotron.recipeBuilder()
         .inputs(item('gregtech:meta_foil', 64))
@@ -37,32 +36,32 @@ mods.gregtech.cyclotron.recipeBuilder()
         .buildAndRegister()
 
 mods.gregtech.sifter.recipeBuilder()
-        .inputs(item('minecraft:stick'))
-        .outputs(item('minecraft:apple') * 64)
-        .EUt(VA[LV]).duration(30)
-        .buildAndRegister()
+    .inputs(item('minecraft:stick'))
+    .outputs(item('minecraft:apple') * 64)
+    .EUt(VA[LV]).duration(30)
+    .buildAndRegister()
 
 mods.gregtech.sifter.recipeBuilder()
-        .inputs(item('minecraft:yellow_flower'))
-        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
-        .chancedOutput(item('minecraft:apple') * 64, 50, 1)
-        .chancedFluidOutput(fluid('fluorine') * 2000, 50, 1)
-        .EUt(VA[LV]).duration(30)
-        .buildAndRegister()
+    .inputs(item('minecraft:yellow_flower'))
+    .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+    .chancedOutput(item('minecraft:apple') * 64, 50, 1)
+    .chancedFluidOutput(fluid('fluorine') * 2000, 50, 1)
+    .EUt(VA[LV]).duration(30)
+    .buildAndRegister()
 
 mods.gregtech.sifter.recipeBuilder()
-        .inputs(metaitem('nomilabs:dustOsmiridium8020'))
-        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
-        .chancedOutput(item('minecraft:apple') * 64, 50, 1)
-        .chancedFluidOutput(fluid('fluorine') * 2000, 50, 1)
-        .EUt(VA[LV]).duration(30)
-        .buildAndRegister()
+    .inputs(metaitem('nomilabs:dustOsmiridium8020'))
+    .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+    .chancedOutput(item('minecraft:apple') * 64, 50, 1)
+    .chancedFluidOutput(fluid('fluorine') * 2000, 50, 1)
+    .EUt(VA[LV]).duration(30)
+    .buildAndRegister()
 
 mods.gregtech.sifter.recipeBuilder()
-        .inputs(metaitem('nomilabs:dustPureOsmiridium8020'))
-        .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
-        .EUt(VA[LV]).duration(30)
-        .buildAndRegister()
+    .inputs(metaitem('nomilabs:dustPureOsmiridium8020'))
+    .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
+    .EUt(VA[LV]).duration(30)
+    .buildAndRegister()
 
 // Find/Remove By Input Extensions (Are Lists of: List<ItemStack> itemInputs, List<FluidStack> fluidInputs)
 // mods.gregtech.<RECIPE_MAP>.removeByInput to remove, mods.gregtech.<RECIPE_MAP>.find to find (Returns null if no recipe found)
@@ -106,6 +105,12 @@ mods.gregtech.assembler.recipeBuilder()
 // `replaceWithExactVoltage(RecipeMap<?>... otherMaps)`
 
 // Other Maps also have the recipe removed from them. Useful when a recipe is auto-registered to multiple recipe maps (e.g. Chemical Reactor)
+// Note that the current recipe map will ALSO have the recipe removed from it, no matter what variation is used.
+
+// It is also important to note that the removal is conducted AS SOON AS the function is called, NOT on build.
+// This behaviour may be useful in ensuring that 'replacements'/'removals' are only conducted once when multiple recipes are being
+// added to replace one (e.g. adding assembler recipes for three different rubbers, or all types of capacitors, etc.)
+
 // Example: Changing the Recipe for Multi-Layer Fiber Reinforced Circuit Board (with Recycling)
 mods.gregtech.chemical_reactor.recipeBuilder()
     .inputs(metaitem('board.wetware') * 6, metaitem('circuit_assembler.iv') * 5)
@@ -117,14 +122,25 @@ mods.gregtech.chemical_reactor.recipeBuilder()
 
 // Change Recipes
 // NOTE THAT PROPERTIES ARE NOT TRANSFERRED! (CLEANROOM, ASSEMBLY RESEARCH, ETC.)
-// THIS IS BECAUSE BUILDERS CAN APPLY THESE THEMSELVES, CAUSING DUPE PROPERTIES!
+// THIS IS BECAUSE BUILDERS CAN APPLY THESE THEMSELVES (e.g. Primitive), CAUSING DUPE PROPERTIES!
+
 // Can use Any of the Find by Input or Output Methods (`changeByInput` & `changeByOutput`)
 // Simply the normal find method parameters, and returning a consumer of a ChangeRecipeBuilder (for Input)
 // and a consumer of a Stream of ChangeRecipeBuilders (for Output)
+
 // If error occurs (could not find recipes), a dummy recipe builder is returned for input, and an empty stream is returned for output.
 // Can also call `changeAllRecipes` to change all recipes, filtering by predicate, category, both, or none.
+
 // Note: Calling `replaceAndRegister` removes the original recipe **AND** adds the new one.
 // calling `buildAndRegister` just adds the new one.
+
+// When copying properties, it is important to check that the property is 'safe', e.g. its `drawInfo` method has
+// @SideOnly(Side.CLIENT) annotation. Else, this method must have SideOnly added (e.g. via PR + Nomi Labs config)
+
+// IMPORTANT: changeEach<TYPE> and changeAll<TYPE> functions use the list from the ORIGINAL RECIPE; hence changes DO NOT stack.
+// change<TYPE> and remove<TYPE> functions use the list from the CURRENT BUILDER, hence changes DO stack.
+// Also, since remove<TYPE> uses indices from start of operation, it is best to condense all remove operations to one call,
+// to remove changing indices due to removals from middle of lists.
 
 // Example 1: Changing All PBF recipes to be half duration
 // Using Change All Recipes
@@ -142,15 +158,14 @@ mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.electronic') *
             return stack
         }.builder { RecipeBuilder recipe ->
             recipe.inputs(item('minecraft:apple'))
-                .changeRecycling()
+                    .changeRecycling()
         }.replaceAndRegister()
     }
 
 // Example 3: Changing a Macerator Recipe to Double the Chance of the Final Chanced Output
 mods.gregtech.macerator.changeByInput([metaitem('plant_ball') * 2], null)
-    .changeChancedOutputs { List<ChancedItemOutput> chancedOutputs ->
-        ChancedItemOutput old = chancedOutputs.get(chancedOutputs.size() - 1)
-        chancedOutputs.set(chancedOutputs.size() - 1, new ChancedItemOutput(old.ingredient, old.chance * 2, old.chanceBoost))
+    .changeChancedOutput(-1) { // -1 = Last (we can use negative indices to count from end of list)
+        chanced(it.ingredient, it.chance * 2, it.chanceBoost)
     }
     .replaceAndRegister()
 
@@ -158,6 +173,9 @@ mods.gregtech.macerator.changeByInput([metaitem('plant_ball') * 2], null)
 mods.gregtech.assembler.changeByOutput([item('minecraft:iron_bars') * 4], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeCircuitMeta { meta -> meta * 2 }
+            .builder { RecipeBuilder recipe ->
+                recipe.notConsumable(fluid('water') * 1000)
+            }
             .replaceAndRegister()
     }
 
@@ -181,11 +199,10 @@ mods.gregtech.chemical_reactor.changeByOutput(null, [fluid('polytetrafluoroethyl
 mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.crystal_assembly')], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeEachOutput { stack ->
-                stack.count *= 2
-                return stack
-            }
-            .copyProperties(CleanroomProperty.instance) // Copy the CLEANROOM Property!
-            .replaceAndRegister()
+            stack.count *= 2
+            return stack
+        }.copyProperties(CleanroomProperty.instance) // Copy the CLEANROOM Property!
+        .replaceAndRegister()
     }
 
 // Example 7: Adding an Alternative Blast Furnace Recipe for Red Steel, with Double Output but Double Temperature
@@ -195,8 +212,7 @@ mods.gregtech.electric_blast_furnace.changeByOutput([metaitem('ingotRedSteel')],
         builder.changeEachOutput { stack ->
                 stack.count *= 2
                 return stack
-            }
-            .changeCircuitMeta { meta -> meta + 10 }
+            }.changeCircuitMeta { meta -> meta + 10 }
             /*
              * It is important that you, somehow, make a copy of the input property, and not modify the property itself!
              * Otherwise, reloading may not work correctly, and can cause modifications to be applied on top of each other!
@@ -216,9 +232,18 @@ mods.gregtech.assembly_line.changeByOutput([metaitem('fusion_reactor.luv')], nul
         builder.changeEachOutput { stack ->
                 stack.count *= 2
                 return stack
-            }.builder { recipe -> recipe.changeRecycling() }
+            }.builder { RecipeBuilder recipe -> recipe.changeRecycling() }
             .copyProperties(ResearchProperty.instance)
             .replaceAndRegister()
+    }
+
+// Example 9: Removing Last Two Inputs of Good Integrated Circuit Recipe, Replace with Apple + Log
+mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.good_integrated')], null) // Ignores count, so even though recipe outputs 2, we can stick with 1
+    .forEach { ChangeRecipeBuilder builder ->
+        builder.removeInputs(-2, -1) // off list state at beginning of operation, so we use -1 and -2. Indices can be in any order. Note: Circuits & Non Consumables are included in the list.
+            .builder { RecipeBuilder recipe ->
+                recipe.inputs(item('minecraft:apple'), item('minecraft:log'))
+            }.replaceAndRegister()
     }
 
 // See {@link com.nomiceu.nomilabs.groovy.ChangeRecipeBuilder} for more functions!

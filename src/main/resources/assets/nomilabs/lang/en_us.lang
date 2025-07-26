@@ -53,6 +53,7 @@ config.nomilabs.mod_integration.screwdrive_aa_relays=Allow GT Screwdrivers for A
 config.nomilabs.mod_integration.disable_armor_plus_frag_drops=Disable Armor Plus Fragment Drops
 config.nomilabs.mod_integration.dummy_muffler_hatches=Enable Dummy Muffler Hatches
 config.nomilabs.mod_integration.prospector_dark=Default Prospector Dark Mode
+config.nomilabs.mod_integration.pa_ex_crafting_strict_mode=PackagedExCrafting Strict Mode (JEI)
 
 config.nomilabs.mod_integration.effortlessbuilding=Effortless Building Integration Settings
 config.nomilabs.mod_integration.effortlessbuilding.enable=Enable Effortless Building Integration
@@ -94,6 +95,7 @@ config.nomilabs.top=The One Probe Settings
 config.nomilabs.top.tooltip=The One Probe Settings
 config.nomilabs.top.rf_provider=Labs RF Provider Mode
 config.nomilabs.top.gt_recipe_output=Show GT Machine Recipe Outputs
+config.nomilabs.top.expand_view_tank_threshold=Expanded View of Tanks Threshold
 
 config.nomilabs.mod_integration.draconicevolution=Draconic Evolution Integration Settings
 config.nomilabs.mod_integration.draconicevolution.tooltip=Draconic Evolution Integration Settings
@@ -124,6 +126,7 @@ config.nomilabs.advanced.server_side_fields=Server Side ONLY Fields
 config.nomilabs.advanced.server_side_methods=Server Side ONLY Methods
 config.nomilabs.advanced.server_welcome_name=Server Welcome Name
 config.nomilabs.advanced.mode_check_nomi_ceu=Mode Check Nomi-CEu Link
+config.nomilabs.advanced.binomial_threshold=Binomial Logic Threshold
 
 config.nomilabs.advanced.tiers=Quest Tier Detector Settings
 config.nomilabs.advanced.tiers.normal_qb_ids=Normal Mode Quest IDs
@@ -163,6 +166,8 @@ nomilabs.top.steam_venting_stuck.2=Use a Wrench to Change Vent Direction!
 
 nomilabs.top.recipe_outputs=Producing:
 
+nomilabs.top.creative_tank=Providing: §d%s§r
+
 nomilabs.top.quantum_link_chamber.not_formed=§cChamber Not Formed§r
 nomilabs.top.quantum_link_chamber.formed=§aChamber Formed§r
 nomilabs.top.quantum_link_chamber.not_powered=§cChamber Not Powered§r
@@ -187,6 +192,12 @@ nomilabs.gui.language_jei.desc.1=Reloading §bJEI§r ensures that category title
 nomilabs.gui.language_jei.desc.2=However, Reloading JEI will take a §ccouple seconds§r to perform.
 
 nomilabs.gui.top_override.fluid=Fluid: %s
+
+nomilabs.gui.top.tank.locked=§cTank Locked§r
+
+nomilabs.gui.top.tank.default=Tank
+nomilabs.gui.top.tank.input=Input
+nomilabs.gui.top.tank.output=Output
 
 nomilabs.gui.bqu.custom.copy.tooltip=Click to Copy
 nomilabs.gui.bqu.custom.copied.tooltip=§eCopied to Clipboard!§r
@@ -231,13 +242,21 @@ nomilabs.gui.advanced_memory_card.sort.name=Sorting Mode: §bName
 nomilabs.gui.advanced_memory_card.sort_direction.normal=Sorting Order: §bNormal
 nomilabs.gui.advanced_memory_card.sort_direction.reversed=Sorting Order: §dReversed
 
+nomilabs.gui.advanced_memory_card.mode.input.desc.1=• Before binding, the §aselected P2P§7 and §bbind target§7 have their connections removed.
+nomilabs.gui.advanced_memory_card.mode.input.desc.2=• The §aselected P2P§7 becomes the §6output§7, while the §bbind target§7 becomes the §9input§7.
+nomilabs.gui.advanced_memory_card.mode.input.desc.3=• The §aselected P2P§7 becomes the same type as the §bbind target§7.
+
+nomilabs.gui.advanced_memory_card.mode.output.desc.1=• Before binding, the §aselected P2P§7 and §bbind target§7 have their connections removed.
+nomilabs.gui.advanced_memory_card.mode.output.desc.2=• The §aselected P2P§7 becomes the §9input§7, while the §bbind target§7 becomes the §6output§7.
+nomilabs.gui.advanced_memory_card.mode.output.desc.3=• The §bbind target§7 becomes the same type as the §aselected P2P§7.
+
 gui.advanced_memory_card.mode.add_as_input=Current Mode: Add as Input
-nomilabs.gui.advanced_memory_card.mode.add_input.desc.1=Before binding, the §aselected P2P§7 has its connections removed.
-nomilabs.gui.advanced_memory_card.mode.add_input.desc.2=The §aselected P2P§7 is set as an §9input§7, with the §bbind target's§7 frequency and type.
+nomilabs.gui.advanced_memory_card.mode.add_input.desc.1=• Before binding, the §aselected P2P§7 has its connections removed.
+nomilabs.gui.advanced_memory_card.mode.add_input.desc.2=• The §aselected P2P§7 is set as an §9input§7, with the §bbind target's§7 frequency and type.
 
 gui.advanced_memory_card.mode.add_as_output=Current Mode: Add as Output
-nomilabs.gui.advanced_memory_card.mode.add_output.desc.1=Before binding, the §aselected P2P§7 has its connections removed.
-nomilabs.gui.advanced_memory_card.mode.add_output.desc.2=The §aselected P2P§7 is set as an §6output§7, with the §bbind target's§7 frequency and type.
+nomilabs.gui.advanced_memory_card.mode.add_output.desc.1=• Before binding, the §aselected P2P§7 has its connections removed.
+nomilabs.gui.advanced_memory_card.mode.add_output.desc.2=• The §aselected P2P§7 is set as an §6output§7, with the §bbind target's§7 frequency and type.
 
 nomilabs.gui.dummy_muffler=Muffler hatches no longer generate ashes to improve performance. You can enable this again in config.
 

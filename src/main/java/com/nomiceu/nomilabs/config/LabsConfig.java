@@ -220,6 +220,14 @@ public class LabsConfig {
         })
         @Config.LangKey("config.nomilabs.top.gt_recipe_output")
         public boolean enableGTRecipeOutput = true;
+
+        @Config.Comment({
+                "Always display expanded view of tanks, when number of tanks is less than or equal to this threshold.",
+                "Set to 0 to only display expanded view when sneaking.",
+                "[default: 2]"
+        })
+        @Config.LangKey("config.nomilabs.top.expand_view_tank_threshold")
+        public int expandViewTankThreshold = 2;
     }
 
     public static class ModIntegration {
@@ -354,6 +362,13 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.prospector_dark")
         public boolean defaultDarkMode = true;
 
+        @Config.Comment({ "Make PackagedExCrafting's JEI Importing 'Strict', as in",
+                "only recipes from the exact same tier of table are able to be imported.",
+                "By default, it is in 'Valid' mode, or where recipes from any tier below can be imported.",
+                "[default: false]" })
+        @Config.LangKey("config.nomilabs.mod_integration.pa_ex_crafting_strict_mode")
+        public boolean paExCraftingStrictMode = false;
+
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
         @Config.Name("ae2 terminal options")
@@ -435,7 +450,7 @@ public class LabsConfig {
             public boolean autoFocusConfigFluidInterface = true;
 
             @Config.Comment({
-                    "Whether to Save Serach Strings in the Interface Configuration Terminals (Item and Fluid).",
+                    "Whether to Save Search Strings in the Interface Configuration Terminals (Item and Fluid).",
                     "Default AE2 Behaviour is to Save.", "[default: false]" })
             @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save")
             public boolean saveConfigInterfaceSearch = false;
@@ -739,6 +754,17 @@ public class LabsConfig {
                 "[default: false]" })
         @Config.LangKey("config.nomilabs.advanced.mode_check_nomi_ceu")
         public boolean modeCheckNomiCeuLink = false;
+
+        @Config.Comment({
+                "At which parallel threshold to enable the custom binomial chance logic instead of re-rolling random generators, for GT Parallel Chanced Outputs calculations.",
+                "Performance tests show this threshold the optimal values to be around 16-24.",
+                "Binomial logic is a lot faster at higher parallelization, but uses slightly more memory.",
+                "A value of 0 will indicate to always use binomial logic.",
+                "[default: 20]"
+        })
+        @Config.LangKey("config.nomilabs.content.gt_content.binomial_threshold")
+        @Config.RangeInt(min = 0)
+        public int binomialThreshold = 20;
 
         public static class WindowOverrides {
 

@@ -11,7 +11,8 @@
     "JeiStarterMixin",
     "ListMultiMapMixin",
     "ModRegistryMixin",
-    "RecipeCategoryTabMixin"
+    "RecipeCategoryTabMixin",
+    "RecipeLayoutAccessor"
   ],
   "client": [
     "GuiIngredientMixin"

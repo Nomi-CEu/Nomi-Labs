@@ -1,0 +1,24 @@
+{
+  "package": "com.nomiceu.nomilabs.mixin.ae2fc",
+  "refmap": "mixins.nomilabs.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ContainerUltimateEncoderMixin",
+    "ExtendedFluidPatternTerminalRTHMixin",
+    "FluidPatternEncoderRTHMixin",
+    "FluidPatternTerminalRTHMixin",
+    "RecipeTransferBuilderMixin",
+    "TileUltimateEncoderMixin",
+    "UltimateEncoderRTHMixin",
+    "WirelessFluidPatternTerminalRTHMixin"
+  ],
+  "client": [
+    "GuiExtendedFluidPatternTerminalMixin",
+    "GuiFluidPatternTerminalMixin",
+    "GuiUltimateEncoderMixin",
+    "GuiWirelessFluidPatternTerminalMixin"
+  ],
+  "server": []
+}

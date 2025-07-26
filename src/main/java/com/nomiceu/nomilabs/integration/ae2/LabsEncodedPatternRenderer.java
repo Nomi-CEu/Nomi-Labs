@@ -13,12 +13,12 @@ import net.minecraftforge.common.model.IModelState;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
 
 import appeng.items.misc.ItemEncodedPattern;
-import codechicken.lib.render.CCModelState;
+import codechicken.lib.render.item.CCRenderItem;
 import codechicken.lib.render.item.IItemRenderer;
+import codechicken.lib.util.TransformUtils;
 
 public class LabsEncodedPatternRenderer implements IItemRenderer {
 
@@ -63,12 +63,13 @@ public class LabsEncodedPatternRenderer implements IItemRenderer {
     @Override
     @NotNull
     public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
+        CCRenderItem.notifyTransform(cameraTransformType);
         return Pair.of(this, null);
     }
 
     @Override
     public IModelState getTransforms() {
-        return new CCModelState(ImmutableMap.of()); // Transforms are defined by the rendering of the 'actual' item
+        return TransformUtils.DEFAULT_BLOCK;
     }
 
     @Override

@@ -45,6 +45,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.enableTopAddonsIntegration)
             .put(TOP_MODID, true)
             .put(AE2_MODID, true)
+            .put(AE2FC_MODID, true)
             .put(NAE2_MODID, true)
             .put(ENDER_IO_MODID, true)
             .put(AA_MODID, true)
@@ -56,6 +57,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.solarFluxPerformanceOptions.enableSolarFluxPerformance)
             .put(ARMOR_PLUS_MODID, true)
             .put(GCYM_MODID, true)
+            .put(PA_EX_CRAFTING_MODID, LabsConfig.modIntegration.paExCraftingStrictMode)
             .build();
 
     public static final Map<Pair<String, String>, Boolean> specialMixinsConfig = ImmutableMap.of(
