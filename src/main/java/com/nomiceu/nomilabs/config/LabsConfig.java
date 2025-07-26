@@ -345,14 +345,25 @@ public class LabsConfig {
         public boolean disableArmorPlusFragDrops = false;
 
         @Config.Comment({
-                "Enable Dummy Muffler hatches.",
+                "Configures Dummy Muffler Hatches.",
                 "Makes muffler hatches not produce ash anymore.",
                 "This improves performance when multiblocks try to calculate ash output. This is especially useful for high parallels.",
-                "[default: false]"
+                "Modes:",
+                "NORMAL: Normal operation of muffler hatches; no change from vanilla GT.",
+                "SHOW_WARNING: Shows a GUI with a warning (saying that muffler hatch production is disabled)",
+                "FULLY_DISABLED: Muflfer hatches show no GUI, and produce no ash",
+                "[default: NORMAL]"
         })
         @Config.LangKey("config.nomilabs.mod_integration.dummy_muffler_hatches")
-        @Config.RequiresMcRestart
-        public boolean enableDummyMufflers = false;
+        public DummyMufflerMode dummyMufflerMode = DummyMufflerMode.NORMAL;
+
+        @Config.Comment({
+                "Whether to disable Muffler Hatch particles.",
+                "May help with FPS on large worlds.",
+                "[default: false]"
+        })
+        @Config.LangKey("config.nomilabs.mod_integration.muffler_hatch_particles")
+        public boolean disableMufflerHatchParticles = false;
 
         @Config.Comment({ "Make Prospector default to Dark Mode.",
                 "Improves visibility of light ores, and dark ores are still visible.",
@@ -383,6 +394,12 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.solar_flux")
         @Config.Name("solar flux performance options")
         public final SolarFluxPerformanceOptions solarFluxPerformanceOptions = new SolarFluxPerformanceOptions();
+
+        public enum DummyMufflerMode {
+            NORMAL,
+            SHOW_WARNING,
+            FULLY_DISABLED,
+        }
 
         public static class SolarFluxPerformanceOptions {
 
@@ -762,7 +779,7 @@ public class LabsConfig {
                 "A value of 0 will indicate to always use binomial logic.",
                 "[default: 20]"
         })
-        @Config.LangKey("config.nomilabs.content.gt_content.binomial_threshold")
+        @Config.LangKey("config.nomilabs.advanced.binomial_threshold")
         @Config.RangeInt(min = 0)
         public int binomialThreshold = 20;
 
