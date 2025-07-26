@@ -13,7 +13,7 @@ public class DisplayGameOverlayMessageHelper {
         if (player instanceof EntityPlayerMP) {
             player.sendStatusMessage(new TextComponentTranslation(key), true);
         } else if (player instanceof AccessibleEntityPlayerSP) {
-            ((AccessibleEntityPlayerSP) player).getGuiIngame().addChatMessage(ChatType.GAME_INFO,
+            ((AccessibleEntityPlayerSP) player).labs$getGuiIngame().addChatMessage(ChatType.GAME_INFO,
                     new TextComponentTranslation(key));
         }
     }
