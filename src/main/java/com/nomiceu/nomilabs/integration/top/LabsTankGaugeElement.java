@@ -48,7 +48,6 @@ public class LabsTankGaugeElement implements IElement {
     private final String tankName;
 
     private final int color;
-    private final int darkerColor;
 
     private final int amount;
     private final int capacity;
@@ -92,9 +91,6 @@ public class LabsTankGaugeElement implements IElement {
             amount = 0;
             color = DEFAULT_OUTLINE;
         }
-
-        // Darker Color doesn't matter
-        darkerColor = color;
     }
 
     public LabsTankGaugeElement(ByteBuf byteBuf) {
@@ -109,7 +105,6 @@ public class LabsTankGaugeElement implements IElement {
         locked = byteBuf.readBoolean();
 
         color = byteBuf.readInt();
-        darkerColor = new Color(color).darker().getRGB();
     }
 
     @Override
@@ -136,7 +131,7 @@ public class LabsTankGaugeElement implements IElement {
 
         // Box
         RenderHelper.drawThickBeveledBox(x, y, x + BAR_WIDTH, y + barHeight, 1,
-                darkerColor, darkerColor, DEFAULT_FILL);
+                color, color, DEFAULT_FILL);
 
         // Locked Icon Rendering (Guaranteed expanded bar)
         if (locked) {
@@ -152,7 +147,7 @@ public class LabsTankGaugeElement implements IElement {
         // Line Segments
         for (int i = 1; i < 10; i++) {
             RenderHelper.drawVerticalLine(x + i * 10, y + 1, y + (i == 5 ? barHeight - 1 : barHeight / 2),
-                    darkerColor);
+                    color);
         }
 
         if (expand) {
