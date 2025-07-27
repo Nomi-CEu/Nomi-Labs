@@ -10,7 +10,7 @@
     "AccessibleMaterialInfo",
     "AccessibleModHandler",
     "BoilerRecipeLogicMixin",
-    "ChancedOutputMixin",
+    "ChancedOutputListMixin",
     "FluidStorageKeyAccessor",
     "FluidStorageKeysMixin",
     "GroovyHandCommandMixin",

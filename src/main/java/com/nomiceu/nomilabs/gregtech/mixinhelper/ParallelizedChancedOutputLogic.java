@@ -1,21 +1,19 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
-import static com.nomiceu.nomilabs.util.LabsConstants.MAX_CHANCE;
-
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-import org.cicirello.math.rand.Binomial;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.util.math.BinomialGenerator;
+import com.nomiceu.nomilabs.util.math.BinomialMethod;
 
-import gregtech.api.GTValues;
 import gregtech.api.recipes.chance.boost.BoostableChanceEntry;
 import gregtech.api.recipes.chance.boost.ChanceBoostFunction;
 import gregtech.api.recipes.chance.output.ChancedOutput;
@@ -40,29 +38,17 @@ public interface ParallelizedChancedOutputLogic extends ChancedOutputLogic {
                 T extends ChancedOutput<I>> List<@NotNull T> roll(@NotNull @Unmodifiable List<@NotNull T> chancedEntries,
                                                                   @NotNull ChanceBoostFunction boostFunction,
                                                                   int baseTier, int machineTier, int parallels,
-                                                                  BiFunction<T, Integer, T> copyWithAmount) {
+                                                                  BiFunction<T, Integer, T> copyWithAmount,
+                                                                  Map<Integer, WeakReference<BinomialMethod>> cache) {
             ImmutableList.Builder<T> result = null;
 
-            for (T entry : chancedEntries) {
-                int chance = getChance(entry, boostFunction, baseTier, machineTier);
-
-                // If our chance is 0 or 10_000, shortcircuit.
-                if (chance <= 0) continue;
-                if (chance >= MAX_CHANCE) {
-                    if (result == null) result = ImmutableList.builder();
-                    result.add(copyWithAmount.apply(entry, parallels));
-                }
-
-                // Roll chances, using algorithm based on numParallels and config
-                int amt;
-                if (parallels < LabsConfig.advanced.binomialThreshold)
-                    amt = rollXSTR(chance, parallels);
-                else
-                    amt = rollBinomial(entry, chance, parallels);
+            for (int i = 0; i < chancedEntries.size(); i++) {
+                int chance = getChance(chancedEntries.get(i), boostFunction, baseTier, machineTier);
+                int amt = rollBinomial(chance, parallels, cache, i);
 
                 if (amt > 0) {
                     if (result == null) result = ImmutableList.builder();
-                    result.add(copyWithAmount.apply(entry, amt));
+                    result.add(copyWithAmount.apply(chancedEntries.get(i), amt));
                 }
             }
 
@@ -74,24 +60,10 @@ public interface ParallelizedChancedOutputLogic extends ChancedOutputLogic {
             return ChancedOutputLogic.OR.getTranslationKey();
         }
 
-        private int rollXSTR(int chance, int parallels) {
-            int successes = 0;
-            for (int i = 0; i < parallels; i++) {
-                if (GTValues.RNG.nextInt(MAX_CHANCE) <= chance) successes++;
-            }
-            return successes;
-        }
-
-        private int rollBinomial(ChancedOutput<?> entry, int chance, int parallels) {
-            // Try to use cache from entry
-            Binomial instance = ((AccessibleChancedOutput) entry).labs$getCachedGen();
-
-            if (instance == null || !instance.consistentWith(parallels, chance)) {
-                instance = Binomial.getOrCreateInstance(parallels, chance);
-                ((AccessibleChancedOutput) entry).labs$setCachedGen(instance);
-            }
-
-            return instance.next(GTValues.RNG);
+        private int rollBinomial(int chance, int parallels, Map<Integer, WeakReference<BinomialMethod>> cache,
+                                 int idx) {
+            return BinomialGenerator.generate(parallels, chance,
+                    cache.get(idx), (mtd) -> cache.put(idx, new WeakReference<>(mtd)));
         }
     };
 
@@ -104,7 +76,8 @@ public interface ParallelizedChancedOutputLogic extends ChancedOutputLogic {
     <I, T extends ChancedOutput<I>> List<@NotNull T> roll(@NotNull @Unmodifiable List<@NotNull T> chancedEntries,
                                                           @NotNull ChanceBoostFunction boostFunction, int baseTier,
                                                           int machineTier, int parallels,
-                                                          BiFunction<T, Integer, T> copyWithAmount);
+                                                          BiFunction<T, Integer, T> copyWithAmount,
+                                                          Map<Integer, WeakReference<BinomialMethod>> cache);
 
     /**
      * From {@link ChancedOutputLogic#getChance(ChancedOutput, ChanceBoostFunction, int, int)}, where it is

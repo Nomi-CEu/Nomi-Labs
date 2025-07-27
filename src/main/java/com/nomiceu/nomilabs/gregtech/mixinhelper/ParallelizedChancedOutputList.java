@@ -1,11 +1,15 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+
+import com.nomiceu.nomilabs.util.math.BinomialMethod;
 
 import gregtech.api.recipes.chance.boost.ChanceBoostFunction;
 import gregtech.api.recipes.chance.output.ChancedOutput;
@@ -19,18 +23,21 @@ public class ParallelizedChancedOutputList<I, T extends ChancedOutput<I>> extend
     private final int parallels;
 
     public ParallelizedChancedOutputList(@NotNull ParallelizedChancedOutputLogic logic, @NotNull List<T> entries,
-                                         int parallels, BiFunction<T, Integer, T> copyWithMultipliedAmount) {
+                                         int parallels, BiFunction<T, Integer, T> copyWithMultipliedAmount,
+                                         Map<Integer, WeakReference<BinomialMethod>> cache) {
         super(logic, entries);
         this.logic = logic;
         this.parallels = parallels;
         this.copyWithMultipliedAmount = copyWithMultipliedAmount;
+
+        ((CachedChancedOutputList) this).labs$setExistingCache(cache);
     }
 
     @Override
     public @Nullable @Unmodifiable List<T> roll(@NotNull ChanceBoostFunction boostFunction, int baseTier,
                                                 int machineTier) {
         return logic.roll(getChancedEntries(), boostFunction, baseTier, machineTier, parallels,
-                copyWithMultipliedAmount);
+                copyWithMultipliedAmount, ((CachedChancedOutputList) this).labs$cache());
     }
 
     public List<T> getTrueValues() {

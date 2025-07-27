@@ -1,7 +1,9 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -25,10 +27,12 @@ import com.cleanroommc.groovyscript.api.IIngredient;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.CachedChancedOutputList;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ParallelizedChancedOutputList;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.ParallelizedChancedOutputLogic;
 import com.nomiceu.nomilabs.groovy.RecyclingHelper;
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
+import com.nomiceu.nomilabs.util.math.BinomialMethod;
 
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
@@ -108,6 +112,7 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
 
     @Shadow
     protected ChancedOutputLogic chancedOutputLogic;
+
     @Shadow
     protected ChancedOutputLogic chancedFluidOutputLogic;
 
@@ -117,12 +122,16 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     @Shadow
     @Final
     protected List<GTRecipeInput> fluidInputs;
+
     @Shadow
     protected int duration;
+
     @Shadow
     protected boolean hidden;
+
     @Shadow
     protected boolean isCTRecipe;
+
     @Shadow
     protected IRecipePropertyStorage recipePropertyStorage;
 
@@ -138,6 +147,12 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
 
     @Unique
     private int labs$parallel = 0;
+
+    @Unique
+    private Map<Integer, WeakReference<BinomialMethod>> labs$itemCache;
+
+    @Unique
+    private Map<Integer, WeakReference<BinomialMethod>> labs$fluidCache;
 
     @Redirect(method = "lambda$multiplyInputsAndOutputs$1",
               at = @At(value = "INVOKE",
@@ -160,10 +175,10 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
         labs$parallel = parallel;
         labs$handleChancedOutputList(recipe.getChancedOutputs(), parallel,
                 (out) -> chancedOutput(out.getIngredient().copy(), out.getChance(), out.getChanceBoost()),
-                this::chancedOutputLogic);
+                this::chancedOutputLogic, (cache) -> labs$itemCache = cache);
         labs$handleChancedOutputList(recipe.getChancedFluidOutputs(), parallel,
                 (out) -> chancedFluidOutput(out.getIngredient().copy(), out.getChance(), out.getChanceBoost()),
-                this::chancedFluidOutputLogic);
+                this::chancedFluidOutputLogic, (cache) -> labs$fluidCache = cache);
     }
 
     @WrapMethod(method = "build")
@@ -178,14 +193,16 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
                 new ParallelizedChancedOutputList<>(parallel, chancedOutputs, labs$parallel,
                         (out, amt) -> new ChancedItemOutput(
                                 copyItemStackWithCount(out.getIngredient(), out.getIngredient().getCount() * amt),
-                                out.getChance(), out.getChanceBoost())) :
+                                out.getChance(), out.getChanceBoost()),
+                        labs$itemCache) :
                 new ChancedOutputList<>(chancedOutputLogic, chancedOutputs);
 
         ChancedOutputList<FluidStack, ChancedFluidOutput> fluidList = chancedFluidOutputLogic instanceof ParallelizedChancedOutputLogic parallel ?
                 new ParallelizedChancedOutputList<>(parallel, chancedFluidOutputs, labs$parallel,
                         (out, amt) -> new ChancedFluidOutput(
                                 copyFluidStackWithAmount(out.getIngredient(), out.getIngredient().amount * amt),
-                                out.getChance(), out.getChanceBoost())) :
+                                out.getChance(), out.getChanceBoost()),
+                        labs$fluidCache) :
                 new ChancedOutputList<>(chancedFluidOutputLogic, chancedFluidOutputs);
 
         return ValidationResult.newResult(finalizeAndValidate(), new Recipe(inputs, outputs,
@@ -197,7 +214,8 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     private <I,
             T extends ChancedOutput<I>> void labs$handleChancedOutputList(ChancedOutputList<I, T> listIn, int parallel,
                                                                           Consumer<T> addNew,
-                                                                          Consumer<ChancedOutputLogic> changeLogic) {
+                                                                          Consumer<ChancedOutputLogic> changeLogic,
+                                                                          Consumer<Map<Integer, WeakReference<BinomialMethod>>> setCache) {
         if (!(listIn.getChancedOutputLogic() == ChancedOutputLogic.NONE || listIn.getChancedEntries().isEmpty())) {
             if (parallel > 1 &&
                     ParallelizedChancedOutputLogic.normalToParallelized.containsKey(listIn.getChancedOutputLogic())) {
@@ -209,6 +227,7 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
                 for (T entry : listIn.getChancedEntries()) {
                     addNew.accept(entry);
                 }
+                setCache.accept(((CachedChancedOutputList) listIn).labs$cache());
                 return;
             }
 
