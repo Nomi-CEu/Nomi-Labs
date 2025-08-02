@@ -24,9 +24,8 @@ runs:
 
   - name: Restore Build RFG Cached Files
     uses: actions/cache@v4
-    id: npm-cache
     with:
       path: |
         ./build/rfg
-      key: ${{ runner.os }}-npm-${{ hashFiles('./build.gradle') }}
-      restore-keys: ${{ runner.os }}-npm-
+      key: ${{ runner.os }}-rfg-${{ hashFiles('./build.gradle') }}
+      restore-keys: ${{ runner.os }}-rfg-
