@@ -57,6 +57,7 @@
     "WidgetProspectingMapMixin"
   ],
   "client": [
+    "MetaTileEntityAssemblyLineClientMixin",
     "MetaTileEntityLargeBoilerClientMixin"
   ],
   "server": []
