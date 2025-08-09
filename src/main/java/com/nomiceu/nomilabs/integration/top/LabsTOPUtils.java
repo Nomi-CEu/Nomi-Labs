@@ -4,8 +4,18 @@ import java.text.DecimalFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import mcjty.theoneprobe.rendering.RenderHelper;
 
@@ -36,5 +46,46 @@ public class LabsTOPUtils {
                 y * 2, chanceTxt);
 
         GlStateManager.popMatrix();
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Nullable
+    public static Fluid getFluid(String fluidName, String packet) {
+        Fluid fluid = FluidRegistry.getFluid(fluidName);
+        if (fluid == null) {
+            NomiLabs.LOGGER.error("Received Fluid Info Packet {} with Unknown Fluid {}!", packet, fluidName);
+            return null;
+        }
+        return fluid;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @NotNull
+    public static String translateFluid(@Nullable String fluidName, @Nullable Fluid fluid, int amount) {
+        if (fluidName == null || fluidName.isEmpty()) return ""; // Empty Tank
+
+        // At least try and translate it if fluid is null
+        if (fluid == null) {
+            return LabsTranslate.translate(fluidName);
+        }
+
+        return fluid.getLocalizedName(new FluidStack(fluid, amount));
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Nullable
+    public static TextureAtlasSprite getFluidAtlasSprite(@Nullable Fluid fluid) {
+        if (fluid == null) return null;
+
+        String actualLocation = fluid.getStill().toString();
+
+        // Gregtech fluids added by GRS do this for some reason
+        // As a consequence the fluid texture from /dull will not show up on anything from GRS.
+        if (actualLocation.contains("material_sets/fluid/") &&
+                (actualLocation.contains("/gas") || actualLocation.contains("/plasma"))) {
+            actualLocation = actualLocation.replace("material_sets/fluid/", "material_sets/dull/");
+        }
+
+        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(actualLocation);
     }
 }

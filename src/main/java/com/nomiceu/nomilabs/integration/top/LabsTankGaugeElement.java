@@ -57,6 +57,9 @@ public class LabsTankGaugeElement implements IElement {
 
     /* Cached Values */
     @Nullable
+    private Fluid fluid;
+
+    @Nullable
     private TextureAtlasSprite sprite;
 
     @Nullable
@@ -105,6 +108,14 @@ public class LabsTankGaugeElement implements IElement {
         locked = byteBuf.readBoolean();
 
         color = byteBuf.readInt();
+
+        if (hasFluid()) {
+            fluid = LabsTOPUtils.getFluid(fluidName, "LabsTankGaugeElement");
+            sprite = LabsTOPUtils.getFluidAtlasSprite(fluid);
+        } else {
+            fluid = null;
+            sprite = null;
+        }
     }
 
     @Override
@@ -215,7 +226,7 @@ public class LabsTankGaugeElement implements IElement {
         if (formattedTitle != null) return formattedTitle;
 
         formattedTitle = tankName() + ": " +
-                LabsFluidNameElement.translateFluid(fluidName, amount, "ElementTankGauge");
+                LabsTOPUtils.translateFluid(fluidName, fluid, amount);
         return formattedTitle;
     }
 
@@ -236,12 +247,7 @@ public class LabsTankGaugeElement implements IElement {
     }
 
     private void renderFluidTexture(int x, int y, int barHeight) {
-        // Update sprite if required
-        if (sprite == null) {
-            sprite = LabsFluidStackElement.getFluidAtlasSprite("ElementTankGauge", fluidName);
-
-            if (sprite == null) return;
-        }
+        if (sprite == null) return;
 
         GlStateManager.enableBlend();
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);

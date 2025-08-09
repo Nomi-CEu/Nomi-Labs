@@ -7,58 +7,60 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.nomiceu.nomilabs.NomiLabs;
 
 import gregtech.api.util.TextFormattingUtil;
 import gregtech.client.utils.RenderUtil;
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
+import mcjty.theoneprobe.api.TextStyleClass;
+import mcjty.theoneprobe.apiimpl.client.ElementTextRender;
 import mcjty.theoneprobe.network.NetworkTools;
 
 /**
- * From <a href=
+ * Modified From <a href=
  * "https://github.com/Supernoobv/GregicProbeCEu/blob/master/src/main/java/vfyjxf/gregicprobe/element/FluidStackElement.java">GregicProbe</a>.
  */
-public class LabsFluidStackElement implements IElement {
+public class LabsFluidOutputElement implements IElement {
 
     private final String fluidName;
     private final int color;
     private final int amount;
+    private boolean expanded = false;
+
+    @Nullable
+    private Fluid fluid;
 
     @Nullable
     private TextureAtlasSprite sprite = null;
 
-    public LabsFluidStackElement(@NotNull FluidStack stack) {
+    public LabsFluidOutputElement(@NotNull FluidStack stack) {
         // Save the fluidName, not the location, as that may need to be calculated on client
         this.fluidName = FluidRegistry.getFluidName(stack.getFluid());
         this.color = stack.getFluid().getColor(stack);
         this.amount = stack.amount;
     }
 
-    public LabsFluidStackElement(@NotNull ByteBuf buf) {
-        this.fluidName = NetworkTools.readStringUTF8(buf);
-        this.color = buf.readInt();
-        this.amount = buf.readInt();
+    public LabsFluidOutputElement(@NotNull ByteBuf buf) {
+        fluidName = NetworkTools.readStringUTF8(buf);
+        color = buf.readInt();
+        amount = buf.readInt();
+        expanded = buf.readBoolean();
+        fluid = LabsTOPUtils.getFluid(fluidName, "LabsFluidStackElement");
+        sprite = LabsTOPUtils.getFluidAtlasSprite(fluid);
     }
 
     @Override
     public void render(int x, int y) {
-        if (sprite == null)
-            sprite = getFluidAtlasSprite("LabsFluidStackElement", fluidName);
+        if (fluid == null || sprite == null) return;
 
         GlStateManager.enableBlend();
-        if (sprite != null) {
-            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-            RenderUtil.setGlColorFromInt(color, 0xFF);
-            RenderUtil.drawFluidTexture(x + 1, y - 1, sprite, 2, 2, 0);
-        }
+        RenderUtil.setGlColorFromInt(color, 0xFF);
+        RenderUtil.drawFluidTexture(x + 1, y - 1, sprite, 2, 2, 0);
 
         if (amount > 0) {
             GlStateManager.pushMatrix();
@@ -74,11 +76,22 @@ public class LabsFluidStackElement implements IElement {
         }
 
         GlStateManager.disableBlend();
+
+        if (expanded)
+            ElementTextRender.render(TextStyleClass.NAME + getTranslated(), x + 26, y + 4);
+    }
+
+    public String getTranslated() {
+        return LabsTOPUtils.translateFluid(fluidName, fluid, amount);
+    }
+
+    public void expand() {
+        expanded = true;
     }
 
     @Override
     public int getWidth() {
-        return 16;
+        return 16 + (expanded ? 10 + ElementTextRender.getWidth(getTranslated()) : 0);
     }
 
     @Override
@@ -91,31 +104,11 @@ public class LabsFluidStackElement implements IElement {
         NetworkTools.writeStringUTF8(buf, fluidName);
         buf.writeInt(color);
         buf.writeInt(amount);
+        buf.writeBoolean(expanded);
     }
 
     @Override
     public int getID() {
-        return LabsTOPManager.FLUID_STACK_ELEMENT;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Nullable
-    public static TextureAtlasSprite getFluidAtlasSprite(String packet, String fluidName) {
-        Fluid fluid = FluidRegistry.getFluid(fluidName);
-        if (fluid == null) {
-            NomiLabs.LOGGER.error("Received Fluid Info Packet {} with Unknown Fluid {}!", packet, fluidName);
-            return null;
-        }
-
-        String actualLocation = fluid.getStill().toString();
-
-        // Gregtech fluids added by GRS do this for some reason
-        // As a consequence the fluid texture from /dull will not show up on anything from GRS.
-        if (actualLocation.contains("material_sets/fluid/") &&
-                (actualLocation.contains("/gas") || actualLocation.contains("/plasma"))) {
-            actualLocation = actualLocation.replace("material_sets/fluid/", "material_sets/dull/");
-        }
-
-        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(actualLocation);
+        return LabsTOPManager.FLUID_OUTPUT_ELEMENT;
     }
 }

@@ -3,19 +3,17 @@ package com.nomiceu.nomilabs.integration.top;
 import net.minecraft.item.ItemStack;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.theoneprobe.api.IItemStyle;
-import mcjty.theoneprobe.apiimpl.elements.ElementItemStack;
 
-public class LabsChancedItemStackElement extends ElementItemStack {
+public class LabsChancedItemOutputElement extends LabsItemOutputElement {
 
     private final int chance;
 
-    public LabsChancedItemStackElement(ItemStack itemStack, int chance, IItemStyle style) {
-        super(itemStack, style);
+    public LabsChancedItemOutputElement(ItemStack itemStack, int chance) {
+        super(itemStack);
         this.chance = chance;
     }
 
-    public LabsChancedItemStackElement(ByteBuf buf) {
+    public LabsChancedItemOutputElement(ByteBuf buf) {
         super(buf);
         chance = buf.readInt();
     }
@@ -27,6 +25,11 @@ public class LabsChancedItemStackElement extends ElementItemStack {
     }
 
     @Override
+    public String getTranslated() {
+        return super.getTranslated() + " (" + LabsTOPUtils.formatChance(chance) + ")";
+    }
+
+    @Override
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeInt(chance);
@@ -34,6 +37,6 @@ public class LabsChancedItemStackElement extends ElementItemStack {
 
     @Override
     public int getID() {
-        return LabsTOPManager.CHANCED_ITEM_STACK_ELEMENT;
+        return LabsTOPManager.CHANCED_ITEM_OUTPUT_ELEMENT;
     }
 }

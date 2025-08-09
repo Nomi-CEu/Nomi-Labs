@@ -6,16 +6,16 @@ import org.jetbrains.annotations.NotNull;
 
 import io.netty.buffer.ByteBuf;
 
-public class LabsChancedFluidStackElement extends LabsFluidStackElement {
+public class LabsChancedFluidOutputElement extends LabsFluidOutputElement {
 
     private final int chance;
 
-    public LabsChancedFluidStackElement(@NotNull FluidStack stack, int chance) {
+    public LabsChancedFluidOutputElement(@NotNull FluidStack stack, int chance) {
         super(stack);
         this.chance = chance;
     }
 
-    public LabsChancedFluidStackElement(@NotNull ByteBuf buf) {
+    public LabsChancedFluidOutputElement(@NotNull ByteBuf buf) {
         super(buf);
         chance = buf.readInt();
     }
@@ -27,6 +27,11 @@ public class LabsChancedFluidStackElement extends LabsFluidStackElement {
     }
 
     @Override
+    public String getTranslated() {
+        return super.getTranslated() + " (" + LabsTOPUtils.formatChance(chance) + ")";
+    }
+
+    @Override
     public void toBytes(@NotNull ByteBuf buf) {
         super.toBytes(buf);
         buf.writeInt(chance);
@@ -34,6 +39,6 @@ public class LabsChancedFluidStackElement extends LabsFluidStackElement {
 
     @Override
     public int getID() {
-        return LabsTOPManager.CHANCED_FLUID_STACK_ELEMENT;
+        return LabsTOPManager.CHANCED_FLUID_OUTPUT_ELEMENT;
     }
 }
