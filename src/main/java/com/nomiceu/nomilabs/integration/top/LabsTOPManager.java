@@ -21,6 +21,7 @@ public class LabsTOPManager {
     public static int CHANCED_FLUID_OUTPUT_ELEMENT;
     public static int QUANTUM_LINK_CONNECTION_ELEMENT;
     public static int TANK_GAUGE_ELEMENT;
+    public static int CREATIVE_ENERGY_ELEMENT;
 
     public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
@@ -32,7 +33,7 @@ public class LabsTOPManager {
         // GT TOP Integration
         TOP.registerProvider(new SteamMachineInfoProvider());
         TOP.registerProvider(new RecipeOutputsProvider());
-        TOP.registerProvider(new CreativeTankInfoProvider());
+        TOP.registerProvider(new CreativeBlockInfoProvider());
         TOP.registerProvider(new LabsTankInfoProvider());
 
         // AE2 TOP Integration
@@ -55,6 +56,7 @@ public class LabsTOPManager {
             QUANTUM_LINK_CONNECTION_ELEMENT = TOP
                     .registerElementFactory(LabsQuantumLinkChamberProvider.ConnectionInfoElement::new);
         TANK_GAUGE_ELEMENT = TOP.registerElementFactory(LabsTankGaugeElement::new);
+        CREATIVE_ENERGY_ELEMENT = TOP.registerElementFactory(LabsCreativeEnergyElement::new);
     }
 
     public static class TOPTooltipMessage implements IProbeInfoProvider {
