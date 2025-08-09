@@ -4,14 +4,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleCreativeTank;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
-import gregtech.api.GTValues;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.util.GTUtility;
@@ -52,7 +50,7 @@ public class CreativeBlockInfoProvider implements IProbeInfoProvider {
                 info.text(LabsTranslate.topTranslate("nomilabs.top.creative_energy.sink"));
             } else {
                 info.element(new LabsCreativeEnergyElement(GTUtility.getTierByVoltage(creative.getOutputVoltage()),
-                                                           (int) creative.getOutputAmperage()));
+                        (int) creative.getOutputAmperage()));
             }
         }
     }

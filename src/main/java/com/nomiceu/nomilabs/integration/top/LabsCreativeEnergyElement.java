@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.integration.top;
 
 import com.nomiceu.nomilabs.util.LabsTranslate;
+
 import gregtech.api.GTValues;
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
