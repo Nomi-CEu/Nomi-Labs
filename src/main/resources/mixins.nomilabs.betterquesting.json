@@ -9,7 +9,8 @@
   ],
   "client": [
     "GuiQuestMixin",
-    "GuiRectTextMixin"
+    "GuiRectTextMixin",
+    "TextEditorFrameMixin"
   ],
   "server": []
 }
