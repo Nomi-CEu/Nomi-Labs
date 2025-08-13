@@ -603,13 +603,6 @@ public class LabsConfig {
         @Config.RangeInt(min = 0)
         public int otherModsLinearXp = 0;
 
-        @Config.Comment({ "Whether to disable the opening of BQu's description editor in a separate window.",
-                "May fix crashes in Arm Macs, when cleanroom loader is being used.",
-                "This WILL cause a crash if the 'Show Window' button is clicked!",
-                "[default: false]" })
-        @Config.LangKey("config.nomilabs.advanced.disable_bqu_window")
-        public boolean disableBQuWindow = false;
-
         @Config.Comment({ "Whether to disable the Narrator.",
                 "Fixes crashes in Arm Macs, in some development environments.",
                 "This config does nothing outside of deobfuscated environments!",
