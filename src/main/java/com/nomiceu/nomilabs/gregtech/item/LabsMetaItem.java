@@ -50,13 +50,16 @@ public class LabsMetaItem extends StandardMetaItem {
                         new BucketItemFluidContainer())
                 .setMaterialInfo(new ItemMaterialInfo(new MaterialStack(Materials.Gold, M * 4)));
 
-        UNIVERSAL_CIRCUITS = new MetaItem.MetaValueItem[UV + 1]; // +1, due to ULV
-        for (int voltage = 0; voltage <= UV; voltage++) {
-            UNIVERSAL_CIRCUITS[voltage] = addItem(2 + voltage,
-                    "universal_circuit." + VN[voltage].toLowerCase(Locale.ROOT))
+        UNIVERSAL_CIRCUITS = new MetaItem.MetaValueItem[UHV + 1]; // +1, due to ULV
+        for (int voltage = 0; voltage <= UHV; voltage++) {
+            int currVoltage = voltage;
+            UNIVERSAL_CIRCUITS[voltage] = addItem(2 + currVoltage,
+                    "universal_circuit." + VN[currVoltage].toLowerCase(Locale.ROOT))
                             .addComponents(new TooltipBehavior(lines -> {
                                 lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.1"));
                                 lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.2"));
+                                lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.3",
+                                        VN[currVoltage]));
                             }));
         }
     }
