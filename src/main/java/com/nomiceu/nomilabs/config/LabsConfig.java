@@ -783,6 +783,15 @@ public class LabsConfig {
         @Config.RangeInt(min = 0)
         public int binomialThreshold = 20;
 
+        @Config.Comment({
+                "What the default mipmap levels should be. ONLY applies to those without an options.txt file; e,g. new instances.",
+                "Default vanilla mipmap level is 4.",
+                "[default: 4]"
+        })
+        @Config.LangKey("config.nomilabs.advanced.default_mipmap")
+        @Config.RangeInt(min = 0, max = 4)
+        public int defaultMipmap = 4;
+
         public static class WindowOverrides {
 
             @Config.Comment({ "Override for the Minecraft Window Title.",
