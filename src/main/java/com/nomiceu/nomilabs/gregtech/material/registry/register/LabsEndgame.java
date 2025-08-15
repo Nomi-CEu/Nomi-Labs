@@ -3,7 +3,6 @@ package com.nomiceu.nomilabs.gregtech.material.registry.register;
 import static com.nomiceu.nomilabs.gregtech.material.registry.LabsMaterials.*;
 import static com.nomiceu.nomilabs.util.LabsNames.makeLabsName;
 import static gregtech.api.GTValues.*;
-import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.*;
 
@@ -21,16 +20,14 @@ public class LabsEndgame {
         DraconicSuperconductor = new Material.Builder(28, makeLabsName("draconic_superconductor"))
                 .ingot()
                 .color(0xf5f0f4).iconSet(SHINY)
-                .cableProperties(V[MAX], 4, 0, true)
+                .cableProperties(V[MAX], 16, 0, true)
                 .build();
 
         KaptonK = new Material.Builder(50, makeLabsName("kapton_k")) // Hardmode Material
                 .ingot().liquid()
                 .color(0xffce52).iconSet(DULL)
                 .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION)
-                .components(Carbon, 22, Hydrogen, 10, Nitrogen, 2, Oxygen, 5)
+                .components(Oxydianiline, 3, PyromelliticDianhydride, 2)
                 .build();
-
-        KaptonK.setFormula("C6H2((CO)2N)2C6H4OC6H4", true);
     }
 }
