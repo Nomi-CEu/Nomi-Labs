@@ -50,29 +50,31 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     private EnergyCoreBuilder activeBuilder;
 
     @Unique
-    private EnergyCoreDestructor activeDestructor;
+    private EnergyCoreDestructor labs$activeDestructor;
 
     @Unique
-    public ManagedBool hasActiveBuilder;
+    public ManagedBool labs$hasActiveBuilder;
 
     @Unique
-    public ManagedBool hasActiveDestructor;
+    public ManagedBool labs$hasActiveDestructor;
 
     @Unique
-    public ManagedString expectedBlockString;
+    public ManagedString labs$expectedBlockString;
 
     @Unique
-    public ManagedVec3I expectedBlockPos;
+    public ManagedVec3I labs$expectedBlockPos;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void initFields(CallbackInfo ci) {
-        hasActiveBuilder = register(ACTIVE_BUILDER, new ManagedBool(false)).syncViaTile().saveToTile().trigerUpdate()
+        labs$hasActiveBuilder = register(ACTIVE_BUILDER, new ManagedBool(false)).syncViaTile().saveToTile()
+                .trigerUpdate()
                 .finish();
-        hasActiveDestructor = register(ACTIVE_DESTRUCTOR, new ManagedBool(false)).syncViaTile().saveToTile()
+        labs$hasActiveDestructor = register(ACTIVE_DESTRUCTOR, new ManagedBool(false)).syncViaTile().saveToTile()
                 .trigerUpdate().finish();
-        expectedBlockString = register(EXPECTED_STRING, new ManagedString("")).syncViaTile().saveToTile().trigerUpdate()
+        labs$expectedBlockString = register(EXPECTED_STRING, new ManagedString("")).syncViaTile().saveToTile()
+                .trigerUpdate()
                 .finish();
-        expectedBlockPos = register(EXPECTED_POS, new ManagedVec3I(new Vec3I(0, 0, 0))).syncViaTile().saveToTile()
+        labs$expectedBlockPos = register(EXPECTED_POS, new ManagedVec3I(new Vec3I(0, 0, 0))).syncViaTile().saveToTile()
                 .trigerUpdate().finish();
     }
 
@@ -138,14 +140,15 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
                 break;
 
             case 4:
-                if (!tile.active.value && !tile.coreValid.value && !hasActiveDestructor.value) {
-                    startOrStopBuilder(client);
+                if (!tile.active.value && !tile.coreValid.value && !labs$hasActiveDestructor.value) {
+                    labs$startOrStopBuilder(client);
                 }
                 break;
 
             case 7:
-                if (tile.coreValid.value && !tile.active.value && !hasActiveBuilder.value && tile.tier.value != 1) {
-                    startOrStopDestructor(client);
+                if (tile.coreValid.value && !tile.active.value && !labs$hasActiveBuilder.value &&
+                        tile.tier.value != 1) {
+                    labs$startOrStopDestructor(client);
                 }
                 break;
         }
@@ -172,115 +175,115 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
      */
     @Inject(method = "update()V", at = @At("HEAD"))
     public void updateDevEnv(CallbackInfo ci) {
-        updateLogic();
+        labs$updateLogic();
     }
 
     @SuppressWarnings({ "UnresolvedMixinReference", "MixinAnnotationTarget" }) // Removes Errors/Warnings in IDE
                                                                                // Inspections (not build time though)
     @Inject(method = "func_73660_a()V", at = @At("HEAD"))
     public void updateObf(CallbackInfo ci) {
-        updateLogic();
+        labs$updateLogic();
     }
 
     /**
      * Shared Function so we don't have dupe code.
      */
     @Unique
-    private void updateLogic() {
+    private void labs$updateLogic() {
         var tile = (TileEnergyStorageCore) (Object) this;
         if (tile.getWorld().isRemote) return;
-        if (activeBuilder == null) hasActiveBuilder.value = false; // Just in case
+        if (activeBuilder == null) labs$hasActiveBuilder.value = false; // Just in case
         else {
             if (activeBuilder.isDead())
-                hasActiveBuilder.value = false;
+                labs$hasActiveBuilder.value = false;
             // Don't update process or set active builder to null, that is done in the original update function
         }
 
-        if (activeDestructor == null) hasActiveDestructor.value = false; // Just in case
+        if (labs$activeDestructor == null) labs$hasActiveDestructor.value = false; // Just in case
         else {
-            if (activeDestructor.isDead()) {
-                activeDestructor = null;
-                hasActiveDestructor.value = false;
+            if (labs$activeDestructor.isDead()) {
+                labs$activeDestructor = null;
+                labs$hasActiveDestructor.value = false;
             } else
-                activeDestructor.updateDestructProcess();
+                labs$activeDestructor.updateDestructProcess();
         }
     }
 
     @Unique
-    private void startOrStopBuilder(EntityPlayer player) {
-        if (hasActiveBuilder.value) {
+    private void labs$startOrStopBuilder(EntityPlayer player) {
+        if (labs$hasActiveBuilder.value) {
             if (activeBuilder != null) // Just in case
-                ((StoppableProcess) activeBuilder).stop();
+                ((StoppableProcess) activeBuilder).labs$stop();
             activeBuilder = null;
-            hasActiveBuilder.value = false;
+            labs$hasActiveBuilder.value = false;
             return;
         }
         activeBuilder = new EnergyCoreBuilder((TileEnergyStorageCore) (Object) this, player);
         if (activeBuilder.isDead()) {
-            hasActiveBuilder.value = false;
+            labs$hasActiveBuilder.value = false;
             activeBuilder = null;
         } else
-            hasActiveBuilder.value = true;
+            labs$hasActiveBuilder.value = true;
     }
 
     @Unique
-    private void startOrStopDestructor(EntityPlayer player) {
-        if (hasActiveDestructor.value) {
-            if (activeDestructor != null) // Just in case
-                ((StoppableProcess) activeDestructor).stop();
-            activeDestructor = null;
-            hasActiveDestructor.value = false;
+    private void labs$startOrStopDestructor(EntityPlayer player) {
+        if (labs$hasActiveDestructor.value) {
+            if (labs$activeDestructor != null) // Just in case
+                ((StoppableProcess) labs$activeDestructor).labs$stop();
+            labs$activeDestructor = null;
+            labs$hasActiveDestructor.value = false;
             return;
         }
-        activeDestructor = new EnergyCoreDestructor((TileEnergyStorageCore) (Object) this, player);
-        if (activeDestructor.isDead()) {
-            hasActiveDestructor.value = false;
-            activeDestructor = null;
+        labs$activeDestructor = new EnergyCoreDestructor((TileEnergyStorageCore) (Object) this, player);
+        if (labs$activeDestructor.isDead()) {
+            labs$hasActiveDestructor.value = false;
+            labs$activeDestructor = null;
         } else
-            hasActiveDestructor.value = true;
+            labs$hasActiveDestructor.value = true;
     }
 
     @Override
     @Unique
-    public boolean hasActiveBuilder() {
-        return hasActiveBuilder.value;
+    public boolean labs$hasActiveBuilder() {
+        return labs$hasActiveBuilder.value;
     }
 
     @Override
     @Unique
-    public boolean hasActiveDestructor() {
-        return hasActiveDestructor.value;
+    public boolean labs$hasActiveDestructor() {
+        return labs$hasActiveDestructor.value;
     }
 
     @Override
     @Unique
     public void onLoad() {
         super.onLoad();
-        hasActiveBuilder.value = activeBuilder != null;
-        hasActiveDestructor.value = activeDestructor != null;
+        labs$hasActiveBuilder.value = activeBuilder != null;
+        labs$hasActiveDestructor.value = labs$activeDestructor != null;
     }
 
     @Override
     @Unique
-    public void setExpectedBlockString(String string) {
-        expectedBlockString.value = string;
+    public void labs$setExpectedBlockString(String string) {
+        labs$expectedBlockString.value = string;
     }
 
     @Override
     @Unique
-    public void setExpectedBlockPos(BlockPos pos) {
-        expectedBlockPos.vec = new Vec3I(pos);
+    public void labs$setExpectedBlockPos(BlockPos pos) {
+        labs$expectedBlockPos.vec = new Vec3I(pos);
     }
 
     @Override
     @Unique
-    public String getExpectedBlockString() {
-        return expectedBlockString.value;
+    public String labs$getExpectedBlockString() {
+        return labs$expectedBlockString.value;
     }
 
     @Override
     @Unique
-    public Vec3I getExpectedBlockPos() {
-        return expectedBlockPos.vec;
+    public Vec3I labs$getExpectedBlockPos() {
+        return labs$expectedBlockPos.vec;
     }
 }

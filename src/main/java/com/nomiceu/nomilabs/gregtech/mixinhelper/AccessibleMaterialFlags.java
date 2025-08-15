@@ -4,5 +4,5 @@ import gregtech.api.unification.material.info.MaterialFlag;
 
 public interface AccessibleMaterialFlags {
 
-    void removeFlags(MaterialFlag... toRemove);
+    void labs$removeFlags(MaterialFlag... toRemove);
 }

@@ -50,10 +50,10 @@ public class GuiEnergyCoreLogic {
         GuiHelper.drawCenteredString(fontRenderer, coreText, gui.guiLeft + gui.xSize / 2, gui.guiTop + 36, coreColour,
                 gui.tile.coreValid.value);
         if (!gui.tile.coreValid.value) {
-            var pos = improvedTile.getExpectedBlockPos();
+            var pos = improvedTile.labs$getExpectedBlockPos();
             GuiHelper.drawCenteredSplitString(fontRenderer,
                     translate("ecore.gui.invalid_block.txt", pos.x, pos.y, pos.z,
-                            improvedTile.getExpectedBlockString()),
+                            improvedTile.labs$getExpectedBlockString()),
                     gui.guiLeft + gui.xSize / 2, gui.guiTop + 46, 150, coreColour, false);
         }
     }

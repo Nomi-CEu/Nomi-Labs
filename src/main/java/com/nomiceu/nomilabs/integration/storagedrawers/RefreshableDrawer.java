@@ -2,5 +2,5 @@ package com.nomiceu.nomilabs.integration.storagedrawers;
 
 public interface RefreshableDrawer {
 
-    default void refreshAfterDrawerKey() {}
+    default void labs$refreshAfterDrawerKey() {}
 }
