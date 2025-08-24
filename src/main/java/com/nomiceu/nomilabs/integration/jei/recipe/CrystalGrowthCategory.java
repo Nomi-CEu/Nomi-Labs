@@ -1,4 +1,6 @@
-package com.nomiceu.nomilabs.integration.jei;
+package com.nomiceu.nomilabs.integration.jei.recipe;
+
+import static com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthRecipeHandler.CrystalGrowthRecipe;
 
 import net.bdew.ae2stuff.AE2StuffTags;
 import net.minecraft.client.Minecraft;
@@ -15,7 +17,7 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 
-public class CrystalGrowthCategory implements IRecipeCategory<CrystalGrowthRecipeWrapper> {
+public class CrystalGrowthCategory implements IRecipeCategory<CrystalGrowthRecipe> {
 
     public static final String UID = LabsValues.AE2_STUFF_MODID + ":crystal_growth_chamber";
 
@@ -67,7 +69,7 @@ public class CrystalGrowthCategory implements IRecipeCategory<CrystalGrowthRecip
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, @NotNull CrystalGrowthRecipeWrapper recipeWrapper,
+    public void setRecipe(IRecipeLayout recipeLayout, @NotNull CrystalGrowthRecipe recipe,
                           @NotNull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
 

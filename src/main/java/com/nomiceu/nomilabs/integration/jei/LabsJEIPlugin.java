@@ -1,7 +1,8 @@
 package com.nomiceu.nomilabs.integration.jei;
 
 import static appeng.items.misc.ItemCrystalSeed.*;
-import static com.nomiceu.nomilabs.integration.jei.CrystalGrowthRecipeHandler.*;
+import static com.nomiceu.nomilabs.integration.jei.recipe.ChargerRecipeHandler.ChargerRecipe;
+import static com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthRecipeHandler.*;
 import static com.nomiceu.nomilabs.util.LabsTranslate.Translatable;
 
 import java.util.*;
@@ -30,6 +31,10 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
 import com.nomiceu.nomilabs.groovy.mixinhelper.LabsJEIApplied;
 import com.nomiceu.nomilabs.integration.jei.mixinhelper.AccessibleModRegistry;
+import com.nomiceu.nomilabs.integration.jei.recipe.ChargerCategory;
+import com.nomiceu.nomilabs.integration.jei.recipe.ChargerRecipeHandler;
+import com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthCategory;
+import com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthRecipeHandler;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
 
@@ -70,6 +75,10 @@ public class LabsJEIPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(@NotNull IRecipeCategoryRegistration registry) {
+        if (Loader.isModLoaded(LabsValues.AE2_MODID)) {
+            registry.addRecipeCategories(new ChargerCategory(registry.getJeiHelpers().getGuiHelper()));
+        }
+
         if (Loader.isModLoaded(LabsValues.AE2_STUFF_MODID)) {
             registry.addRecipeCategories(new CrystalGrowthCategory(registry.getJeiHelpers().getGuiHelper()));
         }
@@ -79,6 +88,10 @@ public class LabsJEIPlugin implements IModPlugin {
     public void register(IModRegistry registry) {
         var jeiHelpers = registry.getJeiHelpers();
         itemRegistry = registry.getIngredientRegistry();
+
+        if (Loader.isModLoaded(LabsValues.AE2_MODID)) {
+            registerChargerRecipes(registry);
+        }
 
         if (Loader.isModLoaded(LabsValues.AE2_STUFF_MODID)) {
             registerCrystalGrowthRecipes(registry);
@@ -96,6 +109,24 @@ public class LabsJEIPlugin implements IModPlugin {
 
         // GrS JEI Fix
         LabsJEIApplied.afterRegisterApplied = false;
+    }
+
+    public static void registerChargerRecipes(IModRegistry registry) {
+        // Register Recipe Handling & Icon/Catalyst
+        registry.handleRecipes(ChargerRecipe.class, new ChargerRecipeHandler(), CrystalGrowthCategory.UID);
+
+        IDefinitions defs = AEApi.instance().definitions();
+
+        Optional<ItemStack> charger = defs.blocks().charger().maybeStack(1);
+        charger.ifPresent(itemStack -> registry.addRecipeCatalyst(itemStack, ChargerCategory.UID));
+
+        // Register Recipe
+        Optional<ItemStack> certus = defs.materials().certusQuartzCrystal().maybeStack(1);
+        Optional<ItemStack> charged = defs.materials().certusQuartzCrystalCharged().maybeStack(1);
+
+        if (certus.isPresent() && charged.isPresent())
+            registry.addRecipes(Collections.singletonList(new ChargerRecipe(certus.get(), charged.get())),
+                    ChargerCategory.UID);
     }
 
     public static void registerCrystalGrowthRecipes(IModRegistry registry) {
