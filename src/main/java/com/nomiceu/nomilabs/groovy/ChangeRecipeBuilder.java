@@ -83,7 +83,7 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         for (var input : inputs) {
             if (input instanceof IntCircuitIngredient circuit) {
                 if (remove) inputs.remove(input);
-                return ((AccessibleIntCircuitIngredient) circuit).getMeta();
+                return ((AccessibleIntCircuitIngredient) circuit).labs$getMeta();
             }
         }
         return -1;
@@ -491,6 +491,6 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
     }
 
     private static GTRecipeInput copy(GTRecipeInput in) {
-        return ((AccessibleGTRecipeInput) in).accessibleCopy();
+        return ((AccessibleGTRecipeInput) in).labs$accessibleCopy();
     }
 }

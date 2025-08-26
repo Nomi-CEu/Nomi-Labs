@@ -83,29 +83,29 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
         var improvedTile = (ImprovedTileEnergyCore) guiCore.tile;
         tierUp.visible = tierDown.visible = !guiCore.tile.active.value;
         // Have toggle guide be visible but disabled when tier is 1
-        toggleGuide.visible = ((!guiCore.tile.coreValid.value && !improvedTile.hasActiveDestructor()) ||
+        toggleGuide.visible = ((!guiCore.tile.coreValid.value && !improvedTile.labs$hasActiveDestructor()) ||
                 guiCore.tile.tier.value == 1) && !guiCore.tile.active.value;
-        destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.hasActiveDestructor()) &&
+        destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.labs$hasActiveDestructor()) &&
                 !guiCore.tile.active.value && guiCore.tile.tier.value != 1;
         toggleGuide.enabled = guiCore.tile.tier.value != 1;
 
         activate.enabled = guiCore.tile.coreValid.value && guiCore.tile.stabilizersOK.value;
 
-        assembleCore.enabled = !improvedTile.hasActiveDestructor();
+        assembleCore.enabled = !improvedTile.labs$hasActiveDestructor();
         if (DraconicHelpers.instantBuilder())
             assembleCore.displayString = translate("button.de.assembleCore.instant.txt");
         else {
-            if (improvedTile.hasActiveBuilder())
+            if (improvedTile.labs$hasActiveBuilder())
                 assembleCore.displayString = translate("button.de.assembleCore.stop.txt");
             else
                 assembleCore.displayString = translate("button.de.assembleCore.start.txt");
         }
 
-        destructCore.enabled = !improvedTile.hasActiveBuilder();
+        destructCore.enabled = !improvedTile.labs$hasActiveBuilder();
         if (DraconicHelpers.instantDestructor())
             destructCore.displayString = translate("button.de.destructCore.instant.txt");
         else {
-            if (improvedTile.hasActiveDestructor())
+            if (improvedTile.labs$hasActiveDestructor())
                 destructCore.displayString = translate("button.de.destructCore.stop.txt");
             else
                 destructCore.displayString = translate("button.de.destructCore.start.txt");

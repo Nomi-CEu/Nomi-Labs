@@ -16,7 +16,7 @@ public class EntityPlayerSPMixin implements AccessibleEntityPlayerSP {
     protected Minecraft mc;
 
     @Override
-    public GuiIngame getGuiIngame() {
+    public GuiIngame labs$getGuiIngame() {
         return mc.ingameGUI;
     }
 }
