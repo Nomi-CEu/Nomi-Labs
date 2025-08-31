@@ -37,6 +37,7 @@ import com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthCategory;
 import com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthRecipeHandler;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.util.ItemTagMeta;
+import com.nomiceu.nomilabs.util.LabsSide;
 
 import appeng.api.AEApi;
 import appeng.api.definitions.IDefinitions;
@@ -202,6 +203,7 @@ public class LabsJEIPlugin implements IModPlugin {
 
     /* Hiding Helpers */
     public static void hideItemNBTMatch(ItemStack itemStack, Function<NBTTagCompound, Boolean> condition) {
+        if (!LabsSide.isClient()) return;
         IGNORE_NBT_HIDE.add(Pair.of(itemStack, condition));
     }
 
@@ -213,7 +215,7 @@ public class LabsJEIPlugin implements IModPlugin {
                 ReloadableRegistryManager.removeRegistryEntry(ForgeRegistries.RECIPES, recipe.getRegistryName());
         }
 
-        IGNORE_NBT_HIDE.add(Pair.of(itemStack, condition));
+        hideItemNBTMatch(itemStack, condition);
     }
 
     public static List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> getIgnoreNbtHide() {
@@ -222,10 +224,12 @@ public class LabsJEIPlugin implements IModPlugin {
 
     /* Descriptions */
     public static void addDescription(@NotNull ItemStack stack, Translatable... description) {
+        if (!LabsSide.isClient()) return;
         addDescription(DESCRIPTIONS, new ItemTagMeta(stack), (list) -> Collections.addAll(list, description));
     }
 
     public static void addGroovyDescription(@NotNull ItemStack stack, Translatable... description) {
+        if (!LabsSide.isClient()) return;
         addDescription(GROOVY_DESCRIPTIONS, new ItemTagMeta(stack), (list) -> Collections.addAll(list, description));
     }
 
@@ -238,12 +242,14 @@ public class LabsJEIPlugin implements IModPlugin {
     /* Recipe Output Tooltip */
     public static void addRecipeOutputTooltip(ResourceLocation recipeName,
                                               Translatable... tooltip) {
+        if (!LabsSide.isClient()) return;
         addRecipeOutputTooltip(RECIPE_OUTPUT_TOOLTIPS, recipeName,
                 (list) -> Collections.addAll(list, tooltip));
     }
 
     public static void addGroovyRecipeOutputTooltip(ResourceLocation recipeName,
                                                     Translatable... tooltip) {
+        if (!LabsSide.isClient()) return;
         addRecipeOutputTooltip(GROOVY_RECIPE_OUTPUT_TOOLTIPS, recipeName,
                 (list) -> Collections.addAll(list, tooltip));
     }
@@ -273,6 +279,7 @@ public class LabsJEIPlugin implements IModPlugin {
     /* Recipe Input Tooltip */
     public static void addRecipeInputTooltip(@NotNull ResourceLocation recipeName, int slotIndex,
                                              Translatable... tooltip) {
+        if (!LabsSide.isClient()) return;
         if (slotIndex < 0 || slotIndex > 8)
             throw new IllegalArgumentException("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
 
@@ -282,6 +289,7 @@ public class LabsJEIPlugin implements IModPlugin {
 
     public static void addGroovyRecipeInputTooltip(@NotNull ResourceLocation recipeName, int slotIndex,
                                                    Translatable... tooltip) {
+        if (!LabsSide.isClient()) return;
         if (slotIndex < 0 || slotIndex > 8) {
             GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
             return;
@@ -327,6 +335,7 @@ public class LabsJEIPlugin implements IModPlugin {
     }
 
     public static void addRecipeCatalystOverride(String category, Object... catalyst) {
+        if (!LabsSide.isClient()) return;
         List<Object> result = new ArrayList<>();
         Collections.addAll(result, catalyst);
         CATALYST_OVERRIDE.put(category, result);

@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
@@ -35,6 +37,7 @@ public class GroovyTooltipChanger {
         OPERATIONS.clear();
     }
 
+    @SideOnly(Side.CLIENT)
     public static void modifyTooltip(List<String> tooltip, ItemStack stack) {
         if (stack.isEmpty()) return;
         ItemMeta itemMeta = new ItemMeta(stack);

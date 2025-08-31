@@ -4,6 +4,8 @@ import static com.nomiceu.nomilabs.tooltip.LabsTooltipHelper.*
 
 // (Item) Tooltip Helper, Goes in Post Init.
 
+// You MAY put side only, client, on tooltip scripts to save computation; but it is NOT required.
+
 // Note that tooltips apply to all stacks of that Item and Meta, regardless of NBT Tag.
 // If meta is not provided, tooltip only applies to item of meta 0.
 
