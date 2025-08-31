@@ -34,6 +34,7 @@ import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.widgets.ToggleButtonWidget;
 import gregtech.api.items.itemhandlers.GTItemStackHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.client.renderer.texture.custom.QuantumStorageRenderer;
 import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
 
 /**
@@ -41,6 +42,7 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
  * <p>
  * Handles gui changes and syncing, and defines logic used by item handler checks in other mixins.
  * Also, checks locked stack when inserting directly into export items.
+ * Also, makes quantum chest rendering take into account 'export slot' items.
  */
 @Mixin(value = MetaTileEntityQuantumChest.class, remap = false)
 public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity implements LockableQuantumChest {
@@ -53,9 +55,6 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
     @Shadow
     protected long itemsStoredInside;
-
-    @Shadow
-    protected ItemStack virtualItemStack;
 
     @Shadow
     protected static boolean areItemStackIdentical(ItemStack first, ItemStack second) {
@@ -116,6 +115,15 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
                 labs$stackInserted(getStackInSlot(0));
             }
         };
+    }
+
+    @Inject(method = "renderMetaTileEntity(DDDF)V", at = @At("HEAD"), cancellable = true)
+    private void accountExportItems(double x, double y, double z, float partialTicks, CallbackInfo ci) {
+        ci.cancel();
+
+        ItemStack exportItems = getExportItems().getStackInSlot(0);
+        QuantumStorageRenderer.renderChestStack(x, y, z, (MetaTileEntityQuantumChest) (Object) this, exportItems,
+                itemsStoredInside + exportItems.getCount(), partialTicks);
     }
 
     /* Gui Changes */
@@ -238,14 +246,6 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
         // Update locked stack
         if (locked) {
-            // Try virtual
-            if (itemsStoredInside > 0L && !virtualItemStack.isEmpty()) {
-                labs$lockedStack = virtualItemStack.copy();
-                labs$lockedStack.setCount(1);
-                return;
-            }
-
-            // Try export items
             ItemStack exportItems = getExportItems().getStackInSlot(0);
             if (!exportItems.isEmpty()) {
                 labs$lockedStack = exportItems.copy();
