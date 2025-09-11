@@ -65,6 +65,8 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
     @Final
     private static String NBT_ITEMSTACK;
 
+    @Shadow
+    protected ItemStack virtualItemStack;
     @Unique
     private boolean labs$locked = false;
 
@@ -122,7 +124,7 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
         ci.cancel();
 
         ItemStack exportItems = getExportItems().getStackInSlot(0);
-        QuantumStorageRenderer.renderChestStack(x, y, z, (MetaTileEntityQuantumChest) (Object) this, exportItems,
+        QuantumStorageRenderer.renderChestStack(x, y, z, (MetaTileEntityQuantumChest) (Object) this, virtualItemStack,
                 itemsStoredInside + exportItems.getCount(), partialTicks);
     }
 
