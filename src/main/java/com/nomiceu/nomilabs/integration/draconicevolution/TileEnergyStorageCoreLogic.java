@@ -35,12 +35,12 @@ public class TileEnergyStorageCoreLogic {
         if (!(tile.coreValid.value = tile.coreStructure.checkTier(tile.tier.value))) {
             BlockPos pos = helper.invalidBlock;
 
-            improvedTile.setExpectedBlockString(helper.expectedBlockState == null ? "null" :
+            improvedTile.labs$setExpectedBlockString(helper.expectedBlockState == null ? "null" :
                     new ItemStack(helper.expectedBlockState.getBlock(), 1,
                             helper.expectedBlockState.getBlock().getMetaFromState(helper.expectedBlockState))
                                     .getDisplayName());
 
-            improvedTile.setExpectedBlockPos(pos);
+            improvedTile.labs$setExpectedBlockPos(pos);
             valid = false;
         }
 
@@ -51,7 +51,7 @@ public class TileEnergyStorageCoreLogic {
 
         tile.structureValid.value = valid;
         if (valid) {
-            improvedTile.setExpectedBlockString("");
+            improvedTile.labs$setExpectedBlockString("");
         }
 
         return valid;

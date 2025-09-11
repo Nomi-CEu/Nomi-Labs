@@ -17,6 +17,6 @@ public class ItemDrawerKeyMixin {
 
     @Inject(method = "handleDrawerAttributes", at = @At("RETURN"))
     private void refreshDrawer(IDrawerAttributesModifiable attrs, CallbackInfo ci) {
-        ((RefreshableDrawer) attrs).refreshAfterDrawerKey();
+        ((RefreshableDrawer) attrs).labs$refreshAfterDrawerKey();
     }
 }

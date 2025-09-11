@@ -52,16 +52,6 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
         super(width, height);
     }
 
-    /**
-     * Makes recipes 'strict'. This means, in JEI, the list of 'matching stacks' will be displayed
-     * exactly as set, instead of expanding wildcards and removing duplicates.
-     */
-    @Unique
-    public CraftingRecipeBuilder.Shaped strictJEIHandling() {
-        labs$isStrict = true;
-        return (CraftingRecipeBuilder.Shaped) (Object) this;
-    }
-
     @Inject(method = "register()Lnet/minecraft/item/crafting/IRecipe;", at = @At("RETURN"))
     private void setStrict(CallbackInfoReturnable<IRecipe> cir) {
         var val = cir.getReturnValue();
@@ -70,13 +60,26 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
         if (labs$isStrict) strict.labs$setStrict();
     }
 
+    /**
+     * Makes recipes 'strict'. This means, in JEI, the list of 'matching stacks' will be displayed
+     * exactly as set, instead of expanding wildcards and removing duplicates.
+     */
     @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
+    public CraftingRecipeBuilder.Shaped strictJEIHandling() {
+        labs$isStrict = true;
+        return (CraftingRecipeBuilder.Shaped) (Object) this;
+    }
+
+    @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunction recipeClassFunction) {
         this.labs$recipeClassFunction = recipeClassFunction;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
     @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunctionSimplified recipeClassFunction) {
         this.labs$recipeClassFunction = (output1, width1, height1, ingredients, _mirrored, _recipeFunction,
                                          _recipeAction) -> recipeClassFunction.createRecipe(output1, width1, height1,
@@ -85,12 +88,14 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
     }
 
     @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     public CraftingRecipeBuilder.Shaped setOutputTooltip(LabsTranslate.Translatable... tooltip) {
         labs$outputTooltip = tooltip;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
     @Unique
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     public CraftingRecipeBuilder.Shaped setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
         if (slotIndex < 0 || slotIndex > 8) {
             GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");

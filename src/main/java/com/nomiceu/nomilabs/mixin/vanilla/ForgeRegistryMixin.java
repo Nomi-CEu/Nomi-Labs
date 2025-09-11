@@ -49,7 +49,7 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>>
     private Set<Integer> blocked;
 
     @Unique
-    private final Map<Integer, ResourceLocation> remapped = Maps.newHashMap();
+    private final Map<Integer, ResourceLocation> labs$remapped = Maps.newHashMap();
 
     @Inject(method = "processMissingEvent",
             at = @At(value = "INVOKE",
@@ -65,7 +65,7 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>>
                              @Local(ordinal = 2) int realId) {
         if (remap.id != realId) {
             block(remap.id);
-            remapped.put(remap.id, remap.getTarget().getRegistryName());
+            labs$remapped.put(remap.id, remap.getTarget().getRegistryName());
             NomiLabs.LOGGER.warn(
                     "[Forge Registry] Remap could not assign Id {} for Object {}! If this is of type BLOCK, without Data Fixers, after initial load, blocks will no longer be remapped!",
                     remap.id, remap.getTarget().getRegistryName());
@@ -78,33 +78,33 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>>
 
         var remFrom = (RemappableForgeRegistry) from;
 
-        remFrom.getBlocked().forEach(this::block);
+        remFrom.labs$getBlocked().forEach(this::block);
 
-        remapped.clear();
-        remFrom.getRemapped().forEach(this::addRemapped);
+        labs$remapped.clear();
+        remFrom.labs$getRemapped().forEach(this::labs$addRemapped);
     }
 
     @Inject(method = "makeSnapshot", at = @At("RETURN"))
     public void addRemappedToSnapshot(CallbackInfoReturnable<ForgeRegistry.Snapshot> cir) {
         ForgeRegistry.Snapshot ret = cir.getReturnValue();
-        ((RemappableSnapshot) ret).addAllRemapped(remapped);
+        ((RemappableSnapshot) ret).labs$addAllRemapped(labs$remapped);
     }
 
     @Override
     @Unique
-    public void addRemapped(int id, ResourceLocation key) {
-        remapped.put(id, key);
+    public void labs$addRemapped(int id, ResourceLocation key) {
+        labs$remapped.put(id, key);
     }
 
     @Override
     @Unique
-    public Map<Integer, ResourceLocation> getRemapped() {
-        return remapped;
+    public Map<Integer, ResourceLocation> labs$getRemapped() {
+        return labs$remapped;
     }
 
     @Override
     @Unique
-    public Set<Integer> getBlocked() {
+    public Set<Integer> labs$getBlocked() {
         return blocked;
     }
 }

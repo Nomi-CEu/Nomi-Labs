@@ -4,5 +4,5 @@ import net.minecraftforge.client.settings.KeyModifier;
 
 public interface AccessibleKeyBinding {
 
-    void setDefaultKeyModifierAndCode(KeyModifier modifier, int keyCode);
+    void labs$setDefaultKeyModifierAndCode(KeyModifier modifier, int keyCode);
 }
