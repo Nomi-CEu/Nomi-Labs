@@ -143,7 +143,7 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
     private ModularUI.Builder addLockingButton(ModularUI.Builder instance, IUIHolder holder, EntityPlayer player) {
         return instance.widget(
                 new ToggleButtonWidget(25, 64, 18, 18,
-                        GuiTextures.BUTTON_LOCK, this::labs$isLocked, this::labs$setLocked)
+                        GuiTextures.BUTTON_LOCK, this::labs$isLockedInternal, this::labs$setLocked)
                                 .setTooltipText("nomilabs.gui.item_lock.tooltip")
                                 .shouldUseBaseBackground());
     }
@@ -225,12 +225,13 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
     private void receiveLockedUpdate(int dataId, PacketBuffer buf, CallbackInfo ci) {
         if (dataId == GregtechDataCodes.UPDATE_LOCKED_STATE) {
             labs$setLocked(buf.readBoolean());
+            scheduleRenderUpdate();
         }
     }
 
     /* Helper */
     @Unique
-    private boolean labs$isLocked() {
+    private boolean labs$isLockedInternal() {
         return labs$locked;
     }
 
@@ -240,8 +241,8 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
         labs$locked = locked;
         if (!getWorld().isRemote) {
-            markDirty();
             writeCustomData(GregtechDataCodes.UPDATE_LOCKED_STATE, buf -> buf.writeBoolean(locked));
+            markDirty();
         }
 
         // Update locked stack
@@ -255,6 +256,12 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
         }
 
         labs$lockedStack = ItemStack.EMPTY;
+    }
+
+    @Unique
+    @Override
+    public boolean labs$isLocked() {
+        return labs$locked && !labs$lockedStack.isEmpty();
     }
 
     @Unique

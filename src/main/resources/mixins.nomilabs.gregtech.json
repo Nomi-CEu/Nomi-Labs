@@ -64,7 +64,8 @@
   ],
   "client": [
     "MetaTileEntityAssemblyLineClientMixin",
-    "MetaTileEntityLargeBoilerClientMixin"
+    "MetaTileEntityLargeBoilerClientMixin",
+    "QuantumStorageRendererMixin"
   ],
   "server": []
 }
