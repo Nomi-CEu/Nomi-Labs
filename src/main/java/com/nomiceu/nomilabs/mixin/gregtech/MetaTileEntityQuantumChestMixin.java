@@ -34,6 +34,7 @@ import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.widgets.ToggleButtonWidget;
 import gregtech.api.items.itemhandlers.GTItemStackHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.texture.custom.QuantumStorageRenderer;
 import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
 
@@ -180,21 +181,27 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
     @Inject(method = "receiveInitialSyncData", at = @At("RETURN"))
     private void readLockedInitial(PacketBuffer buf, CallbackInfo ci) {
-        labs$locked = buf.readBoolean();
+        try {
+            NBTTagCompound export = buf.readCompoundTag();
+            if (export != null)
+                GTUtility.readItems(exportItems, "ExportInventory", export);
 
-        if (labs$locked) {
-            try {
+            labs$locked = buf.readBoolean();
+            if (labs$locked) {
                 labs$lockedStack = buf.readItemStack();
-            } catch (IOException e) {
-                NomiLabs.LOGGER.warn(
-                        "[QuantumChestMixin] Failed to load locked stack from tile at {} from buffer in initial sync!",
-                        getPos());
             }
+        } catch (IOException e) {
+            NomiLabs.LOGGER.error(
+                    "[QuantumChestMixin] Failed to load info from tile at {} from buffer in initial sync!", getPos());
         }
     }
 
     @Inject(method = "writeInitialSyncData", at = @At("RETURN"))
     private void writeLockedInitial(PacketBuffer buf, CallbackInfo ci) {
+        var exportCompound = new NBTTagCompound();
+        GTUtility.writeItems(exportItems, "ExportInventory", exportCompound);
+        buf.writeCompoundTag(exportCompound);
+
         buf.writeBoolean(labs$locked);
 
         if (labs$locked) {

@@ -10,6 +10,7 @@ import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleCreativeTank;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
+import gregtech.api.GTValues;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.util.GTUtility;
@@ -49,8 +50,10 @@ public class CreativeBlockInfoProvider implements IProbeInfoProvider {
                 // Sink
                 info.text(LabsTranslate.topTranslate("nomilabs.top.creative_energy.sink"));
             } else {
-                info.element(new LabsCreativeEnergyElement(GTUtility.getTierByVoltage(creative.getOutputVoltage()),
-                        (int) creative.getOutputAmperage()));
+                info.element(new LabsLangKeyWithArgsElement(
+                        "nomilabs.top.creative_energy.prov",
+                        GTValues.VNF[GTUtility.getTierByVoltage(creative.getOutputVoltage())],
+                        Long.toString(creative.getOutputAmperage())));
             }
         }
     }

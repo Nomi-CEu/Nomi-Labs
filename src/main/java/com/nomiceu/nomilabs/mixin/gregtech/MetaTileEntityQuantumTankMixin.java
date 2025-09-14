@@ -75,7 +75,11 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity impl
         try {
             if (isLocked() && buf.readBoolean())
                 lockedFluid = FluidStack.loadFluidStackFromNBT(buf.readCompoundTag());
-        } catch (IOException ignored) {}
+        } catch (IOException e) {
+            NomiLabs.LOGGER.error(
+                    "[QuantumTankMixin] Failed to load info from tile at {} from buffer in initial sync!",
+                    getPos());
+        }
     }
 
     @Inject(method = "receiveCustomData", at = @At("TAIL"))

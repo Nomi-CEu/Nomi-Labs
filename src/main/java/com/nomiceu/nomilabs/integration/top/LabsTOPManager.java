@@ -21,7 +21,8 @@ public class LabsTOPManager {
     public static int CHANCED_FLUID_OUTPUT_ELEMENT;
     public static int QUANTUM_LINK_CONNECTION_ELEMENT;
     public static int TANK_GAUGE_ELEMENT;
-    public static int CREATIVE_ENERGY_ELEMENT;
+    public static int ITEM_NAME_ELEMENT;
+    public static int TEXT_WITH_ARGS_ELEMENT;
 
     public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
@@ -56,7 +57,8 @@ public class LabsTOPManager {
             QUANTUM_LINK_CONNECTION_ELEMENT = TOP
                     .registerElementFactory(LabsQuantumLinkChamberProvider.ConnectionInfoElement::new);
         TANK_GAUGE_ELEMENT = TOP.registerElementFactory(LabsTankGaugeElement::new);
-        CREATIVE_ENERGY_ELEMENT = TOP.registerElementFactory(LabsCreativeEnergyElement::new);
+        ITEM_NAME_ELEMENT = TOP.registerElementFactory(LabsItemNameElement::new);
+        TEXT_WITH_ARGS_ELEMENT = TOP.registerElementFactory(LabsLangKeyWithArgsElement::new);
     }
 
     public static class TOPTooltipMessage implements IProbeInfoProvider {
