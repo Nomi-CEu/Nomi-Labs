@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMetaTileEntityQuantumTank;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.LockableQuantumStorage;
 
 import cofh.thermalexpansion.block.storage.TileTank;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -106,7 +106,7 @@ public class LabsTankInfoProvider implements IProbeInfoProvider {
         // GT Super/Quantum
         if (tile instanceof IGregTechTileEntity gt) {
             MetaTileEntity mte = gt.getMetaTileEntity();
-            if (mte instanceof AccessibleMetaTileEntityQuantumTank tank) {
+            if (mte instanceof LockableQuantumStorage<?>tank) {
                 return tank.labs$isLocked();
             }
         }

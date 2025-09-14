@@ -273,6 +273,11 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
         return labs$locked && !labs$lockedStack.isEmpty();
     }
 
+    @Override
+    public ItemStack labs$getLocked() {
+        return labs$lockedStack;
+    }
+
     @Unique
     @Override
     public boolean labs$lockedBlocksStack(ItemStack stack) {

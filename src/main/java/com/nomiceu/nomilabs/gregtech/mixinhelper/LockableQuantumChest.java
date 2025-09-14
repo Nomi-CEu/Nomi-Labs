@@ -2,7 +2,7 @@ package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
 import net.minecraft.item.ItemStack;
 
-public interface LockableQuantumChest extends LockableQuantumStorage {
+public interface LockableQuantumChest extends LockableQuantumStorage<ItemStack> {
 
     boolean labs$lockedBlocksStack(ItemStack stack);
 
