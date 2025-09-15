@@ -1,8 +1,6 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
-public interface LockableQuantumStorage<T> {
+public interface LockableQuantumStorage {
 
     boolean labs$isLocked();
-
-    T labs$getLocked();
 }

@@ -66,8 +66,6 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
     @Final
     private static String NBT_ITEMSTACK;
 
-    @Shadow
-    protected ItemStack virtualItemStack;
     @Unique
     private boolean labs$locked = false;
 
@@ -121,12 +119,23 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
     }
 
     @Inject(method = "renderMetaTileEntity(DDDF)V", at = @At("HEAD"), cancellable = true)
-    private void accountExportItems(double x, double y, double z, float partialTicks, CallbackInfo ci) {
+    private void accountExportItemsOrLocked(double x, double y, double z, float partialTicks, CallbackInfo ci) {
         ci.cancel();
 
-        ItemStack exportItems = getExportItems().getStackInSlot(0);
-        QuantumStorageRenderer.renderChestStack(x, y, z, (MetaTileEntityQuantumChest) (Object) this, virtualItemStack,
-                itemsStoredInside + exportItems.getCount(), partialTicks);
+        ItemStack stack = getExportItems().getStackInSlot(0);
+        long amount = 0;
+        if (stack.isEmpty()) {
+            if (labs$isLocked()) {
+                // Use locked stack, set count to -1 to bypass initial checks; we can normalise it to zero later
+                stack = labs$lockedStack;
+                amount = -1;
+            }
+        } else {
+            amount = itemsStoredInside + stack.getCount();
+        }
+
+        QuantumStorageRenderer.renderChestStack(x, y, z, (MetaTileEntityQuantumChest) (Object) this, stack, amount,
+                partialTicks);
     }
 
     /* Gui Changes */
@@ -271,11 +280,6 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
     @Override
     public boolean labs$isLocked() {
         return labs$locked && !labs$lockedStack.isEmpty();
-    }
-
-    @Override
-    public ItemStack labs$getLocked() {
-        return labs$lockedStack;
     }
 
     @Unique

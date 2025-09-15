@@ -106,7 +106,7 @@ public class LabsTankInfoProvider implements IProbeInfoProvider {
         // GT Super/Quantum
         if (tile instanceof IGregTechTileEntity gt) {
             MetaTileEntity mte = gt.getMetaTileEntity();
-            if (mte instanceof LockableQuantumStorage<?>tank) {
+            if (mte instanceof LockableQuantumStorage tank) {
                 return tank.labs$isLocked();
             }
         }

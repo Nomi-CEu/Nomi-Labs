@@ -50,8 +50,8 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank;
  * Also, continues to render counts or fluid if tank is empty but locked.
  */
 @Mixin(value = MetaTileEntityQuantumTank.class, remap = false)
-public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity implements CustomFluidTankProvider,
-                                                     LockableQuantumStorage<FluidStack> {
+public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
+                                                     implements CustomFluidTankProvider, LockableQuantumStorage {
 
     @Shadow
     protected abstract boolean isLocked();
@@ -198,11 +198,5 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity impl
     @Override
     public boolean labs$isLocked() {
         return isLocked() && lockedFluid != null;
-    }
-
-    @Unique
-    @Override
-    public FluidStack labs$getLocked() {
-        return lockedFluid;
     }
 }
