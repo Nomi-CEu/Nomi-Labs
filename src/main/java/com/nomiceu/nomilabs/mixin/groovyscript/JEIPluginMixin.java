@@ -20,14 +20,14 @@ import mezz.jei.plugins.vanilla.crafting.ShapelessRecipeWrapper;
 @Mixin(value = JeiPlugin.class, remap = false)
 public class JEIPluginMixin {
 
-    @Redirect(method = "lambda$register$0",
+    @Redirect(method = "lambda$register$1",
               at = @At(value = "NEW",
                        target = "(Lmezz/jei/api/IJeiHelpers;Lnet/minecraftforge/common/crafting/IShapedRecipe;)Lcom/cleanroommc/groovyscript/compat/mods/jei/ShapedRecipeWrapper;"))
     private static ShapedRecipeWrapper returnNewHandlerShaped(IJeiHelpers jeiHelpers, IShapedRecipe recipe) {
         return new StrictableItemRecipeWrappers.Shaped(jeiHelpers, recipe);
     }
 
-    @Redirect(method = "lambda$register$1",
+    @Redirect(method = "lambda$register$2",
               at = @At(value = "NEW",
                        target = "(Lmezz/jei/api/IJeiHelpers;Lnet/minecraft/item/crafting/IRecipe;)Lmezz/jei/plugins/vanilla/crafting/ShapelessRecipeWrapper;"))
     private static ShapelessRecipeWrapper<?> returnNewHandlerShapeless(IJeiHelpers jeiHelpers, IRecipe recipe) {
