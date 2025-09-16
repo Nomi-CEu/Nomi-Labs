@@ -193,10 +193,7 @@ public class GroovyHelpers {
     // Server side exclusions are handled in LabsJEIPlugin.
     public static class JEIHelpers {
 
-        /* Description + Tooltip */
-        public static void addDescription(ItemStack stack, LabsTranslate.Translatable... description) {
-            LabsJEIPlugin.addGroovyDescription(stack, description);
-        }
+        /* Recipe Tooltips */
 
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
@@ -264,11 +261,6 @@ public class GroovyHelpers {
 
         public static void yeetItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
             LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
-        }
-
-        /* Recipe Catalyst Override */
-        public static void overrideRecipeCatalysts(String category, Object... catalysts) {
-            LabsJEIPlugin.addRecipeCatalystOverride(category, catalysts);
         }
     }
 

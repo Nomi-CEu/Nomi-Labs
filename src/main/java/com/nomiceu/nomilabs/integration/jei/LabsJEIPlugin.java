@@ -4,6 +4,7 @@ import static appeng.items.misc.ItemCrystalSeed.*;
 import static com.nomiceu.nomilabs.integration.jei.recipe.ChargerRecipeHandler.ChargerRecipe;
 import static com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthRecipeHandler.*;
 import static com.nomiceu.nomilabs.util.LabsTranslate.Translatable;
+import static com.nomiceu.nomilabs.util.LabsTranslate.translate;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -29,14 +30,11 @@ import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
-import com.nomiceu.nomilabs.groovy.mixinhelper.LabsJEIApplied;
-import com.nomiceu.nomilabs.integration.jei.mixinhelper.AccessibleModRegistry;
 import com.nomiceu.nomilabs.integration.jei.recipe.ChargerCategory;
 import com.nomiceu.nomilabs.integration.jei.recipe.ChargerRecipeHandler;
 import com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthCategory;
 import com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthRecipeHandler;
 import com.nomiceu.nomilabs.item.registry.LabsItems;
-import com.nomiceu.nomilabs.util.ItemTagMeta;
 import com.nomiceu.nomilabs.util.LabsSide;
 
 import appeng.api.AEApi;
@@ -58,9 +56,6 @@ public class LabsJEIPlugin implements IModPlugin {
 
     private static final ResourceLocation WILDCARD_LOCATION = new ResourceLocation("*", "*");
 
-    private static final Map<ItemTagMeta, List<Translatable>> DESCRIPTIONS = new HashMap<>();
-    private static final Map<ItemTagMeta, List<Translatable>> GROOVY_DESCRIPTIONS = new HashMap<>();
-
     private static final Map<ResourceLocation, List<Translatable>> RECIPE_OUTPUT_TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static final Map<ResourceLocation, List<Translatable>> GROOVY_RECIPE_OUTPUT_TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static Map<ResourceLocation, List<Translatable>> COMPILED_RECIPE_OUTPUT_TOOLTIPS = null;
@@ -70,7 +65,6 @@ public class LabsJEIPlugin implements IModPlugin {
     private static Map<ResourceLocation, List<Translatable>[]> COMPILED_RECIPE_INPUT_TOOLTIPS = null;
 
     private static final List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> IGNORE_NBT_HIDE = new ArrayList<>();
-    private static final Map<String, List<Object>> CATALYST_OVERRIDE = new Object2ObjectOpenHashMap<>();
 
     private static IIngredientRegistry itemRegistry;
 
@@ -102,14 +96,14 @@ public class LabsJEIPlugin implements IModPlugin {
         registry.handleRecipes(PartialRecipe.class, recipe -> new PartialRecipeWrapper(jeiHelpers, recipe),
                 VanillaRecipeCategoryUid.CRAFTING);
 
-        // Add Descriptions
-        Map<ItemTagMeta, List<Translatable>> tempMap = new HashMap<>(DESCRIPTIONS);
-        GROOVY_DESCRIPTIONS.forEach(((key, value) -> addDescription(tempMap, key, (list) -> list.addAll(value))));
-        tempMap.forEach(((itemTagMeta, strings) -> registry.addIngredientInfo(itemTagMeta.toStack(), VanillaTypes.ITEM,
-                strings.stream().map(Translatable::translate).collect(Collectors.joining("\n\n")))));
-
-        // GrS JEI Fix
-        LabsJEIApplied.afterRegisterApplied = false;
+        // Add Descriptions for Hand Framing
+        registry.addIngredientInfo(new ItemStack(LabsItems.HAND_FRAMING_TOOL), VanillaTypes.ITEM,
+                translate("item.nomilabs.hand_framing_tool.desc1") + "\n\n" +
+                        translate("item.nomilabs.hand_framing_tool.desc2") + "\n\n" +
+                        translate("item.nomilabs.hand_framing_tool.desc3") + "\n\n" +
+                        translate("item.nomilabs.hand_framing_tool.desc4") + "\n\n" +
+                        translate("item.nomilabs.hand_framing_tool.desc5") + "\n\n" +
+                        translate("item.nomilabs.hand_framing_tool.desc6"));
     }
 
     public static void registerChargerRecipes(IModRegistry registry) {
@@ -185,20 +179,11 @@ public class LabsJEIPlugin implements IModPlugin {
         return stack;
     }
 
-    public static void afterModRegisters(IModRegistry registry) {
-        for (var override : CATALYST_OVERRIDE.entrySet()) {
-            ((AccessibleModRegistry) registry).labs$replaceRecipeCatalyst(override.getKey(), override.getValue());
-        }
-    }
-
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
         // Remove Info Item from JEI
         itemRegistry.removeIngredientsAtRuntime(VanillaTypes.ITEM,
                 Collections.singletonList(new ItemStack(LabsItems.INFO_ITEM)));
-
-        // GrS JEI Fix
-        LabsJEIApplied.afterRuntimeApplied = false;
     }
 
     /* Hiding Helpers */
@@ -220,23 +205,6 @@ public class LabsJEIPlugin implements IModPlugin {
 
     public static List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> getIgnoreNbtHide() {
         return ImmutableList.copyOf(IGNORE_NBT_HIDE);
-    }
-
-    /* Descriptions */
-    public static void addDescription(@NotNull ItemStack stack, Translatable... description) {
-        if (!LabsSide.isClient()) return;
-        addDescription(DESCRIPTIONS, new ItemTagMeta(stack), (list) -> Collections.addAll(list, description));
-    }
-
-    public static void addGroovyDescription(@NotNull ItemStack stack, Translatable... description) {
-        if (!LabsSide.isClient()) return;
-        addDescription(GROOVY_DESCRIPTIONS, new ItemTagMeta(stack), (list) -> Collections.addAll(list, description));
-    }
-
-    private static void addDescription(Map<ItemTagMeta, List<Translatable>> map,
-                                       @NotNull ItemTagMeta stack, Consumer<List<Translatable>> addToList) {
-        map.computeIfAbsent(stack, (k) -> new ArrayList<>());
-        addToList.accept(map.get(stack));
     }
 
     /* Recipe Output Tooltip */
@@ -334,19 +302,10 @@ public class LabsJEIPlugin implements IModPlugin {
         return tooltips.stream().map(Translatable::translate).collect(Collectors.toList());
     }
 
-    public static void addRecipeCatalystOverride(String category, Object... catalyst) {
-        if (!LabsSide.isClient()) return;
-        List<Object> result = new ArrayList<>();
-        Collections.addAll(result, catalyst);
-        CATALYST_OVERRIDE.put(category, result);
-    }
-
     public static void onReload() {
-        GROOVY_DESCRIPTIONS.clear();
         GROOVY_RECIPE_OUTPUT_TOOLTIPS.clear();
         GROOVY_RECIPE_INPUT_TOOLTIPS.clear();
         IGNORE_NBT_HIDE.clear();
-        CATALYST_OVERRIDE.clear();
         COMPILED_RECIPE_OUTPUT_TOOLTIPS = null;
         COMPILED_RECIPE_INPUT_TOOLTIPS = null;
     }
