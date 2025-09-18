@@ -28,6 +28,13 @@ mods.gregtech.sifter.recipeBuilder()
     .EUt(VA[LV]).duration(30)
     .buildAndRegister()
 
+mods.gregtech.cyclotron.recipeBuilder()
+        .inputs(item('gregtech:meta_foil', 64))
+        .fluidInputs(fluid('hydrogen') * 1000)
+        .outputs(item('nomilabs:meta_foil', 20))
+        .EUt(VA[UHV]).duration(600)
+        .buildAndRegister()
+
 mods.gregtech.sifter.recipeBuilder()
     .inputs(item('minecraft:stick'))
     .outputs(item('minecraft:apple') * 64)
