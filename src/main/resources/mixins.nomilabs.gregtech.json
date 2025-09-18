@@ -15,6 +15,7 @@
     "FluidStorageKeyAccessor",
     "FluidStorageKeysMixin",
     "GroovyHandCommandMixin",
+    "GroovyScriptModuleMixin",
     "GTRecipeInputMixin",
     "GTRecipeWrapperMixin",
     "GTTransferUtilsMixin",
