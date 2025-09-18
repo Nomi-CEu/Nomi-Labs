@@ -57,10 +57,11 @@ public class HarvestInfoToolsMixin {
                                                            IBlockState blockState, EntityPlayer player, CallbackInfo ci,
                                                            @Local LocalRef<String> harvestTool) {
         if (!Loader.isModLoaded(LabsValues.ARCHITECTURE_MODID) ||
-                !LabsConfig.modIntegration.enableArchitectureCraftIntegration || isNotShapeForArchitectureCraft(block))
+                !LabsConfig.modIntegration.enableArchitectureCraftIntegration ||
+                labs$isNotShapeForArchitectureCraft(block))
             return;
 
-        var baseBlockState = getBaseBlockStateForArchitectureCraft(world, pos);
+        var baseBlockState = labs$getBaseBlockStateForArchitectureCraft(world, pos);
         if (baseBlockState == null) return;
 
         var retrievedHarvestTool = baseBlockState.getBlock().getHarvestTool(baseBlockState);
@@ -93,10 +94,11 @@ public class HarvestInfoToolsMixin {
                                                             Block block, IBlockState blockState, EntityPlayer player,
                                                             CallbackInfo ci, @Local LocalIntRef harvestLevel) {
         if (!Loader.isModLoaded(LabsValues.ARCHITECTURE_MODID) ||
-                !LabsConfig.modIntegration.enableArchitectureCraftIntegration || isNotShapeForArchitectureCraft(block))
+                !LabsConfig.modIntegration.enableArchitectureCraftIntegration ||
+                labs$isNotShapeForArchitectureCraft(block))
             return;
 
-        var baseBlockState = getBaseBlockStateForArchitectureCraft(world, pos);
+        var baseBlockState = labs$getBaseBlockStateForArchitectureCraft(world, pos);
         if (baseBlockState == null) return;
         harvestLevel.set(baseBlockState.getBlock().getHarvestLevel(baseBlockState));
     }
@@ -105,7 +107,7 @@ public class HarvestInfoToolsMixin {
      * Use Reflection to prevent hard dep. Equivalent to `!(block instanceof BlockShape)`.
      */
     @Unique
-    private static boolean isNotShapeForArchitectureCraft(Block block) {
+    private static boolean labs$isNotShapeForArchitectureCraft(Block block) {
         try {
             var shapeClass = Class.forName("com.elytradev.architecture.common.block.BlockShape");
             return !shapeClass.isInstance(block);
@@ -119,7 +121,7 @@ public class HarvestInfoToolsMixin {
      */
     @Unique
     @Nullable
-    private static IBlockState getBaseBlockStateForArchitectureCraft(World world, BlockPos pos) {
+    private static IBlockState labs$getBaseBlockStateForArchitectureCraft(World world, BlockPos pos) {
         try {
             var tileShapeClass = Class.forName("com.elytradev.architecture.common.tile.TileShape");
             var getTileMethod = tileShapeClass.getDeclaredMethod("get", IBlockAccess.class, BlockPos.class);

@@ -39,7 +39,7 @@ public class IngredientInfoRecipeMixin<T> {
                                  List<String> inDescription, CallbackInfo ci) {
         var toRemove = 0;
         for (var line : description) {
-            if (removeFormattingAndTrim(line).isEmpty()) toRemove++;
+            if (labs$removeFormattingAndTrim(line).isEmpty()) toRemove++;
             else break;
         }
 
@@ -50,7 +50,7 @@ public class IngredientInfoRecipeMixin<T> {
     }
 
     @Unique
-    private static String removeFormattingAndTrim(String input) {
+    private static String labs$removeFormattingAndTrim(String input) {
         var output = TextFormatting.getTextWithoutFormattingCodes(input.trim());
         if (output == null) return "";
         return output;
