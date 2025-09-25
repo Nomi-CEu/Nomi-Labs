@@ -130,14 +130,14 @@ public abstract class MaterialMixin implements AccessibleMaterial {
         }
     }
 
-    @Override
     @Unique
+    @Override
     public ImmutableList<MaterialStack> labs$getOriginalComponents() {
         return labs$originalComponents == null ? getMaterialComponents() : labs$originalComponents;
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$recalculateDecompositionType() {
         if (!labs$hasSetFlags && labs$calculatedDecomp) {
             ((AccessibleMaterialFlags) flags).labs$removeFlags(MaterialFlags.DISABLE_DECOMPOSITION,
@@ -149,8 +149,7 @@ public abstract class MaterialMixin implements AccessibleMaterial {
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public CompositionBuilder changeComposition() {
+    public CompositionBuilder labs$changeComposition() {
         return new CompositionBuilder((Material) (Object) this);
     }
 

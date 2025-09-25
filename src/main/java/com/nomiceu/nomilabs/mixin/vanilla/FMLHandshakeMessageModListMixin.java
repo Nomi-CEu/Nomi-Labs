@@ -27,6 +27,7 @@ public class FMLHandshakeMessageModListMixin implements AccessibleModListMessage
 
     @Shadow
     private Map<String, String> modTags;
+
     @Unique
     private static final String labs$modeId = "\0LABS_MODE_DATA\0";
 

@@ -65,7 +65,7 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     public ManagedVec3I labs$expectedBlockPos;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void initFields(CallbackInfo ci) {
+    private void initFields(CallbackInfo ci) {
         labs$hasActiveBuilder = register(ACTIVE_BUILDER, new ManagedBool(false)).syncViaTile().saveToTile()
                 .trigerUpdate()
                 .finish();
@@ -79,21 +79,21 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
     }
 
     @Inject(method = "activateCore", at = @At("HEAD"), cancellable = true)
-    public void activateCore(CallbackInfo ci) {
+    private void activateCore(CallbackInfo ci) {
         TileEnergyStorageCoreLogic.activateCore((TileEnergyStorageCore) (Object) this, getCapacity());
         updateStabilizers(true);
         ci.cancel();
     }
 
     @Inject(method = "deactivateCore", at = @At("HEAD"), cancellable = true)
-    public void deactivateCore(CallbackInfo ci) {
+    private void deactivateCore(CallbackInfo ci) {
         TileEnergyStorageCoreLogic.deactivateCore((TileEnergyStorageCore) (Object) this);
         updateStabilizers(false);
         ci.cancel();
     }
 
     @Inject(method = "validateStructure", at = @At("HEAD"), cancellable = true)
-    public void validateStructure(CallbackInfoReturnable<Boolean> cir) {
+    private void validateStructure(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(TileEnergyStorageCoreLogic.validateStructure((TileEnergyStorageCore) (Object) this));
     }
 
@@ -101,7 +101,7 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
      * Done here instead of in logic class because of private functions.
      */
     @Inject(method = "receivePacketFromClient", at = @At("HEAD"), cancellable = true)
-    public void receivePacketFromClient(MCDataInput data, EntityPlayerMP client, int id, CallbackInfo ci) {
+    private void receivePacketFromClient(MCDataInput data, EntityPlayerMP client, int id, CallbackInfo ci) {
         var tile = (TileEnergyStorageCore) (Object) this;
         // Validate structure first (gui screen tile doesn't affect this one)
         tile.validateStructure();
@@ -174,14 +174,13 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
      * or when loading with Cleanroom Loader.
      */
     @Inject(method = "update()V", at = @At("HEAD"))
-    public void updateDevEnv(CallbackInfo ci) {
+    private void updateDevEnv(CallbackInfo ci) {
         labs$updateLogic();
     }
 
-    @SuppressWarnings({ "UnresolvedMixinReference", "MixinAnnotationTarget" }) // Removes Errors/Warnings in IDE
-                                                                               // Inspections (not build time though)
+    @SuppressWarnings({ "UnresolvedMixinReference", "MixinAnnotationTarget" })
     @Inject(method = "func_73660_a()V", at = @At("HEAD"))
-    public void updateObf(CallbackInfo ci) {
+    private void updateObf(CallbackInfo ci) {
         labs$updateLogic();
     }
 
@@ -243,46 +242,46 @@ public abstract class TileEnergyStorageCoreMixin extends TileBCBase implements I
             labs$hasActiveDestructor.value = true;
     }
 
-    @Override
     @Unique
+    @Override
     public boolean labs$hasActiveBuilder() {
         return labs$hasActiveBuilder.value;
     }
 
-    @Override
     @Unique
+    @Override
     public boolean labs$hasActiveDestructor() {
         return labs$hasActiveDestructor.value;
     }
 
-    @Override
     @Unique
+    @Override
     public void onLoad() {
         super.onLoad();
         labs$hasActiveBuilder.value = activeBuilder != null;
         labs$hasActiveDestructor.value = labs$activeDestructor != null;
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$setExpectedBlockString(String string) {
         labs$expectedBlockString.value = string;
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$setExpectedBlockPos(BlockPos pos) {
         labs$expectedBlockPos.vec = new Vec3I(pos);
     }
 
-    @Override
     @Unique
+    @Override
     public String labs$getExpectedBlockString() {
         return labs$expectedBlockString.value;
     }
 
-    @Override
     @Unique
+    @Override
     public Vec3I labs$getExpectedBlockPos() {
         return labs$expectedBlockPos.vec;
     }

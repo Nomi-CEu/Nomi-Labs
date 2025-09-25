@@ -23,14 +23,14 @@ public class InvisECoreBlockMixin {
             at = @At("HEAD"),
             cancellable = true,
             remap = true)
-    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player, CallbackInfo ci) {
+    private void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player, CallbackInfo ci) {
         InvisECoreBlockLogic.onBlockHarvested(world, pos, player);
         ci.cancel();
     }
 
     @Inject(method = "getPickBlock", at = @At("HEAD"), cancellable = true)
-    public void getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player,
-                             CallbackInfoReturnable<ItemStack> cir) {
+    private void getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player,
+                              CallbackInfoReturnable<ItemStack> cir) {
         cir.setReturnValue(InvisECoreBlockLogic.getPickBlock(world, pos));
     }
 }

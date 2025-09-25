@@ -47,9 +47,9 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
     /**
      * Mandatory Ignored Constructor
      */
-    public DedicatedServerMixin(File anvilFileIn, Proxy proxyIn, DataFixer dataFixerIn,
-                                YggdrasilAuthenticationService authServiceIn, MinecraftSessionService sessionServiceIn,
-                                GameProfileRepository profileRepoIn, PlayerProfileCache profileCacheIn) {
+    private DedicatedServerMixin(File anvilFileIn, Proxy proxyIn, DataFixer dataFixerIn,
+                                 YggdrasilAuthenticationService authServiceIn, MinecraftSessionService sessionServiceIn,
+                                 GameProfileRepository profileRepoIn, PlayerProfileCache profileCacheIn) {
         super(anvilFileIn, proxyIn, dataFixerIn, authServiceIn, sessionServiceIn, profileRepoIn, profileCacheIn);
     }
 
@@ -57,7 +57,7 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
     private PropertyManager settings;
 
     @Inject(method = "getDifficulty", at = @At("HEAD"), cancellable = true)
-    public void getLockedDifficulty(CallbackInfoReturnable<EnumDifficulty> cir) {
+    private void getLockedDifficulty(CallbackInfoReturnable<EnumDifficulty> cir) {
         var locked = LabsDifficultyHelper.getLockedDifficulty();
         if (locked != null) cir.setReturnValue(locked);
     }
@@ -65,7 +65,7 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
     @Redirect(method = "init",
               at = @At(value = "INVOKE",
                        target = "Lnet/minecraft/server/dedicated/DedicatedServer;setMOTD(Ljava/lang/String;)V"))
-    public void motdSubstitutions(DedicatedServer instance, String s) {
+    private void motdSubstitutions(DedicatedServer instance, String s) {
         if (!LabsConfig.advanced.serverMotdSubstitutions) return;
 
         NomiLabs.LOGGER.info("Enabling Labs MOTD Substitutions...");
@@ -75,7 +75,7 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements Di
 
     @SuppressWarnings("LoggingSimilarMessage")
     @Inject(method = "init", at = @At("RETURN"))
-    public void changeInitDifficulty(CallbackInfoReturnable<EnumDifficulty> cir) {
+    private void changeInitDifficulty(CallbackInfoReturnable<EnumDifficulty> cir) {
         var locked = LabsDifficultyHelper.getLockedDifficulty();
         var savedDifficulty = this.settings.getIntProperty("difficulty", 1);
         if (locked != null && savedDifficulty != locked.getId()) {

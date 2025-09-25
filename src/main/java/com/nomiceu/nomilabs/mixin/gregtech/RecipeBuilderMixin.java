@@ -242,8 +242,8 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R changeRecycling() {
+    @SuppressWarnings("unused")
+    public R labs$changeRecycling() {
         if (!RecyclingHelper.changeStackRecycling(outputs, inputs))
             recipeStatus = EnumValidationResult.INVALID;
 
@@ -251,22 +251,21 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     }
 
     @Unique
-    @SuppressWarnings("AddedMixinMembersNamePattern")
-    public R inputNBT(IIngredient ingredient, NBTMatcher matcher, NBTCondition condition) {
+    public R labs$inputNBT(IIngredient ingredient, NBTMatcher matcher, NBTCondition condition) {
         return inputNBT(ofGroovyIngredient(ingredient), matcher, condition);
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R inputWildNBT(IIngredient ingredient) {
-        return inputNBT(ingredient, NBTMatcher.ANY, NBTCondition.ANY);
+    @SuppressWarnings("unused")
+    public R labs$inputWildNBT(IIngredient ingredient) {
+        return labs$inputNBT(ingredient, NBTMatcher.ANY, NBTCondition.ANY);
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replace(RecipeMap<?>... otherMaps) {
+    @SuppressWarnings("unused")
+    public R labs$replace(RecipeMap<?>... otherMaps) {
         return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findByOutput(outputs, fluidOutputs, chancedOutputs,
+                ((AccessibleRecipeMap) map).labs$findByOutput(outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs,
                         (r) -> true),
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", outputs, fluidOutputs,
@@ -274,10 +273,10 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replaceInCategory(RecipeMap<?>... otherMaps) {
+    @SuppressWarnings("unused")
+    public R labs$replaceInCategory(RecipeMap<?>... otherMaps) {
         return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findByOutput(outputs, fluidOutputs, chancedOutputs,
+                ((AccessibleRecipeMap) map).labs$findByOutput(outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs,
                         (r) -> Objects.equals(category, r.getRecipeCategory())),
                 String.format("category: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", category,
@@ -286,10 +285,10 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replaceWithVoltage(RecipeMap<?>... otherMaps) {
+    @SuppressWarnings("unused")
+    public R labs$replaceWithVoltage(RecipeMap<?>... otherMaps) {
         return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findRecipeByOutput(EUt, outputs, fluidOutputs, chancedOutputs,
+                ((AccessibleRecipeMap) map).labs$findRecipeByOutput(EUt, outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs),
                 String.format("voltage: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", EUt, outputs,
                         fluidOutputs,
@@ -297,10 +296,10 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replaceWithExactVoltage(RecipeMap<?>... otherMaps) {
+    @SuppressWarnings("unused")
+    public R labs$replaceWithExactVoltage(RecipeMap<?>... otherMaps) {
         return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findRecipeByOutput(EUt, outputs, fluidOutputs, chancedOutputs,
+                ((AccessibleRecipeMap) map).labs$findRecipeByOutput(EUt, outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs),
                 String.format("exact voltage: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", EUt,
                         outputs, fluidOutputs,
@@ -308,10 +307,10 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replace(Predicate<Recipe> canHandle, RecipeMap<?>... otherMaps) {
+    @SuppressWarnings("unused")
+    public R labs$replace(Predicate<Recipe> canHandle, RecipeMap<?>... otherMaps) {
         return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findByOutput(outputs, fluidOutputs, chancedOutputs,
+                ((AccessibleRecipeMap) map).labs$findByOutput(outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs,
                         canHandle),
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", outputs, fluidOutputs,

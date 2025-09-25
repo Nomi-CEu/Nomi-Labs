@@ -25,13 +25,13 @@ import com.nomiceu.nomilabs.mixinhelper.RemappableSnapshot;
 public class SnapshotMixin implements RemappableSnapshot {
 
     @Unique
-    public Map<Integer, ResourceLocation> labs$remapped = Maps.newHashMap();
+    private Map<Integer, ResourceLocation> labs$remapped = Maps.newHashMap();
 
     @Unique
     private static final String REMAPPED_KEY = "remapped";
 
     @Inject(method = "write", at = @At("RETURN"))
-    public void saveRemapped(CallbackInfoReturnable<NBTTagCompound> cir) {
+    private void saveRemapped(CallbackInfoReturnable<NBTTagCompound> cir) {
         NBTTagCompound data = cir.getReturnValue();
         NBTTagList remapList = new NBTTagList();
         labs$remapped.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(e -> {
@@ -54,20 +54,20 @@ public class SnapshotMixin implements RemappableSnapshot {
         });
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$addRemapped(int id, ResourceLocation key) {
         labs$remapped.put(id, key);
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$addAllRemapped(Map<Integer, ResourceLocation> map) {
         labs$remapped.putAll(map);
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$loadToRegistry(RemappableForgeRegistry reg) {
         labs$remapped.forEach(reg::labs$addRemapped);
     }

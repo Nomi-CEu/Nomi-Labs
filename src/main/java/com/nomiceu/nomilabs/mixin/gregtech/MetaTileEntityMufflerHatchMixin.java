@@ -43,8 +43,8 @@ public abstract class MetaTileEntityMufflerHatchMixin extends MetaTileEntityMult
         if (!LabsConfig.modIntegration.disableMufflerHatchParticles) original.call(temp, xSpd);
     }
 
-    @Override
     @Unique
+    @Override
     protected boolean openGUIOnRightClick() {
         return LabsConfig.modIntegration.dummyMufflerMode != LabsConfig.ModIntegration.DummyMufflerMode.FULLY_DISABLED;
     }

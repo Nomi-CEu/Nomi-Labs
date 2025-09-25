@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.common.metatileentities.multiblock.standard.MetaTileEntityLargeDistillery;
@@ -29,6 +30,7 @@ public abstract class MetaTileEntityLargeDistilleryMixin extends GCYMRecipeMapMu
         super(metaTileEntityId, recipeMap);
     }
 
+    @Unique
     @Override
     public void setRecipeMapIndex(int index) {
         // Properly updates layer counts and fluid output info stored in recipeHandler after map change

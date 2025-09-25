@@ -170,7 +170,7 @@ public class RecyclingHelper {
      * Returns true otherwise.
      */
     public static boolean changeStackRecycling(ItemStack output, RecipeMap<?> map, Predicate<Recipe> acceptedRecipe) {
-        var foundRecipes = ((AccessibleRecipeMap) map).findByOutput(Collections.singletonList(output),
+        var foundRecipes = ((AccessibleRecipeMap) map).labs$findByOutput(Collections.singletonList(output),
                 Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), acceptedRecipe);
 
         if (foundRecipes == null || foundRecipes.isEmpty()) { // Is Empty probably won't happen, but no harm in checking

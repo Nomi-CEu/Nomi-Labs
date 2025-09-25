@@ -25,22 +25,20 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 public class ItemStackMixin {
 
     @Inject(method = "getRepairCost()I", at = @At("HEAD"), cancellable = true)
-    public void getRepairCost(CallbackInfoReturnable<Integer> cir) {
+    private void getRepairCost(CallbackInfoReturnable<Integer> cir) {
         if (LabsConfig.advanced.disableXpScaling)
             cir.setReturnValue(0);
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public List<OreDictIngredient> getAllOreDicts() {
+    public List<OreDictIngredient> labs$getAllOreDicts() {
         return labs$getOreDictNames().stream()
                 .map(OreDictIngredient::new)
                 .collect(Collectors.toList());
     }
 
     @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public void removeAllOreDicts() {
+    public void labs$removeAllOreDicts() {
         var stack = (ItemStack) (Object) this;
         labs$getOreDictNames().forEach((name) -> VanillaModule.oreDict.remove(name, stack));
     }

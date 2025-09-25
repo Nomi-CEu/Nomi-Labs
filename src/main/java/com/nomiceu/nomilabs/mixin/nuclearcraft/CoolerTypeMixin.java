@@ -32,8 +32,8 @@ public class CoolerTypeMixin implements AccessibleCoolerType {
             cir.setReturnValue(NCActiveCoolerHelper.getFluidNamesFromIDs().get(id - 1));
     }
 
-    @Override
     @Unique
+    @Override
     public String labs$getOriginalFluidName() {
         return fluidName;
     }

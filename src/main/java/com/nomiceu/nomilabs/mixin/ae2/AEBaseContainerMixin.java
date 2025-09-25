@@ -58,7 +58,7 @@ public abstract class AEBaseContainerMixin extends Container {
      * 7baf538</a>) is very inconvenient, because it takes place in a loop. Just override the whole thing...
      */
     @Inject(method = "transferStackInSlot", at = @At("HEAD"), cancellable = true, remap = true)
-    public void transferStackInSlotNew(EntityPlayer p, int idx, CallbackInfoReturnable<ItemStack> cir) {
+    private void transferStackInSlotNew(EntityPlayer p, int idx, CallbackInfoReturnable<ItemStack> cir) {
         if (LabsSide.isClient()) {
             cir.setReturnValue(ItemStack.EMPTY);
             return;
@@ -167,7 +167,7 @@ public abstract class AEBaseContainerMixin extends Container {
                             if (d instanceof SlotRestrictedInput && ((SlotRestrictedInput) d).getPlaceableItemType() ==
                                     SlotRestrictedInput.PlacableItemType.ENCODED_PATTERN) {
                                 cir.setReturnValue(ItemStack.EMPTY); // don't insert duplicate encoded patterns to
-                                                                     // interfaces
+                                // interfaces
                                 return;
                             }
 
@@ -249,7 +249,7 @@ public abstract class AEBaseContainerMixin extends Container {
                                             (casted = (ContainerInterface) (Object) this).getPatternUpgrades() ==
                                                     casted.availableUpgrades() - 1)) {
                                 break; // Only insert one pattern when shift-clicking into interfaces, and don't insert
-                                       // more pattern expansions than maximum useful
+                                // more pattern expansions than maximum useful
                             }
                         }
                     }

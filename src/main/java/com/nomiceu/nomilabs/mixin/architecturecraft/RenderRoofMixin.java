@@ -60,7 +60,7 @@ public abstract class RenderRoofMixin extends RenderShape {
     /**
      * Default Ignored Constructor
      */
-    public RenderRoofMixin(TileShape te, ITexture[] textures, Trans3 t, RenderTargetBase target) {
+    private RenderRoofMixin(TileShape te, ITexture[] textures, Trans3 t, RenderTargetBase target) {
         super(te, textures, t, target);
     }
 
@@ -82,7 +82,7 @@ public abstract class RenderRoofMixin extends RenderShape {
     }
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    public void renderCustomSlopes(CallbackInfo ci) {
+    private void renderCustomSlopes(CallbackInfo ci) {
         var map = labs$getRenderMap();
         var id = te.getShape().id;
         if (!map.containsKey(id)) return;

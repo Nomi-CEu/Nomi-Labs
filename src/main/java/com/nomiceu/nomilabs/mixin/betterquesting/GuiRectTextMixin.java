@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.mixin.betterquesting;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.nomiceu.nomilabs.integration.betterquesting.AccessibleGuiRectText;
 
@@ -19,6 +20,7 @@ public class GuiRectTextMixin implements AccessibleGuiRectText {
     @Shadow
     private int h;
 
+    @Unique
     @Override
     public void labs$setHeight(int h) {
         this.h = h;

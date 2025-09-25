@@ -38,10 +38,10 @@ public class GuiNewKeyBindingListKeyEntryMixin {
             cancellable = true,
             require = 1,
             remap = true)
-    public void addTooltip(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY,
-                           boolean isSelected, float p_192634_9_, CallbackInfo ci) {
+    private void addTooltip(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY,
+                            boolean isSelected, float p_192634_9_, CallbackInfo ci) {
         int wrapped = GuiNewKeyBindingListAccessor.getWrapped() + 1; // Wrapped is -1 less than the amount of slot
-                                                                     // heights, so we need wrapped + 1.
+        // heights, so we need wrapped + 1.
         var fontRenderer = ((GuiNewKeyBindingListAccessor) this$0).getMc().fontRenderer;
         if (mouseY >= y && mouseY <= y + slotHeight * wrapped) {
             KeyBindingHelper.drawKeybindingTooltip(mouseX, mouseY, fontRenderer, keybinding);

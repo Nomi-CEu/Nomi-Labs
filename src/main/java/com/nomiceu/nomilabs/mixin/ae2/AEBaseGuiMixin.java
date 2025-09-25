@@ -41,22 +41,22 @@ public abstract class AEBaseGuiMixin extends GuiContainer {
     /**
      * Mandatory Ignored Constructor
      */
-    public AEBaseGuiMixin(Container inventorySlotsIn) {
+    private AEBaseGuiMixin(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
 
     @Inject(method = "MT_isMouseTweaksDisabled", at = @At("HEAD"), cancellable = true)
-    public void setMouseTweaksEnabled(CallbackInfoReturnable<Boolean> cir) {
+    private void setMouseTweaksEnabled(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 
     @Inject(method = "MT_isIgnored", at = @At("HEAD"), cancellable = true)
-    public void setMouseTweaksNotIgnored(Slot slot, CallbackInfoReturnable<Boolean> cir) {
+    private void setMouseTweaksNotIgnored(Slot slot, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 
     @Inject(method = "MT_disableRMBDraggingFunctionality", at = @At("HEAD"), cancellable = true)
-    public void newRMBDraggingFunctionality(CallbackInfoReturnable<Boolean> cir) {
+    private void newRMBDraggingFunctionality(CallbackInfoReturnable<Boolean> cir) {
         if (dragSplitting && dragSplittingButton == 1) {
             dragSplitting = false;
             if (getSlotUnderMouse() != null &&

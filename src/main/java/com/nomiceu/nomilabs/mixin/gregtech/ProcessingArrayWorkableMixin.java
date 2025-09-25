@@ -29,7 +29,7 @@ public abstract class ProcessingArrayWorkableMixin extends MultiblockRecipeLogic
     /**
      * Mandatory Ignored Constructor
      */
-    public ProcessingArrayWorkableMixin(RecipeMapMultiblockController tileEntity) {
+    private ProcessingArrayWorkableMixin(RecipeMapMultiblockController tileEntity) {
         super(tileEntity);
     }
 

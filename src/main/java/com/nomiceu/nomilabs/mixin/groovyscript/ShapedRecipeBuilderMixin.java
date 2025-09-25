@@ -48,7 +48,7 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
     /**
      * Default Ignored Constructor
      */
-    public ShapedRecipeBuilderMixin(int width, int height) {
+    private ShapedRecipeBuilderMixin(int width, int height) {
         super(width, height);
     }
 
@@ -65,22 +65,19 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
      * exactly as set, instead of expanding wildcards and removing duplicates.
      */
     @Unique
-    @SuppressWarnings("AddedMixinMembersNamePattern")
-    public CraftingRecipeBuilder.Shaped strictJEIHandling() {
+    public CraftingRecipeBuilder.Shaped labs$strictJEIHandling() {
         labs$isStrict = true;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
     @Unique
-    @SuppressWarnings("AddedMixinMembersNamePattern")
-    public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunction recipeClassFunction) {
+    public CraftingRecipeBuilder.Shaped labs$recipeClassFunction(ShapedRecipeClassFunction recipeClassFunction) {
         this.labs$recipeClassFunction = recipeClassFunction;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
     @Unique
-    @SuppressWarnings("AddedMixinMembersNamePattern")
-    public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunctionSimplified recipeClassFunction) {
+    public CraftingRecipeBuilder.Shaped labs$recipeClassFunction(ShapedRecipeClassFunctionSimplified recipeClassFunction) {
         this.labs$recipeClassFunction = (output1, width1, height1, ingredients, _mirrored, _recipeFunction,
                                          _recipeAction) -> recipeClassFunction.createRecipe(output1, width1, height1,
                                                  ingredients);
@@ -88,15 +85,13 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
     }
 
     @Unique
-    @SuppressWarnings("AddedMixinMembersNamePattern")
-    public CraftingRecipeBuilder.Shaped setOutputTooltip(LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shaped labs$setOutputTooltip(LabsTranslate.Translatable... tooltip) {
         labs$outputTooltip = tooltip;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
     @Unique
-    @SuppressWarnings("AddedMixinMembersNamePattern")
-    public CraftingRecipeBuilder.Shaped setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shaped labs$setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
         if (slotIndex < 0 || slotIndex > 8) {
             GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
             return (CraftingRecipeBuilder.Shaped) (Object) this;
@@ -112,10 +107,10 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
               at = @At(value = "INVOKE",
                        target = "Lcom/cleanroommc/groovyscript/compat/vanilla/CraftingRecipeBuilder$Shaped;validateShape(Lcom/cleanroommc/groovyscript/api/GroovyLog$Msg;Ljava/util/List;[Ljava/lang/String;Lit/unimi/dsi/fastutil/chars/Char2ObjectOpenHashMap;Lcom/cleanroommc/groovyscript/registry/AbstractCraftingRecipeBuilder$IRecipeCreator;)Ljava/lang/Object;"),
               require = 1)
-    public Object registerWithClassFunction1(CraftingRecipeBuilder.Shaped instance, GroovyLog.Msg msg,
-                                             List<String> list, String[] strings,
-                                             Char2ObjectOpenHashMap<IIngredient> char2ObjectOpenHashMap,
-                                             IRecipeCreator<?> recipeCreator) {
+    private Object registerWithClassFunction1(CraftingRecipeBuilder.Shaped instance, GroovyLog.Msg msg,
+                                              List<String> list, String[] strings,
+                                              Char2ObjectOpenHashMap<IIngredient> char2ObjectOpenHashMap,
+                                              IRecipeCreator<?> recipeCreator) {
         if (labs$recipeClassFunction == null)
             return validateShape(msg, list, strings, char2ObjectOpenHashMap, recipeCreator);
         return validateShape(msg, list, strings, char2ObjectOpenHashMap,
@@ -127,8 +122,8 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
               at = @At(value = "INVOKE",
                        target = "Lcom/cleanroommc/groovyscript/compat/vanilla/CraftingRecipeBuilder$Shaped;validateShape(Lcom/cleanroommc/groovyscript/api/GroovyLog$Msg;Ljava/util/List;Lcom/cleanroommc/groovyscript/registry/AbstractCraftingRecipeBuilder$IRecipeCreator;)Ljava/lang/Object;"),
               require = 1)
-    public Object registerWithClassFunction2(CraftingRecipeBuilder.Shaped instance, GroovyLog.Msg msg,
-                                             List<List<IIngredient>> list, IRecipeCreator<?> recipeCreator) {
+    private Object registerWithClassFunction2(CraftingRecipeBuilder.Shaped instance, GroovyLog.Msg msg,
+                                              List<List<IIngredient>> list, IRecipeCreator<?> recipeCreator) {
         if (labs$recipeClassFunction == null) return validateShape(msg, list, recipeCreator);
         return validateShape(msg, list, (width1, height1, ingredients) -> labs$recipeClassFunction
                 .createRecipe(output, width1, height1, ingredients, mirrored, recipeFunction, recipeAction));

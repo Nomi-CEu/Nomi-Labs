@@ -15,20 +15,22 @@ import com.brandon3055.draconicevolution.blocks.tileentity.TileInvisECoreBlock;
 import com.nomiceu.nomilabs.integration.draconicevolution.TileInvisECoreBlockLogic;
 import com.nomiceu.nomilabs.integration.draconicevolution.TileInvisECoreBlockState;
 
-@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(value = TileInvisECoreBlock.class, remap = false)
 public class TileInvisECoreBlockMixin implements TileInvisECoreBlockState {
 
     @Unique
     boolean labs$isDefault = true;
+
     @Unique
     int labs$metadata = 0;
 
+    @Unique
     @Override
     public boolean labs$getDefault() {
         return labs$isDefault;
     }
 
+    @Unique
     @Override
     public void labs$setIsDefault() {
         this.labs$isDefault = true;
@@ -46,7 +48,7 @@ public class TileInvisECoreBlockMixin implements TileInvisECoreBlockState {
     }
 
     @Inject(method = "revert", at = @At("HEAD"), cancellable = true)
-    public void revert(CallbackInfo ci) {
+    private void revert(CallbackInfo ci) {
         TileInvisECoreBlockLogic.revert((TileInvisECoreBlock) (Object) this);
         ci.cancel();
     }
@@ -55,24 +57,24 @@ public class TileInvisECoreBlockMixin implements TileInvisECoreBlockState {
             at = @At("HEAD"),
             cancellable = true,
             remap = true)
-    public void getUpdatePacket(CallbackInfoReturnable<SPacketUpdateTileEntity> cir) {
+    private void getUpdatePacket(CallbackInfoReturnable<SPacketUpdateTileEntity> cir) {
         cir.setReturnValue(TileInvisECoreBlockLogic.getUpdatePacket((TileInvisECoreBlock) (Object) this));
     }
 
     @Inject(method = "onDataPacket", at = @At("HEAD"), cancellable = true)
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt, CallbackInfo ci) {
+    private void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt, CallbackInfo ci) {
         TileInvisECoreBlockLogic.onDataPacket((TileInvisECoreBlock) (Object) this, pkt);
         ci.cancel();
     }
 
     @Inject(method = "writeExtraNBT", at = @At("HEAD"), cancellable = true)
-    public void writeExtraNBT(NBTTagCompound compound, CallbackInfo ci) {
+    private void writeExtraNBT(NBTTagCompound compound, CallbackInfo ci) {
         TileInvisECoreBlockLogic.writeExtraNBT((TileInvisECoreBlock) (Object) this, compound);
         ci.cancel();
     }
 
     @Inject(method = "readExtraNBT", at = @At("HEAD"), cancellable = true)
-    public void readExtraNBT(NBTTagCompound compound, CallbackInfo ci) {
+    private void readExtraNBT(NBTTagCompound compound, CallbackInfo ci) {
         TileInvisECoreBlockLogic.readExtraNBT((TileInvisECoreBlock) (Object) this, compound);
         ci.cancel();
     }

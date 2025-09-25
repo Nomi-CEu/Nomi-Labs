@@ -36,8 +36,9 @@ public abstract class DefaultWorldSelectionListMixin extends GuiScreen {
     @Redirect(method = "initGui",
               at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z"),
               remap = true)
-    public boolean initNewGui(List<GuiButton> instance, Object e) {
-        instance.add(new GuiButton(BTN_OK,
+    private boolean initNewGui(List<GuiButton> instance, Object e) {
+        instance.add(new GuiButton(
+                BTN_OK,
                 width / 2 - 155, height - 28, 150, 20,
                 LabsTranslate.translate("defaultworldgenerator-port.chooseworld.gui.continue")));
         return instance.add(
@@ -45,7 +46,7 @@ public abstract class DefaultWorldSelectionListMixin extends GuiScreen {
     }
 
     @Inject(method = "actionPerformed", at = @At(value = "HEAD"), remap = true)
-    public void handleCancelAction(GuiButton button, CallbackInfo ci) {
+    private void handleCancelAction(GuiButton button, CallbackInfo ci) {
         if (button.id == BTN_CANCEL) {
             mc.displayGuiScreen(parent);
         }

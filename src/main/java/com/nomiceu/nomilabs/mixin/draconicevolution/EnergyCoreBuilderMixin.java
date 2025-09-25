@@ -58,8 +58,8 @@ public class EnergyCoreBuilderMixin implements StoppableProcess {
         ci.cancel();
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$stop() {
         isDead = true;
         workOrder.clear();

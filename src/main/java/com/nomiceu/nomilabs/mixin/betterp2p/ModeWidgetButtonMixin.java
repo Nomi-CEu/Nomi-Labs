@@ -49,7 +49,7 @@ public abstract class ModeWidgetButtonMixin extends WidgetButton {
     /**
      * Mandatory Ignored Constructor
      */
-    public ModeWidgetButtonMixin(@NotNull GuiAdvancedMemoryCard gui, int x, int y, int width, int height) {
+    private ModeWidgetButtonMixin(@NotNull GuiAdvancedMemoryCard gui, int x, int y, int width, int height) {
         super(gui, x, y, width, height);
     }
 
@@ -67,8 +67,8 @@ public abstract class ModeWidgetButtonMixin extends WidgetButton {
         labs$setTextureDetails();
     }
 
-    @Override
     @Unique
+    @Override
     public void draw(@NotNull Minecraft mc, int mouseX, int mouseY, float partial) {
         Tessellator tessellator = Tessellator.getInstance();
         super.drawBG(tessellator, mouseX, mouseY, partial);
@@ -77,7 +77,8 @@ public abstract class ModeWidgetButtonMixin extends WidgetButton {
         if (labs$useLabsTexture)
             LabsTextures.P2P_CUSTOM_MODES[labs$iconId].draw(x + 1.0, y + 1.0, width - 2, height - 2);
         else {
-            drawTexturedQuad(tessellator,
+            drawTexturedQuad(
+                    tessellator,
                     x + 1.0,
                     y + 1.0,
                     x + width - 1.0,
@@ -90,7 +91,7 @@ public abstract class ModeWidgetButtonMixin extends WidgetButton {
     }
 
     @Inject(method = "mousePressed", at = @At("HEAD"), cancellable = true)
-    public void labsMousePressed(int mouseX, int mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+    private void labsMousePressed(int mouseX, int mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         if (!super.mousePressed(getGui().mc, mouseX, mouseY)) {
             cir.setReturnValue(false);
             return;

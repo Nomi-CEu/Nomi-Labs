@@ -1,6 +1,7 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -26,7 +27,7 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
     /**
      * Mandatory Ignored Constructor
      */
-    public MultiblockRecipeLogicMixin(MetaTileEntity tileEntity, RecipeMap<?> recipeMap) {
+    private MultiblockRecipeLogicMixin(MetaTileEntity tileEntity, RecipeMap<?> recipeMap) {
         super(tileEntity, recipeMap);
     }
 
@@ -35,6 +36,7 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
         ((IRefreshBeforeConsumption) metaTileEntity).labs$refreshBeforeConsumption();
     }
 
+    @Unique
     @Override
     public boolean prepareRecipe(Recipe recipe) {
         ((IRefreshBeforeConsumption) metaTileEntity).labs$refreshBeforeConsumption();

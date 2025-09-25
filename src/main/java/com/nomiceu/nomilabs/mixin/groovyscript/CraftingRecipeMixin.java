@@ -16,14 +16,14 @@ public class CraftingRecipeMixin implements StrictableRecipe {
     @Unique
     private boolean labs$isStrict = false;
 
-    @Override
     @Unique
+    @Override
     public boolean labs$getIsStrict() {
         return labs$isStrict;
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$setStrict() {
         labs$isStrict = true;
     }

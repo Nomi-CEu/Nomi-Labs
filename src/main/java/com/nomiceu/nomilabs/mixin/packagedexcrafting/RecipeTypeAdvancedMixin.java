@@ -21,7 +21,7 @@ public class RecipeTypeAdvancedMixin {
     private final List<String> labs$category = Collections.singletonList("extendedcrafting:table_crafting_5x5");
 
     @Inject(method = "getJEICategories", at = @At("HEAD"), cancellable = true)
-    public void getJEICategories(CallbackInfoReturnable<List<String>> cir) {
+    private void getJEICategories(CallbackInfoReturnable<List<String>> cir) {
         cir.setReturnValue(labs$category);
     }
 }

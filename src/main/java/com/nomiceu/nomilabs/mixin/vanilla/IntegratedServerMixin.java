@@ -26,9 +26,10 @@ public abstract class IntegratedServerMixin extends MinecraftServer implements D
     /**
      * Default Ignored Constructor
      */
-    public IntegratedServerMixin(File anvilFileIn, Proxy proxyIn, DataFixer dataFixerIn,
-                                 YggdrasilAuthenticationService authServiceIn, MinecraftSessionService sessionServiceIn,
-                                 GameProfileRepository profileRepoIn, PlayerProfileCache profileCacheIn) {
+    private IntegratedServerMixin(File anvilFileIn, Proxy proxyIn, DataFixer dataFixerIn,
+                                  YggdrasilAuthenticationService authServiceIn,
+                                  MinecraftSessionService sessionServiceIn,
+                                  GameProfileRepository profileRepoIn, PlayerProfileCache profileCacheIn) {
         super(anvilFileIn, proxyIn, dataFixerIn, authServiceIn, sessionServiceIn, profileRepoIn, profileCacheIn);
     }
 

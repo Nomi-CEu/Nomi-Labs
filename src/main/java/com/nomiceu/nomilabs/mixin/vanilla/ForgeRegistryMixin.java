@@ -56,19 +56,20 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>>
                      target = "Lnet/minecraftforge/registries/ForgeRegistry;addAlias(Lnet/minecraft/util/ResourceLocation;Lnet/minecraft/util/ResourceLocation;)V"),
             require = 1,
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    public void handleRemaps(ResourceLocation name, ForgeRegistry<V> pool,
-                             List<RegistryEvent.MissingMappings.Mapping<V>> mappings,
-                             Map<ResourceLocation, Integer> missing, Map<ResourceLocation, Integer[]> remaps,
-                             Collection<ResourceLocation> defaulted, Collection<ResourceLocation> failed,
-                             boolean injectNetworkDummies, CallbackInfo ci,
-                             @Local RegistryEvent.MissingMappings.Mapping<V> remap,
-                             @Local(ordinal = 2) int realId) {
+    private void handleRemaps(ResourceLocation name, ForgeRegistry<V> pool,
+                              List<RegistryEvent.MissingMappings.Mapping<V>> mappings,
+                              Map<ResourceLocation, Integer> missing, Map<ResourceLocation, Integer[]> remaps,
+                              Collection<ResourceLocation> defaulted, Collection<ResourceLocation> failed,
+                              boolean injectNetworkDummies, CallbackInfo ci,
+                              @Local RegistryEvent.MissingMappings.Mapping<V> remap,
+                              @Local(ordinal = 2) int realId) {
         if (remap.id != realId) {
             block(remap.id);
             labs$remapped.put(remap.id, remap.getTarget().getRegistryName());
             NomiLabs.LOGGER.warn(
                     "[Forge Registry] Remap could not assign Id {} for Object {}! If this is of type BLOCK, without Data Fixers, after initial load, blocks will no longer be remapped!",
-                    remap.id, remap.getTarget().getRegistryName());
+                    remap.id,
+                    remap.getTarget().getRegistryName());
         }
     }
 
@@ -85,25 +86,25 @@ public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>>
     }
 
     @Inject(method = "makeSnapshot", at = @At("RETURN"))
-    public void addRemappedToSnapshot(CallbackInfoReturnable<ForgeRegistry.Snapshot> cir) {
+    private void addRemappedToSnapshot(CallbackInfoReturnable<ForgeRegistry.Snapshot> cir) {
         ForgeRegistry.Snapshot ret = cir.getReturnValue();
         ((RemappableSnapshot) ret).labs$addAllRemapped(labs$remapped);
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$addRemapped(int id, ResourceLocation key) {
         labs$remapped.put(id, key);
     }
 
-    @Override
     @Unique
+    @Override
     public Map<Integer, ResourceLocation> labs$getRemapped() {
         return labs$remapped;
     }
 
-    @Override
     @Unique
+    @Override
     public Set<Integer> labs$getBlocked() {
         return blocked;
     }
