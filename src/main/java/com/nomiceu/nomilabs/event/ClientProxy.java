@@ -27,7 +27,7 @@ import com.nomiceu.nomilabs.item.registry.LabsItems;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
 import com.nomiceu.nomilabs.network.LabsP2PCycleMessage;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
-import com.nomiceu.nomilabs.tooltip.TooltipAdder;
+import com.nomiceu.nomilabs.tooltip.TooltipChanger;
 import com.nomiceu.nomilabs.util.ItemMeta;
 
 /*
@@ -80,8 +80,8 @@ public class ClientProxy {
 
     @SubscribeEvent
     public static void addTooltipNormal(ItemTooltipEvent event) {
-        TooltipAdder.addTooltipNormal(event.getToolTip(), event.getItemStack());
-        TooltipAdder.addTooltipClearing(event.getToolTip(), event.getItemStack(), event.getEntityPlayer());
+        TooltipChanger.addTooltipNormal(event.getToolTip(), event.getItemStack());
+        TooltipChanger.addTooltipClearing(event.getToolTip(), event.getItemStack(), event.getEntityPlayer());
     }
 
     @SubscribeEvent

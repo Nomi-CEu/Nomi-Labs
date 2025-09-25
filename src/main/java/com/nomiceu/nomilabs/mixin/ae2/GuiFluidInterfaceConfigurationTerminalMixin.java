@@ -2,8 +2,10 @@ package com.nomiceu.nomilabs.mixin.ae2;
 
 import net.minecraft.inventory.Container;
 
+import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,7 +17,8 @@ import appeng.client.gui.implementations.GuiFluidInterfaceConfigurationTerminal;
 import appeng.client.gui.widgets.MEGuiTextField;
 
 /**
- * Allows Auto-Focusing of the Fluid Interface Configuration Terminal. Allows Not Saving Searches.
+ * Allows Auto-Focusing of the Fluid Interface Configuration Terminal. Allows Not Saving Searches. Allows Repeat
+ * Keyboard Events.
  */
 @Mixin(value = GuiFluidInterfaceConfigurationTerminal.class, remap = false)
 public abstract class GuiFluidInterfaceConfigurationTerminalMixin extends AEBaseGui {
@@ -35,5 +38,13 @@ public abstract class GuiFluidInterfaceConfigurationTerminalMixin extends AEBase
         searchFieldInputs.setFocused(LabsConfig.modIntegration.ae2TerminalOptions.autoFocusConfigFluidInterface);
         if (!LabsConfig.modIntegration.ae2TerminalOptions.saveConfigInterfaceSearch)
             searchFieldInputs.setText("");
+        Keyboard.enableRepeatEvents(true);
+    }
+
+    @Unique
+    @Override
+    public void onGuiClosed() {
+        Keyboard.enableRepeatEvents(false);
+        super.onGuiClosed();
     }
 }

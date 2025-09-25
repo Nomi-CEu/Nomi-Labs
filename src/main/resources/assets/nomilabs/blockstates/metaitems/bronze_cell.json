@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "inventory": {
+      "model": "forge:forgebucket",
+      "textures": {
+        "base": "nomilabs:items/metaitems/bronze_cell/base",
+        "fluid": "nomilabs:items/metaitems/bronze_cell/overlay",
+        "cover": "nomilabs:items/metaitems/bronze_cell/base"
+      },
+      "transform": "forge:default-item"
+    }
+  }
+}

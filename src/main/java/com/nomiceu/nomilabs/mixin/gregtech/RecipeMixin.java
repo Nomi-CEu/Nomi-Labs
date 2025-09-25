@@ -1,8 +1,10 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
@@ -13,28 +15,44 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
 
 import gregtech.api.recipes.Recipe;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.category.GTRecipeCategory;
+import gregtech.api.recipes.chance.boost.ChanceBoostFunction;
 import gregtech.api.recipes.chance.output.ChancedOutputList;
 import gregtech.api.recipes.chance.output.impl.ChancedFluidOutput;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
 import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
+import gregtech.api.util.GTUtility;
 
 /**
- * Makes recipes registered when {@link com.nomiceu.nomilabs.util.LabsGroovyHelper#LABS_GROOVY_RUNNING} is true groovy
- * recipes.
+ * Makes recipes registered when {@link com.nomiceu.nomilabs.util.LabsGroovyHelper#LABS_GROOVY_RUNNING} have groovy
+ * recipe status. Also, removes unneeded processing when calculating recipe outputs.
  */
 @Mixin(value = Recipe.class, remap = false)
-public class RecipeMixin {
+public abstract class RecipeMixin {
 
     @Shadow
     @Mutable
     @Final
     private boolean groovyRecipe;
+
+    @Shadow
+    public abstract ChancedOutputList<ItemStack, ChancedItemOutput> getChancedOutputs();
+
+    @Shadow
+    public abstract NonNullList<ItemStack> getOutputs();
+
+    @Shadow
+    public abstract List<FluidStack> getFluidOutputs();
+
+    @Shadow
+    public abstract ChancedOutputList<FluidStack, ChancedFluidOutput> getChancedFluidOutputs();
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void setLabsGroovyRecipe(@NotNull List<GTRecipeInput> inputs,
@@ -53,5 +71,35 @@ public class RecipeMixin {
         if (LabsGroovyHelper.LABS_GROOVY_RUNNING) {
             groovyRecipe = true;
         }
+    }
+
+    @Inject(method = "getResultItemOutputs", at = @At("HEAD"), cancellable = true)
+    private void newItemLogic(int recipeTier, int machineTier, RecipeMap<?> recipeMap,
+                              CallbackInfoReturnable<List<ItemStack>> cir) {
+        List<ItemStack> outputs = new ArrayList<>(GTUtility.copyStackList(getOutputs()));
+        ChanceBoostFunction function = recipeMap.getChanceFunction();
+        List<ChancedItemOutput> chancedOutputs = getChancedOutputs().roll(function, recipeTier, machineTier);
+
+        if (chancedOutputs != null) {
+            for (var output : chancedOutputs) {
+                outputs.add(output.getIngredient().copy());
+            }
+        }
+        cir.setReturnValue(outputs);
+    }
+
+    @Inject(method = "getResultFluidOutputs", at = @At("HEAD"), cancellable = true)
+    private void newFluidLogic(int recipeTier, int machineTier, RecipeMap<?> recipeMap,
+                               CallbackInfoReturnable<List<FluidStack>> cir) {
+        List<FluidStack> outputs = new ArrayList<>(GTUtility.copyFluidList(getFluidOutputs()));
+        ChanceBoostFunction function = recipeMap.getChanceFunction();
+        List<ChancedFluidOutput> chancedOutputs = getChancedFluidOutputs().roll(function, recipeTier, machineTier);
+
+        if (chancedOutputs != null) {
+            for (var output : chancedOutputs) {
+                outputs.add(output.getIngredient().copy());
+            }
+        }
+        cir.setReturnValue(outputs);
     }
 }

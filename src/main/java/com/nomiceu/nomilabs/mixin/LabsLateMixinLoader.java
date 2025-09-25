@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import net.minecraftforge.fml.common.Loader;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.common.collect.ImmutableMap;
 import com.nomiceu.nomilabs.config.LabsConfig;
 
@@ -27,8 +29,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.enableExtraUtils2Integration)
             .put(GREGTECH_MODID, true)
             .put(JEI_MODID, true)
-            .put(ROCKETRY_MODID,
-                    LabsConfig.modIntegration.enableAdvancedRocketryIntegration)
+            .put(ROCKETRY_MODID, true)
             .put(ARCHITECTURE_MODID,
                     LabsConfig.modIntegration.enableArchitectureCraftIntegration)
             .put(EFFORTLESS_MODID,
@@ -44,6 +45,8 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.enableTopAddonsIntegration)
             .put(TOP_MODID, true)
             .put(AE2_MODID, true)
+            .put(AE2FC_MODID, true)
+            .put(NAE2_MODID, true)
             .put(ENDER_IO_MODID, true)
             .put(AA_MODID, true)
             .put(THERMAL_FOUNDATION_MODID, true)
@@ -54,19 +57,31 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.solarFluxPerformanceOptions.enableSolarFluxPerformance)
             .put(ARMOR_PLUS_MODID, true)
             .put(GCYM_MODID, true)
+            .put(PA_EX_CRAFTING_MODID, LabsConfig.modIntegration.paExCraftingStrictMode)
+            .put(AE2_STUFF_MODID, true)
             .build();
 
+    public static final Map<Pair<String, String>, Boolean> specialMixinsConfig = ImmutableMap.of(
+            Pair.of(ROCKETRY_MODID, "prerework"), LabsConfig.modIntegration.enableAdvancedRocketryIntegration);
+
+    @SuppressWarnings("SimplifyStreamApiCallChains")
     @Override
     public List<String> getMixinConfigs() {
-        return modMixinsConfig.keySet().stream().map(mod -> "mixins." + LABS_MODID + "." + mod + ".json")
+        List<String> mixins = modMixinsConfig.keySet().stream().map(mod -> "mixins." + LABS_MODID + "." + mod + ".json")
                 .collect(Collectors.toList());
+
+        mixins.addAll(specialMixinsConfig.keySet().stream()
+                .map(pair -> "mixins." + LABS_MODID + "." + pair.getKey() + "." + pair.getValue() + ".json")
+                .collect(Collectors.toList()));
+
+        return mixins;
     }
 
     @Override
     public boolean shouldMixinConfigQueue(String mixinConfig) {
         String[] parts = mixinConfig.split("\\.");
 
-        if (parts.length != 4) {
+        if (parts.length != 4 && parts.length != 5) {
             LOGGER.fatal("Mixin Config Check Failed! Invalid Length.");
             LOGGER.fatal("Mixin Config: {}", mixinConfig);
             return true;
@@ -83,6 +98,18 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     parts[2]);
             LOGGER.error("Not Loading Mixin Config {}", mixinConfig);
             return false;
+        }
+
+        if (parts.length == 5) {
+            Pair<String, String> cfgPair = Pair.of(parts[2], parts[3]);
+            if (!specialMixinsConfig.containsKey(cfgPair) || !specialMixinsConfig.get(cfgPair)) {
+                LOGGER.info("Integration for Mod '{}', Special Type {}, is not enabled, or does not exist.", parts[2],
+                        parts[3]);
+                LOGGER.info("Not Loading Mixin Config {}", mixinConfig);
+                return false;
+            }
+
+            return true;
         }
 
         if (!modMixinsConfig.containsKey(parts[2]) || !modMixinsConfig.get(parts[2])) {

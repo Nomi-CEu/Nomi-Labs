@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import org.spongepowered.asm.mixin.Final;
@@ -17,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.nomiceu.nomilabs.integration.betterp2p.AccessibleGridServerCache;
+import com.projecturanus.betterp2p.BetterP2P;
 import com.projecturanus.betterp2p.network.data.GridServerCache;
 import com.projecturanus.betterp2p.network.data.P2PLocation;
 import com.projecturanus.betterp2p.util.p2p.TunnelInfo;
@@ -24,11 +24,9 @@ import com.projecturanus.betterp2p.util.p2p.TunnelInfo;
 import appeng.api.config.SecurityPermissions;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.security.ISecurityGrid;
-import appeng.helpers.IInterfaceHost;
 import appeng.me.GridAccessException;
 import appeng.me.cache.helpers.TunnelCollection;
 import appeng.parts.p2p.PartP2PTunnel;
-import appeng.util.Platform;
 import kotlin.Pair;
 
 /**
@@ -53,10 +51,6 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
     @Shadow
     protected abstract PartP2PTunnel<?> updateP2P(P2PLocation key, PartP2PTunnel<?> tunnel, short frequency,
                                                   boolean output, String name);
-
-    @Shadow
-    protected abstract void handleInterface(IInterfaceHost oldIn, IInterfaceHost oldOut, IInterfaceHost newIn,
-                                            IInterfaceHost newOut, List<ItemStack> drops);
 
     @Shadow
     protected abstract PartP2PTunnel<?> changeP2PType(PartP2PTunnel<?> tunnel, TunnelInfo newType);
@@ -123,13 +117,12 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
         var input = listP2P.get(inputIndex);
         var output = listP2P.get(outputIndex);
 
-        var frequency = input.getFrequency();
+        short frequency;
         try {
-            if (frequency == 0 || input.isOutput()) {
-                // Generate new frequency
-                // Use AE2's way instead of Better P2P's way
-                frequency = input.getProxy().getP2P().newFrequency();
-            }
+            // Generate new frequency, always
+            // This makes 'bind as' modes create a separate network, making them still useful with 'add as' modes
+            // Use AE2's way instead of Better P2P's way
+            frequency = input.getProxy().getP2P().newFrequency();
         } catch (GridAccessException e) {
             cir.setReturnValue(null);
             return;
@@ -141,12 +134,9 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
         var outputResult = updateP2P(outputIndex, output, frequency, true,
                 output.hasCustomInventoryName() ? output.getCustomInventoryName() : "");
 
-        // Special case for interfaces
-        if (input instanceof IInterfaceHost inputHost && output instanceof IInterfaceHost outputHost) {
-            List<ItemStack> drops = new ArrayList<>();
-            handleInterface(inputHost, outputHost, (IInterfaceHost) inputResult, (IInterfaceHost) outputResult, drops);
-            Platform.spawnDrops(player.world, output.getLocation().getPos(), drops);
-        }
+        // Original code here handles P2Ps that extend IInterfaceHost; these seem not to exist
+        // Perhaps a side effect of porting code from GTNH?
+        // Skip
 
         cir.setReturnValue(new Pair<>(inputResult, outputResult));
     }
@@ -173,29 +163,52 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
 
     @Override
     @Unique
-    public boolean labs$addInput(P2PLocation key, short sourceFrequency) {
-        return labs$addAs(key, sourceFrequency, true);
+    public boolean labs$addInput(P2PLocation toAdd, P2PLocation toBind) {
+        return labs$addAs(toAdd, toBind, true);
     }
 
     @Override
     @Unique
-    public boolean labs$addOutput(P2PLocation key, short sourceFrequency) {
-        return labs$addAs(key, sourceFrequency, false);
+    public boolean labs$addOutput(P2PLocation toAdd, P2PLocation toBind) {
+        return labs$addAs(toAdd, toBind, false);
     }
 
     /**
      * Shared Logic
      */
     @Unique
-    private boolean labs$addAs(P2PLocation key, short sourceFrequency, boolean isInput) {
+    private boolean labs$addAs(P2PLocation toAdd, P2PLocation toBind, boolean isInput) {
         if (grid instanceof ISecurityGrid securityGrid &&
                 !securityGrid.hasPermission(player, SecurityPermissions.BUILD)) {
             return false;
         }
-        var p2p = listP2P.get(key);
-        if (p2p == null) return false;
+        var toAddP2P = listP2P.get(toAdd);
+        var toBindP2P = listP2P.get(toBind);
+        if (toAddP2P == null || toBindP2P == null) return false;
 
-        return updateP2P(key, p2p, sourceFrequency, !isInput,
-                p2p.hasCustomInventoryName() ? p2p.getCustomInventoryName() : "") != null;
+        // Update Type
+        if (toAddP2P.getClass() != toBindP2P.getClass()) {
+            toAddP2P = changeP2PType(toAddP2P, BetterP2P.proxy.getP2PFromClass(toBindP2P.getClass()));
+
+            if (toAddP2P == null) return false;
+        }
+
+        // Handle Unbound To Bind P2Ps
+        if (toBindP2P.getFrequency() == 0) {
+            short frequency;
+            try {
+                frequency = toBindP2P.getProxy().getP2P().newFrequency();
+            } catch (GridAccessException e) {
+                return false;
+            }
+
+            toBindP2P = updateP2P(toBind, toBindP2P, frequency, toBindP2P.isOutput(),
+                    toBindP2P.hasCustomInventoryName() ? toBindP2P.getCustomInventoryName() : "");
+
+            if (toBindP2P == null) return false;
+        }
+
+        return updateP2P(toAdd, toAddP2P, toBindP2P.getFrequency(), !isInput,
+                toAddP2P.hasCustomInventoryName() ? toAddP2P.getCustomInventoryName() : "") != null;
     }
 }

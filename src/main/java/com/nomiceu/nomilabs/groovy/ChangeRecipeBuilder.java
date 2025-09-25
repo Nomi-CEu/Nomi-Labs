@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.groovy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -7,6 +8,8 @@ import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleIntCircuitIngredient;
@@ -20,6 +23,8 @@ import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.api.recipes.recipeproperties.RecipeProperty;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 @SuppressWarnings({ "unused", "UnusedReturnValue" })
 public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
@@ -110,7 +115,7 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         return this;
     }
 
-    public ChangeRecipeBuilder<R> changeInputs(Consumer<List<GTRecipeInput>> itemChanger) {
+    public ChangeRecipeBuilder<R> changeAllInputs(Consumer<List<GTRecipeInput>> itemChanger) {
         builder.clearInputs();
 
         var newInputs = originalRecipe.getInputs()
@@ -131,7 +136,33 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         return this;
     }
 
-    public ChangeRecipeBuilder<R> changeFluidInputs(Consumer<List<GTRecipeInput>> fluidChanger) {
+    /**
+     * Supports negative indices as going back from the end.
+     * Uses the current builder input list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> changeInput(int index, Function<GTRecipeInput, GTRecipeInput> itemChanger) {
+        var inputs = builder.getInputs();
+        index = normalizeIndex(index, inputs.size(), "Change input");
+        if (index == -1) return this;
+
+        inputs.set(index, itemChanger.apply(inputs.get(index)));
+        return this;
+    }
+
+    /**
+     * Supports negative indices as going back from the end.A ll indices are relative to the list before the operation.
+     * Uses the current builder input list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> removeInputs(int... indices) {
+        var inputs = builder.getInputs();
+        var newInputs = removeIndices(indices, inputs, "Remove input");
+
+        builder.clearInputs();
+        builder.inputIngredients(newInputs);
+        return this;
+    }
+
+    public ChangeRecipeBuilder<R> changeAllFluidInputs(Consumer<List<GTRecipeInput>> fluidChanger) {
         builder.clearFluidInputs();
 
         var newInputs = originalRecipe.getFluidInputs()
@@ -152,7 +183,33 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         return this;
     }
 
-    public ChangeRecipeBuilder<R> changeOutputs(Consumer<List<ItemStack>> itemChanger) {
+    /**
+     * Supports negative indices as going back from the end.
+     * Uses the current builder fluid input list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> changeFluidInput(int index, Function<GTRecipeInput, GTRecipeInput> itemChanger) {
+        var inputs = builder.getFluidInputs();
+        index = normalizeIndex(index, inputs.size(), "Change fluid input");
+        if (index == -1) return this;
+
+        inputs.set(index, itemChanger.apply(inputs.get(index)));
+        return this;
+    }
+
+    /**
+     * Supports negative indices as going back from the end.A ll indices are relative to the list before the operation.
+     * Uses the current builder fluid input list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> removeFluidInputs(int... indices) {
+        var inputs = builder.getFluidInputs();
+        var newInputs = removeIndices(indices, inputs, "Remove fluid input");
+
+        builder.clearFluidInputs();
+        builder.fluidInputs(newInputs);
+        return this;
+    }
+
+    public ChangeRecipeBuilder<R> changeAllOutputs(Consumer<List<ItemStack>> itemChanger) {
         builder.clearOutputs();
 
         var newOutputs = originalRecipe.getOutputs()
@@ -173,7 +230,33 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         return this;
     }
 
-    public ChangeRecipeBuilder<R> changeFluidOutputs(Consumer<List<FluidStack>> fluidChanger) {
+    /**
+     * Supports negative indices as going back from the end.
+     * Uses the current builder output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> changeOutput(int index, Function<ItemStack, ItemStack> itemChanger) {
+        var outputs = builder.getOutputs();
+        index = normalizeIndex(index, outputs.size(), "Change output");
+        if (index == -1) return this;
+
+        outputs.set(index, itemChanger.apply(outputs.get(index)));
+        return this;
+    }
+
+    /**
+     * Supports negative indices as going back from the end.A ll indices are relative to the list before the operation.
+     * Uses the current builder output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> removeOutputs(int... indices) {
+        var outputs = builder.getOutputs();
+        var newOutputs = removeIndices(indices, outputs, "Remove output");
+
+        builder.clearOutputs();
+        builder.outputs(newOutputs);
+        return this;
+    }
+
+    public ChangeRecipeBuilder<R> changeAllFluidOutputs(Consumer<List<FluidStack>> fluidChanger) {
         builder.clearFluidOutputs();
 
         var newOutputs = originalRecipe.getFluidOutputs()
@@ -194,7 +277,33 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         return this;
     }
 
-    public ChangeRecipeBuilder<R> changeChancedOutputs(Consumer<List<ChancedItemOutput>> itemChanger) {
+    /**
+     * Supports negative indices as going back from the end.
+     * Uses the current builder fluid output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> changeFluidOutput(int index, Function<FluidStack, FluidStack> itemChanger) {
+        var outputs = builder.getFluidOutputs();
+        index = normalizeIndex(index, outputs.size(), "Change fluid output");
+        if (index == -1) return this;
+
+        outputs.set(index, itemChanger.apply(outputs.get(index)));
+        return this;
+    }
+
+    /**
+     * Supports negative indices as going back from the end.A ll indices are relative to the list before the operation.
+     * Uses the current builder fluid output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> removeFluidOutputs(int... indices) {
+        var outputs = builder.getFluidOutputs();
+        var newOutputs = removeIndices(indices, outputs, "Remove fluid output");
+
+        builder.clearFluidOutputs();
+        builder.fluidOutputs(newOutputs);
+        return this;
+    }
+
+    public ChangeRecipeBuilder<R> changeAllChancedOutputs(Consumer<List<ChancedItemOutput>> itemChanger) {
         builder.clearChancedOutput();
 
         var newOutputs = originalRecipe.getChancedOutputs().getChancedEntries()
@@ -216,7 +325,34 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
         return this;
     }
 
-    public ChangeRecipeBuilder<R> changeChancedFluidOutputs(Consumer<List<ChancedFluidOutput>> fluidChanger) {
+    /**
+     * Supports negative indices as going back from the end.
+     * Uses the current builder chanced output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> changeChancedOutput(int index,
+                                                      Function<ChancedItemOutput, ChancedItemOutput> itemChanger) {
+        var outputs = builder.getChancedOutputs();
+        index = normalizeIndex(index, outputs.size(), "Change chanced output");
+        if (index == -1) return this;
+
+        outputs.set(index, itemChanger.apply(outputs.get(index)));
+        return this;
+    }
+
+    /**
+     * Supports negative indices as going back from the end.A ll indices are relative to the list before the operation.
+     * Uses the current builder chanced output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> removeChancedOutputs(int... indices) {
+        var chancedOutputs = builder.getChancedOutputs();
+        var newChancedOutputs = removeIndices(indices, chancedOutputs, "Remove chanced output");
+
+        builder.clearChancedOutput();
+        builder.chancedOutputs(chancedOutputs);
+        return this;
+    }
+
+    public ChangeRecipeBuilder<R> changeAllChancedFluidOutputs(Consumer<List<ChancedFluidOutput>> fluidChanger) {
         builder.clearChancedFluidOutputs();
 
         var newOutputs = originalRecipe.getChancedFluidOutputs().getChancedEntries()
@@ -235,6 +371,33 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
                 builder.chancedFluidOutput(newOutput.getIngredient().copy(), newOutput.getChance(),
                         newOutput.getChanceBoost());
         }
+        return this;
+    }
+
+    /**
+     * Supports negative indices as going back from the end.
+     * Uses the current builder chanced fluid output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> changeChancedFluidOutput(int index,
+                                                           Function<ChancedFluidOutput, ChancedFluidOutput> itemChanger) {
+        var outputs = builder.getChancedFluidOutputs();
+        index = normalizeIndex(index, outputs.size(), "Change chanced fluid output");
+        if (index == -1) return this;
+
+        outputs.set(index, itemChanger.apply(outputs.get(index)));
+        return this;
+    }
+
+    /**
+     * Supports negative indices as going back from the end.A ll indices are relative to the list before the operation.
+     * Uses the current builder chanced fluid output list, not original recipe.
+     */
+    public ChangeRecipeBuilder<R> removeChancedFluidOutputs(int... indices) {
+        var chancedOutputs = builder.getChancedFluidOutputs();
+        var newChancedOutputs = removeIndices(indices, chancedOutputs, "Remove chanced fluid output");
+
+        builder.clearChancedFluidOutputs();
+        builder.chancedFluidOutputs(chancedOutputs);
         return this;
     }
 
@@ -284,6 +447,47 @@ public class ChangeRecipeBuilder<R extends RecipeBuilder<R>> {
     public void replaceAndRegister() {
         originalRecipeMap.removeRecipe(originalRecipe);
         buildAndRegister();
+    }
+
+    private static <T> List<T> removeIndices(int[] indices, List<T> items, String type) {
+        IntSet removals = indicesToSet(indices, items.size(), type);
+        if (removals == null) return items;
+
+        List<T> result = new ArrayList<>(items.size() - removals.size());
+
+        for (int i = 0; i < items.size(); i++) {
+            if (!removals.contains(i))
+                result.add(items.get(i));
+        }
+
+        return result;
+    }
+
+    @Nullable
+    private static IntSet indicesToSet(int[] indices, int listSize, String type) {
+        IntSet removals = new IntOpenHashSet(indices.length);
+
+        for (int index : indices) {
+            index = normalizeIndex(index, listSize, type);
+            if (index == -1) return null;
+
+            if (!removals.isEmpty() && removals.contains(index))
+                GroovyLog.get().error("{}: Duplicated index {}!", type, index);
+            else
+                removals.add(index);
+        }
+
+        return removals;
+    }
+
+    private static int normalizeIndex(int index, int listSize, String type) {
+        if (index < 0) index = listSize + index;
+
+        if (index < 0 || index >= listSize) {
+            GroovyLog.get().error("{}: Index {} out of bounds! Input size: {}", type, index, listSize);
+            return -1;
+        }
+        return index;
     }
 
     private static GTRecipeInput copy(GTRecipeInput in) {

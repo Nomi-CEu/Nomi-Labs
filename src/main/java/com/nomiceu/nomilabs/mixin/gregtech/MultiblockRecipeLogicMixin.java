@@ -43,7 +43,7 @@ public abstract class MultiblockRecipeLogicMixin extends AbstractRecipeLogic {
 
     @Inject(method = "performMufflerOperations", at = @At("HEAD"), cancellable = true)
     private void skipMufflerOperations(CallbackInfo ci) {
-        if (LabsConfig.modIntegration.enableDummyMufflers) {
+        if (LabsConfig.modIntegration.dummyMufflerMode != LabsConfig.ModIntegration.DummyMufflerMode.NORMAL) {
             ci.cancel();
         }
     }

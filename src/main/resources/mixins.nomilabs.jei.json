@@ -7,10 +7,8 @@
   "mixins": [
     "CraftingRecipeCategoryMixin",
     "IngredientInfoRecipeMixin",
-    "JeiStarterMixin",
-    "ListMultiMapMixin",
-    "ModRegistryMixin",
-    "RecipeCategoryTabMixin"
+    "RecipeCategoryTabMixin",
+    "RecipeLayoutAccessor"
   ],
   "client": [
     "GuiIngredientMixin"

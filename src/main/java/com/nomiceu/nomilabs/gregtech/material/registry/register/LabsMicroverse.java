@@ -52,7 +52,7 @@ public class LabsMicroverse {
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x274c9f).iconSet(SHINY)
                 .components(NaquadahOxide, 3, Pyromorphite, 1)
-                .addOreByproducts(Chalcopyrite, VanadiumMagnetite, NaquadahHydroxide)
+                .addOreByproducts(Caesium, VanadiumMagnetite, NaquadahHydroxide)
                 .build();
 
         Darmstadtite = new Material.Builder(110, makeLabsName("darmstadtite"))

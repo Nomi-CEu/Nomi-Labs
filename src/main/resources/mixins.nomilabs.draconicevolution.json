@@ -8,6 +8,7 @@
     "EnergyCoreBuilderMixin",
     "EnergyCoreStructureMixin",
     "EnergyPylonMixin",
+    "FusionRecipeCategoryMixin",
     "InvisECoreBlockMixin",
     "ReactorIntegration",
     "ReactorSlotIntegration",

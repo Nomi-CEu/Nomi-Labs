@@ -113,9 +113,7 @@ public abstract class WidgetP2PDeviceMixin implements ExtendedITypeReceiver {
             // Bind Button should be visible if the device is not the selected,
             // and is bound to different frequency than selected
             info.getBindButton().enabled = info.getLoc() != getSelectedInfo().getLoc() &&
-                    info.getFrequency() != (short) 0 &&
-                    info.getFrequency() != getSelectedInfo().getFrequency() &&
-                    info.getType() == getSelectedInfo().getType();
+                    (info.getFrequency() == 0 || info.getFrequency() != getSelectedInfo().getFrequency());
             info.getUnbindButton().enabled = false;
         }
     }

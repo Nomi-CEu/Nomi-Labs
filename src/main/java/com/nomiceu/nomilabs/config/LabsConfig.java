@@ -220,6 +220,14 @@ public class LabsConfig {
         })
         @Config.LangKey("config.nomilabs.top.gt_recipe_output")
         public boolean enableGTRecipeOutput = true;
+
+        @Config.Comment({
+                "Always display expanded view of tanks, when number of tanks is less than or equal to this threshold.",
+                "Set to 0 to only display expanded view when sneaking.",
+                "[default: 2]"
+        })
+        @Config.LangKey("config.nomilabs.top.expand_view_tank_threshold")
+        public int expandViewTankThreshold = 2;
     }
 
     public static class ModIntegration {
@@ -264,11 +272,11 @@ public class LabsConfig {
         public final DraconicEvolutionIntegration draconicEvolutionIntegration = new DraconicEvolutionIntegration();
 
         @Config.Comment({
-                "Whether to enable Advanced Rocketry Integration, which fixes Advanced Rocketry registering items for Fluid Blocks.",
-                "[default: true]" })
+                "Whether to enable Advanced Rocketry Integration, which applies fixes only relevant to OLD versions of AdvancedRocketry.",
+                "[default: false]" })
         @Config.LangKey("config.nomilabs.mod_integration.advanced_rocketry")
         @Config.RequiresMcRestart
-        public boolean enableAdvancedRocketryIntegration = true;
+        public boolean enableAdvancedRocketryIntegration = false;
 
         @Config.Comment({
                 "Whether to enable ArchitectureCraft Integration, which adds new slope variants, improves the GUI of the Sawbench, fixes the Sawbench Particle Texture, and fixes Shapes' Harvest Tools and Levels in The One Probe.",
@@ -337,14 +345,25 @@ public class LabsConfig {
         public boolean disableArmorPlusFragDrops = false;
 
         @Config.Comment({
-                "Enable Dummy Muffler hatches.",
+                "Configures Dummy Muffler Hatches.",
                 "Makes muffler hatches not produce ash anymore.",
                 "This improves performance when multiblocks try to calculate ash output. This is especially useful for high parallels.",
-                "[default: false]"
+                "Modes:",
+                "NORMAL: Normal operation of muffler hatches; no change from vanilla GT.",
+                "SHOW_WARNING: Shows a GUI with a warning (saying that muffler hatch production is disabled)",
+                "FULLY_DISABLED: Muflfer hatches show no GUI, and produce no ash",
+                "[default: NORMAL]"
         })
         @Config.LangKey("config.nomilabs.mod_integration.dummy_muffler_hatches")
-        @Config.RequiresMcRestart
-        public boolean enableDummyMufflers = false;
+        public DummyMufflerMode dummyMufflerMode = DummyMufflerMode.NORMAL;
+
+        @Config.Comment({
+                "Whether to disable Muffler Hatch particles.",
+                "May help with FPS on large worlds.",
+                "[default: false]"
+        })
+        @Config.LangKey("config.nomilabs.mod_integration.muffler_hatch_particles")
+        public boolean disableMufflerHatchParticles = false;
 
         @Config.Comment({ "Make Prospector default to Dark Mode.",
                 "Improves visibility of light ores, and dark ores are still visible.",
@@ -353,6 +372,13 @@ public class LabsConfig {
                 "[default: true]" })
         @Config.LangKey("config.nomilabs.mod_integration.prospector_dark")
         public boolean defaultDarkMode = true;
+
+        @Config.Comment({ "Make PackagedExCrafting's JEI Importing 'Strict', as in",
+                "only recipes from the exact same tier of table are able to be imported.",
+                "By default, it is in 'Valid' mode, or where recipes from any tier below can be imported.",
+                "[default: false]" })
+        @Config.LangKey("config.nomilabs.mod_integration.pa_ex_crafting_strict_mode")
+        public boolean paExCraftingStrictMode = false;
 
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
@@ -368,6 +394,12 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.solar_flux")
         @Config.Name("solar flux performance options")
         public final SolarFluxPerformanceOptions solarFluxPerformanceOptions = new SolarFluxPerformanceOptions();
+
+        public enum DummyMufflerMode {
+            NORMAL,
+            SHOW_WARNING,
+            FULLY_DISABLED,
+        }
 
         public static class SolarFluxPerformanceOptions {
 
@@ -435,7 +467,7 @@ public class LabsConfig {
             public boolean autoFocusConfigFluidInterface = true;
 
             @Config.Comment({
-                    "Whether to Save Serach Strings in the Interface Configuration Terminals (Item and Fluid).",
+                    "Whether to Save Search Strings in the Interface Configuration Terminals (Item and Fluid).",
                     "Default AE2 Behaviour is to Save.", "[default: false]" })
             @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save")
             public boolean saveConfigInterfaceSearch = false;
@@ -739,6 +771,26 @@ public class LabsConfig {
                 "[default: false]" })
         @Config.LangKey("config.nomilabs.advanced.mode_check_nomi_ceu")
         public boolean modeCheckNomiCeuLink = false;
+
+        @Config.Comment({
+                "At which parallel threshold to enable the custom binomial chance logic instead of re-rolling random generators, for GT Parallel Chanced Outputs calculations.",
+                "Performance tests show this threshold the optimal values to be around 16-24.",
+                "Binomial logic is a lot faster at higher parallelization, but uses slightly more memory.",
+                "A value of 0 will indicate to always use binomial logic.",
+                "[default: 20]"
+        })
+        @Config.LangKey("config.nomilabs.advanced.binomial_threshold")
+        @Config.RangeInt(min = 0)
+        public int binomialThreshold = 20;
+
+        @Config.Comment({
+                "What the default mipmap levels should be. ONLY applies to those without an options.txt file; e,g. new instances.",
+                "Default vanilla mipmap level is 4.",
+                "[default: 4]"
+        })
+        @Config.LangKey("config.nomilabs.advanced.default_mipmap")
+        @Config.RangeInt(min = 0, max = 4)
+        public int defaultMipmap = 4;
 
         public static class WindowOverrides {
 

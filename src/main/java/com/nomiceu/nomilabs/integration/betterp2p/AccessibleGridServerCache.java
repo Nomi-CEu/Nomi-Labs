@@ -8,7 +8,7 @@ public interface AccessibleGridServerCache {
 
     PartP2PTunnel<?> labs$changeIsInput(P2PLocation key, boolean isInput);
 
-    boolean labs$addInput(P2PLocation key, short sourceFrequency);
+    boolean labs$addInput(P2PLocation toAdd, P2PLocation toBind);
 
-    boolean labs$addOutput(P2PLocation key, short sourceFrequency);
+    boolean labs$addOutput(P2PLocation toAdd, P2PLocation toBind);
 }

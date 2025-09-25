@@ -35,6 +35,9 @@ We have chosen to implement most custom features into a coremod for Nomi-CEu, an
 ## Dependencies:
 This mod requires [GregTech CEu](https://github.com/GregTechCEu/GregTech). Other versions of GT, such as GTCE, will not work.
 
+## Licensing
+This whole project, and all files contained within, are licensed under the GNU LGPLv3.
+
 ## Credits:
 - [GTCEu Buildscripts](https://github.com/GregTechCEu/Buildscripts) for the amazing buildscripts
 - [GregicProbeCEu](https://github.com/Supernoobv/GregicProbeCEu) for base FluidStack element and base recipe outputs implementation (integrated in Labs for localization and display improvements and easier future GT porting)
@@ -45,3 +48,4 @@ This mod requires [GregTech CEu](https://github.com/GregTechCEu/GregTech). Other
 - [GregTech CE](https://github.com/GregTechCE/GregTech) & [Data Fixer Example](https://github.com/gabor7d2/DataFixerExampleMod) for sample & base code in Data Fixes
 - [GT-Expert-Core](https://github.com/GTModpackTeam/GTExpert-Core/tree/master) for development environment runtime fix for EnderCore
 - [GTNH's Fork of ArchitectureCraft](https://github.com/GTNewHorizons/ArchitectureCraft) for the basis of our ArchitectureCraft Integration
+- [ρμ (Rho-Mu)](https://github.com/cicirello/rho-mu/) for inspiration in implementation relating to fast generation of random variates from a binomial distribution

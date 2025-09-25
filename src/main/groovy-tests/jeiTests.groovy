@@ -6,6 +6,9 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.TranslationHelpers.*
 
 // JEI and Translation Helpers. (Goes in Post Init)
 
+// JEI hiding, recipe tooltips, descriptions, etc. can be marked as side only: client to save computation.
+// Remove and hide operations SHOULD NOT, as they also remove recipes!
+
 // There are two types of translations: translate and translatable.
 // Translate translates the input NOW, whilst translatable translates the input when it is needed.
 // All JEI Pages use Translatable, so that the language can be changed on-the-fly.

@@ -5,8 +5,9 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractObjectMapperMixin",
+    "CompletionProviderMixin",
     "CraftingRecipeMixin",
-    "InfoParserOreDictMixin",
     "IngredientMixin",
     "JEIPluginMixin",
     "ShapedRecipeBuilderMixin",
