@@ -33,6 +33,7 @@ public class GroovyTooltipChanger {
         else OPERATIONS.put(itemMeta, tooltipOp);
     }
 
+    @SideOnly(Side.CLIENT)
     public static void clear() {
         OPERATIONS.clear();
     }
@@ -50,6 +51,7 @@ public class GroovyTooltipChanger {
         String itemName = tooltip.remove(0);
 
         // If advanced tooltips are enabled, remove last, because of resource location printing
+        // No need to add it back, it gets added back regardless
         if (Minecraft.getMinecraft().gameSettings.advancedItemTooltips)
             LabsTooltipHelper.tryRemove(tooltip, tooltip.size() - 1, tooltip.size());
 

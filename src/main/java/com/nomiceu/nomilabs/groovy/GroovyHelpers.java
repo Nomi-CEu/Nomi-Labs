@@ -588,11 +588,18 @@ public class GroovyHelpers {
             exampleOutput.setTagCompound(null);
 
             var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
-            NBTClearingRecipe.NBT_CLEARERS
-                    .computeIfAbsent(new ItemMeta(exampleOutput), (key) -> new Object2ObjectOpenHashMap<>())
-                    .put(new ItemMeta(input), warningTooltip);
+
+            if (LabsSide.isClient()) {
+                NBTClearingRecipe.NBT_CLEARERS
+                        .computeIfAbsent(new ItemMeta(exampleOutput), (key) -> new Object2ObjectOpenHashMap<>())
+                        .put(new ItemMeta(input), warningTooltip);
+            }
+
             ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
-            TooltipHelpers.addTooltip(input, canClearTooltip);
+
+            if (LabsSide.isClient()) {
+                TooltipHelpers.addTooltip(input, canClearTooltip);
+            }
             return recipe;
         }
 

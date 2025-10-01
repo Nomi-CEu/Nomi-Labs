@@ -10,8 +10,10 @@
     "CraftingRecipeMixin",
     "IngredientMixin",
     "JEIPluginMixin",
+    "PreprocessorMixin",
     "ShapedRecipeBuilderMixin",
-    "ShapelessRecipeBuilderMixin"
+    "ShapelessRecipeBuilderMixin",
+    "SReloadScriptsMixin"
   ],
   "client": [],
   "server": []

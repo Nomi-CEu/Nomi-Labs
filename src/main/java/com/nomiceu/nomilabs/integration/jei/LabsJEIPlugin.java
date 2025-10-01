@@ -20,6 +20,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
@@ -97,13 +99,15 @@ public class LabsJEIPlugin implements IModPlugin {
                 VanillaRecipeCategoryUid.CRAFTING);
 
         // Add Descriptions for Hand Framing
-        registry.addIngredientInfo(new ItemStack(LabsItems.HAND_FRAMING_TOOL), VanillaTypes.ITEM,
-                translate("item.nomilabs.hand_framing_tool.desc1") + "\n\n" +
-                        translate("item.nomilabs.hand_framing_tool.desc2") + "\n\n" +
-                        translate("item.nomilabs.hand_framing_tool.desc3") + "\n\n" +
-                        translate("item.nomilabs.hand_framing_tool.desc4") + "\n\n" +
-                        translate("item.nomilabs.hand_framing_tool.desc5") + "\n\n" +
-                        translate("item.nomilabs.hand_framing_tool.desc6"));
+        if (Loader.isModLoaded(LabsValues.STORAGE_DRAWERS_MODID)) {
+            registry.addIngredientInfo(new ItemStack(LabsItems.HAND_FRAMING_TOOL), VanillaTypes.ITEM,
+                    translate("item.nomilabs.hand_framing_tool.desc1") + "\n\n" +
+                            translate("item.nomilabs.hand_framing_tool.desc2") + "\n\n" +
+                            translate("item.nomilabs.hand_framing_tool.desc3") + "\n\n" +
+                            translate("item.nomilabs.hand_framing_tool.desc4") + "\n\n" +
+                            translate("item.nomilabs.hand_framing_tool.desc5") + "\n\n" +
+                            translate("item.nomilabs.hand_framing_tool.desc6"));
+        }
     }
 
     public static void registerChargerRecipes(IModRegistry registry) {
@@ -302,6 +306,7 @@ public class LabsJEIPlugin implements IModPlugin {
         return tooltips.stream().map(Translatable::translate).collect(Collectors.toList());
     }
 
+    @SideOnly(Side.CLIENT)
     public static void onReload() {
         GROOVY_RECIPE_OUTPUT_TOOLTIPS.clear();
         GROOVY_RECIPE_INPUT_TOOLTIPS.clear();

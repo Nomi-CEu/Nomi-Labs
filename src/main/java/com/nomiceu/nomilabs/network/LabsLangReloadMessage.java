@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.cleanroommc.groovyscript.GroovyScript;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
+import com.cleanroommc.groovyscript.sandbox.LoadStage;
 
 import io.netty.buffer.ByteBuf;
 
@@ -34,9 +35,12 @@ public class LabsLangReloadMessage implements IMessage {
                     new TextComponentString("Reloading Language Resources took " + time + "ms"));
 
             // noinspection UnstableApiUsage
+            long timeReload = GroovyScript.runGroovyScriptsInLoader(LoadStage.POST_INIT);
+
+            // noinspection UnstableApiUsage
             ReloadableRegistryManager.reloadJei(true);
 
-            GroovyScript.postScriptRunResult(Minecraft.getMinecraft().player, true, true, true, 0);
+            GroovyScript.postScriptRunResult(Minecraft.getMinecraft().player, true, true, true, timeReload);
             return null;
         }
     }
