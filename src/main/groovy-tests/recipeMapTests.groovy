@@ -64,7 +64,7 @@ mods.gregtech.sifter.recipeBuilder()
 // [GTRecipeCategory category, Inputs... (see above)] (Matches/Removes any recipe with that input, and that category)
 // [Inputs... (see above)] (Matches/Removes any recipe with that input)
 // [Predicate<Recipe> predicate, Inputs... (see above)] (Matches/Removes any recipe with that input, and matching that predicate)
-mods.gregtech.sifter.removeByInput([item('minecraft:yellow_flower')], null)
+mods.gregtech.sifter.labs$removeByInput([item('minecraft:yellow_flower')], null)
 
 // Find/Remove By Output
 // Outputs Specification: List<ItemStack> itemOutputs, List<FluidStack> fluidOutputs, List<ChancedItemOutput> chancedItemOutputs, List<ChancedFluidOutput> chancedFluidOutputs
@@ -77,14 +77,14 @@ mods.gregtech.sifter.removeByInput([item('minecraft:yellow_flower')], null)
 // [GTRecipeCategory category, Outputs... (see above)] (Matches/Removes any recipe with that output, and that category)
 // [Outputs... (see above)] (Matches/Removes any recipe with that output)
 // [Predicate<Recipe> predicate, Outputs... (see above)] (Matches/Removes any recipe with that output, and matching that predicate)
-mods.gregtech.sifter.removeByOutput(50, [item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64], null, [chanced(item('minecraft:apple') * 64, 50, 1)], [chanced(fluid('fluorine') * 2000, 50, 1)])
+mods.gregtech.sifter.labs$removeByOutput(50, [item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64], null, [chanced(item('minecraft:apple') * 64, 50, 1)], [chanced(fluid('fluorine') * 2000, 50, 1)])
 
 // NBT Helpers for Recipe Builder
 // inputNBT version with IIngredient
 // wildInputNBT (parameter of IIngredient)
 mods.gregtech.assembler.recipeBuilder()
-    .inputNBT(ore('dyeBlue'), NBTMatcher.ANY, NBTCondition.ANY)
-    .inputWildNBT(ore('dyeRed')) // Same as above (Except the OreDict of course)
+    .labs$inputNBT(ore('dyeBlue'), NBTMatcher.ANY, NBTCondition.ANY)
+    .labs$inputWildNBT(ore('dyeRed')) // Same as above (Except the OreDict of course)
     .outputs(item('minecraft:apple') * 64)
     .EUt(VA[LV]).duration(30)
     .buildAndRegister()
@@ -110,7 +110,7 @@ mods.gregtech.chemical_reactor.recipeBuilder()
     .fluidInputs(fluid('rhodium') * 144)
     .outputs(metaitem('board.multilayer.fiber_reinforced') * 12)
     .EUt(VA[OpV]).duration(1_000_000)
-    .replace(RecipeMaps.LARGE_CHEMICAL_RECIPES) // Chem Reactor recipes are also registered to Large Chemical Reactor's Recipe Map
+    .labs$replace(RecipeMaps.LARGE_CHEMICAL_RECIPES) // Chem Reactor recipes are also registered to Large Chemical Reactor's Recipe Map
     .buildAndRegister()
 
 // Change Recipes
@@ -137,33 +137,33 @@ mods.gregtech.chemical_reactor.recipeBuilder()
 
 // Example 1: Changing All PBF recipes to be half duration
 // Using Change All Recipes
-mods.gregtech.primitive_blast_furnace.changeAllRecipes()
+mods.gregtech.primitive_blast_furnace.labs$changeAllRecipes()
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeDuration(duration -> (int) (duration / 2))
                 .replaceAndRegister()
     }
 
 // Example 2: Making All Electronic Circuit Recipes Output Double and require an Apple, whilst Changing (Adding) Recycling
-mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.electronic') * 2], null) // Excluding Chanced Output Specification
+mods.gregtech.circuit_assembler.labs$changeByOutput([metaitem('circuit.electronic') * 2], null) // Excluding Chanced Output Specification
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeEachOutput { stack ->
             stack.count *= 2
             return stack
         }.builder { RecipeBuilder recipe ->
             recipe.inputs(item('minecraft:apple'))
-                    .changeRecycling()
+                    .labs$changeRecycling()
         }.replaceAndRegister()
     }
 
 // Example 3: Changing a Macerator Recipe to Double the Chance of the Final Chanced Output
-mods.gregtech.macerator.changeByInput([metaitem('plant_ball') * 2], null)
+mods.gregtech.macerator.labs$changeByInput([metaitem('plant_ball') * 2], null)
     .changeChancedOutput(-1) { // -1 = Last (we can use negative indices to count from end of list)
         chanced(it.ingredient, it.chance * 2, it.chanceBoost)
     }
     .replaceAndRegister()
 
 // Example 4: Changing the Circuit Meta of a Recipe
-mods.gregtech.assembler.changeByOutput([item('minecraft:iron_bars') * 4], null)
+mods.gregtech.assembler.labs$changeByOutput([item('minecraft:iron_bars') * 4], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeCircuitMeta { meta -> meta * 2 }
             .builder { RecipeBuilder recipe ->
@@ -174,7 +174,7 @@ mods.gregtech.assembler.changeByOutput([item('minecraft:iron_bars') * 4], null)
 
 // Example 5: Adding Alternative Chemical Reactor Recipes
 // Alternative = `buildAndRegister` not `replaceAndRegister`
-mods.gregtech.chemical_reactor.changeByOutput(null, [fluid('polytetrafluoroethylene')]) // Change By Output ignores Amount
+mods.gregtech.chemical_reactor.labs$changeByOutput(null, [fluid('polytetrafluoroethylene')]) // Change By Output ignores Amount
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeCircuitMeta { meta -> meta + 10 }
             .builder { RecipeBuilder recipe ->
@@ -189,7 +189,7 @@ mods.gregtech.chemical_reactor.changeByOutput(null, [fluid('polytetrafluoroethyl
     }
 
 // Example 6: Doubling the Output of the Crystal Processor Assembly Circuit Recipes
-mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.crystal_assembly')], null)
+mods.gregtech.circuit_assembler.labs$changeByOutput([metaitem('circuit.crystal_assembly')], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeEachOutput { stack ->
             stack.count *= 2
@@ -200,7 +200,7 @@ mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.crystal_assemb
 
 // Example 7: Adding an Alternative Blast Furnace Recipe for Red Steel, with Double Output but Double Temperature
 // Alternative = `buildAndRegister` not `replaceAndRegister`
-mods.gregtech.electric_blast_furnace.changeByOutput([metaitem('ingotRedSteel')], null)
+mods.gregtech.electric_blast_furnace.labs$changeByOutput([metaitem('ingotRedSteel')], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeEachOutput { stack ->
                 stack.count *= 2
@@ -220,18 +220,18 @@ mods.gregtech.electric_blast_furnace.changeByOutput([metaitem('ingotRedSteel')],
     }
 
 // Example 8: Doubling the Output of the Fusion MK I Controller Assembly Line Recipe (With Recycling)
-mods.gregtech.assembly_line.changeByOutput([metaitem('fusion_reactor.luv')], null)
+mods.gregtech.assembly_line.labs$changeByOutput([metaitem('fusion_reactor.luv')], null)
     .forEach { ChangeRecipeBuilder builder ->
         builder.changeEachOutput { stack ->
                 stack.count *= 2
                 return stack
-            }.builder { RecipeBuilder recipe -> recipe.changeRecycling() }
+            }.builder { RecipeBuilder recipe -> recipe.labs$changeRecycling() }
             .copyProperties(ResearchProperty.instance)
             .replaceAndRegister()
     }
 
 // Example 9: Removing Last Two Inputs of Good Integrated Circuit Recipe, Replace with Apple + Log
-mods.gregtech.circuit_assembler.changeByOutput([metaitem('circuit.good_integrated')], null) // Ignores count, so even though recipe outputs 2, we can stick with 1
+mods.gregtech.circuit_assembler.labs$changeByOutput([metaitem('circuit.good_integrated')], null) // Ignores count, so even though recipe outputs 2, we can stick with 1
     .forEach { ChangeRecipeBuilder builder ->
         builder.removeInputs(-2, -1) // off list state at beginning of operation, so we use -1 and -2. Indices can be in any order. Note: Circuits & Non Consumables are included in the list.
             .builder { RecipeBuilder recipe ->

@@ -73,7 +73,7 @@ changeStackRecyclingNBT(metaitem('tool.datastick'), [metaitem('battery_buffer.uv
 removeStackRecycling(metaitem('item_collector.hv'))
 
 // Add / Change recycling to a stack, with items from a GT Recipe
-changeStackRecyclingNBT(mods.gregtech.circuit_assembler.findByOutput([item('gregtech:meta_item_1', 262)], null, null, null)[0], NBTMatcher.ANY, NBTCondition.ANY)
+changeStackRecyclingNBT(mods.gregtech.circuit_assembler.labs$findByOutput([item('gregtech:meta_item_1', 262)], null, null, null)[0], NBTMatcher.ANY, NBTCondition.ANY)
 
 // Add / Change recycling to a stack, with items sourced from the recipe with that output in that RecipeMap
 // You can either use the actual map itself (RecipeMaps.CIRCUIT_ASSEMBLER) or the GrS reference (mods.gregtech.circuit_assembler)
@@ -85,6 +85,6 @@ changeStackRecycling(metaitem('cover.screen'), RecipeMaps.ASSEMBLER_RECIPES)
 mods.gregtech.assembler.recipeBuilder()
     .inputs(metaitem('cableGtSingleEuropium') * 2, metaitem('circuit.wetware_mainframe'), metaitem('wireGtQuadrupleEuropium') * 4, item('minecraft:chest') * 1, metaitem('hull.uhv'))
     .outputs(metaitem('charger.uhv'))
-    .changeRecycling()
+    .labs$changeRecycling()
     .duration(500).EUt(120)
     .buildAndRegister()
