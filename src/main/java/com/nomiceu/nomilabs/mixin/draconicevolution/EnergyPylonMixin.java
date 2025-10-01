@@ -21,8 +21,8 @@ import com.brandon3055.draconicevolution.blocks.tileentity.TileEnergyPylon;
 @Mixin(value = EnergyPylon.class, remap = false)
 public abstract class EnergyPylonMixin extends BlockBCore {
 
-    @Override
     @Unique
+    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
                                 ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);

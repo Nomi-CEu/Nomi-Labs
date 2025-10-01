@@ -10,6 +10,7 @@ import com.mojang.text2speech.NarratorDummy;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.config.LabsConfig;
 
+// Interface cannot have private methods (Java 8)
 @SuppressWarnings("PublicStaticMixinMember")
 @Mixin(value = Narrator.class, remap = false)
 public interface NarratorMixin {

@@ -10,6 +10,7 @@ import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.world.EnumDifficulty;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
@@ -25,14 +26,16 @@ public abstract class IntegratedServerMixin extends MinecraftServer implements D
     /**
      * Default Ignored Constructor
      */
-    public IntegratedServerMixin(File anvilFileIn, Proxy proxyIn, DataFixer dataFixerIn,
-                                 YggdrasilAuthenticationService authServiceIn, MinecraftSessionService sessionServiceIn,
-                                 GameProfileRepository profileRepoIn, PlayerProfileCache profileCacheIn) {
+    private IntegratedServerMixin(File anvilFileIn, Proxy proxyIn, DataFixer dataFixerIn,
+                                  YggdrasilAuthenticationService authServiceIn,
+                                  MinecraftSessionService sessionServiceIn,
+                                  GameProfileRepository profileRepoIn, PlayerProfileCache profileCacheIn) {
         super(anvilFileIn, proxyIn, dataFixerIn, authServiceIn, sessionServiceIn, profileRepoIn, profileCacheIn);
     }
 
+    @Unique
     @Override
-    public void setDifficultyForAllWorldsAndSave(EnumDifficulty difficulty) {
+    public void labs$setDifficultyForAllWorldsAndSave(EnumDifficulty difficulty) {
         setDifficultyForAllWorlds(difficulty);
     }
 }

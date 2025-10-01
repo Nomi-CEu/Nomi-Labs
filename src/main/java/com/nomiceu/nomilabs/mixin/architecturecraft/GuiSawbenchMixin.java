@@ -39,14 +39,14 @@ public class GuiSawbenchMixin extends BaseGui.Screen {
     /**
      * Default Ignored Constructor.
      */
-    public GuiSawbenchMixin(Container container, int width, int height) {
+    private GuiSawbenchMixin(Container container, int width, int height) {
         super(container, width, height);
     }
 
     @Redirect(method = "drawBackgroundLayer",
               at = @At(value = "INVOKE",
                        target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;bindTexture(Ljava/lang/String;II)V"))
-    public void bindNewGuiTexture(GuiSawbench instance, String texture, int u, int v) {
+    private void bindNewGuiTexture(GuiSawbench instance, String texture, int u, int v) {
         if (texture.equals(ORIGINAL_GUI_PATH)) {
             instance.bindTexture(NEW_GUI_PATH, u, v);
             return;
@@ -56,7 +56,7 @@ public class GuiSawbenchMixin extends BaseGui.Screen {
 
     @Redirect(method = "drawPageMenu",
               at = @At(value = "INVOKE", target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;setColor(DDD)V"))
-    public void setHighlightColor(GuiSawbench instance, double r, double g, double b) {
+    private void setHighlightColor(GuiSawbench instance, double r, double g, double b) {
         instance.setColor(0.0, 0.98, 0.94);
     }
 
@@ -64,20 +64,20 @@ public class GuiSawbenchMixin extends BaseGui.Screen {
             at = @At(value = "INVOKE",
                      target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;gRestore()V",
                      shift = At.Shift.AFTER))
-    public void setNewTextColor(CallbackInfo ci) {
+    private void setNewTextColor(CallbackInfo ci) {
         gSave();
         setTextColor(0, 0, 0);
     }
 
     @Inject(method = "drawPageMenu", at = @At(value = "TAIL"))
-    public void restorePrevious(CallbackInfo ci) {
+    private void restorePrevious(CallbackInfo ci) {
         gRestore();
     }
 
     @Redirect(method = "drawShapeMenu",
               at = @At(value = "INVOKE",
                        target = "Lcom/elytradev/architecture/client/gui/GuiSawbench;bindTexture(Ljava/lang/String;II)V"))
-    public void bindNewGuiShapeTexture(GuiSawbench instance, String texture, int u, int v) {
+    private void bindNewGuiShapeTexture(GuiSawbench instance, String texture, int u, int v) {
         if (texture.equals(ORIGINAL_GUI_BG_PATH)) {
             instance.bindTexture(NEW_GUI_BG_PATH, u, v);
         }

@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -37,7 +38,7 @@ public abstract class MetaTileEntityMEStockingBusMixin extends MetaTileEntityMEI
     /**
      * Default Ignored Constructor
      */
-    public MetaTileEntityMEStockingBusMixin(ResourceLocation metaTileEntityId) {
+    private MetaTileEntityMEStockingBusMixin(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId);
     }
 
@@ -62,6 +63,7 @@ public abstract class MetaTileEntityMEStockingBusMixin extends MetaTileEntityMEI
         }
     }
 
+    @Unique
     @Override
     public void labs$refreshBeforeConsumption() {
         if (isWorkingEnabled() && updateMEStatus()) {

@@ -27,8 +27,8 @@ public abstract class GuiKeyBindingListKeyEntryMixin {
     private KeyBinding keybinding;
 
     @Inject(method = "drawEntry", at = @At("TAIL"))
-    public void drawTooltips(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY,
-                             boolean isSelected, float partialTicks, CallbackInfo ci) {
+    private void drawTooltips(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY,
+                              boolean isSelected, float partialTicks, CallbackInfo ci) {
         if (mouseY >= y && mouseY <= y + slotHeight) {
             var fontRenderer = ((GuiKeyBindingListAccessor) this$0).getMc().fontRenderer;
 

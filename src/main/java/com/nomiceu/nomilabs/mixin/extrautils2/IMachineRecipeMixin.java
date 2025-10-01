@@ -3,6 +3,7 @@ package com.nomiceu.nomilabs.mixin.extrautils2;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,7 +27,7 @@ public interface IMachineRecipeMixin {
 
     /**
      * Overrides (most) XU2 Machine Recipes to return a empty map instead of a map of collections of items, populated
-     * via {@link net.minecraftforge.common.ForgeHooks#getContainerItem(ItemStack)}.
+     * via {@link ForgeHooks#getContainerItem(ItemStack)}.
      * <p>
      * This is because ItemGTTool overrides that method, in order to damage, instead of consume, GT Tools in Crafting
      * Recipes.
@@ -34,6 +35,7 @@ public interface IMachineRecipeMixin {
      * See {@link TileMachine#consumeInputs()} for why this works. Essentially, if there is no container item map for
      * the specified slot, an Empty ItemStack is used instead.
      */
+    // Interface cannot have private methods (Java 8)
     @Inject(method = "getContainerItems", at = @At("HEAD"), cancellable = true)
     default void getEmptyStacks(Map<MachineSlotItem, ItemStack> inputItems,
                                 Map<MachineSlotFluid, FluidStack> inputFluids,

@@ -31,7 +31,7 @@ import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
 import gregtech.api.util.GTUtility;
 
 /**
- * Makes recipes registered when {@link com.nomiceu.nomilabs.util.LabsGroovyHelper#LABS_GROOVY_RUNNING} have groovy
+ * Makes recipes registered when {@link LabsGroovyHelper#LABS_GROOVY_RUNNING} have groovy
  * recipe status. Also, removes unneeded processing when calculating recipe outputs.
  */
 @Mixin(value = Recipe.class, remap = false)
@@ -55,19 +55,19 @@ public abstract class RecipeMixin {
     public abstract ChancedOutputList<FluidStack, ChancedFluidOutput> getChancedFluidOutputs();
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void setLabsGroovyRecipe(@NotNull List<GTRecipeInput> inputs,
-                                    List<ItemStack> outputs,
-                                    @NotNull ChancedOutputList<ItemStack, ChancedItemOutput> chancedOutputs,
-                                    List<GTRecipeInput> fluidInputs,
-                                    List<FluidStack> fluidOutputs,
-                                    @NotNull ChancedOutputList<FluidStack, ChancedFluidOutput> chancedFluidOutputs,
-                                    int duration,
-                                    int EUt,
-                                    boolean hidden,
-                                    boolean isCTRecipe,
-                                    IRecipePropertyStorage recipePropertyStorage,
-                                    @NotNull GTRecipeCategory recipeCategory,
-                                    CallbackInfo ci) {
+    private void setLabsGroovyRecipe(@NotNull List<GTRecipeInput> inputs,
+                                     List<ItemStack> outputs,
+                                     @NotNull ChancedOutputList<ItemStack, ChancedItemOutput> chancedOutputs,
+                                     List<GTRecipeInput> fluidInputs,
+                                     List<FluidStack> fluidOutputs,
+                                     @NotNull ChancedOutputList<FluidStack, ChancedFluidOutput> chancedFluidOutputs,
+                                     int duration,
+                                     int EUt,
+                                     boolean hidden,
+                                     boolean isCTRecipe,
+                                     IRecipePropertyStorage recipePropertyStorage,
+                                     @NotNull GTRecipeCategory recipeCategory,
+                                     CallbackInfo ci) {
         if (LabsGroovyHelper.LABS_GROOVY_RUNNING) {
             groovyRecipe = true;
         }

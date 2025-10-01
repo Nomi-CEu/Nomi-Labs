@@ -64,13 +64,13 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
     protected GuiScreen parentScreen;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void savePreviousLang(GuiScreen screen, GameSettings gameSettingsObj, LanguageManager manager,
-                                 CallbackInfo ci) {
+    private void savePreviousLang(GuiScreen screen, GameSettings gameSettingsObj, LanguageManager manager,
+                                  CallbackInfo ci) {
         labs$previousLang = manager.getCurrentLanguage();
     }
 
     @Inject(method = "initGui", at = @At("TAIL"))
-    public void moveAndAddElements(CallbackInfo ci) {
+    private void moveAndAddElements(CallbackInfo ci) {
         if (LabsConfig.advanced.languageModifyOption == LabsConfig.Advanced.LanguageModifyOption.NONE) return;
         forceUnicodeFontBtn.y = height - 28;
         confirmSettingsBtn.y = height - 28;
@@ -90,7 +90,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
                      target = "Lnet/minecraft/client/gui/GuiLanguage$List;drawScreen(IIF)V",
                      shift = At.Shift.AFTER),
             cancellable = true)
-    public void drawNewLanguageScreen(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+    private void drawNewLanguageScreen(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         if (LabsConfig.advanced.languageModifyOption == LabsConfig.Advanced.LanguageModifyOption.NONE) return;
         drawCenteredString(fontRenderer, TextFormatting.BOLD + I18n.format("options.language"), width / 2, 10,
                 0xffffff);
@@ -105,7 +105,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
     }
 
     @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
-    public void handleCustomActions(GuiButton button, CallbackInfo ci) {
+    private void handleCustomActions(GuiButton button, CallbackInfo ci) {
         if (LabsConfig.advanced.languageModifyOption == LabsConfig.Advanced.LanguageModifyOption.NONE) return;
         switch (button.id) {
             case 6: // Done Button
@@ -134,6 +134,7 @@ public abstract class GuiLanguageMixin extends GuiScreen implements AccessibleGu
         }
     }
 
+    @Unique
     @Override
     public LanguageManager labs$getLanguageManager() {
         return languageManager;

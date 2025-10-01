@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiIngame;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.nomiceu.nomilabs.mixinhelper.AccessibleEntityPlayerSP;
 
@@ -15,8 +16,9 @@ public class EntityPlayerSPMixin implements AccessibleEntityPlayerSP {
     @Shadow
     protected Minecraft mc;
 
+    @Unique
     @Override
-    public GuiIngame getGuiIngame() {
+    public GuiIngame labs$getGuiIngame() {
         return mc.ingameGUI;
     }
 }

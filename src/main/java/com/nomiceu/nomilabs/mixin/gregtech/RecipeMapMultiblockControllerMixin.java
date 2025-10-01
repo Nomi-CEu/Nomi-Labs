@@ -30,7 +30,7 @@ public abstract class RecipeMapMultiblockControllerMixin extends MultiblockWithD
     /**
      * Mandatory Ignored Constructor
      */
-    public RecipeMapMultiblockControllerMixin(ResourceLocation metaTileEntityId) {
+    private RecipeMapMultiblockControllerMixin(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId);
     }
 

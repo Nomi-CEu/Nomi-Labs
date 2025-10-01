@@ -64,7 +64,7 @@ changeComposition(material('osmiridium'))
 // Call Change Composition on a Material Object
 material('ruthenium_trinium_americium_neutronate')
         // Start the builder
-        .changeComposition()
+        .labs$changeComposition()
         // Set Components, using a mixture of MaterialStacks, ItemStacks and FluidStacks
         .setComponents([materialstack('pyrite') * 4, materialstack('rhodium') * 2, materialstack('nomilabs:naquadah_oxide'), materialstack('magnesium'), materialstack('carbon')])
         // Change ABS Recipes
@@ -80,7 +80,7 @@ material('ruthenium_trinium_americium_neutronate')
 
 material('rhodium_plated_palladium')
         // Start the builder
-        .changeComposition()
+        .labs$changeComposition()
         // Set Components, using a mixture of MaterialStacks, ItemStacks and FluidStacks
         .setComponents([materialstack('pyrite') * 4, materialstack('rhodium') * 2, materialstack('nomilabs:naquadah_oxide')])
         // Change Chemical Formula (Also Saves the Change, so GS Hand shows new components instead of original)
@@ -102,14 +102,14 @@ material('rhodium_plated_palladium')
 // Example of 'Recursive' Chemical Formula Change
 // Redstone has Ruby as a Component
 material('ruby')
-        .changeComposition()
+        .labs$changeComposition()
         // Originally 1 Chrome, 2 Aluminium, 3 Oxygen
         .setComponents([materialstack('chrome') * 2, materialstack('aluminium') * 2, materialstack('oxygen') * 6])
         .changeChemicalFormula() // Must call this, so the chemical formula is reloaded, and so that changes are saved
         .change()
 
 material('redstone')
-        .changeComposition()
+        .labs$changeComposition()
         // Marks this as a 'reload', meaning that components are the original ones from GT or the addon
         .reloadComponents()
         .changeChemicalFormula() // Must call this, so the chemical formula is reloaded

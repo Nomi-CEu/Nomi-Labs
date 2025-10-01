@@ -5,6 +5,7 @@ import java.util.List;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleMetaValueItem;
 
@@ -21,6 +22,7 @@ public class MetaValueItemMixin implements AccessibleMetaValueItem {
     @Final
     private List<IItemComponent> allStats;
 
+    @Unique
     @Override
     public void labs$clearStats() {
         allStats.clear();

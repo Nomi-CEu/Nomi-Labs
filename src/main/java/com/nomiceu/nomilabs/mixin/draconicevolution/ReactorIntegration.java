@@ -17,7 +17,7 @@ public class ReactorIntegration {
      * Overrides Normal Draconic Reactor to allow usage of GT Awakened Draconium.
      */
     @Inject(method = "getFuelValue", at = @At("HEAD"), cancellable = true)
-    public void getGTFuelValue(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+    private void getGTFuelValue(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue(ReactorLogic.getFuelValue(stack));
     }
 }

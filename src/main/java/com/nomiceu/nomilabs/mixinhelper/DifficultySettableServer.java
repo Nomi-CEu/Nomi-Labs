@@ -4,5 +4,5 @@ import net.minecraft.world.EnumDifficulty;
 
 public interface DifficultySettableServer {
 
-    void setDifficultyForAllWorldsAndSave(EnumDifficulty difficulty);
+    void labs$setDifficultyForAllWorldsAndSave(EnumDifficulty difficulty);
 }

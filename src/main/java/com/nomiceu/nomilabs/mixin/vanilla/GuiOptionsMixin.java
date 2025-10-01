@@ -19,7 +19,7 @@ import com.nomiceu.nomilabs.network.LabsNetworkHandler;
 public abstract class GuiOptionsMixin extends GuiScreen {
 
     @Inject(method = "actionPerformed", at = @At("HEAD"))
-    public void handleProperDifficultyChange(GuiButton button, CallbackInfo ci) {
+    private void handleProperDifficultyChange(GuiButton button, CallbackInfo ci) {
         if (!button.enabled || button.id != 108) return;
 
         // Set difficulty properly, but do not cancel

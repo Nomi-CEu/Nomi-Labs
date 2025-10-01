@@ -28,15 +28,15 @@ import nl.requios.effortlessbuilding.item.ItemReachUpgrade3;
 public class ItemReachUpgrade3Mixin {
 
     @Inject(method = "onItemRightClick", at = @At("HEAD"), cancellable = true, remap = true)
-    public void onNewItemRightClick(World world, EntityPlayer player, EnumHand hand,
-                                    CallbackInfoReturnable<ActionResult<ItemStack>> cir) {
+    private void onNewItemRightClick(World world, EntityPlayer player, EnumHand hand,
+                                     CallbackInfoReturnable<ActionResult<ItemStack>> cir) {
         cir.setReturnValue(GenericReachUpgrade.onItemRightClick(world, player, hand, 3));
     }
 
-    @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true, remap = true)
     @SideOnly(Side.CLIENT)
-    public void addNewInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag,
-                                  CallbackInfo ci) {
+    @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true, remap = true)
+    private void addNewInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag,
+                                   CallbackInfo ci) {
         GenericReachUpgrade.addInformation(tooltip, 3);
         ci.cancel();
     }

@@ -18,8 +18,8 @@ public class SteamMetaTileEntityMixin implements AccessibleSteamMetaTileEntity {
     @Shadow
     protected RecipeLogicSteam workableHandler;
 
-    @Override
     @Unique
+    @Override
     public boolean labs$ventingStuck() {
         return workableHandler.isVentingStuck();
     }

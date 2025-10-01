@@ -51,7 +51,7 @@ public class MinecraftMixin {
     }
 
     @Inject(method = "setWindowIcon", at = @At("HEAD"), cancellable = true)
-    public void setCustomWindowIcon(CallbackInfo ci) {
+    private void setCustomWindowIcon(CallbackInfo ci) {
         var x16 = LabsDisplayHelper.formatImagePath(LabsConfig.advanced.windowOverrides.windowLogo16xOverride);
         var x32 = LabsDisplayHelper.formatImagePath(LabsConfig.advanced.windowOverrides.windowLogo32xOverride);
         var x256 = LabsDisplayHelper.formatImagePath(LabsConfig.advanced.windowOverrides.windowLogo256xOverride);

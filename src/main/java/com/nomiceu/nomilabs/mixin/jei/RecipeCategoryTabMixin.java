@@ -28,7 +28,7 @@ public class RecipeCategoryTabMixin {
     private IRecipeCategory<?> category;
 
     @Inject(method = "getTooltip", at = @At("RETURN"))
-    public void getRecipeCategoryName(CallbackInfoReturnable<List<String>> cir) {
+    private void getRecipeCategoryName(CallbackInfoReturnable<List<String>> cir) {
         if (Minecraft.getMinecraft().gameSettings.advancedItemTooltips || GuiScreen.isShiftKeyDown()) {
             cir.getReturnValue().add(LabsTranslate.translate("jei.tooltip.category.id", category.getUid()));
         }

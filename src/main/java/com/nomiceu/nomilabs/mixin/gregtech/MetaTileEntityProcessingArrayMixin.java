@@ -24,16 +24,16 @@ public abstract class MetaTileEntityProcessingArrayMixin extends RecipeMapMultib
     /**
      * Mandatory Ignored Constructor
      */
-    public MetaTileEntityProcessingArrayMixin(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap) {
+    private MetaTileEntityProcessingArrayMixin(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap) {
         super(metaTileEntityId, recipeMap);
     }
 
-    @Override
     @Unique
+    @Override
     public void setCleanroom(ICleanroomProvider provider) {
         super.setCleanroom(provider);
         if (recipeMapWorkable instanceof AccessibleProcessingArrayWorkable apw) {
-            apw.setCleanroomForMTE(provider);
+            apw.labs$setCleanroomForMTE(provider);
         }
     }
 }

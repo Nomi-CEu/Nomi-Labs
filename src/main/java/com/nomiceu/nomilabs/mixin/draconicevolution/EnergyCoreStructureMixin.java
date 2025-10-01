@@ -16,7 +16,7 @@ public class EnergyCoreStructureMixin {
      * Overrides the initialize function, so we can return our own.
      */
     @Inject(method = "initialize", at = @At("HEAD"), cancellable = true)
-    public void initialize(TileEnergyStorageCore core, CallbackInfoReturnable<EnergyCoreStructure> cir) {
+    private void initialize(TileEnergyStorageCore core, CallbackInfoReturnable<EnergyCoreStructure> cir) {
         cir.setReturnValue(new BlockStateEnergyCoreStructure(core));
     }
 }

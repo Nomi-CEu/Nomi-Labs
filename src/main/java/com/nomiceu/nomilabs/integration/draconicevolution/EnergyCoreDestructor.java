@@ -68,7 +68,7 @@ public class EnergyCoreDestructor implements StoppableProcess {
      */
     private void updateProcess() {
         if (workOrder.isEmpty() || player.isDead) {
-            stop();
+            labs$stop();
         }
 
         var pos = workOrder.poll();
@@ -95,7 +95,7 @@ public class EnergyCoreDestructor implements StoppableProcess {
     }
 
     @Override
-    public void stop() {
+    public void labs$stop() {
         isDead = true;
         workOrder.clear();
         workList.clear();

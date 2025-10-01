@@ -46,19 +46,20 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
      * exactly as set, instead of expanding wildcards and removing duplicates.
      */
     @Unique
-    public CraftingRecipeBuilder.Shapeless strictJEIHandling() {
+    public CraftingRecipeBuilder.Shapeless labs$strictJEIHandling() {
         labs$isStrict = true;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
     @Unique
-    public CraftingRecipeBuilder.Shapeless setOutputTooltip(LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shapeless labs$setOutputTooltip(LabsTranslate.Translatable... tooltip) {
         labs$outputTooltip = tooltip;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
     @Unique
-    public CraftingRecipeBuilder.Shapeless setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
+    @SuppressWarnings("UnusedReturnValue")
+    public CraftingRecipeBuilder.Shapeless labs$setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
         if (slotIndex < 0 || slotIndex > 8) {
             GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
             return (CraftingRecipeBuilder.Shapeless) (Object) this;
@@ -71,9 +72,9 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
     }
 
     @Unique
-    public CraftingRecipeBuilder.Shapeless setInputTooltip(LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shapeless labs$setInputTooltip(LabsTranslate.Translatable... tooltip) {
         for (int i = 0; i < 9; i++)
-            setInputTooltip(i, tooltip);
+            labs$setInputTooltip(i, tooltip);
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 

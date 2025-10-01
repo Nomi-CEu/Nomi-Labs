@@ -44,82 +44,86 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
     @Shadow
     @Final
     private Object grsVirtualizedRecipeMap;
+
     @Unique
-    private final OutputBranch outputLookup = new OutputBranch();
+    private final OutputBranch labs$outputLookup = new OutputBranch();
 
     @Inject(method = "addRecipe", at = @At("HEAD"), cancellable = true)
-    public void addRecipeInRecycling(@NotNull ValidationResult<Recipe> validationResult,
-                                     CallbackInfoReturnable<Boolean> cir) {
+    private void addRecipeInRecycling(@NotNull ValidationResult<Recipe> validationResult,
+                                      CallbackInfoReturnable<Boolean> cir) {
         if (!RecyclingHelper.isReloadingRecycling()) return;
         // If not in the map returns null, which will never equal the recipe category of the recipe, which is never null
-        if (!Objects.equals(RecyclingHelper.recyclingMaps.get((RecipeMap<?>) (Object) this),
+        if (!Objects.equals(
+                RecyclingHelper.recyclingMaps.get((RecipeMap<?>) (Object) this),
                 validationResult.getResult().getRecipeCategory()))
             cir.setReturnValue(false);
     }
 
     @Inject(method = "removeAllRecipes", at = @At(value = "HEAD"))
     private void updateOutputLookupClear(CallbackInfo ci) {
-        outputLookup.clear();
+        labs$outputLookup.clear();
     }
 
     @Inject(method = "compileRecipe",
             at = @At(value = "INVOKE",
                      target = "Ljava/util/Map;compute(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;"))
     private void updateOutputLookupAdd(Recipe recipe, CallbackInfoReturnable<Boolean> cir) {
-        RecipeMapLogic.add(recipe, outputLookup);
+        RecipeMapLogic.add(recipe, labs$outputLookup);
     }
 
     @Inject(method = "removeRecipe",
             at = @At(value = "INVOKE",
                      target = "Lgregtech/integration/groovy/GroovyScriptModule;isCurrentlyRunning()Z"))
     private void updateOutputLookupRemove(Recipe recipe, CallbackInfoReturnable<Boolean> cir) {
-        RecipeMapLogic.remove(recipe, outputLookup);
+        RecipeMapLogic.remove(recipe, labs$outputLookup);
     }
 
     /* Public Interface-Visible Methods */
     @Unique
     @Nullable
     @Override
-    public List<Recipe> findByOutput(@NotNull Collection<ItemStack> items, @NotNull Collection<FluidStack> fluids,
-                                     @NotNull Collection<ChancedItemOutput> chancedItems,
-                                     @NotNull Collection<ChancedFluidOutput> chancedFluids,
-                                     @NotNull Predicate<Recipe> canHandle) {
-        return RecipeMapLogic.find(outputLookup, (RecipeMap<?>) (Object) this, items, fluids, chancedItems,
+    public List<Recipe> labs$findByOutput(@NotNull Collection<ItemStack> items, @NotNull Collection<FluidStack> fluids,
+                                          @NotNull Collection<ChancedItemOutput> chancedItems,
+                                          @NotNull Collection<ChancedFluidOutput> chancedFluids,
+                                          @NotNull Predicate<Recipe> canHandle) {
+        return RecipeMapLogic.find(
+                labs$outputLookup, (RecipeMap<?>) (Object) this, items, fluids, chancedItems,
                 chancedFluids, canHandle);
     }
 
     @Unique
     @Nullable
     @Override
-    public List<Recipe> findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                           List<ChancedItemOutput> chancedItems,
-                                           List<ChancedFluidOutput> chancedFluids) {
-        return findRecipeByOutput(voltage, inputs, fluidInputs, chancedItems, chancedFluids, false);
+    public List<Recipe> labs$findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+                                                List<ChancedItemOutput> chancedItems,
+                                                List<ChancedFluidOutput> chancedFluids) {
+        return labs$findRecipeByOutput(voltage, inputs, fluidInputs, chancedItems, chancedFluids, false);
     }
 
     @Unique
     @Nullable
     @Override
-    public List<Recipe> findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                           List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids,
-                                           boolean exactVoltage) {
+    public List<Recipe> labs$findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+                                                List<ChancedItemOutput> chancedItems,
+                                                List<ChancedFluidOutput> chancedFluids,
+                                                boolean exactVoltage) {
         List<ItemStack> items = inputs.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());
         List<FluidStack> fluids = fluidInputs.stream().filter(f -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
 
-        return findByOutput(items, fluids, chancedItems, chancedFluids, (recipe) -> {
-            if (exactVoltage && recipe.getEUt() != voltage) {
-                // if exact voltage is required, the recipe is not considered valid
-                return false;
-            }
-            // there is not enough voltage to consider the recipe valid
-            return recipe.getEUt() <= voltage;
-        });
+        return labs$findByOutput(
+                items, fluids, chancedItems, chancedFluids, (recipe) -> {
+                    if (exactVoltage && recipe.getEUt() != voltage) {
+                        // if exact voltage is required, the recipe is not considered valid
+                        return false;
+                    }
+                    // there is not enough voltage to consider the recipe valid
+                    return recipe.getEUt() <= voltage;
+                });
     }
 
     @Unique
-    @SuppressWarnings("unused")
-    public VirtualizedRecipeMap getVirtualized() {
+    public VirtualizedRecipeMap labs$getVirtualized() {
         return (VirtualizedRecipeMap) grsVirtualizedRecipeMap;
     }
 }

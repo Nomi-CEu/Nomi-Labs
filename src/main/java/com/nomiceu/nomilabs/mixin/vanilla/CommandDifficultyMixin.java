@@ -32,8 +32,8 @@ public abstract class CommandDifficultyMixin extends CommandBase {
      * Overrides entire function, fixes conflict with SpongeForge.
      */
     @Inject(method = "execute", at = @At("HEAD"), cancellable = true)
-    public void executeIfNotLocked(MinecraftServer server, ICommandSender sender, String[] args,
-                                   CallbackInfo ci) throws CommandException {
+    private void executeIfNotLocked(MinecraftServer server, ICommandSender sender, String[] args,
+                                    CallbackInfo ci) throws CommandException {
         var locked = LabsDifficultyHelper.getLockedDifficulty();
 
         if (locked != null) {
@@ -53,7 +53,7 @@ public abstract class CommandDifficultyMixin extends CommandBase {
 
         EnumDifficulty newDifficulty = getDifficultyFromCommand(args[0]);
         if (server instanceof DifficultySettableServer diff)
-            diff.setDifficultyForAllWorldsAndSave(newDifficulty);
+            diff.labs$setDifficultyForAllWorldsAndSave(newDifficulty);
         else
             server.setDifficultyForAllWorlds(newDifficulty);
 

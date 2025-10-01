@@ -31,7 +31,7 @@ public class EnergyCoreBuilderMixin implements StoppableProcess {
     private TileEnergyStorageCore core;
 
     @Unique
-    private final Map<BlockPos, BlockStates> blockStatesWorkList = new HashMap<>();
+    private final Map<BlockPos, BlockStates> labs$blockStatesWorkList = new HashMap<>();
 
     @Shadow
     private LinkedList<BlockPos> workOrder;
@@ -48,21 +48,21 @@ public class EnergyCoreBuilderMixin implements StoppableProcess {
 
     @Inject(method = "buildWorkList", at = @At("HEAD"), cancellable = true)
     private void buildWorklist(CallbackInfo ci) {
-        isDead = EnergyCoreBuilderLogic.build(core, player, blockStatesWorkList, workOrder);
+        isDead = EnergyCoreBuilderLogic.build(core, player, labs$blockStatesWorkList, workOrder);
         ci.cancel();
     }
 
     @Inject(method = "updateProcess", at = @At("HEAD"), cancellable = true)
     private void updateProcess(CallbackInfo ci) {
-        isDead = EnergyCoreBuilderLogic.updateBuildProcess(world, player, blockStatesWorkList, workOrder);
+        isDead = EnergyCoreBuilderLogic.updateBuildProcess(world, player, labs$blockStatesWorkList, workOrder);
         ci.cancel();
     }
 
-    @Override
     @Unique
-    public void stop() {
+    @Override
+    public void labs$stop() {
         isDead = true;
         workOrder.clear();
-        blockStatesWorkList.clear();
+        labs$blockStatesWorkList.clear();
     }
 }

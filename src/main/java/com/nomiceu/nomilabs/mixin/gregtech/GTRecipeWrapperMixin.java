@@ -32,7 +32,7 @@ public abstract class GTRecipeWrapperMixin extends AdvancedRecipeWrapper {
     private Recipe recipe;
 
     @Inject(method = "initExtras", at = @At("TAIL"))
-    public void showIsCustomRecipe(CallbackInfo ci) {
+    private void showIsCustomRecipe(CallbackInfo ci) {
         if (!RecipeCompatUtil.isTweakerLoaded()) return;
 
         BooleanSupplier creativePlayerPredicate = () -> Minecraft.getMinecraft().player != null &&
@@ -49,8 +49,10 @@ public abstract class GTRecipeWrapperMixin extends AdvancedRecipeWrapper {
         buttons.add(new JeiButton(166, 2, 10, 10)
                 .setTextures(GuiTextures.INFO_ICON)
                 .setTooltipBuilder(lines -> lines.add(recipe.isGroovyRecipe() ?
-                        LabsTranslate.translate("nomilabs.gui.recipes.tooltip.gs_recipe") :
-                        LabsTranslate.translate("nomilabs.gui.recipes.tooltip.ct_recipe")))
+                        LabsTranslate.translate(
+                                "nomilabs.gui.recipes.tooltip.gs_recipe") :
+                        LabsTranslate.translate(
+                                "nomilabs.gui.recipes.tooltip.ct_recipe")))
                 .setClickAction((mc, x, y, button) -> false)
                 .setActiveSupplier(creativeTweaker));
     }

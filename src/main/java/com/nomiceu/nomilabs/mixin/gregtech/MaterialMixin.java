@@ -36,25 +36,25 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 public abstract class MaterialMixin implements AccessibleMaterial {
 
     @Unique
-    private String setChemicalFormula;
+    private String labs$setChemicalFormula;
 
     @Shadow
     private String chemicalFormula;
 
     @Unique
-    private ImmutableList<MaterialStack> originalComponents = null;
+    private ImmutableList<MaterialStack> labs$originalComponents = null;
 
     @Unique
-    private boolean hasSetFlags = false;
+    private boolean labs$hasSetFlags = false;
 
     @Unique
-    private boolean calculatedDecomp = false;
+    private boolean labs$calculatedDecomp = false;
 
     @Unique
-    private final Map<CompositionRecipeType, List<Recipe>> originalRecipes = new Object2ObjectOpenHashMap<>();
+    private final Map<CompositionRecipeType, List<Recipe>> labs$originalRecipes = new Object2ObjectOpenHashMap<>();
 
     @Unique
-    private final MaterialFlag[] decompFlags = new MaterialFlag[] {
+    private final MaterialFlag[] labs$decompFlags = new MaterialFlag[] {
             MaterialFlags.DISABLE_DECOMPOSITION,
             MaterialFlags.DECOMPOSITION_BY_CENTRIFUGING,
             MaterialFlags.DECOMPOSITION_BY_ELECTROLYZING };
@@ -76,23 +76,23 @@ public abstract class MaterialMixin implements AccessibleMaterial {
 
     @Unique
     @Override
-    public void setComponents(ImmutableList<MaterialStack> components, boolean changeFormula) {
-        setComponents(components);
+    public void labs$setComponents(ImmutableList<MaterialStack> components, boolean changeFormula) {
+        labs$setComponents(components);
         if (changeFormula) {
             // Recalculate Chemical Formula and Decomposition Type
             // First set chemical formula to CT/Addon Set Formula (If Exists)
-            chemicalFormula = setChemicalFormula;
+            chemicalFormula = labs$setChemicalFormula;
             // Then Recalculate (Returns the set formula if it exists)
             chemicalFormula = calculateChemicalFormula();
         }
         if (chemicalFormula == null) chemicalFormula = "";
-        recalculateDecompositionType();
+        labs$recalculateDecompositionType();
     }
 
     @Unique
     @Override
-    public void setComponents(ImmutableList<MaterialStack> components) {
-        if (originalComponents == null) originalComponents = getMaterialComponents();
+    public void labs$setComponents(ImmutableList<MaterialStack> components) {
+        if (labs$originalComponents == null) labs$originalComponents = getMaterialComponents();
         try {
             // Java reflection because mixin dies at shadowing fields with private types
             Field f = Material.class.getDeclaredField("materialInfo");
@@ -102,45 +102,45 @@ public abstract class MaterialMixin implements AccessibleMaterial {
 
     @Inject(method = "setFormula(Ljava/lang/String;Z)Lgregtech/api/unification/material/Material;", at = @At("RETURN"))
     private void setChemicalFormula(String formula, boolean withFormatting, CallbackInfoReturnable<Material> cir) {
-        setChemicalFormula = chemicalFormula;
+        labs$setChemicalFormula = chemicalFormula;
     }
 
     @Inject(method = "calculateDecompositionType", at = @At("HEAD"))
     private void saveSetFlags(CallbackInfo ci) {
         boolean hasDecompFlags = false;
-        for (var flag : decompFlags) {
+        for (var flag : labs$decompFlags) {
             if (!flags.hasFlag(flag)) continue;
             hasDecompFlags = true;
             break;
         }
-        if (hasDecompFlags && !calculatedDecomp)
-            hasSetFlags = true;
+        if (hasDecompFlags && !labs$calculatedDecomp)
+            labs$hasSetFlags = true;
 
-        calculatedDecomp = true;
+        labs$calculatedDecomp = true;
     }
 
     @Inject(method = "addFlags([Lgregtech/api/unification/material/info/MaterialFlag;)V", at = @At("TAIL"))
     private void checkFlags(MaterialFlag[] flags, CallbackInfo ci) {
-        if (hasSetFlags) return;
+        if (labs$hasSetFlags) return;
 
-        for (var flag : decompFlags) {
+        for (var flag : labs$decompFlags) {
             if (!ArrayUtils.contains(flags, flag)) continue;
-            hasSetFlags = true;
+            labs$hasSetFlags = true;
             break;
         }
     }
 
-    @Override
     @Unique
-    public ImmutableList<MaterialStack> getOriginalComponents() {
-        return originalComponents == null ? getMaterialComponents() : originalComponents;
+    @Override
+    public ImmutableList<MaterialStack> labs$getOriginalComponents() {
+        return labs$originalComponents == null ? getMaterialComponents() : labs$originalComponents;
     }
 
-    @Override
     @Unique
-    public void recalculateDecompositionType() {
-        if (!hasSetFlags && calculatedDecomp) {
-            ((AccessibleMaterialFlags) flags).removeFlags(MaterialFlags.DISABLE_DECOMPOSITION,
+    @Override
+    public void labs$recalculateDecompositionType() {
+        if (!labs$hasSetFlags && labs$calculatedDecomp) {
+            ((AccessibleMaterialFlags) flags).labs$removeFlags(MaterialFlags.DISABLE_DECOMPOSITION,
                     MaterialFlags.DECOMPOSITION_BY_CENTRIFUGING,
                     MaterialFlags.DECOMPOSITION_BY_ELECTROLYZING);
         }
@@ -149,19 +149,20 @@ public abstract class MaterialMixin implements AccessibleMaterial {
     }
 
     @Unique
-    @SuppressWarnings("unused")
-    public CompositionBuilder changeComposition() {
+    public CompositionBuilder labs$changeComposition() {
         return new CompositionBuilder((Material) (Object) this);
     }
 
+    @Unique
     @Override
-    public void setOriginalRecipes(CompositionRecipeType type, List<Recipe> originals) {
-        if (originalRecipes.containsKey(type)) return;
-        originalRecipes.put(type, originals);
+    public void labs$setOriginalRecipes(CompositionRecipeType type, List<Recipe> originals) {
+        if (labs$originalRecipes.containsKey(type)) return;
+        labs$originalRecipes.put(type, originals);
     }
 
+    @Unique
     @Override
-    public Map<CompositionRecipeType, List<Recipe>> getOriginalRecipes() {
-        return ImmutableMap.copyOf(originalRecipes);
+    public Map<CompositionRecipeType, List<Recipe>> labs$getOriginalRecipes() {
+        return ImmutableMap.copyOf(labs$originalRecipes);
     }
 }

@@ -10,15 +10,15 @@ import gregtech.api.unification.stack.MaterialStack;
 
 public interface AccessibleMaterial {
 
-    void setComponents(ImmutableList<MaterialStack> components, boolean changeFormula);
+    void labs$setComponents(ImmutableList<MaterialStack> components, boolean changeFormula);
 
-    void setComponents(ImmutableList<MaterialStack> components);
+    void labs$setComponents(ImmutableList<MaterialStack> components);
 
-    void recalculateDecompositionType();
+    void labs$recalculateDecompositionType();
 
-    void setOriginalRecipes(CompositionRecipeType type, List<Recipe> originals);
+    void labs$setOriginalRecipes(CompositionRecipeType type, List<Recipe> originals);
 
-    Map<CompositionRecipeType, List<Recipe>> getOriginalRecipes();
+    Map<CompositionRecipeType, List<Recipe>> labs$getOriginalRecipes();
 
-    ImmutableList<MaterialStack> getOriginalComponents();
+    ImmutableList<MaterialStack> labs$getOriginalComponents();
 }
