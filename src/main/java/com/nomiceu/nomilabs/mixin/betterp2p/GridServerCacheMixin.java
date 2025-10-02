@@ -141,8 +141,8 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
         cir.setReturnValue(new Pair<>(inputResult, outputResult));
     }
 
-    @Override
     @Unique
+    @Override
     public PartP2PTunnel<?> labs$changeIsInput(P2PLocation key, boolean isInput) {
         if (grid instanceof ISecurityGrid securityGrid &&
                 !securityGrid.hasPermission(player, SecurityPermissions.BUILD)) {
@@ -161,14 +161,14 @@ public abstract class GridServerCacheMixin implements AccessibleGridServerCache 
                 p2p.hasCustomInventoryName() ? p2p.getCustomInventoryName() : "");
     }
 
-    @Override
     @Unique
+    @Override
     public boolean labs$addInput(P2PLocation toAdd, P2PLocation toBind) {
         return labs$addAs(toAdd, toBind, true);
     }
 
-    @Override
     @Unique
+    @Override
     public boolean labs$addOutput(P2PLocation toAdd, P2PLocation toBind) {
         return labs$addAs(toAdd, toBind, false);
     }

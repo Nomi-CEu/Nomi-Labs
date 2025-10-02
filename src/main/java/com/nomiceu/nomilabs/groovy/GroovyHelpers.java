@@ -40,6 +40,7 @@ import com.nomiceu.nomilabs.integration.jei.LabsJEIPlugin;
 import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.mixin.gregtech.RecipeBuilderAccessor;
 import com.nomiceu.nomilabs.util.ItemMeta;
+import com.nomiceu.nomilabs.util.LabsSide;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.GTValues;
@@ -103,6 +104,7 @@ public class GroovyHelpers {
     public static class TooltipHelpers {
 
         public static void addTooltip(ItemStack item, List<LabsTranslate.Translatable> tr) {
+            if (!LabsSide.isClient()) return;
             GroovyTooltipChanger.addOperation(new ItemMeta(item), tooltip -> {
                 for (var t : tr) {
                     tooltip.add(t.translate());
@@ -111,14 +113,17 @@ public class GroovyHelpers {
         }
 
         public static void addTooltip(ItemStack item, LabsTranslate.Translatable tr) {
+            if (!LabsSide.isClient()) return;
             GroovyTooltipChanger.addOperation(new ItemMeta(item), tooltip -> tooltip.add(tr.translate()));
         }
 
         public static void clearTooltip(ItemStack item) {
+            if (!LabsSide.isClient()) return;
             GroovyTooltipChanger.addOperation(new ItemMeta(item), List::clear);
         }
 
         public static void customHandleTooltip(ItemStack item, Consumer<List<String>> op) {
+            if (!LabsSide.isClient()) return;
             GroovyTooltipChanger.addOperation(new ItemMeta(item), op);
         }
     }
@@ -185,12 +190,10 @@ public class GroovyHelpers {
         }
     }
 
+    // Server side exclusions are handled in LabsJEIPlugin.
     public static class JEIHelpers {
 
-        /* Description + Tooltip */
-        public static void addDescription(ItemStack stack, LabsTranslate.Translatable... description) {
-            LabsJEIPlugin.addGroovyDescription(stack, description);
-        }
+        /* Recipe Tooltips */
 
         public static void addRecipeOutputTooltip(ItemStack stack, ResourceLocation recipeName,
                                                   LabsTranslate.Translatable... tooltip) {
@@ -259,11 +262,6 @@ public class GroovyHelpers {
         public static void yeetItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
             LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
         }
-
-        /* Recipe Catalyst Override */
-        public static void overrideRecipeCatalysts(String category, Object... catalysts) {
-            LabsJEIPlugin.addRecipeCatalystOverride(category, catalysts);
-        }
     }
 
     public static class MaterialHelpers {
@@ -273,6 +271,7 @@ public class GroovyHelpers {
         }
 
         public static void hideMaterial(Material material, boolean inclBucket) {
+            if (!LabsSide.isClient()) return; // Only hide, we can skip
             MaterialHelper.forMaterialItem(material,
                     (stack) -> ModSupport.JEI.get().ingredient.hide(IngredientHelper.toIIngredient(stack)), inclBucket);
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
@@ -284,10 +283,13 @@ public class GroovyHelpers {
         }
 
         public static void removeAndHideMaterial(Material material, boolean inclBucket) {
+            // Remove and hide; don't skip
             MaterialHelper.forMaterialItem(material,
                     (stack) -> ModSupport.JEI.get().ingredient.removeAndHide(IngredientHelper.toIIngredient(stack)),
                     inclBucket);
-            // Normal Hiding for Fluids, they don't have recipes
+
+            // Fluids: only hiding, no recipes, can skip
+            if (!LabsSide.isClient()) return;
             MaterialHelper.forMaterialFluid(material, (fluid) -> ModSupport.JEI.get().ingredient
                     .hide(IngredientHelper.toIIngredient(toFluidStack(fluid))));
         }
@@ -509,6 +511,7 @@ public class GroovyHelpers {
         }
 
         public static void addOverride(String id, KeyModifier modifier, int keyCode) {
+            if (!LabsSide.isClient()) return;
             LabsVirtualizedRegistries.KEYBIND_OVERRIDES_MANAGER.addOverride(id, modifier, keyCode);
         }
     }
@@ -585,11 +588,18 @@ public class GroovyHelpers {
             exampleOutput.setTagCompound(null);
 
             var recipe = new NBTClearingRecipe(input, exampleOutput, clearer);
-            NBTClearingRecipe.NBT_CLEARERS
-                    .computeIfAbsent(new ItemMeta(exampleOutput), (key) -> new Object2ObjectOpenHashMap<>())
-                    .put(new ItemMeta(input), warningTooltip);
+
+            if (LabsSide.isClient()) {
+                NBTClearingRecipe.NBT_CLEARERS
+                        .computeIfAbsent(new ItemMeta(exampleOutput), (key) -> new Object2ObjectOpenHashMap<>())
+                        .put(new ItemMeta(input), warningTooltip);
+            }
+
             ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, name, recipe);
-            TooltipHelpers.addTooltip(input, canClearTooltip);
+
+            if (LabsSide.isClient()) {
+                TooltipHelpers.addTooltip(input, canClearTooltip);
+            }
             return recipe;
         }
 

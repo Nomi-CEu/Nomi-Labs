@@ -28,15 +28,15 @@ public class PotionEffectMixin implements InfinitablePotionEffect {
     @Unique
     private boolean labs$infinite = false;
 
-    @Override
     @Unique
+    @Override
     public void labs$setInfinite() {
         labs$infinite = true;
         duration = Short.MAX_VALUE;
     }
 
-    @Override
     @Unique
+    @Override
     public boolean labs$isInfinite() {
         return labs$infinite;
     }

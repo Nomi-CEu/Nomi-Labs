@@ -38,7 +38,7 @@ public class NCActiveCoolerHelper {
         fluidNamesFromIDs.clear();
         for (int i = 1; i < MetaEnums.CoolerType.values().length; i++) {
             fluidNamesFromIDs.add(i - 1,
-                    ((AccessibleCoolerType) (Object) MetaEnums.CoolerType.values()[i]).getOriginalFluidName());
+                    ((AccessibleCoolerType) (Object) MetaEnums.CoolerType.values()[i]).labs$getOriginalFluidName());
         }
     }
 

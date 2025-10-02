@@ -39,8 +39,9 @@ public class InscriberRecipeMixin {
     private List<ItemStack> maybeBot;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void setMaybeTopBottomProperly(Collection<ItemStack> inputs, ItemStack output, @Nullable List<ItemStack> top,
-                                          @Nullable List<ItemStack> bot, InscriberProcessType type, CallbackInfo ci) {
+    private void setMaybeTopBottomProperly(Collection<ItemStack> inputs, ItemStack output,
+                                           @Nullable List<ItemStack> top,
+                                           @Nullable List<ItemStack> bot, InscriberProcessType type, CallbackInfo ci) {
         maybeTop = top == null || top.isEmpty() ? Collections.emptyList() : top;
         maybeBot = bot == null || bot.isEmpty() ? Collections.emptyList() : bot;
     }

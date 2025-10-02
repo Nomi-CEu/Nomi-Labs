@@ -26,7 +26,7 @@ public abstract class MultiMapMultiblockControllerMixin extends RecipeMapMultibl
     /**
      * Mandatory Ignored Constructor
      */
-    public MultiMapMultiblockControllerMixin(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap) {
+    private MultiMapMultiblockControllerMixin(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap) {
         super(metaTileEntityId, recipeMap);
     }
 

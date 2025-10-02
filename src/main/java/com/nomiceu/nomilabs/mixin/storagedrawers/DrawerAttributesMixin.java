@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import com.jaquadro.minecraft.storagedrawers.block.tile.tiledata.FractionalDrawerGroup;
@@ -18,8 +19,9 @@ public class DrawerAttributesMixin extends BasicDrawerAttributes implements Refr
     @Shadow
     TileEntityDrawers this$0;
 
+    @Unique
     @Override
-    public void refreshAfterDrawerKey() {
+    public void labs$refreshAfterDrawerKey() {
         if (this$0.getGroup() instanceof FractionalDrawerGroup frac) {
             // Custom Handling
             for (int i = 0; i < frac.getDrawerCount(); i++) {

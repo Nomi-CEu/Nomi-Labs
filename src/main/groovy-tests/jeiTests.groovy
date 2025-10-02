@@ -6,6 +6,9 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.TranslationHelpers.*
 
 // JEI and Translation Helpers. (Goes in Post Init)
 
+// JEI hiding, recipe tooltips, descriptions, etc. can be marked as side only: client to save computation.
+// Remove and hide operations SHOULD NOT, as they also remove recipes!
+
 // There are two types of translations: translate and translatable.
 // Translate translates the input NOW, whilst translatable translates the input when it is needed.
 // All JEI Pages use Translatable, so that the language can be changed on-the-fly.
@@ -34,20 +37,6 @@ translatableObj.append(translatableLiteral('Hello World!'))
 
 // Call `toString` or `translate` to retrieve the translated and concatenated string
 println('Translatable Object: ' + translatableObj.translate())
-
-/* JEI Pages. Each Method requires Translatable Objects. */
-
-/* Description Pages. Each entry is seperated by double new lines. */
-
-// Add a description page for a stack
-addDescription(item('minecraft:apple'), translatableLiteral('An Ordinary Apple... Not Poisoned.').addFormat(TextFormatting.DARK_GREEN), translatableLiteral('Eat it!'))
-
-// Add a translated description page for a stack
-addDescription(item('minecraft:iron_ingot'), translatable('tooltip.nomilabs.growth_chamber.description'), translatable('tooltip.nomilabs.dme_sim_chamber.description'))
-
-// Adding Catalyst Overrides (Bar on the Left, saying what can be used to do a recipe)
-// Example for Crafting Table:
-overrideRecipeCatalysts('minecraft.crafting', item('minecraft:crafting_table'), item('minecraft:apple'))
 
 /*
  * Recipe Output Tooltips. These are tooltips that appear on CRAFTING TABLE recipes, on a specific registry name.

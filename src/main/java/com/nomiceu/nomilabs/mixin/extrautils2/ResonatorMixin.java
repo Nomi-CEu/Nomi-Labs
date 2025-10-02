@@ -23,7 +23,7 @@ public class ResonatorMixin {
 
     // Remove frequency from ALL NEW XU2 Ingredients
     @Inject(method = "getOutputStack", at = @At("HEAD"), cancellable = true)
-    public void getOutputStackWithoutFrequency(CallbackInfoReturnable<ItemStack> cir) {
+    private void getOutputStackWithoutFrequency(CallbackInfoReturnable<ItemStack> cir) {
         ItemStack stack = currentRecipe.getOutput(INPUT.getStackInSlot(0)).copy();
 
         cir.setReturnValue(stack);

@@ -7,9 +7,9 @@ import net.minecraft.util.ResourceLocation;
 
 public interface RemappableForgeRegistry {
 
-    void addRemapped(int id, ResourceLocation key);
+    void labs$addRemapped(int id, ResourceLocation key);
 
-    Set<Integer> getBlocked();
+    Set<Integer> labs$getBlocked();
 
-    Map<Integer, ResourceLocation> getRemapped();
+    Map<Integer, ResourceLocation> labs$getRemapped();
 }

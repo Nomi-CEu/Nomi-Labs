@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.cleanroommc.groovyscript.GroovyScript;
 import com.cleanroommc.groovyscript.core.mixin.jei.JeiProxyAccessor;
+import com.cleanroommc.groovyscript.sandbox.LoadStage;
 
 import io.netty.buffer.ByteBuf;
 import mezz.jei.Internal;
@@ -28,6 +29,9 @@ public class LabsFastReloadMessage implements IMessage {
 
         @Override
         protected IMessage executeClient(LabsFastReloadMessage message, MessageContext ctx) {
+            // noinspection UnstableApiUsage
+            long timeReload = GroovyScript.runGroovyScriptsInLoader(LoadStage.POST_INIT);
+
             // Copied from GrS Reload Code, but with the change of `start` to `load` (with recipeOnly true)
             JeiProxyAccessor jeiProxy = (JeiProxyAccessor) JustEnoughItems.getProxy();
             long time = System.currentTimeMillis();
@@ -46,7 +50,7 @@ public class LabsFastReloadMessage implements IMessage {
 
             Internal.getIngredientFilter().block();
 
-            GroovyScript.postScriptRunResult(Minecraft.getMinecraft().player, true, true, true, 0);
+            GroovyScript.postScriptRunResult(Minecraft.getMinecraft().player, true, true, true, timeReload);
             return null;
         }
     }

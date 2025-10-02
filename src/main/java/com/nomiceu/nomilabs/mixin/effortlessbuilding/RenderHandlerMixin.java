@@ -21,11 +21,11 @@ import nl.requios.effortlessbuilding.render.RenderHandler;
 public class RenderHandlerMixin {
 
     @Unique
-    private static boolean wasVisible = false;
+    private static boolean labs$wasVisible = false;
 
     @Inject(method = "onRenderGameOverlay", at = @At("HEAD"))
     private static void saveWasVisible(RenderGameOverlayEvent.Post event, CallbackInfo ci) {
-        wasVisible = RadialMenu.instance.isVisible();
+        labs$wasVisible = RadialMenu.instance.isVisible();
     }
 
     @Inject(method = "onRender", at = @At("HEAD"), cancellable = true)
@@ -33,7 +33,7 @@ public class RenderHandlerMixin {
         // Cancels when game is not in focus. Does not cancel at the beginning of radial menu use (last condition),
         // during, or at the end (second-last condition), or when modifier menu is open.
         if ((!Minecraft.getMinecraft().inGameHasFocus) &&
-                !(Minecraft.getMinecraft().currentScreen instanceof ModifierSettingsGui) && !wasVisible &&
+                !(Minecraft.getMinecraft().currentScreen instanceof ModifierSettingsGui) && !labs$wasVisible &&
                 !RadialMenu.instance.isVisible())
             ci.cancel();
     }

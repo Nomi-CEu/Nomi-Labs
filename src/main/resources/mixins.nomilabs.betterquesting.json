@@ -5,11 +5,14 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "TaskFluidMixin"
+    "RedoActionMixin",
+    "TaskFluidMixin",
+    "UndoActionMixin"
   ],
   "client": [
     "GuiQuestMixin",
-    "GuiRectTextMixin"
+    "GuiRectTextMixin",
+    "TextEditorFrameMixin"
   ],
   "server": []
 }

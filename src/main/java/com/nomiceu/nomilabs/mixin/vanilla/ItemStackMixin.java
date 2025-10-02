@@ -25,33 +25,33 @@ import com.nomiceu.nomilabs.config.LabsConfig;
 public class ItemStackMixin {
 
     @Inject(method = "getRepairCost()I", at = @At("HEAD"), cancellable = true)
-    public void getRepairCost(CallbackInfoReturnable<Integer> cir) {
+    private void getRepairCost(CallbackInfoReturnable<Integer> cir) {
         if (LabsConfig.advanced.disableXpScaling)
             cir.setReturnValue(0);
     }
 
+    @SuppressWarnings({ "AddedMixinMembersNamePattern", "unused" })
     @Unique
-    @SuppressWarnings("unused")
     public List<OreDictIngredient> getAllOreDicts() {
-        return getOreDictNames().stream()
+        return labs$getOreDictNames().stream()
                 .map(OreDictIngredient::new)
                 .collect(Collectors.toList());
     }
 
+    @SuppressWarnings({ "AddedMixinMembersNamePattern", "unused" })
+    @Unique
+    public void removeAllOreDicts() {
+        var stack = (ItemStack) (Object) this;
+        labs$getOreDictNames().forEach((name) -> VanillaModule.oreDict.remove(name, stack));
+    }
+
     @Unique
     @GroovyBlacklist
-    private List<String> getOreDictNames() {
+    private List<String> labs$getOreDictNames() {
         var stack = (ItemStack) (Object) this;
         var ids = OreDictionary.getOreIDs(stack);
         return Arrays.stream(ids)
                 .mapToObj(OreDictionary::getOreName)
                 .collect(Collectors.toList());
-    }
-
-    @Unique
-    @SuppressWarnings("unused")
-    public void removeAllOreDicts() {
-        var stack = (ItemStack) (Object) this;
-        getOreDictNames().forEach((name) -> VanillaModule.oreDict.remove(name, stack));
     }
 }

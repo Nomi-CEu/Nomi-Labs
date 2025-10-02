@@ -8,9 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -29,7 +31,7 @@ public class BlockShapeMixin extends BlockArchitecture<TileShape> {
     /**
      * Default Ignored Constructor
      */
-    public BlockShapeMixin(Material material) {
+    private BlockShapeMixin(Material material) {
         super(material);
     }
 
@@ -44,9 +46,10 @@ public class BlockShapeMixin extends BlockArchitecture<TileShape> {
 
     /**
      * Modified from
-     * {@link net.minecraftforge.common.ForgeHooks#canHarvestBlock(Block, EntityPlayer, IBlockAccess, BlockPos)}
+     * {@link ForgeHooks#canHarvestBlock(Block, EntityPlayer, IBlockAccess, BlockPos)}
      */
     @SuppressWarnings("DuplicatedCode")
+    @Unique
     @Override
     public boolean canHarvestBlock(@NotNull IBlockAccess world, @NotNull BlockPos pos, @NotNull EntityPlayer player) {
         var te = TileShape.get(world, pos);

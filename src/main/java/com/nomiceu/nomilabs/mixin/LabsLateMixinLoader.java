@@ -58,6 +58,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             .put(ARMOR_PLUS_MODID, true)
             .put(GCYM_MODID, true)
             .put(PA_EX_CRAFTING_MODID, LabsConfig.modIntegration.paExCraftingStrictMode)
+            .put(AE2_STUFF_MODID, true)
             .build();
 
     public static final Map<Pair<String, String>, Boolean> specialMixinsConfig = ImmutableMap.of(

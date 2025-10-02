@@ -34,6 +34,8 @@ public class LabsTextures {
     public static TextureArea P2P_INPUT_ICON;
     public static TextureArea P2P_OUTPUT_ICON;
 
+    public static TextureArea TOP_LOCKED_ICON;
+
     public static void preInit() {
         GROWTH_CHAMBER_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/growth_chamber");
         MICROVERSE_CASING = new SimpleOverlayRenderer("nomilabs:microverse_casing");
@@ -44,6 +46,8 @@ public class LabsTextures {
 
         P2P_INPUT_ICON = labsFullImage("textures/gui/advanced_memory_card/input.png");
         P2P_OUTPUT_ICON = labsFullImage("textures/gui/advanced_memory_card/output.png");
+
+        TOP_LOCKED_ICON = labsFullImage("textures/gui/top/locked_icon.png");
     }
 
     /**

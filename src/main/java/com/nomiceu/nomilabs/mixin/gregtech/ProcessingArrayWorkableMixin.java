@@ -2,6 +2,7 @@ package com.nomiceu.nomilabs.mixin.gregtech;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleProcessingArrayWorkable;
 
@@ -28,12 +29,13 @@ public abstract class ProcessingArrayWorkableMixin extends MultiblockRecipeLogic
     /**
      * Mandatory Ignored Constructor
      */
-    public ProcessingArrayWorkableMixin(RecipeMapMultiblockController tileEntity) {
+    private ProcessingArrayWorkableMixin(RecipeMapMultiblockController tileEntity) {
         super(tileEntity);
     }
 
+    @Unique
     @Override
-    public void setCleanroomForMTE(ICleanroomProvider cleanroom) {
+    public void labs$setCleanroomForMTE(ICleanroomProvider cleanroom) {
         if (mte != null && mte instanceof ICleanroomReceiver receiver) {
             receiver.setCleanroom(cleanroom);
         }

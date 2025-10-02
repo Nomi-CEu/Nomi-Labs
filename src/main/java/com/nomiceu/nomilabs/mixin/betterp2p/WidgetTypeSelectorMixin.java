@@ -92,7 +92,7 @@ public class WidgetTypeSelectorMixin {
 
         if (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height) {
             if (labs$hovered != -1) {
-                extended.acceptIsInput(labs$hovered == 0);
+                extended.labs$acceptIsInput(labs$hovered == 0);
                 ci.cancel();
             }
         }

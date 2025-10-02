@@ -85,32 +85,32 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
     @Unique
     private SortDirectionWidgetButton labs$sortDirectionButton;
 
-    @Override
     @Unique
+    @Override
     public BetterMemoryCardModes labs$getMode() {
         return mode;
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$setMode(BetterMemoryCardModes mode) {
         this.mode = mode;
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$syncMemoryInfo() {
         syncMemoryInfo();
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$closeTypeSelector() {
         typeSelector.setVisible(false);
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$changeSort(boolean forwards) {
         labs$getAccessibleInfo().labs$changeSortMode(forwards);
         infos.resort();
@@ -118,14 +118,14 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         refreshOverlay();
     }
 
-    @Override
     @Unique
+    @Override
     public SortModes labs$getSortMode() {
         return labs$getAccessibleInfo().labs$getSortMode();
     }
 
-    @Override
     @Unique
+    @Override
     public void labs$swapSortReversed() {
         labs$getAccessibleInfo().labs$setSortReversed(!labs$getSortReversed());
         infos.resort();
@@ -133,8 +133,8 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
         refreshOverlay();
     }
 
-    @Override
     @Unique
+    @Override
     public boolean labs$getSortReversed() {
         return labs$getAccessibleInfo().labs$getSortReversed();
     }

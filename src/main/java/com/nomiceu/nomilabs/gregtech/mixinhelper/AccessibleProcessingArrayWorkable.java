@@ -4,5 +4,5 @@ import gregtech.api.metatileentity.multiblock.ICleanroomProvider;
 
 public interface AccessibleProcessingArrayWorkable {
 
-    void setCleanroomForMTE(ICleanroomProvider cleanroom);
+    void labs$setCleanroomForMTE(ICleanroomProvider cleanroom);
 }

@@ -9,18 +9,18 @@ public interface ImprovedTileEnergyCore {
     /**
      * @return True if the core has an active builder, false otherwise.
      */
-    boolean hasActiveBuilder();
+    boolean labs$hasActiveBuilder();
 
     /**
      * @return True if the core has an active destructor, false otherwise.
      */
-    boolean hasActiveDestructor();
+    boolean labs$hasActiveDestructor();
 
-    void setExpectedBlockString(String string);
+    void labs$setExpectedBlockString(String string);
 
-    void setExpectedBlockPos(BlockPos pos);
+    void labs$setExpectedBlockPos(BlockPos pos);
 
-    String getExpectedBlockString();
+    String labs$getExpectedBlockString();
 
-    Vec3I getExpectedBlockPos();
+    Vec3I labs$getExpectedBlockPos();
 }

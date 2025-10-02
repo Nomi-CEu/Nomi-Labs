@@ -21,11 +21,11 @@ import com.nomiceu.nomilabs.integration.draconicevolution.ImprovedTileEnergyCore
 // TODO maybe one day improve the GUI, so you can destruct button at any time, and it isn't as crowded with buttons
 // disappearing
 // Perhaps inspire by GT's?
+
 /**
  * Adds destruct core to the list of buttons. Some methods here are directly implemented instead of calling logic, which
  * may be changed in the future, but is just easier because of all the variable setting and protected methods.
  */
-@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(value = GuiEnergyCore.class, remap = false)
 public abstract class GuiEnergyCoreMixin extends GuiContainer {
 
@@ -45,13 +45,13 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
     private GuiButton activate;
 
     @Unique
-    private GuiButton destructCore;
+    private GuiButton labs$destructCore;
 
     /**
      * Ignored mandatory constructor, so we can use protected fields
      */
     @SuppressWarnings("unused")
-    public GuiEnergyCoreMixin(Container inventorySlotsIn) {
+    private GuiEnergyCoreMixin(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
 
@@ -61,8 +61,8 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
                      remap = false),
             remap = true,
             require = 1)
-    public void initGui(CallbackInfo ci) {
-        destructCore = GuiEnergyCoreLogic.addDestructButtonToList(this, buttonList);
+    private void initGui(CallbackInfo ci) {
+        labs$destructCore = GuiEnergyCoreLogic.addDestructButtonToList(this, buttonList);
         // Change default display string of assemble core
         assembleCore.displayString = translate("button.de.assembleCore.instant.txt");
     }
@@ -83,37 +83,37 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
         var improvedTile = (ImprovedTileEnergyCore) guiCore.tile;
         tierUp.visible = tierDown.visible = !guiCore.tile.active.value;
         // Have toggle guide be visible but disabled when tier is 1
-        toggleGuide.visible = ((!guiCore.tile.coreValid.value && !improvedTile.hasActiveDestructor()) ||
+        toggleGuide.visible = ((!guiCore.tile.coreValid.value && !improvedTile.labs$hasActiveDestructor()) ||
                 guiCore.tile.tier.value == 1) && !guiCore.tile.active.value;
-        destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.hasActiveDestructor()) &&
+        labs$destructCore.visible = (guiCore.tile.coreValid.value || improvedTile.labs$hasActiveDestructor()) &&
                 !guiCore.tile.active.value && guiCore.tile.tier.value != 1;
         toggleGuide.enabled = guiCore.tile.tier.value != 1;
 
         activate.enabled = guiCore.tile.coreValid.value && guiCore.tile.stabilizersOK.value;
 
-        assembleCore.enabled = !improvedTile.hasActiveDestructor();
+        assembleCore.enabled = !improvedTile.labs$hasActiveDestructor();
         if (DraconicHelpers.instantBuilder())
             assembleCore.displayString = translate("button.de.assembleCore.instant.txt");
         else {
-            if (improvedTile.hasActiveBuilder())
+            if (improvedTile.labs$hasActiveBuilder())
                 assembleCore.displayString = translate("button.de.assembleCore.stop.txt");
             else
                 assembleCore.displayString = translate("button.de.assembleCore.start.txt");
         }
 
-        destructCore.enabled = !improvedTile.hasActiveBuilder();
+        labs$destructCore.enabled = !improvedTile.labs$hasActiveBuilder();
         if (DraconicHelpers.instantDestructor())
-            destructCore.displayString = translate("button.de.destructCore.instant.txt");
+            labs$destructCore.displayString = translate("button.de.destructCore.instant.txt");
         else {
-            if (improvedTile.hasActiveDestructor())
-                destructCore.displayString = translate("button.de.destructCore.stop.txt");
+            if (improvedTile.labs$hasActiveDestructor())
+                labs$destructCore.displayString = translate("button.de.destructCore.stop.txt");
             else
-                destructCore.displayString = translate("button.de.destructCore.start.txt");
+                labs$destructCore.displayString = translate("button.de.destructCore.start.txt");
         }
     }
 
     @Inject(method = "updateScreen()V", at = @At("HEAD"), remap = true)
-    public void updateScreen(CallbackInfo ci) {
+    private void updateScreen(CallbackInfo ci) {
         var guiCore = (GuiEnergyCore) (Object) this;
         // Reload whether the structure is valid (Fixes needing to exit GUI before able to activate structure after
         // auto-building/destructing)
@@ -124,12 +124,13 @@ public abstract class GuiEnergyCoreMixin extends GuiContainer {
             at = @At("TAIL"),
             cancellable = true,
             remap = true)
-    public void actionPerformed(GuiButton button, CallbackInfo ci) {
-        if (!(button.id == destructCore.id))
+    private void actionPerformed(GuiButton button, CallbackInfo ci) {
+        if (button.id != labs$destructCore.id)
             return;
 
         var guiCore = (GuiEnergyCore) (Object) this;
-        guiCore.tile.sendPacketToServer(output -> {}, button.id);
+        guiCore.tile.sendPacketToServer(
+                output -> {}, button.id);
 
         ci.cancel();
     }

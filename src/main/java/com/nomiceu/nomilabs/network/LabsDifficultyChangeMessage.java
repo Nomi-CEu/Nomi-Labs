@@ -51,7 +51,7 @@ public class LabsDifficultyChangeMessage implements IMessage {
 
             var server = ctx.getServerHandler().server;
             if (server instanceof DifficultySettableServer diff)
-                diff.setDifficultyForAllWorldsAndSave(message.getDifficulty());
+                diff.labs$setDifficultyForAllWorldsAndSave(message.getDifficulty());
             else server.setDifficultyForAllWorlds(message.getDifficulty());
 
             return null;

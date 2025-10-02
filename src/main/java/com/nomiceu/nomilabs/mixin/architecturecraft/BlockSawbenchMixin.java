@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.elytradev.architecture.common.block.BlockArchitecture;
 import com.elytradev.architecture.common.block.BlockSawbench;
@@ -21,10 +22,11 @@ public class BlockSawbenchMixin extends BlockArchitecture<TileSawbench> {
     /**
      * Default Ignored Constructor
      */
-    public BlockSawbenchMixin(Material material) {
+    private BlockSawbenchMixin(Material material) {
         super(material);
     }
 
+    @Unique
     @Override
     public IBlockState getParticleState(IBlockAccess world, BlockPos pos) {
         return Blocks.IRON_BLOCK.getDefaultState();

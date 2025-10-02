@@ -36,13 +36,7 @@ We have chosen to implement most custom features into a coremod for Nomi-CEu, an
 This mod requires [GregTech CEu](https://github.com/GregTechCEu/GregTech). Other versions of GT, such as GTCE, will not work.
 
 ## Licensing
-This whole project is licensed under the GNU GPLv3, however, most files are licensed under the GNU LGPLv3.
-
-Files in `src/main/java/org/cicirello/` are licensed under the GNU GPLv3.  
-Files elsewhere, including, but not limited to, the code source files (`src/main/java/com/nomiceu/nomilabs/`), resources files (`src/main/resources/`), and more, are licensed under the GNU LGPLv3.
-
-A copy of the GNU GPLv3 can be found in this root directory, and in `src/main/java/org/cicirello`.  
-A copy of the GNU LGPLv3 can be found in `src/main/java/com/nomiceu/nomilabs/`.
+This whole project, and all files contained within, are licensed under the GNU LGPLv3.
 
 ## Credits:
 - [GTCEu Buildscripts](https://github.com/GregTechCEu/Buildscripts) for the amazing buildscripts
@@ -54,4 +48,4 @@ A copy of the GNU LGPLv3 can be found in `src/main/java/com/nomiceu/nomilabs/`.
 - [GregTech CE](https://github.com/GregTechCE/GregTech) & [Data Fixer Example](https://github.com/gabor7d2/DataFixerExampleMod) for sample & base code in Data Fixes
 - [GT-Expert-Core](https://github.com/GTModpackTeam/GTExpert-Core/tree/master) for development environment runtime fix for EnderCore
 - [GTNH's Fork of ArchitectureCraft](https://github.com/GTNewHorizons/ArchitectureCraft) for the basis of our ArchitectureCraft Integration
-- [ρμ (Rho-Mu)](https://github.com/cicirello/rho-mu/) for fast functions relating to generating random variates from a binomial distribution
+- [ρμ (Rho-Mu)](https://github.com/cicirello/rho-mu/) for inspiration in implementation relating to fast generation of random variates from a binomial distribution

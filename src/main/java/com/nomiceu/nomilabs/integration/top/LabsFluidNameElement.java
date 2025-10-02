@@ -1,11 +1,9 @@
 package com.nomiceu.nomilabs.integration.top;
 
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import io.netty.buffer.ByteBuf;
@@ -38,7 +36,8 @@ public class LabsFluidNameElement implements IElement {
             this.lang = NetworkTools.readStringUTF8(byteBuf);
         else
             this.lang = null;
-        this.translatedName = translateFluid(fluidName, amount, "LabsFluidNameElement");
+        this.translatedName = LabsTOPUtils.translateFluid(
+                fluidName, LabsTOPUtils.getFluid(fluidName, "LabsFluidNameElement"), amount);
     }
 
     @Override
@@ -75,19 +74,5 @@ public class LabsFluidNameElement implements IElement {
             return LabsTranslate.translate(lang, translatedName);
         else
             return translatedName;
-    }
-
-    public static String translateFluid(@Nullable String fluidName, int amount, String packet) {
-        if (fluidName == null || fluidName.isEmpty()) return ""; // Empty Tank
-
-        var fluid = FluidRegistry.getFluid(fluidName);
-
-        // At least try and translate it if fluid is null
-        if (fluid == null) {
-            NomiLabs.LOGGER.error("Received Fluid Info Packet {} with Unknown Fluid {}!", packet, fluidName);
-            return LabsTranslate.translate(fluidName);
-        }
-
-        return fluid.getLocalizedName(new FluidStack(fluid, amount));
     }
 }

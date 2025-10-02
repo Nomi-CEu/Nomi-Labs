@@ -46,6 +46,7 @@ public class LabsValues {
     public static final String TOP_ADDONS_MODID = "topaddons";
     public static final String PACK_MODE_MODID = "packmode";
     public static final String THERMAL_FOUNDATION_MODID = "thermalfoundation";
+    public static final String THERMAL_EXPANSION_MODID = "thermalexpansion";
     public static final String BETTER_P2P_MODID = "betterp2p";
     public static final String FIND_ME_MODID = "findme";
     public static final String REDSTONE_FLUX_MODID = "redstoneflux";

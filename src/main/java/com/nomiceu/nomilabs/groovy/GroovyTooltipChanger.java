@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.nomiceu.nomilabs.tooltip.LabsTooltipHelper;
@@ -31,10 +33,12 @@ public class GroovyTooltipChanger {
         else OPERATIONS.put(itemMeta, tooltipOp);
     }
 
+    @SideOnly(Side.CLIENT)
     public static void clear() {
         OPERATIONS.clear();
     }
 
+    @SideOnly(Side.CLIENT)
     public static void modifyTooltip(List<String> tooltip, ItemStack stack) {
         if (stack.isEmpty()) return;
         ItemMeta itemMeta = new ItemMeta(stack);
@@ -47,6 +51,7 @@ public class GroovyTooltipChanger {
         String itemName = tooltip.remove(0);
 
         // If advanced tooltips are enabled, remove last, because of resource location printing
+        // No need to add it back, it gets added back regardless
         if (Minecraft.getMinecraft().gameSettings.advancedItemTooltips)
             LabsTooltipHelper.tryRemove(tooltip, tooltip.size() - 1, tooltip.size());
 

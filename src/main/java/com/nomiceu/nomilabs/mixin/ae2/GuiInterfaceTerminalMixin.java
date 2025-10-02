@@ -46,7 +46,7 @@ public abstract class GuiInterfaceTerminalMixin extends AEBaseGui {
     /**
      * Default Ignored Constructor
      */
-    public GuiInterfaceTerminalMixin(Container container) {
+    private GuiInterfaceTerminalMixin(Container container) {
         super(container);
     }
 

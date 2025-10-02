@@ -26,8 +26,8 @@ public abstract class ItemIngredientsMixin {
      * No Remap + Method Reference here, this is forge added
      */
     @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true)
-    public void removeInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced,
-                                  CallbackInfo ci) {
+    private void removeInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced,
+                                   CallbackInfo ci) {
         var type = getType(stack);
         if (type.equals(ItemIngredients.Type.RED_COAL) || type.equals(ItemIngredients.Type.REDSTONE_COIL)) ci.cancel();
     }
@@ -40,8 +40,8 @@ public abstract class ItemIngredientsMixin {
             at = @At("HEAD"),
             cancellable = true,
             remap = true)
-    public void stopFreq(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected,
-                         CallbackInfo ci) {
+    private void stopFreq(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected,
+                          CallbackInfo ci) {
         if (getType(stack).equals(ItemIngredients.Type.REDSTONE_COIL)) {
             ci.cancel();
         }

@@ -29,7 +29,7 @@ public class IngredientMixin {
     private Map<IIngredientType<?>, List<Object>> hiddenIngredients;
 
     @Inject(method = "applyChanges", at = @At("HEAD"))
-    public void applyIgnoreNBTRemovals(IIngredientRegistry ingredientRegistry, CallbackInfo ci) {
+    private void applyIgnoreNBTRemovals(IIngredientRegistry ingredientRegistry, CallbackInfo ci) {
         var allIng = ingredientRegistry.getAllIngredients(VanillaTypes.ITEM);
         var list = hiddenIngredients.computeIfAbsent(VanillaTypes.ITEM, k -> new ArrayList<>());
 

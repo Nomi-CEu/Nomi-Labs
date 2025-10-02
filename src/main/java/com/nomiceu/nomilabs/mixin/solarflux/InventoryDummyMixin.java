@@ -18,6 +18,7 @@ public class InventoryDummyMixin implements AccessibleInventoryDummy {
     @Unique
     private boolean labs$stateChanged = true;
 
+    @Unique
     @Override
     public boolean labs$stateChanged() {
         var old = labs$stateChanged;

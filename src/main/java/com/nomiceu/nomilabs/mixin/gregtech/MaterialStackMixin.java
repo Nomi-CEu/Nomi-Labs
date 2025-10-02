@@ -50,16 +50,19 @@ public abstract class MaterialStackMixin implements IIngredient {
         throw new NotImplementedException("Material Stack cannot be modified!");
     }
 
+    @Unique
     @Override
     public boolean test(ItemStack stack) {
         return false;
     }
 
+    @Unique
     @Override
     public ItemStack[] getMatchingStacks() {
         return new ItemStack[0];
     }
 
+    @Unique
     @Override
     public Ingredient toMcIngredient() {
         return Ingredient.EMPTY;
@@ -71,11 +74,13 @@ public abstract class MaterialStackMixin implements IIngredient {
         return (IResourceStack) copy(num.longValue());
     }
 
+    @Unique
     @Override
     public @Nullable String getMark() {
         return null;
     }
 
+    @Unique
     @Override
     public void setMark(String mark) {}
 }

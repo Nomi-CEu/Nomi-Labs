@@ -45,18 +45,21 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
      * Makes recipes 'strict'. This means, in JEI, the list of 'matching stacks' will be displayed
      * exactly as set, instead of expanding wildcards and removing duplicates.
      */
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public CraftingRecipeBuilder.Shapeless strictJEIHandling() {
         labs$isStrict = true;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public CraftingRecipeBuilder.Shapeless setOutputTooltip(LabsTranslate.Translatable... tooltip) {
         labs$outputTooltip = tooltip;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
+    @SuppressWarnings({ "UnusedReturnValue", "AddedMixinMembersNamePattern" })
     @Unique
     public CraftingRecipeBuilder.Shapeless setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
         if (slotIndex < 0 || slotIndex > 8) {
@@ -70,6 +73,7 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public CraftingRecipeBuilder.Shapeless setInputTooltip(LabsTranslate.Translatable... tooltip) {
         for (int i = 0; i < 9; i++)

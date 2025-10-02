@@ -51,48 +51,53 @@ public abstract class VirtualizedRecipeMapMixin {
     @Shadow
     public abstract Recipe find(long voltage, List<ItemStack> items, List<FluidStack> fluids);
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     public Recipe find(List<ItemStack> inputs, List<FluidStack> fluidInputs) {
         return find((r) -> true, inputs, fluidInputs);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     public Recipe find(GTRecipeCategory category, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
         return find((r) -> Objects.equals(category, r.getRecipeCategory()), inputs, fluidInputs);
     }
 
-    @SuppressWarnings("DuplicatedCode")
+    @SuppressWarnings({ "DuplicatedCode", "AddedMixinMembersNamePattern" })
     @Unique
     public Recipe find(Predicate<Recipe> condition, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
-        inputs = validateList(inputs);
-        fluidInputs = validateList(fluidInputs);
+        inputs = labs$validateList(inputs);
+        fluidInputs = labs$validateList(fluidInputs);
         List<ItemStack> items = inputs.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
         List<FluidStack> fluids = fluidInputs.stream().filter((f) -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
         return recipeMap.find(items, fluids, condition);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByInput(List<ItemStack> items, List<FluidStack> fluids) {
-        return removeByInput((r) -> true, items, fluids, String.format("items: %s, fluids: %s", items, fluids));
+        return labs$removeByInput((r) -> true, items, fluids, String.format("items: %s, fluids: %s", items, fluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByInput(GTRecipeCategory category, List<ItemStack> items, List<FluidStack> fluids) {
-        return removeByInput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
+        return labs$removeByInput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
                 String.format("category: %s, items %s, fluids %s", category, items, fluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByInput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids) {
-        return removeByInput(condition, items, fluids, String.format("items: %s, fluids: %s", items, fluids));
+        return labs$removeByInput(condition, items, fluids, String.format("items: %s, fluids: %s", items, fluids));
     }
 
     @Unique
-    private boolean removeByInput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
-                                  String components) {
+    private boolean labs$removeByInput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
+                                       String components) {
         Recipe recipe = find(condition, items, fluids);
         if (recipe == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
@@ -107,18 +112,21 @@ public abstract class VirtualizedRecipeMapMixin {
         return true;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     public List<Recipe> findByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids) {
         return findByOutput(voltage, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     public List<Recipe> findByOutput(List<ItemStack> items, List<FluidStack> fluids) {
         return findByOutput(items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     public List<Recipe> findByOutput(GTRecipeCategory category, List<ItemStack> items,
@@ -126,30 +134,31 @@ public abstract class VirtualizedRecipeMapMixin {
         return findByOutput(category, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
-    @SuppressWarnings("DuplicatedCode")
     public List<Recipe> findByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids) {
         return findByOutput(condition, items, fluids, null, null);
     }
 
+    @SuppressWarnings({ "DuplicatedCode", "AddedMixinMembersNamePattern" })
     @Unique
     @Nullable
-    @SuppressWarnings("DuplicatedCode")
     public List<Recipe> findByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        items = validateList(items);
-        fluids = validateList(fluids);
-        chancedItems = validateList(chancedItems);
-        chancedFluids = validateList(chancedFluids);
+        items = labs$validateList(items);
+        fluids = labs$validateList(fluids);
+        chancedItems = labs$validateList(chancedItems);
+        chancedFluids = labs$validateList(chancedFluids);
 
         List<ItemStack> filteredItems = items.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
         List<FluidStack> filteredFluids = fluids.stream().filter((f) -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
-        return getAccessibleRecipeMap().findRecipeByOutput(voltage, filteredItems, filteredFluids, chancedItems,
+        return labs$getAccessibleRecipeMap().findRecipeByOutput(voltage, filteredItems, filteredFluids, chancedItems,
                 chancedFluids);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     public List<Recipe> findByOutput(List<ItemStack> items, List<FluidStack> fluids,
@@ -157,6 +166,7 @@ public abstract class VirtualizedRecipeMapMixin {
         return findByOutput((r) -> true, items, fluids, chancedItems, chancedFluids);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     public List<Recipe> findByOutput(GTRecipeCategory category, List<ItemStack> items,
@@ -167,43 +177,48 @@ public abstract class VirtualizedRecipeMapMixin {
                 chancedFluids);
     }
 
+    @SuppressWarnings({ "DuplicatedCode", "AddedMixinMembersNamePattern" })
     @Unique
     @Nullable
-    @SuppressWarnings("DuplicatedCode")
     public List<Recipe> findByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        items = validateList(items);
-        fluids = validateList(fluids);
-        chancedItems = validateList(chancedItems);
-        chancedFluids = validateList(chancedFluids);
+        items = labs$validateList(items);
+        fluids = labs$validateList(fluids);
+        chancedItems = labs$validateList(chancedItems);
+        chancedFluids = labs$validateList(chancedFluids);
 
         List<ItemStack> filteredItems = items.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
         List<FluidStack> filteredFluids = fluids.stream().filter((f) -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
-        return getAccessibleRecipeMap().findByOutput(filteredItems, filteredFluids, chancedItems, chancedFluids,
+        return labs$getAccessibleRecipeMap().findByOutput(filteredItems, filteredFluids, chancedItems, chancedFluids,
                 condition);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids) {
         return removeByOutput(voltage, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(List<ItemStack> items, List<FluidStack> fluids) {
         return removeByOutput(items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(GTRecipeCategory category, List<ItemStack> items, List<FluidStack> fluids) {
         return removeByOutput(category, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids) {
         return removeByOutput(condition, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
@@ -224,35 +239,38 @@ public abstract class VirtualizedRecipeMapMixin {
         return true;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(List<ItemStack> items, List<FluidStack> fluids,
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        return removeByOutput((r) -> true, items, fluids, chancedItems, chancedFluids,
+        return labs$removeByOutput((r) -> true, items, fluids, chancedItems, chancedFluids,
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
                         chancedItems, chancedFluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(GTRecipeCategory category, List<ItemStack> items, List<FluidStack> fluids,
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        return removeByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
+        return labs$removeByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
                 chancedItems, chancedFluids,
                 String.format("category: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", category,
                         items, fluids, chancedItems, chancedFluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public boolean removeByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        return removeByOutput(condition, items, fluids, chancedItems, chancedFluids,
+        return labs$removeByOutput(condition, items, fluids, chancedItems, chancedFluids,
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
                         chancedItems, chancedFluids));
     }
 
     @Unique
-    private boolean removeByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
-                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids,
-                                   String components) {
+    private boolean labs$removeByOutput(Predicate<Recipe> condition, List<ItemStack> items, List<FluidStack> fluids,
+                                        List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids,
+                                        String components) {
         List<Recipe> recipes = findByOutput(condition, items, fluids, chancedItems, chancedFluids);
         if (recipes == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
@@ -269,6 +287,7 @@ public abstract class VirtualizedRecipeMapMixin {
         return true;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilder<?> changeByInput(long voltage, List<ItemStack> items, List<FluidStack> fluids) {
         Recipe recipe = find(voltage, items, fluids);
@@ -284,29 +303,32 @@ public abstract class VirtualizedRecipeMapMixin {
         return new ChangeRecipeBuilder<>(recipe, recipeMap);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilder<?> changeByInput(List<ItemStack> items, List<FluidStack> fluids) {
-        return changeByInput((r) -> true, items, fluids,
+        return labs$changeByInput((r) -> true, items, fluids,
                 String.format("items: %s, fluids: %s", items, fluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilder<?> changeByInput(GTRecipeCategory category, List<ItemStack> items,
                                                 List<FluidStack> fluids) {
-        return changeByInput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
+        return labs$changeByInput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
                 String.format("category: %s, items %s, fluids %s", category, items, fluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilder<?> changeByInput(Predicate<Recipe> condition, List<ItemStack> items,
                                                 List<FluidStack> fluids) {
-        return changeByInput(condition, items, fluids, String.format("items: %s, fluids: %s", items, fluids));
+        return labs$changeByInput(condition, items, fluids, String.format("items: %s, fluids: %s", items, fluids));
     }
 
     @Unique
-    private ChangeRecipeBuilder<?> changeByInput(Predicate<Recipe> condition, List<ItemStack> items,
-                                                 List<FluidStack> fluids,
-                                                 String components) {
+    private ChangeRecipeBuilder<?> labs$changeByInput(Predicate<Recipe> condition, List<ItemStack> items,
+                                                      List<FluidStack> fluids,
+                                                      String components) {
         Recipe recipe = find(condition, items, fluids);
         if (recipe == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
@@ -320,29 +342,34 @@ public abstract class VirtualizedRecipeMapMixin {
         return new ChangeRecipeBuilder<>(recipe, recipeMap);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(long voltage, List<ItemStack> items,
                                                            List<FluidStack> fluids) {
         return changeByOutput(voltage, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(List<ItemStack> items, List<FluidStack> fluids) {
         return changeByOutput(items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(GTRecipeCategory category, List<ItemStack> items,
                                                            List<FluidStack> fluids) {
         return changeByOutput(category, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
                                                            List<FluidStack> fluids) {
         return changeByOutput(condition, items, fluids, null, null);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                                            List<ChancedItemOutput> chancedItems,
@@ -361,42 +388,45 @@ public abstract class VirtualizedRecipeMapMixin {
         return fromStream(recipes.stream().map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(List<ItemStack> items, List<FluidStack> fluids,
                                                            List<ChancedItemOutput> chancedItems,
                                                            List<ChancedFluidOutput> chancedFluids) {
-        return changeByOutput((r) -> true, items, fluids, chancedItems, chancedFluids,
+        return labs$changeByOutput((r) -> true, items, fluids, chancedItems, chancedFluids,
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
                         chancedItems, chancedFluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(GTRecipeCategory category, List<ItemStack> items,
                                                            List<FluidStack> fluids,
                                                            List<ChancedItemOutput> chancedItems,
                                                            List<ChancedFluidOutput> chancedFluids) {
-        return changeByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
+        return labs$changeByOutput((r) -> Objects.equals(r.getRecipeCategory(), category), items, fluids,
                 chancedItems, chancedFluids,
                 String.format("category: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", category,
                         items, fluids, chancedItems, chancedFluids));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
                                                            List<FluidStack> fluids,
                                                            List<ChancedItemOutput> chancedItems,
                                                            List<ChancedFluidOutput> chancedFluids) {
-        return changeByOutput(condition, items, fluids, chancedItems, chancedFluids,
+        return labs$changeByOutput(condition, items, fluids, chancedItems, chancedFluids,
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", items, fluids,
                         chancedItems, chancedFluids));
     }
 
     @Unique
-    private ChangeRecipeBuilderCollection<?> changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
-                                                            List<FluidStack> fluids,
-                                                            List<ChancedItemOutput> chancedItems,
-                                                            List<ChancedFluidOutput> chancedFluids,
-                                                            String components) {
+    private ChangeRecipeBuilderCollection<?> labs$changeByOutput(Predicate<Recipe> condition, List<ItemStack> items,
+                                                                 List<FluidStack> fluids,
+                                                                 List<ChancedItemOutput> chancedItems,
+                                                                 List<ChancedFluidOutput> chancedFluids,
+                                                                 String components) {
         List<Recipe> recipes = findByOutput(condition, items, fluids, chancedItems, chancedFluids);
         if (recipes == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
@@ -410,11 +440,13 @@ public abstract class VirtualizedRecipeMapMixin {
         return fromStream(recipes.stream().map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeAllRecipes() {
         return changeAllRecipes((r) -> true);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeAllRecipes(Predicate<Recipe> condition) {
         return fromStream(recipeMap.getRecipeList().stream()
@@ -422,11 +454,13 @@ public abstract class VirtualizedRecipeMapMixin {
                 .map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeAllRecipes(GTRecipeCategory category) {
         return changeAllRecipes(category, (r) -> true);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     public ChangeRecipeBuilderCollection<?> changeAllRecipes(GTRecipeCategory category, Predicate<Recipe> condition) {
         return fromStream(recipeMap.getRecipesByCategory()
@@ -436,13 +470,13 @@ public abstract class VirtualizedRecipeMapMixin {
     }
 
     @Unique
-    private AccessibleRecipeMap getAccessibleRecipeMap() {
+    private AccessibleRecipeMap labs$getAccessibleRecipeMap() {
         return (AccessibleRecipeMap) recipeMap;
     }
 
     @Unique
     @NotNull
-    private <T> List<T> validateList(@Nullable List<T> list) {
+    private <T> List<T> labs$validateList(@Nullable List<T> list) {
         if (list == null || list.isEmpty()) return Collections.emptyList();
         return list;
     }

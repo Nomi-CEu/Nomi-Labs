@@ -44,7 +44,7 @@ public abstract class SteamBoilerMixin extends MetaTileEntity implements Accessi
     /**
      * Mandatory Ignored Constructor
      */
-    public SteamBoilerMixin(ResourceLocation metaTileEntityId) {
+    private SteamBoilerMixin(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId);
     }
 
@@ -61,8 +61,8 @@ public abstract class SteamBoilerMixin extends MetaTileEntity implements Accessi
         }
     }
 
-    @Override
     @Unique
+    @Override
     public int labs$getCurrentTemperature() {
         return currentTemperature;
     }
