@@ -45,21 +45,23 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
      * Makes recipes 'strict'. This means, in JEI, the list of 'matching stacks' will be displayed
      * exactly as set, instead of expanding wildcards and removing duplicates.
      */
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shapeless labs$strictJEIHandling() {
+    public CraftingRecipeBuilder.Shapeless strictJEIHandling() {
         labs$isStrict = true;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shapeless labs$setOutputTooltip(LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shapeless setOutputTooltip(LabsTranslate.Translatable... tooltip) {
         labs$outputTooltip = tooltip;
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
+    @SuppressWarnings({ "UnusedReturnValue", "AddedMixinMembersNamePattern" })
     @Unique
-    @SuppressWarnings("UnusedReturnValue")
-    public CraftingRecipeBuilder.Shapeless labs$setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shapeless setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
         if (slotIndex < 0 || slotIndex > 8) {
             GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
             return (CraftingRecipeBuilder.Shapeless) (Object) this;
@@ -71,10 +73,11 @@ public abstract class ShapelessRecipeBuilderMixin extends AbstractCraftingRecipe
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shapeless labs$setInputTooltip(LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shapeless setInputTooltip(LabsTranslate.Translatable... tooltip) {
         for (int i = 0; i < 9; i++)
-            labs$setInputTooltip(i, tooltip);
+            setInputTooltip(i, tooltip);
         return (CraftingRecipeBuilder.Shapeless) (Object) this;
     }
 

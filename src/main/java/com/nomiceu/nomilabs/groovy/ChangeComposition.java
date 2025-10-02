@@ -212,7 +212,7 @@ public class ChangeComposition {
             fluid = input.getFluid(FluidStorageKeys.LIQUID);
         }
         var recipes = ((AccessibleRecipeMap) GCYMRecipeMaps.ALLOY_BLAST_RECIPES)
-                .labs$findByOutput(Collections.emptyList(), Collections.singletonList(new FluidStack(fluid, 1)),
+                .findByOutput(Collections.emptyList(), Collections.singletonList(new FluidStack(fluid, 1)),
                         Collections.emptyList(), Collections.emptyList(), (r) -> true);
         ((AccessibleMaterial) input).labs$setOriginalRecipes(CompositionRecipeType.ALLOY_BLAST,
                 recipes == null ? Collections.emptyList() : recipes);
@@ -227,7 +227,7 @@ public class ChangeComposition {
     @Nullable
     public static Recipe removeMixerRecipe(Material input) {
         var recipes = ((AccessibleRecipeMap) RecipeMaps.MIXER_RECIPES)
-                .labs$findByOutput(Collections.singletonList(OreDictUnifier.get(OrePrefix.dust, input)),
+                .findByOutput(Collections.singletonList(OreDictUnifier.get(OrePrefix.dust, input)),
                         Collections.emptyList(),
                         Collections.emptyList(), Collections.emptyList(), (r) -> true);
         ((AccessibleMaterial) input).labs$setOriginalRecipes(CompositionRecipeType.MIXER,

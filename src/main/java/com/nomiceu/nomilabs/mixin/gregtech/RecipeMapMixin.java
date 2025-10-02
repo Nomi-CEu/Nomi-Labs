@@ -79,39 +79,42 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
     }
 
     /* Public Interface-Visible Methods */
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     @Override
-    public List<Recipe> labs$findByOutput(@NotNull Collection<ItemStack> items, @NotNull Collection<FluidStack> fluids,
-                                          @NotNull Collection<ChancedItemOutput> chancedItems,
-                                          @NotNull Collection<ChancedFluidOutput> chancedFluids,
-                                          @NotNull Predicate<Recipe> canHandle) {
+    public List<Recipe> findByOutput(@NotNull Collection<ItemStack> items, @NotNull Collection<FluidStack> fluids,
+                                     @NotNull Collection<ChancedItemOutput> chancedItems,
+                                     @NotNull Collection<ChancedFluidOutput> chancedFluids,
+                                     @NotNull Predicate<Recipe> canHandle) {
         return RecipeMapLogic.find(
                 labs$outputLookup, (RecipeMap<?>) (Object) this, items, fluids, chancedItems,
                 chancedFluids, canHandle);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     @Override
-    public List<Recipe> labs$findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                                List<ChancedItemOutput> chancedItems,
-                                                List<ChancedFluidOutput> chancedFluids) {
-        return labs$findRecipeByOutput(voltage, inputs, fluidInputs, chancedItems, chancedFluids, false);
+    public List<Recipe> findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+                                           List<ChancedItemOutput> chancedItems,
+                                           List<ChancedFluidOutput> chancedFluids) {
+        return findRecipeByOutput(voltage, inputs, fluidInputs, chancedItems, chancedFluids, false);
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
     @Nullable
     @Override
-    public List<Recipe> labs$findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                                List<ChancedItemOutput> chancedItems,
-                                                List<ChancedFluidOutput> chancedFluids,
-                                                boolean exactVoltage) {
+    public List<Recipe> findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+                                           List<ChancedItemOutput> chancedItems,
+                                           List<ChancedFluidOutput> chancedFluids,
+                                           boolean exactVoltage) {
         List<ItemStack> items = inputs.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());
         List<FluidStack> fluids = fluidInputs.stream().filter(f -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
 
-        return labs$findByOutput(
+        return findByOutput(
                 items, fluids, chancedItems, chancedFluids, (recipe) -> {
                     if (exactVoltage && recipe.getEUt() != voltage) {
                         // if exact voltage is required, the recipe is not considered valid
@@ -122,8 +125,9 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
                 });
     }
 
+    @SuppressWarnings({ "AddedMixinMembersNamePattern", "unused" })
     @Unique
-    public VirtualizedRecipeMap labs$getVirtualized() {
+    public VirtualizedRecipeMap getVirtualized() {
         return (VirtualizedRecipeMap) grsVirtualizedRecipeMap;
     }
 }

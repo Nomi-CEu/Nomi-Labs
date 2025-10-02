@@ -56,7 +56,7 @@ crafting.shapedBuilder()
     .matrix('AAA', 'AAA', 'ABA')
     .key('A', item('minecraft:diamond'))
     .key('B', item('minecraft:apple'))
-    .labs$setOutputTooltip(translatableLiteral('A Very Low Carot Gold Ingot. Oops, I meant Carrot!').addFormat(TextFormatting.GOLD),
+    .setOutputTooltip(translatableLiteral('A Very Low Carot Gold Ingot. Oops, I meant Carrot!').addFormat(TextFormatting.GOLD),
             translatable('tooltip.nomilabs.growth_chamber.description'))
     .register()
 
@@ -84,7 +84,7 @@ crafting.shapelessBuilder()
     .output(item('minecraft:apple'))
     .input(item('minecraft:diamond'), item('minecraft:apple'))
     // No index, applied to all inputs
-    .labs$setInputTooltip(translatableLiteral('Is a Gold Ingot. 100% Pure Quality.').addFormat(TextFormatting.GOLD),
+    .setInputTooltip(translatableLiteral('Is a Gold Ingot. 100% Pure Quality.').addFormat(TextFormatting.GOLD),
             translatable('tooltip.nomilabs.growth_chamber.description'))
     .register()
 
@@ -95,11 +95,11 @@ crafting.shapedBuilder()
     .key('B', item('minecraft:apple'))
     // Specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
     // E.g. slot 1 = 1st row, 2nd column
-    .labs$setInputTooltip(1, translatableLiteral('Is a Gold Ingot?? No.').addFormat(TextFormatting.GOLD),
+    .setInputTooltip(1, translatableLiteral('Is a Gold Ingot?? No.').addFormat(TextFormatting.GOLD),
             translatable('tooltip.nomilabs.growth_chamber.description'))
     // Specify an index between 0 and 8! This represents the slot number. It goes from left to right, top to bottom.
     // E.g. slot 4 = 2nd row, 2nd column
-    .labs$setInputTooltip(4, translatableLiteral('Is a Gold Ingot? Perhaps.').addFormat(TextFormatting.GOLD),
+    .setInputTooltip(4, translatableLiteral('Is a Gold Ingot? Perhaps.').addFormat(TextFormatting.GOLD),
             translatable('tooltip.nomilabs.growth_chamber.description'))
     .register()
 

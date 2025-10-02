@@ -17,17 +17,17 @@ import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 public interface AccessibleRecipeMap {
 
     @Nullable
-    List<Recipe> labs$findByOutput(@NotNull Collection<ItemStack> items, @NotNull Collection<FluidStack> fluids,
-                                   @NotNull Collection<ChancedItemOutput> chancedItems,
-                                   @NotNull Collection<ChancedFluidOutput> chancedFluids,
-                                   @NotNull Predicate<Recipe> canHandle);
+    List<Recipe> findByOutput(@NotNull Collection<ItemStack> items, @NotNull Collection<FluidStack> fluids,
+                              @NotNull Collection<ChancedItemOutput> chancedItems,
+                              @NotNull Collection<ChancedFluidOutput> chancedFluids,
+                              @NotNull Predicate<Recipe> canHandle);
 
     @Nullable
-    List<Recipe> labs$findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                         List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids);
+    List<Recipe> findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+                                    List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids);
 
     @Nullable
-    List<Recipe> labs$findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
-                                         List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids,
-                                         boolean exactVoltage);
+    List<Recipe> findRecipeByOutput(long voltage, List<ItemStack> inputs, List<FluidStack> fluidInputs,
+                                    List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids,
+                                    boolean exactVoltage);
 }

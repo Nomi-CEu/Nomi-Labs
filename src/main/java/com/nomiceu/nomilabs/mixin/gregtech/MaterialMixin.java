@@ -148,8 +148,9 @@ public abstract class MaterialMixin implements AccessibleMaterial {
         calculateDecompositionType();
     }
 
+    @SuppressWarnings({ "AddedMixinMembersNamePattern", "unused" })
     @Unique
-    public CompositionBuilder labs$changeComposition() {
+    public CompositionBuilder changeComposition() {
         return new CompositionBuilder((Material) (Object) this);
     }
 

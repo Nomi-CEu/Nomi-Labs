@@ -64,34 +64,39 @@ public abstract class ShapedRecipeBuilderMixin extends AbstractCraftingRecipeBui
      * Makes recipes 'strict'. This means, in JEI, the list of 'matching stacks' will be displayed
      * exactly as set, instead of expanding wildcards and removing duplicates.
      */
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shaped labs$strictJEIHandling() {
+    public CraftingRecipeBuilder.Shaped strictJEIHandling() {
         labs$isStrict = true;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shaped labs$recipeClassFunction(ShapedRecipeClassFunction recipeClassFunction) {
+    public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunction recipeClassFunction) {
         this.labs$recipeClassFunction = recipeClassFunction;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shaped labs$recipeClassFunction(ShapedRecipeClassFunctionSimplified recipeClassFunction) {
+    public CraftingRecipeBuilder.Shaped recipeClassFunction(ShapedRecipeClassFunctionSimplified recipeClassFunction) {
         this.labs$recipeClassFunction = (output1, width1, height1, ingredients, _mirrored, _recipeFunction,
                                          _recipeAction) -> recipeClassFunction.createRecipe(output1, width1, height1,
                                                  ingredients);
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shaped labs$setOutputTooltip(LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shaped setOutputTooltip(LabsTranslate.Translatable... tooltip) {
         labs$outputTooltip = tooltip;
         return (CraftingRecipeBuilder.Shaped) (Object) this;
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Unique
-    public CraftingRecipeBuilder.Shaped labs$setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
+    public CraftingRecipeBuilder.Shaped setInputTooltip(int slotIndex, LabsTranslate.Translatable... tooltip) {
         if (slotIndex < 0 || slotIndex > 8) {
             GroovyLog.get().error("Add Recipe Input Tooltip: Slot Index must be between 0 and 8!");
             return (CraftingRecipeBuilder.Shaped) (Object) this;

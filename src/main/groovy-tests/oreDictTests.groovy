@@ -4,11 +4,11 @@
 // is quite buggy.
 
 // Get all Ore Dicts of a Stack (Pink Wool)
-println(item('minecraft:wool', 6).labs$getAllOreDicts())
+println(item('minecraft:wool', 6).getAllOreDicts())
 
 // Remove all Ore Dicts of a Stack (Lapis Block)
-item('minecraft:lapis_block').labs$removeAllOreDicts()
+item('minecraft:lapis_block').removeAllOreDicts()
 
 // Remove all Ore Dicts of a Stack (Gray Wool)
 // The 'wool' oreDict is only sometimes removed, because it applies to all wool items.
-item('minecraft:wool', 7).labs$removeAllOreDicts()
+item('minecraft:wool', 7).removeAllOreDicts()

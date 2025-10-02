@@ -30,15 +30,17 @@ public class ItemStackMixin {
             cir.setReturnValue(0);
     }
 
+    @SuppressWarnings({ "AddedMixinMembersNamePattern", "unused" })
     @Unique
-    public List<OreDictIngredient> labs$getAllOreDicts() {
+    public List<OreDictIngredient> getAllOreDicts() {
         return labs$getOreDictNames().stream()
                 .map(OreDictIngredient::new)
                 .collect(Collectors.toList());
     }
 
+    @SuppressWarnings({ "AddedMixinMembersNamePattern", "unused" })
     @Unique
-    public void labs$removeAllOreDicts() {
+    public void removeAllOreDicts() {
         var stack = (ItemStack) (Object) this;
         labs$getOreDictNames().forEach((name) -> VanillaModule.oreDict.remove(name, stack));
     }

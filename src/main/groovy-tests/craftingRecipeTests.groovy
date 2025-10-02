@@ -24,7 +24,7 @@ crafting.shapedBuilder()
         // Two Options:
         // ItemStack output, int width, int height, List<IIngredient> ingredients
         // ItemStack output, int width, int height, List<IIngredient> ingredients, boolean mirrored, Closure<ItemStack> recipeFunction, Closure<Void> recipeAction
-        .labs$recipeClassFunction((output, width, height, ingredients, mirrored, recipeFunction, recipeAction) -> new ShapedConversionRecipe(output, ingredients, width, height, mirrored, recipeFunction, recipeAction))
+        .recipeClassFunction((output, width, height, ingredients, mirrored, recipeFunction, recipeAction) -> new ShapedConversionRecipe(output, ingredients, width, height, mirrored, recipeFunction, recipeAction))
         .register()
 
 
@@ -35,14 +35,14 @@ crafting.shapedBuilder()
         // Two Options:
         // ItemStack output, int width, int height, List<IIngredient> ingredients
         // ItemStack output, int width, int height, List<IIngredient> ingredients, boolean mirrored, Closure<ItemStack> recipeFunction, Closure<Void> recipeAction
-        .labs$recipeClassFunction((output, width, height, ingredients) -> new ShapedConversionRecipe(output, ingredients, width, height))
+        .recipeClassFunction((output, width, height, ingredients) -> new ShapedConversionRecipe(output, ingredients, width, height))
         .register()
 
 // Example: Using Dummy Recipe
 crafting.shapedBuilder()
         .output(item('minecraft:apple'))
         .matrix([[item('minecraft:leaves')]])
-        .labs$recipeClassFunction((output, width, height, ingredients) -> new ShapedDummyRecipe(output, ingredients, width, height, false))
+        .recipeClassFunction((output, width, height, ingredients) -> new ShapedDummyRecipe(output, ingredients, width, height, false))
         .register()
 
 // Examples: NBT Clearing
@@ -114,7 +114,7 @@ crafting.shapedBuilder()
         .name('shaped-strict')
         .output(item('minecraft:dirt'))
         .matrix([[new TestStone()]])
-        .labs$strictJEIHandling()
+        .strictJEIHandling()
         .register()
 
 // Without Strict: Shapeless
@@ -129,6 +129,6 @@ crafting.shapelessBuilder()
         .name('shapeless-strict')
         .output(item('minecraft:dirt'))
         .input(new TestStone())
-        .labs$strictJEIHandling()
+        .strictJEIHandling()
         .register()
 
