@@ -1,4 +1,4 @@
-package com.nomiceu.nomilabs.mixin.topaddons;
+package com.nomiceu.nomilabs.mixin.topaddons.architecturecraft;
 
 import net.minecraft.item.ItemStack;
 

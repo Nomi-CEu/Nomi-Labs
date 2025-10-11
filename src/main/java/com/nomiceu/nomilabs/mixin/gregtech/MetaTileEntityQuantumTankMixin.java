@@ -31,7 +31,7 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.LockableQuantumStorage;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleQuantumTank;
 import com.nomiceu.nomilabs.integration.top.CustomFluidTankProvider;
 
 import codechicken.lib.render.CCRenderState;
@@ -51,7 +51,7 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank;
  */
 @Mixin(value = MetaTileEntityQuantumTank.class, remap = false)
 public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
-                                                     implements CustomFluidTankProvider, LockableQuantumStorage {
+                                                     implements CustomFluidTankProvider, AccessibleQuantumTank {
 
     @Shadow
     protected abstract boolean isLocked();
@@ -65,6 +65,12 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
     @Shadow
     @Final
     private int maxFluidCapacity;
+
+    @Shadow
+    protected boolean voiding;
+
+    @Shadow
+    protected boolean locked;
 
     @Shadow
     protected abstract void setLocked(boolean locked);
@@ -171,6 +177,17 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
             setLocked(buf.readBoolean());
             scheduleRenderUpdate();
         }
+
+        if (dataId == GregtechDataCodes.UPDATE_CONTENTS_SEED) {
+            try {
+                lockedFluid = FluidStack.loadFluidStackFromNBT(buf.readCompoundTag());
+                scheduleRenderUpdate();
+            } catch (IOException e) {
+                NomiLabs.LOGGER.info(
+                        "[QuantumTankMixin] Failed to update locked fluid for tank at pos {} via custom data {}",
+                        getPos(), e);
+            }
+        }
     }
 
     @Inject(method = "setLocked",
@@ -196,7 +213,22 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
 
     @Unique
     @Override
+    public boolean labs$isVoiding() {
+        return voiding;
+    }
+
+    @Unique
+    @Override
     public boolean labs$isLocked() {
         return isLocked() && lockedFluid != null;
+    }
+
+    @Unique
+    @Override
+    public void labs$lockedFluidUpdateNotify() {
+        if (lockedFluid != null) {
+            writeCustomData(GregtechDataCodes.UPDATE_CONTENTS_SEED,
+                    buf -> buf.writeCompoundTag(lockedFluid.writeToNBT(new NBTTagCompound())));
+        }
     }
 }

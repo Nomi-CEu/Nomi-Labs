@@ -17,6 +17,10 @@ import org.jetbrains.annotations.Nullable;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
+import mcjty.theoneprobe.api.ILayoutStyle;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 import mcjty.theoneprobe.rendering.RenderHelper;
 
 public class LabsTOPUtils {
@@ -87,5 +91,28 @@ public class LabsTOPUtils {
         }
 
         return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(actualLocation);
+    }
+
+    public static void addProperties(ProbeMode mode, IProbeInfo info, boolean locked, boolean voiding) {
+        if (!(locked || voiding)) return;
+
+        boolean expand = mode == ProbeMode.EXTENDED;
+        ILayoutStyle style = new LayoutStyle()
+                .spacing(LabsPropertyElement.ICON_BUFFER);
+
+        IProbeInfo panel;
+        if (expand) {
+            panel = info.vertical(style);
+        } else {
+            panel = info.horizontal(style);
+        }
+
+        if (locked) {
+            panel.element(new LabsPropertyElement(0, expand));
+        }
+
+        if (voiding) {
+            panel.element(new LabsPropertyElement(1, expand));
+        }
     }
 }

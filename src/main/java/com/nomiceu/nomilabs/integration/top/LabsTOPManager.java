@@ -23,13 +23,22 @@ public class LabsTOPManager {
     public static int TANK_GAUGE_ELEMENT;
     public static int ITEM_NAME_ELEMENT;
     public static int TEXT_WITH_ARGS_ELEMENT;
+    public static int PROPERTIES_ELEMENT;
+    public static int LOCKED_ITEM_ELEMENT;
 
     public static void register() {
         ITheOneProbe TOP = TheOneProbe.theOneProbeImp;
 
         // AE2 TOP Integration
-        if (Loader.isModLoaded(LabsValues.AE2_MODID))
+        if (Loader.isModLoaded(LabsValues.AE2_MODID)) {
             TOP.registerBlockDisplayOverride(new AECustomNameOverride());
+            TOP.registerProvider(new LabsQuantumLinkChamberProvider());
+        }
+
+        // Storage Drawers TOP Integration
+        if (Loader.isModLoaded(LabsValues.STORAGE_DRAWERS_MODID)) {
+            TOP.registerProvider(new LabsDrawersProvider());
+        }
 
         // GT TOP Integration
         TOP.registerProvider(new SteamMachineInfoProvider());
@@ -37,15 +46,14 @@ public class LabsTOPManager {
         TOP.registerProvider(new CreativeBlockInfoProvider());
         TOP.registerProvider(new LabsTankInfoProvider());
 
-        // AE2 TOP Integration
-        if (Loader.isModLoaded(LabsValues.AE2_MODID))
-            TOP.registerProvider(new LabsQuantumLinkChamberProvider());
-
         // Labs TOP Integration
         TOP.registerProvider(new TOPTooltipMessage());
 
         // General TOP Integration
         TOP.registerProvider(new LabsRFInfoProvider());
+
+        // Property Providers
+        TOP.registerProvider(new LabsPropertiesProvider());
 
         FLUID_NAME_ELEMENT = TOP.registerElementFactory(LabsFluidNameElement::new);
         CUSTOM_NAME_ELEMENT = TOP.registerElementFactory(CustomNameElement::new);
@@ -59,6 +67,8 @@ public class LabsTOPManager {
         TANK_GAUGE_ELEMENT = TOP.registerElementFactory(LabsTankGaugeElement::new);
         ITEM_NAME_ELEMENT = TOP.registerElementFactory(LabsItemNameElement::new);
         TEXT_WITH_ARGS_ELEMENT = TOP.registerElementFactory(LabsLangKeyWithArgsElement::new);
+        PROPERTIES_ELEMENT = TOP.registerElementFactory(LabsPropertyElement::new);
+        LOCKED_ITEM_ELEMENT = TOP.registerElementFactory(LabsCustomCountItemStackElement::new);
     }
 
     public static class TOPTooltipMessage implements IProbeInfoProvider {

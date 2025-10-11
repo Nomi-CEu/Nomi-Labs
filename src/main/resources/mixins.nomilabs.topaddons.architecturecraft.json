@@ -1,11 +1,11 @@
 {
-  "package": "com.nomiceu.nomilabs.mixin.theoneprobe",
+  "package": "com.nomiceu.nomilabs.mixin.topaddons.architecturecraft",
   "refmap": "mixins.nomilabs.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "HarvestInfoToolsMixin"
+    "AddonArchitectureCraftMixin"
   ],
   "client": [],
   "server": []

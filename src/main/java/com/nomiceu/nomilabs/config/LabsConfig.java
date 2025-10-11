@@ -279,7 +279,7 @@ public class LabsConfig {
         public boolean enableAdvancedRocketryIntegration = false;
 
         @Config.Comment({
-                "Whether to enable ArchitectureCraft Integration, which adds new slope variants, improves the GUI of the Sawbench, fixes the Sawbench Particle Texture, and fixes Shapes' Harvest Tools and Levels in The One Probe.",
+                "Whether to enable ArchitectureCraft Integration, which adds new slope variants, improves the GUI of the Sawbench, fixes the Sawbench Particle Texture, and fixes Shapes' Harvest Tools and Levels in The One Probe, when TOPAddons is installed.",
                 "[default: true]" })
         @Config.LangKey("config.nomilabs.mod_integration.architecture_craft")
         @Config.RequiresMcRestart
@@ -303,13 +303,6 @@ public class LabsConfig {
         @Config.LangKey("config.nomilabs.mod_integration.ftb_utils")
         @Config.RequiresMcRestart
         public boolean enableFTBUtilsIntegration = true;
-
-        @Config.Comment({
-                "Whether to enable TOP Addons Integration. Fixes Error Messages with ArchitectureCraft 3.108.",
-                "[default: true]" })
-        @Config.LangKey("config.nomilabs.mod_integration.top_addons")
-        @Config.RequiresMcRestart
-        public boolean enableTopAddonsIntegration = true;
 
         @Config.Comment({
                 "Whether to add a Empty Line between any Ingredient Tooltips in JEI.",
@@ -379,6 +372,13 @@ public class LabsConfig {
                 "[default: false]" })
         @Config.LangKey("config.nomilabs.mod_integration.pa_ex_crafting_strict_mode")
         public boolean paExCraftingStrictMode = false;
+
+        @Config.Comment({ "Whether to replace the expanded view of items in Storage Drawers.",
+                "A better version of the corresponding config in TOPAddons. That config should be turned off for this to work properly!",
+                "Also displays locked items, with count 0, in TOP, and skips item viewing for sealed drawers." })
+        @Config.LangKey("config.nomilabs.mod_integration.replace_drawers")
+        @Config.RequiresMcRestart
+        public boolean replaceDrawers = true;
 
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")

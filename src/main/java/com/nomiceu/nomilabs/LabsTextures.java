@@ -17,6 +17,10 @@ public class LabsTextures {
     public static String P2P_CUSTOM_LOC = "textures/gui/advanced_memory_card/custom_modes.png";
     public static int P2P_CUSTOM_AMT = 2;
 
+    public static int TOP_SIZE = 12;
+    public static String TOP_LOC = "textures/gui/top/icons.png";
+    public static int TOP_AMT = 2;
+
     /* Overlays (Machine) */
     public static OrientedOverlayRenderer GROWTH_CHAMBER_OVERLAY;
 
@@ -34,7 +38,7 @@ public class LabsTextures {
     public static TextureArea P2P_INPUT_ICON;
     public static TextureArea P2P_OUTPUT_ICON;
 
-    public static TextureArea TOP_LOCKED_ICON;
+    public static TextureArea[] TOP_ICONS;
 
     public static void preInit() {
         GROWTH_CHAMBER_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/growth_chamber");
@@ -47,7 +51,7 @@ public class LabsTextures {
         P2P_INPUT_ICON = labsFullImage("textures/gui/advanced_memory_card/input.png");
         P2P_OUTPUT_ICON = labsFullImage("textures/gui/advanced_memory_card/output.png");
 
-        TOP_LOCKED_ICON = labsFullImage("textures/gui/top/locked_icon.png");
+        TOP_ICONS = labsAreasImageHorizontal(TOP_LOC, TOP_SIZE, TOP_SIZE, TOP_AMT);
     }
 
     /**

@@ -25,7 +25,7 @@ import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.nomiceu.nomilabs.NomiLabs;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.LockableQuantumChest;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleQuantumChest;
 
 import gregtech.api.capability.GregtechDataCodes;
 import gregtech.api.gui.GuiTextures;
@@ -46,7 +46,7 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
  * Also, makes quantum chest rendering take into account 'export slot' items.
  */
 @Mixin(value = MetaTileEntityQuantumChest.class, remap = false)
-public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity implements LockableQuantumChest {
+public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity implements AccessibleQuantumChest {
 
     @Unique
     private static final String LABS$LOCKED_KEY = "IsLocked";
@@ -66,6 +66,11 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
     @Final
     private static String NBT_ITEMSTACK;
 
+    @Shadow
+    protected boolean voiding;
+    @Shadow
+    @Final
+    protected long maxStoredItems;
     @Unique
     private boolean labs$locked = false;
 
@@ -284,6 +289,12 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
     @Unique
     @Override
+    public boolean labs$isVoiding() {
+        return voiding;
+    }
+
+    @Unique
+    @Override
     public boolean labs$lockedBlocksStack(ItemStack stack) {
         if (!labs$locked || labs$lockedStack.isEmpty()) return false;
 
@@ -297,5 +308,17 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
         labs$lockedStack = stack.copy();
         labs$lockedStack.setCount(1);
+    }
+
+    @Unique
+    @Override
+    public ItemStack labs$getLockedStack() {
+        return labs$lockedStack;
+    }
+
+    @Unique
+    @Override
+    public long labs$getMaxStored() {
+        return maxStoredItems;
     }
 }

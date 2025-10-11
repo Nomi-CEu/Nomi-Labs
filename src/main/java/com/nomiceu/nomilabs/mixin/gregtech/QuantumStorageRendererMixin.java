@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.LockableQuantumStorage;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleQuantumStorage;
 import com.nomiceu.nomilabs.util.LabsNames;
 
 import codechicken.lib.render.CCRenderState;
@@ -68,7 +68,7 @@ public class QuantumStorageRendererMixin {
                                                                                  BlockRenderLayer layer,
                                                                                  Operation<Void> original,
                                                                                  @Local(argsOnly = true) T mte) {
-        if (mte instanceof LockableQuantumStorage lock) {
+        if (mte instanceof AccessibleQuantumStorage lock) {
             if (lock.labs$isLocked()) {
                 Textures.renderFace(renderState, translation, ops, face, bounds, labs$lockedTexture, layer);
                 return;

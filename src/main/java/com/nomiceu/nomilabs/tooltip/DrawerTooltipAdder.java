@@ -2,15 +2,18 @@ package com.nomiceu.nomilabs.tooltip;
 
 import java.util.*;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.Loader;
 
 import com.jaquadro.minecraft.storagedrawers.item.ItemCompDrawers;
 import com.jaquadro.minecraft.storagedrawers.item.ItemDrawers;
+import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.integration.storagedrawers.CustomUpgradeHandler;
 import com.nomiceu.nomilabs.util.ItemMeta;
@@ -22,11 +25,15 @@ import eutros.framedcompactdrawers.item.ItemSlaveCustom;
 public class DrawerTooltipAdder {
 
     public static void addDrawerInfo(List<String> tooltip, ItemStack stack) {
-        // Add tooltip if drawers, compacting drawers,
-        // but not controller or slave (which inherits from ItemCustomDrawers)
-        if (!(stack.getItem() instanceof ItemDrawers || stack.getItem() instanceof ItemCompDrawers) ||
-                stack.getItem() instanceof ItemControllerCustom || stack.getItem() instanceof ItemSlaveCustom)
+        Item item = stack.getItem();
+
+        // Add tooltip if drawers, compacting drawers
+        if (!(item instanceof ItemDrawers || item instanceof ItemCompDrawers))
             return;
+
+        if (Loader.isModLoaded(LabsValues.FRAMED_COMPACT_MODID)) {
+            if (disallowDrawer(item)) return;
+        }
 
         NBTTagCompound nbt = stack.getTagCompound();
         if (nbt == null) return;
@@ -44,6 +51,11 @@ public class DrawerTooltipAdder {
         if (shouldPrintShiftMsg) {
             tooltip.add(LabsTranslate.translate("tooltip.nomilabs.drawers.shift"));
         }
+    }
+
+    private static boolean disallowDrawer(Item item) {
+        // Disallow framed controllers/slaves in tooltip (doesn't inherit from ItemDrawers)
+        return item instanceof ItemControllerCustom || item instanceof ItemSlaveCustom;
     }
 
     private static boolean addDrawerTileInfo(List<String> tooltip, NBTTagCompound compound) {

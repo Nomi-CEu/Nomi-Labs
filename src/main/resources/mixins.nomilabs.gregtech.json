@@ -37,6 +37,7 @@
     "MetaTileEntityQuantumChestGTItemHandlerMixin",
     "MetaTileEntityQuantumChestItemHandlerMixin",
     "MetaTileEntityQuantumChestMixin",
+    "MetaTileEntityQuantumFluidTankMixin",
     "MetaTileEntityQuantumTankMixin",
     "MetaValueItemMixin",
     "MinerLogicMixin",

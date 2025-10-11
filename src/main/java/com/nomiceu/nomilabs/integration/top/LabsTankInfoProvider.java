@@ -16,9 +16,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.LockableQuantumStorage;
 
-import cofh.thermalexpansion.block.storage.TileTank;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.SimpleMachineMetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
@@ -84,40 +82,16 @@ public class LabsTankInfoProvider implements IProbeInfoProvider {
 
         // Calculate Display Preferences
         boolean expanded = mode == ProbeMode.EXTENDED || tanks.length <= LabsConfig.topSettings.expandViewTankThreshold;
-        boolean locked = isTankLocked(tile);
 
         for (int i = 0; i < tanks.length; i++) {
             IFluidTankProperties tank = tanks[i];
 
             String tankName = (name != null) ? name.apply(i) : "nomilabs.gui.top.tank.default";
-            info.element(new LabsTankGaugeElement(tank.getContents(), tankName, tank.getCapacity(), expanded, locked));
+            info.element(new LabsTankGaugeElement(tank.getContents(), tankName, tank.getCapacity(), expanded));
         }
     }
 
     private Map<Class<? extends TileEntity>, String[]> getNameMap() {
         return Names.tankNamesMap;
-    }
-
-    public boolean isTankLocked(TileEntity tile) {
-        // Thermal Portable (seperated, as thermal is a soft dep)
-        if (Loader.isModLoaded(LabsValues.THERMAL_EXPANSION_MODID) && isThermalTankLocked(tile))
-            return true;
-
-        // GT Super/Quantum
-        if (tile instanceof IGregTechTileEntity gt) {
-            MetaTileEntity mte = gt.getMetaTileEntity();
-            if (mte instanceof LockableQuantumStorage tank) {
-                return tank.labs$isLocked();
-            }
-        }
-
-        return false;
-    }
-
-    private boolean isThermalTankLocked(TileEntity tile) {
-        if (tile instanceof TileTank tank) {
-            return tank.isLocked();
-        }
-        return false;
     }
 }

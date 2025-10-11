@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.nomiceu.nomilabs.gregtech.mixinhelper.LockableQuantumChest;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleQuantumChest;
 
 import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
 
@@ -29,7 +29,7 @@ public class MetaTileEntityQuantumChestItemHandlerMixin {
     @Inject(method = "insertItem", at = @At("HEAD"), cancellable = true)
     private void checkLocked(int slot, ItemStack insertedStack, boolean simulate,
                              CallbackInfoReturnable<ItemStack> cir) {
-        if (((LockableQuantumChest) this$0).labs$lockedBlocksStack(insertedStack))
+        if (((AccessibleQuantumChest) this$0).labs$lockedBlocksStack(insertedStack))
             cir.setReturnValue(insertedStack);
     }
 
@@ -41,7 +41,7 @@ public class MetaTileEntityQuantumChestItemHandlerMixin {
 
         // Insert Item Successful
         if (result.getCount() < insertedStack.getCount() && !simulate) {
-            ((LockableQuantumChest) this$0).labs$stackInserted(insertedStack);
+            ((AccessibleQuantumChest) this$0).labs$stackInserted(insertedStack);
         }
     }
 }

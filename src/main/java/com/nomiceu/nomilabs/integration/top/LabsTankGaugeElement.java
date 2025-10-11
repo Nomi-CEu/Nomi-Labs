@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.Loader;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.nomiceu.nomilabs.LabsTextures;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
@@ -38,8 +37,6 @@ public class LabsTankGaugeElement implements IElement {
     public static int BAR_NORMAL = 8;
     public static int BAR_EXPANDED = 12;
 
-    public static int LOCKED_ICON_BUFFER = 2;
-
     public static int DEFAULT_OUTLINE = 0xff969696;
     public static int DEFAULT_FILL = 0x44969696;
 
@@ -53,7 +50,6 @@ public class LabsTankGaugeElement implements IElement {
     private final int capacity;
 
     private final boolean expandedView;
-    private final boolean locked;
 
     /* Cached Values */
     @Nullable
@@ -78,34 +74,30 @@ public class LabsTankGaugeElement implements IElement {
         FLUID_NAME_COLOR_MAP.put("lava", 0xffe6913c);
     }
 
-    public LabsTankGaugeElement(@Nullable FluidStack fluid, String tankName, int capacity,
-                                boolean expandedView, boolean locked) {
+    public LabsTankGaugeElement(@Nullable FluidStack fluid, String tankName, int capacity, boolean expandedView) {
         this.tankName = tankName;
         this.capacity = capacity;
         this.expandedView = expandedView;
-        this.locked = expandedView && locked; // Validation: We should only display locked icon in expanded
 
         if (capacity > 0 && fluid != null && !fluid.getFluid().getName().isEmpty()) {
             fluidName = fluid.getFluid().getName();
             amount = fluid.amount;
             color = getColor(fluid);
         } else {
-            fluidName = null;
+            fluidName = "";
             amount = 0;
             color = DEFAULT_OUTLINE;
         }
     }
 
     public LabsTankGaugeElement(ByteBuf byteBuf) {
-        fluidName = NetworkTools.readStringUTF8(byteBuf);
+        fluidName = NetworkTools.readString(byteBuf);
         amount = byteBuf.readInt();
 
         capacity = byteBuf.readInt();
 
-        tankName = NetworkTools.readStringUTF8(byteBuf);
+        tankName = NetworkTools.readString(byteBuf);
         expandedView = byteBuf.readBoolean();
-
-        locked = byteBuf.readBoolean();
 
         color = byteBuf.readInt();
 
@@ -120,16 +112,13 @@ public class LabsTankGaugeElement implements IElement {
 
     @Override
     public void toBytes(ByteBuf byteBuf) {
-        // Use auto handling of null strings
-        NetworkTools.writeStringUTF8(byteBuf, fluidName);
+        NetworkTools.writeString(byteBuf, fluidName);
         byteBuf.writeInt(amount);
 
         byteBuf.writeInt(capacity);
 
-        NetworkTools.writeStringUTF8(byteBuf, tankName);
+        NetworkTools.writeString(byteBuf, tankName);
         byteBuf.writeBoolean(expandedView);
-
-        byteBuf.writeBoolean(locked);
 
         byteBuf.writeInt(color);
     }
@@ -143,12 +132,6 @@ public class LabsTankGaugeElement implements IElement {
         // Box
         RenderHelper.drawThickBeveledBox(x, y, x + BAR_WIDTH, y + barHeight, 1,
                 color, color, DEFAULT_FILL);
-
-        // Locked Icon Rendering (Guaranteed expanded bar)
-        if (locked) {
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            LabsTextures.TOP_LOCKED_ICON.draw(x + BAR_WIDTH + LOCKED_ICON_BUFFER, y, BAR_EXPANDED, BAR_EXPANDED);
-        }
 
         // Render fluid (Adaptation of RenderUtil#drawFluidForGui)
         if (hasFluid) {
@@ -177,7 +160,7 @@ public class LabsTankGaugeElement implements IElement {
     }
 
     private int barWidth() {
-        return locked ? BAR_WIDTH + BAR_EXPANDED + LOCKED_ICON_BUFFER : BAR_WIDTH;
+        return BAR_WIDTH;
     }
 
     @Override
@@ -243,7 +226,7 @@ public class LabsTankGaugeElement implements IElement {
     }
 
     private boolean hasFluid() {
-        return fluidName != null;
+        return fluidName != null && !fluidName.isEmpty();
     }
 
     private void renderFluidTexture(int x, int y, int barHeight) {

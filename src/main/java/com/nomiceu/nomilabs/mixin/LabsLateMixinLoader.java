@@ -41,8 +41,6 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             .put(DME_MODID, true)
             .put(FTB_UTILS_MODID,
                     LabsConfig.modIntegration.enableFTBUtilsIntegration)
-            .put(TOP_ADDONS_MODID,
-                    LabsConfig.modIntegration.enableTopAddonsIntegration)
             .put(TOP_MODID, true)
             .put(AE2_MODID, true)
             .put(AE2FC_MODID, true)
@@ -62,7 +60,11 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
             .build();
 
     public static final Map<Pair<String, String>, Boolean> specialMixinsConfig = ImmutableMap.of(
-            Pair.of(ROCKETRY_MODID, "prerework"), LabsConfig.modIntegration.enableAdvancedRocketryIntegration);
+            Pair.of(ROCKETRY_MODID, "prerework"), LabsConfig.modIntegration.enableAdvancedRocketryIntegration,
+            Pair.of(TOP_MODID, STORAGE_DRAWERS_MODID),
+            Loader.isModLoaded(STORAGE_DRAWERS_MODID) && LabsConfig.modIntegration.replaceDrawers,
+            Pair.of(TOP_ADDONS_MODID, ARCHITECTURE_MODID),
+            Loader.isModLoaded(ARCHITECTURE_MODID) && LabsConfig.modIntegration.enableArchitectureCraftIntegration);
 
     @SuppressWarnings("SimplifyStreamApiCallChains")
     @Override
