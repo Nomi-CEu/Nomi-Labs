@@ -29,6 +29,7 @@ public class LabsDrawersProvider implements IProbeInfoProvider {
                              IProbeHitData data) {
         if (!(world.getTileEntity(data.getPos()) instanceof TileEntityDrawers drawer)) return;
 
+        // Drawer state checks
         if (drawer.isSealed()) {
             info.text(TextStyleClass.LABEL + LabsTranslate.topTranslate("nomilabs.top.storage_drawers.sealed"));
             return;
@@ -41,20 +42,20 @@ public class LabsDrawersProvider implements IProbeInfoProvider {
 
         var attr = drawer.getDrawerAttributes();
 
-        if (mode == ProbeMode.EXTENDED) {
-            String max;
-            if (attr.isUnlimitedStorage()) {
-                max = "∞";
-            } else {
-                max = drawer.getEffectiveDrawerCapacity() * drawer.upgrades().getStorageMultiplier() +
-                        " (x" + drawer.upgrades().getStorageMultiplier() + ")";
-            }
-
-            info.text(
-                    TextStyleClass.LABEL + LabsTranslate.topTranslate("storagedrawers.waila.config.displayStackLimit") +
-                            ": " + TextStyleClass.INFO + max);
+        // Max storage info
+        String max;
+        if (attr.isUnlimitedStorage()) {
+            max = "∞";
+        } else {
+            max = drawer.getEffectiveDrawerCapacity() * drawer.upgrades().getStorageMultiplier() +
+                    " (x" + drawer.upgrades().getStorageMultiplier() + ")";
         }
 
+        info.text(
+                TextStyleClass.LABEL + LabsTranslate.topTranslate("storagedrawers.waila.config.displayStackLimit") +
+                        ": " + TextStyleClass.INFO + max);
+
+        // Properties
         var group = drawer.getGroup();
         boolean hasItems = false;
         for (int i = 0; i < group.getDrawerCount(); i++) {
