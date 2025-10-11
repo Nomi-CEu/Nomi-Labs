@@ -63,9 +63,11 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
     @Shadow
     protected boolean voiding;
+
     @Shadow
     @Final
     protected long maxStoredItems;
+
     @Unique
     private boolean labs$locked = false;
 
@@ -224,6 +226,21 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
         if (dataId == GregtechDataCodes.UPDATE_LOCKED_STATE) {
             labs$setLocked(buf.readBoolean());
             scheduleRenderUpdate();
+            return;
+        }
+
+        if (dataId == GregtechDataCodes.UPDATE_CONTENTS_SEED) {
+            try {
+                NBTTagCompound tag = buf.readCompoundTag();
+                if (tag != null) {
+                    labs$lockedStack = new ItemStack(tag);
+                }
+                scheduleRenderUpdate();
+            } catch (IOException e) {
+                NomiLabs.LOGGER.info(
+                        "[QuantumChestMixin] Failed to update locked item for tank at pos {} via custom data {}",
+                        getPos(), e);
+            }
         }
     }
 
@@ -283,6 +300,8 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
         labs$lockedStack = stack.copy();
         labs$lockedStack.setCount(1);
+        writeCustomData(GregtechDataCodes.UPDATE_CONTENTS_SEED,
+                buf -> buf.writeCompoundTag(labs$lockedStack.writeToNBT(new NBTTagCompound())));
     }
 
     @Unique

@@ -95,6 +95,7 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
         if (dataId == GregtechDataCodes.UPDATE_LOCKED_STATE) {
             setLocked(buf.readBoolean());
             scheduleRenderUpdate();
+            return;
         }
 
         if (dataId == GregtechDataCodes.UPDATE_CONTENTS_SEED) {
