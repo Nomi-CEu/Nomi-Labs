@@ -35,7 +35,6 @@ import gregtech.api.gui.widgets.ToggleButtonWidget;
 import gregtech.api.items.itemhandlers.GTItemStackHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.util.GTUtility;
-import gregtech.client.renderer.texture.custom.QuantumStorageRenderer;
 import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
 
 /**
@@ -43,7 +42,6 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumChest;
  * <p>
  * Handles gui changes and syncing, and defines logic used by item handler checks in other mixins.
  * Also, checks locked stack when inserting directly into export items.
- * Also, makes quantum chest rendering take into account 'export slot' items.
  */
 @Mixin(value = MetaTileEntityQuantumChest.class, remap = false)
 public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity implements AccessibleQuantumChest {
@@ -53,9 +51,6 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
 
     @Unique
     private static final String LABS$LOCKED_STACK_KEY = "LockedStack";
-
-    @Shadow
-    protected long itemsStoredInside;
 
     @Shadow
     protected static boolean areItemStackIdentical(ItemStack first, ItemStack second) {
@@ -121,26 +116,6 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
                 labs$stackInserted(getStackInSlot(0));
             }
         };
-    }
-
-    @Inject(method = "renderMetaTileEntity(DDDF)V", at = @At("HEAD"), cancellable = true)
-    private void accountExportItemsOrLocked(double x, double y, double z, float partialTicks, CallbackInfo ci) {
-        ci.cancel();
-
-        ItemStack stack = getExportItems().getStackInSlot(0);
-        long amount = 0;
-        if (stack.isEmpty()) {
-            if (labs$isLocked()) {
-                // Use locked stack, set count to -1 to bypass initial checks; we can normalise it to zero later
-                stack = labs$lockedStack;
-                amount = -1;
-            }
-        } else {
-            amount = itemsStoredInside + stack.getCount();
-        }
-
-        QuantumStorageRenderer.renderChestStack(x, y, z, (MetaTileEntityQuantumChest) (Object) this, stack, amount,
-                partialTicks);
     }
 
     /* Gui Changes */
