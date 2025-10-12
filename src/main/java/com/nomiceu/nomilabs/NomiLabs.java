@@ -14,6 +14,7 @@ import com.nomiceu.nomilabs.command.LabsReloadCommand;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.event.ClientProxy;
 import com.nomiceu.nomilabs.event.CommonProxy;
+import com.nomiceu.nomilabs.groovy.LabsGroovyPlugin;
 import com.nomiceu.nomilabs.integration.effortlessbuilding.EffortlessEventHandler;
 import com.nomiceu.nomilabs.integration.ftbutilities.event.FTBUtilsEventHandler;
 import com.nomiceu.nomilabs.remap.datafixer.DataFixerHandler;
@@ -50,6 +51,7 @@ public class NomiLabs {
         }
         MinecraftForge.EVENT_BUS.register(CommonProxy.class);
         CommonProxy.onConstruction();
+        LabsGroovyPlugin.onConstruction();
     }
 
     @EventHandler

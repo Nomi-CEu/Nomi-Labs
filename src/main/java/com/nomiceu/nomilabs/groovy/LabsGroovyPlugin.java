@@ -12,8 +12,12 @@ import org.jetbrains.annotations.NotNull;
 import com.cleanroommc.groovyscript.api.GroovyPlugin;
 import com.cleanroommc.groovyscript.api.IObjectParser;
 import com.cleanroommc.groovyscript.compat.mods.GroovyContainer;
+import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import com.cleanroommc.groovyscript.mapper.TextureBinder;
 import com.nomiceu.nomilabs.LabsValues;
+import com.nomiceu.nomilabs.NomiLabs;
+import com.nomiceu.nomilabs.config.LabsConfig;
+import com.nomiceu.nomilabs.mixin.earlygroovy.ModSupportAccessor;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.unification.OreDictUnifier;
@@ -33,6 +37,13 @@ public class LabsGroovyPlugin implements GroovyPlugin {
     @NotNull
     public String getModId() {
         return LabsValues.LABS_MODID;
+    }
+
+    public static void onConstruction() {
+        for (String container : LabsConfig.advanced.disabledGrSContainers) {
+            NomiLabs.LOGGER.info("Disabling GroovyScript Container for mod {}", container);
+            ((ModSupportAccessor) ModSupport.INSTANCE).registerContainerOverride(new PlainGroovyPlugin(container));
+        }
     }
 
     @Override

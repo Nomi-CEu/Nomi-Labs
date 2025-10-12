@@ -691,6 +691,16 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public String[] ignoreBiomes = new String[0];
 
+        @Config.Comment({ "List of GroovyScript compat container MODIDs to disable.",
+                "Do not change unless you know what you are doing!",
+                "Suitable only when the compat is intended for an unsupportable version of a mod.",
+                "May not work (causing a crash) if used on containers not registered by GroovyScript.",
+                "Example: `advancedrocketry` to disable AdvancedRocketry compat.",
+                "[default: ]" })
+        @Config.LangKey("config.nomilabs.advanced.disable_grs_container")
+        @Config.RequiresMcRestart
+        public String[] disabledGrSContainers = new String[0];
+
         @Config.Comment({ "List of Fields to be client side only, acting as @SideOnly(Side.CLIENT).",
                 "DOES NOT WORK WITH CLASSES FROM MINECRAFT OR FORGE!",
                 "Does not work with classes loaded before Nomi Labs' Static Init!",
