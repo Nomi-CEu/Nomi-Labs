@@ -42,7 +42,7 @@ public class ItemStackMixin {
     @Unique
     public void removeAllOreDicts() {
         var stack = (ItemStack) (Object) this;
-        labs$getOreDictNames().forEach((name) -> VanillaModule.oreDict.remove(name, stack));
+        labs$getOreDictNames().forEach((name) -> VanillaModule.INSTANCE.oreDict.remove(name, stack));
     }
 
     @Unique

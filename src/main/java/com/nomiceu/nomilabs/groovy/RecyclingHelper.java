@@ -1,6 +1,5 @@
 package com.nomiceu.nomilabs.groovy;
 
-import static com.cleanroommc.groovyscript.compat.vanilla.VanillaModule.crafting;
 import static com.nomiceu.nomilabs.util.LabsGroovyHelper.throwOrGroovyLog;
 
 import java.util.*;
@@ -19,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.IIngredient;
+import com.cleanroommc.groovyscript.compat.vanilla.VanillaModule;
 import com.cleanroommc.groovyscript.helper.ingredient.OreDictIngredient;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.HashMultiset;
@@ -88,8 +88,8 @@ public class RecyclingHelper {
 
     public static void replaceRecipeShaped(ResourceLocation name, ItemStack output, List<List<IIngredient>> inputs) {
         validate(name, output, true, false);
-        crafting.remove(name);
-        crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), output, inputs);
+        VanillaModule.INSTANCE.crafting.remove(name);
+        VanillaModule.INSTANCE.crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), output, inputs);
         registerRecycling(output, inputs);
     }
 
@@ -102,7 +102,7 @@ public class RecyclingHelper {
         var originalCount = originalRecipe.getRecipeOutput().getCount();
         var newCount = newOutput.getCount();
 
-        crafting.remove(name);
+        VanillaModule.INSTANCE.crafting.remove(name);
         ReloadableRegistryManager.addRegistryEntry(ForgeRegistries.RECIPES, LabsNames.makeGroovyName(name.getPath()),
                 new PartialRecipe(originalRecipe, newOutput.copy()));
 
@@ -126,8 +126,8 @@ public class RecyclingHelper {
     public static void replaceRecipeInput(ResourceLocation name, List<List<IIngredient>> newInputs) {
         IRecipe originalRecipe = validate(name, ItemStack.EMPTY, false, false);
         var originalOutput = originalRecipe.getRecipeOutput();
-        crafting.remove(name);
-        crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), originalOutput, newInputs);
+        VanillaModule.INSTANCE.crafting.remove(name);
+        VanillaModule.INSTANCE.crafting.addShaped(LabsNames.makeGroovyName(name.getPath()), originalOutput, newInputs);
         registerRecycling(originalOutput, newInputs);
     }
 
@@ -136,12 +136,12 @@ public class RecyclingHelper {
     }
 
     public static void createRecipe(String name, ItemStack output, List<List<IIngredient>> input) {
-        crafting.addShaped(LabsNames.makeGroovyName(name), output, input);
+        VanillaModule.INSTANCE.crafting.addShaped(LabsNames.makeGroovyName(name), output, input);
         registerRecycling(output, input);
     }
 
     public static void createRecipe(ItemStack output, List<List<IIngredient>> input) {
-        crafting.addShaped(output, input);
+        VanillaModule.INSTANCE.crafting.addShaped(output, input);
         registerRecycling(output, input);
     }
 
