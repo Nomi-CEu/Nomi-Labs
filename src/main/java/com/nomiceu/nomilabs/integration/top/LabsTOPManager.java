@@ -51,6 +51,7 @@ public class LabsTOPManager {
 
         // General TOP Integration
         TOP.registerProvider(new LabsRFInfoProvider());
+        TOP.registerProvider(new GeneralAEPowerStateInfoProvider());
 
         // Property Providers
         TOP.registerProvider(new LabsPropertiesProvider());
