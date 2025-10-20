@@ -16,6 +16,8 @@ public class LabsEndgame {
                 new ItemBase(makeLabsName("heartofauniverse"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
         CREATIVE_TANK_MOLD = createItem(new ItemBase(makeLabsName("creativeportabletankmold"),
                 LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
+        CREATIVE_COMPUTATION_MOLD = createItem(new ItemBase(makeLabsName("creativecomputationmold"),
+                LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.EPIC, 1));
         EXOTIC_MATERIALS_CATALYST = createItem(
                 new ItemBase(makeLabsName("exoticmaterialscatalyst"), LabsCreativeTabs.TAB_NOMI_LABS, EnumRarity.RARE));
         ETERNAL_CATALYST = createItem(
