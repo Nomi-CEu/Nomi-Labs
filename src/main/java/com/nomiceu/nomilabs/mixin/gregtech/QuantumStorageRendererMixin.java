@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -31,6 +33,7 @@ import gregtech.client.renderer.texture.custom.QuantumStorageRenderer;
 /**
  * Renders a red glass 'screen' if the chest/tank is locked.
  * Still renders the item/fluid (with amount 0) if storage is locked.
+ * Fixes chest stacks not rotating under certain circumstances.
  */
 @Mixin(value = QuantumStorageRenderer.class, remap = false)
 public class QuantumStorageRendererMixin {
@@ -42,6 +45,13 @@ public class QuantumStorageRendererMixin {
     @Inject(method = "registerIcons", at = @At("TAIL"))
     private void registerLockedIcon(TextureMap textureMap, CallbackInfo ci) {
         labs$lockedTexture = textureMap.registerSprite(LabsNames.makeLabsName("blocks/overlay/overlay_screen_locked"));
+    }
+
+    @Redirect(method = "renderChestStack",
+              at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getWorldTime()J", remap = true),
+              remap = false)
+    private static long useProperWorldTime(World instance) {
+        return instance.getTotalWorldTime();
     }
 
     @WrapOperation(method = "renderChestStack",
