@@ -45,7 +45,7 @@ public class RecipeTransferHandlerMixin<T extends Container> {
         if (!(layout instanceof RecipeLayoutAccessor accessor)) return ing;
         if (!(accessor.labs$getRecipeWrapper() instanceof GTRecipeWrapper gt)) return ing;
 
-        // Always skip first item (scanner item) in assembly line recipes
+        // Always skip data item (research item) in assembly line recipes, if has research
         boolean assemblySkip = ((AccessibleGTRecipeWrapper) gt).labs$getRecipeMap() ==
                 RecipeMaps.ASSEMBLY_LINE_RECIPES &&
                 gt.getRecipe().getProperty(ResearchProperty.getInstance(), null) != null;
@@ -59,7 +59,7 @@ public class RecipeTransferHandlerMixin<T extends Container> {
         // Appropriate filtering
         for (var obj : ing) {
             if (obj.getValue().isInput()) {
-                // Skip first item for assembly line; but may not be the first slot id
+                // Skip data item for assembly line
                 if (assemblySkip && obj.getKey() == LabsAE2ImportHandler.ASSEMBLY_LINE_RESEARCH_SLOT)
                     continue;
                 if (skipNonConsume && gt.isNotConsumedItem(obj.getKey()))

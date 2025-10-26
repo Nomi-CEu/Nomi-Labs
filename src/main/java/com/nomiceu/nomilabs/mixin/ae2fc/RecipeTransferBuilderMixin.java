@@ -46,7 +46,7 @@ public class RecipeTransferBuilderMixin {
     private boolean toggleNonConsume(IRecipeWrapper wrapper, int e) {
         if (!(wrapper instanceof GTRecipeWrapper gt)) return false;
 
-        // Always skip first item (scanner item) in assembly line recipes
+        // Always skip data item (research item) in assembly line recipes, if has research
         boolean assemblySkip = ((AccessibleGTRecipeWrapper) gt).labs$getRecipeMap() ==
                 RecipeMaps.ASSEMBLY_LINE_RECIPES &&
                 gt.getRecipe().getProperty(ResearchProperty.getInstance(), null) != null;
