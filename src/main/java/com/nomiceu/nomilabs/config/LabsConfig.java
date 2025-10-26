@@ -471,6 +471,26 @@ public class LabsConfig {
                     "Default AE2 Behaviour is to Save.", "[default: false]" })
             @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.cfg_interface_save")
             public boolean saveConfigInterfaceSearch = false;
+
+            @Config.Comment({ "Prioritized items for AE2 / AE2FC, when inserting from JEI.",
+                    "Only gets prioritized if the item is present in storage, is patterned, or all other options are not stored nor patterned.",
+                    "Items are specified as <registryName>@<meta>, e.g. minecraft:dirt@1 (Coarse Dirt).",
+                    "Default list includes all Labs' universal circuits.",
+                    "[default: ]" })
+            @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal.ae2_prio_items")
+            @Config.RequiresMcRestart
+            public String[] ae2PrioritizedItems = new String[] {
+                    "nomilabs:meta_item@2",
+                    "nomilabs:meta_item@3",
+                    "nomilabs:meta_item@4",
+                    "nomilabs:meta_item@5",
+                    "nomilabs:meta_item@6",
+                    "nomilabs:meta_item@7",
+                    "nomilabs:meta_item@8",
+                    "nomilabs:meta_item@9",
+                    "nomilabs:meta_item@10",
+                    "nomilabs:meta_item@11"
+            };
         }
 
         public static class EffortlessBuildingIntegration {

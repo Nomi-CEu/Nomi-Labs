@@ -7,14 +7,17 @@ import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleGTRecipeWrapper;
 import com.nomiceu.nomilabs.util.LabsTranslate;
 
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.recipes.Recipe;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.integration.RecipeCompatUtil;
 import gregtech.integration.jei.recipe.GTRecipeWrapper;
 import gregtech.integration.jei.utils.AdvancedRecipeWrapper;
@@ -23,13 +26,18 @@ import gregtech.integration.jei.utils.JeiButton;
 /**
  * If the recipe is from CT or GS, shows an info logo, saying that the recipe is from CT/GS,
  * instead of showing the button to copy a script to remove the recipe.
+ * Allows accessing the recipe map.
  */
 @Mixin(value = GTRecipeWrapper.class, remap = false)
-public abstract class GTRecipeWrapperMixin extends AdvancedRecipeWrapper {
+public abstract class GTRecipeWrapperMixin extends AdvancedRecipeWrapper implements AccessibleGTRecipeWrapper {
 
     @Shadow
     @Final
     private Recipe recipe;
+
+    @Shadow
+    @Final
+    private RecipeMap<?> recipeMap;
 
     @Inject(method = "initExtras", at = @At("TAIL"))
     private void showIsCustomRecipe(CallbackInfo ci) {
@@ -55,5 +63,11 @@ public abstract class GTRecipeWrapperMixin extends AdvancedRecipeWrapper {
                                 "nomilabs.gui.recipes.tooltip.ct_recipe")))
                 .setClickAction((mc, x, y, button) -> false)
                 .setActiveSupplier(creativeTweaker));
+    }
+
+    @Unique
+    @Override
+    public RecipeMap<?> labs$getRecipeMap() {
+        return recipeMap;
     }
 }

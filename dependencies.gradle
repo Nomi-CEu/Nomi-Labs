@@ -69,9 +69,9 @@ dependencies {
     } // Version 3.0
 
     // Had Enough Items
-    implementation ('mezz:jei:4.29.7') {
+    implementation ('mezz:jei:4.29.8') {
         transitive = false
-    } // Version 4.29.7
+    } // Version 4.29.8
 
     // The One Probe
     implementation rfg.deobf('curse.maven:top-245211:2667280') // Version 1.4.28
