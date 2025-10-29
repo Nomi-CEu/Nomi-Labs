@@ -143,7 +143,7 @@ public class LabsJEIPlugin implements IModPlugin {
         IMaterials materials = AEApi.instance().definitions().materials();
 
         Optional<ItemStack> fluix = materials.fluixCrystal().maybeStack(2);
-        Optional<ItemStack> certus = materials.certusQuartzCrystal().maybeStack(1);
+        Optional<ItemStack> certus = materials.certusQuartzCrystalCharged().maybeStack(1);
 
         if (fluix.isPresent() && certus.isPresent()) {
             recipes.add(createRecipe(ImmutableList.of(
