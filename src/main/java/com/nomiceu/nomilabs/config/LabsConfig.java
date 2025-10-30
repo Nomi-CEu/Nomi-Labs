@@ -623,14 +623,6 @@ public class LabsConfig {
         @Config.RangeInt(min = 0)
         public int otherModsLinearXp = 0;
 
-        @Config.Comment({ "Whether to disable the Narrator.",
-                "Fixes crashes in Arm Macs, in some development environments.",
-                "This config does nothing outside of deobfuscated environments!",
-                "If your game is crashing, try enabling this!",
-                "[default: false]" })
-        @Config.LangKey("config.nomilabs.advanced.disable_narrator")
-        public boolean disableNarrator = false;
-
         @Config.Comment({ "Whether to enable Nomi-CEu data fixes.",
                 "This is used for Nomi-CEu, for players coming from before core-mod.",
                 "If this mod is being used in other scenarios, leave this at false, as this may break worlds!",

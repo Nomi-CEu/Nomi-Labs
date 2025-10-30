@@ -99,6 +99,9 @@ dependencies {
     // Actually Advanced Info
     runtimeOnly "curse.maven:aainfo-573154:3627065" // Version 1.0.1
 
+    // Fix Narrator Crash (Mac)
+    runtimeOnly "com.cleanroommc:osxnarratorblocker:1.0"
+
     /* -------------------------------- Soft Deps, Compile Time Declaration -------------------------------- */
 
     // Storage Drawers and Framed Compacting Drawers, used in Hand Framing Tool (from CurseForge)
