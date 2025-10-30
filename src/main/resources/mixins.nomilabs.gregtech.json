@@ -46,6 +46,8 @@
     "MultiblockRecipeLogicMixin",
     "MultiMapMultiblockControllerMixin",
     "ObjectHolderHandlerMixin",
+    "OreByProductAccessor",
+    "OreByProductMixin",
     "OreDictUnifierAccessor",
     "OverlayedItemHandlerMixin",
     "ProcessingArrayWorkableMixin",

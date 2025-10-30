@@ -21,6 +21,7 @@ import com.nomiceu.nomilabs.fluid.registry.LabsFluids;
 import com.nomiceu.nomilabs.gregtech.block.registry.LabsMetaBlocks;
 import com.nomiceu.nomilabs.groovy.GroovyTooltipChanger;
 import com.nomiceu.nomilabs.groovy.NBTClearingRecipe;
+import com.nomiceu.nomilabs.groovy.OreByProductChangeStorage;
 import com.nomiceu.nomilabs.integration.betterp2p.LabsFilters;
 import com.nomiceu.nomilabs.integration.betterp2p.ModeDescriptionsHandler;
 import com.nomiceu.nomilabs.integration.betterquesting.LabsTierHelper;
@@ -96,6 +97,7 @@ public class ClientProxy {
     @SubscribeEvent
     public static void onScriptReload(ScriptRunEvent.Pre event) {
         LabsJEIPlugin.onReload();
+        OreByProductChangeStorage.clear();
         GroovyTooltipChanger.clear();
         NBTClearingRecipe.NBT_CLEARERS.clear();
     }
