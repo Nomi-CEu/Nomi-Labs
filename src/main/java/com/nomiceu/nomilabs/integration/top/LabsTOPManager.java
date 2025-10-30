@@ -33,6 +33,7 @@ public class LabsTOPManager {
         if (Loader.isModLoaded(LabsValues.AE2_MODID)) {
             TOP.registerBlockDisplayOverride(new AECustomNameOverride());
             TOP.registerProvider(new LabsQuantumLinkChamberProvider());
+            TOP.registerProvider(new GeneralAEPowerStateInfoProvider());
         }
 
         // Storage Drawers TOP Integration
@@ -51,7 +52,6 @@ public class LabsTOPManager {
 
         // General TOP Integration
         TOP.registerProvider(new LabsRFInfoProvider());
-        TOP.registerProvider(new GeneralAEPowerStateInfoProvider());
 
         // Property Providers
         TOP.registerProvider(new LabsPropertiesProvider());
