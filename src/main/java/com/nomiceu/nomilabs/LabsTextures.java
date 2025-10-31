@@ -23,6 +23,7 @@ public class LabsTextures {
 
     /* Overlays (Machine) */
     public static OrientedOverlayRenderer GROWTH_CHAMBER_OVERLAY;
+    public static SimpleOverlayRenderer LOCKED_STORAGE;
 
     /* Overlays (Casings) */
     public static SimpleOverlayRenderer MICROVERSE_CASING;
@@ -42,6 +43,7 @@ public class LabsTextures {
 
     public static void preInit() {
         GROWTH_CHAMBER_OVERLAY = new OrientedOverlayRenderer("nomilabs:multiblock/growth_chamber");
+        LOCKED_STORAGE = new SimpleOverlayRenderer("nomilabs:overlay/overlay_storage_locked");
         MICROVERSE_CASING = new SimpleOverlayRenderer("nomilabs:microverse_casing");
         PROGRESS_BAR_ROCKET = labsFullImage("textures/gui/progress_bar/progress_bar_rocket.png");
 

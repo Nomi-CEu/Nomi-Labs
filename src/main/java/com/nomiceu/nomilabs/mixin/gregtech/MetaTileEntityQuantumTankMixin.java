@@ -5,6 +5,7 @@ import java.io.IOException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
@@ -110,6 +111,15 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
         }
     }
 
+    @Inject(method = "initFromItemStackData", at = @At("RETURN"))
+    private void sendLockedUpdateFromStack(NBTTagCompound tag, CallbackInfo ci) {
+        if (lockedFluid != null) {
+            writeCustomData(GregtechDataCodes.UPDATE_LOCKED_STATE, buf -> buf.writeBoolean(locked));
+            writeCustomData(GregtechDataCodes.UPDATE_CONTENTS_SEED,
+                    buf -> buf.writeCompoundTag(lockedFluid.writeToNBT(new NBTTagCompound())));
+        }
+    }
+
     @Inject(method = "setLocked",
             at = @At(value = "INVOKE",
                      target = "Lgregtech/common/metatileentities/storage/MetaTileEntityQuantumTank;markDirty()V"))
@@ -141,6 +151,16 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
     @Override
     public boolean labs$isLocked() {
         return isLocked() && lockedFluid != null;
+    }
+
+    @Unique
+    @Override
+    public boolean labs$isLockedRendering() {
+        if (renderContextStack == null) return labs$isLocked();
+
+        var tag = renderContextStack.getTagCompound();
+        if (tag == null) return false;
+        return tag.hasKey("LockedFluid", Constants.NBT.TAG_COMPOUND);
     }
 
     @Unique

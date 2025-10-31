@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.nomiceu.nomilabs.LabsTextures;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleQuantumStorage;
 import com.nomiceu.nomilabs.util.LabsNames;
 
@@ -79,12 +80,28 @@ public class QuantumStorageRendererMixin {
                                                                                  Operation<Void> original,
                                                                                  @Local(argsOnly = true) T mte) {
         if (mte instanceof AccessibleQuantumStorage lock) {
-            if (lock.labs$isLocked()) {
+            if (lock.labs$isLockedRendering()) {
                 Textures.renderFace(renderState, translation, ops, face, bounds, labs$lockedTexture, layer);
                 return;
             }
         }
 
         original.call(renderState, translation, ops, face, bounds, sprite, layer);
+    }
+
+    @Inject(method = "renderMachine", at = @At("TAIL"))
+    private <T extends MetaTileEntity & ITieredMetaTileEntity> void renderLocked(CCRenderState renderState,
+                                                                                 Matrix4 translation,
+                                                                                 IVertexOperation[] pipeline, T mte,
+                                                                                 CallbackInfo ci) {
+        if (mte instanceof AccessibleQuantumStorage lock) {
+            if (lock.labs$isLockedRendering()) {
+                for (EnumFacing side : EnumFacing.values()) {
+                    if (side == mte.getFrontFacing()) // Skip front facing (has screen)
+                        continue;
+                    LabsTextures.LOCKED_STORAGE.renderSided(side, Cuboid6.full, renderState, pipeline, translation);
+                }
+            }
+        }
     }
 }
