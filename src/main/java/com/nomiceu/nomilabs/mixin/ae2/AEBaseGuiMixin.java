@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
 import appeng.client.gui.AEBaseGui;
@@ -28,6 +30,7 @@ import appeng.items.misc.ItemEncodedPattern;
  * Implements <a href="https://github.com/AE2-UEL/Applied-Energistics-2/pull/507">AE2 #507</a> for v0.56.5.
  * Fixes issues with using hotbar keys on disabled slots.
  * Fixes Blank Encoded Patterns rendering as nothing.
+ * Disables custom jei ghost item handling.
  */
 @Mixin(value = AEBaseGui.class, remap = false)
 public abstract class AEBaseGuiMixin extends GuiContainer {
@@ -80,6 +83,10 @@ public abstract class AEBaseGuiMixin extends GuiContainer {
             }
         }
     }
+
+    @WrapOperation(method = "drawScreen",
+                   at = @At(value = "INVOKE", target = "Lappeng/client/gui/AEBaseGui;bookmarkedJEIghostItem(II)V"))
+    private void cancelCustomJEIHandling(AEBaseGui instance, int i, int mouseX, Operation<Void> original) {}
 
     @Inject(method = "checkHotbarKeys",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/Slot;getSlotStackLimit()I"),

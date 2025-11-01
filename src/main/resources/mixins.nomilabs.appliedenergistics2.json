@@ -36,6 +36,7 @@
     "AEBaseGuiMixin",
     "AEGuiHandlerMixin",
     "ClientDCInternalInvAccessor",
+    "ClientHelperMixin",
     "GuiCraftConfirmMixin",
     "GuiExpandedProcessingPatternTermMixin",
     "GuiFluidInterfaceConfigurationTerminalMixin",
