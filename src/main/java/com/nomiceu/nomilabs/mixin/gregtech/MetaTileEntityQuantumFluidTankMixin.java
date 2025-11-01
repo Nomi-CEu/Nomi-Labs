@@ -14,6 +14,9 @@ import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleQuantumTank;
 
 import gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank;
 
+/**
+ * Notify locked updates to client appropriately.
+ */
 @Mixin(targets = "gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank$QuantumFluidTank", remap = false)
 public class MetaTileEntityQuantumFluidTankMixin {
 

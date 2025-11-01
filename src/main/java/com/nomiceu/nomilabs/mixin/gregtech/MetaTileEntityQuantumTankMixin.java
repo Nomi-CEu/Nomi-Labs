@@ -2,9 +2,11 @@ package com.nomiceu.nomilabs.mixin.gregtech;
 
 import java.io.IOException;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -20,8 +22,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.nomiceu.nomilabs.NomiLabs;
 import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleQuantumTank;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.QuantumFluidHandlerItemStack;
 import com.nomiceu.nomilabs.integration.top.CustomFluidTankProvider;
 
 import gregtech.api.capability.GregtechDataCodes;
@@ -30,6 +35,7 @@ import gregtech.common.metatileentities.storage.MetaTileEntityQuantumTank;
 
 /**
  * Provides locked fluid info to TOP. Properly syncs locked status to client; so we can display it in rendering.
+ * In ItemStacks, returns a fluid with amount 0 instead of null if locked.
  */
 @Mixin(value = MetaTileEntityQuantumTank.class, remap = false)
 public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
@@ -125,6 +131,11 @@ public abstract class MetaTileEntityQuantumTankMixin extends MetaTileEntity
                      target = "Lgregtech/common/metatileentities/storage/MetaTileEntityQuantumTank;markDirty()V"))
     private void sendCustomData(boolean locked, CallbackInfo ci) {
         writeCustomData(GregtechDataCodes.UPDATE_LOCKED_STATE, buf -> buf.writeBoolean(locked));
+    }
+
+    @WrapMethod(method = "initItemStackCapabilities")
+    private ICapabilityProvider addLockedInfo(ItemStack itemStack, Operation<ICapabilityProvider> original) {
+        return new QuantumFluidHandlerItemStack(itemStack, maxFluidCapacity);
     }
 
     @Unique
