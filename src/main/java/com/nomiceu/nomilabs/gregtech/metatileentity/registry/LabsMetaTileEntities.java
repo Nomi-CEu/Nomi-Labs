@@ -5,8 +5,10 @@ import net.minecraftforge.fml.common.Loader;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.config.LabsConfig;
 import com.nomiceu.nomilabs.gregtech.metatileentity.multiblock.*;
+import com.nomiceu.nomilabs.gregtech.metatileentity.singleblock.*;
 import com.nomiceu.nomilabs.util.LabsNames;
 
+import gregtech.api.GTValues;
 import gregtech.common.metatileentities.MetaTileEntities;
 
 /**
@@ -28,6 +30,16 @@ public class LabsMetaTileEntities {
     public static MetaTileEntityActualizationChamber ACTUALIZATION_CHAMBER;
     public static MetaTileEntityUniversalCrystalizer UNIVERSAL_CRYSTALIZER;
     public static MetaTileEntityDMESimChamber DME_SIM_CHAMBER;
+    public static MetaTileEntityCyclotron CYCLOTRON;
+    public static MetaTileEntityParticleAccelerator PARTICLE_ACCELERATOR;
+    public static MetaTileEntityDecayBox DECAY_BOX_LV;
+    public static MetaTileEntityDecayBox DECAY_BOX_MV;
+    public static MetaTileEntityDecayBox DECAY_BOX_HV;
+    public static MetaTileEntityDecayBox DECAY_BOX_EV;
+    public static MetaTileEntityDecayBox DECAY_BOX_IV;
+    public static MetaTileEntityDecayBox DECAY_BOX_LUV;
+    public static MetaTileEntityDecayBox DECAY_BOX_ZPM;
+    public static MetaTileEntityDecayBox DECAY_BOX_UV;;
 
     public static void preInit() {
         if (LabsConfig.content.gtCustomContent.enableOldMultiblocks)
@@ -57,6 +69,27 @@ public class LabsMetaTileEntities {
 
         UNIVERSAL_CRYSTALIZER = MetaTileEntities.registerMetaTileEntity(32107,
                 new MetaTileEntityUniversalCrystalizer(LabsNames.makeLabsName("universal_crystallizer")));
+
+        CYCLOTRON = MetaTileEntities.registerMetaTileEntity(32110,
+                new MetaTileEntityCyclotron(LabsNames.makeLabsName("cyclotron")));
+        PARTICLE_ACCELERATOR = MetaTileEntities.registerMetaTileEntity(32111,
+                new MetaTileEntityParticleAccelerator(LabsNames.makeLabsName("particle_accelerator")));
+        DECAY_BOX_LV = MetaTileEntities.registerMetaTileEntity(32112,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.LV));
+        DECAY_BOX_MV = MetaTileEntities.registerMetaTileEntity(32113,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.MV));
+        DECAY_BOX_HV = MetaTileEntities.registerMetaTileEntity(32114,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.HV));
+        DECAY_BOX_EV = MetaTileEntities.registerMetaTileEntity(32115,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.EV));
+        DECAY_BOX_IV = MetaTileEntities.registerMetaTileEntity(32116,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.IV));
+        DECAY_BOX_LUV = MetaTileEntities.registerMetaTileEntity(32117,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.LuV));
+        DECAY_BOX_ZPM = MetaTileEntities.registerMetaTileEntity(32118,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.ZPM));
+        DECAY_BOX_UV = MetaTileEntities.registerMetaTileEntity(32119,
+                new MetaTileEntityDecayBox(LabsNames.makeLabsName("decay_box"), GTValues.UV));
 
         if (Loader.isModLoaded(LabsValues.DME_MODID))
             DME_SIM_CHAMBER = MetaTileEntities.registerMetaTileEntity(32108,

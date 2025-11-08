@@ -1,5 +1,7 @@
 package com.nomiceu.nomilabs.recipe;
 
+import static com.nomiceu.nomilabs.gregtech.recipe.LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES;
+
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Loader;
 
@@ -50,11 +52,16 @@ public class LabsTestRecipes {
                 .output(Blocks.LOG, 128)
                 .buildAndRegister();
 
-        LabsRecipeMaps.UNIVERSAL_CRYSTALIZER_RECIPES.recipeBuilder().duration(1200).EUt(40)
+        UNIVERSAL_CRYSTALIZER_RECIPES.recipeBuilder().duration(1200).EUt(40)
                 .input(Blocks.SAPLING).circuitMeta(1)
                 .output(Blocks.LOG, 128)
                 .buildAndRegister();
 
+        LabsRecipeMaps.CYCLOTRON_RECIPES.recipeBuilder().duration(600).EUt(GTValues.VA[GTValues.UHV])
+                .inputs(OreDictUnifier.get(OrePrefix.foil, Materials.Molybdenum))
+                .fluidInputs(Materials.Hydrogen.getFluid(1000))
+                .outputs(OreDictUnifier.get(OrePrefix.foil, Materials.Technetium))
+                .buildAndRegister();
         if (Loader.isModLoaded(LabsValues.DME_MODID)) {
             LabsRecipeMaps.DME_SIM_CHAMBER_RECIPES.recipeBuilder().duration(1200).EUt(40)
                     .dataItem(DMLRegistry.getDataModels().iterator().next(), 1)

@@ -38,7 +38,7 @@ public class LabsEIO {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR)
                 .blast(builder -> builder
                         .temp(1250, GasTier.LOW)
-                        .blastStats(VA[MV], 400))
+                        .blastStats(VA[MV], 300))
                 .components(Gold, 2, Redstone, 1, Glowstone, 1)
                 .cableProperties(V[MV], 1, 0, true)
                 .build();
@@ -50,7 +50,7 @@ public class LabsEIO {
                 .flags(GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_GEAR, GENERATE_ROD, GENERATE_BOLT_SCREW)
                 .blast(builder -> builder
                         .temp(1350, GasTier.LOW)
-                        .blastStats(VA[MV], 400))
+                        .blastStats(VA[MV], 350))
                 .components(EnergeticAlloy, 1, EnderPearl, 1)
                 .cableProperties(V[HV], 1, 0, true)
                 .build();
@@ -81,12 +81,15 @@ public class LabsEIO {
                 .build();
 
         EndSteel = new Material.Builder(25, makeLabsName("end_steel"))
-                .ingot()
-                .liquid()
+                .ingot().liquid()
                 .color(0xd6d980).iconSet(METALLIC)
+                .blast(builder -> builder
+                        .temp(1400, GasTier.LOW)
+                        .blastStats(VHA[EV], 400))
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .toolStats(ToolProperty.Builder.of(4.0f, 3.5f, 1024, 3).build())
-                .cableProperties(V[EV], 1, 0, true)
+                .cableProperties(V[EV], 2, 0, true)
+                .components(VibrantAlloy, 1, DarkSteel, 1, Endstone, 1)
                 .build();
     }
 }

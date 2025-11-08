@@ -353,6 +353,14 @@ nomilabs.material.osmiridium_8020=Osmiridium 80/20
 nomilabs.material.iridosmine_8020=Iridosmine 80/20
 nomilabs.material.kaemanite=Kaemanite
 
+nomilabs.material.technetium=Technetium
+nomilabs.material.prometheum=Prometheum
+nomilabs.material.mineralrichbrine=Mineral Rich Brine
+nomilabs.material.brominechlorinemixture=Bromine Chlorine Vapor Mixture
+nomilabs.material.alkalinebrominesolution=Alkaline Bromine Solution
+nomilabs.material.debrominatedwaste=Debrominated Waste
+nomilabs.material.crudebromine=Crude Bromine
+nomilabs.material.depletedbrine=Depleted Brine
 nomilabs.material.tungsten_trioxide=Tungsten Trioxide
 nomilabs.material.beryllium_oxide=Beryllium Oxide
 nomilabs.material.niobium_pentoxide=Niobium Pentoxide
@@ -439,6 +447,29 @@ nomilabs.material.rhodium_salt_solution=Rhodium Salt Solution
 nomilabs.material.methyl_formate=Methyl Formate
 nomilabs.material.formic_acid=Formic Acid
 nomilabs.material.sodium_methoxide=Sodium Methoxide
+
+nomilabs.material.vaporous_nitric_acid=Vaporous Nitric Acid
+nomilabs.material.rare_earth_oxide_concentrate Dust=Rare Earth Oxide Concentrate
+item.nomilabs.material.rare_earth_oxide_concentrate.dust=Rare Earth Oxide Concentrate
+item.nomilabs.material.rare_earth_oxide_concentrate.dustSmall=Small Pile of Rare Earth Oxide Concentrate
+item.nomilabs.material.rare_earth_oxide_concentrate.dustTiny=Tiny Pile of Rare Earth Oxide Concentrate
+nomilabs.material.roasted_rare_earth_oxide_concentrate=Roasted Rare Earth Oxide Concentrate
+item.nomilabs.material.roasted_rare_earth_oxide_concentrate.dust=Roasted Rare Earth Oxide Concentrate
+item.nomilabs.material.roasted_rare_earth_oxide_concentrate.dustSmall=Small Pile of Roasted Rare Earth Oxide Concentrate
+item.nomilabs.material.roasted_rare_earth_oxide_concentrate.dustTiny=Tiny Pile of Roasted Rare Earth Oxide Concentrate
+nomilabs.material.leached_rare_earth_oxide=Leached Rare Earth Oxide
+item.nomilabs.material.leached_rare_earth_oxide.dust=Leached Rare Earth Oxide
+item.nomilabs.material.leached_rare_earth_oxide.dustSmall=Tiny Pile of Leached Rare Earth Oxide
+item.nomilabs.material.leached_rare_earth_oxide.dustTiny=Tiny Pile of Leached Rare Earth Oxide
+nomilabs.material.trivalent_rare_earths=Trivalent Rare Earths
+item.nomilabs.material.trivalent_rare_earths.dust=Trivalent Rare Earths
+item.nomilabs.material.trivalent_rare_earths.dustSmall=Small Pile of Trivalent Rare Earths
+item.nomilabs.material.trivalent_rare_earths.dustTiny=Tiny Pile of Trivalent Rare Earths
+nomilabs.material.cerium_concentrate=Cerium Concentrate
+item.nomilabs.material.cerium_concentrate.dust=Cerium Concentrate
+item.nomilabs.material.cerium_concentrate.dustSmall=Small Pile of Cerium Concentrate
+item.nomilabs.material.cerium_concentrate.dustTiny=Tiny Pile of Cerium Concentrate
+nomilabs.material.dissolved_cerium_concentrate=Dissolved Cerium Concentrate
 
 nomilabs.material.hexafluorosilicic_acid=Hexafluorosilicic Acid
 nomilabs.material.dirty_hexafluorosilicic_acid=Dirty Hexafluorosilicic Acid
@@ -569,6 +600,7 @@ item.nomilabs.cloth.name=Cloth
 item.nomilabs.thermalcloth.name=Thermal Cloth
 item.nomilabs.smallgearextrudershape.name=Extruder Shape (Small Gear)
 item.nomilabs.creativeportabletankmold.name=Creative Quantum Tank Data
+item.nomilabs.creativecomputationmold.name=Creative Computation Hatch Data
 item.nomilabs.magnetron.name=Magnetron
 
 item.nomilabs.conductivewire.name=Conductive Iron Wire
@@ -598,6 +630,7 @@ item.nomilabs.helium3rover.name=Helium-3 Rover
 
 item.nomilabs.solidifiedargon.name=Solidified Argon
 item.nomilabs.solidifiedchlorine.name=Solidified Chlorine
+item.nomilabs.solidifiedbromine.name=Solidified Bromine
 item.nomilabs.solidifiedfluorine.name=Solidified Fluorine
 item.nomilabs.solidifiedhelium.name=Solidified Helium
 item.nomilabs.solidifiedhydrogen.name=Solidified Hydrogen
@@ -668,6 +701,7 @@ item.nomilabs.info_item.name=Information
 
 item.nomilabs.pulsatingdust.name=Pulsating Dust
 item.nomilabs.pulsatingmesh.name=Pulsating Mesh
+item.nomilabs.acceleration_coil.name=Acceleration Coil
 
 item.nomilabs.industrial_rebreather_kit.name=Industrial Rebreather Kit
 
@@ -703,6 +737,16 @@ nomilabs.machine.naquadah_reactor_2.name=Naquadah Reactor II
 nomilabs.machine.actualization_chamber.name=Actualization Chamber
 nomilabs.machine.universal_crystallizer.name=Universal Crystallizer
 nomilabs.machine.dme_sim_chamber.name=DME Simulation Supercomputer
+nomilabs.machine.cyclotron.name=Cyclotron
+nomilabs.decay_box_lv.name = Basic Decay Box
+nomilabs.decay_box_mv.name = Advanced Decay Box
+nomilabs.decay_box_hv.name = Advanced Decay Box II
+nomilabs.decay_box_ev.name = Advanced Decay Box III
+nomilabs.decay_box_iv.name = Elite Decay Box
+nomilabs.decay_box_luv.name = Elite Decay Box II
+nomilabs.decay_box_zpm.name = Elite Decay Box III
+nomilabs.decay_box_uv.name = Ultimate Decay Box
+nomilabs.machine.particle_accelerator.name=Particle Accelerator
 
 # Recipe Maps
 recipemap.microverse_projector_1.name=Mission (MK I)
@@ -714,6 +758,8 @@ recipemap.naquadah_reactor_2.name=Naquadah Decay (Mk II)
 recipemap.actualization_chamber.name=Actualization
 recipemap.universal_crystallizer.name=Crystallization
 recipemap.dme_sim_chamber.name=Simulation
+recipemap.cyclotron.name=Cyclotronizing
+recipemap.particle_accelerator.name=Particle Accelerating
 
 
 #----------------Tooltips----------------#
@@ -801,4 +847,5 @@ tooltip.nomilabs.actualization_chamber.description=§8A powerful machine that ha
 tooltip.nomilabs.universal_crystallizer.description=§8An immense device, capable of turning raw materials into complex matters.§r
 tooltip.nomilabs.universal_crystallizer.description_laser=Can use §bLaser Hatches§r
 tooltip.nomilabs.dme_sim_chamber.description=§8A high powered simulation device, capable of performing more complex simulations faster than ever.§r
+tooltip.nomilabs.cyclotron.description=§8A powerful accelerator that bombards materials with particles to transmute them.§r
 tooltip.nomilabs.growth_chamber.description=§8A high powered UV ray chamber, capable of mass-growing even the most incomprehensible plants.§r
