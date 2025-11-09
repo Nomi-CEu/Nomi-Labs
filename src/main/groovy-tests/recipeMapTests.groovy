@@ -22,19 +22,19 @@ import static gregtech.api.GTValues.*
 // All GT Properties, in 2.8.10, require this change.
 
 // Building Test Recipes
-mods.gregtech.sifter.recipeBuilder()
+mods.gregtech.electrolyzer.recipeBuilder()
     .inputs(metaitem('nomilabs:dustImpureOsmiridium8020'))
     .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
     .EUt(VA[LV]).duration(30)
     .buildAndRegister()
 
-mods.gregtech.sifter.recipeBuilder()
+mods.gregtech.electrolyzer.recipeBuilder()
     .inputs(item('minecraft:stick'))
     .outputs(item('minecraft:apple') * 64)
     .EUt(VA[LV]).duration(30)
     .buildAndRegister()
 
-mods.gregtech.sifter.recipeBuilder()
+mods.gregtech.electrolyzer.recipeBuilder()
     .inputs(item('minecraft:yellow_flower'))
     .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
     .chancedOutput(item('minecraft:apple') * 64, 50, 1)
@@ -42,7 +42,7 @@ mods.gregtech.sifter.recipeBuilder()
     .EUt(VA[LV]).duration(30)
     .buildAndRegister()
 
-mods.gregtech.sifter.recipeBuilder()
+mods.gregtech.electrolyzer.recipeBuilder()
     .inputs(metaitem('nomilabs:dustOsmiridium8020'))
     .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64)
     .chancedOutput(item('minecraft:apple') * 64, 50, 1)
@@ -50,7 +50,7 @@ mods.gregtech.sifter.recipeBuilder()
     .EUt(VA[LV]).duration(30)
     .buildAndRegister()
 
-mods.gregtech.sifter.recipeBuilder()
+mods.gregtech.electrolyzer.recipeBuilder()
     .inputs(metaitem('nomilabs:dustPureOsmiridium8020'))
     .outputs(item('minecraft:apple') * 64, item('minecraft:apple') * 64)
     .EUt(VA[LV]).duration(30)
@@ -58,13 +58,13 @@ mods.gregtech.sifter.recipeBuilder()
 
 // Find/Remove By Input Extensions (Are Lists of: List<ItemStack> itemInputs, List<FluidStack> fluidInputs)
 // mods.gregtech.<RECIPE_MAP>.removeByInput to remove, mods.gregtech.<RECIPE_MAP>.find to find (Returns null if no recipe found)
-// Original: [long voltage, Inputs... (see above)] (Matches/Removes any recipe with that input, and that voltage or more, CHECKING AMOUNT)
+// Original: [long voltage, Inputs... (see above)] (Matches/Removes any recipe with that input, and that EUt, CHECKING AMOUNT)
 // ALL FIND/REMOVE BY INPUT EXTENSIONS IGNORE THE AMOUNT!
 // Three Extensions:
 // [GTRecipeCategory category, Inputs... (see above)] (Matches/Removes any recipe with that input, and that category)
 // [Inputs... (see above)] (Matches/Removes any recipe with that input)
 // [Predicate<Recipe> predicate, Inputs... (see above)] (Matches/Removes any recipe with that input, and matching that predicate)
-mods.gregtech.sifter.removeByInput([item('minecraft:yellow_flower')], null)
+mods.gregtech.electrolyzer.removeByInput([item('minecraft:yellow_flower')], null)
 
 // Find/Remove By Output
 // Outputs Specification: List<ItemStack> itemOutputs, List<FluidStack> fluidOutputs, List<ChancedItemOutput> chancedItemOutputs, List<ChancedFluidOutput> chancedFluidOutputs
@@ -73,11 +73,11 @@ mods.gregtech.sifter.removeByInput([item('minecraft:yellow_flower')], null)
 // mods.gregtech.<RECIPE_MAP>.removeByOutput to remove, mods.gregtech.<RECIPE_MAP>.findByOutput to find (Returns null if no recipes found)
 // ALL FIND/REMOVE BY OUTPUT OPTIONS IGNORE THE AMOUNT!
 // Four Options:
-// [long voltage, Outputs... (see above)] (Matches/Removes any recipe with that output, and that voltage or more)
+// [long voltage, Outputs... (see above)] (Matches/Removes any recipe with that output, and that EUt)
 // [GTRecipeCategory category, Outputs... (see above)] (Matches/Removes any recipe with that output, and that category)
 // [Outputs... (see above)] (Matches/Removes any recipe with that output)
 // [Predicate<Recipe> predicate, Outputs... (see above)] (Matches/Removes any recipe with that output, and matching that predicate)
-mods.gregtech.sifter.removeByOutput(50, [item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64], null, [chanced(item('minecraft:apple') * 64, 50, 1)], [chanced(fluid('fluorine') * 2000, 50, 1)])
+mods.gregtech.electrolyzer.removeByOutput([item('minecraft:apple') * 64, item('minecraft:apple') * 64, item('minecraft:apple') * 64], null, [chanced(item('minecraft:apple') * 64, 50, 1)], [chanced(fluid('fluorine') * 2000, 50, 1)])
 
 // NBT Helpers for Recipe Builder
 // inputNBT version with IIngredient
@@ -90,15 +90,11 @@ mods.gregtech.assembler.recipeBuilder()
     .buildAndRegister()
 
 // Replace Recipes
-// A ReplaceByOutput on the recipe builder's recipe map, with the outputs (and other info) specified up to that point, will be conducted.
-// Remember that ReplaceByOutput ignores amount!
+// A RemoveByOutput on the recipe builder's recipe map, with the outputs (and other info) specified up to that point, will be conducted.
+// Remember that RemoveByOutput ignores amount!
 
-// Variations: `replace(RecipeMap<?>... otherMaps), `replace(Predicate<Recipe> condition, RecipeMap<?>... otherMaps)`,
-// `replaceInCategory(RecipeMap<?>... otherMaps)`, `replaceWithVoltage(RecipeMap<?>... otherMaps)`,
-// `replaceWithExactVoltage(RecipeMap<?>... otherMaps)`
-
-// Other Maps also have the recipe removed from them. Useful when a recipe is auto-registered to multiple recipe maps (e.g. Chemical Reactor)
-// Note that the current recipe map will ALSO have the recipe removed from it, no matter what variation is used.
+// Variations: `replace(Predicate<Recipe> condition)`, `replaceInCategory()`,
+// `replaceWithVoltage()`, `replaceWithExactVoltage()`
 
 // It is also important to note that the removal is conducted AS SOON AS the function is called, NOT on build.
 // This behaviour may be useful in ensuring that 'replacements'/'removals' are only conducted once when multiple recipes are being
@@ -110,8 +106,7 @@ mods.gregtech.chemical_reactor.recipeBuilder()
     .fluidInputs(fluid('rhodium') * 144)
     .outputs(metaitem('board.multilayer.fiber_reinforced') * 12)
     .EUt(VA[OpV]).duration(1_000_000)
-    .replace(RecipeMaps.LARGE_CHEMICAL_RECIPES) // Chem Reactor recipes are also registered to Large Chemical Reactor's Recipe Map
-    .buildAndRegister()
+    .replace().buildAndRegister()
 
 // Change Recipes
 // NOTE THAT PROPERTIES ARE NOT TRANSFERRED! (CLEANROOM, ASSEMBLY RESEARCH, ETC.)

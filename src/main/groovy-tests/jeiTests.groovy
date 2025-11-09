@@ -17,8 +17,8 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.TranslationHelpers.*
 // Use TranslateFormat to Translate with Parameters and a GT Format Code wrapped around the string!
 // (Note, normal format codes should be included in the lang itself, and thus are not available with `translateFormat`)
 // (Note, normal format codes are still available with `format`)
-println('Translated Hand Framing Tool Side: ' + translate('tooltip.nomilabs.hand_framing_tool.side', format('Hi', TextFormatting.AQUA)))
-println('Translated Hand Framing Tool Main: ' + translateFormat('tooltip.nomilabs.hand_framing_tool.not_set', TooltipHelper.RAINBOW))
+log.info('Translated Hand Framing Tool Side: ' + translate('tooltip.nomilabs.hand_framing_tool.side', format('Hi', TextFormatting.AQUA)))
+log.info('Translated Hand Framing Tool Main: ' + translateFormat('tooltip.nomilabs.hand_framing_tool.not_set', TooltipHelper.RAINBOW))
 
 // Translatable: Save something to be translated later
 var translatableObj = translatable('tooltip.nomilabs.excitationcoil.description')
@@ -36,7 +36,7 @@ translatableObj.append(translatable('tooltip.nomilabs.hand_framing_tool.front', 
 translatableObj.append(translatableLiteral('Hello World!'))
 
 // Call `toString` or `translate` to retrieve the translated and concatenated string
-println('Translatable Object: ' + translatableObj.translate())
+log.info('Translatable Object: ' + translatableObj.translate())
 
 /*
  * Recipe Output Tooltips. These are tooltips that appear on CRAFTING TABLE recipes, on a specific registry name.

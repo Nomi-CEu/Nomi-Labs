@@ -73,6 +73,7 @@ public abstract class VirtualizedRecipeMapMixin {
         List<ItemStack> items = inputs.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
         List<FluidStack> fluids = fluidInputs.stream().filter((f) -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
+
         return recipeMap.find(items, fluids, condition);
     }
 
@@ -146,16 +147,7 @@ public abstract class VirtualizedRecipeMapMixin {
     @Nullable
     public List<Recipe> findByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                      List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        items = labs$validateList(items);
-        fluids = labs$validateList(fluids);
-        chancedItems = labs$validateList(chancedItems);
-        chancedFluids = labs$validateList(chancedFluids);
-
-        List<ItemStack> filteredItems = items.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
-        List<FluidStack> filteredFluids = fluids.stream().filter((f) -> f != null && f.amount != 0)
-                .collect(Collectors.toList());
-        return labs$getAccessibleRecipeMap().findRecipeByOutput(voltage, filteredItems, filteredFluids, chancedItems,
-                chancedFluids);
+        return findByOutput((r) -> r.getEUt() == voltage, items, fluids, chancedItems, chancedFluids);
     }
 
     @SuppressWarnings("AddedMixinMembersNamePattern")
@@ -190,6 +182,7 @@ public abstract class VirtualizedRecipeMapMixin {
         List<ItemStack> filteredItems = items.stream().filter((s) -> !s.isEmpty()).collect(Collectors.toList());
         List<FluidStack> filteredFluids = fluids.stream().filter((f) -> f != null && f.amount != 0)
                 .collect(Collectors.toList());
+
         return labs$getAccessibleRecipeMap().findByOutput(filteredItems, filteredFluids, chancedItems, chancedFluids,
                 condition);
     }
@@ -222,21 +215,10 @@ public abstract class VirtualizedRecipeMapMixin {
     @Unique
     public boolean removeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                   List<ChancedItemOutput> chancedItems, List<ChancedFluidOutput> chancedFluids) {
-        List<Recipe> recipes = findByOutput(voltage, items, fluids, chancedItems, chancedFluids);
-        if (recipes == null) {
-            if (LabsGroovyHelper.isRunningGroovyScripts()) {
-                GroovyLog.msg("Error removing GregTech " + getName() + " recipe")
-                        .add("could not find recipe for: voltage {}, items: {}, fluids: {}, chanced items: {}, chanced fluids: {}",
-                                voltage, items, fluids, chancedItems, chancedFluids)
-                        .error()
-                        .post();
-            }
-            return false;
-        }
-        for (var recipe : recipes) {
-            recipeMap.removeRecipe(recipe);
-        }
-        return true;
+        return labs$removeByOutput((r) -> r.getEUt() == voltage, items, fluids, chancedItems, chancedFluids,
+                String.format("voltage: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", voltage,
+                        items, fluids,
+                        chancedItems, chancedFluids));
     }
 
     @SuppressWarnings("AddedMixinMembersNamePattern")
@@ -374,18 +356,10 @@ public abstract class VirtualizedRecipeMapMixin {
     public ChangeRecipeBuilderCollection<?> changeByOutput(long voltage, List<ItemStack> items, List<FluidStack> fluids,
                                                            List<ChancedItemOutput> chancedItems,
                                                            List<ChancedFluidOutput> chancedFluids) {
-        List<Recipe> recipes = findByOutput(voltage, items, fluids, chancedItems, chancedFluids);
-        if (recipes == null) {
-            if (LabsGroovyHelper.isRunningGroovyScripts()) {
-                GroovyLog.msg("Error changing GregTech " + getName() + " recipe")
-                        .add("could not find recipe for: voltage {}, items: {}, fluids: {}, chanced items: {}, chanced fluids: {}",
-                                voltage, items, fluids, chancedItems, chancedFluids)
-                        .error()
-                        .post();
-            }
-            return new ChangeRecipeBuilderCollection<>();
-        }
-        return fromStream(recipes.stream().map((r) -> new ChangeRecipeBuilder<>(r, recipeMap)));
+        return labs$changeByOutput((r) -> r.getEUt() == voltage, items, fluids, chancedItems, chancedFluids,
+                String.format("voltage: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", voltage,
+                        items, fluids,
+                        chancedItems, chancedFluids));
     }
 
     @SuppressWarnings("AddedMixinMembersNamePattern")

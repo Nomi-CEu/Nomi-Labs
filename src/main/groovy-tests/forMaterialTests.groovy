@@ -7,29 +7,29 @@ import static com.nomiceu.nomilabs.groovy.GroovyHelpers.MaterialHelpers.*
 // Actions on Items include all material items and blocks, and buckets containing any material fluid.
 // Actions on Fluids include liquids, gasses, solids, and addon fluids (such as molten fluids, added by GCYM)
 
-println("ITEMS:")
+log.info("ITEMS:")
 
 // Do an Action for each Material's Item (GregTech's)
-forMaterialItem(material('tungsten_steel'), (stack) -> println(getFormattingForStack(stack, "Tungsten Steel")))
+forMaterialItem(material('tungsten_steel'), (stack) -> log.info(getFormattingForStack(stack, "Tungsten Steel")))
 
 // Do an Action for each Material's Item (Nomi Labs')
-forMaterialItem(material('nomilabs:dulysite'), (stack) -> println(getFormattingForStack(stack, "Dulysite")))
+forMaterialItem(material('nomilabs:dulysite'), (stack) -> log.info(getFormattingForStack(stack, "Dulysite")))
 
-println("FLUIDS:")
+log.info("FLUIDS:")
 
 // Do an Action for each Material's Fluid (GregTech's)
-forMaterialFluid(material('tungsten_steel'), (fluid) -> println(getFormattingForFluid(fluid, "Tungsten Steel")))
+forMaterialFluid(material('tungsten_steel'), (fluid) -> log.info(getFormattingForFluid(fluid, "Tungsten Steel")))
 
 // Do an Action for each Material's Fluid (Nomi Labs')
-forMaterialFluid(material('nomilabs:dulysite'), (fluid) -> println(getFormattingForFluid(fluid, "Dulysite")))
+forMaterialFluid(material('nomilabs:dulysite'), (fluid) -> log.info(getFormattingForFluid(fluid, "Dulysite")))
 
-println("COMBINED:")
+log.info("COMBINED:")
 
 // Do an Action for each Material's Items and Fluids (GregTech's)
-forMaterial(material('tungsten_steel'), (stack) -> println(getFormattingForStack(stack, "Tungsten Steel")), (fluid) -> println(getFormattingForFluid(fluid, "Tungsten Steel")))
+forMaterial(material('tungsten_steel'), (stack) -> log.info(getFormattingForStack(stack, "Tungsten Steel")), (fluid) -> log.info(getFormattingForFluid(fluid, "Tungsten Steel")))
 
 // Do an Action for each Material's Items and Fluids (Nomi Labs')
-forMaterial(material('nomilabs:dulysite'), (stack) -> println(getFormattingForStack(stack, "Dulysite")), (fluid) -> println(getFormattingForFluid(fluid, "Dulysite")))
+forMaterial(material('nomilabs:dulysite'), (stack) -> log.info(getFormattingForStack(stack, "Dulysite")), (fluid) -> log.info(getFormattingForFluid(fluid, "Dulysite")))
 
 static String getFormattingForStack(ItemStack stack, String name) {
     if (!stack.hasTagCompound()) return "${name}: Item: ${stack.getItem().getRegistryName()} at ${stack.getMetadata()} with no tag."

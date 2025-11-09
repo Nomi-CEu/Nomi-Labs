@@ -8,15 +8,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.nomiceu.nomilabs.gregtech.mixinhelper.FlaggableRecipe;
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
 
 import gregtech.api.recipes.Recipe;
@@ -33,9 +32,10 @@ import gregtech.api.util.GTUtility;
 /**
  * Makes recipes registered when {@link LabsGroovyHelper#LABS_GROOVY_RUNNING} have groovy
  * recipe status. Also, removes unneeded processing when calculating recipe outputs.
+ * Also, allows recipes to be 'flagged'.
  */
 @Mixin(value = Recipe.class, remap = false)
-public abstract class RecipeMixin {
+public abstract class RecipeMixin implements FlaggableRecipe {
 
     @Shadow
     @Mutable
@@ -53,6 +53,9 @@ public abstract class RecipeMixin {
 
     @Shadow
     public abstract ChancedOutputList<FluidStack, ChancedFluidOutput> getChancedFluidOutputs();
+
+    @Unique
+    private String labs$flag = null;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void setLabsGroovyRecipe(@NotNull List<GTRecipeInput> inputs,
@@ -101,5 +104,17 @@ public abstract class RecipeMixin {
             }
         }
         cir.setReturnValue(outputs);
+    }
+
+    @Unique
+    @Override
+    public void labs$setFlag(String flag) {
+        labs$flag = flag;
+    }
+
+    @Unique
+    @Override
+    public @Nullable String labs$getFlag() {
+        return labs$flag;
     }
 }

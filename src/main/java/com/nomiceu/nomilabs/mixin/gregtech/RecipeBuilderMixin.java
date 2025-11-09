@@ -1,7 +1,6 @@
 package com.nomiceu.nomilabs.mixin.gregtech;
 
 import java.lang.ref.WeakReference;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,10 +25,7 @@ import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.AccessibleRecipeMap;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.CachedChancedOutputList;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.ParallelizedChancedOutputList;
-import com.nomiceu.nomilabs.gregtech.mixinhelper.ParallelizedChancedOutputLogic;
+import com.nomiceu.nomilabs.gregtech.mixinhelper.*;
 import com.nomiceu.nomilabs.groovy.RecyclingHelper;
 import com.nomiceu.nomilabs.util.LabsGroovyHelper;
 import com.nomiceu.nomilabs.util.math.BinomialMethod;
@@ -56,7 +52,7 @@ import gregtech.api.util.ValidationResult;
  */
 @SuppressWarnings({ "unchecked", "DataFlowIssue" })
 @Mixin(value = RecipeBuilder.class, remap = false)
-public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
+public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> implements AccessibleRecipeBuilder<R> {
 
     @Shadow
     @Final
@@ -144,6 +140,12 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
     protected static FluidStack copyFluidStackWithAmount(FluidStack fluidStack, int count) {
         return null;
     }
+
+    @Shadow
+    protected Consumer<R> onBuildAction;
+
+    @Shadow
+    protected abstract R invalidateOnBuildAction();
 
     @Unique
     private int labs$parallel = 0;
@@ -264,69 +266,51 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
 
     @Unique
     @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replace(RecipeMap<?>... otherMaps) {
-        return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findByOutput(outputs, fluidOutputs, chancedOutputs,
+    public R replace() {
+        return labs$removeOrWarn(recipeMap,
+                ((AccessibleRecipeMap) recipeMap).findByOutput(outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs,
                         (r) -> true),
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", outputs, fluidOutputs,
-                        chancedOutputs, chancedFluidOutputs)));
+                        chancedOutputs, chancedFluidOutputs));
     }
 
     @Unique
     @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replaceInCategory(RecipeMap<?>... otherMaps) {
-        return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findByOutput(outputs, fluidOutputs, chancedOutputs,
+    public R replaceInCategory() {
+        return labs$removeOrWarn(recipeMap,
+                ((AccessibleRecipeMap) recipeMap).findByOutput(outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs,
                         (r) -> Objects.equals(category, r.getRecipeCategory())),
                 String.format("category: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", category,
                         outputs, fluidOutputs,
-                        chancedOutputs, chancedFluidOutputs)));
+                        chancedOutputs, chancedFluidOutputs));
     }
 
     @Unique
     @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replaceWithVoltage(RecipeMap<?>... otherMaps) {
-        return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findRecipeByOutput(EUt, outputs, fluidOutputs, chancedOutputs,
-                        chancedFluidOutputs),
+    public R replaceWithVoltage() {
+        return labs$removeOrWarn(recipeMap,
+                ((AccessibleRecipeMap) recipeMap).findByOutput(outputs, fluidOutputs, chancedOutputs,
+                        chancedFluidOutputs, (r) -> r.getEUt() >= EUt),
                 String.format("voltage: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", EUt, outputs,
                         fluidOutputs,
-                        chancedOutputs, chancedFluidOutputs)));
+                        chancedOutputs, chancedFluidOutputs));
     }
 
     @Unique
     @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replaceWithExactVoltage(RecipeMap<?>... otherMaps) {
-        return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findRecipeByOutput(EUt, outputs, fluidOutputs, chancedOutputs,
-                        chancedFluidOutputs),
-                String.format("exact voltage: %s, items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", EUt,
-                        outputs, fluidOutputs,
-                        chancedOutputs, chancedFluidOutputs)));
-    }
-
-    @Unique
-    @SuppressWarnings({ "unused", "AddedMixinMembersNamePattern" })
-    public R replace(Predicate<Recipe> canHandle, RecipeMap<?>... otherMaps) {
-        return labs$replaceForMaps(otherMaps, (map) -> labs$removeOrWarn(map,
-                ((AccessibleRecipeMap) map).findByOutput(outputs, fluidOutputs, chancedOutputs,
+    public R replace(Predicate<Recipe> canHandle) {
+        return labs$removeOrWarn(recipeMap,
+                ((AccessibleRecipeMap) recipeMap).findByOutput(outputs, fluidOutputs, chancedOutputs,
                         chancedFluidOutputs,
                         canHandle),
                 String.format("items: %s, fluids: %s, chanced items: %s, chanced fluids: %s", outputs, fluidOutputs,
-                        chancedOutputs, chancedFluidOutputs)));
+                        chancedOutputs, chancedFluidOutputs));
     }
 
     @Unique
-    private R labs$replaceForMaps(RecipeMap<?>[] otherMaps, Consumer<RecipeMap<?>> remover) {
-        remover.accept(recipeMap);
-        Arrays.stream(otherMaps).forEach(remover);
-        return (R) (Object) this;
-    }
-
-    @Unique
-    private void labs$removeOrWarn(RecipeMap<?> currMap, @Nullable List<Recipe> foundRecipes, String components) {
+    private R labs$removeOrWarn(RecipeMap<?> currMap, @Nullable List<Recipe> foundRecipes, String components) {
         if (foundRecipes == null) {
             if (LabsGroovyHelper.isRunningGroovyScripts()) {
                 GroovyLog.msg("Error removing GregTech " + currMap.unlocalizedName + " recipe")
@@ -334,11 +318,24 @@ public abstract class RecipeBuilderMixin<R extends RecipeBuilder<R>> {
                         .error()
                         .post();
             }
-            return;
+            return (R) (Object) this;
         }
 
         for (var recipe : foundRecipes) {
             currMap.removeRecipe(recipe);
         }
+        return (R) (Object) this;
+    }
+
+    @Unique
+    @Override
+    public Consumer<R> labs$getOnBuildAction() {
+        return onBuildAction;
+    }
+
+    @Unique
+    @Override
+    public void labs$invalidateOnBuildAction() {
+        invalidateOnBuildAction();
     }
 }

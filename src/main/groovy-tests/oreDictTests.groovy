@@ -4,7 +4,7 @@
 // is quite buggy.
 
 // Get all Ore Dicts of a Stack (Pink Wool)
-println(item('minecraft:wool', 6).getAllOreDicts())
+log.info(item('minecraft:wool', 6).getAllOreDicts())
 
 // Remove all Ore Dicts of a Stack (Lapis Block)
 item('minecraft:lapis_block').removeAllOreDicts()

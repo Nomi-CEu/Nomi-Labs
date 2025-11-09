@@ -201,6 +201,17 @@ public class LabsConfig {
             DISCARDED,
             SAVED
         }
+
+        @Config.Comment({
+                "Whether to improve interactions of the Chemical Reactor and Large Chemical Reactor recipe map.",
+                "First: Syncs removals FROM the chemical reactor recipe map to the large chemical reactor recipe map.",
+                "This fixes issues where when removing a chem reactor recipe, it is only removed from the chemical reactor recipe map, creating syncing issues and potential conflicts in the Large Chemical Reactor map.",
+                "Second: Constrains searches of recipes in the large chemical reactor recipe map to large chemical reactor specific recipes ONLY.",
+                "This only affects recipe removals/searches by CraftTweaker or GroovyScript.",
+                "[default: true]" })
+        @Config.LangKey("config.nomilabs.groovy.scripting_chem_reactor_improvements")
+        @Config.RequiresMcRestart
+        public boolean scriptingChemReactorImprovements = true;
     }
 
     public static class TheOneProbeSettings {

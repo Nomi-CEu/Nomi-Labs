@@ -27,14 +27,14 @@ import static com.nomiceu.nomilabs.groovy.CompositionBuilder.MixerSpecification
 // Don't have recursive components! This will throw a Stack Overflow Error.
 
 // How to specify a Material Stack
-println("Material Stack of 1 Pyrite | " + materialstack('pyrite')) // Material Stack of 1 Pyrite
-println("Material Stack of 6 Pyrite | " + materialstack('pyrite') * 6) // Material Stack of 6 Pyrite
+log.info("Material Stack of 1 Pyrite | " + materialstack('pyrite')) // Material Stack of 1 Pyrite
+log.info("Material Stack of 6 Pyrite | " + materialstack('pyrite') * 6) // Material Stack of 6 Pyrite
 
-println("Material Stack of 1 Pyrite | " + material('pyrite') * 1) // Material Stack of 1 Pyrite
-println("Material Stack of 6 Pyrite | " + material('pyrite') * 6) // Material Stack of 6 Pyrite
+log.info("Material Stack of 1 Pyrite | " + material('pyrite') * 1) // Material Stack of 1 Pyrite
+log.info("Material Stack of 6 Pyrite | " + material('pyrite') * 6) // Material Stack of 6 Pyrite
 
 // How not to specify a Material Stack
-println("Material: Pyrite | " + material('pyrite')) // MATERIAL, not Material Stack! This will throw an error!
+log.info("Material: Pyrite | " + material('pyrite')) // MATERIAL, not Material Stack! This will throw an error!
 
 // Remove Decomposition by Material
 
