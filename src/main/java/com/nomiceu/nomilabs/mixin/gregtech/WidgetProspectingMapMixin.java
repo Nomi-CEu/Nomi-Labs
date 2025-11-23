@@ -41,11 +41,12 @@ public class WidgetProspectingMapMixin {
 
     @Shadow
     private boolean darkMode;
+
     @Unique
     private OreData labs$hoveredOreData = null;
 
     @Unique
-    private Map<String, OreData> labs$nameToData = new Object2ObjectOpenHashMap<>();
+    private final Map<String, OreData> labs$nameToData = new Object2ObjectOpenHashMap<>();
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void defaultDark(int xPosition, int yPosition, int chunkRadius, WidgetOreList widgetOreList,
@@ -71,24 +72,24 @@ public class WidgetProspectingMapMixin {
             for (int j = 0; j < 16; j++) {
                 if (this.texture.map[cX * 16 + i][cZ * 16 + j] == null) continue;
 
-                texture.map[cX * 16 + i][cZ * 16 + j].entrySet().forEach((entry) -> {
-                    String name = OreDictUnifier.get(entry.getValue()).getDisplayName();
+                texture.map[cX * 16 + i][cZ * 16 + j].forEach((key, value) -> {
+                    String name = OreDictUnifier.get(value).getDisplayName();
 
                     if (!ProspectingTexture.SELECTED_ALL.equals(texture.getSelected()) &&
-                            !texture.getSelected().equals(entry.getValue())) {
+                            !texture.getSelected().equals(value)) {
                         return;
                     }
 
                     OreData nameData = labs$nameToData.get(name);
                     if (nameData == null)
-                        labs$nameToData.put(name, new OreData(entry.getKey()));
+                        labs$nameToData.put(name, new OreData(key));
                     else
-                        nameData.update(entry.getKey());
+                        nameData.update(key);
 
                     if (labs$hoveredOreData == null)
-                        labs$hoveredOreData = new OreData(entry.getKey());
+                        labs$hoveredOreData = new OreData(key);
                     else
-                        labs$hoveredOreData.update(entry.getKey());
+                        labs$hoveredOreData.update(key);
                 });
             }
         }
@@ -109,7 +110,7 @@ public class WidgetProspectingMapMixin {
             }
 
             // Highest Y Values First
-            return Byte.compare(dataB.minY(), dataA.minY());
+            return Integer.compare(dataB.minY(), dataA.minY());
         }).forEach((entry) -> biConsumer.accept(entry.getKey(), entry.getValue()));
     }
 
@@ -130,6 +131,7 @@ public class WidgetProspectingMapMixin {
             return instance.add(e);
         }
 
+        // noinspection unchecked
         return instance.add((E) (String.format("%s --- §e%s§r (y: §c%s - %s§r)", splitStr[0], splitStr[1], data.minY(),
                 data.maxY())));
     }

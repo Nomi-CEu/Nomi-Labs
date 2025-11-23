@@ -1,36 +1,36 @@
 package com.nomiceu.nomilabs.gregtech.mixinhelper;
 
+import com.google.common.primitives.UnsignedBytes;
+
 public class OreData {
 
-    private byte minY;
-    private byte maxY;
-    private byte avgY;
+    private int minY;
+    private int maxY;
 
     public OreData(byte startingY) {
-        minY = startingY;
-        maxY = startingY;
-        avgY = startingY;
+        minY = UnsignedBytes.toInt(startingY);
+        maxY = minY;
     }
 
-    public byte minY() {
+    public int minY() {
         return minY;
     }
 
-    public byte maxY() {
+    public int maxY() {
         return maxY;
     }
 
-    public byte avgY() {
-        return avgY;
+    public int avgY() {
+        // Whilst this isn't a perfect average, it puts waypoints in middle of vein, which is good
+        // Note that this implementation is different to the one in GT #2726
+        return (minY + maxY) / 2;
     }
 
     public OreData update(byte y) {
-        minY = y < minY ? y : minY;
-        maxY = y > maxY ? y : maxY;
+        int yPos = UnsignedBytes.toInt(y);
 
-        // Whilst this isn't a perfect average, it puts waypoints in middle of vein, which is good
-        // Note that this implementation is different to the one in GT #2726
-        avgY = (byte) ((minY + maxY) / 2);
+        minY = Math.min(yPos, minY);
+        maxY = Math.max(yPos, maxY);
         return this;
     }
 }
