@@ -25,6 +25,7 @@
     "PacketJEIRecipeMixin",
     "PacketValueConfigMixin",
     "PartBasicStateMixin",
+    "PartP2PGTCEPowerInputEnergyMixin",
     "PowerStorageInfoProviderMixin",
     "RecipeTransferHandlerMixin",
     "SlotRestrictedInputMixin",
