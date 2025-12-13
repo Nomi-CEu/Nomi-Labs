@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import com.cleanroommc.groovyscript.event.GroovyReloadEvent;
 import com.cleanroommc.groovyscript.event.GsHandEvent;
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
 import com.nomiceu.nomilabs.LabsSounds;
@@ -243,7 +244,7 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public static void onScriptReload(ScriptRunEvent.Pre event) {
+    public static void onScriptReload(GroovyReloadEvent event) {
         if (Loader.isModLoaded(LabsValues.NUCLEARCRAFT_MODID)) {
             NCActiveCoolerHelper.onReload();
         }

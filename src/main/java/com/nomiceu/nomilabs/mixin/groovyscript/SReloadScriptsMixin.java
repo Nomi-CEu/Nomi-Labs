@@ -1,12 +1,15 @@
 package com.nomiceu.nomilabs.mixin.groovyscript;
 
-import net.minecraft.command.ICommandSender;
+import net.minecraft.client.network.NetHandlerPlayClient;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.cleanroommc.groovyscript.GroovyScript;
+import com.cleanroommc.groovyscript.network.IPacket;
 import com.cleanroommc.groovyscript.network.SReloadScripts;
 import com.cleanroommc.groovyscript.sandbox.LoadStage;
 
@@ -16,14 +19,20 @@ import com.cleanroommc.groovyscript.sandbox.LoadStage;
 @Mixin(value = SReloadScripts.class, remap = false)
 public class SReloadScriptsMixin {
 
-    @Redirect(method = "executeClient",
-              at = @At(value = "INVOKE",
-                       target = "Lcom/cleanroommc/groovyscript/GroovyScript;postScriptRunResult(Lnet/minecraft/command/ICommandSender;ZZZJ)V"),
-              require = 1)
-    private void reloadScriptsOnClient(ICommandSender s, boolean i, boolean executing, boolean n, long timeOld) {
-        // noinspection UnstableApiUsage
-        long time = GroovyScript.runGroovyScriptsInLoader(LoadStage.POST_INIT);
+    @Shadow
+    private boolean changePackmode;
 
-        GroovyScript.postScriptRunResult(s, i, executing, n, time);
+    @Shadow
+    private String packmode;
+
+    @Inject(method = "executeClient",
+            at = @At("HEAD"),
+            require = 1)
+    private void reloadScriptsOnClient(NetHandlerPlayClient handler, CallbackInfoReturnable<IPacket> cir) {
+        // If packmode was changed, that already triggers a script run
+        if (!changePackmode || packmode == null) {
+            // noinspection UnstableApiUsage
+            GroovyScript.runGroovyScriptsInLoader(LoadStage.POST_INIT);
+        }
     }
 }

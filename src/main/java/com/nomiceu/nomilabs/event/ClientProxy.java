@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.cleanroommc.groovyscript.event.GroovyReloadEvent;
 import com.cleanroommc.groovyscript.event.ScriptRunEvent;
 import com.nomiceu.nomilabs.LabsTextures;
 import com.nomiceu.nomilabs.LabsValues;
@@ -95,7 +96,7 @@ public class ClientProxy {
     }
 
     @SubscribeEvent
-    public static void onScriptReload(ScriptRunEvent.Pre event) {
+    public static void onScriptReload(GroovyReloadEvent event) {
         LabsJEIPlugin.onReload();
         OreByProductChangeStorage.clear();
         GroovyTooltipChanger.clear();
