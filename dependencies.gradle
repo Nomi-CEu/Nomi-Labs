@@ -69,7 +69,7 @@ dependencies {
     } // Version 3.0
 
     // Had Enough Items
-    implementation ('mezz:jei:4.29.12') {
+    implementation ('mezz:jei:4.29.13') {
         transitive = false
     } // Version 4.29.8
 
