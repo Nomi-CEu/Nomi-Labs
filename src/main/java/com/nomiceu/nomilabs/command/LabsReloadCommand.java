@@ -1,5 +1,6 @@
 package com.nomiceu.nomilabs.command;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.command.ICommandSender;
@@ -36,7 +37,8 @@ public class LabsReloadCommand extends CommandTreeBase {
     }
 
     /**
-     * Mostly from {@link com.cleanroommc.groovyscript.command.GSCommand#runReload(EntityPlayerMP, MinecraftServer)},
+     * Mostly from
+     * {@link com.cleanroommc.groovyscript.command.GSCommand#runReload(EntityPlayerMP, MinecraftServer, Collection)},
      * but allows for custom packets for client handling.
      */
     public static void runReload(ICommandSender sender, MinecraftServer server, IMessage reloadMsg) {
