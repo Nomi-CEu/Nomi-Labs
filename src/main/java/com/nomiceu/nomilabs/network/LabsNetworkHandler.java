@@ -31,8 +31,7 @@ public class LabsNetworkHandler {
         }
 
         registerMessage(6, LabsLangReloadMessage.MessageHandler.class, LabsLangReloadMessage.class);
-        registerMessage(7, LabsFastReloadMessage.MessageHandler.class, LabsFastReloadMessage.class);
-        registerMessage(8, LabsNoJeiReloadMessage.MessageHandler.class, LabsNoJeiReloadMessage.class);
+        // 7, 8; Legacy special reload (fast JEI reload, no JEI reload)
     }
 
     @SuppressWarnings("SameParameterValue")

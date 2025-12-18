@@ -38,7 +38,7 @@ public class LabsLangReloadMessage implements IMessage {
             long timeReload = GroovyScript.runGroovyScriptsInLoader(LoadStage.POST_INIT);
 
             // noinspection UnstableApiUsage
-            ReloadableRegistryManager.reloadJei(true);
+            ReloadableRegistryManager.reloadJei(true, false);
 
             GroovyScript.postScriptRunResult(Minecraft.getMinecraft().player, true, true, true, timeReload);
             return null;

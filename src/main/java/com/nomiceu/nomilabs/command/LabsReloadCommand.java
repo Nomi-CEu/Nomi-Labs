@@ -15,10 +15,8 @@ import com.cleanroommc.groovyscript.GroovyScript;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.sandbox.LoadStage;
 import com.google.common.collect.ImmutableList;
-import com.nomiceu.nomilabs.network.LabsFastReloadMessage;
 import com.nomiceu.nomilabs.network.LabsLangReloadMessage;
 import com.nomiceu.nomilabs.network.LabsNetworkHandler;
-import com.nomiceu.nomilabs.network.LabsNoJeiReloadMessage;
 
 /**
  * Provides three variations to the GroovyScript reload command:
@@ -35,12 +33,6 @@ public class LabsReloadCommand extends CommandTreeBase {
     public LabsReloadCommand() {
         addSubcommand(new SimpleCommand("lang",
                 (server, sender, args) -> runReload(sender, server, new LabsLangReloadMessage())));
-
-        addSubcommand(new SimpleCommand("fast",
-                (server, sender, args) -> runReload(sender, server, new LabsFastReloadMessage())));
-
-        addSubcommand(new SimpleCommand("noJei",
-                (server, sender, args) -> runReload(sender, server, new LabsNoJeiReloadMessage())));
     }
 
     /**

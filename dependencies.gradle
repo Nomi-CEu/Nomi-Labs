@@ -59,9 +59,9 @@ dependencies {
     implementation rfg.deobf("curse.maven:packmode-278398:2567799") // Version 1.2.0
 
     // GroovyScript (from Cleanroom Maven)
-    implementation ("com.cleanroommc:groovyscript:1.3.1") {
+    implementation ("com.cleanroommc:groovyscript:1.3.3") {
         transitive = false
-    } // Version 1.3.1
+    } // Version 1.3.3
 
     // Config Anytime (from Cleanroom Maven)
     implementation ('com.cleanroommc:configanytime:3.0') {
@@ -71,7 +71,7 @@ dependencies {
     // Had Enough Items
     implementation ('mezz:jei:4.29.13') {
         transitive = false
-    } // Version 4.29.8
+    } // Version 4.29.13
 
     // The One Probe
     implementation rfg.deobf('curse.maven:top-245211:2667280') // Version 1.4.28

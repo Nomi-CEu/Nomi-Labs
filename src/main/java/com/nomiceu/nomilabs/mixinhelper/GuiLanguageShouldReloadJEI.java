@@ -56,8 +56,9 @@ public class GuiLanguageShouldReloadJEI extends GuiYesNo {
     protected void actionPerformed(@NotNull GuiButton button) {
         if (button.id == 0) {
             // Reload JEI to refresh description text
+            // We only need to reload plugins, no need to refresh ingredient filter/blacklist
             // noinspection UnstableApiUsage
-            ReloadableRegistryManager.reloadJei(false);
+            ReloadableRegistryManager.reloadJei(false, true);
         }
 
         mc.displayGuiScreen(parent);
