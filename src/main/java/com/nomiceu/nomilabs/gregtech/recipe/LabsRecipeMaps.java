@@ -65,7 +65,7 @@ public class LabsRecipeMaps {
                             .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY)
                             .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
                             .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER,
-                                    ProgressWidget.MoveType.VERTICAL)
+                                    ProgressWidget.MoveType.HORIZONTAL)
                             .setSound(GTSoundEvents.COMPUTATION);
 
         GROWTH_CHAMBER_RECIPES = new RecipeMap<>("growth_chamber", 4, 9, 1, 0, new SimpleRecipeBuilder(), !newMultis())
