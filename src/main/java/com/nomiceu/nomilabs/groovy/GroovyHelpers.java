@@ -262,6 +262,11 @@ public class GroovyHelpers {
         public static void yeetItemNBTMatch(ItemStack stack, Function<NBTTagCompound, Boolean> condition) {
             LabsJEIPlugin.removeAndHideItemNBTMatch(stack, condition);
         }
+
+        /* Replace Description */
+        public static void replaceDescription(IIngredient ing, String... description) {
+            LabsJEIPlugin.replaceDescription(ing, description);
+        }
     }
 
     public static class MaterialHelpers {

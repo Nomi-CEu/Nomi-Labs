@@ -28,10 +28,13 @@ import org.jetbrains.annotations.NotNull;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
+import com.cleanroommc.groovyscript.api.IIngredient;
+import com.cleanroommc.groovyscript.core.mixin.jei.IngredientInfoRecipeAccessor;
 import com.cleanroommc.groovyscript.registry.ReloadableRegistryManager;
 import com.google.common.collect.ImmutableList;
 import com.nomiceu.nomilabs.LabsValues;
 import com.nomiceu.nomilabs.groovy.PartialRecipe;
+import com.nomiceu.nomilabs.integration.jei.mixinhelper.AccessibleModRegistry;
 import com.nomiceu.nomilabs.integration.jei.recipe.ChargerCategory;
 import com.nomiceu.nomilabs.integration.jei.recipe.ChargerRecipeHandler;
 import com.nomiceu.nomilabs.integration.jei.recipe.CrystalGrowthCategory;
@@ -43,6 +46,7 @@ import appeng.api.AEApi;
 import appeng.api.definitions.IDefinitions;
 import appeng.api.definitions.IMaterials;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
@@ -50,6 +54,8 @@ import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import mezz.jei.plugins.jei.info.IngredientInfoRecipe;
+import mezz.jei.plugins.jei.info.IngredientInfoRecipeCategory;
 
 @mezz.jei.api.JEIPlugin
 @SuppressWarnings("unused")
@@ -57,6 +63,9 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 public class LabsJEIPlugin implements IModPlugin {
 
     private static final ResourceLocation WILDCARD_LOCATION = new ResourceLocation("*", "*");
+
+    private static final List<Pair<IIngredient, String[]>> GROOVY_REPLACE_DESCRIPTIONS = new ObjectArrayList<>();
+    private static final List<Pair<IIngredient, List<IngredientInfoRecipe<ItemStack>>>> GROOVY_REGISTERED_DESCRIPTIONS = new ObjectArrayList<>();
 
     private static final Map<ResourceLocation, List<Translatable>> RECIPE_OUTPUT_TOOLTIPS = new Object2ObjectOpenHashMap<>();
     private static final Map<ResourceLocation, List<Translatable>> GROOVY_RECIPE_OUTPUT_TOOLTIPS = new Object2ObjectOpenHashMap<>();
@@ -69,6 +78,7 @@ public class LabsJEIPlugin implements IModPlugin {
     private static final List<Pair<ItemStack, Function<NBTTagCompound, Boolean>>> IGNORE_NBT_HIDE = new ArrayList<>();
 
     private static IIngredientRegistry itemRegistry;
+    private static IJeiRuntime runtime;
 
     @Override
     public void registerCategories(@NotNull IRecipeCategoryRegistration registry) {
@@ -107,6 +117,52 @@ public class LabsJEIPlugin implements IModPlugin {
                             translate("item.nomilabs.hand_framing_tool.desc4") + "\n\n" +
                             translate("item.nomilabs.hand_framing_tool.desc5") + "\n\n" +
                             translate("item.nomilabs.hand_framing_tool.desc6"));
+        }
+
+        // Handle Groovy's Replace Descriptions
+        for (var pair : GROOVY_REPLACE_DESCRIPTIONS) {
+            var recipes = ((AccessibleModRegistry) registry).labs$registerDescriptionWithRecipesReturned(
+                    Arrays.asList(pair.getKey().getMatchingStacks()), VanillaTypes.ITEM, pair.getValue());
+            GROOVY_REGISTERED_DESCRIPTIONS.add(Pair.of(pair.getKey(), recipes));
+        }
+    }
+
+    @Override
+    public void onRuntimeAvailable(@NotNull IJeiRuntime runtime) {
+        // Remove Info Item from JEI
+        itemRegistry.removeIngredientsAtRuntime(VanillaTypes.ITEM,
+                Collections.singletonList(new ItemStack(LabsItems.INFO_ITEM)));
+
+        LabsJEIPlugin.runtime = runtime;
+    }
+
+    /**
+     * Called via JeiStarterMixin, after all mods have handled runtime.
+     */
+    public static void afterRuntimeAvailable() {
+        var category = (IngredientInfoRecipeCategory) runtime.getRecipeRegistry()
+                .getRecipeCategory(VanillaRecipeCategoryUid.INFORMATION);
+        if (category == null) return;
+
+        for (var pair : GROOVY_REGISTERED_DESCRIPTIONS) {
+            runtime.getRecipeRegistry().getRecipeWrappers(category).forEach(recipe -> {
+                // A GrS Mixin
+                IngredientInfoRecipeAccessor<?> accessor = (IngredientInfoRecipeAccessor<?>) recipe;
+
+                // Only hide items; others not supported
+                if (!VanillaTypes.ITEM.equals(accessor.getIngredientType())) return;
+
+                // Only hide those which match the ingredients we want
+                if (accessor.getIngredients().stream()
+                        .noneMatch(a -> a instanceof ItemStack itemStack && pair.getKey().test(itemStack)))
+                    return;
+
+                // Only hide those we did not add
+                if (pair.getValue().stream().anyMatch(a -> a == recipe))
+                    return;
+
+                runtime.getRecipeRegistry().hideRecipe(recipe, VanillaRecipeCategoryUid.INFORMATION);
+            });
         }
     }
 
@@ -183,11 +239,10 @@ public class LabsJEIPlugin implements IModPlugin {
         return stack;
     }
 
-    @Override
-    public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
-        // Remove Info Item from JEI
-        itemRegistry.removeIngredientsAtRuntime(VanillaTypes.ITEM,
-                Collections.singletonList(new ItemStack(LabsItems.INFO_ITEM)));
+    /* Replace Desc Helper */
+    public static void replaceDescription(IIngredient ing, String... description) {
+        if (!LabsSide.isClient()) return;
+        GROOVY_REPLACE_DESCRIPTIONS.add(Pair.of(ing, description));
     }
 
     /* Hiding Helpers */
@@ -311,6 +366,8 @@ public class LabsJEIPlugin implements IModPlugin {
         GROOVY_RECIPE_OUTPUT_TOOLTIPS.clear();
         GROOVY_RECIPE_INPUT_TOOLTIPS.clear();
         IGNORE_NBT_HIDE.clear();
+        GROOVY_REPLACE_DESCRIPTIONS.clear();
+        GROOVY_REGISTERED_DESCRIPTIONS.clear();
         COMPILED_RECIPE_OUTPUT_TOOLTIPS = null;
         COMPILED_RECIPE_INPUT_TOOLTIPS = null;
     }

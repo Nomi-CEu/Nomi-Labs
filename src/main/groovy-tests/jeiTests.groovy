@@ -38,6 +38,17 @@ translatableObj.append(translatableLiteral('Hello World!'))
 // Call `toString` or `translate` to retrieve the translated and concatenated string
 log.info('Translatable Object: ' + translatableObj.translate())
 
+/* Description Pages. */
+
+// Replace a description page for a stack
+// Note that grs already handles addition and removal by itself;
+// but due to how it handles it, removing and then adding doesn't work correctly.
+// Keys are translated automatically (by JEI)
+// DO NOT CALL THIS METHOD MULTIPLE TIMES FOR THE SAME INGREDIENT!
+
+// Example: Replacing GT's Programmed Circuit Description
+replaceDescription(metaitem('circuit.integrated'), 'tooltip.nomilabs.hand_framing_tool.front')
+
 /*
  * Recipe Output Tooltips. These are tooltips that appear on CRAFTING TABLE recipes, on a specific registry name.
  *

@@ -7,6 +7,8 @@
   "mixins": [
     "CraftingRecipeCategoryMixin",
     "IngredientInfoRecipeMixin",
+    "JeiStarterMixin",
+    "ModRegistryMixin",
     "RecipeCategoryTabMixin",
     "RecipeLayoutAccessor"
   ],
