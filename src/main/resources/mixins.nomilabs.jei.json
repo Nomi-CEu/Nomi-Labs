@@ -13,8 +13,6 @@
     "RecipeLayoutAccessor"
   ],
   "client": [
-    "BookmarkGroupOrganizerMixin",
-    "BookmarkItemRenderMixin",
     "GuiIngredientMixin"
   ],
   "server": []
