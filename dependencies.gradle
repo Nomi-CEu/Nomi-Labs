@@ -91,10 +91,11 @@ dependencies {
     // Modular UI, needed sometimes for GT Runtime, and for other mods
     runtimeOnly "curse.maven:modularui-624243:5153413" // Version 2.4.3
 
-    /* -------------------------------- Util Runtime Only Deps -------------------------------- */
+    /* -------------------------------- Util Runtime Deps -------------------------------- */
 
     // JEI Utilities
-    runtimeOnly "curse.maven:jei-utilities-616190:6937116" // Version 0.2.13
+    // Register as implementation, as we have a mixin for this.
+    implementation rfg.deobf('curse.maven:jei-utilities-616190:6937116') // Version 0.2.13
 
     // Actually Advanced Info
     runtimeOnly "curse.maven:aainfo-573154:3627065" // Version 1.0.1

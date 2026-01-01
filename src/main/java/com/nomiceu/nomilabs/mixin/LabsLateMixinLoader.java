@@ -29,6 +29,7 @@ public class LabsLateMixinLoader implements ILateMixinLoader {
                     LabsConfig.modIntegration.enableExtraUtils2Integration)
             .put(GREGTECH_MODID, true)
             .put(JEI_MODID, true)
+            .put(JEI_UTILS_MODID, true)
             .put(ROCKETRY_MODID, true)
             .put(ARCHITECTURE_MODID,
                     LabsConfig.modIntegration.enableArchitectureCraftIntegration)
