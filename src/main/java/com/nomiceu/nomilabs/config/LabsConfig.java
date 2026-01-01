@@ -391,6 +391,12 @@ public class LabsConfig {
         @Config.RequiresMcRestart
         public boolean replaceDrawers = true;
 
+        @Config.Comment({
+                "Whether to disable changing AE2 P2P Tunnel types in-world by right clicking with relevant items (e.g. bucket for fluid)",
+                "This can be annoying and unhelpful; especially given Labs allows players to change types by shift-scrolling, and you may add other ways of transferring types (crafting / assembler recipes, advanced mem card, chisel)" })
+        @Config.LangKey("config.nomilabs.mod_integration.disable_ae2_p2p_world_change")
+        public boolean disableP2PInWorldChange = false;
+
         @Config.Comment("AE2 Terminal Options")
         @Config.LangKey("config.nomilabs.mod_integration.ae2_terminal")
         @Config.Name("ae2 terminal options")
