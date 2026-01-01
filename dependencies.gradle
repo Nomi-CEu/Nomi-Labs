@@ -113,10 +113,10 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:chameleon-230497:2450900") // Version 4.1.3
 
     // Ender IO, Used in Custom Capacitors (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:ender-io-64578:4674244") // Version 5.3.72
+    compileOnly "curse.maven:ender-io-64578:4674244" // Version 5.3.72
 
     // Ender Core, Dep of Ender IO, also used in-code (from CurseForge)
-    compileOnly rfg.deobf("curse.maven:endercore-231868:4671384") // Version 0.5.78
+    compileOnly "curse.maven:endercore-231868:4671384" // Version 0.5.78
 
     // Chisel, used in Microverse Projectors (from CurseForge)
     compileOnly rfg.deobf("curse.maven:chisel-235279:2915375") // Version 1.0.2.45
