@@ -43,6 +43,7 @@
     "MetaTileEntityQuantumTankMixin",
     "MetaValueItemMixin",
     "MinerLogicMixin",
+    "ModularUIGuiHandlerMixin",
     "MultiblockDisplayTextBuilderMixin",
     "MultiblockInfoCategoryMixin",
     "MultiblockRecipeLogicMixin",
