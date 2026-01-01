@@ -44,7 +44,10 @@ public class LabsTankGaugeElement implements IElement {
     private final String fluidName;
     private final String tankName;
 
-    private final int color;
+    // Color used when rendering fluid texture
+    private final int fluidColor;
+    // Color for tank gauge outline
+    private final int outlineColor;
 
     private final int amount;
     private final int capacity;
@@ -82,11 +85,13 @@ public class LabsTankGaugeElement implements IElement {
         if (capacity > 0 && fluid != null && !fluid.getFluid().getName().isEmpty()) {
             fluidName = fluid.getFluid().getName();
             amount = fluid.amount;
-            color = getColor(fluid);
+            fluidColor = fluid.getFluid().getColor();
+            outlineColor = getOutlineColor(fluid);
         } else {
             fluidName = "";
             amount = 0;
-            color = DEFAULT_OUTLINE;
+            fluidColor = Color.WHITE.getRGB();
+            outlineColor = DEFAULT_OUTLINE;
         }
     }
 
@@ -99,7 +104,8 @@ public class LabsTankGaugeElement implements IElement {
         tankName = NetworkTools.readString(byteBuf);
         expandedView = byteBuf.readBoolean();
 
-        color = byteBuf.readInt();
+        fluidColor = byteBuf.readInt();
+        outlineColor = byteBuf.readInt();
 
         if (hasFluid()) {
             fluid = LabsTOPUtils.getFluid(fluidName, "LabsTankGaugeElement");
@@ -120,7 +126,8 @@ public class LabsTankGaugeElement implements IElement {
         NetworkTools.writeString(byteBuf, tankName);
         byteBuf.writeBoolean(expandedView);
 
-        byteBuf.writeInt(color);
+        byteBuf.writeInt(fluidColor);
+        byteBuf.writeInt(outlineColor);
     }
 
     @Override
@@ -131,7 +138,7 @@ public class LabsTankGaugeElement implements IElement {
 
         // Box
         RenderHelper.drawThickBeveledBox(x, y, x + BAR_WIDTH, y + barHeight, 1,
-                color, color, DEFAULT_FILL);
+                outlineColor, outlineColor, DEFAULT_FILL);
 
         // Render fluid (Adaptation of RenderUtil#drawFluidForGui)
         if (hasFluid) {
@@ -141,7 +148,7 @@ public class LabsTankGaugeElement implements IElement {
         // Line Segments
         for (int i = 1; i < 10; i++) {
             RenderHelper.drawVerticalLine(x + i * 10, y + 1, y + (i == 5 ? barHeight - 1 : barHeight / 2),
-                    color);
+                    outlineColor);
         }
 
         if (expand) {
@@ -176,9 +183,9 @@ public class LabsTankGaugeElement implements IElement {
     /**
      * Adapted from {@link Colors#getHashFromFluid(FluidStack)}.
      */
-    private int getColor(FluidStack stack) {
+    private int getOutlineColor(FluidStack stack) {
         /*
-         * Fluid color: - If the fluid doesn't return white in getColor, use this value;
+         * Outline color: - If the fluid doesn't return white in getColor, use this value;
          * - if the fluid's name is stored in {@link Colors.FLUID_NAME_COLOR_MAP}, use that value;
          * - otherwise use default
          */
@@ -192,7 +199,11 @@ public class LabsTankGaugeElement implements IElement {
             else
                 colorMap = FLUID_NAME_COLOR_MAP;
 
-            return colorMap.getOrDefault(stack.getFluid().getName(), DEFAULT_OUTLINE);
+            int colorMapColor = colorMap.getOrDefault(stack.getFluid().getName(), DEFAULT_OUTLINE);
+
+            // Ensure alpha is 255 (GT returns an alpha of 0 due to bad impl, and in general we don't want a transparent
+            // outline)
+            return colorMapColor | 0xff000000;
         }
     }
 
@@ -235,7 +246,7 @@ public class LabsTankGaugeElement implements IElement {
         GlStateManager.enableBlend();
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        RenderUtil.setGlColorFromInt(color, 0xFF);
+        RenderUtil.setGlColorFromInt(fluidColor, 0xFF);
 
         int scaledAmount = (int) ((long) amount * (BAR_WIDTH - 2) / capacity);
 
