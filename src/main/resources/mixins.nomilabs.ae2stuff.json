@@ -6,7 +6,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "TileInscriberMixin",
-    "TOPHandlerMixin"
+    "TOPHandlerMixin",
+    "VisualiserOverlayRenderMixin"
   ],
   "client": [],
   "server": []

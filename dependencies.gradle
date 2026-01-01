@@ -132,7 +132,7 @@ dependencies {
 
     // AE2 Stuff Unofficial & BdLib Dep (from CurseForge)
     compileOnly rfg.deobf("curse.maven:bdlib-70496:4675629") // Version 1.14.4.1
-    compileOnly rfg.deobf("curse.maven:ae2-stuff-unofficial-951064:5002181") // Version 0.9
+    compileOnly rfg.deobf("curse.maven:ae2-stuff-unofficial-951064:6706171") // Version 0.10
 
     // AE2 Fluid Crafting Rework (from CurseForge)
     compileOnly rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // Version 2.6.6-r
