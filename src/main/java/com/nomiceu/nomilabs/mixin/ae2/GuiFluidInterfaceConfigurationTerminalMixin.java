@@ -5,7 +5,6 @@ import net.minecraft.inventory.Container;
 import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -41,10 +40,8 @@ public abstract class GuiFluidInterfaceConfigurationTerminalMixin extends AEBase
         Keyboard.enableRepeatEvents(true);
     }
 
-    @Unique
-    @Override
-    public void onGuiClosed() {
+    @Inject(method = "onGuiClosed", at = @At("HEAD"))
+    public void disableRepeatEvents(CallbackInfo ci) {
         Keyboard.enableRepeatEvents(false);
-        super.onGuiClosed();
     }
 }
