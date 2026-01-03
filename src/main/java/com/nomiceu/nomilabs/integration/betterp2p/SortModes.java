@@ -1,102 +1,110 @@
 package com.nomiceu.nomilabs.integration.betterp2p;
 
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.function.Function;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.nomiceu.nomilabs.util.LabsTranslate;
 import com.projecturanus.betterp2p.client.gui.InfoWrapper;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectLinkedOpenHashMap;
+
 public enum SortModes {
 
     DEFAULT("nomilabs.gui.advanced_memory_card.sort.default", SortModes::compDefault),
     DISTANCE("nomilabs.gui.advanced_memory_card.sort.distance", wrapComp(SortModes::compareDistThenName)),
     NAME("nomilabs.gui.advanced_memory_card.sort.name", wrapComp((a, b) -> {
-        if (a.getName().equals(b.getName())) return compareTypeThenDist(a, b, false);
+        if (a.getName().equals(b.getName())) return compareTypeThenDist(a, b);
         return StringUtils.compareIgnoreCase(a.getName(), b.getName());
     }));
 
     private final String translationKey;
-    private final Function<InfoWrapper, Comparator<InfoWrapper>> compFromSelected;
+    private final BiConsumer<InfoWrapper, List<InfoWrapper>> sortFunc;
 
     /**
      * Create a Sort Mode.
      *
-     * @param key              Translation Key
-     * @param compFromSelected Function that takes the selected p2p and returns a comparator.
-     *                         You do not need to handle the case where either one is the selected p2p.
-     *                         Note that item smaller = in front!
-     *                         Selected p2p may be null!
+     * @param key      Translation Key
+     * @param sortFunc Function that takes the selected p2p, and p2p list, and sorts the list.
+     *                 You do not need to handle the case where either one is the selected p2p.
+     *                 Sort the p2p list IN PLACE.
+     *                 Selected p2p may be null!
      */
-    SortModes(String key, Function<InfoWrapper, Comparator<InfoWrapper>> compFromSelected) {
+    SortModes(String key, BiConsumer<InfoWrapper, List<InfoWrapper>> sortFunc) {
         this.translationKey = key;
-        this.compFromSelected = compFromSelected;
+        this.sortFunc = sortFunc;
     }
 
     public String getName() {
         return LabsTranslate.translate(translationKey);
     }
 
-    public Comparator<InfoWrapper> getComp(InfoWrapper selected) {
-        var applyComp = compFromSelected.apply(selected);
-        return (a, b) -> {
-            if (selected != null) {
-                // Selected first
-                if (a.getLoc().equals(selected.getLoc())) return -1;
-                if (b.getLoc().equals(selected.getLoc())) return 1;
-            }
+    public void applySort(InfoWrapper selected, List<InfoWrapper> list, boolean reversed) {
+        sortFunc.accept(selected, list);
+        if (reversed) Collections.reverse(list);
 
-            return applyComp.compare(a, b);
-        };
+        placeSelectedFirst(selected, list);
     }
 
     /* Util */
-    private static Function<InfoWrapper, Comparator<InfoWrapper>> wrapComp(Comparator<InfoWrapper> comp) {
-        return (a) -> comp;
+    private static void placeSelectedFirst(InfoWrapper selected, List<InfoWrapper> list) {
+        if (selected == null) return;
+
+        var iter = list.iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getLoc() == selected.getLoc()) {
+                iter.remove();
+                break;
+            }
+        }
+
+        list.add(0, selected);
+    }
+
+    private static BiConsumer<InfoWrapper, List<InfoWrapper>> wrapComp(Comparator<InfoWrapper> comp) {
+        return (a, list) -> list.sort(comp);
     }
 
     /* Sorters */
-    private static Comparator<InfoWrapper> compDefault(InfoWrapper selected) {
-        return (a, b) -> {
-            if (selected != null) {
-                // Same freq. as selected, priority over rest
-                // Checking for unbound is not needed, just have all unbound at front if selected is unbound
-                if (a.getFrequency() == selected.getFrequency()) {
-                    if (b.getFrequency() != selected.getFrequency()) return -1;
-                    return compareTypeThenDist(a, b, true);
-                }
+    private static void compDefault(InfoWrapper selected, List<InfoWrapper> list) {
+        // First, sort list by type & dist
+        list.sort(SortModes::compareTypeThenDist);
 
-                if (b.getFrequency() == selected.getFrequency()) return 1;
+        // Group by freq
+        // Use a linked hash map so the entries are in order;
+        // e.g. frequencies sorted by closest input,
+        // linked to all p2ps of that freq sorted by type & dist
+        Map<Short, List<InfoWrapper>> grouped = new Short2ObjectLinkedOpenHashMap<>();
+        for (var info : list) {
+            grouped.computeIfAbsent(info.getFrequency(), (_key) -> new ObjectArrayList<>()).add(info);
+        }
+
+        list.clear();
+
+        // Put selected frequency first
+        if (selected != null) {
+            List<InfoWrapper> selectedFrequencyP2ps = grouped.get(selected.getFrequency());
+
+            if (selectedFrequencyP2ps != null) {
+                list.addAll(selectedFrequencyP2ps);
+                grouped.remove(selected.getFrequency());
             }
+        }
 
-            if (a.getFrequency() != b.getFrequency()) {
-                // Unbound first
-                if (a.getFrequency() == 0) return -1;
-                if (b.getFrequency() == 0) return 1;
-
-                // Errors next, also sorted by frequency (display)
-                if (a.getError()) {
-                    if (b.getError()) {
-                        return StringUtils.compareIgnoreCase(a.getFreqDisplay(), b.getFreqDisplay());
-                    }
-                    return -1;
-                }
-                if (b.getError()) return 1;
-
-                // Else, sort by frequency (display)
-                return StringUtils.compareIgnoreCase(a.getFreqDisplay(), b.getFreqDisplay());
-            }
-
-            return compareTypeThenDist(a, b, true);
-        };
+        // Add all other p2ps
+        for (var groupedList : grouped.values()) {
+            list.addAll(groupedList);
+        }
     }
 
-    private static int compareTypeThenDist(InfoWrapper a, InfoWrapper b, boolean compareNameBackup) {
+    private static int compareTypeThenDist(InfoWrapper a, InfoWrapper b) {
         if (a.getOutput() != b.getOutput()) return a.getOutput() ? 1 : -1; // Inputs First
 
-        if (!compareNameBackup)
-            return compareDistance(a, b); // Furthest Last
         return compareDistThenName(a, b);
     }
 
