@@ -44,6 +44,7 @@ import gregtech.api.recipes.map.Branch;
 import gregtech.api.util.ValidationResult;
 import gregtech.integration.groovy.GroovyScriptModule;
 import gregtech.integration.groovy.VirtualizedRecipeMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 /**
  * Allows for lookup with outputs. Allows accessing Virtualized Recipe Map.
@@ -78,6 +79,9 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
     @Final
     private Branch lookup;
 
+    @Shadow
+    @Final
+    public String unlocalizedName;
     @Unique
     private final OutputBranch labs$outputLookup = new OutputBranch();
 
@@ -137,9 +141,34 @@ public abstract class RecipeMapMixin implements AccessibleRecipeMap {
             condition = labs$scriptFindFilter.and(condition);
         }
 
-        return RecipeMapLogic.find(
+        List<Recipe> recipes = RecipeMapLogic.find(
                 labs$outputLookup, (RecipeMap<?>) (Object) this, items, fluids, chancedItems,
                 chancedFluids, condition);
+
+        if (recipes == null || !GroovyScriptModule.isCurrentlyRunning())
+            return recipes;
+
+        // Filter away hidden recipes
+        // Do this outside of the predicate so we can report how many hidden recipes we skipped
+        int foundHidden = 0;
+        List<Recipe> result = new ObjectArrayList<>();
+        for (var recipe : recipes) {
+            if (recipe.isHidden()) {
+                foundHidden++;
+                continue;
+            }
+
+            result.add(recipe);
+        }
+
+        if (foundHidden != 0) {
+            GroovyLog
+                    .msg("[Find By Output] Skipping {} hidden recipes in {}...", foundHidden, unlocalizedName)
+                    .info()
+                    .post();
+        }
+
+        return result;
     }
 
     @Unique

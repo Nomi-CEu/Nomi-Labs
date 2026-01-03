@@ -62,6 +62,7 @@ public class RecipeMapLogic {
         if (LabsConfig.groovyScriptSettings.gtRecipeSearchMode ==
                 LabsConfig.GroovyScriptSettings.GTRecipeSearchMode.LINEAR_SEARCH || outputBranchesCleared)
             return;
+
         var list = getOutputFromRecipe(recipe);
         recurseOutputTreeAdd(recipe, list, branch, 0, 0);
     }
