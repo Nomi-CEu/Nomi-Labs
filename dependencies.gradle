@@ -374,6 +374,12 @@ dependencies {
         runtimeOnly "curse.maven:armor-plus-237366:2803109" // Version 11.25.1.62
     }
 
+    // Key binding patch
+    // We have compat for this, but its all reflection, so only runtime declaration is needed
+    if (project.enable_kbp.toBoolean()) {
+        runtimeOnly "curse.maven:key-binding-patch-928895:5951684" // Version 1.3.3.2
+    }
+
     // Only used because we have to manually copy GrS JEI reload code
     if (project.enable_sonar_core.toBoolean()) {
         runtimeOnly "curse.maven:sonar-core-239418:2645156" // Version 5.0.19
