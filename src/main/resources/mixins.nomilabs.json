@@ -20,7 +20,6 @@
   ],
   "client": [
     "EntityPlayerSPMixin",
-    "GameSettingsMixin",
     "GuiKeyBindingListAccessor",
     "GuiKeyBindingListKeyEntryMixin",
     "GuiLanguageListMixin",
