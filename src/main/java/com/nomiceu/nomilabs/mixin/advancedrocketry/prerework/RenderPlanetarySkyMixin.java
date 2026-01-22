@@ -54,8 +54,10 @@ public abstract class RenderPlanetarySkyMixin {
     }
 
     /**
-     * Fixes mipmaps of culled blocks not being rendered properly.<p>
-     * Alphafunc is modified in the logic for drawing the black hole.<p>
+     * Fixes mipmaps of culled blocks not being rendered properly.
+     * <p>
+     * Alphafunc is modified in the logic for drawing the black hole.
+     * <p>
      * Values for alphaFunc retrieved from
      * {@link net.minecraft.client.renderer.EntityRenderer#renderWorld(float, long)},
      * which is contains the call of alphaFunc right before sky is rendered.
