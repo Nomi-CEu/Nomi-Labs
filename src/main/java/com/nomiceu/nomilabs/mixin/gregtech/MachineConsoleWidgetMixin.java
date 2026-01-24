@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import gregtech.api.gui.GuiTextures;
@@ -11,17 +12,31 @@ import gregtech.api.gui.Widget;
 import gregtech.api.gui.resources.TextureArea;
 import gregtech.api.gui.widgets.ToggleButtonWidget;
 import gregtech.api.gui.widgets.WidgetGroup;
+import gregtech.api.terminal.gui.widgets.RectButtonWidget;
 import gregtech.api.util.Position;
 import gregtech.common.terminal.app.console.MachineConsoleWidget;
 
 /**
  * Fixes the rendering of toggle auto-output buttons in the GT Console App.
+ * Also, fixes allow input by output not having correct initial state.
  */
 @Mixin(value = MachineConsoleWidget.class, remap = false)
 public class MachineConsoleWidgetMixin extends WidgetGroup {
 
     @Unique
     private static final String LABS$OUTPUT_HOVER = "terminal.console.auto_output";
+
+    /**
+     * Stop loading of initial state.
+     * Instead allow it to be computed on changes detection, meaning that the value (if in a true state) is correctly
+     * synced between client and server.
+     */
+    @Redirect(method = "initWidgets",
+              at = @At(value = "INVOKE",
+                       target = "Lgregtech/api/terminal/gui/widgets/RectButtonWidget;setInitValue(Z)Lgregtech/api/terminal/gui/widgets/RectButtonWidget;"))
+    private RectButtonWidget cancelLoadingInitialState(RectButtonWidget instance, boolean isPressed) {
+        return instance;
+    }
 
     @Inject(method = "initWidgets", at = @At("TAIL"))
     private void fixAutoOutputWidgets(CallbackInfo ci) {
