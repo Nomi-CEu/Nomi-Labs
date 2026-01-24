@@ -15,6 +15,7 @@
     "CoverEnderFluidLinkMixin",
     "CTRecipeMixin",
     "ElectricContainerInfoProviderMixin",
+    "EnergyContainerListMixin",
     "FluidStorageKeyAccessor",
     "FluidStorageKeysMixin",
     "GroovyHandCommandMixin",
