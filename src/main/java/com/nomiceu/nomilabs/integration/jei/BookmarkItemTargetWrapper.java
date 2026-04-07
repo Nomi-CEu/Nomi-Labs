@@ -17,6 +17,9 @@ public class BookmarkItemTargetWrapper<I> implements Target<I> {
 
     private final Target<Object> parent;
 
+    private static final int ITEM_DEFAULT_AMT = 1;
+    private static final int FLUID_DEFAULT_AMT = 1000;
+
     public BookmarkItemTargetWrapper(Target<?> parent) {
         // noinspection unchecked
         this.parent = (Target<Object>) parent;
@@ -43,15 +46,17 @@ public class BookmarkItemTargetWrapper<I> implements Target<I> {
     }
 
     public static Object getIngredientWithCount(BookmarkItem<?> item) {
+        int displayAmt = (int) Math.min(Integer.MAX_VALUE, item.getDisplayAmount());
+
         if (item.ingredient instanceof ItemStack stack) {
             stack = stack.copy();
-            stack.setCount((int) item.getDisplayAmount());
+            stack.setCount(getValidAmount(displayAmt, ITEM_DEFAULT_AMT));
             return stack;
         }
 
         if (item.ingredient instanceof FluidStack fluid) {
             fluid = fluid.copy();
-            fluid.amount = ((int) item.getDisplayAmount());
+            fluid.amount = getValidAmount(displayAmt, FLUID_DEFAULT_AMT);
             return fluid;
         }
 
@@ -65,5 +70,13 @@ public class BookmarkItemTargetWrapper<I> implements Target<I> {
         }
 
         return result;
+    }
+
+    private static int getValidAmount(int amount, int defaultAmt) {
+        if (amount <= 0) {
+            return defaultAmt;
+        }
+
+        return amount;
     }
 }
