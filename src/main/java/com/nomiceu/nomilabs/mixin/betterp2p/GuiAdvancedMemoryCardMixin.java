@@ -148,6 +148,7 @@ public abstract class GuiAdvancedMemoryCardMixin extends GuiScreen implements Ac
                 "§6@out§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.output"),
                 "§a@b§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.bound"),
                 "§c@u§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.unbound"),
+                "§2@one§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.one"),
                 "§b@distless=<distance>§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.distless"),
                 "§d@distmore=<distance>§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.distmore"),
                 "§e@type=<type1>;<type2>;...§7 - " + translate("nomilabs.gui.advanced_memory_card.filter.type"),

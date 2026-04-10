@@ -27,6 +27,9 @@ public class CustomNameElement implements IElement {
     public CustomNameElement(ItemStack pickStack, String customName) {
         this.pickStack = pickStack;
         this.customName = customName;
+
+        // Clear any `Display/Name` tag in NBT
+        this.pickStack.clearCustomName();
     }
 
     public CustomNameElement(ByteBuf buf) {

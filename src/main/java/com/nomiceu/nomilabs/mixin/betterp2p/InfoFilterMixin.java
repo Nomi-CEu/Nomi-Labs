@@ -34,6 +34,11 @@ public class InfoFilterMixin {
             // So they don't have to be regex matched
             // But sequence is read only
             if (token.contains("@")) {
+                if (LabsFilters.ONE.getPattern().matches(token)) {
+                    labs$getThis().getActiveFilters().putIfAbsent(LabsFilters.ONE, null);
+                    continue;
+                }
+
                 if (LabsFilters.DISTANCE_LESS.getPattern().matches(token)) {
                     MatchResult result = LabsFilters.DISTANCE_LESS.getPattern().find(token, 0);
                     labs$getThis().getActiveFilters().computeIfAbsent(LabsFilters.DISTANCE_LESS,
@@ -41,7 +46,10 @@ public class InfoFilterMixin {
 
                     labs$getThis().getActiveFilters().get(LabsFilters.DISTANCE_LESS)
                             .add(result.getGroupValues().get(1));
-                } else if (LabsFilters.DISTANCE_MORE.getPattern().matches(token)) {
+                    continue;
+                }
+
+                if (LabsFilters.DISTANCE_MORE.getPattern().matches(token)) {
                     MatchResult result = LabsFilters.DISTANCE_MORE.getPattern().find(token, 0);
                     labs$getThis().getActiveFilters().computeIfAbsent(LabsFilters.DISTANCE_MORE,
                             (k) -> new ArrayList<>());

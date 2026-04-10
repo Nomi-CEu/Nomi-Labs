@@ -12,6 +12,11 @@ import kotlin.text.Regex;
 
 public class LabsFilters {
 
+    public static final Filter ONE = addFilter("ONE",
+            new Regex("\\A@one\\z"),
+            // Logic Handled Separately
+            (info, args) -> true);
+
     public static final Filter DISTANCE_LESS = addFilter("DISTANCE_LESS",
             new Regex("\\A@distless=((\\d+(\\.\\d*)?)|(\\.\\d+))m?\\z"), (info, args) -> {
                 double distance = Double.MAX_VALUE;
