@@ -57,6 +57,7 @@
     "OreDictUnifierAccessor",
     "OverlayedItemHandlerMixin",
     "ProcessingArrayWorkableMixin",
+    "QuarkTechSuiteMixin",
     "RecipeBuilderAccessor",
     "RecipeBuilderMixin",
     "RecipeCompatUtilMixin",
