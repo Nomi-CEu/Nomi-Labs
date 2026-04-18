@@ -53,6 +53,9 @@ public class WidgetTypeSelectorMixin {
     @Final
     private int width;
 
+    @Shadow
+    private boolean useAny;
+
     @Unique
     private int labs$origHeight;
 
@@ -82,17 +85,19 @@ public class WidgetTypeSelectorMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void checkHeight(GuiAdvancedMemoryCard gui, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-        if (parent instanceof ExtendedITypeReceiver)
+        if (labs$shouldSkipApplyCustom())
+            height = labs$origHeight;
+        else
             height = labs$origHeight + (18 * 2);
     }
 
     @Inject(method = "mousePressed", at = @At("HEAD"), cancellable = true)
     private void handleInputOutputPressed(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
-        if (!(parent instanceof ExtendedITypeReceiver extended)) return;
+        if (labs$shouldSkipApplyCustom()) return;
 
         if (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height) {
             if (labs$hovered != -1) {
-                extended.labs$acceptIsInput(labs$hovered == 0);
+                ((ExtendedITypeReceiver) parent).labs$acceptIsInput(labs$hovered == 0);
                 ci.cancel();
             }
         }
@@ -106,8 +111,7 @@ public class WidgetTypeSelectorMixin {
      */
     @Inject(method = "render",
             at = @At(value = "INVOKE",
-                     target = "Lcom/projecturanus/betterp2p/client/gui/GuiAdvancedMemoryCard;drawHoveringText(Ljava/util/List;IILnet/minecraft/client/gui/FontRenderer;)V",
-                     remap = true),
+                     target = "Lcom/projecturanus/betterp2p/client/gui/GuiAdvancedMemoryCard;drawHoveringText(Ljava/util/List;IILnet/minecraft/client/gui/FontRenderer;)V"),
             remap = false,
             require = 1)
     private void renderInputOutput1(GuiAdvancedMemoryCard gui, int mouseX, int mouseY, float partialTicks,
@@ -126,7 +130,7 @@ public class WidgetTypeSelectorMixin {
      */
     @Unique
     private void labs$draw(GuiAdvancedMemoryCard gui, int mouseX, int mouseY) {
-        if (!(parent instanceof ExtendedITypeReceiver)) return;
+        if (labs$shouldSkipApplyCustom()) return;
 
         labs$hovered = -1;
         int iconPosY = y + 4 + ((labs$this().getP2pTypes().size() / ICONS_PER_ROW) + 2) * 18;
@@ -153,6 +157,12 @@ public class WidgetTypeSelectorMixin {
         if (labs$hovered != -1) {
             gui.drawHoveringText(labs$translated.get(labs$hovered), mouseX, mouseY, gui.mc.fontRenderer);
         }
+    }
+
+    @Unique
+    private boolean labs$shouldSkipApplyCustom() {
+        // useAny = choosing what to show, not changing a p2p. Don't apply custom behavior
+        return !(parent instanceof ExtendedITypeReceiver) || useAny;
     }
 
     @Unique
