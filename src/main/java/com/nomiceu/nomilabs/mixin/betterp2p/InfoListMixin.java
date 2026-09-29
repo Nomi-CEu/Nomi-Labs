@@ -233,47 +233,66 @@ public abstract class InfoListMixin implements AccessibleInfoList {
 
         filter.updateFilter(toSearch.toLowerCase());
         List<InfoWrapper> filtered = new ObjectArrayList<>();
-        // For One Freq Filter
-        Set<Short> frequencies = new ShortOpenHashSet();
 
         for (var info : labs$getThis().getSorted()) {
-            if (labs$passesFilters(info, frequencies))
+            if (labs$passesFilters(info))
                 filtered.add(info);
         }
 
         labs$sortMode.applySort(getSelectedInfo(), filtered, labs$sortReversed);
+
+        // One Freq Filter
+        // Must apply after all filters & sorting.
+        // (NOTE: this unique frequency logic ignores the frequency of the selected)
+        // Only applies when equal to or more than 2 items
+        if (filtered.size() >= 2 && filter.getActiveFilters().containsKey(LabsFilters.ONE)) {
+            labs$applyOneFreqFilter(filtered);
+        }
+
         labs$getThis().setFiltered(filtered);
     }
 
     @Unique
-    private boolean labs$passesFilters(InfoWrapper info, Set<Short> frequencies) {
+    private void labs$applyOneFreqFilter(List<InfoWrapper> filtered) {
+        Set<Short> frequencies = new ShortOpenHashSet();
+
+        Iterator<InfoWrapper> iter = filtered.iterator();
+
+        // Ignore filter logic for first item (selected)
+        if (getSelectedInfo() != null)
+            iter.next();
+
+        while (iter.hasNext()) {
+            InfoWrapper info = iter.next();
+
+            // If unbound, move to next item
+            if (info.getFrequency() == 0) continue;
+
+            // If frequency in set, fails
+            if (frequencies.contains(info.getFrequency())) {
+                iter.remove();
+                continue;
+            }
+
+            frequencies.add(info.getFrequency());
+        }
+    }
+
+    @Unique
+    private boolean labs$passesFilters(InfoWrapper info) {
         // Always allow selected
         if (getSelectedInfo() != null && info.getLoc().equals(getSelectedInfo().getLoc()))
             return true;
 
         for (var entry : filter.getActiveFilters().entrySet()) {
-            // Special Case: Bound
+            // Overridden Case: Bound
             // Check for Errors as well as Unbound
             if (entry.getKey() == Filter.BOUND) {
                 if (info.getFrequency() == 0 || info.getError())
                     return false;
             }
 
-            // Special Case: One Freq Filter
-            // NOTE: this unique frequency logic ignores the frequency of the selected
-            if (entry.getKey() == LabsFilters.ONE) {
-                // If unbound, ignore (passes)
-                if (info.getFrequency() != 0) {
-                    // If frequency in set, fails
-                    if (frequencies.contains(info.getFrequency())) {
-                        return false;
-                    }
-
-                    frequencies.add(info.getFrequency());
-                }
-            }
-
-            // Normal Filter
+            // Default filter logic
             if (!entry.getKey().getFilter().invoke(info, entry.getValue()))
                 return false;
         }
