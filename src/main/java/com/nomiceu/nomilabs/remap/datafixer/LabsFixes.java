@@ -341,7 +341,7 @@ public class LabsFixes {
                             state.tileEntityTag.setString("PipeBlock",
                                     makeLabsName(
                                             new ResourceLocation(state.tileEntityTag.getString("PipeBlock")).getPath())
-                                                    .toString());
+                                            .toString());
                         }));
 
         if (Loader.isModLoaded(AE2_STUFF_MODID))

@@ -37,10 +37,10 @@ public class LabsRecipeMaps {
 
         CREATIVE_TANK_RECIPES = new RecipeMap<>("creative_tank_provider", 2, 2, 0, 0, new SimpleRecipeBuilder(),
                 !(oldMultis() || LabsModeHelper.isNormal()))
-                        .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1)
-                        .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_2)
-                        .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, ProgressWidget.MoveType.HORIZONTAL)
-                        .setSound(GTSoundEvents.REPLICATOR);
+                .setSlotOverlay(false, false, GuiTextures.ATOMIC_OVERLAY_1)
+                .setSlotOverlay(true, false, GuiTextures.ATOMIC_OVERLAY_2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(GTSoundEvents.REPLICATOR);
 
         NAQUADAH_REACTOR_RECIPES = new ArrayList<>();
 
@@ -50,23 +50,23 @@ public class LabsRecipeMaps {
 
         ACTUALIZATION_CHAMBER_RECIPES = new DownExpandingRecipeMap("actualization_chamber", 2, 20, 0, 0,
                 new SimpleRecipeBuilder(), !(oldMultis() || LabsModeHelper.isExpert()))
-                        .setSlotOverlay(false, false, GuiTextures.MOLECULAR_OVERLAY_1).setSound(GTSoundEvents.MINER)
-                        .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
+                .setSlotOverlay(false, false, GuiTextures.MOLECULAR_OVERLAY_1).setSound(GTSoundEvents.MINER)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
 
         UNIVERSAL_CRYSTALIZER_RECIPES = new RecipeMap<>("universal_crystallizer", 9, 1, 1, 0, new SimpleRecipeBuilder(),
                 !(oldMultis() || LabsModeHelper.isExpert()))
-                        .setSlotOverlay(true, false, GuiTextures.CRYSTAL_OVERLAY).setSound(GTSoundEvents.COMPUTATION)
-                        .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
+                .setSlotOverlay(true, false, GuiTextures.CRYSTAL_OVERLAY).setSound(GTSoundEvents.COMPUTATION)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, ProgressWidget.MoveType.HORIZONTAL);
 
         if (Loader.isModLoaded(LabsValues.DME_MODID))
             DME_SIM_CHAMBER_RECIPES = new RecipeMap<>("dme_sim_chamber", 2, 2, 0, 0,
                     new DMESimChamberRecipeMapBuilder(),
                     !(oldMultis() || LabsModeHelper.isNormal()))
-                            .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY)
-                            .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
-                            .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER,
-                                    ProgressWidget.MoveType.HORIZONTAL)
-                            .setSound(GTSoundEvents.COMPUTATION);
+                    .setSlotOverlay(false, false, GuiTextures.RESEARCH_STATION_OVERLAY)
+                    .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
+                    .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER,
+                            ProgressWidget.MoveType.HORIZONTAL)
+                    .setSound(GTSoundEvents.COMPUTATION);
 
         GROWTH_CHAMBER_RECIPES = new RecipeMap<>("growth_chamber", 4, 9, 1, 0, new SimpleRecipeBuilder(), !newMultis())
                 .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY)
@@ -79,9 +79,9 @@ public class LabsRecipeMaps {
     private static RecipeMap<SimpleRecipeBuilder> createMicroverseRecipeMap(int tier) {
         return new DownExpandingRecipeMap("microverse_projector_" + tier, tier == 3 ? 9 : 4, tier == 1 ? 20 : 16,
                 tier == 1 ? 1 : 0, 0, new SimpleRecipeBuilder(), !oldMultis())
-                        .setProgressBar(LabsTextures.PROGRESS_BAR_ROCKET, ProgressWidget.MoveType.HORIZONTAL)
-                        .setSound(LabsSounds.MICROVERSE)
-                        .setSlotOverlay(false, false, GuiTextures.IMPLOSION_OVERLAY_1);
+                .setProgressBar(LabsTextures.PROGRESS_BAR_ROCKET, ProgressWidget.MoveType.HORIZONTAL)
+                .setSound(LabsSounds.MICROVERSE)
+                .setSlotOverlay(false, false, GuiTextures.IMPLOSION_OVERLAY_1);
     }
 
     private static RecipeMap<FuelRecipeBuilder> createNaqRecipeMap(int tier) {

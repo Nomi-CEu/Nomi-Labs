@@ -38,7 +38,7 @@ public class AEGuiHandlerMixin {
                                                                            Operation<List<IGhostIngredientHandler.Target<?>>> original) {
         if (!(gui instanceof IJEIGhostIngredients g)) return Collections.emptyList();
 
-        if (!(ingredient instanceof BookmarkItem<?>item))
+        if (!(ingredient instanceof BookmarkItem<?> item))
             // noinspection unchecked
             return (List<IGhostIngredientHandler.Target<I>>) (Object) g.getPhantomTargets(ingredient);
 

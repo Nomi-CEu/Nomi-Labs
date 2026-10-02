@@ -2,8 +2,8 @@ pluginManagement {
     repositories {
         maven {
             // RetroFuturaGradle
-            name 'GTNH Maven'
-            url 'https://nexus.gtnewhorizons.com/repository/public/'
+            name = 'GTNH Maven'
+            url = 'https://nexus.gtnewhorizons.com/repository/public/'
             //noinspection GroovyAssignabilityCheck
             mavenContent {
                 includeGroup 'com.gtnewhorizons'
@@ -17,9 +17,9 @@ pluginManagement {
 }
 
 plugins {
-    id 'com.diffplug.blowdryerSetup' version '1.7.0'
+    id 'com.diffplug.blowdryerSetup' version '1.8.0'
     // Automatic toolchain provisioning
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
 blowdryerSetup {

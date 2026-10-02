@@ -37,7 +37,7 @@ public class BookmarkItemTargetWrapper<I> implements Target<I> {
 
     @Override
     public void accept(@NotNull I ingredient) {
-        if (!(ingredient instanceof BookmarkItem<?>item)) {
+        if (!(ingredient instanceof BookmarkItem<?> item)) {
             parent.accept(ingredient);
             return;
         }

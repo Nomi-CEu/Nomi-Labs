@@ -5,7 +5,7 @@ repositories {
         url = 'https://repo.spongepowered.org/maven'
     }
     maven {  // Autoconfig and Autosave
-        name 'Mod Maven'
-        url 'https://modmaven.dev'
+        name = 'Mod Maven'
+        url = 'https://modmaven.dev'
     }
 }

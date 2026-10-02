@@ -38,7 +38,7 @@ public class TileEnergyStorageCoreLogic {
             improvedTile.labs$setExpectedBlockString(helper.expectedBlockState == null ? "null" :
                     new ItemStack(helper.expectedBlockState.getBlock(), 1,
                             helper.expectedBlockState.getBlock().getMetaFromState(helper.expectedBlockState))
-                                    .getDisplayName());
+                            .getDisplayName());
 
             improvedTile.labs$setExpectedBlockPos(pos);
             valid = false;

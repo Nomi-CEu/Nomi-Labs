@@ -29,7 +29,7 @@ public class IngredientInfoRecipeMixin<T> {
               at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z"),
               require = 1)
     private static <E> boolean addRecipeIfValid(List<E> instance, E e) {
-        if ((e instanceof IngredientInfoRecipe<?>ing) && !ing.getDescription().isEmpty())
+        if ((e instanceof IngredientInfoRecipe<?> ing) && !ing.getDescription().isEmpty())
             return instance.add(e);
         return true;
     }

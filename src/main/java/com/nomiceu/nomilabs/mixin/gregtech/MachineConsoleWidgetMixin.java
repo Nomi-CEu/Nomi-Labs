@@ -82,8 +82,8 @@ public class MachineConsoleWidgetMixin extends WidgetGroup {
                         widget.getSize().height,
                         texture, () -> rect.labs$getSupplier().get(),
                         (pressed) -> rect.labs$getOnPressed().accept(null, pressed))
-                                .setTooltipText(tooltip)
-                                .shouldUseBaseBackground());
+                        .setTooltipText(tooltip)
+                        .shouldUseBaseBackground());
 
         // Perform discard widget actions
         widget.setUiAccess(null);

@@ -153,8 +153,8 @@ public abstract class MetaTileEntityQuantumChestMixin extends MetaTileEntity imp
         return instance.widget(
                 new ToggleButtonWidget(25, 64, 18, 18,
                         GuiTextures.BUTTON_LOCK, this::labs$isLockedInternal, this::labs$setLocked)
-                                .setTooltipText("nomilabs.gui.item_lock.tooltip")
-                                .shouldUseBaseBackground());
+                        .setTooltipText("nomilabs.gui.item_lock.tooltip")
+                        .shouldUseBaseBackground());
     }
 
     @ModifyExpressionValue(method = "addDisplayInformation",

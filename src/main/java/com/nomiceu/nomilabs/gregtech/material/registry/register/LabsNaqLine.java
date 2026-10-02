@@ -64,9 +64,9 @@ public class LabsNaqLine {
 
         HotNaquadahOxideNeocryoliteSolution = new Material.Builder(65,
                 makeLabsName("hot_naquadah_oxide_neocryolite_solution")) // Hardmode Material
-                        .liquid(new FluidBuilder().temperature(4700))
-                        .flags(DISABLE_DECOMPOSITION)
-                        .color(0x658280)
-                        .build();
+                .liquid(new FluidBuilder().temperature(4700))
+                .flags(DISABLE_DECOMPOSITION)
+                .color(0x658280)
+                .build();
     }
 }

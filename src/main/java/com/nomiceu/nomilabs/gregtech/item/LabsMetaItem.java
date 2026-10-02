@@ -55,12 +55,12 @@ public class LabsMetaItem extends StandardMetaItem {
             int currVoltage = voltage;
             UNIVERSAL_CIRCUITS[voltage] = addItem(2 + currVoltage,
                     "universal_circuit." + VN[currVoltage].toLowerCase(Locale.ROOT))
-                            .addComponents(new TooltipBehavior(lines -> {
-                                lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.1"));
-                                lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.2"));
-                                lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.3",
-                                        VN[currVoltage]));
-                            }));
+                    .addComponents(new TooltipBehavior(lines -> {
+                        lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.1"));
+                        lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.2"));
+                        lines.add(LabsTranslate.translate("tooltip.nomilabs.metaitem.universal_circuit.3",
+                                VN[currVoltage]));
+                    }));
         }
     }
 }

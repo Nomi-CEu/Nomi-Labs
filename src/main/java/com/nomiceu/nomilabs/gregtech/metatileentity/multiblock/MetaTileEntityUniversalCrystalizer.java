@@ -91,9 +91,9 @@ public class MetaTileEntityUniversalCrystalizer extends GCYMRecipeMapMultiblockC
         return super.autoAbilities(false, true, true, true, true, false, true)
                 .or(abilities(MultiblockAbility.INPUT_ENERGY, MultiblockAbility.SUBSTATION_INPUT_ENERGY,
                         MultiblockAbility.INPUT_LASER)
-                                .setMinGlobalLimited(1)
-                                .setMaxGlobalLimited(2)
-                                .setPreviewCount(1));
+                        .setMinGlobalLimited(1)
+                        .setMaxGlobalLimited(2)
+                        .setPreviewCount(1));
     }
 
     @Override

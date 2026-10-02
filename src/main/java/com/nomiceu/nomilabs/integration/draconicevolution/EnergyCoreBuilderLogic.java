@@ -55,7 +55,7 @@ public class EnergyCoreBuilderLogic {
             if (!DraconicHelpers.validState(neededStates, state, false)) {
                 player.sendMessage(new TextComponentTranslation("ecore.de.assemble_found_invalid.txt",
                         BlockStates.transformStateToStack(state).getDisplayName(), key.toString())
-                                .setStyle(new Style().setColor(TextFormatting.RED)));
+                        .setStyle(new Style().setColor(TextFormatting.RED)));
                 return true;
             }
         }

@@ -214,7 +214,7 @@ public abstract class AbstractRecipeLogicMixin extends MTETrait implements Acces
 
         List<? extends ChancedOutput<T>> entries;
         // Special case for our parallel logic
-        if (list instanceof ParallelizedChancedOutputList<?, ?>parallel)
+        if (list instanceof ParallelizedChancedOutputList<?, ?> parallel)
             // noinspection unchecked
             entries = (List<? extends ChancedOutput<T>>) parallel.getTrueValues();
         else

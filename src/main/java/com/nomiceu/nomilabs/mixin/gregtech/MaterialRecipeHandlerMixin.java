@@ -42,8 +42,8 @@ public class MaterialRecipeHandlerMixin {
         if (!AccessibleModHandler.validateRecipeWithOutput(regName, result, recipe)) return;
         IRecipe shapedOreRecipe = new GTDisassemblingOreRecipe(false, null, result.copy(),
                 finalizeShapedRecipeInput(recipe))
-                        .setMirrored(false)
-                        .setRegistryName(regName);
+                .setMirrored(false)
+                .setRegistryName(regName);
         ForgeRegistries.RECIPES.register(shapedOreRecipe);
     }
 }

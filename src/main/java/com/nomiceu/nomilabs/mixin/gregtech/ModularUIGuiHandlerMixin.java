@@ -27,7 +27,7 @@ public class ModularUIGuiHandlerMixin {
                                                                 @NotNull I ingredient,
                                                                 boolean doStart,
                                                                 Operation<List<Target<?>>> original) {
-        if (!(ingredient instanceof BookmarkItem<?>item))
+        if (!(ingredient instanceof BookmarkItem<?> item))
             // noinspection unchecked
             return (List<Target<I>>) (Object) original.call(gui, ingredient, doStart);
 

@@ -35,7 +35,7 @@ public final class RecipeCompatUtilMixin {
      */
     @Inject(method = "getMetaItemId", at = @At("HEAD"), cancellable = true)
     private static void newMetaItemIdLogic(ItemStack item, CallbackInfoReturnable<String> cir) {
-        if (item.getItem() instanceof MetaItem<?>metaItem) {
+        if (item.getItem() instanceof MetaItem<?> metaItem) {
             MetaItem<?>.MetaValueItem metaValueItem = metaItem.getItem(item);
             if (metaValueItem != null) {
                 String nameSpace = Objects.requireNonNull(metaValueItem.getMetaItem().getRegistryName()).getNamespace();
@@ -69,7 +69,7 @@ public final class RecipeCompatUtilMixin {
             cir.setReturnValue(GroovyHandFixHelper.getRlPrefix(material) + "frame" + material.toCamelCaseString());
             return;
         }
-        if (block instanceof BlockMaterialPipe<?, ?, ?>blockMaterialPipe) {
+        if (block instanceof BlockMaterialPipe<?, ?, ?> blockMaterialPipe) {
             Material material = blockMaterialPipe.getItemMaterial(item);
             cir.setReturnValue(
                     GroovyHandFixHelper.getRlPrefix(material) + blockMaterialPipe.getPrefix().name +
